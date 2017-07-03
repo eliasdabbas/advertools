@@ -3,6 +3,42 @@ from itertools import product
 from collections import OrderedDict
 
 def expand(data_dict, nesting=None):
+    """
+    Return a DataFrame where column names are data_dict's keys and each
+    row is a combination of the data_dict values.
+
+    This is a wrapper around `itertools.product` with one important
+    addition; making sure that the rows of two or more keys remain
+    together as a unit.
+
+    Assume you want to generate all possible keywords from a list of
+    car makes and models, together with a list of possible purchase intent
+    words.
+
+    >>> data_dict = {
+            'make': ['toyota', 'toyota', 'ford', 'ford'],
+            'model': ['yaris', 'camry', 'mustang', 'focus'],
+            'buy': ['buy', 'best', 'price']
+        }
+
+    >>> adv.expand(data_dict=data_dict, nesting=['make', 'model'])
+          make    model    buy
+    0   toyota    yaris    buy
+    1   toyota    yaris   best
+    2   toyota    yaris  price
+    3   toyota    camry    buy
+    4   toyota    camry   best
+    5   toyota    camry  price
+    6     ford  mustang    buy
+    7     ford  mustang   best
+    8     ford  mustang  price
+    9     ford    focus    buy
+    10    ford    focus   best
+    11    ford    focus  price
+
+    Without the `nesting` argument, we would have ended up with
+    "toyota mustang" and "ford camry" as possible keywords.
+    """
     assert isinstance(data_dict, dict)
     data_dict = OrderedDict(data_dict)
     if not nesting:
