@@ -4,6 +4,24 @@ from itertools import product
 import pandas as pd
 
 
+def expand_plain(data_dict):
+    rows = product(*data_dict.values())
+    final_df = pd.DataFrame.from_records(rows,
+                                         columns=data_dict.keys())
+    return final_df
+
+
+def dict_split(d, lst):
+    """Split a dictionary in two dicts, one with items present in `lst`,
+     and another with items that are not."""
+    d = OrderedDict(d)
+
+    d_include = OrderedDict({k: v for k, v in d.items() if k in lst})
+    d_exclude = OrderedDict({k: v for k, v in d.items() if not k in lst})
+    return d_include, d_exclude
+
+
+
 def expand(data_dict, nesting=None):
     """
     Return a DataFrame where column names are data_dict's keys and each
@@ -44,14 +62,11 @@ def expand(data_dict, nesting=None):
     assert isinstance(data_dict, dict)
     data_dict = OrderedDict(data_dict)
     if not nesting:
-        rows = product(*data_dict.values())
-        final_df = pd.DataFrame.from_records(rows,
-                                             columns=data_dict.keys())
-        return final_df
+        return expand_plain(data_dict)
 
     grid_joint = OrderedDict({k: v for k, v in data_dict.items() if k in nesting})
     nest_len = [len(grid_joint[k]) for k in grid_joint.keys()]
-    assert len(set(nest_len)) == 1
+    assert len(set(nest_len)) == 1, ('Make sure nested lists have the same length')
 
     lst = [grid_joint[k] for k in grid_joint.keys()]
     nested = list(zip(*lst))
@@ -61,11 +76,23 @@ def expand(data_dict, nesting=None):
                       not k in nesting})
     grid_combined = OrderedDict({**new_dict, **grid_remaining})
 
-    rows = product(*grid_combined.values())
-    final_df = pd.DataFrame.from_records(rows, columns=grid_combined.keys())
+    # rows = product(*grid_combined.values())
+    # final_df = pd.DataFrame.from_records(rows, columns=grid_combined.keys())
+    final_df = expand_plain(grid_combined)
     tup_cols = [x for x in final_df.columns if isinstance(x, tuple)][0]
     for i, val in enumerate(tup_cols):
         final_df[val] = [x[i] for x in final_df[tup_cols]]
     final_df = final_df.drop(tup_cols,axis=1)
     final_df = final_df[list(data_dict.keys())]
     return final_df
+
+dikt = {
+    'letters': list('abcd'),
+    'nums': [1,2,3,4],
+    'days': ['sun', 'mon', 'tue']
+}
+
+dict_split(dikt, ['letters', 'nums'])
+(expand_plain(dikt) == expand(dikt))
+
+expand(dikt, ['nums','days'])
