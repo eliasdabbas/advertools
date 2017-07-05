@@ -1,6 +1,8 @@
-import pandas as pd
-from itertools import product
 from collections import OrderedDict
+from itertools import product
+
+import pandas as pd
+
 
 def expand(data_dict, nesting=None):
     """
