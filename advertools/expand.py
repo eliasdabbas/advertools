@@ -15,7 +15,6 @@ def dict_split(d, lst):
     """Split a dictionary in two dicts, one with items present in `lst`,
      and another with items that are not."""
     d = OrderedDict(d)
-
     d_include = OrderedDict({k: v for k, v in d.items() if k in lst})
     d_exclude = OrderedDict({k: v for k, v in d.items() if not k in lst})
     return d_include, d_exclude
