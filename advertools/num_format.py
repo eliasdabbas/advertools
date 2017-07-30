@@ -6,6 +6,7 @@ def num_format(num):
 
     >>> adv.num_format(1234567)
     1.23M
+    source: https://stackoverflow.com/questions/579310/formatting-long-numbers-as-strings-in-python
     """
     magnitude = 0
     while abs(num) >= 1000:
