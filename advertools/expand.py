@@ -5,6 +5,33 @@ import pandas as pd
 
 
 def expand_plain(data_dict):
+    """
+    Generate all possible combinations of values of a dictionary.
+
+    :param data_dict: a dictionary
+    :return: a data frame where each row represents a combination,
+    and column names are the dictionary keys
+
+    >>> data_dict = {
+    ... 'letters': ['a', 'b', 'c'],
+    ... 'nums': [1, 2],
+    ... 'days': ['mon', 'tues']
+    ... }
+    >>> expand_plain(data_dict)
+       letters  nums  days
+    0        a     1   mon
+    1        a     1  tues
+    2        a     2   mon
+    3        a     2  tues
+    4        b     1   mon
+    5        b     1  tues
+    6        b     2   mon
+    7        b     2  tues
+    8        c     1   mon
+    9        c     1  tues
+    10       c     2   mon
+    11       c     2  tues
+    """
     rows = product(*data_dict.values())
     final_df = pd.DataFrame.from_records(rows,
                                          columns=data_dict.keys())
@@ -12,8 +39,24 @@ def expand_plain(data_dict):
 
 
 def dict_split(d, lst):
-    """Split a dictionary in two dicts, one with items present in `lst`,
-     and another with items that are not."""
+    """
+    Split a dictionary in two OrderedDicts, one with items present in `lst`,
+    and another with items that are not.
+    :rtype: collections.OrderedDict
+    :param d: a dictionary
+    :param lst: a list of keys to filter by
+    :return: two OrderedDict's one with and one without the keys in `lst`
+
+    >>> d = {
+    ... 'a': [1, 2, 3],
+    ... 'b': [4, 5, 6],
+    ... 'c': [7, 8, 9],
+    ... 'd': [4, 5, 6],
+    ... }
+    >>> dict_split(d, ['a', 'b'])
+    (OrderedDict([('a', [1, 2, 3]), ('b', [4, 5, 6])]), OrderedDict([('c', [7, 8, 9]), 'd', [4,5,6]]))
+
+    """
     d = OrderedDict(d)
     d_include = OrderedDict({k: v for k, v in d.items() if k in lst})
     d_exclude = OrderedDict({k: v for k, v in d.items() if not k in lst})
@@ -35,12 +78,11 @@ def expand(data_dict, nesting=None):
     words.
 
     >>> data_dict = {
-            'make': ['toyota', 'toyota', 'ford', 'ford'],
-            'model': ['yaris', 'camry', 'mustang', 'focus'],
-            'buy': ['buy', 'best', 'price']
-        }
-
-    >>> adv.expand(data_dict=data_dict, nesting=['make', 'model'])
+    ...        'make': ['toyota', 'toyota', 'ford', 'ford'],
+    ...        'model': ['yaris', 'camry', 'mustang', 'focus'],
+    ...        'buy': ['buy', 'best', 'price']
+    ...        }
+    >>> expand(data_dict=data_dict, nesting=['make', 'model'])
           make    model    buy
     0   toyota    yaris    buy
     1   toyota    yaris   best
@@ -56,7 +98,7 @@ def expand(data_dict, nesting=None):
     11    ford    focus  price
 
     Without the `nesting` argument, we would have ended up with
-    "toyota mustang" and "ford camry" as possible keywords.
+    "toyota mustang" and "ford camry" as possible combinations.
     """
     assert isinstance(data_dict, dict)
     data_dict = OrderedDict(data_dict)
@@ -85,13 +127,12 @@ def expand(data_dict, nesting=None):
     final_df = final_df[list(data_dict.keys())]
     return final_df
 
-dikt = {
-    'letters': list('abcd'),
-    'nums': [1,2,3,4],
-    'days': ['sun', 'mon', 'tue']
-}
+# dikt = {
+#     'letters': list('abcd'),
+#     'nums': [1,2,3,4],
+#     'days': ['sun', 'mon', 'tue']
+# }
+#
+# dict_split(dikt, ['letters', 'nums'])
 
-dict_split(dikt, ['letters', 'nums'])
-(expand_plain(dikt) == expand(dikt))
 
-expand(dikt, ['nums','days'])
