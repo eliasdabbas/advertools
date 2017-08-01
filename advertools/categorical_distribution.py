@@ -1,5 +1,23 @@
 import pandas as pd
 def cat_dist(df, show_rows=10, format_cols=True):
+    """
+    Display the top values by count for each variable in a data frame.
+
+    As an initial step in exploring a data set it is usually good to know
+    about how the variables are distributed, and the top ones.
+    Metrics shown:
+    * top values by count
+    * percenage of each value of the total
+    * cumulative percentage of values
+    * number of unique values
+    * the percenage of the total of the top values
+
+    :param df: a data frame
+    :param show_rows: the number of values to show, default: 10
+    :param format_cols: whether or no to format the values for easy reading
+    :return: no return value, only print the values for exploration
+
+    """
     for i in df:
         print('Distribution of ', i,sep='')
         print('--------------------')
