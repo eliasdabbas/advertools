@@ -9,7 +9,7 @@ from advertools.num_format import num_format
 from advertools.objects import *
 from advertools.permute import *
 from advertools.separate_rows import *
-from advertools.utm_builder import *
+from advertools.url_builders import *
 from advertools.word_frequency import *
 from advertools.string_to_textad import *
 from advertools.kw_generate import *
