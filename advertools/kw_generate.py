@@ -28,6 +28,14 @@ def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Mod
     3  SEM_Campaign      Bmw  bmw second hand          Exact  Second Hand
     4  SEM_Campaign      Bmw  bmw second hand         Phrase  Second Hand
     
+    >>> kw_df.tail()
+            Campaign Ad Group                    Keyword Criterion Type           Labels
+    55  SEM_Campaign   Toyota     second hand toyota buy         Phrase  Second Hand;Buy
+    56  SEM_Campaign   Toyota  +second hand +toyota +buy       Modified  Second Hand;Buy
+    57  SEM_Campaign   Toyota     second hand buy toyota          Exact  Second Hand;Buy
+    58  SEM_Campaign   Toyota     second hand buy toyota         Phrase  Second Hand;Buy
+    59  SEM_Campaign   Toyota  +second hand +buy +toyota       Modified  Second Hand;Buy
+
     
     Returns
     -------
@@ -55,7 +63,7 @@ def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Mod
                         campaign_name,
                         prod.title(),
                         ' '.join(perm) if match != 'Modified' else '+' + ' +'.join(perm),
-                        match,
+                        match if match != 'Modified' else 'Broad',
                         ';'.join([x.title() for x in perm if x != prod])
                     ]
                     keywords_list.append(row)
