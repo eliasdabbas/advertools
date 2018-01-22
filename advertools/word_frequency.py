@@ -1,43 +1,46 @@
-import pandas as pd
-from collections import Counter
+from collections import defaultdict
 
-def word_frequency(df, text_col=None, num_col=None,
-                   sep=' ', rm_words=None):
-    df = df[[text_col, num_col]]
-    df_copy = df.copy()
-    df[text_col] = df[text_col].str.lower()
-    split_df = df[text_col].str.split(sep,expand=True)
-    df_split_df = pd.concat([df,split_df],axis=1)
-    df_melt =  pd.melt(df_split_df, id_vars=[num_col, text_col])
-    df_melt = df_melt[pd.notnull(df_melt['value'])]
-    if rm_words:
-        df_melt = df_melt[[word not in rm_words for word in df_melt['value']]]
 
-    wtd_wrds = df_melt.groupby('value')
-    wtd_wrds = wtd_wrds.sum()
-    wtd_wrds = wtd_wrds.sort_values(num_col, ascending=False)
-    wtd_wrds.index.name = 'word'
+RM_WORDS = (
+    'of',
+    'in',
+    'to',
+    'and',
+    'a',
+    'the',
+    'for',
+    'on',
+    '&',
+    'is',
+    'at',
+    'it',
+    'from',
+    'with',
+   )
 
-    text_vec = df[text_col].str.cat(sep=sep).split()
-    text_counter = Counter(text_vec)
 
-    abs_wrds = pd.DataFrame.from_dict(text_counter, orient='index')
-    abs_wrds = abs_wrds.sort_values(0,ascending=False)
-    abs_wrds.index.name = 'word'
+def word_frequency_test(text_list, num_list, sep=None, rm_words=RM_WORDS):
+    word_freq = defaultdict(lambda: [0, 0])
 
-    wtd_abs = pd.merge(wtd_wrds,abs_wrds,left_index=True, right_index=True)
-    wtd_freq = 'wtd_' + str(num_col)
-    abs_freq = 'abs_' + str(num_col)
-    wtd_abs.columns = [wtd_freq, abs_freq]
-    wtd_abs['word'] = wtd_abs.index
-    wtd_abs.index = range(len(wtd_abs))
+    for text, num in zip(text_list, num_list):
+        for word in text.split(sep=sep):
+            if word.lower() in rm_words:
+                continue
+            word_freq[word.lower()][0] += 1
+            word_freq[word.lower()][1] += num
 
-    ratio_col = 'wtd_abs_ratio'
-    wtd_abs[ratio_col] = wtd_abs[wtd_freq] / wtd_abs[abs_freq]
-    wtd_abs = wtd_abs[['word', abs_freq, wtd_freq, ratio_col]]
-    wtd_abs = wtd_abs.sort_values(wtd_freq, ascending=False)
-    wtd_abs.index = range(len(wtd_abs))
-    df = df.sort_values(num_col, ascending=False)
-    df.index = range(len(df))
-    final = pd.concat([wtd_abs, df_copy],axis=1)
-    return final
+    columns = {0: 'abs_freq', 1: 'wtd_freq'}
+
+    abs_wtd_df = (pd.DataFrame.from_dict(word_freq, orient='index')
+                 .rename(columns=columns )
+                 .sort_values('wtd_freq', ascending=False)
+                 .assign(rel_value=lambda df: df['wtd_freq'] / df['abs_freq']).round())
+
+    abs_wtd_df.insert(1, 'abs_perc', value=abs_wtd_df['abs_freq'] / abs_wtd_df['abs_freq'].sum())
+    abs_wtd_df.insert(2, 'abs_perc_cum', abs_wtd_df['abs_perc'].cumsum())
+    abs_wtd_df.insert(4, 'wtd_freq_perc', abs_wtd_df['wtd_freq'] / abs_wtd_df['wtd_freq'].sum())
+    abs_wtd_df.insert(5, 'wtd_freq_perc_cum', abs_wtd_df['wtd_freq_perc'].cumsum())
+
+    abs_wtd_df = abs_wtd_df.reset_index().rename(columns={'index': 'word'})
+
+    return abs_wtd_df
