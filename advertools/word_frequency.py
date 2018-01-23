@@ -1,5 +1,7 @@
 from collections import defaultdict
 
+import pandas as pd
+
 
 RM_WORDS = (
     'of',
@@ -19,7 +21,7 @@ RM_WORDS = (
    )
 
 
-def word_frequency_test(text_list, num_list, sep=None, rm_words=RM_WORDS):
+def word_frequency(text_list, num_list, sep=None, rm_words=RM_WORDS):
     word_freq = defaultdict(lambda: [0, 0])
 
     for text, num in zip(text_list, num_list):
