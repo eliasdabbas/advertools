@@ -63,6 +63,13 @@ Each ad is split into the respective slots, making sure they contain complete
 words, and that each slot has at most the specific number of slots allowed.  
 This can save time when you have thousands of products to create ads for.  
 
+* **Analyze word frequency:** Calculate the absolute and weighted frequency of
+words in a collection of documents to uncover hidden trends in the data. 
+This is basically answering the question, 'What did we write about vs. what
+was actually read?'  
+Here is a tutorial on [measuring absolute vs weighted frequency of words](https://github.com/eliasdabbas/word_frequency).
+
+
 
 The package is still under heavy development, so expect a lot of changes.  
 Feedback and suggestions are more than welcomed.   
