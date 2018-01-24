@@ -1,27 +1,10 @@
 from collections import defaultdict
 
+import advertools as adv
 import pandas as pd
 
 
-RM_WORDS = (
-    'of',
-    'in',
-    'to',
-    'and',
-    'a',
-    'the',
-    'for',
-    'on',
-    '&',
-    'is',
-    'at',
-    'it',
-    'from',
-    'with',
-   )
-
-
-def word_frequency(text_list, num_list, sep=None, rm_words=RM_WORDS):
+def word_frequency(text_list, num_list, sep=None, rm_words=adv.stopwords['english']):
     word_freq = defaultdict(lambda: [0, 0])
 
     for text, num in zip(text_list, num_list):
