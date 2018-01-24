@@ -2,6 +2,22 @@
 # Bird, Steven, Edward Loper and Ewan Klein (2009).
 # Natural Language Processing with Python.  O'Reilly Media Inc.
 
+"""
+List of stopwords useful in text mining, analyzing content of tweets, web pages, keywords, etc.
+
+Each list is accessible as part of a dictionary `stopwords` which is a normal Python dictionary.
+
+Examples
+--------
+
+>>> import advertools as adv
+>>> adv.stopwords['english'][:5]
+['i', 'me', 'my', 'myself', 'we']
+>>> adv.stopwords['german'][:5]
+['aber', 'alle', 'allem', 'allen', 'aller']
+"""
+
+
 stopwords = {
 'arabic':
 [
