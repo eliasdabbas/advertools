@@ -39,8 +39,23 @@ The output is a ready-to-upload table to get you started with keywords.
     4  SEM_Campaign   toyota  toyota buy price          Exact
 ```
 
-* **Create ads:** given a list of product names, you can easily split them into
-the relevant ad slots, taking into consideration the length restrictions 
+* **Create ads:** Two main ways to create text ads, one is from scratch (bottom-up) and the other is top down (given a set of product names). 
+
+1. From scratch: This is the tradiditional way of writing ads. You have a template text, and you want to insert the product name dynamically in a certain location. You also want to make sure you are within the character limits. For more details, I have a [tutorial on how to create multiple text ads from scratch](https://nbviewer.jupyter.org/github/eliasdabbas/ad_create/blob/master/ad_create.ipynb)
+
+```python
+>>> ad_create(template='Let\'s count {}', 
+              replacements=['one', 'two', 'three'], 
+              fallback='one', # in case the total length is greater than max_len
+              max_len=20)
+["Let's count one", "Let's count two", "Let's count three"]
+
+>>> ad_create('My favorite car is {}', ['Toyota', 'BMW', 'Mercedes', 'Lamborghini'], 'great', 28)
+['My favorite car is Toyota', 'My favorite car is BMW', 'My favorite car is Mercedes', 
+'My favorite car is great'] # 'Lamborghini' was too long, and so was replace by 'great'
+
+```
+2. Top-down approach: Sometimes you need to start with a given a list of product names, which you can easily split them into the relevant ad slots, taking into consideration the length restrictions 
 imposed by the ad platform.  
 Imagine having the following list of products, and you want to split each into
 slots of 30, 30, and 80 characters (based on the AdWords template): 
@@ -67,7 +82,7 @@ This can save time when you have thousands of products to create ads for.
 words in a collection of documents to uncover hidden trends in the data. 
 This is basically answering the question, 'What did we write about vs. what
 was actually read?'  
-Here is a tutorial on [measuring absolute vs weighted frequency of words](https://github.com/eliasdabbas/word_frequency).
+Here is a tutorial on [measuring absolute vs weighted frequency of words](https://nbviewer.jupyter.org/github/eliasdabbas/word_frequency/blob/master/abs_weighted_frequency.ipynb).
 
 
 
