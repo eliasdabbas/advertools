@@ -94,7 +94,7 @@ Feedback and suggestions are more than welcomed.
 ### Installation
 
 ```bash
-pip install git+https://github.com/eliasdabbas/advertools
+pip install -e git+https://github.com/eliasdabbas/advertools.git#egg=advertools
 ```
 
 ### Conventions
