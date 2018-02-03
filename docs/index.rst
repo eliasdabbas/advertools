@@ -8,6 +8,7 @@ advertools: Online Marketing Productivity and Analysis Tools
 
 .. toctree::
    :maxdepth: 2
+    user_reference
    :caption: Contents:
 
 
