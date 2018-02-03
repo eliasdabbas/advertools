@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to advertools's documentation!
+advertools: Online Marketing Productivity and Analysis Tools
 ======================================
 
 .. toctree::
@@ -15,6 +15,7 @@ Welcome to advertools's documentation!
 Indices and tables
 ==================
 
+* :ref:`user_reference`
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
