@@ -4,7 +4,6 @@ from urllib.parse import parse_qs
 import advertools as adv
 
 
-
 class AdTestCase(unittest.TestCase):
     
     def test_correct_split(self):
@@ -46,6 +45,6 @@ class AdTestCase(unittest.TestCase):
             adv.ad_create(template, replacements, 'this is long and should raise an exception', 20)
         
 
-        
+
 if __name__ == '__main__':
         unittest.main()
