@@ -4,19 +4,22 @@
    contain the root `toctree` directive.
 
 advertools: Online Marketing Productivity and Analysis Tools
-======================================
+============================================================
 
 .. toctree::
    :maxdepth: 2
-    user_reference
+    
+   user_reference
+   ad_create
    :caption: Contents:
+   
 
 
 
 Indices and tables
 ==================
 
-* :ref:`user_reference`
+
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
