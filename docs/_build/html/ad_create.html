@@ -1,0 +1,876 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Create Text Ads From Scratch &#8212; advertools 0.1a1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="User Reference" href="user_reference.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+</style>
+<div class="section" id="Create-Text-Ads-From-Scratch">
+<h1>Create Text Ads From Scratch<a class="headerlink" href="#Create-Text-Ads-From-Scratch" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Generate-multiple-ads-by-dynamically-inserting-words-into-their-proper-place-in-the-text-ads">
+<h2>Generate multiple ads by dynamically inserting words into their proper place in the text ads<a class="headerlink" href="#Generate-multiple-ads-by-dynamically-inserting-words-into-their-proper-place-in-the-text-ads" title="Permalink to this headline">¶</a></h2>
+<p>We will use Python’s string formatting capabilities to dynamically
+generate multiple ads for large-scale campaigns.</p>
+<p>Online text ads usually consist of a few slots. For exmaple, the
+expanded text ads of Google AdWords and Bing Ads consist of the
+following slots:</p>
+<div class="line-block">
+<div class="line"><img alt="image0" src="_images/textad_diagram.png" /></div>
+<div class="line">Here is an actual ad:</div>
+</div>
+<div class="figure">
+<img alt="" src="_images/text_ad_screen_shot.png" />
+</div>
+<p>Lengths of the slots should be at most a certain given length.
+Typically, you would want to create multiple ads, for multiple products,
+using the same template, but changing a word or a phrase within the ad.</p>
+<div class="line-block">
+<div class="line">Here is an example for one ad slot:</div>
+<div class="line"><strong>Template:</strong> ‘Learn { } interactively’</div>
+<div class="line"><strong>Maximum length:</strong> 35</div>
+<div class="line"><strong>Replacements:</strong> ‘graphic design’, ‘visual arts’, ‘fundamentals of
+user experience’</div>
+<div class="line"><strong>Fallback:</strong> ‘graphic arts’ (what to put in the braces if the total
+lengh is greater than the maximum allowed length)</div>
+</div>
+<p>Running the function on each of the above replacements should return the
+following:</p>
+<div class="line-block">
+<div class="line">Learn <em>graphic design</em> interactively (‘graphic design’)</div>
+<div class="line">Learn <em>visual arts</em> interactively (‘visual arts’)</div>
+<div class="line">Learn <em>graphic arts</em> interactively (‘fundamentals of user experience’)</div>
+</div>
+<p>Errors to check for: * Make sure the length of the <code class="docutils literal"><span class="pre">template</span></code>
+together with the <code class="docutils literal"><span class="pre">fallback</span></code> string is at most the maximum length. *
+Make sure the same is true for each of the given <code class="docutils literal"><span class="pre">replacements</span></code>
+strings, otherwise insert the fallback.</p>
+<p>Another example, with code:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">xmode</span> plain
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Exception reporting mode: Plain
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;Get the Latest </span><span class="si">{}</span><span class="s1">&#39;</span>
+<span class="n">fallback</span> <span class="o">=</span> <span class="s1">&#39;Mobile&#39;</span>
+<span class="n">replacements</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;iPhone&#39;</span><span class="p">,</span> <span class="s1">&#39;Sony XZ&#39;</span><span class="p">,</span> <span class="s1">&#39;Samsung&#39;</span><span class="p">,</span> <span class="s1">&#39;sony xperia xz premium&#39;</span><span class="p">]</span>
+<span class="n">max_len</span> <span class="o">=</span> <span class="mi">25</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">ad_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fallback</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">max_len</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">replacements</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">max_len</span><span class="p">:</span>
+        <span class="n">ad_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ad_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fallback</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">ad_list</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[4]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;Get the Latest iPhone&#39;,
+ &#39;Get the Latest Sony XZ&#39;,
+ &#39;Get the Latest Samsung&#39;,
+ &#39;Get the Latest Mobile&#39;]
+</pre></div>
+</div>
+</div>
+<p>The last one was longer than <code class="docutils literal"><span class="pre">max_len</span></code> and so ‘Mobile’ was inserted
+instead of ‘sony xperia xz premium’.</p>
+<p>Putting it in a function:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">ad_create</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">replacements</span><span class="p">,</span> <span class="n">fallback</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fallback</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">max_len</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;template + fallback should be &lt;= 20 chars&#39;</span><span class="p">)</span>
+    <span class="n">final_ad</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">rep</span> <span class="ow">in</span> <span class="n">replacements</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rep</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">max_len</span><span class="p">:</span>
+            <span class="n">final_ad</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rep</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">final_ad</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fallback</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">final_ad</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">ad_create</span><span class="p">(</span><span class="s1">&#39;My Car is a </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;BMW&#39;</span><span class="p">,</span> <span class="s1">&#39;Mercedes&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamborghini&#39;</span><span class="p">],</span> <span class="s1">&#39;Beauty&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[6]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;My Car is a BMW&#39;, &#39;My Car is a Mercedes&#39;, &#39;My Car is a Beauty&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="c1"># this should raise an exception</span>
+<span class="n">ad_create</span><span class="p">(</span><span class="s1">&#39;My Car is a </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;BMW&#39;</span><span class="p">,</span> <span class="s1">&#39;Mercedes&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamborghini&#39;</span><span class="p">],</span>
+          <span class="s1">&#39;Beauty Beauty Beauty Beauty &#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Traceback <span class="ansi-cyan-fg">(most recent call last)</span>:
+
+  File <span class="ansi-green-intense-fg ansi-bold">&#34;&lt;ipython-input-7-453f6f5e6afb&gt;&#34;</span>, line <span class="ansi-green-intense-fg ansi-bold">3</span>, in <span class="ansi-magenta-intense-fg ansi-bold">&lt;module&gt;</span>
+    &#39;Beauty Beauty Beauty Beauty &#39;, 20)
+
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-5-f311472fc0ec&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">3</span><span class="ansi-cyan-fg">, in </span><span class="ansi-magenta-fg">ad_create</span>
+<span class="ansi-red-fg">    raise ValueError(&#39;template + fallback should be &lt;= 20 chars&#39;)</span>
+
+<span class="ansi-red-fg">ValueError</span><span class="ansi-red-fg">:</span> template + fallback should be &lt;= 20 chars
+
+</pre></div></div>
+</div>
+<div class="line-block">
+<div class="line">It raises a <code class="docutils literal"><span class="pre">ValueError</span></code> as it should. Now we want to create a set
+of ads for a travel website.</div>
+<div class="line">As a reminder the default template we will be using is the expanded
+text ads used by Google AdWords and BingAds, which is:</div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Ad Slot</th>
+<th class="head">Maximum Length</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Headline 1</td>
+<td>30</td>
+</tr>
+<tr class="row-odd"><td>Headline 2</td>
+<td>30</td>
+</tr>
+<tr class="row-even"><td>Description</td>
+<td>80</td>
+</tr>
+<tr class="row-odd"><td>Path1</td>
+<td>15</td>
+</tr>
+<tr class="row-even"><td>Path2</td>
+<td>15</td>
+</tr>
+<tr class="row-odd"><td>Final URL</td>
+<td>1024</td>
+</tr>
+</tbody>
+</table>
+<p>Templates we are going to use:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Ad Slot</th>
+<th class="head">Maximum Length</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Headline
+1</td>
+<td>Trips to
+{destination}</td>
+</tr>
+<tr class="row-odd"><td>Headline
+2</td>
+<td>Prices Starting at
+${price}</td>
+</tr>
+<tr class="row-even"><td>Descript
+ion</td>
+<td>Enjoy {destination}
+and Other Great
+Cities. Browse the
+Different Options
+Now.</td>
+</tr>
+<tr class="row-odd"><td>Path1</td>
+<td>{destination}</td>
+</tr>
+<tr class="row-even"><td>Path2</td>
+<td>{country}</td>
+</tr>
+<tr class="row-odd"><td>Final
+URL</td>
+<td><a class="reference external" href="http://www.mysite.co">http://www.mysite.co</a>
+m/trips/destinations
+/{destination}</td>
+</tr>
+</tbody>
+</table>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">destinations</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rio de Janeiro&#39;</span><span class="p">,</span> <span class="s1">&#39;New York&#39;</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">,</span> <span class="s1">&#39;Rome&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;Madrid&#39;</span><span class="p">,</span> <span class="s1">&#39;Istanbul&#39;</span><span class="p">,</span> <span class="s1">&#39;Dubai&#39;</span><span class="p">,</span> <span class="s1">&#39;Los Angeles&#39;</span><span class="p">]</span>
+<span class="n">countries</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Brazil&#39;</span><span class="p">,</span> <span class="s1">&#39;USA&#39;</span><span class="p">,</span> <span class="s1">&#39;France&#39;</span><span class="p">,</span> <span class="s1">&#39;Italy&#39;</span><span class="p">,</span> <span class="s1">&#39;Spain&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Turkey&#39;</span><span class="p">,</span> <span class="s1">&#39;UAE&#39;</span><span class="p">,</span> <span class="s1">&#39;USA&#39;</span><span class="p">]</span>
+<span class="n">prices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">500</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">500</span><span class="p">]</span>
+
+<span class="n">templates</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;Headline 1&#39;</span><span class="p">:</span> <span class="s1">&#39;Trips to </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Headline 2&#39;</span><span class="p">:</span> <span class="s1">&#39;Prices Starting at $</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Description&#39;</span><span class="p">:</span> <span class="s1">&#39;Enjoy </span><span class="si">{}</span><span class="s1"> and Other Great Cities. Browse the Different Options. Start Now&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Path1&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Path2&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Final URL&#39;</span><span class="p">:</span> <span class="s1">&#39;http://www.mysite.com/trips/destinations/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">h1</span> <span class="o">=</span> <span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;Headline 1&#39;</span><span class="p">],</span>
+               <span class="n">replacements</span><span class="o">=</span><span class="n">destinations</span><span class="p">,</span>
+               <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;Great Cities&#39;</span><span class="p">,</span>
+               <span class="n">max_len</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">h1</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[9]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;Trips to Rio de Janeiro&#39;,
+ &#39;Trips to New York&#39;,
+ &#39;Trips to Paris&#39;,
+ &#39;Trips to Rome&#39;,
+ &#39;Trips to Madrid&#39;,
+ &#39;Trips to Istanbul&#39;,
+ &#39;Trips to Dubai&#39;,
+ &#39;Trips to Los Angeles&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">h2</span> <span class="o">=</span> <span class="n">ad_create</span><span class="p">(</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;Headline 2&#39;</span><span class="p">],</span> <span class="n">prices</span><span class="p">,</span> <span class="s1">&#39;350&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">h2</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[10]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;Prices Starting at $500&#39;,
+ &#39;Prices Starting at $700&#39;,
+ &#39;Prices Starting at $600&#39;,
+ &#39;Prices Starting at $800&#39;,
+ &#39;Prices Starting at $400&#39;,
+ &#39;Prices Starting at $500&#39;,
+ &#39;Prices Starting at $800&#39;,
+ &#39;Prices Starting at $500&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">desc</span> <span class="o">=</span> <span class="n">ad_create</span><span class="p">(</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">],</span> <span class="n">destinations</span><span class="p">,</span> <span class="s1">&#39;This&#39;</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">desc</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[11]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;Enjoy This and Other Great Cities. Browse the Different Options. Start Now&#39;,
+ &#39;Enjoy New York and Other Great Cities. Browse the Different Options. Start Now&#39;,
+ &#39;Enjoy Paris and Other Great Cities. Browse the Different Options. Start Now&#39;,
+ &#39;Enjoy Rome and Other Great Cities. Browse the Different Options. Start Now&#39;,
+ &#39;Enjoy Madrid and Other Great Cities. Browse the Different Options. Start Now&#39;,
+ &#39;Enjoy Istanbul and Other Great Cities. Browse the Different Options. Start Now&#39;,
+ &#39;Enjoy Dubai and Other Great Cities. Browse the Different Options. Start Now&#39;,
+ &#39;Enjoy This and Other Great Cities. Browse the Different Options. Start Now&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">path1</span> <span class="o">=</span> <span class="n">ad_create</span><span class="p">(</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;Path1&#39;</span><span class="p">],</span> <span class="n">destinations</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">path1</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[12]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;Rio de Janeiro&#39;,
+ &#39;New York&#39;,
+ &#39;Paris&#39;,
+ &#39;Rome&#39;,
+ &#39;Madrid&#39;,
+ &#39;Istanbul&#39;,
+ &#39;Dubai&#39;,
+ &#39;Los Angeles&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">path2</span> <span class="o">=</span> <span class="n">ad_create</span><span class="p">(</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;Path2&#39;</span><span class="p">],</span> <span class="n">countries</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">path2</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[13]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;Brazil&#39;, &#39;USA&#39;, &#39;France&#39;, &#39;Italy&#39;, &#39;Spain&#39;, &#39;Turkey&#39;, &#39;UAE&#39;, &#39;USA&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">final_url</span> <span class="o">=</span> <span class="n">ad_create</span><span class="p">(</span><span class="n">templates</span><span class="p">[</span><span class="s1">&#39;Final URL&#39;</span><span class="p">],</span> <span class="n">destinations</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+<span class="n">final_url</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[14]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;http://www.mysite.com/trips/destinations/Rio de Janeiro&#39;,
+ &#39;http://www.mysite.com/trips/destinations/New York&#39;,
+ &#39;http://www.mysite.com/trips/destinations/Paris&#39;,
+ &#39;http://www.mysite.com/trips/destinations/Rome&#39;,
+ &#39;http://www.mysite.com/trips/destinations/Madrid&#39;,
+ &#39;http://www.mysite.com/trips/destinations/Istanbul&#39;,
+ &#39;http://www.mysite.com/trips/destinations/Dubai&#39;,
+ &#39;http://www.mysite.com/trips/destinations/Los Angeles&#39;]
+</pre></div>
+</div>
+</div>
+<p>We simply put them together in a DataFrame, together with the Campaign
+and Ad Group names based on the destinations (products) that we have.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">ads_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Campaign&#39;</span><span class="p">:</span> <span class="s1">&#39;SEM_Destinations&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Ad Group&#39;</span><span class="p">:</span> <span class="n">destinations</span><span class="p">,</span>
+    <span class="s1">&#39;Headline 1&#39;</span><span class="p">:</span> <span class="n">h1</span><span class="p">,</span>
+    <span class="s1">&#39;Headline 2&#39;</span><span class="p">:</span> <span class="n">h2</span><span class="p">,</span>
+    <span class="s1">&#39;Description&#39;</span><span class="p">:</span> <span class="n">desc</span><span class="p">,</span>
+    <span class="s1">&#39;Path 1&#39;</span><span class="p">:</span> <span class="n">path1</span><span class="p">,</span>
+    <span class="s1">&#39;Path 2&#39;</span><span class="p">:</span> <span class="n">path2</span><span class="p">,</span>
+    <span class="s1">&#39;Final URL&#39;</span><span class="p">:</span> <span class="n">final_url</span>
+<span class="p">})</span>
+<span class="n">ads_df</span> <span class="o">=</span> <span class="n">ads_df</span><span class="p">[[</span><span class="s1">&#39;Campaign&#39;</span><span class="p">,</span> <span class="s1">&#39;Ad Group&#39;</span><span class="p">,</span> <span class="s1">&#39;Headline 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Headline 2&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Description&#39;</span><span class="p">,</span> <span class="s1">&#39;Path 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Path 2&#39;</span><span class="p">]]</span>
+<span class="n">ads_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Campaign</th>
+      <th>Ad Group</th>
+      <th>Headline 1</th>
+      <th>Headline 2</th>
+      <th>Description</th>
+      <th>Path 1</th>
+      <th>Path 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>SEM_Destinations</td>
+      <td>Rio de Janeiro</td>
+      <td>Trips to Rio de Janeiro</td>
+      <td>Prices Starting at $500</td>
+      <td>Enjoy This and Other Great Cities. Browse the ...</td>
+      <td>Rio de Janeiro</td>
+      <td>Brazil</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>SEM_Destinations</td>
+      <td>New York</td>
+      <td>Trips to New York</td>
+      <td>Prices Starting at $700</td>
+      <td>Enjoy New York and Other Great Cities. Browse ...</td>
+      <td>New York</td>
+      <td>USA</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>SEM_Destinations</td>
+      <td>Paris</td>
+      <td>Trips to Paris</td>
+      <td>Prices Starting at $600</td>
+      <td>Enjoy Paris and Other Great Cities. Browse the...</td>
+      <td>Paris</td>
+      <td>France</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SEM_Destinations</td>
+      <td>Rome</td>
+      <td>Trips to Rome</td>
+      <td>Prices Starting at $800</td>
+      <td>Enjoy Rome and Other Great Cities. Browse the ...</td>
+      <td>Rome</td>
+      <td>Italy</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>SEM_Destinations</td>
+      <td>Madrid</td>
+      <td>Trips to Madrid</td>
+      <td>Prices Starting at $400</td>
+      <td>Enjoy Madrid and Other Great Cities. Browse th...</td>
+      <td>Madrid</td>
+      <td>Spain</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>SEM_Destinations</td>
+      <td>Istanbul</td>
+      <td>Trips to Istanbul</td>
+      <td>Prices Starting at $500</td>
+      <td>Enjoy Istanbul and Other Great Cities. Browse ...</td>
+      <td>Istanbul</td>
+      <td>Turkey</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>SEM_Destinations</td>
+      <td>Dubai</td>
+      <td>Trips to Dubai</td>
+      <td>Prices Starting at $800</td>
+      <td>Enjoy Dubai and Other Great Cities. Browse the...</td>
+      <td>Dubai</td>
+      <td>UAE</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>SEM_Destinations</td>
+      <td>Los Angeles</td>
+      <td>Trips to Los Angeles</td>
+      <td>Prices Starting at $500</td>
+      <td>Enjoy This and Other Great Cities. Browse the ...</td>
+      <td>Los Angeles</td>
+      <td>USA</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="line-block">
+<div class="line">This now ready for uploading, and launching.</div>
+<div class="line">Of course the other big part of the account is the keywords, which
+also need to be generated.</div>
+</div>
+<p>I’ll cover these in another notebook.</p>
+<p>The function <code class="docutils literal"><span class="pre">ad_create</span></code> is now part of the
+<a class="reference external" href="https://www.github.com/eliasdabbas/advertools">advertools</a> package,
+so you can test it!</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">advertools</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="user_reference.html">User Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Create Text Ads From Scratch</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Generate-multiple-ads-by-dynamically-inserting-words-into-their-proper-place-in-the-text-ads">Generate multiple ads by dynamically inserting words into their proper place in the text ads</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="user_reference.html" title="previous chapter">User Reference</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Elias Dabbas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/ad_create.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

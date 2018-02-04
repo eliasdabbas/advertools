@@ -1,0 +1,440 @@
+
+# Create Text Ads From Scratch
+
+### Generate multiple ads by dynamically inserting words into their proper place in the text ads
+
+We will use Python's string formatting capabilities to dynamically generate multiple ads for large-scale campaigns. 
+
+Online text ads usually consist of a few slots. For exmaple, the expanded text ads of Google AdWords and Bing Ads consist of the following slots:
+
+
+
+
+![](textad_diagram.png)  
+Here is an actual ad:
+
+![](text_ad_screen_shot.png)
+
+Lengths of the slots should be at most a certain given length. 
+Typically, you would want to create multiple ads, for multiple products,  using the same template, but changing a word or a phrase within the ad.
+
+Here is an example for one ad slot:  
+**Template:** 'Learn { } interactively'  
+**Maximum length:** 35  
+**Replacements:** 'graphic design', 'visual arts', 'fundamentals of user experience'  
+**Fallback:** 'graphic arts' (what to put in the braces if the total lengh is greater than the maximum allowed length)  
+
+Running the function on each of the above replacements should return the following:
+
+Learn _graphic design_ interactively ('graphic design')  
+Learn _visual arts_ interactively ('visual arts')  
+Learn _graphic arts_ interactively ('fundamentals of user experience')  
+
+Errors to check for: 
+* Make sure the length of the `template` together with the `fallback` string is at most the maximum length. 
+* Make sure the same is true for each of the given `replacements` strings, otherwise insert the fallback. 
+
+Another example, with code:
+
+
+```python
+%xmode plain 
+import pandas as pd
+```
+
+    Exception reporting mode: Plain
+
+
+
+```python
+template = 'Get the Latest {}'
+fallback = 'Mobile'
+replacements = ['iPhone', 'Sony XZ', 'Samsung', 'sony xperia xz premium']
+max_len = 25
+```
+
+
+```python
+ad_list = []
+if len(template.format(fallback)) > max_len:
+    raise ValueError
+for r in replacements:
+    if len(template.format(r)) <= max_len:
+        ad_list.append(template.format(r))
+    else:
+        ad_list.append(template.format(fallback))
+```
+
+
+```python
+ad_list
+```
+
+
+
+
+    ['Get the Latest iPhone',
+     'Get the Latest Sony XZ',
+     'Get the Latest Samsung',
+     'Get the Latest Mobile']
+
+
+
+The last one was longer than `max_len` and so 'Mobile' was inserted instead of 'sony xperia xz premium'.
+
+Putting it in a function:
+
+
+```python
+def ad_create(template, replacements, fallback, max_len=20):
+    if len(template.format(fallback)) > max_len:
+        raise ValueError('template + fallback should be <= 20 chars')
+    final_ad = []
+    for rep in replacements:
+        if len(template.format(rep)) <= max_len:
+            final_ad.append(template.format(rep))
+        else:
+            final_ad.append(template.format(fallback))
+    return final_ad
+```
+
+
+```python
+ad_create('My Car is a {}', ['BMW', 'Mercedes', 'Lamborghini'], 'Beauty', 20)
+```
+
+
+
+
+    ['My Car is a BMW', 'My Car is a Mercedes', 'My Car is a Beauty']
+
+
+
+
+```python
+# this should raise an exception
+ad_create('My Car is a {}', ['BMW', 'Mercedes', 'Lamborghini'], 
+          'Beauty Beauty Beauty Beauty ', 20)
+```
+
+
+    Traceback (most recent call last):
+
+
+      File "<ipython-input-7-453f6f5e6afb>", line 3, in <module>
+        'Beauty Beauty Beauty Beauty ', 20)
+
+
+      File "<ipython-input-5-f311472fc0ec>", line 3, in ad_create
+        raise ValueError('template + fallback should be <= 20 chars')
+
+
+    ValueError: template + fallback should be <= 20 chars
+
+
+
+It raises a `ValueError` as it should. 
+Now we want to create a set of ads for a travel website.  
+As a reminder the default template we will be using is the expanded text ads used by Google AdWords and BingAds, which is:  
+
+
+|Ad Slot    | Maximum Length    |
+|-----------|-------------------|
+|Headline 1 | 30                |
+|Headline 2 | 30                |
+|Description| 80                |
+|Path1      | 15                |
+|Path2      | 15                |
+|Final URL  | 1024              |
+
+
+Templates we are going to use: 
+
+Ad Slot| Maximum Length
+-------|-------------------
+Headline 1| Trips to {destination}
+Headline 2| Prices Starting at ${price}
+Description| Enjoy {destination} and Other Great Cities. Browse the Different Options Now.
+Path1| {destination}
+Path2| {country}
+Final URL| http://www.mysite.com/trips/destinations/{destination}
+
+
+
+
+```python
+destinations = ['Rio de Janeiro', 'New York', 'Paris', 'Rome', 
+                'Madrid', 'Istanbul', 'Dubai', 'Los Angeles']
+countries = ['Brazil', 'USA', 'France', 'Italy', 'Spain', 
+             'Turkey', 'UAE', 'USA']
+prices = [500, 700, 600, 800, 400, 500, 800, 500]
+
+templates = {
+'Headline 1': 'Trips to {}',
+'Headline 2': 'Prices Starting at ${}',
+'Description': 'Enjoy {} and Other Great Cities. Browse the Different Options. Start Now',
+'Path1': '{}',
+'Path2': '{}',
+'Final URL': 'http://www.mysite.com/trips/destinations/{}',
+}
+
+```
+
+
+```python
+h1 = ad_create(template=templates['Headline 1'], 
+               replacements=destinations, 
+               fallback='Great Cities',
+               max_len=30)
+h1
+```
+
+
+
+
+    ['Trips to Rio de Janeiro',
+     'Trips to New York',
+     'Trips to Paris',
+     'Trips to Rome',
+     'Trips to Madrid',
+     'Trips to Istanbul',
+     'Trips to Dubai',
+     'Trips to Los Angeles']
+
+
+
+
+```python
+h2 = ad_create(templates['Headline 2'], prices, '350', 30)
+h2
+```
+
+
+
+
+    ['Prices Starting at $500',
+     'Prices Starting at $700',
+     'Prices Starting at $600',
+     'Prices Starting at $800',
+     'Prices Starting at $400',
+     'Prices Starting at $500',
+     'Prices Starting at $800',
+     'Prices Starting at $500']
+
+
+
+
+```python
+desc = ad_create(templates['Description'], destinations, 'This', 80)
+desc
+```
+
+
+
+
+    ['Enjoy This and Other Great Cities. Browse the Different Options. Start Now',
+     'Enjoy New York and Other Great Cities. Browse the Different Options. Start Now',
+     'Enjoy Paris and Other Great Cities. Browse the Different Options. Start Now',
+     'Enjoy Rome and Other Great Cities. Browse the Different Options. Start Now',
+     'Enjoy Madrid and Other Great Cities. Browse the Different Options. Start Now',
+     'Enjoy Istanbul and Other Great Cities. Browse the Different Options. Start Now',
+     'Enjoy Dubai and Other Great Cities. Browse the Different Options. Start Now',
+     'Enjoy This and Other Great Cities. Browse the Different Options. Start Now']
+
+
+
+
+```python
+path1 = ad_create(templates['Path1'], destinations, '', 15)
+path1
+```
+
+
+
+
+    ['Rio de Janeiro',
+     'New York',
+     'Paris',
+     'Rome',
+     'Madrid',
+     'Istanbul',
+     'Dubai',
+     'Los Angeles']
+
+
+
+
+```python
+path2 = ad_create(templates['Path2'], countries, '', 15)
+path2
+```
+
+
+
+
+    ['Brazil', 'USA', 'France', 'Italy', 'Spain', 'Turkey', 'UAE', 'USA']
+
+
+
+
+```python
+final_url = ad_create(templates['Final URL'], destinations, '', 1024)
+final_url
+```
+
+
+
+
+    ['http://www.mysite.com/trips/destinations/Rio de Janeiro',
+     'http://www.mysite.com/trips/destinations/New York',
+     'http://www.mysite.com/trips/destinations/Paris',
+     'http://www.mysite.com/trips/destinations/Rome',
+     'http://www.mysite.com/trips/destinations/Madrid',
+     'http://www.mysite.com/trips/destinations/Istanbul',
+     'http://www.mysite.com/trips/destinations/Dubai',
+     'http://www.mysite.com/trips/destinations/Los Angeles']
+
+
+
+We simply put them together in a DataFrame, together with the Campaign and Ad Group names based on the destinations (products) that we have. 
+
+
+```python
+ads_df = pd.DataFrame({
+    'Campaign': 'SEM_Destinations',
+    'Ad Group': destinations,
+    'Headline 1': h1,
+    'Headline 2': h2,
+    'Description': desc,
+    'Path 1': path1,
+    'Path 2': path2,
+    'Final URL': final_url
+})
+ads_df = ads_df[['Campaign', 'Ad Group', 'Headline 1', 'Headline 2', 
+                 'Description', 'Path 1', 'Path 2']]
+ads_df
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Campaign</th>
+      <th>Ad Group</th>
+      <th>Headline 1</th>
+      <th>Headline 2</th>
+      <th>Description</th>
+      <th>Path 1</th>
+      <th>Path 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>SEM_Destinations</td>
+      <td>Rio de Janeiro</td>
+      <td>Trips to Rio de Janeiro</td>
+      <td>Prices Starting at $500</td>
+      <td>Enjoy This and Other Great Cities. Browse the ...</td>
+      <td>Rio de Janeiro</td>
+      <td>Brazil</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>SEM_Destinations</td>
+      <td>New York</td>
+      <td>Trips to New York</td>
+      <td>Prices Starting at $700</td>
+      <td>Enjoy New York and Other Great Cities. Browse ...</td>
+      <td>New York</td>
+      <td>USA</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>SEM_Destinations</td>
+      <td>Paris</td>
+      <td>Trips to Paris</td>
+      <td>Prices Starting at $600</td>
+      <td>Enjoy Paris and Other Great Cities. Browse the...</td>
+      <td>Paris</td>
+      <td>France</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SEM_Destinations</td>
+      <td>Rome</td>
+      <td>Trips to Rome</td>
+      <td>Prices Starting at $800</td>
+      <td>Enjoy Rome and Other Great Cities. Browse the ...</td>
+      <td>Rome</td>
+      <td>Italy</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>SEM_Destinations</td>
+      <td>Madrid</td>
+      <td>Trips to Madrid</td>
+      <td>Prices Starting at $400</td>
+      <td>Enjoy Madrid and Other Great Cities. Browse th...</td>
+      <td>Madrid</td>
+      <td>Spain</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>SEM_Destinations</td>
+      <td>Istanbul</td>
+      <td>Trips to Istanbul</td>
+      <td>Prices Starting at $500</td>
+      <td>Enjoy Istanbul and Other Great Cities. Browse ...</td>
+      <td>Istanbul</td>
+      <td>Turkey</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>SEM_Destinations</td>
+      <td>Dubai</td>
+      <td>Trips to Dubai</td>
+      <td>Prices Starting at $800</td>
+      <td>Enjoy Dubai and Other Great Cities. Browse the...</td>
+      <td>Dubai</td>
+      <td>UAE</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>SEM_Destinations</td>
+      <td>Los Angeles</td>
+      <td>Trips to Los Angeles</td>
+      <td>Prices Starting at $500</td>
+      <td>Enjoy This and Other Great Cities. Browse the ...</td>
+      <td>Los Angeles</td>
+      <td>USA</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+This now ready for uploading, and launching.  
+Of course the other big part of the account is the keywords, which also need to be generated.  
+
+I'll cover these in another notebook. 
+
+The function `ad_create` is now part of the [advertools](https://www.github.com/eliasdabbas/advertools) package, so you can test it! 
