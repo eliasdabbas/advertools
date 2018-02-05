@@ -1,0 +1,135 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>advertools.url_builders &#8212; advertools 0.1a1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for advertools.url_builders</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">urllib</span>
+
+
+<div class="viewcode-block" id="url_utm_ga"><a class="viewcode-back" href="../../urls.html#advertools.url_builders.url_utm_ga">[docs]</a><span class="k">def</span> <span class="nf">url_utm_ga</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">utm_source</span><span class="p">,</span> <span class="n">utm_medium</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">utm_campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">utm_content</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">utm_term</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate a utm-encoded URL for your campaigns. </span>
+
+<span class="sd">    URLs are are not validated. All parameters are URL-encoded.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    url : a valid URL, required</span>
+<span class="sd">    utm_source : the referrer of the traffic (e.g. facebook, twitter), required</span>
+<span class="sd">    utm_medium : marketing medium (e.g. banner, email)</span>
+<span class="sd">    utm_campaign : the name of the campaign (e.g. summer_promo, 20pct_off)</span>
+<span class="sd">    utm_content : ad name / differentiator (e.g. 728x90, mpu, square_banner)</span>
+<span class="sd">    utm_term : search terms bid on (only relevant for search campaigns)</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; url_utm_ga(&#39;mysite.com&#39;, utm_source=&#39;the source)</span>
+<span class="sd">    ... &#39;mysite.com?utm_source=the+source&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; url_utm_ga(&#39;mysite.com&#39;, utm_source=&#39;the source&#39;, </span>
+<span class="sd">        utm_medium=&#39;THE MEDIUM!!&#39;, utm_campaign=&#39;campaign*name&amp;^%&#39;, </span>
+<span class="sd">        utm_content=&#39;728x90&#39;)</span>
+<span class="sd">    ... &#39;mysite.com?utm_content=728x90&amp;utm_campaign=campaign%2Aname%26%5E%25&amp;utm_medium=THE+MEDIUM%21%21&amp;utm_source=the+source&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">+=</span> <span class="s1">&#39;?&#39;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;url&#39;</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">url</span> <span class="o">+</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">})</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">advertools</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../keywords.html">Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ads.html">Ads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ad_create.html">Create Text Ads From Scratch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../word_freq.html">Word Frequency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../urls.html">URLs</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Elias Dabbas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
