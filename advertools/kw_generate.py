@@ -6,10 +6,7 @@ import pandas as pd
 def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Modified'],
                 campaign_name='SEM_Campaign'):
     """Generate a data frame of kewywords using a list of products and relevant words.
-    
-    Parameters
-    ----------
-    
+        
     products : will be used as the names of the ad groups
     words : related words that make it clear that the user is interested in `products`
     max_len : the maximum number of words to include in each permutation of product keywords
