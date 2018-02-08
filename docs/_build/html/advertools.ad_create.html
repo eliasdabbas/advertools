@@ -1,0 +1,119 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>advertools.ad_create module &#8212; advertools 0.1a1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-advertools.ad_create">
+<span id="advertools-ad-create-module"></span><h1>advertools.ad_create module<a class="headerlink" href="#module-advertools.ad_create" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="advertools.ad_create.ad_create">
+<code class="descclassname">advertools.ad_create.</code><code class="descname">ad_create</code><span class="sig-paren">(</span><em>template</em>, <em>replacements</em>, <em>fallback</em>, <em>max_len=30</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_create.html#ad_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_create.ad_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert each of the replacement strings in its place within template</p>
+<p>template : a string format template, using braces
+repls : replacements string to be inserted in template
+fallback : the string to insert in template in case the replacement is too long
+max_len : the maximum allowed length of the full string</p>
+<p>formatted : list of strings</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s1">&#39;Let&#39;</span><span class="n">s</span> <span class="n">count</span> <span class="p">{}</span><span class="s1">&#39;, [&#39;</span><span class="n">one</span><span class="s1">&#39;, &#39;</span><span class="n">two</span><span class="s1">&#39;, &#39;</span><span class="n">three</span><span class="s1">&#39;], &#39;</span><span class="n">one</span><span class="s1">&#39;, 20)</span>
+<span class="go">[&quot;Let&#39;s count one&quot;, &quot;Let&#39;s count two&quot;, &quot;Let&#39;s count three&quot;]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s1">&#39;My favorite car is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Toyota&#39;</span><span class="p">,</span> <span class="s1">&#39;BMW&#39;</span><span class="p">,</span> <span class="s1">&#39;Mercedes&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamborghini&#39;</span><span class="p">],</span> <span class="s1">&#39;great&#39;</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+<span class="go">[&#39;My favorite car is Toyota&#39;, &#39;My favorite car is BMW&#39;, &#39;My favorite car is Mercedes&#39;, </span>
+<span class="go">&#39;My favorite car is great&#39;]    </span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">advertools</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Elias Dabbas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/advertools.ad_create.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
