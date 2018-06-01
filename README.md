@@ -19,6 +19,8 @@ an upcoming campaign, by the end of the week!
 advertools is a Python package, that can hopefully make that part of your job a 
 little easier.  
 
+I have a tutorial on DataCamp that demonstrates a real-life example of how to use [Python for creating a Search Engine Marketing campaign](https://www.datacamp.com/community/tutorials/sem-data-science)
+
 ### Main Uses: 
 
 * **Generate keywords:** starting from a list of products, and a list of words that
@@ -82,7 +84,7 @@ This can save time when you have thousands of products to create ads for.
 words in a collection of documents to uncover hidden trends in the data. 
 This is basically answering the question, 'What did we write about vs. what
 was actually read?'  
-Here is a tutorial on [measuring absolute vs weighted frequency of words](https://nbviewer.jupyter.org/github/eliasdabbas/word_frequency/blob/master/abs_weighted_frequency.ipynb).
+Here is a tutorial on DataCamp on [measuring absolute vs weighted frequency of words](https://www.datacamp.com/community/tutorials/absolute-weighted-word-frequency).
 
 
 
