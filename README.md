@@ -21,6 +21,10 @@ little easier.
 
 I have a tutorial on DataCamp that demonstrates a real-life example of how to use [Python for creating a Search Engine Marketing campaign](https://www.datacamp.com/community/tutorials/sem-data-science)
 
+I also have an interactive tool based on this package, where you can [generate keyword combinations easily](http://www.dashboardom.com/advertools)
+
+[<img src="app_screen_shot.png" width=600px>](http://www.dashboardom.com/advertools)
+
 ### Main Uses: 
 
 * **Generate keywords:** starting from a list of products, and a list of words that
