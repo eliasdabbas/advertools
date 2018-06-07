@@ -1,10 +1,10 @@
 
-from itertools import permutations
+from itertools import permutations, combinations
 
 import pandas as pd
 
 def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Modified'],
-                campaign_name='SEM_Campaign'):
+                order_matters=False, campaign_name='SEM_Campaign'):
     """Generate a data frame of kewywords using a list of products and relevant words.
         
     products : will be used as the names of the ad groups
@@ -12,6 +12,7 @@ def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Mod
     max_len : the maximum number of words to include in each permutation of product keywords
     match_types : can be restricted or kept as is based on preference, possible values:
         'Exact', 'Phrase', 'Modified', 'Broad'
+    order_matters : whether or not the order of words in keywords matters, default False
     campaign_name : name of campaign
     >>> import advertools as adv
     >>> products = ['bmw', 'toyota']
@@ -26,14 +27,20 @@ def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Mod
     4  SEM_Campaign      Bmw  bmw second hand         Phrase  Second Hand
     
     >>> kw_df.tail()
-            Campaign Ad Group                    Keyword Criterion Type           Labels
-    55  SEM_Campaign   Toyota     second hand toyota buy         Phrase  Second Hand;Buy
-    56  SEM_Campaign   Toyota  +second hand +toyota +buy       Modified  Second Hand;Buy
-    57  SEM_Campaign   Toyota     second hand buy toyota          Exact  Second Hand;Buy
-    58  SEM_Campaign   Toyota     second hand buy toyota         Phrase  Second Hand;Buy
-    59  SEM_Campaign   Toyota  +second hand +buy +toyota       Modified  Second Hand;Buy
+            Campaign Ad Group                    Keyword Criterion Type \
+    13  SEM_Campaign   Toyota         toyota second hand         Phrase
+    14  SEM_Campaign   Toyota       +toyota +second hand          Broad
+    15  SEM_Campaign   Toyota     toyota buy second hand          Exact
+    16  SEM_Campaign   Toyota     toyota buy second hand         Phrase
+    17  SEM_Campaign   Toyota  +toyota +buy +second hand          Broad
 
-    
+             Labels
+    13      Second Hand
+    14      Second Hand
+    15  Buy;Second Hand
+    16  Buy;Second Hand
+    17  Buy;Second Hand
+
     Returns
     -------
     
@@ -46,22 +53,23 @@ def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Mod
 
     if max_len < 2:
         raise ValueError('please make sure max_len is >= 2')
-        
+
+    comb_func = permutations if order_matters else combinations
     
     headers = ['Campaign', 'Ad Group', 'Keyword', 'Criterion Type', 'Labels']
     keywords_list = []
     for prod in products:
         for i in range(2, max_len+1):
-            for perm in permutations([prod] + words, i):
-                if prod not in perm:
+            for comb in comb_func([prod] + words, i):
+                if prod not in comb:
                     continue
                 for match in match_types:
                     row = [
                         campaign_name,
                         prod.title(),
-                        ' '.join(perm) if match != 'Modified' else '+' + ' +'.join(perm),
+                        ' '.join(comb) if match != 'Modified' else '+' + ' +'.join(comb),
                         match if match != 'Modified' else 'Broad',
-                        ';'.join([x.title() for x in perm if x != prod])
+                        ';'.join([x.title() for x in comb if x != prod])
                     ]
                     keywords_list.append(row)
     return pd.DataFrame.from_records(keywords_list, columns=headers)
