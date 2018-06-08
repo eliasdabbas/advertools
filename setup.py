@@ -5,7 +5,7 @@ from os import path
 
 setup(
     name='advertools',
-    version='0.1a1',
+    version='0.1',
     description='Productivity and analysis tools for online marketing',
     long_description='A set of tools that help online marketing people '
                      'create campaigns, manage them, analyze keywords,'
@@ -19,6 +19,8 @@ setup(
     license='MIT',
     keywords='marketing advertising adwords analytics seo sem',
     install_requires=['pandas'],
+    python_requires='>=3',
+    packages=find_packages(),
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
