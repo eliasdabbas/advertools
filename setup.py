@@ -5,7 +5,7 @@ from os import path
 
 setup(
     name='advertools',
-    version='0.1',
+    version='0.1.1',
     description='Productivity and analysis tools for online marketing',
     long_description='A set of tools that help online marketing people '
                      'create campaigns, manage them, analyze keywords,'
