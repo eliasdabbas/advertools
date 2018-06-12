@@ -100,7 +100,7 @@ Feedback and suggestions are more than welcomed.
 ### Installation
 
 ```bash
-pip install -e git+https://github.com/eliasdabbas/advertools.git#egg=advertools
+pip install advertools
 ```
 
 ### Conventions
