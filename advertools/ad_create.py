@@ -1,4 +1,6 @@
-def ad_create(template, replacements, fallback, max_len=30):
+import string
+
+def ad_create(template, replacements, fallback, max_len=30, capitalize=True):
     """Insert each of the replacement strings in its place within template
     
     Parameters
@@ -35,4 +37,4 @@ def ad_create(template, replacements, fallback, max_len=30):
         else:
             final_ad.append(template.format(fallback))
     
-    return final_ad
+    return [string.capwords(s) for s in final_ad] if capitalize else final_ad
