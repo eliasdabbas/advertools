@@ -1,10 +1,9 @@
-
 from itertools import permutations, combinations
 
 import pandas as pd
 
 def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Modified'],
-                order_matters=False, campaign_name='SEM_Campaign'):
+                order_matters=True, campaign_name='SEM_Campaign'):
     """Generate a data frame of kewywords using a list of products and relevant words.
         
     products : will be used as the names of the ad groups
@@ -47,8 +46,9 @@ def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Mod
     keywords_df : a pandas.DataFrame ready to upload
     
     """
+    match_types = [x.title() for x in match_types]
     POSSIBLE_MATCH_TYPES = ['Exact', 'Phrase', 'Broad', 'Modified']
-    if not all([m in POSSIBLE_MATCH_TYPES for m in match_types]):
+    if not set(match_types).issubset(POSSIBLE_MATCH_TYPES):
         raise ValueError('please make sure match types are any of ' + str(POSSIBLE_MATCH_TYPES))
 
     if max_len < 2:
