@@ -1,6 +1,6 @@
 import unittest
 
-from advertools import ad_create
+from advertools.ad_create import ad_create
 
 
 class AdCreateTests(unittest.TestCase):
@@ -13,18 +13,19 @@ class AdCreateTests(unittest.TestCase):
             
     def test_all_replacements_used(self):
         replacements = ['one', 'two', 'three']
-        result = ad_create('Hello {}', replacements, 'fallback')
+        result = ad_create('Hello {}', replacements, 'fallback', capitalize=False)
         self.assertTrue(all([rep in ' '.join(result) for rep in replacements]))
     
     def test_fallback_used_if_string_long(self):
         replacements = ['one', 'two', 'three hundrend thousand']
-        result = ad_create('Hello {}', replacements, 'fallback', max_len=20)
+        result = ad_create('Hello {}', replacements, 'fallback', max_len=20, capitalize=False)
         self.assertEqual(result, ['Hello one', 'Hello two', 'Hello fallback'])
 
-    
-#     def test_match_types_are_capitalized(self):
-#         df = kw_generate(['one', 'two'], ['three', 'four'], match_types=['eXact', 'PHRase', 'BRoad'])
-#         self.assertEqual(set(df['Criterion Type']), {'Exact', 'Phrase', 'Broad'})
+    def test_final_string_capitalized_or_not(self):
+        capitalized = ad_create('heLLo {}', ['ONE', 'tWo', 'tHree', 'Four'], 'fallback', capitalize=True)
+        not_capitalized = ad_create('heLLo {}', ['ONE', 'tWo', 'tHree', 'Four'], 'fallback', capitalize=False)
+        self.assertEqual(capitalized, ['Hello One', 'Hello Two', 'Hello Three', 'Hello Four'])
+        self.assertEqual(not_capitalized, ['heLLo ONE', 'heLLo tWo', 'heLLo tHree', 'heLLo Four'])
 
 
 if __name__ == '__main__':
