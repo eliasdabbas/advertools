@@ -1,6 +1,6 @@
 import unittest
 import sys
-sys.path.append('../')
+sys.path.insert(1, '/advertools/')
 import advertools.ad_create import ad_create
 
 
