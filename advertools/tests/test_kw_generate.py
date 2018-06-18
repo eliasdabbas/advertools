@@ -1,7 +1,9 @@
 import unittest
 from itertools import permutations, combinations
+import sys
+sys.path.append('..')
+from kw_generate import kw_generate
 
-from advertools import kw_generate
 import pandas as pd
 
 
@@ -99,6 +101,6 @@ class KeywordTests(unittest.TestCase):
         df = kw_generate(['one'], ['two'], order_matters=True)
         self.assertEqual(type(df), pd.core.frame.DataFrame)
         self.assertEqual(df.shape, (6, 5))
-    
+
 if __name__ == '__main__':
         unittest.main()
