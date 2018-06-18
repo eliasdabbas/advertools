@@ -1,6 +1,6 @@
 import unittest
 
-from .advertools.ad_create import ad_create
+import advertools
 
 
 class AdCreateTests(unittest.TestCase):
