@@ -1,6 +1,7 @@
 import unittest
-
-import advertools.ad_create.ad_create as ad_create
+import sys
+sys.path.append('../')
+import advertools.ad_create import ad_create
 
 
 class AdCreateTests(unittest.TestCase):
