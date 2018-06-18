@@ -1,8 +1,24 @@
 import unittest
 from itertools import permutations, combinations
-import sys
-sys.path.append('..')
-from kw_generate import kw_generate
+
+import os, sys
+sys.path.insert(0, '..')
+
+import advertools.kw_generate import kw_generate
+
+import pkgutil
+search_path = '.' # set to None to see all modules importable from sys.path
+all_modules = [x[1] for x in pkgutil.iter_modules(path=search_path)]
+print('before:', all_modules)
+
+
+
+all_modules = [x[1] for x in pkgutil.iter_modules(path=search_path)]
+print('after:', all_modules)
+
+
+print('\nsyspath:\n', sys.path)
+# from kw_generate import kw_generate
 
 import pandas as pd
 
