@@ -68,7 +68,7 @@ def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Mod
                     row = [
                         campaign_name,
                         prod.title(),
-                        ' '.join(comb) if match != 'Modified' else '+' + ' +'.join(comb),
+                        ' '.join(comb) if match != 'Modified' else '+' + ' +'.join(comb).replace(' ', ' +'),
                         match if match != 'Modified' else 'Broad',
                         ';'.join([x.title() for x in comb if x != prod])
                     ]

@@ -4,7 +4,7 @@ from itertools import permutations, combinations
 import os, sys
 sys.path.insert(0, '..')
 
-import advertools.kw_generate import kw_generate
+from advertools.kw_generate import kw_generate
 
 import pkgutil
 search_path = '.' # set to None to see all modules importable from sys.path
