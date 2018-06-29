@@ -1,10 +1,11 @@
+import re
 from itertools import permutations, combinations
 
 import pandas as pd
 
 def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Modified'],
                 order_matters=True, campaign_name='SEM_Campaign'):
-    """Generate a data frame of kewywords using a list of products and relevant words.
+    """Generate a data frame of keywords using a list of products and relevant words.
         
     products : will be used as the names of the ad groups
     words : related words that make it clear that the user is interested in `products`
@@ -73,3 +74,25 @@ def kw_generate(products, words, max_len=3, match_types=['Exact', 'Phrase', 'Mod
                     ]
                     keywords_list.append(row)
     return pd.DataFrame.from_records(keywords_list, columns=headers)
+
+def kw_broad(words):
+    regex = '^\'|^\"|\'$|\"$|\+|^\[|\]$|^-'
+    return [re.sub(regex, '',  ''  + x) for x in words]
+
+def kw_exact(words):
+    return ['[' + w + ']' for w in kw_broad(words)]
+
+def kw_phrase(words):
+    return ['"' + w + '"' for w in kw_broad(words)]
+
+def kw_modified(words):
+    return ['+' + w.replace(' ', ' +') for w in kw_broad(words)]
+
+def kw_neg_broad(words):
+    return ['-' + w for w in kw_broad(words)]
+
+def kw_neg_phrase(words):
+    return ['-' + w for w in kw_phrase(words)]
+
+def kw_neg_exact(words):
+    return ['-' + w for w in kw_exact(words)]
