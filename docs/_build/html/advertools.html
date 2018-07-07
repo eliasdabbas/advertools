@@ -1,0 +1,519 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>advertools package &#8212; advertools 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="advertools-package">
+<h1>advertools package<a class="headerlink" href="#advertools-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-advertools.ad_create">
+<span id="advertools-ad-create-module"></span><h2>advertools.ad_create module<a class="headerlink" href="#module-advertools.ad_create" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="advertools.ad_create.ad_create">
+<code class="descclassname">advertools.ad_create.</code><code class="descname">ad_create</code><span class="sig-paren">(</span><em>template</em>, <em>replacements</em>, <em>fallback</em>, <em>max_len=30</em>, <em>capitalize=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_create.html#ad_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_create.ad_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert each of the replacement strings in its place within template.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>template</strong> – a string format template, using braces</li>
+<li><strong>replacements</strong> – replacements string to be inserted in template</li>
+<li><strong>fallback</strong> – the string to insert in template in case the replacement is too long</li>
+<li><strong>max_len</strong> – the maximum allowed length of the full string</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns formatted:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">list of strings</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s2">&quot;Let&#39;s count </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">],</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="go">[&quot;Let&#39;s count one&quot;, &quot;Let&#39;s count two&quot;, &quot;Let&#39;s count three&quot;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;My favorite car is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="go">             replacements=[&#39;Toyota&#39;, &#39;BMW&#39;, &#39;Mercedes&#39;, &#39;Lamborghini&#39;],</span>
+<span class="go">             fallback=&#39;great&#39;,</span>
+<span class="go">             max_len=28)</span>
+<span class="go">[&#39;My favorite car is Toyota&#39;, &#39;My favorite car is BMW&#39;, &#39;My favorite car is Mercedes&#39;,</span>
+<span class="go">&#39;My favorite car is great&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-advertools.ad_from_string">
+<span id="advertools-ad-from-string-module"></span><h2>advertools.ad_from_string module<a class="headerlink" href="#module-advertools.ad_from_string" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="advertools.ad_from_string.ad_from_string">
+<code class="descclassname">advertools.ad_from_string.</code><code class="descname">ad_from_string</code><span class="sig-paren">(</span><em>s</em>, <em>slots=(30</em>, <em>30</em>, <em>80</em>, <em>15</em>, <em>15)</em>, <em>sep=None</em>, <em>capitalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert string <cite>s</cite> to an ad by splitting it into groups of words.
+Each group would have a length of at most the allowed length for that slot.</p>
+<p>If the total length of <cite>s</cite> exceeds the total allowed length, all remaining
+characters would be grouped in the last element of the returned list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> – a string of characters, with no restrictions on length.</li>
+<li><strong>slots</strong> – an iterable of integers for the maximum lengths for each slot</li>
+<li><strong>sep</strong> – by which character to split <cite>s</cite></li>
+<li><strong>capitalize</strong> – whether or not to capitalize each word after grouping. Setting
+it as False would leave the input string as is.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns text_ad:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">a list of strings</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s1">&#39;this is a short ad&#39;</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">[</span><span class="s1">&#39;This Is A Short Ad&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s1">&#39;this is a longer ad and would take two of the first slots&#39;</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">[</span><span class="s1">&#39;This Is A Longer Ad And Would&#39;</span><span class="p">,</span> <span class="s1">&#39;Take Two Of The First Slots&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-advertools.kw_generate">
+<span id="advertools-kw-generate-module"></span><h2>advertools.kw_generate module<a class="headerlink" href="#module-advertools.kw_generate" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="advertools.kw_generate.kw_broad">
+<code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_broad</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_broad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_broad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>words</cite> in broad match.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>words</strong> – list of strings</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns formatted:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><cite>words</cite> in broad match type</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_exact">
+<code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_exact</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_exact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_exact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>words</cite> in exact match.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>words</strong> – list of strings</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns formatted:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><cite>words</cite> in exact match type</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_generate">
+<code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_generate</code><span class="sig-paren">(</span><em>products, words, max_len=3, match_types=['Exact', 'Phrase', 'Modified'], order_matters=True, campaign_name='SEM_Campaign'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a data frame of keywords using a list of products and relevant words.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>products</strong> – will be used as the names of the ad groups</li>
+<li><strong>words</strong> – related words that make it clear that the user is interested in <cite>products</cite></li>
+<li><strong>max_len</strong> – the maximum number of words to include in each permutation of product keywords</li>
+<li><strong>match_types</strong> – can be restricted or kept as is based on preference, possible values: ‘Exact’, ‘Phrase’, ‘Modified’, ‘Broad’</li>
+<li><strong>order_matters</strong> – whether or not the order of words in keywords matters, default False</li>
+<li><strong>campaign_name</strong> – name of campaign</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns keywords_df:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">a pandas.DataFrame ready to upload</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bmw&#39;</span><span class="p">,</span> <span class="s1">&#39;toyota&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;buy&#39;</span><span class="p">,</span> <span class="s1">&#39;second hand&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">kw_generate</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">words</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="go">       Campaign Ad Group          Keyword Criterion Type       Labels</span>
+<span class="go">0  SEM_Campaign      Bmw          bmw buy          Exact          Buy</span>
+<span class="go">1  SEM_Campaign      Bmw          bmw buy         Phrase          Buy</span>
+<span class="go">2  SEM_Campaign      Bmw        +bmw +buy          Broad          Buy</span>
+<span class="go">3  SEM_Campaign      Bmw  bmw second hand          Exact  Second Hand</span>
+<span class="go">4  SEM_Campaign      Bmw  bmw second hand         Phrase  Second Hand</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kw_df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+<span class="go">        Campaign Ad Group                    Keyword Criterion Type           Labels</span>
+<span class="go">55  SEM_Campaign   Toyota     second hand toyota buy         Phrase  Second Hand;Buy</span>
+<span class="go">56  SEM_Campaign   Toyota  +second hand +toyota +buy          Broad  Second Hand;Buy</span>
+<span class="go">57  SEM_Campaign   Toyota     second hand buy toyota          Exact  Second Hand;Buy</span>
+<span class="go">58  SEM_Campaign   Toyota     second hand buy toyota         Phrase  Second Hand;Buy</span>
+<span class="go">59  SEM_Campaign   Toyota  +second hand +buy +toyota          Broad  Second Hand;Buy</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_modified">
+<code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_modified</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_modified"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_modified" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>words</cite> in modified broad match.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>words</strong> – list of strings</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns formatted:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><cite>words</cite> in modified broad match type</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_neg_broad">
+<code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_neg_broad</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_broad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_broad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>words</cite> in negative broad match.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>words</strong> – list of strings</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns formatted:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><cite>words</cite> in negative broad match type</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_neg_exact">
+<code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_neg_exact</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_exact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_exact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>words</cite> in negative exact match.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>words</strong> – list of strings</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns formatted:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><cite>words</cite> in negative exact match type</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_neg_phrase">
+<code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_neg_phrase</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_phrase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_phrase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>words</cite> in negative phrase match.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>words</strong> – list of strings</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns formatted:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><cite>words</cite> in negative phrase match type</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_phrase">
+<code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_phrase</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_phrase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_phrase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>words</cite> in phrase match.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>words</strong> – list of strings</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns formatted:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><cite>words</cite> in phrase match type</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-advertools.stopwords">
+<span id="advertools-stopwords-module"></span><h2>advertools.stopwords module<a class="headerlink" href="#module-advertools.stopwords" title="Permalink to this headline">¶</a></h2>
+<p>Stopwords from the nltk package</p>
+<p>Bird, Steven, Edward Loper and Ewan Klein (2009).
+Natural Language Processing with Python.  O’Reilly Media Inc.</p>
+<p>List of stopwords useful in text mining, analyzing content of tweets, web
+pages, keywords, etc.</p>
+<p>Each list is accessible as part of a dictionary <cite>stopwords</cite> which is a normal
+Python dictionary.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
+<span class="go">[&#39;i&#39;, &#39;me&#39;, &#39;my&#39;, &#39;myself&#39;, &#39;we&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;german&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
+<span class="go">[&#39;aber&#39;, &#39;alle&#39;, &#39;allem&#39;, &#39;allen&#39;, &#39;aller&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;arabic&#39;, &#39;azerbaijani&#39;, &#39;danish&#39;, &#39;dutch&#39;, &#39;english&#39;, &#39;finnish&#39;, &#39;french&#39;, </span>
+<span class="go">&#39;german&#39;, &#39;greek&#39;, &#39;hungarian&#39;, &#39;italian&#39;, &#39;kazakh&#39;, &#39;nepali&#39;, &#39;norwegian&#39;, &#39;portuguese&#39;, </span>
+<span class="go">&#39;romanian&#39;, &#39;russian&#39;, &#39;spanish&#39;, &#39;swedish&#39;, &#39;turkish&#39;])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="module-advertools.url_builders">
+<span id="advertools-url-builders-module"></span><h2>advertools.url_builders module<a class="headerlink" href="#module-advertools.url_builders" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="advertools.url_builders.url_utm_ga">
+<code class="descclassname">advertools.url_builders.</code><code class="descname">url_utm_ga</code><span class="sig-paren">(</span><em>url</em>, <em>utm_source</em>, <em>utm_medium=None</em>, <em>utm_campaign=None</em>, <em>utm_content=None</em>, <em>utm_term=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/url_builders.html#url_utm_ga"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.url_builders.url_utm_ga" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a URL with UTM codes for your campaigns.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>url</strong> – a valid URL, required</li>
+<li><strong>utm_source</strong> – the referrer of the traffic (e.g. facebook, twitter), required</li>
+<li><strong>utm_medium</strong> – marketing medium (e.g. banner, email)</li>
+<li><strong>utm_campaign</strong> – the name of the campaign (e.g. summer_promo, 20pct_off)</li>
+<li><strong>utm_content</strong> – ad name / differentiator (e.g. 728x90, mpu, square_banner)</li>
+<li><strong>utm_term</strong> – search terms bid on (only relevant for search campaigns)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">URL-encoded string for the campaign</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_utm_ga</span><span class="p">(</span><span class="s1">&#39;mysite.com&#39;</span><span class="p">,</span> <span class="n">utm_source</span><span class="o">=</span><span class="s1">&#39;the source&#39;</span><span class="p">)</span>
+<span class="go">&#39;mysite.com?utm_source=the+source&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_utm_ga</span><span class="p">(</span><span class="s1">&#39;mysite.com&#39;</span><span class="p">,</span> <span class="n">utm_source</span><span class="o">=</span><span class="s1">&#39;the source&#39;</span><span class="p">,</span> <span class="n">utm_medium</span><span class="o">=</span><span class="s1">&#39;THE MEDIUM!!&#39;</span><span class="p">,</span> <span class="n">utm_campaign</span><span class="o">=</span><span class="s1">&#39;campaign*name&amp;^%&#39;</span><span class="p">,</span><span class="n">utm_content</span><span class="o">=</span><span class="s1">&#39;728x90&#39;</span><span class="p">)</span>
+<span class="go">&#39;mysite.com?utm_content=728x90&amp;utm_campaign=campaign%2Aname%26%5E%25&amp;utm_medium=THE+MEDIUM%21%21&amp;utm_source=the+source&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-advertools.word_frequency">
+<span id="advertools-word-frequency-module"></span><h2>advertools.word_frequency module<a class="headerlink" href="#module-advertools.word_frequency" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="advertools.word_frequency.word_frequency">
+<code class="descclassname">advertools.word_frequency.</code><code class="descname">word_frequency</code><span class="sig-paren">(</span><em>text_list, num_list, sep=None, rm_words=['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', &quot;you're&quot;, &quot;you've&quot;, &quot;you'll&quot;, &quot;you'd&quot;, 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', &quot;she's&quot;, 'her', 'hers', 'herself', 'it', &quot;it's&quot;, 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', &quot;that'll&quot;, 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', &quot;don't&quot;, 'should', &quot;should've&quot;, 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', &quot;aren't&quot;, 'couldn', &quot;couldn't&quot;, 'didn', &quot;didn't&quot;, 'doesn', &quot;doesn't&quot;, 'hadn', &quot;hadn't&quot;, 'hasn', &quot;hasn't&quot;, 'haven', &quot;haven't&quot;, 'isn', &quot;isn't&quot;, 'ma', 'mightn', &quot;mightn't&quot;, 'mustn', &quot;mustn't&quot;, 'needn', &quot;needn't&quot;, 'shan', &quot;shan't&quot;, 'shouldn', &quot;shouldn't&quot;, 'wasn', &quot;wasn't&quot;, 'weren', &quot;weren't&quot;, 'won', &quot;won't&quot;, 'wouldn', &quot;wouldn't&quot;]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the absolute as well as the weighted frequency of words
+in <cite>text_list</cite> (based on <cite>num_list</cite>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text_list</strong> – terable of strings.
+Typically short phrases, but could be any list of full blown documents.
+Usually, you would use this to analyze tweets, book titles, URLs, etc.</li>
+<li><strong>num_list</strong> – iterable of numbers.
+A list of numbers with the same length as <cite>text_list</cite>, describing a
+certain attribute of these ‘documents’; views, retweets, sales, etc.</li>
+<li><strong>sep</strong> – string.
+The seperator with which to separate words in each document.
+The default uses white spaces, and you can specify another separator.</li>
+<li><strong>rm_words</strong> – iterable of strings.
+Words to remove from the list ‘stop-words’. The default uses
+<cite>nltk</cite>’s list of English stopwords. To get all available languages
+run <cite>adv.stopwords.keys()</cite></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns abs_wtd_df:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first">absolute and weighted DataFrame.
+pandas.DataFrame with several metrics calculated. The most important are
+<cite>abs_freq</cite> and <cite>wtd_freq</cite>. These show the difference between the number
+of occurrences of each word together with their respective weighted
+occurrences (frequency vs. weighted frequency). Other metrics are also
+provided. The columns are as follows:</p>
+<dl class="last docutils">
+<dt>word <span class="classifier-delimiter">:</span> <span class="classifier">Word.</span></dt>
+<dd><p class="first last">Words in the document list each on its own row.</p>
+</dd>
+<dt>abs_freq <span class="classifier-delimiter">:</span> <span class="classifier">Absolute frequency.</span></dt>
+<dd><p class="first last">The number of occurrences of each word in all the documents.</p>
+</dd>
+<dt>abs_perc <span class="classifier-delimiter">:</span> <span class="classifier">Absolute frequency percentage.</span></dt>
+<dd><p class="first last"><cite>abs_freq</cite> divided by the sum of all occurrences of words.</p>
+</dd>
+<dt>abs_perc_cum <span class="classifier-delimiter">:</span> <span class="classifier">Cumulative absolute percentage.</span></dt>
+<dd><p class="first last">Cumulative sum of <cite>abs_perc</cite> to see how many words form x% of the occurrences.</p>
+</dd>
+<dt>wtd_freq <span class="classifier-delimiter">:</span> <span class="classifier">Weighted frequency.</span></dt>
+<dd><p class="first last">Every occurrence of <cite>word</cite> multiplied by its respective value in
+<cite>num_list</cite> provided by the function call.</p>
+</dd>
+<dt>wtd_freq_perc <span class="classifier-delimiter">:</span> <span class="classifier"><cite>wtd_freq</cite> divided by the total weighted frequencies of</span></dt>
+<dd><p class="first last">all words.</p>
+</dd>
+<dt>wtd_freq_perc_cum <span class="classifier-delimiter">:</span> <span class="classifier">Cumulative weighted frequncy percentage.</span></dt>
+<dd><p class="first last">Cumulative sum of <a href="#id1"><span class="problematic" id="id2">`</span></a>wtd_freq_perc`to see how many words form x% of
+the weighted occurrences.</p>
+</dd>
+<dt>rel_value <span class="classifier-delimiter">:</span> <span class="classifier">Relative value.</span></dt>
+<dd><p class="first last"><cite>wtd_freq</cite> divided by <cite>abs_freq</cite>, showing the value per occurrence
+of <cite>word</cite></p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;apple orange&#39;</span><span class="p">,</span> <span class="s1">&#39;apple orange banana&#39;</span><span class="p">,</span>
+<span class="go">                 &#39;apple kiwi&#39;, &#39;kiwi mango&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">)[[</span><span class="s1">&#39;word&#39;</span><span class="p">,</span> <span class="s1">&#39;abs_freq&#39;</span><span class="p">,</span> <span class="s1">&#39;wtd_freq&#39;</span><span class="p">]]</span>
+<span class="go">     word  abs_freq  wtd_freq</span>
+<span class="go">0    kiwi         2       500</span>
+<span class="go">1   mango         1       400</span>
+<span class="go">2   apple         3       300</span>
+<span class="go">3  orange         2       200</span>
+<span class="go">4  banana         1       100</span>
+</pre></div>
+</div>
+<p>“kiwi” occurred twice (abs_freq), one of these phrases has a score of 100,
+and the other 400, so the wtd_freq is the sum (100 + 400 = 500)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">)</span>
+<span class="go">     word  abs_freq  abs_perc  abs_perc_cum  wtd_freq  wtd_freq_perc  wtd_freq_perc_cum  rel_value</span>
+<span class="go">0    kiwi         2  0.222222      0.222222       500       0.333333           0.333333      250.0</span>
+<span class="go">1   mango         1  0.111111      0.333333       400       0.266667           0.600000      400.0</span>
+<span class="go">2   apple         3  0.333333      0.666667       300       0.200000           0.800000      100.0</span>
+<span class="go">3  orange         2  0.222222      0.888889       200       0.133333           0.933333      100.0</span>
+<span class="go">4  banana         1  0.111111      1.000000       100       0.066667           1.000000      100.0</span>
+</pre></div>
+</div>
+<p>This is the same result as above but giving the full DataFrame including
+all columns.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-advertools">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-advertools" title="Permalink to this headline">¶</a></h2>
+<p>Top-level package for advertools.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">advertools package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-advertools.ad_create">advertools.ad_create module</a></li>
+<li><a class="reference internal" href="#module-advertools.ad_from_string">advertools.ad_from_string module</a></li>
+<li><a class="reference internal" href="#module-advertools.kw_generate">advertools.kw_generate module</a></li>
+<li><a class="reference internal" href="#module-advertools.stopwords">advertools.stopwords module</a></li>
+<li><a class="reference internal" href="#module-advertools.url_builders">advertools.url_builders module</a></li>
+<li><a class="reference internal" href="#module-advertools.word_frequency">advertools.word_frequency module</a></li>
+<li><a class="reference internal" href="#module-advertools">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/advertools.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Elias Dabbas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="_sources/advertools.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

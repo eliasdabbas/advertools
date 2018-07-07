@@ -1,0 +1,224 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>advertools: create, scale, and manage online campaigns &#8212; advertools 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to advertools’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="advertools-create-scale-and-manage-online-campaigns">
+<h1>advertools: create, scale, and manage online campaigns<a class="headerlink" href="#advertools-create-scale-and-manage-online-campaigns" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">A digital marketer is a data scientist.</div>
+<div class="line">Your job is to manage, manipulate, visualize, communicate, understand,
+and make decisions based on data.</div>
+</div>
+<p>You might be doing basic stuff, like copying and pasting text on spread
+sheets, you might be running large scale automated platforms with
+sophisticated algorithms, or somewhere in between. In any case your job
+is all about working with data.</p>
+<div class="line-block">
+<div class="line">As a data scientist you don’t spend most of your time producing cool visualizations or finding great insights. The majority of your time is spent wrangling with URLs, figuring out how to stitch together two tables, hoping that the dates, won’t break, without you knowing, or trying to generate the next 124,538 keywords for an upcoming campaign, by the end of the week!</div>
+</div>
+<div class="line-block">
+<div class="line">advertools is a Python package, that can hopefully make that part of your job a little easier.</div>
+</div>
+<p>I have a tutorial on DataCamp that demonstrates a real-life example of
+how to use <a class="reference external" href="https://www.datacamp.com/community/tutorials/sem-data-science">Python for creating a Search Engine Marketing campaign</a>.</p>
+<p>I also have an interactive tool based on this package, where you can
+<a class="reference external" href="https://www.dashboardom.com/advertools">generate keyword combinations easily</a>.</p>
+<a class="reference internal image-reference" href="app_screen_shot.png"><img alt="app_screen_shot.png" class="align-center" src="app_screen_shot.png" style="width: 600px;" /></a>
+<div class="section" id="main-uses">
+<h2>Main Uses:<a class="headerlink" href="#main-uses" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>Generate keywords:</strong> starting from a list of products, and a list
+of words that might make sense together, you can generate a full
+table of many possible combinations and permutations of relevant
+keywords for that product.
+The output is a ready-to-upload table to get you started with
+keywords.</li>
+</ul>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">kw_generate</span><span class="p">(</span><span class="n">products</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;toyota&#39;</span><span class="p">],</span>
+<span class="go">                    words=[&#39;buy&#39;, &#39;price&#39;],</span>
+<span class="go">                    match_types=[&#39;Exact&#39;]).head()</span>
+<span class="gp">... </span>       <span class="n">Campaign</span> <span class="n">Ad</span> <span class="n">Group</span>           <span class="n">Keyword</span> <span class="n">Criterion</span> <span class="n">Type</span>
+<span class="go">    0  SEM_Campaign   toyota        toyota buy          Exact</span>
+<span class="go">    1  SEM_Campaign   toyota      toyota price          Exact</span>
+<span class="go">    2  SEM_Campaign   toyota        buy toyota          Exact</span>
+<span class="go">    3  SEM_Campaign   toyota      price toyota          Exact</span>
+<span class="go">    4  SEM_Campaign   toyota  toyota buy price          Exact</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>Create ads:</strong> Two main ways to create text ads, one is from scratch
+(bottom-up) and the other is top down (given a set of product names).</li>
+</ul>
+<ol class="arabic simple">
+<li>From scratch: This is the tradiditional way of writing ads. You have
+a template text, and you want to insert the product name dynamically
+in a certain location. You also want to make sure you are within the
+character limits. For more details, I have a <a class="reference external" href="https://nbviewer.jupyter.org/github/eliasdabbas/ad_create/blob/master/ad_create.ipynb">tutorial on how to
+create multiple text ads from scratch</a>.</li>
+</ol>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;Let</span><span class="se">\&#39;</span><span class="s1">s count </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="go">              replacements=[&#39;one&#39;, &#39;two&#39;, &#39;three&#39;],</span>
+<span class="go">              fallback=&#39;one&#39;, # in case the total length is greater than max_len</span>
+<span class="go">              max_len=20)</span>
+<span class="go">[&quot;Let&#39;s count one&quot;, &quot;Let&#39;s count two&quot;, &quot;Let&#39;s count three&quot;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s1">&#39;My favorite car is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Toyota&#39;</span><span class="p">,</span> <span class="s1">&#39;BMW&#39;</span><span class="p">,</span> <span class="s1">&#39;Mercedes&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamborghini&#39;</span><span class="p">],</span> <span class="s1">&#39;great&#39;</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+<span class="go">[&#39;My favorite car is Toyota&#39;, &#39;My favorite car is BMW&#39;, &#39;My favorite car is Mercedes&#39;,</span>
+<span class="go">&#39;My favorite car is great&#39;] # &#39;Lamborghini&#39; was too long, and so was replace by &#39;great&#39;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Top-down approach: Sometimes you need to start with a given a list of
+product names, which you can easily split them into the relevant ad
+slots, taking into consideration the length restrictions imposed by
+the ad platform.
+Imagine having the following list of products, and you want to split
+each into slots of 30, 30, and 80 characters (based on the AdWords
+template):</li>
+</ol>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span>
+<span class="go">    &#39;Samsung Galaxy S8+ Dual Sim 64GB 4G LTE Orchid Gray&#39;,</span>
+<span class="go">    &#39;Samsung Galaxy J1 Ace Dual Sim 4GB 3G Wifi White&#39;,</span>
+<span class="go">    &#39;Samsung Galaxy Note 8 Dual SIM 64GB 6GB RAM 4G LTE Midnight Black&#39;,</span>
+<span class="go">    &#39;Samsung Galaxy Note 8 Dual SIM 64GB 6GB RAM 4G LTE Orchid Grey&#39;</span>
+<span class="go">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">products</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">[[</span><span class="s1">&#39;Samsung Galaxy S8+ Dual Sim&#39;</span><span class="p">,</span> <span class="s1">&#39;64gb 4g Lte Orchid Gray&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">],</span>
+<span class="go">     [&#39;Samsung Galaxy J1 Ace Dual Sim&#39;, &#39;4gb 3g Wifi White&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;],</span>
+<span class="go">     [&#39;Samsung Galaxy Note 8 Dual Sim&#39;, &#39;64gb 6gb Ram 4g Lte Midnight&#39;, &#39;Black&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;],</span>
+<span class="go">     [&#39;Samsung Galaxy Note 8 Dual Sim&#39;, &#39;64gb 6gb Ram 4g Lte Orchid&#39;, &#39;Grey&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]]</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">Each ad is split into the respective slots, making sure they contain
+complete words, and that each slot has at most the specific number of
+slots allowed.</div>
+<div class="line">This can save time when you have thousands of products to create ads
+for.</div>
+</div>
+<ul class="simple">
+<li><strong>Analyze word frequency:</strong> Calculate the absolute and weighted
+frequency of words in a collection of documents to uncover hidden
+trends in the data. This is basically answering the question, ‘What
+did we write about vs. what was actually read?’
+Here is a tutorial on DataCamp on <a class="reference external" href="https://www.datacamp.com/community/tutorials/absolute-weighted-word-frequency">measuring absolute vs weighted
+frequency of words</a>.</li>
+</ul>
+<div class="line-block">
+<div class="line">The package is still under heavy development, so expect a lot of
+changes.</div>
+<div class="line">Feedback and suggestions are more than welcomed.</div>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">advertools</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="conventions">
+<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h2>
+<p>Function names mostly start with the object you are working on:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">kw_</span></code>: for keywords-related functions</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ad_</span></code>: for ad-related functions</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">url_</span></code>: URL tracking and generation</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">advertools: create, scale, and manage online campaigns</a><ul>
+<li><a class="reference internal" href="#main-uses">Main Uses:</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#conventions">Conventions</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to advertools’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/readme.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Elias Dabbas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="_sources/readme.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

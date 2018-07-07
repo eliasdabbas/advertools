@@ -1,0 +1,201 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>advertools.kw_generate &#8212; advertools 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for advertools.kw_generate</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">permutations</span><span class="p">,</span> <span class="n">combinations</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<div class="viewcode-block" id="kw_generate"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_generate">[docs]</a><span class="k">def</span> <span class="nf">kw_generate</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">words</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">match_types</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Exact&#39;</span><span class="p">,</span> <span class="s1">&#39;Phrase&#39;</span><span class="p">,</span> <span class="s1">&#39;Modified&#39;</span><span class="p">],</span>
+                <span class="n">order_matters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">campaign_name</span><span class="o">=</span><span class="s1">&#39;SEM_Campaign&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate a data frame of keywords using a list of products and relevant words.</span>
+
+<span class="sd">    :param products: will be used as the names of the ad groups</span>
+<span class="sd">    :param words: related words that make it clear that the user is interested in `products`</span>
+<span class="sd">    :param max_len: the maximum number of words to include in each permutation of product keywords</span>
+<span class="sd">    :param match_types: can be restricted or kept as is based on preference, possible values\: &#39;Exact&#39;, &#39;Phrase&#39;, &#39;Modified&#39;, &#39;Broad&#39;</span>
+<span class="sd">    :param order_matters: whether or not the order of words in keywords matters, default False</span>
+<span class="sd">    :param campaign_name: name of campaign</span>
+<span class="sd">    :returns keywords_df: a pandas.DataFrame ready to upload</span>
+
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; products = [&#39;bmw&#39;, &#39;toyota&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; words = [&#39;buy&#39;, &#39;second hand&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; kw_df = adv.kw_generate(products, words)</span>
+<span class="sd">    &gt;&gt;&gt; kw_df.head()</span>
+<span class="sd">           Campaign Ad Group          Keyword Criterion Type       Labels</span>
+<span class="sd">    0  SEM_Campaign      Bmw          bmw buy          Exact          Buy</span>
+<span class="sd">    1  SEM_Campaign      Bmw          bmw buy         Phrase          Buy</span>
+<span class="sd">    2  SEM_Campaign      Bmw        +bmw +buy          Broad          Buy</span>
+<span class="sd">    3  SEM_Campaign      Bmw  bmw second hand          Exact  Second Hand</span>
+<span class="sd">    4  SEM_Campaign      Bmw  bmw second hand         Phrase  Second Hand</span>
+
+<span class="sd">    &gt;&gt;&gt; kw_df.tail()</span>
+<span class="sd">            Campaign Ad Group                    Keyword Criterion Type           Labels</span>
+<span class="sd">    55  SEM_Campaign   Toyota     second hand toyota buy         Phrase  Second Hand;Buy</span>
+<span class="sd">    56  SEM_Campaign   Toyota  +second hand +toyota +buy          Broad  Second Hand;Buy</span>
+<span class="sd">    57  SEM_Campaign   Toyota     second hand buy toyota          Exact  Second Hand;Buy</span>
+<span class="sd">    58  SEM_Campaign   Toyota     second hand buy toyota         Phrase  Second Hand;Buy</span>
+<span class="sd">    59  SEM_Campaign   Toyota  +second hand +buy +toyota          Broad  Second Hand;Buy</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">match_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">match_types</span><span class="p">]</span>
+    <span class="n">POSSIBLE_MATCH_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Exact&#39;</span><span class="p">,</span> <span class="s1">&#39;Phrase&#39;</span><span class="p">,</span> <span class="s1">&#39;Broad&#39;</span><span class="p">,</span> <span class="s1">&#39;Modified&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">match_types</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">POSSIBLE_MATCH_TYPES</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;please make sure match types are any of &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">POSSIBLE_MATCH_TYPES</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">max_len</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;please make sure max_len is &gt;= 2&#39;</span><span class="p">)</span>
+
+    <span class="n">comb_func</span> <span class="o">=</span> <span class="n">permutations</span> <span class="k">if</span> <span class="n">order_matters</span> <span class="k">else</span> <span class="n">combinations</span>
+
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Campaign&#39;</span><span class="p">,</span> <span class="s1">&#39;Ad Group&#39;</span><span class="p">,</span> <span class="s1">&#39;Keyword&#39;</span><span class="p">,</span> <span class="s1">&#39;Criterion Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Labels&#39;</span><span class="p">]</span>
+    <span class="n">keywords_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">prod</span> <span class="ow">in</span> <span class="n">products</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_len</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">comb</span> <span class="ow">in</span> <span class="n">comb_func</span><span class="p">([</span><span class="n">prod</span><span class="p">]</span> <span class="o">+</span> <span class="n">words</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">prod</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">comb</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">match_types</span><span class="p">:</span>
+                    <span class="n">row</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="n">campaign_name</span><span class="p">,</span>
+                        <span class="n">prod</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+                        <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comb</span><span class="p">)</span> <span class="k">if</span> <span class="n">match</span> <span class="o">!=</span> <span class="s1">&#39;Modified&#39;</span> <span class="k">else</span> <span class="s1">&#39;+&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comb</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39; +&#39;</span><span class="p">),</span>
+                        <span class="n">match</span> <span class="k">if</span> <span class="n">match</span> <span class="o">!=</span> <span class="s1">&#39;Modified&#39;</span> <span class="k">else</span> <span class="s1">&#39;Broad&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">comb</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">prod</span><span class="p">])</span>
+                    <span class="p">]</span>
+                    <span class="n">keywords_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">keywords_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<div class="viewcode-block" id="kw_broad"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_broad">[docs]</a><span class="k">def</span> <span class="nf">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return `words` in broad match.</span>
+
+<span class="sd">    :param words: list of strings</span>
+<span class="sd">    :returns formatted: `words` in broad match type</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">regex</span> <span class="o">=</span> <span class="s1">&#39;^</span><span class="se">\&#39;</span><span class="s1">|^</span><span class="se">\&quot;</span><span class="s1">|</span><span class="se">\&#39;</span><span class="s1">$|</span><span class="se">\&quot;</span><span class="s1">$|\+|^\[|\]$|^-&#39;</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+
+<div class="viewcode-block" id="kw_exact"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_exact">[docs]</a><span class="k">def</span> <span class="nf">kw_exact</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return `words` in exact match.</span>
+
+<span class="sd">    :param words: list of strings</span>
+<span class="sd">    :returns formatted: `words` in exact match type</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="kw_phrase"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_phrase">[docs]</a><span class="k">def</span> <span class="nf">kw_phrase</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return `words` in phrase match.</span>
+
+<span class="sd">    :param words: list of strings</span>
+<span class="sd">    :returns formatted: `words` in phrase match type</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="kw_modified"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_modified">[docs]</a><span class="k">def</span> <span class="nf">kw_modified</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return `words` in modified broad match.</span>
+
+<span class="sd">    :param words: list of strings</span>
+<span class="sd">    :returns formatted: `words` in modified broad match type</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;+&#39;</span> <span class="o">+</span> <span class="n">w</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39; +&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="kw_neg_broad"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_neg_broad">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_broad</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return `words` in negative broad match.</span>
+
+<span class="sd">    :param words: list of strings</span>
+<span class="sd">    :returns formatted: `words` in negative broad match type</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="kw_neg_phrase"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_neg_phrase">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_phrase</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return `words` in negative phrase match.</span>
+
+<span class="sd">    :param words: list of strings</span>
+<span class="sd">    :returns formatted: `words` in negative phrase match type</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_phrase</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="kw_neg_exact"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_neg_exact">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_exact</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return `words` in negative exact match.</span>
+
+<span class="sd">    :param words: list of strings</span>
+<span class="sd">    :returns formatted: `words` in negative exact match type</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_exact</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Elias Dabbas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
