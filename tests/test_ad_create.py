@@ -1,4 +1,4 @@
-from advertest.ad_create import ad_create
+from advertools.ad_create import ad_create
 
 import pytest
 

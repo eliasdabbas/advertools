@@ -1,5 +1,5 @@
-from advertest.word_frequency import word_frequency
-import advertest as adv
+from advertools.word_frequency import word_frequency
+import advertools as adv
 import pandas as pd
 
 import pytest

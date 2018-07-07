@@ -1,6 +1,6 @@
 from urllib.parse import urlparse, parse_qs
 
-from advertest.url_builders import url_utm_ga
+from advertools.url_builders import url_utm_ga
 import pytest
 
 def test_correct_url_returned():

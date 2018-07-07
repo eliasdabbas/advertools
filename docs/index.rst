@@ -10,6 +10,8 @@ Welcome to advertools's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   readme
+
 
 
 Indices and tables

@@ -1,4 +1,4 @@
-from advertest.ad_from_string import ad_from_string
+from advertools.ad_from_string import ad_from_string
 
 import pytest
 

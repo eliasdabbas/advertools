@@ -1,7 +1,7 @@
 import unittest
 from itertools import permutations, combinations
 
-from advertest.kw_generate import *
+from advertools.kw_generate import *
 
 import pandas as pd
 import pytest
