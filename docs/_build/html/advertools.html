@@ -114,6 +114,127 @@ it as False would leave the input string as is.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="module-advertools.extract">
+<span id="advertools-extract-module"></span><h2>advertools.extract module<a class="headerlink" href="#module-advertools.extract" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="advertools.extract.extract_hashtags">
+<code class="descclassname">advertools.extract.</code><code class="descname">extract_hashtags</code><span class="sig-paren">(</span><em>text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_hashtags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_hashtags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about hashtags in <cite>text_list</cite></p>
+<p>Get a summary of the number of hashtags, their frequency, the top
+ones, and more.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text_list</strong> – A list of text strings.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns summary:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">A dictionary with various stats about hashtags</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;i like #blue&#39;</span><span class="p">,</span> <span class="s1">&#39;i like #green and #blue&#39;</span><span class="p">,</span> <span class="s1">&#39;i like all&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span> <span class="o">=</span> <span class="n">extract_hashtags</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;hashtags&#39;, &#39;hashtags_flat&#39;, &#39;hashtag_counts&#39;, &#39;hashtag_freq&#39;,</span>
+<span class="go">&#39;top_hashtags&#39;, &#39;overview&#39;])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtags&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;#blue&#39;], [&#39;#green&#39;, &#39;#blue&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of mentions from each of the posts. An empty list if
+none exist</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtags_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;#blue&#39;, &#39;#green&#39;, &#39;#blue&#39;]</span>
+</pre></div>
+</div>
+<p>All mentions in one flat list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtag_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 2, 0]</span>
+</pre></div>
+</div>
+<p>The count of mentions per post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtag_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 1), (2, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. mentions
+(number_of_mentions, count)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;top_hashtags&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;#blue&#39;, 2), (&#39;#green&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;text_length&#39;: 3,</span>
+<span class="go"> &#39;num_hashtags&#39;: 3,</span>
+<span class="go"> &#39;hashtags_per_tweet&#39;: 1.0,</span>
+<span class="go"> &#39;unique_hashtags&#39;: 2}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_mentions">
+<code class="descclassname">advertools.extract.</code><code class="descname">extract_mentions</code><span class="sig-paren">(</span><em>text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_mentions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_mentions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about mentions in <cite>text_list</cite></p>
+<p>Get a summary of the number of mentions, their frequency, the top
+ones, and more.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text_list</strong> – A list of text strings.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns summary:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">A dictionary with various stats about mentions</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hello @john and @jenny&#39;</span><span class="p">,</span> <span class="s1">&#39;hi there @john&#39;</span><span class="p">,</span> <span class="s1">&#39;good morning&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span> <span class="o">=</span> <span class="n">extract_mentions</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;mentions&#39;, &#39;mentions_flat&#39;, &#39;mention_counts&#39;, &#39;mention_freq&#39;,</span>
+<span class="go">&#39;top_mentions&#39;, &#39;overview&#39;])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;mentions&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;@john&#39;, &#39;@jenny&#39;], [&#39;@john&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of mentions from each of the posts. An empty list if
+none exist</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;mentions_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;@john&#39;, &#39;@jenny&#39;, &#39;@john&#39;]</span>
+</pre></div>
+</div>
+<p>All mentions in one flat list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;mention_counts&#39;</span><span class="p">]</span>
+<span class="go">[2, 1, 0]</span>
+</pre></div>
+</div>
+<p>The count of mentions per post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;mention_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 1), (2, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. mentions
+(number_of_mentions, count)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;top_mentions&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;@john&#39;, 2), (&#39;@jenny&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;text_length&#39;: 3, # number of posts</span>
+<span class="go"> &#39;num_mentions&#39;: 3,</span>
+<span class="go"> &#39;mentions_per_tweet&#39;: 1.0,</span>
+<span class="go"> &#39;unique_mentions&#39;: 2}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 <div class="section" id="module-advertools.kw_generate">
 <span id="advertools-kw-generate-module"></span><h2>advertools.kw_generate module<a class="headerlink" href="#module-advertools.kw_generate" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -462,6 +583,7 @@ all columns.</p>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-advertools.ad_create">advertools.ad_create module</a></li>
 <li><a class="reference internal" href="#module-advertools.ad_from_string">advertools.ad_from_string module</a></li>
+<li><a class="reference internal" href="#module-advertools.extract">advertools.extract module</a></li>
 <li><a class="reference internal" href="#module-advertools.kw_generate">advertools.kw_generate module</a></li>
 <li><a class="reference internal" href="#module-advertools.stopwords">advertools.stopwords module</a></li>
 <li><a class="reference internal" href="#module-advertools.url_builders">advertools.url_builders module</a></li>

@@ -20,6 +20,14 @@ advertools.ad\_from\_string module
     :undoc-members:
     :show-inheritance:
 
+advertools.extract module
+-------------------------
+
+.. automodule:: advertools.extract
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 advertools.kw\_generate module
 ------------------------------
 
