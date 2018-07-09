@@ -1,23 +1,21 @@
 
 from advertools.extract import extract_mentions, extract_hashtags
 
-import pytest
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
 mention_posts = ['hello @john and @jenny', 'hi there @john', 'good morning']
 mention_summary = extract_mentions(mention_posts)
-mention_test_keys = ['mentions', 'mentions_flat', 'mention_counts', 
+mention_test_keys = ['mentions', 'mentions_flat', 'mention_counts',
                      'mention_freq', 'top_mentions', 'overview']
 
-hashtag_posts = ['i like #blue', 'i like #green and #blue', 'i like all colors']
+hashtag_posts = ['i like #blue', 'i like #green and #blue', 'i like all']
 hashtag_summary = extract_hashtags(hashtag_posts)
-hashtag_test_keys = ['hashtags', 'hashtags_flat', 'hashtag_counts', 
+hashtag_test_keys = ['hashtags', 'hashtags_flat', 'hashtag_counts',
                      'hashtag_freq', 'top_hashtags', 'overview']
 
 
 def test_mention_result_has_correct_keys():
     assert list(mention_summary.keys()) == mention_test_keys
 
-    
+
 def test_correct_mentions_extracted():
     assert mention_summary['mentions'] == [['@john', '@jenny'], ['@john'], []]
 
@@ -37,6 +35,7 @@ def test_correct_mention_freq():
 def test_correct_top_mentions():
     assert mention_summary['top_mentions'] == [('@john', 2), ('@jenny', 1)]
 
+
 def test_correct_mention_overview():
     mention_overview = mention_summary['overview']
     assert mention_overview['text_length'] == 3
@@ -44,7 +43,6 @@ def test_correct_mention_overview():
     assert mention_overview['mentions_per_tweet'] == 1.0
     assert mention_overview['unique_mentions'] == 2
 
-# ============
 
 def test_hashtag_result_has_correct_keys():
     assert list(hashtag_summary.keys()) == hashtag_test_keys
@@ -76,5 +74,3 @@ def test_correct_hashtag_overview():
     assert hashtag_overview['num_hashtags'] == 3
     assert hashtag_overview['hashtags_per_tweet'] == 1.0
     assert hashtag_overview['unique_hashtags'] == 2
-
-

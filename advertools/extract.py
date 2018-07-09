@@ -24,7 +24,8 @@ def extract_mentions(text_list):
     >>> mention_summary['mentions']
     [['@john', '@jenny'], ['@john'], []]
 
-    A simple extract of mentions from each of the posts. Empty list of none exist
+    A simple extract of mentions from each of the posts. An empty list if
+    none exist
 
     >>> mention_summary['mentions_flat']
     ['@john', '@jenny', '@john']
@@ -57,12 +58,13 @@ def extract_mentions(text_list):
         'mentions': mentions,
         'mentions_flat': mentions_flat,
         'mention_counts': [len(mention) for mention in mentions],
-        'mention_freq': sorted(Counter([len(mention) for mention in mentions]).items(),
+        'mention_freq': sorted(Counter([len(mention)
+                                        for mention in mentions]).items(),
                                key=lambda x: x[0]),
-        'top_mentions': sorted(Counter(mentions_flat).items(), 
+        'top_mentions': sorted(Counter(mentions_flat).items(),
                                key=lambda x: x[1],
                                reverse=True),
-        'overview': {   
+        'overview': {
             'text_length': len(text_list),
             'num_mentions': len(mentions_flat),
             'mentions_per_tweet': len(mentions_flat) / len(text_list),
@@ -81,16 +83,17 @@ def extract_hashtags(text_list):
     :param text_list: A list of text strings.
     :returns summary: A dictionary with various stats about hashtags
 
-    >>> posts = ['i like #blue', 'i like #green and #blue', 'i like all colors']
+    >>> posts = ['i like #blue', 'i like #green and #blue', 'i like all']
     >>> hashtag_summary = extract_hashtags(posts)
     >>> hashtag_summary.keys()
-    dict_keys(['hashtags', 'hashtags_flat', 'hashtag_counts', 'hashtag_freq', 
+    dict_keys(['hashtags', 'hashtags_flat', 'hashtag_counts', 'hashtag_freq',
     'top_hashtags', 'overview'])
 
     >>> hashtag_summary['hashtags']
     [['#blue'], ['#green', '#blue'], []]
 
-    A simple extract of mentions from each of the posts. Empty list of none exist
+    A simple extract of mentions from each of the posts. An empty list if
+    none exist
 
     >>> hashtag_summary['hashtags_flat']
     ['#blue', '#green', '#blue']
@@ -123,7 +126,8 @@ def extract_hashtags(text_list):
         'hashtags': hashtags,
         'hashtags_flat': hashtags_flat,
         'hashtag_counts': [len(hashtag) for hashtag in hashtags],
-        'hashtag_freq': sorted(Counter([len(hashtag) for hashtag in hashtags]).items(),
+        'hashtag_freq': sorted(Counter([len(hashtag)
+                                        for hashtag in hashtags]).items(),
                                key=lambda x: x[0]),
         'top_hashtags': sorted(Counter(hashtags_flat).items(),
                                key=lambda x: x[1],
