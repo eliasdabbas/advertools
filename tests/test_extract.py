@@ -13,7 +13,7 @@ hashtag_test_keys = ['hashtags', 'hashtags_flat', 'hashtag_counts',
 
 
 def test_mention_result_has_correct_keys():
-    assert list(mention_summary.keys()) == mention_test_keys
+    assert set(mention_summary.keys()) == set(mention_test_keys)
 
 
 def test_correct_mentions_extracted():
@@ -45,7 +45,7 @@ def test_correct_mention_overview():
 
 
 def test_hashtag_result_has_correct_keys():
-    assert list(hashtag_summary.keys()) == hashtag_test_keys
+    assert set(hashtag_summary.keys()) == set(hashtag_test_keys)
 
 
 def test_correct_hashtags_extracted():
