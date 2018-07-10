@@ -1,3 +1,13 @@
+.. image:: https://img.shields.io/pypi/v/advertools.svg
+        :target: https://pypi.python.org/pypi/advertools
+
+.. image:: https://img.shields.io/travis/eliasdabbas/advertools.svg
+        :target: https://travis-ci.org/eliasdabbas/advertools
+
+.. image:: https://readthedocs.org/projects/advertools/badge/?version=latest
+        :target: https://advertools.readthedocs.io/en/latest/?badge=latest
+        :alt: Documentation Status
+
 advertools: create, scale, and manage online campaigns
 ======================================================
 
