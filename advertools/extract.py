@@ -92,24 +92,24 @@ def extract_hashtags(text_list):
     >>> hashtag_summary['hashtags']
     [['#blue'], ['#green', '#blue'], []]
 
-    A simple extract of mentions from each of the posts. An empty list if
+    A simple extract of hashtags from each of the posts. An empty list if
     none exist
 
     >>> hashtag_summary['hashtags_flat']
     ['#blue', '#green', '#blue']
 
-    All mentions in one flat list.
+    All hashtags in one flat list.
 
     >>> hashtag_summary['hashtag_counts']
     [1, 2, 0]
 
-    The count of mentions per post.
+    The count of hashtags per post.
 
     >>> hashtag_summary['hashtag_freq']
     [(0, 1), (1, 1), (2, 1)]
 
-    Shows how many posts had 0, 1, 2, 3, etc. mentions
-    (number_of_mentions, count)
+    Shows how many posts had 0, 1, 2, 3, etc. hashtags
+    (number_of_hashtags, count)
 
     >>> hashtag_summary['top_hashtags']
     [('#blue', 2), ('#green', 1)]
