@@ -36,3 +36,14 @@ def test_rm_words_removed():
     result = word_frequency(text_list, num_list, rm_words=['one', 'two'])
     assert 'one' not in result['word']
     assert 'two' not in result['word']
+
+def test_extra_info_not_provided():
+    result = word_frequency(text_list, num_list, extra_info=False)
+    assert set(result.columns.values) ==  {'word', 'abs_freq', 'wtd_freq', 'rel_value'}
+
+def test_extra_info_provided():
+    result = word_frequency(text_list, num_list, extra_info=True)
+    assert set(result.columns.values) ==  {'word', 'abs_freq', 'abs_perc',
+                                           'abs_perc_cum', 'wtd_freq',
+                                           'wtd_freq_perc', 'wtd_freq_perc_cum',
+                                           'rel_value'}
