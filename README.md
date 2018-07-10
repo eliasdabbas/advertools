@@ -110,4 +110,4 @@ Function names mostly start with the object you are working on:
 `kw_`: for keywords-related functions  
 `ad_`: for ad-related functions  
 `url_`: URL tracking and generation    
-
+`extract_`: for extracting entities from social media posts (mentions, hashtags, emoji, etc.)
