@@ -80,9 +80,9 @@
 <dl class="function">
 <dt id="advertools.ad_from_string.ad_from_string">
 <code class="descclassname">advertools.ad_from_string.</code><code class="descname">ad_from_string</code><span class="sig-paren">(</span><em>s</em>, <em>slots=(30</em>, <em>30</em>, <em>80</em>, <em>15</em>, <em>15)</em>, <em>sep=None</em>, <em>capitalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert string <cite>s</cite> to an ad by splitting it into groups of words.
+<dd><p>Convert string <code class="docutils literal notranslate"><span class="pre">s</span></code> to an ad by splitting it into groups of words.
 Each group would have a length of at most the allowed length for that slot.</p>
-<p>If the total length of <cite>s</cite> exceeds the total allowed length, all remaining
+<p>If the total length of <code class="docutils literal notranslate"><span class="pre">s</span></code> exceeds the total allowed length, all remaining
 characters would be grouped in the last element of the returned list.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -90,25 +90,25 @@ characters would be grouped in the last element of the returned list.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>s</strong> – a string of characters, with no restrictions on length.</li>
-<li><strong>slots</strong> – an iterable of integers for the maximum lengths for each slot</li>
-<li><strong>sep</strong> – by which character to split <cite>s</cite></li>
-<li><strong>capitalize</strong> – whether or not to capitalize each word after grouping. Setting
-it as False would leave the input string as is.</li>
+<li><strong>slots</strong> – an iterable of integers for the maximum lengths for each slot.</li>
+<li><strong>sep</strong> – by which character to split <code class="docutils literal notranslate"><span class="pre">s</span></code>.</li>
+<li><strong>capitalize</strong> – whether or not to capitalize each word after grouping.
+Setting it as False would leave the input string as is.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Returns text_ad:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">a list of strings</p>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">a list of strings.</p>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s1">&#39;this is a short ad&#39;</span><span class="p">)</span>
-<span class="gp">... </span><span class="p">[</span><span class="s1">&#39;This Is A Short Ad&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span>
+<span class="go">[&#39;This Is A Short Ad&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s1">&#39;this is a longer ad and would take two of the first slots&#39;</span><span class="p">)</span>
-<span class="gp">... </span><span class="p">[</span><span class="s1">&#39;This Is A Longer Ad And Would&#39;</span><span class="p">,</span> <span class="s1">&#39;Take Two Of The First Slots&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s1">&#39;this is a longer ad and would take the first two slots&#39;</span><span class="p">)</span>
+<span class="go">[&#39;This Is A Longer Ad And Would&#39;, &#39;Take The First Two Slots&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -144,24 +144,24 @@ ones, and more.</p>
 <span class="go">[[&#39;#blue&#39;], [&#39;#green&#39;, &#39;#blue&#39;], []]</span>
 </pre></div>
 </div>
-<p>A simple extract of mentions from each of the posts. An empty list if
+<p>A simple extract of hashtags from each of the posts. An empty list if
 none exist</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtags_flat&#39;</span><span class="p">]</span>
 <span class="go">[&#39;#blue&#39;, &#39;#green&#39;, &#39;#blue&#39;]</span>
 </pre></div>
 </div>
-<p>All mentions in one flat list.</p>
+<p>All hashtags in one flat list.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtag_counts&#39;</span><span class="p">]</span>
 <span class="go">[1, 2, 0]</span>
 </pre></div>
 </div>
-<p>The count of mentions per post.</p>
+<p>The count of hashtags per post.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtag_freq&#39;</span><span class="p">]</span>
 <span class="go">[(0, 1), (1, 1), (2, 1)]</span>
 </pre></div>
 </div>
-<p>Shows how many posts had 0, 1, 2, 3, etc. mentions
-(number_of_mentions, count)</p>
+<p>Shows how many posts had 0, 1, 2, 3, etc. hashtags
+(number_of_hashtags, count)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;top_hashtags&#39;</span><span class="p">]</span>
 <span class="go">[(&#39;#blue&#39;, 2), (&#39;#green&#39;, 1)]</span>
 </pre></div>
@@ -470,64 +470,77 @@ Python dictionary.</p>
 <span id="advertools-word-frequency-module"></span><h2>advertools.word_frequency module<a class="headerlink" href="#module-advertools.word_frequency" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="advertools.word_frequency.word_frequency">
-<code class="descclassname">advertools.word_frequency.</code><code class="descname">word_frequency</code><span class="sig-paren">(</span><em>text_list, num_list, sep=None, rm_words=['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', &quot;you're&quot;, &quot;you've&quot;, &quot;you'll&quot;, &quot;you'd&quot;, 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', &quot;she's&quot;, 'her', 'hers', 'herself', 'it', &quot;it's&quot;, 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', &quot;that'll&quot;, 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', &quot;don't&quot;, 'should', &quot;should've&quot;, 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', &quot;aren't&quot;, 'couldn', &quot;couldn't&quot;, 'didn', &quot;didn't&quot;, 'doesn', &quot;doesn't&quot;, 'hadn', &quot;hadn't&quot;, 'hasn', &quot;hasn't&quot;, 'haven', &quot;haven't&quot;, 'isn', &quot;isn't&quot;, 'ma', 'mightn', &quot;mightn't&quot;, 'mustn', &quot;mustn't&quot;, 'needn', &quot;needn't&quot;, 'shan', &quot;shan't&quot;, 'shouldn', &quot;shouldn't&quot;, 'wasn', &quot;wasn't&quot;, 'weren', &quot;weren't&quot;, 'won', &quot;won't&quot;, 'wouldn', &quot;wouldn't&quot;]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">advertools.word_frequency.</code><code class="descname">word_frequency</code><span class="sig-paren">(</span><em>text_list, num_list, sep=None, rm_words=['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', &quot;you're&quot;, &quot;you've&quot;, &quot;you'll&quot;, &quot;you'd&quot;, 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', &quot;she's&quot;, 'her', 'hers', 'herself', 'it', &quot;it's&quot;, 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', &quot;that'll&quot;, 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', &quot;don't&quot;, 'should', &quot;should've&quot;, 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', &quot;aren't&quot;, 'couldn', &quot;couldn't&quot;, 'didn', &quot;didn't&quot;, 'doesn', &quot;doesn't&quot;, 'hadn', &quot;hadn't&quot;, 'hasn', &quot;hasn't&quot;, 'haven', &quot;haven't&quot;, 'isn', &quot;isn't&quot;, 'ma', 'mightn', &quot;mightn't&quot;, 'mustn', &quot;mustn't&quot;, 'needn', &quot;needn't&quot;, 'shan', &quot;shan't&quot;, 'shouldn', &quot;shouldn't&quot;, 'wasn', &quot;wasn't&quot;, 'weren', &quot;weren't&quot;, 'won', &quot;won't&quot;, 'wouldn', &quot;wouldn't&quot;], extra_info=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Count the absolute as well as the weighted frequency of words
-in <cite>text_list</cite> (based on <cite>num_list</cite>).</p>
+in <code class="docutils literal notranslate"><span class="pre">text_list</span></code> (based on <code class="docutils literal notranslate"><span class="pre">num_list</span></code>).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>text_list</strong> – terable of strings.
+<li><strong>text_list</strong> – iterable of strings.
 Typically short phrases, but could be any list of full blown documents.
 Usually, you would use this to analyze tweets, book titles, URLs, etc.</li>
 <li><strong>num_list</strong> – iterable of numbers.
-A list of numbers with the same length as <cite>text_list</cite>, describing a
+A list of numbers with the same length as <code class="docutils literal notranslate"><span class="pre">text_list</span></code>, describing a
 certain attribute of these ‘documents’; views, retweets, sales, etc.</li>
 <li><strong>sep</strong> – string.
 The seperator with which to separate words in each document.
 The default uses white spaces, and you can specify another separator.</li>
 <li><strong>rm_words</strong> – iterable of strings.
 Words to remove from the list ‘stop-words’. The default uses
-<cite>nltk</cite>’s list of English stopwords. To get all available languages
-run <cite>adv.stopwords.keys()</cite></li>
+<code class="docutils literal notranslate"><span class="pre">nltk</span></code>’s list of English stopwords. To get all available languages
+run <code class="docutils literal notranslate"><span class="pre">adv.stopwords.keys()</span></code></li>
+<li><strong>extra_info</strong> – boolean.
+Whethr or not to give additional columns about the frequencies</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Returns abs_wtd_df:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first">absolute and weighted DataFrame.
-pandas.DataFrame with several metrics calculated. The most important are
-<cite>abs_freq</cite> and <cite>wtd_freq</cite>. These show the difference between the number
-of occurrences of each word together with their respective weighted
-occurrences (frequency vs. weighted frequency). Other metrics are also
-provided. The columns are as follows:</p>
-<dl class="last docutils">
-<dt>word <span class="classifier-delimiter">:</span> <span class="classifier">Word.</span></dt>
+pandas.DataFrame with several metrics calculated. The most important
+are <code class="docutils literal notranslate"><span class="pre">abs_freq</span></code> and <code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code>. These show the difference between the
+number of occurrences of each word together with their respective
+weighted occurrences (frequency vs. weighted frequency). Other metrics
+are also provided. The columns are as follows:</p>
+<dl class="docutils">
+<dt>word: Word.</dt>
 <dd><p class="first last">Words in the document list each on its own row.</p>
 </dd>
-<dt>abs_freq <span class="classifier-delimiter">:</span> <span class="classifier">Absolute frequency.</span></dt>
+<dt>abs_freq: Absolute frequency.</dt>
 <dd><p class="first last">The number of occurrences of each word in all the documents.</p>
 </dd>
-<dt>abs_perc <span class="classifier-delimiter">:</span> <span class="classifier">Absolute frequency percentage.</span></dt>
-<dd><p class="first last"><cite>abs_freq</cite> divided by the sum of all occurrences of words.</p>
+<dt>wtd_freq: Weighted frequency.</dt>
+<dd><p class="first last">Every occurrence of <code class="docutils literal notranslate"><span class="pre">word</span></code> multiplied by its respective value in
+<code class="docutils literal notranslate"><span class="pre">num_list</span></code> provided by the function call.</p>
 </dd>
-<dt>abs_perc_cum <span class="classifier-delimiter">:</span> <span class="classifier">Cumulative absolute percentage.</span></dt>
-<dd><p class="first last">Cumulative sum of <cite>abs_perc</cite> to see how many words form x% of the occurrences.</p>
+<dt>rel_value: Relative value.</dt>
+<dd><p class="first last"><code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code> divided by <code class="docutils literal notranslate"><span class="pre">abs_freq</span></code>, showing the value per occurrence
+of <code class="docutils literal notranslate"><span class="pre">word</span></code></p>
 </dd>
-<dt>wtd_freq <span class="classifier-delimiter">:</span> <span class="classifier">Weighted frequency.</span></dt>
-<dd><p class="first last">Every occurrence of <cite>word</cite> multiplied by its respective value in
-<cite>num_list</cite> provided by the function call.</p>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">extra_info:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<dl class="last docutils">
+<dt>abs_perc: Absolute frequency percentage.</dt>
+<dd><p class="first last"><code class="docutils literal notranslate"><span class="pre">abs_freq</span></code> divided by the sum of all occurrences of words.</p>
 </dd>
-<dt>wtd_freq_perc <span class="classifier-delimiter">:</span> <span class="classifier"><cite>wtd_freq</cite> divided by the total weighted frequencies of</span></dt>
+<dt>abs_perc_cum: Cumulative absolute percentage.</dt>
+<dd><p class="first last">Cumulative sum of <code class="docutils literal notranslate"><span class="pre">abs_perc</span></code> to see how many words form x% of
+the occurrences.</p>
+</dd>
+<dt>wtd_freq_perc: <code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code> divided by the total weighted frequencies of</dt>
 <dd><p class="first last">all words.</p>
 </dd>
-<dt>wtd_freq_perc_cum <span class="classifier-delimiter">:</span> <span class="classifier">Cumulative weighted frequncy percentage.</span></dt>
-<dd><p class="first last">Cumulative sum of <a href="#id1"><span class="problematic" id="id2">`</span></a>wtd_freq_perc`to see how many words form x% of
+<dt>wtd_freq_perc_cum: Cumulative weighted frequncy percentage.</dt>
+<dd><p class="first last">Cumulative sum of <code class="docutils literal notranslate"><span class="pre">wtd_freq_perc</span></code> to see how many words form x% of
 the weighted occurrences.</p>
-</dd>
-<dt>rel_value <span class="classifier-delimiter">:</span> <span class="classifier">Relative value.</span></dt>
-<dd><p class="first last"><cite>wtd_freq</cite> divided by <cite>abs_freq</cite>, showing the value per occurrence
-of <cite>word</cite></p>
 </dd>
 </dl>
 </td>
@@ -539,18 +552,18 @@ of <cite>word</cite></p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">)[[</span><span class="s1">&#39;word&#39;</span><span class="p">,</span> <span class="s1">&#39;abs_freq&#39;</span><span class="p">,</span> <span class="s1">&#39;wtd_freq&#39;</span><span class="p">]]</span>
-<span class="go">     word  abs_freq  wtd_freq</span>
-<span class="go">0    kiwi         2       500</span>
-<span class="go">1   mango         1       400</span>
-<span class="go">2   apple         3       300</span>
-<span class="go">3  orange         2       200</span>
-<span class="go">4  banana         1       100</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">)</span>
+<span class="go">     word  abs_freq  wtd_freq  rel_value</span>
+<span class="go">0    kiwi         2       500      250.0</span>
+<span class="go">1   mango         1       400      400.0</span>
+<span class="go">2   apple         3       300      100.0</span>
+<span class="go">3  orange         2       200      100.0</span>
+<span class="go">4  banana         1       100      100.0</span>
 </pre></div>
 </div>
 <p>“kiwi” occurred twice (abs_freq), one of these phrases has a score of 100,
 and the other 400, so the wtd_freq is the sum (100 + 400 = 500)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">,</span> <span class="n">extra_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">     word  abs_freq  abs_perc  abs_perc_cum  wtd_freq  wtd_freq_perc  wtd_freq_perc_cum  rel_value</span>
 <span class="go">0    kiwi         2  0.222222      0.222222       500       0.333333           0.333333      250.0</span>
 <span class="go">1   mango         1  0.111111      0.333333       400       0.266667           0.600000      400.0</span>

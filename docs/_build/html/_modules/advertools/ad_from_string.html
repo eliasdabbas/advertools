@@ -33,27 +33,29 @@
             
   <h1>Source code for advertools.ad_from_string</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">string</span>
+
+
 <div class="viewcode-block" id="ad_from_string"><a class="viewcode-back" href="../../advertools.html#advertools.ad_from_string.ad_from_string">[docs]</a><span class="k">def</span> <span class="nf">ad_from_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">capitalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert string `s` to an ad by splitting it into groups of words.</span>
-<span class="sd">    Each group would have a length of at most the allowed length for that slot. </span>
-<span class="sd">    </span>
-<span class="sd">    If the total length of `s` exceeds the total allowed length, all remaining</span>
+    <span class="sd">&quot;&quot;&quot;Convert string ``s`` to an ad by splitting it into groups of words.</span>
+<span class="sd">    Each group would have a length of at most the allowed length for that slot.</span>
+
+<span class="sd">    If the total length of ``s`` exceeds the total allowed length, all remaining</span>
 <span class="sd">    characters would be grouped in the last element of the returned list.</span>
-<span class="sd">        </span>
+
 <span class="sd">    :param s: a string of characters, with no restrictions on length.</span>
-<span class="sd">    :param slots: an iterable of integers for the maximum lengths for each slot</span>
-<span class="sd">    :param sep: by which character to split `s`</span>
-<span class="sd">    :param capitalize: whether or not to capitalize each word after grouping. Setting</span>
-<span class="sd">        it as False would leave the input string as is. </span>
-<span class="sd">    :returns text_ad: a list of strings</span>
+<span class="sd">    :param slots: an iterable of integers for the maximum lengths for each slot.</span>
+<span class="sd">    :param sep: by which character to split ``s``.</span>
+<span class="sd">    :param capitalize: whether or not to capitalize each word after grouping.</span>
+<span class="sd">        Setting it as False would leave the input string as is.</span>
+<span class="sd">    :returns text_ad: a list of strings.</span>
 
 <span class="sd">    &gt;&gt;&gt; ad_from_string(&#39;this is a short ad&#39;)</span>
-<span class="sd">    ... [&#39;This Is A Short Ad&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
-<span class="sd">    </span>
-<span class="sd">    &gt;&gt;&gt; ad_from_string(&#39;this is a longer ad and would take two of the first slots&#39;)</span>
-<span class="sd">    ... [&#39;This Is A Longer Ad And Would&#39;, &#39;Take Two Of The First Slots&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
+<span class="sd">    [&#39;This Is A Short Ad&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; ad_from_string(&#39;this is a longer ad and would take the first two slots&#39;)</span>
+<span class="sd">    [&#39;This Is A Longer Ad And Would&#39;, &#39;Take The First Two Slots&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="n">str_words</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="n">sep</span><span class="p">)</span>
     <span class="n">text_ad</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">slots</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
     <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
@@ -64,8 +66,9 @@
                 <span class="k">break</span>
             <span class="n">text_ad</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">str_words</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span> <span class="k">if</span> <span class="n">text_ad</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">else</span> <span class="n">str_words</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span>
             <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
-                  
-    <span class="n">text_ad</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">str_words</span><span class="p">[</span><span class="n">counter</span><span class="p">:])</span> <span class="k">if</span> <span class="n">sep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">str_words</span><span class="p">[</span><span class="n">counter</span><span class="p">:])</span> 
+
+    <span class="n">text_ad</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">str_words</span><span class="p">[</span><span class="n">counter</span><span class="p">:])</span>
+                   <span class="k">if</span> <span class="n">sep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">str_words</span><span class="p">[</span><span class="n">counter</span><span class="p">:]))</span>
 </div>
     <span class="k">return</span> <span class="p">[</span><span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">capitalize</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">text_ad</span><span class="p">]</span>
 </pre></div>
