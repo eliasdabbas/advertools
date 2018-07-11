@@ -47,9 +47,9 @@ def extract_mentions(text_list):
     [('@john', 2), ('@jenny', 1)]
 
     >>> mention_summary['overview']
-    {'text_length': 3, # number of posts
+    {'num_posts': 3, # number of posts
      'num_mentions': 3,
-     'mentions_per_tweet': 1.0,
+     'mentions_per_post': 1.0,
      'unique_mentions': 2}
     """
     mentions = [re.findall(MENTION, text.lower()) for text in text_list]
@@ -65,9 +65,9 @@ def extract_mentions(text_list):
                                key=lambda x: x[1],
                                reverse=True),
         'overview': {
-            'text_length': len(text_list),
+            'num_posts': len(text_list),
             'num_mentions': len(mentions_flat),
-            'mentions_per_tweet': len(mentions_flat) / len(text_list),
+            'mentions_per_post': len(mentions_flat) / len(text_list),
             'unique_mentions': len(set(mentions_flat)),
         }
     }
@@ -115,9 +115,9 @@ def extract_hashtags(text_list):
     [('#blue', 2), ('#green', 1)]
 
     >>> hashtag_summary['overview']
-    {'text_length': 3,
+    {'num_posts': 3,
      'num_hashtags': 3,
-     'hashtags_per_tweet': 1.0,
+     'hashtags_per_post': 1.0,
      'unique_hashtags': 2}
      """
     hashtags = [re.findall(HASHTAG, text.lower()) for text in text_list]
@@ -133,9 +133,9 @@ def extract_hashtags(text_list):
                                key=lambda x: x[1],
                                reverse=True),
         'overview': {
-            'text_length': len(text_list),
+            'num_posts': len(text_list),
             'num_hashtags': len(hashtags_flat),
-            'hashtags_per_tweet': len(hashtags_flat) / len(text_list),
+            'hashtags_per_post': len(hashtags_flat) / len(text_list),
             'unique_hashtags': len(set(hashtags_flat)),
         }
     }

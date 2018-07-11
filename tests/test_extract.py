@@ -38,9 +38,9 @@ def test_correct_top_mentions():
 
 def test_correct_mention_overview():
     mention_overview = mention_summary['overview']
-    assert mention_overview['text_length'] == 3
+    assert mention_overview['num_posts'] == 3
     assert mention_overview['num_mentions'] == 3
-    assert mention_overview['mentions_per_tweet'] == 1.0
+    assert mention_overview['mentions_per_post'] == 1.0
     assert mention_overview['unique_mentions'] == 2
 
 
@@ -70,7 +70,7 @@ def test_correct_top_hashtags():
 
 def test_correct_hashtag_overview():
     hashtag_overview = hashtag_summary['overview']
-    assert hashtag_overview['text_length'] == 3
+    assert hashtag_overview['num_posts'] == 3
     assert hashtag_overview['num_hashtags'] == 3
-    assert hashtag_overview['hashtags_per_tweet'] == 1.0
+    assert hashtag_overview['hashtags_per_post'] == 1.0
     assert hashtag_overview['unique_hashtags'] == 2
