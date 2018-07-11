@@ -2,7 +2,7 @@ import urllib
 
 
 def url_utm_ga(url, utm_source, utm_medium=None, utm_campaign=None,
-                utm_content=None, utm_term=None):
+               utm_content=None, utm_term=None):
     """Generate a URL with UTM codes for your campaigns.
 
     :param url: a valid URL, required
@@ -16,7 +16,8 @@ def url_utm_ga(url, utm_source, utm_medium=None, utm_campaign=None,
     >>> url_utm_ga('mysite.com', utm_source='the source')
     'mysite.com?utm_source=the+source'
 
-    >>> url_utm_ga('mysite.com', utm_source='the source', utm_medium='THE MEDIUM!!', utm_campaign='campaign*name&^%',utm_content='728x90')
+    >>> url_utm_ga('mysite.com', utm_source='the source', utm_medium='THE MEDIUM!!',
+                   utm_campaign='campaign*name&^%',utm_content='728x90')
     'mysite.com?utm_content=728x90&utm_campaign=campaign%2Aname%26%5E%25&utm_medium=THE+MEDIUM%21%21&utm_source=the+source'
     """
     url += '?'

@@ -39,8 +39,8 @@ def word_frequency(text_list, num_list, sep=None,
             Every occurrence of ``word`` multiplied by its respective value in
             ``num_list`` provided by the function call.
         rel_value: Relative value.
-            ``wtd_freq`` divided by ``abs_freq``, showing the value per occurrence
-            of ``word``
+            ``wtd_freq`` divided by ``abs_freq``, showing the value per
+            occurrence of ``word``
 
         :extra_info:
 
