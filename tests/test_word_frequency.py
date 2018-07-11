@@ -26,6 +26,13 @@ num_list = [
     700
 ]
 
+separators = [
+    '-',
+    '_',
+    ' ',
+    'f'
+]
+
 def test_len_result_one_more_than_len_slots():
     for sep in sep_list:
         result = word_frequency(text_list, num_list, sep=sep)
@@ -47,3 +54,9 @@ def test_extra_info_provided():
                                            'abs_perc_cum', 'wtd_freq',
                                            'wtd_freq_perc', 'wtd_freq_perc_cum',
                                            'rel_value'}
+
+
+def test_words_separated_with_given_sep():
+    for sep in separators:
+        result = word_frequency(text_list, num_list, sep=sep)
+        assert sep not in result['word']
