@@ -36,7 +36,7 @@
 
 
 <div class="viewcode-block" id="url_utm_ga"><a class="viewcode-back" href="../../advertools.html#advertools.url_builders.url_utm_ga">[docs]</a><span class="k">def</span> <span class="nf">url_utm_ga</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">utm_source</span><span class="p">,</span> <span class="n">utm_medium</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">utm_campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">utm_content</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">utm_term</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+               <span class="n">utm_content</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">utm_term</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate a URL with UTM codes for your campaigns.</span>
 
 <span class="sd">    :param url: a valid URL, required</span>
@@ -50,7 +50,8 @@
 <span class="sd">    &gt;&gt;&gt; url_utm_ga(&#39;mysite.com&#39;, utm_source=&#39;the source&#39;)</span>
 <span class="sd">    &#39;mysite.com?utm_source=the+source&#39;</span>
 
-<span class="sd">    &gt;&gt;&gt; url_utm_ga(&#39;mysite.com&#39;, utm_source=&#39;the source&#39;, utm_medium=&#39;THE MEDIUM!!&#39;, utm_campaign=&#39;campaign*name&amp;^%&#39;,utm_content=&#39;728x90&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; url_utm_ga(&#39;mysite.com&#39;, utm_source=&#39;the source&#39;, utm_medium=&#39;THE MEDIUM!!&#39;,</span>
+<span class="sd">                   utm_campaign=&#39;campaign*name&amp;^%&#39;,utm_content=&#39;728x90&#39;)</span>
 <span class="sd">    &#39;mysite.com?utm_content=728x90&amp;utm_campaign=campaign%2Aname%26%5E%25&amp;utm_medium=THE+MEDIUM%21%21&amp;utm_source=the+source&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">url</span> <span class="o">+=</span> <span class="s1">&#39;?&#39;</span>

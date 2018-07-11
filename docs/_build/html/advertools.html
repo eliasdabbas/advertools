@@ -240,7 +240,7 @@ none exist</p>
 <dl class="function">
 <dt id="advertools.kw_generate.kw_broad">
 <code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_broad</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_broad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_broad" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <cite>words</cite> in broad match.</p>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in broad match.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -252,12 +252,17 @@ none exist</p>
 </tr>
 </tbody>
 </table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;[learn guitar]&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;guitar courses&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;+guitar +tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_broad</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="advertools.kw_generate.kw_exact">
 <code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_exact</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_exact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_exact" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <cite>words</cite> in exact match.</p>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in exact match.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -269,22 +274,32 @@ none exist</p>
 </tr>
 </tbody>
 </table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_exact</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;[learn guitar]&#39;, &#39;[guitar courses]&#39;, &#39;[guitar tutor]&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="advertools.kw_generate.kw_generate">
 <code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_generate</code><span class="sig-paren">(</span><em>products, words, max_len=3, match_types=['Exact', 'Phrase', 'Modified'], order_matters=True, campaign_name='SEM_Campaign'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_generate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a data frame of keywords using a list of products and relevant words.</p>
+<dd><p>Generate a data frame of keywords using a list of products and relevant
+words.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>products</strong> – will be used as the names of the ad groups</li>
-<li><strong>words</strong> – related words that make it clear that the user is interested in <cite>products</cite></li>
-<li><strong>max_len</strong> – the maximum number of words to include in each permutation of product keywords</li>
-<li><strong>match_types</strong> – can be restricted or kept as is based on preference, possible values: ‘Exact’, ‘Phrase’, ‘Modified’, ‘Broad’</li>
-<li><strong>order_matters</strong> – whether or not the order of words in keywords matters, default False</li>
+<li><strong>words</strong> – related words that make it clear that the user is interested
+in <code class="docutils literal notranslate"><span class="pre">products</span></code></li>
+<li><strong>max_len</strong> – the maximum number of words to include in each permutation
+of product keywords</li>
+<li><strong>match_types</strong> – can be restricted or kept as is based on preference,
+possible values: ‘Exact’, ‘Phrase’, ‘Modified’, ‘Broad’</li>
+<li><strong>order_matters</strong> – whether or not the order of words in keywords
+matters, default False</li>
 <li><strong>campaign_name</strong> – name of campaign</li>
 </ul>
 </td>
@@ -322,7 +337,7 @@ none exist</p>
 <dl class="function">
 <dt id="advertools.kw_generate.kw_modified">
 <code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_modified</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_modified"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_modified" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <cite>words</cite> in modified broad match.</p>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in modified broad match.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -334,12 +349,17 @@ none exist</p>
 </tr>
 </tbody>
 </table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_modified</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;+learn +guitar&#39;, &#39;+guitar +courses&#39;, &#39;+guitar +tutor&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="advertools.kw_generate.kw_neg_broad">
 <code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_neg_broad</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_broad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_broad" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <cite>words</cite> in negative broad match.</p>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in negative broad match.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -351,12 +371,17 @@ none exist</p>
 </tr>
 </tbody>
 </table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_neg_broad</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;-learn guitar&#39;, &#39;-guitar courses&#39;, &#39;-guitar tutor&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="advertools.kw_generate.kw_neg_exact">
 <code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_neg_exact</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_exact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_exact" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <cite>words</cite> in negative exact match.</p>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in negative exact match.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -368,12 +393,17 @@ none exist</p>
 </tr>
 </tbody>
 </table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_neg_exact</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;-[learn guitar]&#39;, &#39;-[guitar courses]&#39;, &#39;-[guitar tutor]&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="advertools.kw_generate.kw_neg_phrase">
 <code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_neg_phrase</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_phrase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_phrase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <cite>words</cite> in negative phrase match.</p>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in negative phrase match.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -385,12 +415,17 @@ none exist</p>
 </tr>
 </tbody>
 </table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_neg_phrase</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;-&quot;learn guitar&quot;&#39;, &#39;-&quot;guitar courses&quot;&#39;, &#39;-&quot;guitar tutor&quot;&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="advertools.kw_generate.kw_phrase">
 <code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_phrase</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_phrase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_phrase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <cite>words</cite> in phrase match.</p>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in phrase match.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -402,6 +437,11 @@ none exist</p>
 </tr>
 </tbody>
 </table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_phrase</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;&quot;learn guitar&quot;&#39;, &#39;&quot;guitar courses&quot;&#39;, &#39;&quot;guitar tutor&quot;&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -459,7 +499,8 @@ Python dictionary.</p>
 <span class="go">&#39;mysite.com?utm_source=the+source&#39;</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_utm_ga</span><span class="p">(</span><span class="s1">&#39;mysite.com&#39;</span><span class="p">,</span> <span class="n">utm_source</span><span class="o">=</span><span class="s1">&#39;the source&#39;</span><span class="p">,</span> <span class="n">utm_medium</span><span class="o">=</span><span class="s1">&#39;THE MEDIUM!!&#39;</span><span class="p">,</span> <span class="n">utm_campaign</span><span class="o">=</span><span class="s1">&#39;campaign*name&amp;^%&#39;</span><span class="p">,</span><span class="n">utm_content</span><span class="o">=</span><span class="s1">&#39;728x90&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_utm_ga</span><span class="p">(</span><span class="s1">&#39;mysite.com&#39;</span><span class="p">,</span> <span class="n">utm_source</span><span class="o">=</span><span class="s1">&#39;the source&#39;</span><span class="p">,</span> <span class="n">utm_medium</span><span class="o">=</span><span class="s1">&#39;THE MEDIUM!!&#39;</span><span class="p">,</span>
+<span class="go">               utm_campaign=&#39;campaign*name&amp;^%&#39;,utm_content=&#39;728x90&#39;)</span>
 <span class="go">&#39;mysite.com?utm_content=728x90&amp;utm_campaign=campaign%2Aname%26%5E%25&amp;utm_medium=THE+MEDIUM%21%21&amp;utm_source=the+source&#39;</span>
 </pre></div>
 </div>
@@ -515,8 +556,8 @@ are also provided. The columns are as follows:</p>
 <code class="docutils literal notranslate"><span class="pre">num_list</span></code> provided by the function call.</p>
 </dd>
 <dt>rel_value: Relative value.</dt>
-<dd><p class="first last"><code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code> divided by <code class="docutils literal notranslate"><span class="pre">abs_freq</span></code>, showing the value per occurrence
-of <code class="docutils literal notranslate"><span class="pre">word</span></code></p>
+<dd><p class="first last"><code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code> divided by <code class="docutils literal notranslate"><span class="pre">abs_freq</span></code>, showing the value per
+occurrence of <code class="docutils literal notranslate"><span class="pre">word</span></code></p>
 </dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
