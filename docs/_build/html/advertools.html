@@ -49,7 +49,8 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>template</strong> – a string format template, using braces</li>
 <li><strong>replacements</strong> – replacements string to be inserted in template</li>
-<li><strong>fallback</strong> – the string to insert in template in case the replacement is too long</li>
+<li><strong>fallback</strong> – the string to insert in template in case the replacement
+is too long</li>
 <li><strong>max_len</strong> – the maximum allowed length of the full string</li>
 </ul>
 </td>
@@ -68,8 +69,8 @@
 <span class="go">             replacements=[&#39;Toyota&#39;, &#39;BMW&#39;, &#39;Mercedes&#39;, &#39;Lamborghini&#39;],</span>
 <span class="go">             fallback=&#39;great&#39;,</span>
 <span class="go">             max_len=28)</span>
-<span class="go">[&#39;My favorite car is Toyota&#39;, &#39;My favorite car is BMW&#39;, &#39;My favorite car is Mercedes&#39;,</span>
-<span class="go">&#39;My favorite car is great&#39;]</span>
+<span class="go">[&#39;My favorite car is Toyota&#39;, &#39;My favorite car is BMW&#39;,</span>
+<span class="go">&#39;My favorite car is Mercedes&#39;, &#39;My favorite car is great&#39;]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -114,12 +115,101 @@ Setting it as False would leave the input string as is.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="module-advertools.emoji_dict">
+<span id="advertools-emoji-dict-module"></span><h2>advertools.emoji_dict module<a class="headerlink" href="#module-advertools.emoji_dict" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2014-2015, Taehoon Kim and Kevin Wurster
+All rights reserved.</p>
+<p>Emoji dictionary and regular expression for easy extraction and manipulation of emojis in text. 
+Imported from the Python emoji package <a class="reference external" href="https://github.com/carpedm20/emoji">https://github.com/carpedm20/emoji</a></p>
+<p>Last update: June 21, 2018</p>
+</div>
 <div class="section" id="module-advertools.extract">
 <span id="advertools-extract-module"></span><h2>advertools.extract module<a class="headerlink" href="#module-advertools.extract" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="advertools.extract.extract_emoji">
+<code class="descclassname">advertools.extract.</code><code class="descname">extract_emoji</code><span class="sig-paren">(</span><em>text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_emoji"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_emoji" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about emoji in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of emoji, their frequency, the top
+ones, and more.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text_list</strong> – A list of text strings.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns summary:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">A dictionary with various stats about emoji</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I am grinning 😀&#39;</span><span class="p">,</span><span class="s1">&#39;A grinning cat 😺&#39;</span><span class="p">,</span>
+<span class="go">             &#39;hello! 😀😀😀 💛💛&#39;, &#39;Just text&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span> <span class="o">=</span> <span class="n">extract_emoji</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;emoji&#39;, &#39;emoji_text&#39;, &#39;emoji_flat&#39;, &#39;emoji_flat_text&#39;,</span>
+<span class="go">           &#39;emoji_counts&#39;, &#39;emoji_freq&#39;, &#39;top_emoji&#39;,</span>
+<span class="go">           &#39;top_emoji_text&#39;, &#39;overview&#39;])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;😀&#39;], [&#39;😺&#39;], [&#39;😀&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;💛&#39;, &#39;💛&#39;], []]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_text&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;grinning face&#39;],</span>
+<span class="go"> [&#39;grinning cat face&#39;],</span>
+<span class="go"> [&#39;grinning face&#39;, &#39;grinning face&#39;, &#39;grinning face&#39;,</span>
+<span class="go">  &#39;yellow heart&#39;, &#39;yellow heart&#39;],</span>
+<span class="go"> []]</span>
+</pre></div>
+</div>
+<p>A simple extract of emoji from each of the posts. An empty
+list if none exist</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;😀&#39;, &#39;😺&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;💛&#39;, &#39;💛&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_flat_text&#39;</span><span class="p">]</span>
+<span class="go">[&#39;grinning face&#39;, &#39;grinning cat face&#39;, &#39;grinning face&#39;, &#39;grinning face&#39;,</span>
+<span class="go"> &#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;]</span>
+</pre></div>
+</div>
+<p>All emoji in one flat list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 5, 0]</span>
+</pre></div>
+</div>
+<p>The count of emoji per post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 2), (5, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. emoji
+(number_of_emoji, count)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;😀&#39;, 4), (&#39;💛&#39;, 2), (&#39;😺&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_text&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;grinning face&#39;, 4), (&#39;yellow heart&#39;, 2),</span>
+<span class="go"> (&#39;grinning cat face&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go"> &#39;num_emoji&#39;: 7,</span>
+<span class="go"> &#39;emoji_per_post&#39;: 1.75,</span>
+<span class="go"> &#39;unique_emoji&#39;: 3}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="advertools.extract.extract_hashtags">
 <code class="descclassname">advertools.extract.</code><code class="descname">extract_hashtags</code><span class="sig-paren">(</span><em>text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_hashtags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_hashtags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a summary dictionary about hashtags in <cite>text_list</cite></p>
+<dd><p>Return a summary dictionary about hashtags in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
 <p>Get a summary of the number of hashtags, their frequency, the top
 ones, and more.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -167,9 +257,9 @@ none exist</p>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
-<span class="go">{&#39;text_length&#39;: 3,</span>
+<span class="go">{&#39;num_posts&#39;: 3,</span>
 <span class="go"> &#39;num_hashtags&#39;: 3,</span>
-<span class="go"> &#39;hashtags_per_tweet&#39;: 1.0,</span>
+<span class="go"> &#39;hashtags_per_post&#39;: 1.0,</span>
 <span class="go"> &#39;unique_hashtags&#39;: 2}</span>
 </pre></div>
 </div>
@@ -178,7 +268,7 @@ none exist</p>
 <dl class="function">
 <dt id="advertools.extract.extract_mentions">
 <code class="descclassname">advertools.extract.</code><code class="descname">extract_mentions</code><span class="sig-paren">(</span><em>text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_mentions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_mentions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a summary dictionary about mentions in <cite>text_list</cite></p>
+<dd><p>Return a summary dictionary about mentions in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
 <p>Get a summary of the number of mentions, their frequency, the top
 ones, and more.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -226,9 +316,9 @@ none exist</p>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
-<span class="go">{&#39;text_length&#39;: 3, # number of posts</span>
+<span class="go">{&#39;num_posts&#39;: 3, # number of posts</span>
 <span class="go"> &#39;num_mentions&#39;: 3,</span>
-<span class="go"> &#39;mentions_per_tweet&#39;: 1.0,</span>
+<span class="go"> &#39;mentions_per_post&#39;: 1.0,</span>
 <span class="go"> &#39;unique_mentions&#39;: 2}</span>
 </pre></div>
 </div>
@@ -637,6 +727,7 @@ all columns.</p>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-advertools.ad_create">advertools.ad_create module</a></li>
 <li><a class="reference internal" href="#module-advertools.ad_from_string">advertools.ad_from_string module</a></li>
+<li><a class="reference internal" href="#module-advertools.emoji_dict">advertools.emoji_dict module</a></li>
 <li><a class="reference internal" href="#module-advertools.extract">advertools.extract module</a></li>
 <li><a class="reference internal" href="#module-advertools.kw_generate">advertools.kw_generate module</a></li>
 <li><a class="reference internal" href="#module-advertools.stopwords">advertools.stopwords module</a></li>
