@@ -64,6 +64,6 @@ def test_words_separated_with_given_sep():
         assert sep not in result['word']
 
 
-def test_works_fine_with_only_stopwords():
+def test_works_fine_with_only_stopwords_supplied():
     result = word_frequency(['on'], [3])
     assert result.shape == (0, 4)
