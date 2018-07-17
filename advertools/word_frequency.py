@@ -90,10 +90,10 @@ def word_frequency(text_list, num_list, sep=None,
             word_freq[word.lower()][0] += 1
             word_freq[word.lower()][1] += num
 
-    columns = {0: 'abs_freq', 1: 'wtd_freq'}
+    columns = ['abs_freq', 'wtd_freq']
 
-    abs_wtd_df = (pd.DataFrame.from_dict(word_freq, orient='index')
-                  .rename(columns=columns)
+    abs_wtd_df = (pd.DataFrame.from_dict(word_freq, orient='index',
+                                         columns=columns)
                   .sort_values('wtd_freq', ascending=False)
                   .assign(rel_value=lambda df: df['wtd_freq'] / df['abs_freq'])
                   .round())
