@@ -9,7 +9,7 @@
     <title>advertools.kw_generate &#8212; advertools 0.2.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
@@ -102,8 +102,8 @@
                         <span class="n">match</span> <span class="k">if</span> <span class="n">match</span> <span class="o">!=</span> <span class="s1">&#39;Modified&#39;</span> <span class="k">else</span> <span class="s1">&#39;Broad&#39;</span><span class="p">,</span>
                         <span class="s1">&#39;;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">comb</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">prod</span><span class="p">])</span>
                     <span class="p">]</span>
-                    <span class="n">keywords_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span></div>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">keywords_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+                    <span class="n">keywords_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">keywords_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="kw_broad"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_broad">[docs]</a><span class="k">def</span> <span class="nf">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
@@ -116,8 +116,8 @@
 <span class="sd">    &gt;&gt;&gt; kw_broad(keywords)</span>
 <span class="sd">    [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">regex</span> <span class="o">=</span> <span class="s1">&#39;^</span><span class="se">\&#39;</span><span class="s1">|^</span><span class="se">\&quot;</span><span class="s1">|</span><span class="se">\&#39;</span><span class="s1">$|</span><span class="se">\&quot;</span><span class="s1">$|\+|^\[|\]$|^-&#39;</span></div>
-    <span class="k">return</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+    <span class="n">regex</span> <span class="o">=</span> <span class="s1">&#39;^</span><span class="se">\&#39;</span><span class="s1">|^</span><span class="se">\&quot;</span><span class="s1">|</span><span class="se">\&#39;</span><span class="s1">$|</span><span class="se">\&quot;</span><span class="s1">$|\+|^\[|\]$|^-&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="kw_exact"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_exact">[docs]</a><span class="k">def</span> <span class="nf">kw_exact</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
@@ -129,8 +129,8 @@
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_exact(keywords)</span>
 <span class="sd">    [&#39;[learn guitar]&#39;, &#39;[guitar courses]&#39;, &#39;[guitar tutor]&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span></div>
 
 
 <div class="viewcode-block" id="kw_phrase"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_phrase">[docs]</a><span class="k">def</span> <span class="nf">kw_phrase</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
@@ -142,8 +142,8 @@
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_phrase(keywords)</span>
 <span class="sd">    [&#39;&quot;learn guitar&quot;&#39;, &#39;&quot;guitar courses&quot;&#39;, &#39;&quot;guitar tutor&quot;&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span></div>
 
 
 <div class="viewcode-block" id="kw_modified"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_modified">[docs]</a><span class="k">def</span> <span class="nf">kw_modified</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
@@ -155,8 +155,8 @@
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_modified(keywords)</span>
 <span class="sd">    [&#39;+learn +guitar&#39;, &#39;+guitar +courses&#39;, &#39;+guitar +tutor&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;+&#39;</span> <span class="o">+</span> <span class="n">w</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39; +&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;+&#39;</span> <span class="o">+</span> <span class="n">w</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39; +&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span></div>
 
 
 <div class="viewcode-block" id="kw_neg_broad"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_neg_broad">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_broad</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
@@ -168,8 +168,8 @@
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_neg_broad(keywords)</span>
 <span class="sd">    [&#39;-learn guitar&#39;, &#39;-guitar courses&#39;, &#39;-guitar tutor&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span></div>
 
 
 <div class="viewcode-block" id="kw_neg_phrase"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_neg_phrase">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_phrase</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
@@ -181,8 +181,8 @@
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_neg_phrase(keywords)</span>
 <span class="sd">    [&#39;-&quot;learn guitar&quot;&#39;, &#39;-&quot;guitar courses&quot;&#39;, &#39;-&quot;guitar tutor&quot;&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_phrase</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_phrase</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span></div>
 
 
 <div class="viewcode-block" id="kw_neg_exact"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_neg_exact">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_exact</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
@@ -194,8 +194,8 @@
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_neg_exact(keywords)</span>
 <span class="sd">    [&#39;-[learn guitar]&#39;, &#39;-[guitar courses]&#39;, &#39;-[guitar tutor]&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_exact</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">kw_exact</span><span class="p">(</span><span class="n">words</span><span class="p">)]</span></div>
 </pre></div>
 
           </div>
@@ -232,7 +232,7 @@
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
     </div>
