@@ -31,7 +31,7 @@ how to use `Python for creating a Search Engine Marketing campaign`_.
 I also have an interactive tool based on this package, where you can
 `generate keyword combinations easily`_.
 
-.. image:: app_screen_shot.png
+.. image:: https://github.com/eliasdabbas/advertools/blob/master/app_screen_shot.png?raw=true
    :width: 600 px
    :align: center
 
