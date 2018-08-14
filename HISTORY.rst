@@ -2,6 +2,16 @@
 History
 =======
 
+0.3.0 (2018-08-14)
+------------------
+
+* Search engine marketing cheat sheet.
+* New set of extract\_ functions with summary stats for each:
+    * extract_hashtags
+    * extract_mentions
+    * extract_emoji
+* Tests and bug fixes
+
 0.2.0 (2018-07-06)
 ------------------
 
