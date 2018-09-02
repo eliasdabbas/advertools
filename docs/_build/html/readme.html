@@ -35,6 +35,7 @@
   <a class="reference external image-reference" href="https://pypi.python.org/pypi/advertools"><img alt="https://img.shields.io/pypi/v/advertools.svg" src="https://img.shields.io/pypi/v/advertools.svg" /></a>
 <a class="reference external image-reference" href="https://travis-ci.org/eliasdabbas/advertools"><img alt="https://img.shields.io/travis/eliasdabbas/advertools.svg" src="https://img.shields.io/travis/eliasdabbas/advertools.svg" /></a>
 <a class="reference external image-reference" href="https://advertools.readthedocs.io/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/advertools/badge/?version=latest" /></a>
+<a class="reference external image-reference" href="http://pepy.tech/project/advertools"><img alt="http://pepy.tech/badge/advertools" src="http://pepy.tech/badge/advertools" /></a>
 <div class="section" id="advertools-create-scale-and-manage-online-campaigns">
 <h1>advertools: create, scale, and manage online campaigns<a class="headerlink" href="#advertools-create-scale-and-manage-online-campaigns" title="Permalink to this headline">¶</a></h1>
 <div class="line-block">
@@ -53,7 +54,7 @@ is all about working with data.</p>
 <div class="line">advertools is a Python package, that can hopefully make that part of your job a little easier.</div>
 </div>
 <p>I have a tutorial on DataCamp that demonstrates a real-life example of
-how to use <a class="reference external" href="https://www.datacamp.com/community/tutorials/sem-data-science">Python for creating a Search Engine Marketing campaign</a>.</p>
+how to use <a class="reference external" href="https://www.datacamp.com/community/tutorials/sem-data-science">Python for creating a Search Engine Marketing campaign</a>. There is also a <a class="reference external" href="https://www.datacamp.com/projects/400">project to practice those skills in an agency / case study setting</a>.</p>
 <p>I also have an interactive tool based on this package, where you can
 <a class="reference external" href="https://www.dashboardom.com/advertools">generate keyword combinations easily</a>.</p>
 <a class="reference internal image-reference" href="https://github.com/eliasdabbas/advertools/blob/master/app_screen_shot.png?raw=true"><img alt="https://github.com/eliasdabbas/advertools/blob/master/app_screen_shot.png?raw=true" class="align-center" src="https://github.com/eliasdabbas/advertools/blob/master/app_screen_shot.png?raw=true" style="width: 600px;" /></a>
@@ -137,7 +138,32 @@ trends in the data. This is basically answering the question, ‘What
 did we write about vs. what was actually read?’
 Here is a tutorial on DataCamp on <a class="reference external" href="https://www.datacamp.com/community/tutorials/absolute-weighted-word-frequency">measuring absolute vs weighted
 frequency of words</a>.</li>
+<li><dl class="first docutils">
+<dt><strong>Extract important elements from social media posts:</strong> Get the more informative</dt>
+<dd>elements of social media posts (hashtags, mentions, emoji). You also
+get some basic statistics about them.</dd>
+</dl>
+</li>
 </ul>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;i like #blue&#39;</span><span class="p">,</span> <span class="s1">&#39;i like #green and #blue&#39;</span><span class="p">,</span> <span class="s1">&#39;i like all&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">extract_hashtags</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;hashtags&#39;, &#39;hashtags_flat&#39;, &#39;hashtag_counts&#39;, &#39;hashtag_freq&#39;,</span>
+<span class="go">           &#39;top_hashtags&#39;, &#39;overview&#39;])</span>
+
+<span class="go">what are the hashtags?</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtags&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;#blue&#39;], [&#39;#green&#39;, &#39;#blue&#39;], []]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;top_hashtags&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;#blue&#39;, 2), (&#39;#green&#39;, 1)]</span>
+
+<span class="go">How many were there per post?</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtag_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 2, 0]</span>
+</pre></div>
+</div>
+<p>And you can do the same for mentions and emoji (with the textual name of each emoji).</p>
 <div class="line-block">
 <div class="line">The package is still under heavy development, so expect a lot of
 changes.</div>
@@ -169,15 +195,26 @@ changes.</div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">advertools: create, scale, and manage online campaigns</a><ul>
-<li><a class="reference internal" href="#main-uses">Main Uses:</a></li>
-<li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#conventions">Conventions</a></li>
+<h1 class="logo"><a href="index.html">advertools</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">advertools: create, scale, and manage online campaigns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#main-uses">Main Uses:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conventions">Conventions</a></li>
 </ul>
 </li>
 </ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -186,13 +223,6 @@ changes.</div>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/readme.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">
@@ -213,7 +243,7 @@ changes.</div>
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.6</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |
