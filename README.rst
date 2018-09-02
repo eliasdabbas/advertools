@@ -8,6 +8,9 @@
         :target: https://advertools.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
+.. image:: http://pepy.tech/badge/advertools
+        :target: http://pepy.tech/project/advertools 
+
 advertools: create, scale, and manage online campaigns
 ======================================================
 
@@ -26,7 +29,7 @@ is all about working with data.
 
 
 I have a tutorial on DataCamp that demonstrates a real-life example of
-how to use `Python for creating a Search Engine Marketing campaign`_.
+how to use `Python for creating a Search Engine Marketing campaign`_. There is also a `project to practice those skills in an agency / case study setting`_.
 
 I also have an interactive tool based on this package, where you can
 `generate keyword combinations easily`_.
@@ -115,6 +118,31 @@ Main Uses:
    Here is a tutorial on DataCamp on `measuring absolute vs weighted
    frequency of words`_.
 
+-  **Extract important elements from social media posts:** Get the more informative 
+    elements of social media posts (hashtags, mentions, emoji). You also 
+    get some basic statistics about them.
+    
+.. code:: python
+
+   >>> posts = ['i like #blue', 'i like #green and #blue', 'i like all']
+   >>> hashtag_summary = adv.extract_hashtags(posts)
+   >>> hashtag_summary.keys()
+   dict_keys(['hashtags', 'hashtags_flat', 'hashtag_counts', 'hashtag_freq',    
+              'top_hashtags', 'overview'])
+   
+   what are the hashtags?
+   >>> hashtag_summary['hashtags']
+   [['#blue'], ['#green', '#blue'], []]
+
+   >>> hashtag_summary['top_hashtags']
+   [('#blue', 2), ('#green', 1)]
+
+   How many were there per post? 
+   >>> hashtag_summary['hashtag_counts']
+   [1, 2, 0]
+
+And you can do the same for mentions and emoji (with the textual name of each emoji).
+
 | The package is still under heavy development, so expect a lot of
   changes.
 | Feedback and suggestions are more than welcomed.
@@ -136,9 +164,11 @@ Function names mostly start with the object you are working on:
 | ``url_``: URL tracking and generation
 | ``extract_``: for extracting entities from social media posts (mentions, hashtags, emoji, etc.)
 
+    
 .. _measuring absolute vs weighted frequency of words: https://www.datacamp.com/community/tutorials/absolute-weighted-word-frequency
 
 
 .. _Python for creating a Search Engine Marketing campaign: https://www.datacamp.com/community/tutorials/sem-data-science
+.. _project to practice those skills in an agency / case study setting: https://www.datacamp.com/projects/400
 .. _generate keyword combinations easily: https://www.dashboardom.com/advertools
 .. _tutorial on how to create multiple text ads from scratch: https://nbviewer.jupyter.org/github/eliasdabbas/ad_create/blob/master/ad_create.ipynb
