@@ -120,7 +120,9 @@ Main Uses:
 
 -  **Extract important elements from social media posts:** Get the more informative 
     elements of social media posts (hashtags, mentions, emoji). You also 
-    get some basic statistics about them.
+    get some basic statistics about them.  
+    Check out a more detailed tutorial on Kaggle, on how to `extract entities from
+    social media posts`_ using these functions.
     
 .. code:: python
 
@@ -172,3 +174,4 @@ Function names mostly start with the object you are working on:
 .. _project to practice those skills in an agency / case study setting: https://www.datacamp.com/projects/400
 .. _generate keyword combinations easily: https://www.dashboardom.com/advertools
 .. _tutorial on how to create multiple text ads from scratch: https://nbviewer.jupyter.org/github/eliasdabbas/ad_create/blob/master/ad_create.ipynb
+.. _extract entities from social media posts: http://bit.ly/2wTWvBI
