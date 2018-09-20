@@ -45,13 +45,13 @@ def test_correct_mention_freq():
 
 
 def test_correct_top_mentions():
-    assert mention_summary['top_mentions'] == [('@name', 2), ('@oneword', 1),
+    assert set(mention_summary['top_mentions']) == set([('@name', 2), ('@oneword', 1),
                                                ('@nam', 1), ('@first', 1),
                                                ('@last', 1), ('@under_score', 1),
                                                ('@dot', 1), ('＠sign', 1),
                                                ('@one', 1), ('@two', 1),
                                                ('@123text', 1),
-                                               ('@_before', 1), ('@after_', 1)]
+                                               ('@_before', 1), ('@after_', 1)])
 
 
 def test_correct_mention_overview():
