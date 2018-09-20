@@ -5,7 +5,7 @@ from .emoji_dict import emoji_dict
 from .emoji_dict import emoji_regexp as EMOJI
 
 HASHTAG = '#\w+'
-MENTION = '@\w+'
+MENTION = '(?:^|\W)([@＠][A-Za-z0-9_]+)'
 
 
 def extract_mentions(text_list):
