@@ -63,3 +63,97 @@ def tweets_to_dataframe(func):
 
         return tweets_users_df
     return wrapper
+
+
+@tweets_to_dataframe
+@authenticate
+def search():
+    pass
+
+
+@tweets_to_dataframe
+@authenticate
+def get_user_timeline():
+    pass
+
+
+@tweets_to_dataframe
+@authenticate
+def get_home_timeline():
+    pass
+
+
+@tweets_to_dataframe
+@authenticate
+def get_favorites():
+    pass
+
+
+
+@tweets_to_dataframe
+@authenticate
+def get_list_statuses():
+    pass
+
+
+@tweets_to_dataframe
+@authenticate
+def get_mentions_timeline():
+    pass
+
+
+@authenticate
+def get_available_trends():
+    twtr = Twython(**get_available_trends.get_auth_params())
+
+    available_trends = twtr.get_available_trends()
+    trends_df = pd.DataFrame(available_trends)
+    trends_df['code'] = [x['code'] for x in trends_df['placeType']]
+    trends_df['place_type'] = [x['name'] for x in trends_df['placeType']]
+    del trends_df['placeType']
+    return trends_df
+
+
+@authenticate
+def get_place_trends(ids):
+    twtr = Twython(**get_place_trends.get_auth_params())
+    trends_df = pd.DataFrame()
+    if isinstance(ids, int):
+        ids = [ids]
+    for place_id in ids:
+
+        place_trends = twtr.get_place_trends(id=place_id)
+        trend_df = pd.DataFrame(place_trends[0]['trends'])
+        trend_df = trend_df.sort_values(['tweet_volume'], ascending=False)
+        trend_df['location'] = place_trends[0]['locations'][0]['name']
+        trend_df['woeid'] = place_trends[0]['locations'][0]['woeid']
+        trend_df['time'] = pd.to_datetime(place_trends[0]['created_at'])
+
+        trends_df = trends_df.append(trend_df, ignore_index=True)
+
+    trends_df = trends_df.sort_values(['woeid', 'tweet_volume'],
+                                      ascending=[True, False])
+    trends_df = trends_df.reset_index(drop=True)
+    return trends_df
+
+
+@authenticate
+def get_supported_languages():
+    twtr = Twython(**get_supported_languages.get_auth_params())
+    langs = twtr.get_supported_languages()
+    return pd.DataFrame(langs)
+
+
+FUNCTIONS = [search, get_user_timeline, get_home_timeline, get_favorites,
+             get_list_statuses, get_mentions_timeline, get_available_trends,
+             get_place_trends, get_supported_languages]
+
+
+def set_auth_params(app_key=None, app_secret=None, oauth_token=None,
+                    oauth_token_secret=None, access_token=None,
+                    token_type='bearer', oauth_version=1, api_version='1.1',
+                    client_args=None, auth_endpoint='authenticate'):
+    params = locals()
+    for func in FUNCTIONS:
+        func.set_auth_params(**params)
+    return None
