@@ -40,8 +40,7 @@ def tweets_to_dataframe(func):
                               *args, **kwargs)
                 tweets_responses.append(tweets)
             except Exception as e:
-                print(e)
-		break
+                break
         tweets_users_df = pd.DataFrame()
         for tweets in tweets_responses:
             if func.__name__ == 'search':
