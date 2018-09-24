@@ -39,8 +39,9 @@ def tweets_to_dataframe(func):
                               count=min([100, count]),
                               *args, **kwargs)
                 tweets_responses.append(tweets)
-            except TwythonRateLimitError as e:
-                break
+            except Exception as e:
+                print(e)
+		break
         tweets_users_df = pd.DataFrame()
         for tweets in tweets_responses:
             if func.__name__ == 'search':
