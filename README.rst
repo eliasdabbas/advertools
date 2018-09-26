@@ -65,7 +65,7 @@ Main Uses:
 -  **Create ads:** Two main ways to create text ads, one is from scratch
    (bottom-up) and the other is top down (given a set of product names).
 
-1. From scratch: This is the tradiditional way of writing ads. You have
+1. From scratch: This is the traditional way of writing ads. You have
    a template text, and you want to insert the product name dynamically
    in a certain location. You also want to make sure you are within the
    character limits. For more details, I have a `tutorial on how to
