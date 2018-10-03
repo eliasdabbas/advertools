@@ -118,14 +118,12 @@ def make_dataframe(func):
                 cursor = None if i == 0 else responses[-1]['next_cursor']
             else:
                 cursor = None
-            try:
-                resp = func(count=counts[i],
-                            max_id=max_id,
-                            cursor=cursor,
-                            *args, **kwargs)
-                responses.append(resp)
-            except Exception as e:
-                break
+
+            resp = func(count=counts[i],
+                        max_id=max_id,
+                        cursor=cursor,
+                        *args, **kwargs)
+            responses.append(resp)
 
         if '_ids' in fname:
             finallist = []
