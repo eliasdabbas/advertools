@@ -142,6 +142,8 @@ def test_get_place_trends():
     result = get_place_trends(ids=[23424950, 766273])
     assert type(result) == pd.core.frame.DataFrame
     assert result['location'].str.contains('Madrid|Spain').all()
+    result_single_id = get_place_trends(ids=1)
+    assert type(result_single_id) == pd.core.frame.DataFrame
 
 
 def test_get_retweeters_ids():
