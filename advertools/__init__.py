@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 """Top-level package for advertools."""
 
@@ -13,3 +12,4 @@ from advertools.kw_generate import *
 from advertools.stopwords import stopwords
 from advertools.url_builders import url_utm_ga
 from advertools.word_frequency import word_frequency
+from . import twitter

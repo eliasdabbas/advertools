@@ -1,0 +1,1165 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>advertools.twitter &#8212; advertools 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for advertools.twitter</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">wraps</span>
+
+<span class="kn">from</span> <span class="nn">twython</span> <span class="k">import</span> <span class="n">Twython</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="c1"># Functions that depend on &#39;previous_cursor&#39; and &#39;next_cursor&#39; to </span>
+<span class="c1"># navigate requests with a lot of data, request pagination basically.</span>
+<span class="n">CURSORED_FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;get_followers_ids&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_followers_list&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_friends_ids&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_friends_list&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_members&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_memberships&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_subscribers&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_subscriptions&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_retweeters_ids&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;show_owned_lists&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="c1"># Responses that contain a special key (and the name of that key)</span>
+<span class="c1"># containing the required data and need to be extracted through</span>
+<span class="c1"># that key, as opposed to other responses where you can easily</span>
+<span class="c1"># call DataFrame on them directly</span>
+<span class="n">SPECIAL_KEY_FUNCS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;search&#39;</span><span class="p">:</span> <span class="s1">&#39;statuses&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_followers_list&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;get_friends_list&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;get_list_members&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_subscribers&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_memberships&#39;</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_subscriptions&#39;</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;show_owned_lists&#39;</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">,</span>
+
+<span class="p">}</span>
+
+
+<span class="c1"># Functions that contain an embedded ``user`` key, containing </span>
+<span class="c1"># 40+ attribute of the user tweeting, listed, retweeted, etc</span>
+<span class="n">USER_DATA_EMBEDDED</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;get_favorites&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_home_timeline&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_memberships&#39;</span><span class="p">:</span> <span class="s1">&#39;list_&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_statuses&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_subscriptions&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_mentions_timeline&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_retweets&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_user_timeline&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;lookup_status&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;retweeted_of_me&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;search&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;show_lists&#39;</span><span class="p">:</span> <span class="s1">&#39;list_&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;show_owned_lists&#39;</span><span class="p">:</span> <span class="s1">&#39;list_&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="n">DEFAULT_COUNTS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;get_favorites&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s1">&#39;get_followers_ids&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="s1">&#39;get_followers_list&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s1">&#39;get_friends_ids&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="s1">&#39;get_friends_list&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s1">&#39;get_home_timeline&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_members&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_memberships&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_statuses&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_subscribers&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="s1">&#39;get_list_subscriptions&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="s1">&#39;get_mentions_timeline&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s1">&#39;get_retweeters_ids&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s1">&#39;get_retweets&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s1">&#39;get_user_timeline&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s1">&#39;lookup_status&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s1">&#39;lookup_user&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s1">&#39;retweeted_of_me&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s1">&#39;search&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s1">&#39;search_users&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="s1">&#39;show_lists&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s1">&#39;show_owned_lists&#39;</span><span class="p">:</span> <span class="mi">1000</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_get_counts</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Split a number into a list of divisors and the remainder.</span>
+<span class="sd">    The divisor is the default count in this case.&quot;&quot;&quot;</span>
+    <span class="n">div</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">default</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">div</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span> <span class="o">+</span> <span class="p">[</span><span class="n">div</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<div class="viewcode-block" id="make_dataframe"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.make_dataframe">[docs]</a><span class="k">def</span> <span class="nf">make_dataframe</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">func</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">():</span>
+            <span class="k">return</span> <span class="s1">&#39;Please authenticate using the `set_auth_params` function&#39;</span>
+        
+        <span class="n">twtr</span> <span class="o">=</span> <span class="n">Twython</span><span class="p">(</span><span class="o">**</span><span class="n">wrapper</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">())</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;twtr.&#39;</span> <span class="o">+</span> <span class="n">fname</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pages</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">DEFAULT_COUNTS</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pages</span> <span class="o">=</span> <span class="p">(</span><span class="n">count</span> <span class="o">//</span> <span class="n">DEFAULT_COUNTS</span><span class="p">[</span><span class="n">fname</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">_get_counts</span><span class="p">(</span><span class="n">DEFAULT_COUNTS</span><span class="p">[</span><span class="n">fname</span><span class="p">],</span> <span class="n">count</span><span class="p">)</span>
+
+        <span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pages</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">fname</span> <span class="o">==</span> <span class="s1">&#39;search&#39;</span><span class="p">:</span>
+                <span class="n">max_id</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;statuses&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">max_id</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">CURSORED_FUNCTIONS</span><span class="p">:</span>
+                <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;next_cursor&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">resp</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="n">max_id</span><span class="o">=</span><span class="n">max_id</span><span class="p">,</span>
+                            <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span>
+                            <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="s1">&#39;_ids&#39;</span> <span class="ow">in</span> <span class="n">fname</span><span class="p">:</span>
+            <span class="n">finallist</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">responses</span><span class="p">:</span>
+                <span class="n">finallist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sublist</span><span class="p">[</span><span class="s1">&#39;ids&#39;</span><span class="p">])</span>
+            <span class="n">finaldict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;previous_cursor&#39;</span><span class="p">:</span> <span class="n">responses</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;previous_cursor&#39;</span><span class="p">],</span>
+                         <span class="s1">&#39;next_cursor&#39;</span><span class="p">:</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;next_cursor&#39;</span><span class="p">],</span>
+                         <span class="s1">&#39;ids&#39;</span><span class="p">:</span> <span class="n">finallist</span><span class="p">}</span>
+            <span class="k">return</span> <span class="n">finaldict</span>
+
+        <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">resp</span> <span class="ow">in</span> <span class="n">responses</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">SPECIAL_KEY_FUNCS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+                <span class="n">resp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="n">SPECIAL_KEY_FUNCS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fname</span><span class="p">)])</span>
+                <span class="k">if</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">USER_DATA_EMBEDDED</span><span class="p">:</span>
+                    <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">USER_DATA_EMBEDDED</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span> <span class="o">+</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+                    <span class="n">user_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp</span><span class="p">[</span><span class="n">SPECIAL_KEY_FUNCS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fname</span><span class="p">)]])</span>
+                    <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;user_&#39;</span> <span class="o">+</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+                    <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">resp_df</span><span class="p">,</span> <span class="n">user_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">temp_df</span> <span class="o">=</span> <span class="n">resp_df</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">resp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">USER_DATA_EMBEDDED</span><span class="p">:</span>
+                    <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">USER_DATA_EMBEDDED</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+                    <span class="n">user_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp</span><span class="p">])</span>
+                    <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;user_&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+                    <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">resp_df</span><span class="p">,</span> <span class="n">user_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">temp_df</span> <span class="o">=</span> <span class="n">resp_df</span>
+            <span class="n">final_df</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_df</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">final_df</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;created_at&#39;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">:</span>
+                <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">final_df</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;source&#39;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">:</span>
+                <span class="n">final_df</span><span class="p">[</span><span class="n">col</span> <span class="o">+</span> <span class="s1">&#39;_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s1">&#39;&lt;a href=&quot;(.*)&quot; rel=&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s1">&#39;nofollow&quot;&gt;(.*)&lt;/a&gt;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">final_df</span>
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+<div class="viewcode-block" id="authenticate"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.authenticate">[docs]</a><span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Used internally, please use set_auth_params for authentication.&quot;&quot;&quot;</span>
+    <span class="n">auth_params</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_auth_params</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">auth_params</span>
+        <span class="n">auth_params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_auth_params</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">auth_params</span>
+
+    <span class="n">wrapper</span><span class="o">.</span><span class="n">set_auth_params</span> <span class="o">=</span> <span class="n">set_auth_params</span>
+    <span class="n">wrapper</span><span class="o">.</span><span class="n">get_auth_params</span> <span class="o">=</span> <span class="n">get_auth_params</span>
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+<div class="viewcode-block" id="get_application_rate_limit_status"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_application_rate_limit_status">[docs]</a><span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_application_rate_limit_status</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the current rate limits for methods belonging to the</span>
+<span class="sd">        specified resource families.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">twtr</span> <span class="o">=</span> <span class="n">Twython</span><span class="p">(</span><span class="o">**</span><span class="n">get_application_rate_limit_status</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">())</span>
+    <span class="n">ratelimit</span> <span class="o">=</span> <span class="n">twtr</span><span class="o">.</span><span class="n">get_application_rate_limit_status</span><span class="p">()</span>
+    <span class="n">limit_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">ratelimit</span><span class="p">[</span><span class="s1">&#39;resources&#39;</span><span class="p">]:</span>
+        <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ratelimit</span><span class="p">[</span><span class="s1">&#39;resources&#39;</span><span class="p">][</span><span class="n">resource</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">limit_df</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_df</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">limit_df</span><span class="p">[</span><span class="s1">&#39;reset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">limit_df</span><span class="p">[</span><span class="s1">&#39;reset&#39;</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+    <span class="n">limit_df</span><span class="p">[</span><span class="s1">&#39;resource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">limit_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;endpoint&#39;</span>
+    <span class="n">limit_df</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;resource&#39;</span><span class="p">])</span>
+    <span class="n">limit_df</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>    
+    <span class="k">return</span> <span class="n">limit_df</span></div>
+
+
+<div class="viewcode-block" id="get_available_trends"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_available_trends">[docs]</a><span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_available_trends</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the locations that Twitter has trending topic information for.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/trends/locations-with-trending-topics/api-reference/get-trends-available</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">twtr</span> <span class="o">=</span> <span class="n">Twython</span><span class="p">(</span><span class="o">**</span><span class="n">get_available_trends</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">())</span>
+
+    <span class="n">available_trends</span> <span class="o">=</span> <span class="n">twtr</span><span class="o">.</span><span class="n">get_available_trends</span><span class="p">()</span>
+    <span class="n">trends_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">available_trends</span><span class="p">)</span>
+    <span class="n">trends_df</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">trends_df</span><span class="p">[</span><span class="s1">&#39;placeType&#39;</span><span class="p">]]</span>
+    <span class="n">trends_df</span><span class="p">[</span><span class="s1">&#39;place_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">trends_df</span><span class="p">[</span><span class="s1">&#39;placeType&#39;</span><span class="p">]]</span>
+    <span class="k">del</span> <span class="n">trends_df</span><span class="p">[</span><span class="s1">&#39;placeType&#39;</span><span class="p">]</span>
+    <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;place_type&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">])</span>
+    <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">trends_df</span></div>
+
+
+<div class="viewcode-block" id="get_favorites"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_favorites">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_favorites</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the 20 most recent Tweets favorited by the authenticating</span>
+<span class="sd">        or specified user.</span>
+
+<span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
+<span class="sd">        results.</span>
+<span class="sd">    :param screen_name: (str - optional) The screen name of the user for whom</span>
+<span class="sd">        to return results.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param since_id: (int - optional) Returns results with an ID greater than</span>
+<span class="sd">        (that is, more recent than) the specified ID. There are limits to the number of</span>
+<span class="sd">        Tweets which can be accessed through the API. If the limit of Tweets has</span>
+<span class="sd">        occured since the since_id, the since_id will be forced to the oldest ID</span>
+<span class="sd">        available.</span>
+<span class="sd">    :param max_id: (int - optional) Returns results with an ID less than (that</span>
+<span class="sd">        is, older than) or equal to the specified ID.</span>
+<span class="sd">    :param include_entities: (bool - optional) The entities node will be</span>
+<span class="sd">        omitted when set to False .</span>
+<span class="sd">    :param tweet_mode: (str - optional) Valid request values are compat and</span>
+<span class="sd">        extended, which give compatibility mode and extended mode, respectively for</span>
+<span class="sd">        Tweets that contain over 140 characters</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_followers_ids"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_followers_ids">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_followers_ids</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a cursored collection of user IDs for every user</span>
+<span class="sd">        following the specified user.</span>
+
+<span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
+<span class="sd">        results.</span>
+<span class="sd">    :param screen_name: (str - optional) The screen name of the user for whom</span>
+<span class="sd">        to return results.</span>
+<span class="sd">    :param cursor: (cursor - semi-optional) Causes the list of connections to</span>
+<span class="sd">        be broken into pages of no more than 5000 IDs at a time. The number of IDs</span>
+<span class="sd">        returned is not guaranteed to be 5000 as suspended users are filtered out after</span>
+<span class="sd">        connections are queried. If no cursor is provided, a value of -1 will be</span>
+<span class="sd">        assumed, which is the first “page.” The response from the API will include a</span>
+<span class="sd">        previous_cursor and next_cursor to allow paging back and forth. See Using</span>
+<span class="sd">        cursors to navigate collections for more information.</span>
+<span class="sd">    :param stringify_ids: (bool - optional) Some programming environments will</span>
+<span class="sd">        not consume Twitter IDs due to their size. Provide this option to have IDs</span>
+<span class="sd">        returned as strings instead. More about Twitter IDs.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_followers_list"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_followers_list">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_followers_list</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a cursored collection of user objects for users</span>
+<span class="sd">        following the specified user.</span>
+
+<span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
+<span class="sd">        results.</span>
+<span class="sd">    :param screen_name: (str - optional) The screen name of the user for whom</span>
+<span class="sd">        to return results.</span>
+<span class="sd">    :param cursor: (cursor - semi-optional) Causes the results to be broken</span>
+<span class="sd">        into pages. If no cursor is provided, a value of -1 will be assumed, which is</span>
+<span class="sd">        the first “page.” The response from the API will include a previous_cursor and</span>
+<span class="sd">        next_cursor to allow paging back and forth. See Using cursors to navigate</span>
+<span class="sd">        collections for more information.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param skip_status: (bool - optional) When set to True, statuses will not</span>
+<span class="sd">        be included in the returned user objects. If set to any other value, statuses</span>
+<span class="sd">        will be included.</span>
+<span class="sd">    :param include_user_entities: (bool - optional) The user object entities</span>
+<span class="sd">        node will not be included when set to False.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_friends_ids"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_friends_ids">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_friends_ids</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a cursored collection of user IDs for every user the</span>
+<span class="sd">        specified user is following (otherwise known as their &quot;friends&quot;).</span>
+
+<span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
+<span class="sd">        results.</span>
+<span class="sd">    :param screen_name: (str - optional) The screen name of the user for whom</span>
+<span class="sd">        to return results.</span>
+<span class="sd">    :param cursor: (cursor - semi-optional) Causes the list of connections to</span>
+<span class="sd">        be broken into pages of no more than 5000 IDs at a time. The number of IDs</span>
+<span class="sd">        returned is not guaranteed to be 5000 as suspended users are filtered out after</span>
+<span class="sd">        connections are queried. If no cursor is provided, a value of -1 will be</span>
+<span class="sd">        assumed, which is the first “page.” The response from the API will include a</span>
+<span class="sd">        previous_cursor and next_cursor to allow paging back and forth. See Using</span>
+<span class="sd">        cursors to navigate collections for more information.</span>
+<span class="sd">    :param stringify_ids: (bool - optional) Some programming environments will</span>
+<span class="sd">        not consume Twitter IDs due to their size. Provide this option to have IDs</span>
+<span class="sd">        returned as strings instead. More about Twitter IDs.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_friends_list"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_friends_list">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_friends_list</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a cursored collection of user objects for every user the</span>
+<span class="sd">        specified user is following (otherwise known as their &quot;friends&quot;).</span>
+
+<span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
+<span class="sd">        results.</span>
+<span class="sd">    :param screen_name: (str - optional) The screen name of the user for whom</span>
+<span class="sd">        to return results.</span>
+<span class="sd">    :param cursor: (cursor - semi-optional) Causes the results to be broken</span>
+<span class="sd">        into pages. If no cursor is provided, a value of -1 will be assumed, which is</span>
+<span class="sd">        the first “page.” The response from the API will include a previous_cursor and</span>
+<span class="sd">        next_cursor to allow paging back and forth. See Using cursors to navigate</span>
+<span class="sd">        collections for more information.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param skip_status: (bool - optional) When set to True statuses will not be</span>
+<span class="sd">        included in the returned user objects.</span>
+<span class="sd">    :param include_user_entities: (bool - optional) The user object entities</span>
+<span class="sd">        node will not be included when set to False.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_home_timeline"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_home_timeline">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_home_timeline</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">exclude_replies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a collection of the most recent Tweets and retweets</span>
+<span class="sd">        posted by the authenticating user and the users they follow.</span>
+
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param since_id: (int - optional) Returns results with an ID greater than</span>
+<span class="sd">        (that is, more recent than) the specified ID. There are limits to the number of</span>
+<span class="sd">        Tweets which can be accessed through the API. If the limit of Tweets has</span>
+<span class="sd">        occured since the since_id, the since_id will be forced to the oldest ID</span>
+<span class="sd">        available.</span>
+<span class="sd">    :param max_id: (int - optional) Returns results with an ID less than (that</span>
+<span class="sd">        is, older than) or equal to the specified ID.</span>
+<span class="sd">    :param trim_user: (bool - optional) When set to True, each Tweet returned</span>
+<span class="sd">        in a timeline will include a user object including only the status authors</span>
+<span class="sd">        numerical ID. Omit this parameter to receive the complete user object.</span>
+<span class="sd">    :param exclude_replies: (bool - optional) This parameter will prevent</span>
+<span class="sd">        replies from appearing in the returned timeline. Using exclude_replies with the</span>
+<span class="sd">        count parameter will mean you will receive up-to count Tweets — this is because</span>
+<span class="sd">        the count parameter retrieves that many Tweets before filtering out retweets</span>
+<span class="sd">        and replies.</span>
+<span class="sd">    :param include_entities: (bool - optional) The entities node will not be</span>
+<span class="sd">        included when set to False.</span>
+<span class="sd">    :param tweet_mode: (str - optional) Valid request values are compat and</span>
+<span class="sd">        extended, which give compatibility mode and extended mode, respectively for</span>
+<span class="sd">        Tweets that contain over 140 characters</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_list_members"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_list_members">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_list_members</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the members of the specified list.</span>
+
+<span class="sd">    :param list_id: (str - required) The numerical id of the list.</span>
+<span class="sd">    :param slug: (str - required) You can identify a list by its slug instead</span>
+<span class="sd">        of its numerical id. If you decide to do so, note that you’ll also have to</span>
+<span class="sd">        specify the list owner using the owner_id or owner_screen_name parameters.</span>
+<span class="sd">    :param owner_screen_name: (str - optional) The screen name of the user who</span>
+<span class="sd">        owns the list being requested by a slug.</span>
+<span class="sd">    :param owner_id: (int - optional) The user ID of the user who owns the list</span>
+<span class="sd">        being requested by a slug.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param cursor: (cursor - semi-optional) Causes the collection of list</span>
+<span class="sd">        members to be broken into “pages” of consistent sizes (specified by the count</span>
+<span class="sd">        parameter). If no cursor is provided, a value of -1 will be assumed, which is</span>
+<span class="sd">        the first “page.” The response from the API will include a previous_cursor and</span>
+<span class="sd">        next_cursor to allow paging back and forth. See Using cursors to navigate</span>
+<span class="sd">        collections for more information.</span>
+<span class="sd">    :param include_entities: (bool - optional) The entities node will not be</span>
+<span class="sd">        included when set to False.</span>
+<span class="sd">    :param skip_status: (bool - optional) When set to True statuses will not be</span>
+<span class="sd">        included in the returned user objects.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_list_memberships"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_list_memberships">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_list_memberships</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_to_owned_lists</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the lists the specified user has been added to.</span>
+
+<span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
+<span class="sd">        results. Helpful for disambiguating when a valid user ID is also a valid screen</span>
+<span class="sd">        name.</span>
+<span class="sd">    :param screen_name: (str - optional) The screen name of the user for whom</span>
+<span class="sd">        to return results. Helpful for disambiguating when a valid screen name is also</span>
+<span class="sd">        a user ID.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param cursor: (cursor - optional) Breaks the results into pages. Provide a</span>
+<span class="sd">        value of -1 to begin paging. Provide values as returned in the response body’s</span>
+<span class="sd">        next_cursor and previous_cursor attributes to page back and forth in the list.</span>
+<span class="sd">        It is recommended to always use cursors when the method supports them. See</span>
+<span class="sd">        Cursoring for more information.</span>
+<span class="sd">    :param filter_to_owned_lists: (bool - optional) When True, will return just</span>
+<span class="sd">        lists the authenticating user owns, and the user represented by user_id or</span>
+<span class="sd">        screen_name is a member of.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_list_statuses"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_list_statuses">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_list_statuses</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">include_rts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a timeline of tweets authored by members of the specified list.</span>
+
+<span class="sd">    :param list_id: (str - required) The numerical id of the list.</span>
+<span class="sd">    :param slug: (str - required) You can identify a list by its slug instead</span>
+<span class="sd">        of its numerical id. If you decide to do so, note that you’ll also have to</span>
+<span class="sd">        specify the list owner using the owner_id or owner_screen_name parameters.</span>
+<span class="sd">    :param owner_screen_name: (str - optional) The screen name of the user who</span>
+<span class="sd">        owns the list being requested by a slug .</span>
+<span class="sd">    :param owner_id: (int - optional) The user ID of the user who owns the list</span>
+<span class="sd">        being requested by a slug .</span>
+<span class="sd">    :param since_id: (int - optional) Returns results with an ID greater than</span>
+<span class="sd">        (that is, more recent than) the specified ID. There are limits to the number of</span>
+<span class="sd">        Tweets which can be accessed through the API. If the limit of Tweets has</span>
+<span class="sd">        occured since the since_id, the since_id will be forced to the oldest ID</span>
+<span class="sd">        available.</span>
+<span class="sd">    :param max_id: (int - optional) Returns results with an ID less than (that</span>
+<span class="sd">        is, older than) or equal to the specified ID.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param include_entities: (bool - optional) Entities are ON by default in</span>
+<span class="sd">        API 1.1, each tweet includes a node called “entities”. This node offers a</span>
+<span class="sd">        variety of metadata about the tweet in a discreet structure, including:</span>
+<span class="sd">        user_mentions, urls, and hashtags. You can omit entities from the result by</span>
+<span class="sd">        using include_entities=False</span>
+<span class="sd">    :param include_rts: (bool - optional) When set to True, the list timeline</span>
+<span class="sd">        will contain native retweets (if they exist) in addition to the standard stream</span>
+<span class="sd">        of tweets. The output format of retweeted tweets is identical to the</span>
+<span class="sd">        representation you see in home_timeline.</span>
+<span class="sd">    :param tweet_mode: (str - optional) Valid request values are compat and</span>
+<span class="sd">        extended, which give compatibility mode and extended mode, respectively for</span>
+<span class="sd">        Tweets that contain over 140 characters</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-statuses</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_list_subscribers"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_list_subscribers">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_list_subscribers</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the subscribers of the specified list.</span>
+
+<span class="sd">    :param list_id: (str - required) The numerical id of the list.</span>
+<span class="sd">    :param slug: (str - required) You can identify a list by its slug instead</span>
+<span class="sd">        of its numerical id. If you decide to do so, note that you’ll also have to</span>
+<span class="sd">        specify the list owner using the owner_id or owner_screen_name parameters.</span>
+<span class="sd">    :param owner_screen_name: (str - optional) The screen name of the user who</span>
+<span class="sd">        owns the list being requested by a slug .</span>
+<span class="sd">    :param owner_id: (int - optional) The user ID of the user who owns the list</span>
+<span class="sd">        being requested by a slug .</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param cursor: (cursor - optional) Breaks the results into pages. A single</span>
+<span class="sd">        page contains 20 lists. Provide a value of -1 to begin paging. Provide values</span>
+<span class="sd">        as returned in the response body’s next_cursor and previous_cursor attributes</span>
+<span class="sd">        to page back and forth in the list. See Using cursors to navigate collections</span>
+<span class="sd">        for more information.</span>
+<span class="sd">    :param include_entities: (bool - optional) When set to True, each tweet</span>
+<span class="sd">        will include a node called “entities”. This node offers a variety of metadata</span>
+<span class="sd">        about the tweet in a discreet structure, including: user_mentions, urls, and</span>
+<span class="sd">        hashtags. While entities are opt-in on timelines at present, they will be made</span>
+<span class="sd">        a default component of output in the future. See Tweet Entities for more</span>
+<span class="sd">        details.</span>
+<span class="sd">    :param skip_status: (bool - optional) When set to Truestatuses will not be</span>
+<span class="sd">        included in the returned user objects.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_list_subscriptions"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_list_subscriptions">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_list_subscriptions</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtain a collection of the lists the specified user is subscribed to.</span>
+
+<span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
+<span class="sd">        results. Helpful for disambiguating when a valid user ID is also a valid screen</span>
+<span class="sd">        name.</span>
+<span class="sd">    :param screen_name: (str - optional) The screen name of the user for whom</span>
+<span class="sd">        to return results. Helpful for disambiguating when a valid screen name is also</span>
+<span class="sd">        a user ID.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param cursor: (cursor - optional) Breaks the results into pages. Provide a</span>
+<span class="sd">        value of -1 to begin paging. Provide values as returned in the response body’s</span>
+<span class="sd">        next_cursor and previous_cursor attributes to page back and forth in the list.</span>
+<span class="sd">        It is recommended to always use cursors when the method supports them. See</span>
+<span class="sd">        Cursoring for more information.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_mentions_timeline"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_mentions_timeline">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_mentions_timeline</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the 20 most recent mentions (tweets containing a users&#39;s</span>
+<span class="sd">        @screen_name) for the authenticating user.</span>
+
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param since_id: (int - optional) Returns results with an ID greater than</span>
+<span class="sd">        (that is, more recent than) the specified ID. There are limits to the number of</span>
+<span class="sd">        Tweets which can be accessed through the API. If the limit of Tweets has</span>
+<span class="sd">        occured since the since_id, the since_id will be forced to the oldest ID</span>
+<span class="sd">        available.</span>
+<span class="sd">    :param max_id: (int - optional) Returns results with an ID less than (that</span>
+<span class="sd">        is, older than) or equal to the specified ID.</span>
+<span class="sd">    :param trim_user: (bool - optional) When set to True, each tweet returned</span>
+<span class="sd">        in a timeline will include a user object including only the status authors</span>
+<span class="sd">        numerical ID. Omit this parameter to receive the complete user object.</span>
+<span class="sd">    :param include_entities: (bool - optional) The entities node will not be</span>
+<span class="sd">        included when set to False.</span>
+<span class="sd">    :param tweet_mode: (str - optional) Valid request values are compat and</span>
+<span class="sd">        extended, which give compatibility mode and extended mode, respectively for</span>
+<span class="sd">        Tweets that contain over 140 characters</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_place_trends"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_place_trends">[docs]</a><span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_place_trends</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the top 10 trending topics for a specific WOEID, if</span>
+<span class="sd">        trending information is available for it.</span>
+
+<span class="sd">    :param id: (int or list of ints - required) run ``get_available_trends()`` for </span>
+<span class="sd">        the full listing.</span>
+<span class="sd">        The Yahoo! Where On Earth ID of the </span>
+<span class="sd">        location to return trending information for. Global information is available </span>
+<span class="sd">        by using 1 as the WOEID .</span>
+<span class="sd">    :param exclude: (str - optional) Setting this equal to hashtags will remove</span>
+<span class="sd">        all hashtags from the trends list.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/trends/trends-for-location/api-reference/get-trends-place</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">twtr</span> <span class="o">=</span> <span class="n">Twython</span><span class="p">(</span><span class="o">**</span><span class="n">get_place_trends</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">())</span>
+    <span class="n">trends_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">ids</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">place_id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+
+        <span class="n">place_trends</span> <span class="o">=</span> <span class="n">twtr</span><span class="o">.</span><span class="n">get_place_trends</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">place_id</span><span class="p">)</span>
+        <span class="n">trend_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;trends&#39;</span><span class="p">])</span>
+        <span class="n">trend_df</span> <span class="o">=</span> <span class="n">trend_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;tweet_volume&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">trend_df</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;locations&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">trend_df</span><span class="p">[</span><span class="s1">&#39;woeid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;locations&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;woeid&#39;</span><span class="p">]</span>
+        <span class="n">trend_df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;created_at&#39;</span><span class="p">])</span>
+
+        <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trend_df</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;woeid&#39;</span><span class="p">,</span> <span class="s1">&#39;tweet_volume&#39;</span><span class="p">],</span>
+                                      <span class="n">ascending</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+    <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">trends_df</span></div>
+
+
+
+<div class="viewcode-block" id="get_retweeters_ids"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_retweeters_ids">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_retweeters_ids</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a collection of up to 100 user IDs belonging to users who</span>
+<span class="sd">        have retweeted the tweet specified by the ``id`` parameter.</span>
+
+<span class="sd">    :param id: (int - required) The numerical ID of the desired status.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param cursor: (cursor - semi-optional) Causes the list of IDs to be broken</span>
+<span class="sd">        into pages of no more than 100 IDs at a time. The number of IDs returned is not</span>
+<span class="sd">        guaranteed to be 100 as suspended users are filtered out after connections are</span>
+<span class="sd">        queried. If no cursor is provided, a value of -1 will be assumed, which is the</span>
+<span class="sd">        first “page.” The response from the API will include a previous_cursor and</span>
+<span class="sd">        next_cursor to allow paging back and forth. See our cursor docs for more</span>
+<span class="sd">        information. While this method supports the cursor parameter, the entire result</span>
+<span class="sd">        set can be returned in a single cursored collection. Using the count parameter</span>
+<span class="sd">        with this method will not provide segmented cursors for use with this</span>
+<span class="sd">        parameter.</span>
+<span class="sd">    :param stringify_ids: (bool - optional) Many programming environments will</span>
+<span class="sd">        not consume Tweet ids due to their size. Provide this option to have ids</span>
+<span class="sd">        returned as strings instead.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_retweets"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_retweets">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_retweets</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns up to 100 of the first retweets of a given tweet.</span>
+
+<span class="sd">    :param id: (int - required) The numerical ID of the desired status.</span>
+<span class="sd">    :param trim_user: (bool - optional) When set to True, each tweet returned</span>
+<span class="sd">        in a timeline will include a user object including only the status authors</span>
+<span class="sd">        numerical ID. Omit this parameter to receive the complete user object.</span>
+<span class="sd">    :param tweet_mode: (str - optional) Valid request values are compat and</span>
+<span class="sd">        extended, which give compatibility mode and extended mode, respectively for</span>
+<span class="sd">        Tweets that contain over 140 characters</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-retweet-id</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="get_supported_languages"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_supported_languages">[docs]</a><span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_supported_languages</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the list of languages supported by Twitter along with</span>
+<span class="sd">        their ISO 639-1 code.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/developer-utilities/supported-languages/api-reference/get-help-languages</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">twtr</span> <span class="o">=</span> <span class="n">Twython</span><span class="p">(</span><span class="o">**</span><span class="n">get_supported_languages</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">())</span>
+    <span class="n">langs</span> <span class="o">=</span> <span class="n">twtr</span><span class="o">.</span><span class="n">get_supported_languages</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">langs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_user_timeline"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_user_timeline">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">get_user_timeline</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_replies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">include_rts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a collection of the most recent Tweets posted by the user</span>
+<span class="sd">        indicated by the ``screen_name`` or ``user_id`` parameters.</span>
+
+<span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
+<span class="sd">        results.</span>
+<span class="sd">    :param screen_name: (str - optional) The screen name of the user for whom</span>
+<span class="sd">        to return results.</span>
+<span class="sd">    :param since_id: (int - optional) Returns results with an ID greater than</span>
+<span class="sd">        (that is, more recent than) the specified ID. There are limits to the number of</span>
+<span class="sd">        Tweets that can be accessed through the API. If the limit of Tweets has occured</span>
+<span class="sd">        since the since_id, the since_id will be forced to the oldest ID available.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param max_id: (int - optional) Returns results with an ID less than (that</span>
+<span class="sd">        is, older than) or equal to the specified ID.</span>
+<span class="sd">    :param trim_user: (bool - optional) When set to True, each Tweet returned</span>
+<span class="sd">        in a timeline will include a user object including only the status authors</span>
+<span class="sd">        numerical ID. Omit this parameter to receive the complete user object.</span>
+<span class="sd">    :param exclude_replies: (bool - optional) This parameter will prevent</span>
+<span class="sd">        replies from appearing in the returned timeline. Using exclude_replies with the</span>
+<span class="sd">        count parameter will mean you will receive up-to count tweets — this is because</span>
+<span class="sd">        the count parameter retrieves that many Tweets before filtering out retweets</span>
+<span class="sd">        and replies.</span>
+<span class="sd">    :param include_rts: (bool - optional) When set to False , the timeline will</span>
+<span class="sd">        strip any native retweets (though they will still count toward both the maximal</span>
+<span class="sd">        length of the timeline and the slice selected by the count parameter). Note: If</span>
+<span class="sd">        you’re using the trim_user parameter in conjunction with include_rts, the</span>
+<span class="sd">        retweets will still contain a full user object.</span>
+<span class="sd">    :param tweet_mode: (str - optional) Valid request values are compat and</span>
+<span class="sd">        extended, which give compatibility mode and extended mode, respectively for</span>
+<span class="sd">        Tweets that contain over 140 characters</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="lookup_status"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.lookup_status">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">lookup_status</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">include_ext_alt_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_card_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns fully-hydrated tweet objects for up to 100 tweets per</span>
+<span class="sd">        request, as specified by comma-separated values passed to the ``id``</span>
+<span class="sd">        parameter.</span>
+
+<span class="sd">    :param id: (int - required) A comma separated list of Tweet IDs, up to 100</span>
+<span class="sd">        are allowed in a single request.</span>
+<span class="sd">    :param include_entities: (bool - optional) The entities node that may</span>
+<span class="sd">        appear within embedded statuses will not be included when set to False.</span>
+<span class="sd">    :param trim_user: (bool - optional) When set to True, each Tweet returned</span>
+<span class="sd">        in a timeline will include a user object including only the status authors</span>
+<span class="sd">        numerical ID. Omit this parameter to receive the complete user object.</span>
+<span class="sd">    :param map: (bool - optional) When using the map parameter, Tweets that do</span>
+<span class="sd">        not exist or cannot be viewed by the current user will still have their key</span>
+<span class="sd">        represented but with an explicitly null value paired with it</span>
+<span class="sd">    :param include_ext_alt_text: (bool - optional) If alt text has been added</span>
+<span class="sd">        to any attached media entities, this parameter will return an ext_alt_text</span>
+<span class="sd">        value in the top-level key for the media entity. If no value has been set, this</span>
+<span class="sd">        will be returned as null</span>
+<span class="sd">    :param include_card_uri: (bool - optional) When set to True, each Tweet</span>
+<span class="sd">        returned will include a card_uri attribute when there is an ads card attached</span>
+<span class="sd">        to the Tweet and when that card was attached using the card_uri value.</span>
+<span class="sd">    :param tweet_mode: (str - optional) Valid request values are compat and</span>
+<span class="sd">        extended, which give compatibility mode and extended mode, respectively for</span>
+<span class="sd">        Tweets that contain over 140 characters</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="lookup_user"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.lookup_user">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">lookup_user</span><span class="p">(</span><span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns fully-hydrated user objects for up to 100 users per request,</span>
+<span class="sd">        as specified by comma-separated values passed to the ``user_id`` and/or</span>
+<span class="sd">        ``screen_name`` parameters.</span>
+
+<span class="sd">    :param screen_name: (str - optional) A comma separated list of screen</span>
+<span class="sd">        names, up to 100 are allowed in a single request. You are strongly encouraged</span>
+<span class="sd">        to use a POST for larger (up to 100 screen names) requests.</span>
+<span class="sd">    :param user_id: (int - optional) A comma separated list of user IDs, up to</span>
+<span class="sd">        100 are allowed in a single request. You are strongly encouraged to use a POST</span>
+<span class="sd">        for larger requests.</span>
+<span class="sd">    :param include_entities: (bool - optional) The entities node that may</span>
+<span class="sd">        appear within embedded statuses will not be included when set to False.</span>
+<span class="sd">    :param tweet_mode: (str - optional) Valid request values are compat and</span>
+<span class="sd">        extended, which give compatibility mode and extended mode, respectively for</span>
+<span class="sd">        Tweets that contain over 140 characters</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="retweeted_of_me"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.retweeted_of_me">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">retweeted_of_me</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the most recent tweets authored by the authenticating user</span>
+<span class="sd">        that have been retweeted by others.</span>
+
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param since_id: (int - optional) Returns results with an ID greater than</span>
+<span class="sd">        (that is, more recent than) the specified ID. There are limits to the number of</span>
+<span class="sd">        Tweets which can be accessed through the API. If the limit of Tweets has</span>
+<span class="sd">        occured since the since_id, the since_id will be forced to the oldest ID</span>
+<span class="sd">        available.</span>
+<span class="sd">    :param max_id: (int - optional) Returns results with an ID less than (that</span>
+<span class="sd">        is, older than) or equal to the specified ID.</span>
+<span class="sd">    :param trim_user: (bool - optional) When set to True, each tweet returned</span>
+<span class="sd">        in a timeline will include a user object including only the status authors</span>
+<span class="sd">        numerical ID. Omit this parameter to receive the complete user object.</span>
+<span class="sd">    :param include_entities: (bool - optional) The tweet entities node will not</span>
+<span class="sd">        be included when set to False .</span>
+<span class="sd">    :param include_user_entities: (bool - optional) The user entities node will</span>
+<span class="sd">        not be included when set to False .</span>
+<span class="sd">    :param tweet_mode: (str - optional) Valid request values are compat and</span>
+<span class="sd">        extended, which give compatibility mode and extended mode, respectively for</span>
+<span class="sd">        Tweets that contain over 140 characters</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets_of_me</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="search"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.search">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">geocode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a collection of relevant Tweets matching a specified query.</span>
+
+<span class="sd">    :param q: (str - required) A UTF-8, URL-encoded search query of 500</span>
+<span class="sd">        characters maximum, including operators. Queries may additionally be limited by</span>
+<span class="sd">        complexity.</span>
+<span class="sd">    :param geocode: (lat lon dist - optional) Returns tweets by users located</span>
+<span class="sd">        within a given radius of the given latitude/longitude. The location is</span>
+<span class="sd">        preferentially taking from the Geotagging API, but will fall back to their</span>
+<span class="sd">        Twitter profile. The parameter value is specified by ”</span>
+<span class="sd">        latitude,longitude,radius “, where radius units must be specified as either ”</span>
+<span class="sd">        mi ” (miles) or ” km ” (kilometers). Note that you cannot use the near operator</span>
+<span class="sd">        via the API to geocode arbitrary locations; however you can use this geocode</span>
+<span class="sd">        parameter to search near geocodes directly. A maximum of 1,000 distinct “sub-</span>
+<span class="sd">        regions” will be considered when using the radius modifier.</span>
+<span class="sd">    :param lang: (str - optional) Restricts tweets to the given language, given</span>
+<span class="sd">        by an ISO 639-1 code. Language detection is best-effort.</span>
+<span class="sd">    :param locale: (str - optional) Specify the language of the query you are</span>
+<span class="sd">        sending (only ja is currently effective). This is intended for language-</span>
+<span class="sd">        specific consumers and the default should work in the majority of cases.</span>
+<span class="sd">    :param result_type: (str - optional) Optional. Specifies what type of</span>
+<span class="sd">        search results you would prefer to receive. The current default is “mixed.”</span>
+<span class="sd">        Valid values include: * mixed : Include both popular and real time results in</span>
+<span class="sd">        the response. * recent : return only the most recent results in the response *</span>
+<span class="sd">        popular : return only the most popular results in the response.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param until: (date - optional) Returns tweets created before the given</span>
+<span class="sd">        date. Date should be formatted as YYYY-MM-DD. Keep in mind that the search</span>
+<span class="sd">        index has a 7-day limit. In other words, no tweets will be found for a date</span>
+<span class="sd">        older than one week.</span>
+<span class="sd">    :param since_id: (int - optional) Returns results with an ID greater than</span>
+<span class="sd">        (that is, more recent than) the specified ID. There are limits to the number of</span>
+<span class="sd">        Tweets which can be accessed through the API. If the limit of Tweets has</span>
+<span class="sd">        occured since the since_id, the since_id will be forced to the oldest ID</span>
+<span class="sd">        available.</span>
+<span class="sd">    :param max_id: (int - optional) Returns results with an ID less than (that</span>
+<span class="sd">        is, older than) or equal to the specified ID.</span>
+<span class="sd">    :param include_entities: (bool - optional) The entities node will not be</span>
+<span class="sd">        included when set to False.</span>
+<span class="sd">    :param tweet_mode: (str - optional) Valid request values are compat and</span>
+<span class="sd">        extended, which give compatibility mode and extended mode, respectively for</span>
+<span class="sd">        Tweets that contain over 140 characters</span>
+
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                           Operator | Finds Tweets...                                     |</span>
+<span class="sd">    +====================================+=====================================================+</span>
+<span class="sd">    |                      watching now  | containing both “watching” and “now”. This is the   |</span>
+<span class="sd">    |                                    | default operator.                                   |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                      “happy hour”  |  containing the exact phrase “happy hour”.          |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                      love OR hate  |  containing either “love” or “hate” (or both).      |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                        beer -root  |  containing “beer” but not “root”.                  |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                            #haiku  |  containing the hashtag “haiku”.                    |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                     from:interior  |  sent from Twitter account “interior”.              |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    | list:NASA/astronauts-in-space-now  | sent from a Twitter account in the NASA list        |</span>
+<span class="sd">    |                                    | astronauts-in-space-now                             |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                           to:NASA  | a Tweet authored in reply to Twitter account        |</span>
+<span class="sd">    |                                    | “NASA”.                                             |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                             @NASA  |  mentioning Twitter account “NASA”.                 |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |              politics filter:safe  | containing “politics” with Tweets marked as         |</span>
+<span class="sd">    |                                    | potentially sensitive removed.                      |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                puppy filter:media  |  containing “puppy” and an image or video.          |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |            puppy -filter:retweets  |  containing “puppy”, filtering out retweets         |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |         puppy filter:native_video  | containing “puppy” and an uploaded video, Amplify   |</span>
+<span class="sd">    |                                    | video, Periscope, or Vine.                          |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |            puppy filter:periscope  |  containing “puppy” and a Periscope video URL.      |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                 puppy filter:vine  |  containing “puppy” and a Vine.                     |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |               puppy filter:images  | containing “puppy” and links identified as photos,  |</span>
+<span class="sd">    |                                    | including third parties such as Instagram.          |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                puppy filter:twimg  | containing “puppy” and a pic.twitter.com link       |</span>
+<span class="sd">    |                                    | representing one or more photos.                    |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |            hilarious filter:links  |  containing “hilarious” and linking to URL.         |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                  puppy url:amazon  | containing “puppy” and a URL with the word          |</span>
+<span class="sd">    |                                    | “amazon” anywhere within it.                        |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |        superhero since:2015-12-21  | containing “superhero” and sent since date          |</span>
+<span class="sd">    |                                    | “2015-12-21” (year-month-day).                      |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |            puppy until:2015-12-21  | containing “puppy” and sent before the date         |</span>
+<span class="sd">    |                                    | “2015-12-21”.                                       |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                   movie -scary :)  | containing “movie”, but not “scary”, and with a     |</span>
+<span class="sd">    |                                    | positive attitude.                                  |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                         flight :(  | containing “flight” and with a negative attitude.   |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+<span class="sd">    |                          traffic ? | containing “traffic” and asking a question.         |</span>
+<span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="search_users"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.search_users">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">search_users</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides a simple, relevance-based search interface to public user</span>
+<span class="sd">        accounts on Twitter.</span>
+
+<span class="sd">    :param q: (str - required) The search query to run against people search.</span>
+<span class="sd">    :param page: (int - optional) Specifies the page of results to retrieve.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param include_entities: (bool - optional) The entities node will not be</span>
+<span class="sd">        included in embedded Tweet objects when set to False .</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-search</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="show_lists"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.show_lists">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">show_lists</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns all lists the authenticating or specified user subscribes to,</span>
+<span class="sd">        including their own.</span>
+
+<span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
+<span class="sd">        results. Helpful for disambiguating when a valid user ID is also a valid screen</span>
+<span class="sd">        name. Note: : Specifies the ID of the user to get lists from. Helpful for</span>
+<span class="sd">        disambiguating when a valid user ID is also a valid screen name.</span>
+<span class="sd">    :param screen_name: (str - optional) The screen name of the user for whom</span>
+<span class="sd">        to return results. Helpful for disambiguating when a valid screen name is also</span>
+<span class="sd">        a user ID.</span>
+<span class="sd">    :param reverse: (bool - optional) Set this to true if you would like owned</span>
+<span class="sd">        lists to be returned first. See description above for information on how this</span>
+<span class="sd">        parameter works.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="show_owned_lists"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.show_owned_lists">[docs]</a><span class="nd">@make_dataframe</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">show_owned_lists</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the lists owned by the specified Twitter user.</span>
+
+<span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
+<span class="sd">        results. Helpful for disambiguating when a valid user ID is also a valid screen</span>
+<span class="sd">        name.</span>
+<span class="sd">    :param screen_name: (str - optional) The screen name of the user for whom</span>
+<span class="sd">        to return results. Helpful for disambiguating when a valid screen name is also</span>
+<span class="sd">        a user ID.</span>
+<span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>
+<span class="sd">    :param cursor: (cursor - optional) Breaks the results into pages. Provide a</span>
+<span class="sd">        value of -1 to begin paging. Provide values as returned in the response body’s</span>
+<span class="sd">        next_cursor and previous_cursor attributes to page back and forth in the list.</span>
+<span class="sd">        It is recommended to always use cursors when the method supports them. See</span>
+<span class="sd">        Cursoring for more information.</span>
+
+<span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<span class="n">FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">get_application_rate_limit_status</span><span class="p">,</span>
+    <span class="n">get_available_trends</span><span class="p">,</span>
+    <span class="n">get_favorites</span><span class="p">,</span>
+    <span class="n">get_followers_ids</span><span class="p">,</span>
+    <span class="n">get_followers_list</span><span class="p">,</span>
+    <span class="n">get_friends_ids</span><span class="p">,</span>
+    <span class="n">get_friends_list</span><span class="p">,</span>
+    <span class="n">get_home_timeline</span><span class="p">,</span>
+    <span class="n">get_list_members</span><span class="p">,</span>
+    <span class="n">get_list_memberships</span><span class="p">,</span>
+    <span class="n">get_list_statuses</span><span class="p">,</span>
+    <span class="n">get_list_subscribers</span><span class="p">,</span>
+    <span class="n">get_list_subscriptions</span><span class="p">,</span>
+    <span class="n">get_mentions_timeline</span><span class="p">,</span>
+    <span class="n">get_place_trends</span><span class="p">,</span>
+    <span class="n">get_retweeters_ids</span><span class="p">,</span>
+    <span class="n">get_retweets</span><span class="p">,</span>
+    <span class="n">get_supported_languages</span><span class="p">,</span>
+    <span class="n">get_user_timeline</span><span class="p">,</span>
+    <span class="n">lookup_status</span><span class="p">,</span>
+    <span class="n">lookup_user</span><span class="p">,</span>
+    <span class="n">retweeted_of_me</span><span class="p">,</span>
+    <span class="n">search</span><span class="p">,</span>
+    <span class="n">search_users</span><span class="p">,</span>
+    <span class="n">show_lists</span><span class="p">,</span>
+    <span class="n">show_owned_lists</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="set_auth_params"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.set_auth_params">[docs]</a><span class="k">def</span> <span class="nf">set_auth_params</span><span class="p">(</span><span class="n">app_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">oauth_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">oauth_token_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">token_type</span><span class="o">=</span><span class="s1">&#39;bearer&#39;</span><span class="p">,</span> <span class="n">oauth_version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="s1">&#39;1.1&#39;</span><span class="p">,</span>
+                    <span class="n">client_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth_endpoint</span><span class="o">=</span><span class="s1">&#39;authenticate&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The main function for authentication. </span>
+<span class="sd">    Needs to be called once in a session. </span>
+<span class="sd">    </span>
+<span class="sd">    First you need to create a developer account and app:</span>
+<span class="sd">    https://developer.twitter.com/ to get your credentials. </span>
+<span class="sd">    </span>
+<span class="sd">    Different ways to authenticate:</span>
+<span class="sd">    https://twython.readthedocs.io/en/latest/usage/starting_out.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">FUNCTIONS</span><span class="p">:</span>
+        <span class="n">func</span><span class="o">.</span><span class="n">set_auth_params</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">advertools</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">advertools: create, scale, and manage online campaigns</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Elias Dabbas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

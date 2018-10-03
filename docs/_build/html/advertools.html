@@ -560,6 +560,972 @@ Python dictionary.</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="module-advertools.twitter">
+<span id="advertools-twitter-module"></span><h2>advertools.twitter module<a class="headerlink" href="#module-advertools.twitter" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="advertools.twitter.authenticate">
+<code class="descclassname">advertools.twitter.</code><code class="descname">authenticate</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#authenticate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.authenticate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used internally, please use set_auth_params for authentication.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_application_rate_limit_status">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_application_rate_limit_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_application_rate_limit_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_application_rate_limit_status" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns the current rate limits for methods belonging to the</dt>
+<dd>specified resource families.</dd>
+</dl>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status">https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_available_trends">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_available_trends</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_available_trends"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_available_trends" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the locations that Twitter has trending topic information for.</p>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/trends/locations-with-trending-topics/api-reference/get-trends-available">https://developer.twitter.com/en/docs/trends/locations-with-trending-topics/api-reference/get-trends-available</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_favorites">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_favorites</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>screen_name=None</em>, <em>count=None</em>, <em>since_id=None</em>, <em>max_id=None</em>, <em>include_entities=None</em>, <em>tweet_mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_favorites"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_favorites" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns the 20 most recent Tweets favorited by the authenticating</dt>
+<dd>or specified user.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> – (int - optional) The ID of the user for whom to return
+results.</li>
+<li><strong>screen_name</strong> – (str - optional) The screen name of the user for whom
+to return results.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>since_id</strong> – (int - optional) Returns results with an ID greater than
+(that is, more recent than) the specified ID. There are limits to the number of
+Tweets which can be accessed through the API. If the limit of Tweets has
+occured since the since_id, the since_id will be forced to the oldest ID
+available.</li>
+<li><strong>max_id</strong> – (int - optional) Returns results with an ID less than (that
+is, older than) or equal to the specified ID.</li>
+<li><strong>include_entities</strong> – (bool - optional) The entities node will be
+omitted when set to False .</li>
+<li><strong>tweet_mode</strong> – (str - optional) Valid request values are compat and
+extended, which give compatibility mode and extended mode, respectively for
+Tweets that contain over 140 characters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list">https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_followers_ids">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_followers_ids</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>screen_name=None</em>, <em>cursor=None</em>, <em>stringify_ids=None</em>, <em>count=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_followers_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_followers_ids" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a cursored collection of user IDs for every user</dt>
+<dd>following the specified user.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> – (int - optional) The ID of the user for whom to return
+results.</li>
+<li><strong>screen_name</strong> – (str - optional) The screen name of the user for whom
+to return results.</li>
+<li><strong>cursor</strong> – (cursor - semi-optional) Causes the list of connections to
+be broken into pages of no more than 5000 IDs at a time. The number of IDs
+returned is not guaranteed to be 5000 as suspended users are filtered out after
+connections are queried. If no cursor is provided, a value of -1 will be
+assumed, which is the first “page.” The response from the API will include a
+previous_cursor and next_cursor to allow paging back and forth. See Using
+cursors to navigate collections for more information.</li>
+<li><strong>stringify_ids</strong> – (bool - optional) Some programming environments will
+not consume Twitter IDs due to their size. Provide this option to have IDs
+returned as strings instead. More about Twitter IDs.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids">https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_followers_list">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_followers_list</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>screen_name=None</em>, <em>cursor=None</em>, <em>count=None</em>, <em>skip_status=None</em>, <em>include_user_entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_followers_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_followers_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a cursored collection of user objects for users</dt>
+<dd>following the specified user.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> – (int - optional) The ID of the user for whom to return
+results.</li>
+<li><strong>screen_name</strong> – (str - optional) The screen name of the user for whom
+to return results.</li>
+<li><strong>cursor</strong> – (cursor - semi-optional) Causes the results to be broken
+into pages. If no cursor is provided, a value of -1 will be assumed, which is
+the first “page.” The response from the API will include a previous_cursor and
+next_cursor to allow paging back and forth. See Using cursors to navigate
+collections for more information.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>skip_status</strong> – (bool - optional) When set to True, statuses will not
+be included in the returned user objects. If set to any other value, statuses
+will be included.</li>
+<li><strong>include_user_entities</strong> – (bool - optional) The user object entities
+node will not be included when set to False.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-list">https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-list</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_friends_ids">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_friends_ids</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>screen_name=None</em>, <em>cursor=None</em>, <em>stringify_ids=None</em>, <em>count=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_friends_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_friends_ids" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a cursored collection of user IDs for every user the</dt>
+<dd>specified user is following (otherwise known as their “friends”).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> – (int - optional) The ID of the user for whom to return
+results.</li>
+<li><strong>screen_name</strong> – (str - optional) The screen name of the user for whom
+to return results.</li>
+<li><strong>cursor</strong> – (cursor - semi-optional) Causes the list of connections to
+be broken into pages of no more than 5000 IDs at a time. The number of IDs
+returned is not guaranteed to be 5000 as suspended users are filtered out after
+connections are queried. If no cursor is provided, a value of -1 will be
+assumed, which is the first “page.” The response from the API will include a
+previous_cursor and next_cursor to allow paging back and forth. See Using
+cursors to navigate collections for more information.</li>
+<li><strong>stringify_ids</strong> – (bool - optional) Some programming environments will
+not consume Twitter IDs due to their size. Provide this option to have IDs
+returned as strings instead. More about Twitter IDs.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids">https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_friends_list">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_friends_list</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>screen_name=None</em>, <em>cursor=None</em>, <em>count=None</em>, <em>skip_status=None</em>, <em>include_user_entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_friends_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_friends_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a cursored collection of user objects for every user the</dt>
+<dd>specified user is following (otherwise known as their “friends”).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> – (int - optional) The ID of the user for whom to return
+results.</li>
+<li><strong>screen_name</strong> – (str - optional) The screen name of the user for whom
+to return results.</li>
+<li><strong>cursor</strong> – (cursor - semi-optional) Causes the results to be broken
+into pages. If no cursor is provided, a value of -1 will be assumed, which is
+the first “page.” The response from the API will include a previous_cursor and
+next_cursor to allow paging back and forth. See Using cursors to navigate
+collections for more information.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>skip_status</strong> – (bool - optional) When set to True statuses will not be
+included in the returned user objects.</li>
+<li><strong>include_user_entities</strong> – (bool - optional) The user object entities
+node will not be included when set to False.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-list">https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-list</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_home_timeline">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_home_timeline</code><span class="sig-paren">(</span><em>count=None</em>, <em>since_id=None</em>, <em>max_id=None</em>, <em>trim_user=None</em>, <em>exclude_replies=None</em>, <em>include_entities=None</em>, <em>tweet_mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_home_timeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_home_timeline" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a collection of the most recent Tweets and retweets</dt>
+<dd>posted by the authenticating user and the users they follow.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>since_id</strong> – (int - optional) Returns results with an ID greater than
+(that is, more recent than) the specified ID. There are limits to the number of
+Tweets which can be accessed through the API. If the limit of Tweets has
+occured since the since_id, the since_id will be forced to the oldest ID
+available.</li>
+<li><strong>max_id</strong> – (int - optional) Returns results with an ID less than (that
+is, older than) or equal to the specified ID.</li>
+<li><strong>trim_user</strong> – (bool - optional) When set to True, each Tweet returned
+in a timeline will include a user object including only the status authors
+numerical ID. Omit this parameter to receive the complete user object.</li>
+<li><strong>exclude_replies</strong> – (bool - optional) This parameter will prevent
+replies from appearing in the returned timeline. Using exclude_replies with the
+count parameter will mean you will receive up-to count Tweets — this is because
+the count parameter retrieves that many Tweets before filtering out retweets
+and replies.</li>
+<li><strong>include_entities</strong> – (bool - optional) The entities node will not be
+included when set to False.</li>
+<li><strong>tweet_mode</strong> – (str - optional) Valid request values are compat and
+extended, which give compatibility mode and extended mode, respectively for
+Tweets that contain over 140 characters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline">https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_list_members">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_list_members</code><span class="sig-paren">(</span><em>list_id=None</em>, <em>slug=None</em>, <em>owner_screen_name=None</em>, <em>owner_id=None</em>, <em>count=None</em>, <em>cursor=None</em>, <em>include_entities=None</em>, <em>skip_status=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_members"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_list_members" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the members of the specified list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>list_id</strong> – (str - required) The numerical id of the list.</li>
+<li><strong>slug</strong> – (str - required) You can identify a list by its slug instead
+of its numerical id. If you decide to do so, note that you’ll also have to
+specify the list owner using the owner_id or owner_screen_name parameters.</li>
+<li><strong>owner_screen_name</strong> – (str - optional) The screen name of the user who
+owns the list being requested by a slug.</li>
+<li><strong>owner_id</strong> – (int - optional) The user ID of the user who owns the list
+being requested by a slug.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>cursor</strong> – (cursor - semi-optional) Causes the collection of list
+members to be broken into “pages” of consistent sizes (specified by the count
+parameter). If no cursor is provided, a value of -1 will be assumed, which is
+the first “page.” The response from the API will include a previous_cursor and
+next_cursor to allow paging back and forth. See Using cursors to navigate
+collections for more information.</li>
+<li><strong>include_entities</strong> – (bool - optional) The entities node will not be
+included when set to False.</li>
+<li><strong>skip_status</strong> – (bool - optional) When set to True statuses will not be
+included in the returned user objects.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members">https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_list_memberships">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_list_memberships</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>screen_name=None</em>, <em>count=None</em>, <em>cursor=None</em>, <em>filter_to_owned_lists=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_memberships"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_list_memberships" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the lists the specified user has been added to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> – (int - optional) The ID of the user for whom to return
+results. Helpful for disambiguating when a valid user ID is also a valid screen
+name.</li>
+<li><strong>screen_name</strong> – (str - optional) The screen name of the user for whom
+to return results. Helpful for disambiguating when a valid screen name is also
+a user ID.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>cursor</strong> – (cursor - optional) Breaks the results into pages. Provide a
+value of -1 to begin paging. Provide values as returned in the response body’s
+next_cursor and previous_cursor attributes to page back and forth in the list.
+It is recommended to always use cursors when the method supports them. See
+Cursoring for more information.</li>
+<li><strong>filter_to_owned_lists</strong> – (bool - optional) When True, will return just
+lists the authenticating user owns, and the user represented by user_id or
+screen_name is a member of.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships">https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_list_statuses">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_list_statuses</code><span class="sig-paren">(</span><em>list_id=None</em>, <em>slug=None</em>, <em>owner_screen_name=None</em>, <em>owner_id=None</em>, <em>since_id=None</em>, <em>max_id=None</em>, <em>count=None</em>, <em>include_entities=None</em>, <em>include_rts=None</em>, <em>tweet_mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_statuses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_list_statuses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a timeline of tweets authored by members of the specified list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>list_id</strong> – (str - required) The numerical id of the list.</li>
+<li><strong>slug</strong> – (str - required) You can identify a list by its slug instead
+of its numerical id. If you decide to do so, note that you’ll also have to
+specify the list owner using the owner_id or owner_screen_name parameters.</li>
+<li><strong>owner_screen_name</strong> – (str - optional) The screen name of the user who
+owns the list being requested by a slug .</li>
+<li><strong>owner_id</strong> – (int - optional) The user ID of the user who owns the list
+being requested by a slug .</li>
+<li><strong>since_id</strong> – (int - optional) Returns results with an ID greater than
+(that is, more recent than) the specified ID. There are limits to the number of
+Tweets which can be accessed through the API. If the limit of Tweets has
+occured since the since_id, the since_id will be forced to the oldest ID
+available.</li>
+<li><strong>max_id</strong> – (int - optional) Returns results with an ID less than (that
+is, older than) or equal to the specified ID.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>include_entities</strong> – (bool - optional) Entities are ON by default in
+API 1.1, each tweet includes a node called “entities”. This node offers a
+variety of metadata about the tweet in a discreet structure, including:
+user_mentions, urls, and hashtags. You can omit entities from the result by
+using include_entities=False</li>
+<li><strong>include_rts</strong> – (bool - optional) When set to True, the list timeline
+will contain native retweets (if they exist) in addition to the standard stream
+of tweets. The output format of retweeted tweets is identical to the
+representation you see in home_timeline.</li>
+<li><strong>tweet_mode</strong> – (str - optional) Valid request values are compat and
+extended, which give compatibility mode and extended mode, respectively for
+Tweets that contain over 140 characters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-statuses">https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-statuses</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_list_subscribers">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_list_subscribers</code><span class="sig-paren">(</span><em>list_id=None</em>, <em>slug=None</em>, <em>owner_screen_name=None</em>, <em>owner_id=None</em>, <em>count=None</em>, <em>cursor=None</em>, <em>include_entities=None</em>, <em>skip_status=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_subscribers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_list_subscribers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the subscribers of the specified list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>list_id</strong> – (str - required) The numerical id of the list.</li>
+<li><strong>slug</strong> – (str - required) You can identify a list by its slug instead
+of its numerical id. If you decide to do so, note that you’ll also have to
+specify the list owner using the owner_id or owner_screen_name parameters.</li>
+<li><strong>owner_screen_name</strong> – (str - optional) The screen name of the user who
+owns the list being requested by a slug .</li>
+<li><strong>owner_id</strong> – (int - optional) The user ID of the user who owns the list
+being requested by a slug .</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>cursor</strong> – (cursor - optional) Breaks the results into pages. A single
+page contains 20 lists. Provide a value of -1 to begin paging. Provide values
+as returned in the response body’s next_cursor and previous_cursor attributes
+to page back and forth in the list. See Using cursors to navigate collections
+for more information.</li>
+<li><strong>include_entities</strong> – (bool - optional) When set to True, each tweet
+will include a node called “entities”. This node offers a variety of metadata
+about the tweet in a discreet structure, including: user_mentions, urls, and
+hashtags. While entities are opt-in on timelines at present, they will be made
+a default component of output in the future. See Tweet Entities for more
+details.</li>
+<li><strong>skip_status</strong> – (bool - optional) When set to Truestatuses will not be
+included in the returned user objects.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers">https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_list_subscriptions">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_list_subscriptions</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>screen_name=None</em>, <em>count=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_subscriptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_list_subscriptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain a collection of the lists the specified user is subscribed to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> – (int - optional) The ID of the user for whom to return
+results. Helpful for disambiguating when a valid user ID is also a valid screen
+name.</li>
+<li><strong>screen_name</strong> – (str - optional) The screen name of the user for whom
+to return results. Helpful for disambiguating when a valid screen name is also
+a user ID.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>cursor</strong> – (cursor - optional) Breaks the results into pages. Provide a
+value of -1 to begin paging. Provide values as returned in the response body’s
+next_cursor and previous_cursor attributes to page back and forth in the list.
+It is recommended to always use cursors when the method supports them. See
+Cursoring for more information.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions">https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_mentions_timeline">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_mentions_timeline</code><span class="sig-paren">(</span><em>count=None</em>, <em>since_id=None</em>, <em>max_id=None</em>, <em>trim_user=None</em>, <em>include_entities=None</em>, <em>tweet_mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_mentions_timeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_mentions_timeline" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns the 20 most recent mentions (tweets containing a users’s</dt>
+<dd>&#64;screen_name) for the authenticating user.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>since_id</strong> – (int - optional) Returns results with an ID greater than
+(that is, more recent than) the specified ID. There are limits to the number of
+Tweets which can be accessed through the API. If the limit of Tweets has
+occured since the since_id, the since_id will be forced to the oldest ID
+available.</li>
+<li><strong>max_id</strong> – (int - optional) Returns results with an ID less than (that
+is, older than) or equal to the specified ID.</li>
+<li><strong>trim_user</strong> – (bool - optional) When set to True, each tweet returned
+in a timeline will include a user object including only the status authors
+numerical ID. Omit this parameter to receive the complete user object.</li>
+<li><strong>include_entities</strong> – (bool - optional) The entities node will not be
+included when set to False.</li>
+<li><strong>tweet_mode</strong> – (str - optional) Valid request values are compat and
+extended, which give compatibility mode and extended mode, respectively for
+Tweets that contain over 140 characters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline">https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_place_trends">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_place_trends</code><span class="sig-paren">(</span><em>ids</em>, <em>exclude=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_place_trends"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_place_trends" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns the top 10 trending topics for a specific WOEID, if</dt>
+<dd>trending information is available for it.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> – (int or list of ints - required) run <code class="docutils literal notranslate"><span class="pre">get_available_trends()</span></code> for 
+the full listing.
+The Yahoo! Where On Earth ID of the 
+location to return trending information for. Global information is available 
+by using 1 as the WOEID .</li>
+<li><strong>exclude</strong> – (str - optional) Setting this equal to hashtags will remove
+all hashtags from the trends list.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/trends/trends-for-location/api-reference/get-trends-place">https://developer.twitter.com/en/docs/trends/trends-for-location/api-reference/get-trends-place</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_retweeters_ids">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_retweeters_ids</code><span class="sig-paren">(</span><em>id</em>, <em>count=None</em>, <em>cursor=None</em>, <em>stringify_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_retweeters_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_retweeters_ids" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a collection of up to 100 user IDs belonging to users who</dt>
+<dd>have retweeted the tweet specified by the <code class="docutils literal notranslate"><span class="pre">id</span></code> parameter.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> – (int - required) The numerical ID of the desired status.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>cursor</strong> – (cursor - semi-optional) Causes the list of IDs to be broken
+into pages of no more than 100 IDs at a time. The number of IDs returned is not
+guaranteed to be 100 as suspended users are filtered out after connections are
+queried. If no cursor is provided, a value of -1 will be assumed, which is the
+first “page.” The response from the API will include a previous_cursor and
+next_cursor to allow paging back and forth. See our cursor docs for more
+information. While this method supports the cursor parameter, the entire result
+set can be returned in a single cursored collection. Using the count parameter
+with this method will not provide segmented cursors for use with this
+parameter.</li>
+<li><strong>stringify_ids</strong> – (bool - optional) Many programming environments will
+not consume Tweet ids due to their size. Provide this option to have ids
+returned as strings instead.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids">https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_retweets">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_retweets</code><span class="sig-paren">(</span><em>id</em>, <em>trim_user=None</em>, <em>tweet_mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_retweets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_retweets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns up to 100 of the first retweets of a given tweet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> – (int - required) The numerical ID of the desired status.</li>
+<li><strong>trim_user</strong> – (bool - optional) When set to True, each tweet returned
+in a timeline will include a user object including only the status authors
+numerical ID. Omit this parameter to receive the complete user object.</li>
+<li><strong>tweet_mode</strong> – (str - optional) Valid request values are compat and
+extended, which give compatibility mode and extended mode, respectively for
+Tweets that contain over 140 characters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-retweet-id">https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-retweet-id</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_supported_languages">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_supported_languages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_supported_languages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_supported_languages" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns the list of languages supported by Twitter along with</dt>
+<dd>their ISO 639-1 code.</dd>
+</dl>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/developer-utilities/supported-languages/api-reference/get-help-languages">https://developer.twitter.com/en/docs/developer-utilities/supported-languages/api-reference/get-help-languages</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.get_user_timeline">
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_user_timeline</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>screen_name=None</em>, <em>since_id=None</em>, <em>count=None</em>, <em>max_id=None</em>, <em>trim_user=None</em>, <em>exclude_replies=None</em>, <em>include_rts=None</em>, <em>tweet_mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_user_timeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_user_timeline" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a collection of the most recent Tweets posted by the user</dt>
+<dd>indicated by the <code class="docutils literal notranslate"><span class="pre">screen_name</span></code> or <code class="docutils literal notranslate"><span class="pre">user_id</span></code> parameters.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> – (int - optional) The ID of the user for whom to return
+results.</li>
+<li><strong>screen_name</strong> – (str - optional) The screen name of the user for whom
+to return results.</li>
+<li><strong>since_id</strong> – (int - optional) Returns results with an ID greater than
+(that is, more recent than) the specified ID. There are limits to the number of
+Tweets that can be accessed through the API. If the limit of Tweets has occured
+since the since_id, the since_id will be forced to the oldest ID available.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>max_id</strong> – (int - optional) Returns results with an ID less than (that
+is, older than) or equal to the specified ID.</li>
+<li><strong>trim_user</strong> – (bool - optional) When set to True, each Tweet returned
+in a timeline will include a user object including only the status authors
+numerical ID. Omit this parameter to receive the complete user object.</li>
+<li><strong>exclude_replies</strong> – (bool - optional) This parameter will prevent
+replies from appearing in the returned timeline. Using exclude_replies with the
+count parameter will mean you will receive up-to count tweets — this is because
+the count parameter retrieves that many Tweets before filtering out retweets
+and replies.</li>
+<li><strong>include_rts</strong> – (bool - optional) When set to False , the timeline will
+strip any native retweets (though they will still count toward both the maximal
+length of the timeline and the slice selected by the count parameter). Note: If
+you’re using the trim_user parameter in conjunction with include_rts, the
+retweets will still contain a full user object.</li>
+<li><strong>tweet_mode</strong> – (str - optional) Valid request values are compat and
+extended, which give compatibility mode and extended mode, respectively for
+Tweets that contain over 140 characters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline">https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.lookup_status">
+<code class="descclassname">advertools.twitter.</code><code class="descname">lookup_status</code><span class="sig-paren">(</span><em>id</em>, <em>include_entities=None</em>, <em>trim_user=None</em>, <em>map=None</em>, <em>include_ext_alt_text=None</em>, <em>include_card_uri=None</em>, <em>tweet_mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#lookup_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.lookup_status" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns fully-hydrated tweet objects for up to 100 tweets per</dt>
+<dd>request, as specified by comma-separated values passed to the <code class="docutils literal notranslate"><span class="pre">id</span></code>
+parameter.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> – (int - required) A comma separated list of Tweet IDs, up to 100
+are allowed in a single request.</li>
+<li><strong>include_entities</strong> – (bool - optional) The entities node that may
+appear within embedded statuses will not be included when set to False.</li>
+<li><strong>trim_user</strong> – (bool - optional) When set to True, each Tweet returned
+in a timeline will include a user object including only the status authors
+numerical ID. Omit this parameter to receive the complete user object.</li>
+<li><strong>map</strong> – (bool - optional) When using the map parameter, Tweets that do
+not exist or cannot be viewed by the current user will still have their key
+represented but with an explicitly null value paired with it</li>
+<li><strong>include_ext_alt_text</strong> – (bool - optional) If alt text has been added
+to any attached media entities, this parameter will return an ext_alt_text
+value in the top-level key for the media entity. If no value has been set, this
+will be returned as null</li>
+<li><strong>include_card_uri</strong> – (bool - optional) When set to True, each Tweet
+returned will include a card_uri attribute when there is an ads card attached
+to the Tweet and when that card was attached using the card_uri value.</li>
+<li><strong>tweet_mode</strong> – (str - optional) Valid request values are compat and
+extended, which give compatibility mode and extended mode, respectively for
+Tweets that contain over 140 characters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup">https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.lookup_user">
+<code class="descclassname">advertools.twitter.</code><code class="descname">lookup_user</code><span class="sig-paren">(</span><em>screen_name=None</em>, <em>user_id=None</em>, <em>include_entities=None</em>, <em>tweet_mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#lookup_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.lookup_user" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns fully-hydrated user objects for up to 100 users per request,</dt>
+<dd>as specified by comma-separated values passed to the <code class="docutils literal notranslate"><span class="pre">user_id</span></code> and/or
+<code class="docutils literal notranslate"><span class="pre">screen_name</span></code> parameters.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>screen_name</strong> – (str - optional) A comma separated list of screen
+names, up to 100 are allowed in a single request. You are strongly encouraged
+to use a POST for larger (up to 100 screen names) requests.</li>
+<li><strong>user_id</strong> – (int - optional) A comma separated list of user IDs, up to
+100 are allowed in a single request. You are strongly encouraged to use a POST
+for larger requests.</li>
+<li><strong>include_entities</strong> – (bool - optional) The entities node that may
+appear within embedded statuses will not be included when set to False.</li>
+<li><strong>tweet_mode</strong> – (str - optional) Valid request values are compat and
+extended, which give compatibility mode and extended mode, respectively for
+Tweets that contain over 140 characters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup">https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.make_dataframe">
+<code class="descclassname">advertools.twitter.</code><code class="descname">make_dataframe</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#make_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.make_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.retweeted_of_me">
+<code class="descclassname">advertools.twitter.</code><code class="descname">retweeted_of_me</code><span class="sig-paren">(</span><em>count=None</em>, <em>since_id=None</em>, <em>max_id=None</em>, <em>trim_user=None</em>, <em>include_entities=None</em>, <em>include_user_entities=None</em>, <em>tweet_mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#retweeted_of_me"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.retweeted_of_me" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns the most recent tweets authored by the authenticating user</dt>
+<dd>that have been retweeted by others.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>since_id</strong> – (int - optional) Returns results with an ID greater than
+(that is, more recent than) the specified ID. There are limits to the number of
+Tweets which can be accessed through the API. If the limit of Tweets has
+occured since the since_id, the since_id will be forced to the oldest ID
+available.</li>
+<li><strong>max_id</strong> – (int - optional) Returns results with an ID less than (that
+is, older than) or equal to the specified ID.</li>
+<li><strong>trim_user</strong> – (bool - optional) When set to True, each tweet returned
+in a timeline will include a user object including only the status authors
+numerical ID. Omit this parameter to receive the complete user object.</li>
+<li><strong>include_entities</strong> – (bool - optional) The tweet entities node will not
+be included when set to False .</li>
+<li><strong>include_user_entities</strong> – (bool - optional) The user entities node will
+not be included when set to False .</li>
+<li><strong>tweet_mode</strong> – (str - optional) Valid request values are compat and
+extended, which give compatibility mode and extended mode, respectively for
+Tweets that contain over 140 characters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets_of_me">https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets_of_me</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.search">
+<code class="descclassname">advertools.twitter.</code><code class="descname">search</code><span class="sig-paren">(</span><em>q</em>, <em>geocode=None</em>, <em>lang=None</em>, <em>locale=None</em>, <em>result_type=None</em>, <em>count=None</em>, <em>until=None</em>, <em>since_id=None</em>, <em>max_id=None</em>, <em>include_entities=None</em>, <em>tweet_mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a collection of relevant Tweets matching a specified query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>q</strong> – (str - required) A UTF-8, URL-encoded search query of 500
+characters maximum, including operators. Queries may additionally be limited by
+complexity.</li>
+<li><strong>geocode</strong> – (lat lon dist - optional) Returns tweets by users located
+within a given radius of the given latitude/longitude. The location is
+preferentially taking from the Geotagging API, but will fall back to their
+Twitter profile. The parameter value is specified by ”
+latitude,longitude,radius “, where radius units must be specified as either ”
+mi ” (miles) or ” km ” (kilometers). Note that you cannot use the near operator
+via the API to geocode arbitrary locations; however you can use this geocode
+parameter to search near geocodes directly. A maximum of 1,000 distinct “sub-
+regions” will be considered when using the radius modifier.</li>
+<li><strong>lang</strong> – (str - optional) Restricts tweets to the given language, given
+by an ISO 639-1 code. Language detection is best-effort.</li>
+<li><strong>locale</strong> – (str - optional) Specify the language of the query you are
+sending (only ja is currently effective). This is intended for language-
+specific consumers and the default should work in the majority of cases.</li>
+<li><strong>result_type</strong> – (str - optional) Optional. Specifies what type of
+search results you would prefer to receive. The current default is “mixed.”
+Valid values include: * mixed : Include both popular and real time results in
+the response. * recent : return only the most recent results in the response *
+popular : return only the most popular results in the response.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>until</strong> – (date - optional) Returns tweets created before the given
+date. Date should be formatted as YYYY-MM-DD. Keep in mind that the search
+index has a 7-day limit. In other words, no tweets will be found for a date
+older than one week.</li>
+<li><strong>since_id</strong> – (int - optional) Returns results with an ID greater than
+(that is, more recent than) the specified ID. There are limits to the number of
+Tweets which can be accessed through the API. If the limit of Tweets has
+occured since the since_id, the since_id will be forced to the oldest ID
+available.</li>
+<li><strong>max_id</strong> – (int - optional) Returns results with an ID less than (that
+is, older than) or equal to the specified ID.</li>
+<li><strong>include_entities</strong> – (bool - optional) The entities node will not be
+included when set to False.</li>
+<li><strong>tweet_mode</strong> – (str - optional) Valid request values are compat and
+extended, which give compatibility mode and extended mode, respectively for
+Tweets that contain over 140 characters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operator</th>
+<th class="head">Finds Tweets…</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>watching now</td>
+<td>containing both “watching” and “now”. This is the
+default operator.</td>
+</tr>
+<tr class="row-odd"><td>“happy hour”</td>
+<td>containing the exact phrase “happy hour”.</td>
+</tr>
+<tr class="row-even"><td>love OR hate</td>
+<td>containing either “love” or “hate” (or both).</td>
+</tr>
+<tr class="row-odd"><td>beer -root</td>
+<td>containing “beer” but not “root”.</td>
+</tr>
+<tr class="row-even"><td>#haiku</td>
+<td>containing the hashtag “haiku”.</td>
+</tr>
+<tr class="row-odd"><td>from:interior</td>
+<td>sent from Twitter account “interior”.</td>
+</tr>
+<tr class="row-even"><td>list:NASA/astronauts-in-space-now</td>
+<td>sent from a Twitter account in the NASA list
+astronauts-in-space-now</td>
+</tr>
+<tr class="row-odd"><td>to:NASA</td>
+<td>a Tweet authored in reply to Twitter account
+“NASA”.</td>
+</tr>
+<tr class="row-even"><td>&#64;NASA</td>
+<td>mentioning Twitter account “NASA”.</td>
+</tr>
+<tr class="row-odd"><td>politics filter:safe</td>
+<td>containing “politics” with Tweets marked as
+potentially sensitive removed.</td>
+</tr>
+<tr class="row-even"><td>puppy filter:media</td>
+<td>containing “puppy” and an image or video.</td>
+</tr>
+<tr class="row-odd"><td>puppy -filter:retweets</td>
+<td>containing “puppy”, filtering out retweets</td>
+</tr>
+<tr class="row-even"><td>puppy filter:native_video</td>
+<td>containing “puppy” and an uploaded video, Amplify
+video, Periscope, or Vine.</td>
+</tr>
+<tr class="row-odd"><td>puppy filter:periscope</td>
+<td>containing “puppy” and a Periscope video URL.</td>
+</tr>
+<tr class="row-even"><td>puppy filter:vine</td>
+<td>containing “puppy” and a Vine.</td>
+</tr>
+<tr class="row-odd"><td>puppy filter:images</td>
+<td>containing “puppy” and links identified as photos,
+including third parties such as Instagram.</td>
+</tr>
+<tr class="row-even"><td>puppy filter:twimg</td>
+<td>containing “puppy” and a pic.twitter.com link
+representing one or more photos.</td>
+</tr>
+<tr class="row-odd"><td>hilarious filter:links</td>
+<td>containing “hilarious” and linking to URL.</td>
+</tr>
+<tr class="row-even"><td>puppy url:amazon</td>
+<td>containing “puppy” and a URL with the word
+“amazon” anywhere within it.</td>
+</tr>
+<tr class="row-odd"><td>superhero since:2015-12-21</td>
+<td>containing “superhero” and sent since date
+“2015-12-21” (year-month-day).</td>
+</tr>
+<tr class="row-even"><td>puppy until:2015-12-21</td>
+<td>containing “puppy” and sent before the date
+“2015-12-21”.</td>
+</tr>
+<tr class="row-odd"><td>movie -scary :)</td>
+<td>containing “movie”, but not “scary”, and with a
+positive attitude.</td>
+</tr>
+<tr class="row-even"><td>flight :(</td>
+<td>containing “flight” and with a negative attitude.</td>
+</tr>
+<tr class="row-odd"><td>traffic ?</td>
+<td>containing “traffic” and asking a question.</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets">https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.search_users">
+<code class="descclassname">advertools.twitter.</code><code class="descname">search_users</code><span class="sig-paren">(</span><em>q</em>, <em>page=None</em>, <em>count=None</em>, <em>include_entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#search_users"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.search_users" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Provides a simple, relevance-based search interface to public user</dt>
+<dd>accounts on Twitter.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>q</strong> – (str - required) The search query to run against people search.</li>
+<li><strong>page</strong> – (int - optional) Specifies the page of results to retrieve.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>include_entities</strong> – (bool - optional) The entities node will not be
+included in embedded Tweet objects when set to False .</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-search">https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-search</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.set_auth_params">
+<code class="descclassname">advertools.twitter.</code><code class="descname">set_auth_params</code><span class="sig-paren">(</span><em>app_key=None</em>, <em>app_secret=None</em>, <em>oauth_token=None</em>, <em>oauth_token_secret=None</em>, <em>access_token=None</em>, <em>token_type='bearer'</em>, <em>oauth_version=1</em>, <em>api_version='1.1'</em>, <em>client_args=None</em>, <em>auth_endpoint='authenticate'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#set_auth_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.set_auth_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main function for authentication. 
+Needs to be called once in a session.</p>
+<p>First you need to create a developer account and app:
+<a class="reference external" href="https://developer.twitter.com/">https://developer.twitter.com/</a> to get your credentials.</p>
+<p>Different ways to authenticate:
+<a class="reference external" href="https://twython.readthedocs.io/en/latest/usage/starting_out.html">https://twython.readthedocs.io/en/latest/usage/starting_out.html</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.show_lists">
+<code class="descclassname">advertools.twitter.</code><code class="descname">show_lists</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>screen_name=None</em>, <em>reverse=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#show_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.show_lists" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns all lists the authenticating or specified user subscribes to,</dt>
+<dd>including their own.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> – (int - optional) The ID of the user for whom to return
+results. Helpful for disambiguating when a valid user ID is also a valid screen
+name. Note: : Specifies the ID of the user to get lists from. Helpful for
+disambiguating when a valid user ID is also a valid screen name.</li>
+<li><strong>screen_name</strong> – (str - optional) The screen name of the user for whom
+to return results. Helpful for disambiguating when a valid screen name is also
+a user ID.</li>
+<li><strong>reverse</strong> – (bool - optional) Set this to true if you would like owned
+lists to be returned first. See description above for information on how this
+parameter works.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-list">https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-list</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.twitter.show_owned_lists">
+<code class="descclassname">advertools.twitter.</code><code class="descname">show_owned_lists</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>screen_name=None</em>, <em>count=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#show_owned_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.show_owned_lists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the lists owned by the specified Twitter user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> – (int - optional) The ID of the user for whom to return
+results. Helpful for disambiguating when a valid user ID is also a valid screen
+name.</li>
+<li><strong>screen_name</strong> – (str - optional) The screen name of the user for whom
+to return results. Helpful for disambiguating when a valid screen name is also
+a user ID.</li>
+<li><strong>count</strong> – (int - optional) Specifies the number of results to retrieve.</li>
+<li><strong>cursor</strong> – (cursor - optional) Breaks the results into pages. Provide a
+value of -1 to begin paging. Provide values as returned in the response body’s
+next_cursor and previous_cursor attributes to page back and forth in the list.
+It is recommended to always use cursors when the method supports them. See
+Cursoring for more information.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships">https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships</a></p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-advertools.url_builders">
 <span id="advertools-url-builders-module"></span><h2>advertools.url_builders module<a class="headerlink" href="#module-advertools.url_builders" title="Permalink to this headline">¶</a></h2>
 <dl class="function">

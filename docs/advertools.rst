@@ -52,6 +52,14 @@ advertools.stopwords module
     :undoc-members:
     :show-inheritance:
 
+advertools.twitter module
+-------------------------
+
+.. automodule:: advertools.twitter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 advertools.url\_builders module
 -------------------------------
 
