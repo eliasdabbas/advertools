@@ -86,7 +86,7 @@ def _get_counts(default, number):
     """Split a number into a list of divisors and the remainder.
     The divisor is the default count in this case."""
     div = divmod(number, default)
-    result = [default for x in range(div[0])] + [div[1]]
+    result = [default for x in range(div[0])] + ([div[1]] if div[1] != 0 else [])
     return result
 
 
