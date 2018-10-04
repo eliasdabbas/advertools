@@ -2,7 +2,7 @@ import os
 
 from advertools.twitter import *
 from advertools.twitter import FUNCTIONS
-
+from advertools.twitter import _get_counts
 
 app_key = os.environ.get('APP_KEY')
 app_secret = os.environ.get('APP_SECRET')
@@ -22,6 +22,11 @@ set_auth_params(**auth_params)
 
 twtr_last_tweets = get_user_timeline(screen_name='twitter', count=5,
                                      tweet_mode='extended')
+
+
+def test_get_counts():
+    for i in [13, 70, 100, 101, 200, 578]:
+        assert sum(_get_counts(100, i)) == i
 
 
 def test_set_auth_params():
