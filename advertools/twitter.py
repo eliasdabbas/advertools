@@ -82,19 +82,16 @@ DEFAULT_COUNTS = {
 }
 
 
-def _get_counts(default, number):
+def _get_counts(number=None, default=None):
     """Split a number into a list of divisors and the remainder.
     The divisor is the default count in this case."""
+    if number is None:
+        number = 1
     div = divmod(number, default)
-    result = [default for x in range(div[0])] + ([div[1]] if div[1] != 0 else [])
+    result = [default for x in range(div[0])]
+    if div[1] != 0:
+        return result + [div[1]]
     return result
-
-
-def _get_pages(default, count):
-    if count % default == 0:
-        return int(count / default)
-    else:
-        return (count // default) + 1
 
 
 def make_dataframe(func):
@@ -109,14 +106,11 @@ def make_dataframe(func):
         func = eval('twtr.' + fname)
 
         if count is None:
-            pages = 1
             count = DEFAULT_COUNTS[fname]
-        else:
-            pages = _get_pages(DEFAULT_COUNTS[fname], count)
-        counts = _get_counts(DEFAULT_COUNTS[fname], count)
+        counts = _get_counts(count, DEFAULT_COUNTS[fname])
 
         responses = []
-        for i in range(pages):
+        for i, count  in enumerate(counts):
             if fname == 'search':
                 max_id = (max_id or None) if i == 0 else (responses[-1]['statuses'][-1]['id'] - 1)
             if (fname != 'search') and (fname not in CURSORED_FUNCTIONS):
@@ -127,7 +121,7 @@ def make_dataframe(func):
             else:
                 cursor = None
 
-            resp = func(count=counts[i],
+            resp = func(count=count,
                         max_id=max_id,
                         cursor=cursor,
                         *args, **kwargs)
