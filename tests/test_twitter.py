@@ -23,7 +23,7 @@ set_auth_params(**auth_params)
 
 def test_get_counts():
     for i in [13, 70, 100, 101, 200, 578]:
-        result = _get_counts(100, i)
+        result = _get_counts(i, 100)
         assert sum(result) == i
         assert 0 not in result
 
