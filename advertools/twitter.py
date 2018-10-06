@@ -118,9 +118,9 @@ def make_dataframe(func):
         responses = []
         for i in range(pages):
             if fname == 'search':
-                max_id = max_id or None if i == 0 else responses[-1]['statuses'][-1]['id'] - 1
-            if fname not in CURSORED_FUNCTIONS:
-                max_id = max_id or None if i == 0 else responses[-1][-1]['id'] - 1
+                max_id = (max_id or None) if i == 0 else (responses[-1]['statuses'][-1]['id'] - 1)
+            if (fname != 'search') and (fname not in CURSORED_FUNCTIONS):
+                max_id = (max_id or None) if i == 0 else (responses[-1][-1]['id'] - 1)
             if fname in CURSORED_FUNCTIONS:
                 cursor = None if i == 0 else responses[-1]['next_cursor']
                 max_id = None
