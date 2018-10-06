@@ -20,9 +20,6 @@ auth_params = {
 set_auth_params(**auth_params)
 
 
-twtr_last_tweets = get_user_timeline(screen_name='twitter', count=5,
-                                     tweet_mode='extended')
-
 
 def test_get_counts():
     for i in [13, 70, 100, 101, 200, 578]:
