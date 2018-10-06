@@ -90,9 +90,16 @@ def _get_counts(default, number):
     return result
 
 
+def _get_pages(default, count):
+    if count % default == 0:
+        return int(count / default)
+    else:
+        return (count // default) + 1
+
+
 def make_dataframe(func):
     @wraps(func)
-    def wrapper(count=None, *args, **kwargs):
+    def wrapper(count=None, max_id=None, *args, **kwargs):
         nonlocal func
         if not wrapper.get_auth_params():
             return 'Please authenticate using the `set_auth_params` function'
@@ -105,17 +112,18 @@ def make_dataframe(func):
             pages = 1
             count = DEFAULT_COUNTS[fname]
         else:
-            pages = (count // DEFAULT_COUNTS[fname]) + 1
+            pages = _get_pages(DEFAULT_COUNTS[fname], count)
         counts = _get_counts(DEFAULT_COUNTS[fname], count)
 
         responses = []
         for i in range(pages):
             if fname == 'search':
-                max_id = None if i == 0 else responses[-1]['statuses'][-1]['id'] - 1
-            else:
-                max_id = None
+                max_id = max_id or None if i == 0 else responses[-1]['statuses'][-1]['id'] - 1
+            if fname not in CURSORED_FUNCTIONS:
+                max_id = max_id or None if i == 0 else responses[-1][-1]['id'] - 1
             if fname in CURSORED_FUNCTIONS:
                 cursor = None if i == 0 else responses[-1]['next_cursor']
+                max_id = None
             else:
                 cursor = None
 
@@ -189,10 +197,12 @@ def authenticate(func):
 
 
 @authenticate
-def get_application_rate_limit_status():
+def get_application_rate_limit_status(consumed_only=True):
     """
     Returns the current rate limits for methods belonging to the
         specified resource families.
+    :param consumed_only: Whether or not to return only items that
+        have been consumed. Otherwise returns the full list.
 
     https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status
     """
@@ -206,7 +216,11 @@ def get_application_rate_limit_status():
     limit_df['resource'] = limit_df.index.str.split('/').str[1]
     limit_df.index.name = 'endpoint'
     limit_df = limit_df.sort_values(['resource'])
-    limit_df = limit_df.reset_index()    
+    limit_df = limit_df.reset_index()
+    if consumed_only:
+        print(' '*12, 'Rate limit as of:',
+              pd.Timestamp.now(tz='UTC').strftime('%Y-%m-%-d %H:%M:%S'))
+        return limit_df[limit_df['limit'].ne(limit_df['remaining'])]
     return limit_df
 
 
@@ -646,6 +660,9 @@ def get_retweeters_ids(id, count=None, cursor=None, stringify_ids=None):
     """
     Returns a collection of up to 100 user IDs belonging to users who
         have retweeted the tweet specified by the ``id`` parameter.
+        It's better to use get_retweets because passing a count > 100
+        will only get you duplicated data. 100 is the maximum even
+        if there were more retweeters.
 
     :param id: (int - required) The numerical ID of the desired status.
     :param count: (int - optional) Specifies the number of results to retrieve.
