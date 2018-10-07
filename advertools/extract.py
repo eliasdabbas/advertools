@@ -4,8 +4,8 @@ from collections import Counter
 from .emoji_dict import emoji_dict
 from .emoji_dict import emoji_regexp as EMOJI
 
-HASHTAG = '#\w+'
-MENTION = '(?:^|\W)([@＠][A-Za-z0-9_]+)'
+HASHTAG = r'#\w+'
+MENTION = r'(?:^|\W)([@＠][A-Za-z0-9_]+)'
 
 
 def extract_mentions(text_list):

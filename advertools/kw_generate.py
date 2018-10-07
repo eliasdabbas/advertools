@@ -82,7 +82,7 @@ def kw_broad(words):
     >>> kw_broad(keywords)
     ['learn guitar', 'guitar courses', 'guitar tutor']
     """
-    regex = '^\'|^\"|\'$|\"$|\+|^\[|\]$|^-'
+    regex = r'^\'|^\"|\'$|\"$|\+|^\[|\]$|^-'
     return [re.sub(regex, '', x) for x in words]
 
 
