@@ -2,6 +2,15 @@
 History
 =======
 
+0.4.0 (2018-10-08)
+------------------
+
+* New Twitter module based on twython
+    - Wraps 20+ functions for getting Twitter API data
+    - Gets data in a pands DataFrame
+    - Handles looping over requests higher than the defaults
+* Tested on Python 3.7
+
 0.3.0 (2018-08-14)
 ------------------
 
