@@ -165,6 +165,7 @@ Function names mostly start with the object you are working on:
 | ``ad_``: for ad-related functions
 | ``url_``: URL tracking and generation
 | ``extract_``: for extracting entities from social media posts (mentions, hashtags, emoji, etc.)
+| ``twitter``: a module for querying the Twitter API and getting results in a pandas DataFrame
 
     
 .. _measuring absolute vs weighted frequency of words: https://www.datacamp.com/community/tutorials/absolute-weighted-word-frequency
