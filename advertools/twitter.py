@@ -644,7 +644,19 @@ def get_place_trends(ids, exclude=None):
     trends_df = trends_df.sort_values(['woeid', 'tweet_volume'],
                                       ascending=[True, False])
     trends_df = trends_df.reset_index(drop=True)
-    return trends_df
+    available = get_available_trends()
+    available = available[['country', 'parentid', 'woeid', 'place_type']]
+    final_df = pd.merge(trends_df, available, on='woeid')
+    final_df['local_rank'] = (final_df
+                              .groupby('woeid')['tweet_volume']
+                              .rank(method='dense', ascending=False))
+    final_df['country_rank'] = (final_df
+                                .groupby('country')['tweet_volume']
+                                .rank(method='dense', ascending=False))
+    final_df = final_df[['name', 'location', 'tweet_volume', 'local_rank',
+                         'country', 'country_rank', 'time','place_type',
+                         'promoted_content', 'woeid', 'parentid']]
+    return final_df
 
 
 
