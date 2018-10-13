@@ -364,9 +364,9 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
     for p in supplied_params:
         if p in VALID_VALUES:
             if not set(supplied_params[p]).issubset(VALID_VALUES[p]):
-                raise ValueError(f'Please make sure you provide a'
-                                 f' valid value for "{p}", valid values:\n'
-                                 f'{sorted(VALID_VALUES[p])}')
+                raise ValueError('Please make sure you provide a'
+                                 ' valid value for "{}", valid values:\n'
+                                 '{}'.format(p, sorted(VALID_VALUES[p])))
     params_list = _dict_product(supplied_params)
     base_url = 'https://www.googleapis.com/customsearch/v1?'
     ordered_cols = ['searchTerms', 'rank', 'title', 'snippet',
