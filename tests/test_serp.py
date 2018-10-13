@@ -46,10 +46,11 @@ def test_serp_goog_return_correct_result():
 
 
 def test_serp_goog_handles_no_search_results():
-    result = serp_goog(q='zzz999mnz', cx=goog_cse_cx, key=goog_cse_key,
+    q = 'aquerythatdoesntgetrezultssss'
+    result = serp_goog(q=q, cx=goog_cse_cx, key=goog_cse_key,
                        cr='countryRU', hl='zh-TW', gl='nf')
     assert len(result) == 1
-    assert result['searchTerms'].values[0] == 'zzz999mnz'
+    assert result['searchTerms'].values[0] == q
 
 
 def test_correctly_changing_log_levels():
