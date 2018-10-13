@@ -417,8 +417,8 @@ def set_logging_level(level_or_name):
                         'NOTSET', 'DEBUG', 'INFO',
                         'WARNING', 'ERROR', 'CRITICAL']
     if level_or_name not in lvl_names_values:
-        raise ValueError(f'Please make sure you supply'
-                         f' a value from: {lvl_names_values}')
+        raise ValueError('Please make sure you supply'
+                         ' a value from: {}'.format(lvl_names_values))
     logging.getLogger().setLevel(level_or_name)
 
 
