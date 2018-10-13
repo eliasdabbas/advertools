@@ -11,6 +11,8 @@
 .. image:: http://pepy.tech/badge/advertools
         :target: http://pepy.tech/project/advertools 
 
+🎉 New: `Query Twitter's API and get results in a DataFrame in one function call`_ 
+
 advertools: create, scale, and manage online campaigns
 ======================================================
 
@@ -166,6 +168,7 @@ Function names mostly start with the object you are working on:
 | ``url_``: URL tracking and generation
 | ``extract_``: for extracting entities from social media posts (mentions, hashtags, emoji, etc.)
 | ``twitter``: a module for querying the Twitter API and getting results in a pandas DataFrame
+| ``serp_``: get search engine results pages in a DataFrame, currently Google only
 
     
 .. _measuring absolute vs weighted frequency of words: https://www.datacamp.com/community/tutorials/absolute-weighted-word-frequency
@@ -176,3 +179,4 @@ Function names mostly start with the object you are working on:
 .. _generate keyword combinations easily: https://www.dashboardom.com/advertools
 .. _tutorial on how to create multiple text ads from scratch: https://nbviewer.jupyter.org/github/eliasdabbas/ad_create/blob/master/ad_create.ipynb
 .. _extract entities from social media posts: http://bit.ly/2wTWvBI
+.. _Query Twitter's API and get results in a DataFrame in one function call: https://www.kaggle.com/eliasdabbas/twitter-in-a-dataframe

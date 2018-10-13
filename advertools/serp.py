@@ -229,12 +229,9 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
     :param dateRestrict: Restricts results to URLs based on
         date. Supported values include:d[number]: requests results
         from the specified number of past days.
-            w[number]: requests results from the specified number
-                of past weeks.
-            m[number]: requests results from the specified number
-                of past months.
-            y[number]: requests results from the specified number
-                of past years.
+        - w[number]: requests results from the specified number of past weeks.
+        - m[number]: requests results from the specified number of past months.
+        - y[number]: requests results from the specified number of past years.
     :param exactTerms: Identifies a phrase that all
         documents in the search results must contain.
     :param excludeTerms: Identifies a word or phrase that
@@ -344,14 +341,15 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
 
     The following function call will produce two queries:
     "hotel" in English, and "hotel"
+
     >>> serp_goog(q='hotel', gl=['en', 'fr'])
 
-    The below function call will prouce four queries and make four
-        requests:
+    The below function call will prouce four queries and make four requests:
     "fligts" in UK
     "fligts" in Australia
     "tickets" in UK
     "tickets" in Australia
+
     >>> serp_goog(q=['flights', 'tickets'], cr=['uk', 'au'])
     """
     params = locals()
@@ -410,8 +408,8 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
 def set_logging_level(level_or_name):
     """Change the logging level during the session.
     Acceptable values are [0, 10, 20, 30, 40, 50,
-        'NOTSET', 'DEBUG', 'INFO', 'WARNING',
-        'ERROR', 'CRITICAL']
+    'NOTSET', 'DEBUG', 'INFO', 'WARNING', 'ERROR',
+    'CRITICAL']
     """
     lvl_names_values = [0, 10, 20, 30, 40, 50,
                         'NOTSET', 'DEBUG', 'INFO',

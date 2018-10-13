@@ -116,17 +116,21 @@
 <span class="p">}</span>
 
 
-<span class="k">def</span> <span class="nf">_get_counts</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_get_counts</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Split a number into a list of divisors and the remainder.</span>
 <span class="sd">    The divisor is the default count in this case.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">div</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">default</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">div</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span> <span class="o">+</span> <span class="p">[</span><span class="n">div</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">default</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">div</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    <span class="k">if</span> <span class="n">div</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">result</span> <span class="o">+</span> <span class="p">[</span><span class="n">div</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
     <span class="k">return</span> <span class="n">result</span>
 
 
 <div class="viewcode-block" id="make_dataframe"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.make_dataframe">[docs]</a><span class="k">def</span> <span class="nf">make_dataframe</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">nonlocal</span> <span class="n">func</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">():</span>
             <span class="k">return</span> <span class="s1">&#39;Please authenticate using the `set_auth_params` function&#39;</span>
@@ -136,30 +140,26 @@
         <span class="n">func</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;twtr.&#39;</span> <span class="o">+</span> <span class="n">fname</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pages</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">count</span> <span class="o">=</span> <span class="n">DEFAULT_COUNTS</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">pages</span> <span class="o">=</span> <span class="p">(</span><span class="n">count</span> <span class="o">//</span> <span class="n">DEFAULT_COUNTS</span><span class="p">[</span><span class="n">fname</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="n">counts</span> <span class="o">=</span> <span class="n">_get_counts</span><span class="p">(</span><span class="n">DEFAULT_COUNTS</span><span class="p">[</span><span class="n">fname</span><span class="p">],</span> <span class="n">count</span><span class="p">)</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">_get_counts</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">DEFAULT_COUNTS</span><span class="p">[</span><span class="n">fname</span><span class="p">])</span>
 
         <span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pages</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">count</span>  <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">counts</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">fname</span> <span class="o">==</span> <span class="s1">&#39;search&#39;</span><span class="p">:</span>
-                <span class="n">max_id</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;statuses&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">max_id</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">max_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_id</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;statuses&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">fname</span> <span class="o">!=</span> <span class="s1">&#39;search&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">fname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">CURSORED_FUNCTIONS</span><span class="p">):</span>
+                <span class="n">max_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_id</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">CURSORED_FUNCTIONS</span><span class="p">:</span>
                 <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;next_cursor&#39;</span><span class="p">]</span>
+                <span class="n">max_id</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">resp</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                            <span class="n">max_id</span><span class="o">=</span><span class="n">max_id</span><span class="p">,</span>
-                            <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span>
-                            <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">break</span>
+
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
+                        <span class="n">max_id</span><span class="o">=</span><span class="n">max_id</span><span class="p">,</span>
+                        <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span>
+                        <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="s1">&#39;_ids&#39;</span> <span class="ow">in</span> <span class="n">fname</span><span class="p">:</span>
             <span class="n">finallist</span> <span class="o">=</span> <span class="p">[]</span>
@@ -225,10 +225,13 @@
 
 
 <div class="viewcode-block" id="get_application_rate_limit_status"><a class="viewcode-back" href="../../advertools.html#advertools.twitter.get_application_rate_limit_status">[docs]</a><span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_application_rate_limit_status</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">get_application_rate_limit_status</span><span class="p">(</span><span class="n">consumed_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the current rate limits for methods belonging to the</span>
 <span class="sd">        specified resource families.</span>
+
+<span class="sd">    :param consumed_only: Whether or not to return only items that</span>
+<span class="sd">        have been consumed. Otherwise returns the full list.</span>
 
 <span class="sd">    https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -242,7 +245,11 @@
     <span class="n">limit_df</span><span class="p">[</span><span class="s1">&#39;resource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">limit_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;endpoint&#39;</span>
     <span class="n">limit_df</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;resource&#39;</span><span class="p">])</span>
-    <span class="n">limit_df</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>    
+    <span class="n">limit_df</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">consumed_only</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">*</span><span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;Rate limit as of:&#39;</span><span class="p">,</span>
+              <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%-d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">limit_df</span><span class="p">[</span><span class="n">limit_df</span><span class="p">[</span><span class="s1">&#39;limit&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">ne</span><span class="p">(</span><span class="n">limit_df</span><span class="p">[</span><span class="s1">&#39;remaining&#39;</span><span class="p">])]</span>
     <span class="k">return</span> <span class="n">limit_df</span></div>
 
 
@@ -672,7 +679,19 @@
     <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;woeid&#39;</span><span class="p">,</span> <span class="s1">&#39;tweet_volume&#39;</span><span class="p">],</span>
                                       <span class="n">ascending</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
     <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">trends_df</span></div>
+    <span class="n">available</span> <span class="o">=</span> <span class="n">get_available_trends</span><span class="p">()</span>
+    <span class="n">available</span> <span class="o">=</span> <span class="n">available</span><span class="p">[[</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;parentid&#39;</span><span class="p">,</span> <span class="s1">&#39;woeid&#39;</span><span class="p">,</span> <span class="s1">&#39;place_type&#39;</span><span class="p">]]</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">trends_df</span><span class="p">,</span> <span class="n">available</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;woeid&#39;</span><span class="p">)</span>
+    <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;local_rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">final_df</span>
+                              <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;woeid&#39;</span><span class="p">)[</span><span class="s1">&#39;tweet_volume&#39;</span><span class="p">]</span>
+                              <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;dense&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;country_rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">final_df</span>
+                                <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;country&#39;</span><span class="p">)[</span><span class="s1">&#39;tweet_volume&#39;</span><span class="p">]</span>
+                                <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;dense&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">,</span> <span class="s1">&#39;tweet_volume&#39;</span><span class="p">,</span> <span class="s1">&#39;local_rank&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;country_rank&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span><span class="s1">&#39;place_type&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;promoted_content&#39;</span><span class="p">,</span> <span class="s1">&#39;woeid&#39;</span><span class="p">,</span> <span class="s1">&#39;parentid&#39;</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">final_df</span></div>
 
 
 
@@ -682,6 +701,9 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a collection of up to 100 user IDs belonging to users who</span>
 <span class="sd">        have retweeted the tweet specified by the ``id`` parameter.</span>
+<span class="sd">        It&#39;s better to use get_retweets because passing a count &gt; 100</span>
+<span class="sd">        will only get you duplicated data. 100 is the maximum even</span>
+<span class="sd">        if there were more retweeters.</span>
 
 <span class="sd">    :param id: (int - required) The numerical ID of the desired status.</span>
 <span class="sd">    :param count: (int - optional) Specifies the number of results to retrieve.</span>

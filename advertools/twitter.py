@@ -195,6 +195,7 @@ def get_application_rate_limit_status(consumed_only=True):
     """
     Returns the current rate limits for methods belonging to the
         specified resource families.
+
     :param consumed_only: Whether or not to return only items that
         have been consumed. Otherwise returns the full list.
 

@@ -1,0 +1,519 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>advertools.serp &#8212; advertools 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for advertools.serp</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">product</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pandas.io.json</span> <span class="k">import</span> <span class="n">json_normalize</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">LOG_FMT</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> | </span><span class="si">%(levelname)s</span><span class="s1"> | </span><span class="si">%(filename)s</span><span class="s1">:</span><span class="si">%(lineno)d</span><span class="s1"> | </span><span class="si">%(funcName)s</span><span class="s1"> | </span><span class="si">%(message)s</span><span class="s1">&#39;</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="n">LOG_FMT</span><span class="p">)</span>
+
+
+<span class="n">VALID_VALUES</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">fileType</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;bas&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;cc&#39;</span><span class="p">,</span> <span class="s1">&#39;cpp&#39;</span><span class="p">,</span> <span class="s1">&#39;cs&#39;</span><span class="p">,</span> <span class="s1">&#39;cxx&#39;</span><span class="p">,</span> <span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;docx&#39;</span><span class="p">,</span> <span class="s1">&#39;dwf&#39;</span><span class="p">,</span> <span class="s1">&#39;gpx&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;hpp&#39;</span><span class="p">,</span> <span class="s1">&#39;htm&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;hwp&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;kml&#39;</span><span class="p">,</span> <span class="s1">&#39;kmz&#39;</span><span class="p">,</span> <span class="s1">&#39;odp&#39;</span><span class="p">,</span> <span class="s1">&#39;ods&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;odt&#39;</span><span class="p">,</span> <span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="s1">&#39;pl&#39;</span><span class="p">,</span> <span class="s1">&#39;ppt&#39;</span><span class="p">,</span> <span class="s1">&#39;pptx&#39;</span><span class="p">,</span> <span class="s1">&#39;ps&#39;</span><span class="p">,</span> <span class="s1">&#39;py&#39;</span><span class="p">,</span> <span class="s1">&#39;rtf&#39;</span><span class="p">,</span> <span class="s1">&#39;svg&#39;</span><span class="p">,</span> <span class="s1">&#39;swf&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;tex&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;txt&#39;</span><span class="p">,</span> <span class="s1">&#39;wap&#39;</span><span class="p">,</span> <span class="s1">&#39;wml&#39;</span><span class="p">,</span> <span class="s1">&#39;xls&#39;</span><span class="p">,</span> <span class="s1">&#39;xlsx&#39;</span><span class="p">,</span> <span class="s1">&#39;xml&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+
+    <span class="n">c2coff</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
+
+    <span class="n">cr</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;countryAF&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAL&#39;</span><span class="p">,</span> <span class="s1">&#39;countryDZ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAS&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAD&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryAO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAI&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAQ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAG&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAR&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryAM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAW&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAU&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAT&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAZ&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryBS&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBH&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBD&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBB&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBY&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryBE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBZ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBJ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBT&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryBO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBA&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBW&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBV&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBR&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryIO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBN&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBG&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBF&#39;</span><span class="p">,</span> <span class="s1">&#39;countryBI&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryKH&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCA&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCV&#39;</span><span class="p">,</span> <span class="s1">&#39;countryKY&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryCF&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTD&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCL&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCN&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCX&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryCC&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryKM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCG&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCD&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryCK&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCR&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCI&#39;</span><span class="p">,</span> <span class="s1">&#39;countryHR&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCU&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryCY&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCZ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryDK&#39;</span><span class="p">,</span> <span class="s1">&#39;countryDJ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryDM&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryDO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTP&#39;</span><span class="p">,</span> <span class="s1">&#39;countryEC&#39;</span><span class="p">,</span> <span class="s1">&#39;countryEG&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySV&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryGQ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryER&#39;</span><span class="p">,</span> <span class="s1">&#39;countryEE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryET&#39;</span><span class="p">,</span> <span class="s1">&#39;countryEU&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryFK&#39;</span><span class="p">,</span> <span class="s1">&#39;countryFO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryFJ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryFI&#39;</span><span class="p">,</span> <span class="s1">&#39;countryFR&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryFX&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGF&#39;</span><span class="p">,</span> <span class="s1">&#39;countryPF&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTF&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGA&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryGM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryDE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGH&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGI&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryGR&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGL&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGD&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGP&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGU&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryGT&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGN&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGW&#39;</span><span class="p">,</span> <span class="s1">&#39;countryGY&#39;</span><span class="p">,</span> <span class="s1">&#39;countryHT&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryHM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryVA&#39;</span><span class="p">,</span> <span class="s1">&#39;countryHN&#39;</span><span class="p">,</span> <span class="s1">&#39;countryHK&#39;</span><span class="p">,</span> <span class="s1">&#39;countryHU&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryIS&#39;</span><span class="p">,</span> <span class="s1">&#39;countryIN&#39;</span><span class="p">,</span> <span class="s1">&#39;countryID&#39;</span><span class="p">,</span> <span class="s1">&#39;countryIR&#39;</span><span class="p">,</span> <span class="s1">&#39;countryIQ&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryIE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryIL&#39;</span><span class="p">,</span> <span class="s1">&#39;countryIT&#39;</span><span class="p">,</span> <span class="s1">&#39;countryJM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryJP&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryJO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryKZ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryKE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryKI&#39;</span><span class="p">,</span> <span class="s1">&#39;countryKP&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryKR&#39;</span><span class="p">,</span> <span class="s1">&#39;countryKW&#39;</span><span class="p">,</span> <span class="s1">&#39;countryKG&#39;</span><span class="p">,</span> <span class="s1">&#39;countryLA&#39;</span><span class="p">,</span> <span class="s1">&#39;countryLV&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryLB&#39;</span><span class="p">,</span> <span class="s1">&#39;countryLS&#39;</span><span class="p">,</span> <span class="s1">&#39;countryLR&#39;</span><span class="p">,</span> <span class="s1">&#39;countryLY&#39;</span><span class="p">,</span> <span class="s1">&#39;countryLI&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryLT&#39;</span><span class="p">,</span> <span class="s1">&#39;countryLU&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMK&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMG&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryMW&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMY&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMV&#39;</span><span class="p">,</span> <span class="s1">&#39;countryML&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMT&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryMH&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMQ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMR&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMU&#39;</span><span class="p">,</span> <span class="s1">&#39;countryYT&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryMX&#39;</span><span class="p">,</span> <span class="s1">&#39;countryFM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMD&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMC&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMN&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryMS&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMA&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMZ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryNA&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryNR&#39;</span><span class="p">,</span> <span class="s1">&#39;countryNP&#39;</span><span class="p">,</span> <span class="s1">&#39;countryNL&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAN&#39;</span><span class="p">,</span> <span class="s1">&#39;countryNC&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryNZ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryNI&#39;</span><span class="p">,</span> <span class="s1">&#39;countryNE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryNG&#39;</span><span class="p">,</span> <span class="s1">&#39;countryNU&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryNF&#39;</span><span class="p">,</span> <span class="s1">&#39;countryMP&#39;</span><span class="p">,</span> <span class="s1">&#39;countryNO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryOM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryPK&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryPW&#39;</span><span class="p">,</span> <span class="s1">&#39;countryPS&#39;</span><span class="p">,</span> <span class="s1">&#39;countryPA&#39;</span><span class="p">,</span> <span class="s1">&#39;countryPG&#39;</span><span class="p">,</span> <span class="s1">&#39;countryPY&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryPE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryPH&#39;</span><span class="p">,</span> <span class="s1">&#39;countryPN&#39;</span><span class="p">,</span> <span class="s1">&#39;countryPL&#39;</span><span class="p">,</span> <span class="s1">&#39;countryPT&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryPR&#39;</span><span class="p">,</span> <span class="s1">&#39;countryQA&#39;</span><span class="p">,</span> <span class="s1">&#39;countryRE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryRO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryRU&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryRW&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySH&#39;</span><span class="p">,</span> <span class="s1">&#39;countryKN&#39;</span><span class="p">,</span> <span class="s1">&#39;countryLC&#39;</span><span class="p">,</span> <span class="s1">&#39;countryPM&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryVC&#39;</span><span class="p">,</span> <span class="s1">&#39;countryWS&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryST&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySA&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countrySN&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCS&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySC&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySL&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySG&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countrySK&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySI&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySB&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryZA&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryGS&#39;</span><span class="p">,</span> <span class="s1">&#39;countryES&#39;</span><span class="p">,</span> <span class="s1">&#39;countryLK&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySD&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySR&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countrySJ&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySZ&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryCH&#39;</span><span class="p">,</span> <span class="s1">&#39;countrySY&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryTW&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTJ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTZ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTH&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTG&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryTK&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTO&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTT&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTN&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTR&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryTM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTC&#39;</span><span class="p">,</span> <span class="s1">&#39;countryTV&#39;</span><span class="p">,</span> <span class="s1">&#39;countryUG&#39;</span><span class="p">,</span> <span class="s1">&#39;countryUA&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryAE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryUK&#39;</span><span class="p">,</span> <span class="s1">&#39;countryUS&#39;</span><span class="p">,</span> <span class="s1">&#39;countryUM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryUY&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryUZ&#39;</span><span class="p">,</span> <span class="s1">&#39;countryVU&#39;</span><span class="p">,</span> <span class="s1">&#39;countryVE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryVN&#39;</span><span class="p">,</span> <span class="s1">&#39;countryVG&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryVI&#39;</span><span class="p">,</span> <span class="s1">&#39;countryWF&#39;</span><span class="p">,</span> <span class="s1">&#39;countryEH&#39;</span><span class="p">,</span> <span class="s1">&#39;countryYE&#39;</span><span class="p">,</span> <span class="s1">&#39;countryYU&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;countryZM&#39;</span><span class="p">,</span> <span class="s1">&#39;countryZW&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">gl</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;ad&#39;</span><span class="p">,</span> <span class="s1">&#39;ae&#39;</span><span class="p">,</span> <span class="s1">&#39;af&#39;</span><span class="p">,</span> <span class="s1">&#39;ag&#39;</span><span class="p">,</span> <span class="s1">&#39;ai&#39;</span><span class="p">,</span> <span class="s1">&#39;al&#39;</span><span class="p">,</span> <span class="s1">&#39;am&#39;</span><span class="p">,</span> <span class="s1">&#39;an&#39;</span><span class="p">,</span> <span class="s1">&#39;ao&#39;</span><span class="p">,</span> <span class="s1">&#39;aq&#39;</span><span class="p">,</span> <span class="s1">&#39;ar&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;as&#39;</span><span class="p">,</span> <span class="s1">&#39;at&#39;</span><span class="p">,</span> <span class="s1">&#39;au&#39;</span><span class="p">,</span> <span class="s1">&#39;aw&#39;</span><span class="p">,</span> <span class="s1">&#39;az&#39;</span><span class="p">,</span> <span class="s1">&#39;ba&#39;</span><span class="p">,</span> <span class="s1">&#39;bb&#39;</span><span class="p">,</span> <span class="s1">&#39;bd&#39;</span><span class="p">,</span> <span class="s1">&#39;be&#39;</span><span class="p">,</span> <span class="s1">&#39;bf&#39;</span><span class="p">,</span> <span class="s1">&#39;bg&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;bh&#39;</span><span class="p">,</span> <span class="s1">&#39;bi&#39;</span><span class="p">,</span> <span class="s1">&#39;bj&#39;</span><span class="p">,</span> <span class="s1">&#39;bm&#39;</span><span class="p">,</span> <span class="s1">&#39;bn&#39;</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="s1">&#39;br&#39;</span><span class="p">,</span> <span class="s1">&#39;bs&#39;</span><span class="p">,</span> <span class="s1">&#39;bt&#39;</span><span class="p">,</span> <span class="s1">&#39;bv&#39;</span><span class="p">,</span> <span class="s1">&#39;bw&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;by&#39;</span><span class="p">,</span> <span class="s1">&#39;bz&#39;</span><span class="p">,</span> <span class="s1">&#39;ca&#39;</span><span class="p">,</span> <span class="s1">&#39;cc&#39;</span><span class="p">,</span> <span class="s1">&#39;cd&#39;</span><span class="p">,</span> <span class="s1">&#39;cf&#39;</span><span class="p">,</span> <span class="s1">&#39;cg&#39;</span><span class="p">,</span> <span class="s1">&#39;ch&#39;</span><span class="p">,</span> <span class="s1">&#39;ci&#39;</span><span class="p">,</span> <span class="s1">&#39;ck&#39;</span><span class="p">,</span> <span class="s1">&#39;cl&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;cm&#39;</span><span class="p">,</span> <span class="s1">&#39;cn&#39;</span><span class="p">,</span> <span class="s1">&#39;co&#39;</span><span class="p">,</span> <span class="s1">&#39;cr&#39;</span><span class="p">,</span> <span class="s1">&#39;cs&#39;</span><span class="p">,</span> <span class="s1">&#39;cu&#39;</span><span class="p">,</span> <span class="s1">&#39;cv&#39;</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">,</span> <span class="s1">&#39;cy&#39;</span><span class="p">,</span> <span class="s1">&#39;cz&#39;</span><span class="p">,</span> <span class="s1">&#39;de&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;dj&#39;</span><span class="p">,</span> <span class="s1">&#39;dk&#39;</span><span class="p">,</span> <span class="s1">&#39;dm&#39;</span><span class="p">,</span> <span class="s1">&#39;do&#39;</span><span class="p">,</span> <span class="s1">&#39;dz&#39;</span><span class="p">,</span> <span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="s1">&#39;ee&#39;</span><span class="p">,</span> <span class="s1">&#39;eg&#39;</span><span class="p">,</span> <span class="s1">&#39;eh&#39;</span><span class="p">,</span> <span class="s1">&#39;er&#39;</span><span class="p">,</span> <span class="s1">&#39;es&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;et&#39;</span><span class="p">,</span> <span class="s1">&#39;fi&#39;</span><span class="p">,</span> <span class="s1">&#39;fj&#39;</span><span class="p">,</span> <span class="s1">&#39;fk&#39;</span><span class="p">,</span> <span class="s1">&#39;fm&#39;</span><span class="p">,</span> <span class="s1">&#39;fo&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">,</span> <span class="s1">&#39;ga&#39;</span><span class="p">,</span> <span class="s1">&#39;gd&#39;</span><span class="p">,</span> <span class="s1">&#39;ge&#39;</span><span class="p">,</span> <span class="s1">&#39;gf&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;gh&#39;</span><span class="p">,</span> <span class="s1">&#39;gi&#39;</span><span class="p">,</span> <span class="s1">&#39;gl&#39;</span><span class="p">,</span> <span class="s1">&#39;gm&#39;</span><span class="p">,</span> <span class="s1">&#39;gn&#39;</span><span class="p">,</span> <span class="s1">&#39;gp&#39;</span><span class="p">,</span> <span class="s1">&#39;gq&#39;</span><span class="p">,</span> <span class="s1">&#39;gr&#39;</span><span class="p">,</span> <span class="s1">&#39;gs&#39;</span><span class="p">,</span> <span class="s1">&#39;gt&#39;</span><span class="p">,</span> <span class="s1">&#39;gu&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;gw&#39;</span><span class="p">,</span> <span class="s1">&#39;gy&#39;</span><span class="p">,</span> <span class="s1">&#39;hk&#39;</span><span class="p">,</span> <span class="s1">&#39;hm&#39;</span><span class="p">,</span> <span class="s1">&#39;hn&#39;</span><span class="p">,</span> <span class="s1">&#39;hr&#39;</span><span class="p">,</span> <span class="s1">&#39;ht&#39;</span><span class="p">,</span> <span class="s1">&#39;hu&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;ie&#39;</span><span class="p">,</span> <span class="s1">&#39;il&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="s1">&#39;io&#39;</span><span class="p">,</span> <span class="s1">&#39;iq&#39;</span><span class="p">,</span> <span class="s1">&#39;ir&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;jm&#39;</span><span class="p">,</span> <span class="s1">&#39;jo&#39;</span><span class="p">,</span> <span class="s1">&#39;jp&#39;</span><span class="p">,</span> <span class="s1">&#39;ke&#39;</span><span class="p">,</span> <span class="s1">&#39;kg&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;kh&#39;</span><span class="p">,</span> <span class="s1">&#39;ki&#39;</span><span class="p">,</span> <span class="s1">&#39;km&#39;</span><span class="p">,</span> <span class="s1">&#39;kn&#39;</span><span class="p">,</span> <span class="s1">&#39;kp&#39;</span><span class="p">,</span> <span class="s1">&#39;kr&#39;</span><span class="p">,</span> <span class="s1">&#39;kw&#39;</span><span class="p">,</span> <span class="s1">&#39;ky&#39;</span><span class="p">,</span> <span class="s1">&#39;kz&#39;</span><span class="p">,</span> <span class="s1">&#39;la&#39;</span><span class="p">,</span> <span class="s1">&#39;lb&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lc&#39;</span><span class="p">,</span> <span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="s1">&#39;lk&#39;</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="s1">&#39;ls&#39;</span><span class="p">,</span> <span class="s1">&#39;lt&#39;</span><span class="p">,</span> <span class="s1">&#39;lu&#39;</span><span class="p">,</span> <span class="s1">&#39;lv&#39;</span><span class="p">,</span> <span class="s1">&#39;ly&#39;</span><span class="p">,</span> <span class="s1">&#39;ma&#39;</span><span class="p">,</span> <span class="s1">&#39;mc&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;md&#39;</span><span class="p">,</span> <span class="s1">&#39;mg&#39;</span><span class="p">,</span> <span class="s1">&#39;mh&#39;</span><span class="p">,</span> <span class="s1">&#39;mk&#39;</span><span class="p">,</span> <span class="s1">&#39;ml&#39;</span><span class="p">,</span> <span class="s1">&#39;mm&#39;</span><span class="p">,</span> <span class="s1">&#39;mn&#39;</span><span class="p">,</span> <span class="s1">&#39;mo&#39;</span><span class="p">,</span> <span class="s1">&#39;mp&#39;</span><span class="p">,</span> <span class="s1">&#39;mq&#39;</span><span class="p">,</span> <span class="s1">&#39;mr&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ms&#39;</span><span class="p">,</span> <span class="s1">&#39;mt&#39;</span><span class="p">,</span> <span class="s1">&#39;mu&#39;</span><span class="p">,</span> <span class="s1">&#39;mv&#39;</span><span class="p">,</span> <span class="s1">&#39;mw&#39;</span><span class="p">,</span> <span class="s1">&#39;mx&#39;</span><span class="p">,</span> <span class="s1">&#39;my&#39;</span><span class="p">,</span> <span class="s1">&#39;mz&#39;</span><span class="p">,</span> <span class="s1">&#39;na&#39;</span><span class="p">,</span> <span class="s1">&#39;nc&#39;</span><span class="p">,</span> <span class="s1">&#39;ne&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;nf&#39;</span><span class="p">,</span> <span class="s1">&#39;ng&#39;</span><span class="p">,</span> <span class="s1">&#39;ni&#39;</span><span class="p">,</span> <span class="s1">&#39;nl&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;np&#39;</span><span class="p">,</span> <span class="s1">&#39;nr&#39;</span><span class="p">,</span> <span class="s1">&#39;nu&#39;</span><span class="p">,</span> <span class="s1">&#39;nz&#39;</span><span class="p">,</span> <span class="s1">&#39;om&#39;</span><span class="p">,</span> <span class="s1">&#39;pa&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pe&#39;</span><span class="p">,</span> <span class="s1">&#39;pf&#39;</span><span class="p">,</span> <span class="s1">&#39;pg&#39;</span><span class="p">,</span> <span class="s1">&#39;ph&#39;</span><span class="p">,</span> <span class="s1">&#39;pk&#39;</span><span class="p">,</span> <span class="s1">&#39;pl&#39;</span><span class="p">,</span> <span class="s1">&#39;pm&#39;</span><span class="p">,</span> <span class="s1">&#39;pn&#39;</span><span class="p">,</span> <span class="s1">&#39;pr&#39;</span><span class="p">,</span> <span class="s1">&#39;ps&#39;</span><span class="p">,</span> <span class="s1">&#39;pt&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pw&#39;</span><span class="p">,</span> <span class="s1">&#39;py&#39;</span><span class="p">,</span> <span class="s1">&#39;qa&#39;</span><span class="p">,</span> <span class="s1">&#39;re&#39;</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="s1">&#39;ru&#39;</span><span class="p">,</span> <span class="s1">&#39;rw&#39;</span><span class="p">,</span> <span class="s1">&#39;sa&#39;</span><span class="p">,</span> <span class="s1">&#39;sb&#39;</span><span class="p">,</span> <span class="s1">&#39;sc&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;se&#39;</span><span class="p">,</span> <span class="s1">&#39;sg&#39;</span><span class="p">,</span> <span class="s1">&#39;sh&#39;</span><span class="p">,</span> <span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="s1">&#39;sj&#39;</span><span class="p">,</span> <span class="s1">&#39;sk&#39;</span><span class="p">,</span> <span class="s1">&#39;sl&#39;</span><span class="p">,</span> <span class="s1">&#39;sm&#39;</span><span class="p">,</span> <span class="s1">&#39;sn&#39;</span><span class="p">,</span> <span class="s1">&#39;so&#39;</span><span class="p">,</span> <span class="s1">&#39;sr&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;st&#39;</span><span class="p">,</span> <span class="s1">&#39;sv&#39;</span><span class="p">,</span> <span class="s1">&#39;sy&#39;</span><span class="p">,</span> <span class="s1">&#39;sz&#39;</span><span class="p">,</span> <span class="s1">&#39;tc&#39;</span><span class="p">,</span> <span class="s1">&#39;td&#39;</span><span class="p">,</span> <span class="s1">&#39;tf&#39;</span><span class="p">,</span> <span class="s1">&#39;tg&#39;</span><span class="p">,</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;tj&#39;</span><span class="p">,</span> <span class="s1">&#39;tk&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;tl&#39;</span><span class="p">,</span> <span class="s1">&#39;tm&#39;</span><span class="p">,</span> <span class="s1">&#39;tn&#39;</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">,</span> <span class="s1">&#39;tr&#39;</span><span class="p">,</span> <span class="s1">&#39;tt&#39;</span><span class="p">,</span> <span class="s1">&#39;tv&#39;</span><span class="p">,</span> <span class="s1">&#39;tw&#39;</span><span class="p">,</span> <span class="s1">&#39;tz&#39;</span><span class="p">,</span> <span class="s1">&#39;ua&#39;</span><span class="p">,</span> <span class="s1">&#39;ug&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;uk&#39;</span><span class="p">,</span> <span class="s1">&#39;um&#39;</span><span class="p">,</span> <span class="s1">&#39;us&#39;</span><span class="p">,</span> <span class="s1">&#39;uy&#39;</span><span class="p">,</span> <span class="s1">&#39;uz&#39;</span><span class="p">,</span> <span class="s1">&#39;va&#39;</span><span class="p">,</span> <span class="s1">&#39;vc&#39;</span><span class="p">,</span> <span class="s1">&#39;ve&#39;</span><span class="p">,</span> <span class="s1">&#39;vg&#39;</span><span class="p">,</span> <span class="s1">&#39;vi&#39;</span><span class="p">,</span> <span class="s1">&#39;vn&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;vu&#39;</span><span class="p">,</span> <span class="s1">&#39;wf&#39;</span><span class="p">,</span> <span class="s1">&#39;ws&#39;</span><span class="p">,</span> <span class="s1">&#39;ye&#39;</span><span class="p">,</span> <span class="s1">&#39;yt&#39;</span><span class="p">,</span> <span class="s1">&#39;za&#39;</span><span class="p">,</span> <span class="s1">&#39;zm&#39;</span><span class="p">,</span> <span class="s1">&#39;zw&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+
+    <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
+
+    <span class="n">hl</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;af&#39;</span><span class="p">,</span> <span class="s1">&#39;sq&#39;</span><span class="p">,</span> <span class="s1">&#39;sm&#39;</span><span class="p">,</span> <span class="s1">&#39;ar&#39;</span><span class="p">,</span> <span class="s1">&#39;az&#39;</span><span class="p">,</span> <span class="s1">&#39;eu&#39;</span><span class="p">,</span> <span class="s1">&#39;be&#39;</span><span class="p">,</span> <span class="s1">&#39;bn&#39;</span><span class="p">,</span> <span class="s1">&#39;bh&#39;</span><span class="p">,</span> <span class="s1">&#39;bs&#39;</span><span class="p">,</span> <span class="s1">&#39;bg&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ca&#39;</span><span class="p">,</span> <span class="s1">&#39;zh-CN&#39;</span><span class="p">,</span> <span class="s1">&#39;zh-TW&#39;</span><span class="p">,</span> <span class="s1">&#39;hr&#39;</span><span class="p">,</span> <span class="s1">&#39;cs&#39;</span><span class="p">,</span> <span class="s1">&#39;da&#39;</span><span class="p">,</span> <span class="s1">&#39;nl&#39;</span><span class="p">,</span> <span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="s1">&#39;eo&#39;</span><span class="p">,</span> <span class="s1">&#39;et&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fo&#39;</span><span class="p">,</span> <span class="s1">&#39;fi&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">,</span> <span class="s1">&#39;fy&#39;</span><span class="p">,</span> <span class="s1">&#39;gl&#39;</span><span class="p">,</span> <span class="s1">&#39;ka&#39;</span><span class="p">,</span> <span class="s1">&#39;de&#39;</span><span class="p">,</span> <span class="s1">&#39;el&#39;</span><span class="p">,</span> <span class="s1">&#39;gu&#39;</span><span class="p">,</span> <span class="s1">&#39;iw&#39;</span><span class="p">,</span> <span class="s1">&#39;hi&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;hu&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;ia&#39;</span><span class="p">,</span> <span class="s1">&#39;ga&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;ja&#39;</span><span class="p">,</span> <span class="s1">&#39;jw&#39;</span><span class="p">,</span> <span class="s1">&#39;kn&#39;</span><span class="p">,</span> <span class="s1">&#39;ko&#39;</span><span class="p">,</span> <span class="s1">&#39;la&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lv&#39;</span><span class="p">,</span> <span class="s1">&#39;lt&#39;</span><span class="p">,</span> <span class="s1">&#39;mk&#39;</span><span class="p">,</span> <span class="s1">&#39;ms&#39;</span><span class="p">,</span> <span class="s1">&#39;ml&#39;</span><span class="p">,</span> <span class="s1">&#39;mt&#39;</span><span class="p">,</span> <span class="s1">&#39;mr&#39;</span><span class="p">,</span> <span class="s1">&#39;ne&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;nn&#39;</span><span class="p">,</span> <span class="s1">&#39;oc&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fa&#39;</span><span class="p">,</span> <span class="s1">&#39;pl&#39;</span><span class="p">,</span> <span class="s1">&#39;pt-BR&#39;</span><span class="p">,</span> <span class="s1">&#39;pt-PT&#39;</span><span class="p">,</span> <span class="s1">&#39;pa&#39;</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="s1">&#39;ru&#39;</span><span class="p">,</span> <span class="s1">&#39;gd&#39;</span><span class="p">,</span> <span class="s1">&#39;sr&#39;</span><span class="p">,</span> <span class="s1">&#39;si&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sk&#39;</span><span class="p">,</span> <span class="s1">&#39;sl&#39;</span><span class="p">,</span> <span class="s1">&#39;es&#39;</span><span class="p">,</span> <span class="s1">&#39;su&#39;</span><span class="p">,</span> <span class="s1">&#39;sw&#39;</span><span class="p">,</span> <span class="s1">&#39;sv&#39;</span><span class="p">,</span> <span class="s1">&#39;tl&#39;</span><span class="p">,</span> <span class="s1">&#39;ta&#39;</span><span class="p">,</span> <span class="s1">&#39;te&#39;</span><span class="p">,</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;ti&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;tr&#39;</span><span class="p">,</span> <span class="s1">&#39;uk&#39;</span><span class="p">,</span> <span class="s1">&#39;ur&#39;</span><span class="p">,</span> <span class="s1">&#39;uz&#39;</span><span class="p">,</span> <span class="s1">&#39;vi&#39;</span><span class="p">,</span> <span class="s1">&#39;cy&#39;</span><span class="p">,</span> <span class="s1">&#39;xh&#39;</span><span class="p">,</span> <span class="s1">&#39;zu&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">imgColorType</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="s1">&#39;mono&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">imgDominantColor</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;gray&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;green&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;orange&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pink&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;purple&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;red&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;teal&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;white&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;yellow&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+
+    <span class="n">imgSize</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;huge&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;icon&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;large&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;small&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xlarge&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xxlarge&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+
+    <span class="n">imgType</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;clipart&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;face&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lineart&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;news&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;photo&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+
+    <span class="n">lr</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;lang_ar&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_bg&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_ca&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_zh-CN&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_zh-TW&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lang_hr&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_cs&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_da&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_nl&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_en&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_et&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lang_fi&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_fr&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_de&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_el&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_iw&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_hu&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lang_is&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_id&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_it&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_ja&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_ko&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_lv&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lang_lt&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_no&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_pl&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_pt&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_ro&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_ru&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lang_sr&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_sk&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_sl&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_es&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_sv&#39;</span><span class="p">,</span> <span class="s1">&#39;lang_tr&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+
+    <span class="n">num</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">},</span>
+
+    <span class="n">rights</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;cc_publicdomain&#39;</span><span class="p">,</span> <span class="s1">&#39;cc_attribute&#39;</span><span class="p">,</span> <span class="s1">&#39;cc_sharealike&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;cc_noncommercial&#39;</span><span class="p">,</span> <span class="s1">&#39;cc_nonderived&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">safe</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="s1">&#39;off&#39;</span><span class="p">},</span>
+
+    <span class="n">searchType</span><span class="o">=</span><span class="p">{</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">},</span>
+
+    <span class="n">siteSearchFilter</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">},</span>
+
+    <span class="n">start</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">92</span><span class="p">)</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_dict_product</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the product of all values of a dict, while</span>
+<span class="sd">    coupling each value with its key.</span>
+<span class="sd">    This is used to generate multiple queries out of</span>
+<span class="sd">        possibly multiple arguments in serp_goog.</span>
+
+<span class="sd">    &gt;&gt;&gt; d = {&#39;a&#39;: [1], &#39;b&#39;: [2, 3, 4], &#39;c&#39;: [5, 6]}</span>
+<span class="sd">    &gt;&gt;&gt; _dict_product(d)</span>
+<span class="sd">    &gt;&gt;&gt; [{&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 5},</span>
+<span class="sd">         {&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 6},</span>
+<span class="sd">         {&#39;a&#39;: 1, &#39;b&#39;: 3, &#39;c&#39;: 5},</span>
+<span class="sd">         {&#39;a&#39;: 1, &#39;b&#39;: 3, &#39;c&#39;: 6},</span>
+<span class="sd">         {&#39;a&#39;: 1, &#39;b&#39;: 4, &#39;c&#39;: 5},</span>
+<span class="sd">         {&#39;a&#39;: 1, &#39;b&#39;: 4, &#39;c&#39;: 6}]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dicts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">prod</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+        <span class="n">tempdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">prod</span><span class="p">))</span>
+        <span class="n">dicts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tempdict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dicts</span>
+
+
+<div class="viewcode-block" id="serp_goog"><a class="viewcode-back" href="../../advertools.html#advertools.serp.serp_goog">[docs]</a><span class="k">def</span> <span class="nf">serp_goog</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">c2coff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">dateRestrict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exactTerms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">excludeTerms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">fileType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">highRange</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">imgColorType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">imgDominantColor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">imgSize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">imgType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">linkSite</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lowRange</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">lr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">orTerms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relatedSite</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">rights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">searchType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">siteSearch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">siteSearchFilter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Query Google and get search results in a DataFrame.</span>
+
+<span class="sd">    For each parameter, you can supply single or multiple values / arguments.</span>
+<span class="sd">        If you pass multiple arguments, all the possible combinations of</span>
+<span class="sd">        arguments (the product) will be requested, and you will get one</span>
+<span class="sd">        DataFrame combining all queries. See examples below.</span>
+
+<span class="sd">    :param q: The search expression.</span>
+<span class="sd">    :param cx: The custom search engine ID to use for this</span>
+<span class="sd">        request.</span>
+<span class="sd">    :param key: The API key of your custom search engine.</span>
+<span class="sd">    :param c2coff: Enables or disables Simplified and</span>
+<span class="sd">        Traditional Chinese Search. The default value for this</span>
+<span class="sd">        parameter is 0 (zero), meaning that the feature is enabled.</span>
+<span class="sd">        Supported values are:1: Disabled0: Enabled (default)</span>
+<span class="sd">    :param cr: Restricts search results to documents</span>
+<span class="sd">        originating in a particular country. You may use Boolean</span>
+<span class="sd">        operators in the cr parameter&#39;s value.Google Search</span>
+<span class="sd">        determines the country of a document by analyzing:the top-</span>
+<span class="sd">        level domain (TLD) of the document&#39;s URLthe geographic</span>
+<span class="sd">        location of the Web server&#39;s IP addressSee the Country</span>
+<span class="sd">        Parameter Values page for a list of valid values for this</span>
+<span class="sd">        parameter.</span>
+<span class="sd">    :param dateRestrict: Restricts results to URLs based on</span>
+<span class="sd">        date. Supported values include:d[number]: requests results</span>
+<span class="sd">        from the specified number of past days.</span>
+<span class="sd">        - w[number]: requests results from the specified number of past weeks.</span>
+<span class="sd">        - m[number]: requests results from the specified number of past months.</span>
+<span class="sd">        - y[number]: requests results from the specified number of past years.</span>
+<span class="sd">    :param exactTerms: Identifies a phrase that all</span>
+<span class="sd">        documents in the search results must contain.</span>
+<span class="sd">    :param excludeTerms: Identifies a word or phrase that</span>
+<span class="sd">        should not appear in any documents in the search results.</span>
+<span class="sd">    :param fileType: Restricts results to files of a</span>
+<span class="sd">        specified extension. A list of file types indexable by</span>
+<span class="sd">        Google can be found in Search Console Help Center.</span>
+<span class="sd">    :param filter: Controls turning on or off the duplicate</span>
+<span class="sd">        content filter.See Automatic Filtering for more information</span>
+<span class="sd">        about Google&#39;s search results filters. Note that host</span>
+<span class="sd">        crowding filtering applies only to multi-site searches.By</span>
+<span class="sd">        default, Google applies filtering to all search results to</span>
+<span class="sd">        improve the quality of those results.  Acceptable values</span>
+<span class="sd">        are:  &quot;0&quot;: Turns off duplicate content filter.  &quot;1&quot;: Turns</span>
+<span class="sd">        on duplicate content filter.</span>
+<span class="sd">    :param gl: Geolocation of end user. The gl parameter</span>
+<span class="sd">        value is a two-letter country code. The gl parameter boosts</span>
+<span class="sd">        search results whose country of origin matches the parameter</span>
+<span class="sd">        value. See the Country Codes page for a list of valid</span>
+<span class="sd">        values.Specifying a gl parameter value should lead to more</span>
+<span class="sd">        relevant results. This is particularly true for</span>
+<span class="sd">        international customers and, even more specifically, for</span>
+<span class="sd">        customers in English- speaking countries other than the</span>
+<span class="sd">        United States.</span>
+<span class="sd">    :param highRange: Specifies the ending value for a</span>
+<span class="sd">        search range.Use lowRange and highRange to append an</span>
+<span class="sd">        inclusive search range of lowRange...highRange to the query.</span>
+<span class="sd">    :param hl: Sets the user interface language. Explicitly</span>
+<span class="sd">        setting this parameter improves the performance and the</span>
+<span class="sd">        quality of your search results.See the Interface</span>
+<span class="sd">        Languages section of Internationalizing Queries and Results</span>
+<span class="sd">        Presentation for more information, and Supported Interface</span>
+<span class="sd">        Languages for a list of supported languages.</span>
+<span class="sd">    :param hq: Appends the specified query terms to the</span>
+<span class="sd">        query, as if they were combined with a logical AND operator.</span>
+<span class="sd">    :param imgColorType: Returns black and white, grayscale,</span>
+<span class="sd">        or color images: mono, gray, and color.  Acceptable values</span>
+<span class="sd">        are:  &quot;color&quot;: color  &quot;gray&quot;: gray  &quot;mono&quot;: mono</span>
+<span class="sd">    :param imgDominantColor: Returns images of a specific</span>
+<span class="sd">        dominant color.  Acceptable values are:  &quot;black&quot;: black</span>
+<span class="sd">        &quot;blue&quot;: blue  &quot;brown&quot;: brown  &quot;gray&quot;: gray  &quot;green&quot;: green</span>
+<span class="sd">        &quot;orange&quot;: orange  &quot;pink&quot;: pink  &quot;purple&quot;: purple  &quot;red&quot;: red</span>
+<span class="sd">        &quot;teal&quot;: teal  &quot;white&quot;: white  &quot;yellow&quot;: yellow</span>
+<span class="sd">    :param imgSize: Returns images of a specified size.</span>
+<span class="sd">        Acceptable values are:  &quot;huge&quot;: huge  &quot;icon&quot;: icon  &quot;large&quot;:</span>
+<span class="sd">        large  &quot;medium&quot;: medium  &quot;small&quot;: small  &quot;xlarge&quot;: xlarge</span>
+<span class="sd">        &quot;xxlarge&quot;: xxlarge</span>
+<span class="sd">    :param imgType: Returns images of a type.  Acceptable</span>
+<span class="sd">        values are:  &quot;clipart&quot;: clipart  &quot;face&quot;: face  &quot;lineart&quot;:</span>
+<span class="sd">        lineart  &quot;news&quot;: news  &quot;photo&quot;: photo</span>
+<span class="sd">    :param linkSite: Specifies that all search results</span>
+<span class="sd">        should contain a link to a particular URL</span>
+<span class="sd">    :param lowRange: Specifies the starting value for a</span>
+<span class="sd">        search range. Use lowRange and highRange to append an</span>
+<span class="sd">        inclusive search range of lowRange...highRange to the query.</span>
+<span class="sd">    :param lr: Restricts the search to documents written in</span>
+<span class="sd">        a particular language (e.g., lr=lang_ja).  Acceptable values</span>
+<span class="sd">        are:  &quot;lang_ar&quot;: Arabic  &quot;lang_bg&quot;: Bulgarian  &quot;lang_ca&quot;:</span>
+<span class="sd">        Catalan  &quot;lang_cs&quot;: Czech  &quot;lang_da&quot;: Danish  &quot;lang_de&quot;:</span>
+<span class="sd">        German  &quot;lang_el&quot;: Greek  &quot;lang_en&quot;: English  &quot;lang_es&quot;:</span>
+<span class="sd">        Spanish  &quot;lang_et&quot;: Estonian  &quot;lang_fi&quot;: Finnish  &quot;lang_fr&quot;:</span>
+<span class="sd">        French  &quot;lang_hr&quot;: Croatian  &quot;lang_hu&quot;: Hungarian</span>
+<span class="sd">        &quot;lang_id&quot;: Indonesian  &quot;lang_is&quot;: Icelandic  &quot;lang_it&quot;:</span>
+<span class="sd">        Italian  &quot;lang_iw&quot;: Hebrew  &quot;lang_ja&quot;: Japanese  &quot;lang_ko&quot;:</span>
+<span class="sd">        Korean  &quot;lang_lt&quot;: Lithuanian  &quot;lang_lv&quot;: Latvian</span>
+<span class="sd">        &quot;lang_nl&quot;: Dutch  &quot;lang_no&quot;: Norwegian  &quot;lang_pl&quot;: Polish</span>
+<span class="sd">        &quot;lang_pt&quot;: Portuguese  &quot;lang_ro&quot;: Romanian  &quot;lang_ru&quot;:</span>
+<span class="sd">        Russian  &quot;lang_sk&quot;: Slovak  &quot;lang_sl&quot;: Slovenian  &quot;lang_sr&quot;:</span>
+<span class="sd">        Serbian  &quot;lang_sv&quot;: Swedish  &quot;lang_tr&quot;: Turkish  &quot;lang_zh-</span>
+<span class="sd">        CN&quot;: Chinese (Simplified)  &quot;lang_zh-TW&quot;: Chinese</span>
+<span class="sd">        (Traditional)</span>
+<span class="sd">    :param num: Number of search results to return.Valid</span>
+<span class="sd">        values are integers between 1 and 10, inclusive.</span>
+<span class="sd">    :param orTerms: Provides additional search terms to</span>
+<span class="sd">        check for in a document, where each document in the search</span>
+<span class="sd">        results must contain at least one of the additional search</span>
+<span class="sd">        terms.</span>
+<span class="sd">    :param relatedSite: Specifies that all search results</span>
+<span class="sd">        should be pages that are related to the specified URL.</span>
+<span class="sd">    :param rights: Filters based on licensing. Supported</span>
+<span class="sd">        values include: cc_publicdomain, cc_attribute,</span>
+<span class="sd">        cc_sharealike, cc_noncommercial, cc_nonderived, and</span>
+<span class="sd">        combinations of these.</span>
+<span class="sd">    :param safe: Search safety level.  Acceptable values</span>
+<span class="sd">        are:  &quot;active&quot;: Enables SafeSearch filtering.  &quot;off&quot;:</span>
+<span class="sd">        Disables SafeSearch filtering.  (default)</span>
+<span class="sd">    :param searchType: Specifies the search type: image. If</span>
+<span class="sd">        unspecified, results are limited to webpages.  Acceptable</span>
+<span class="sd">        values are:  &quot;image&quot;: custom image search.</span>
+<span class="sd">    :param siteSearch: Specifies all search results should</span>
+<span class="sd">        be pages from a given site.</span>
+<span class="sd">    :param siteSearchFilter: Controls whether to include or</span>
+<span class="sd">        exclude results from the site named in the siteSearch</span>
+<span class="sd">        parameter.  Acceptable values are:  &quot;e&quot;: exclude  &quot;i&quot;:</span>
+<span class="sd">        include</span>
+<span class="sd">    :param sort: The sort expression to apply to the</span>
+<span class="sd">        results.</span>
+<span class="sd">    :param start: The index of the first result to</span>
+<span class="sd">        return.Valid value are integers starting 1 (default) and the</span>
+<span class="sd">        second result is 2 and so forth. For example &amp;start=11 gives</span>
+<span class="sd">        the second page of results with the default &quot;num&quot; value of</span>
+<span class="sd">        10 results per page.Note: No more than 100 results will ever</span>
+<span class="sd">        be returned for any query with JSON API, even if more than</span>
+<span class="sd">        100 documents match the query, so setting (start + num) to</span>
+<span class="sd">        more than 100 will produce an error. Note that the maximum</span>
+<span class="sd">        value for num is 10.</span>
+
+<span class="sd">    The following function call will produce two queries:</span>
+<span class="sd">    &quot;hotel&quot; in English, and &quot;hotel&quot;</span>
+
+<span class="sd">    &gt;&gt;&gt; serp_goog(q=&#39;hotel&#39;, gl=[&#39;en&#39;, &#39;fr&#39;])</span>
+
+<span class="sd">    The below function call will prouce four queries and make four requests:</span>
+<span class="sd">    &quot;fligts&quot; in UK</span>
+<span class="sd">    &quot;fligts&quot; in Australia</span>
+<span class="sd">    &quot;tickets&quot; in UK</span>
+<span class="sd">    &quot;tickets&quot; in Australia</span>
+
+<span class="sd">    &gt;&gt;&gt; serp_goog(q=[&#39;flights&#39;, &#39;tickets&#39;], cr=[&#39;uk&#39;, &#39;au&#39;])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">supplied_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="n">k</span><span class="p">]}</span>
+
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">supplied_params</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span>
+
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">supplied_params</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">VALID_VALUES</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">VALID_VALUES</span><span class="p">[</span><span class="n">p</span><span class="p">]):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Please make sure you provide a&#39;</span>
+                                 <span class="s1">&#39; valid value for &quot;</span><span class="si">{}</span><span class="s1">&quot;, valid values:</span><span class="se">\n</span><span class="s1">&#39;</span>
+                                 <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">VALID_VALUES</span><span class="p">[</span><span class="n">p</span><span class="p">])))</span>
+    <span class="n">params_list</span> <span class="o">=</span> <span class="n">_dict_product</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">)</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/customsearch/v1?&#39;</span>
+    <span class="n">ordered_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;searchTerms&#39;</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;displayLink&#39;</span><span class="p">,</span> <span class="s1">&#39;link&#39;</span><span class="p">,</span> <span class="s1">&#39;queryTime&#39;</span><span class="p">,</span> <span class="s1">&#39;totalResults&#39;</span><span class="p">]</span>
+    <span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params_list</span><span class="p">:</span>
+        <span class="n">param_log</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">param</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Requesting: &#39;</span> <span class="o">+</span> <span class="n">param_log</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param</span><span class="p">)</span>
+        <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+
+    <span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">resp</span> <span class="ow">in</span> <span class="n">responses</span><span class="p">:</span>
+        <span class="n">request_metadata</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;queries&#39;</span><span class="p">][</span><span class="s1">&#39;request&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">request_metadata</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+        <span class="n">search_info</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;searchInformation&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">search_info</span><span class="p">[</span><span class="s1">&#39;totalResults&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">ordered_cols</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;searchTerms&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">request_metadata</span><span class="p">[</span><span class="s1">&#39;searchTerms&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">])</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;cseName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;context&#39;</span><span class="p">][</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+            <span class="n">start_idx</span> <span class="o">=</span> <span class="n">request_metadata</span><span class="p">[</span><span class="s1">&#39;startIndex&#39;</span><span class="p">]</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">start_idx</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+
+        <span class="n">meta_columns</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">request_metadata</span><span class="p">,</span> <span class="o">**</span><span class="n">search_info</span><span class="p">}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">meta_columns</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s1">&#39;image&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+            <span class="n">img_df</span> <span class="o">=</span> <span class="n">json_normalize</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">])</span>
+            <span class="n">img_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;image.&#39;</span> <span class="o">+</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">img_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">img_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">non_ordered</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">result_df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ordered_cols</span><span class="p">]</span>
+    <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="p">[</span><span class="n">ordered_cols</span> <span class="o">+</span> <span class="n">non_ordered</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">result_df</span></div>
+
+
+<div class="viewcode-block" id="set_logging_level"><a class="viewcode-back" href="../../advertools.html#advertools.serp.set_logging_level">[docs]</a><span class="k">def</span> <span class="nf">set_logging_level</span><span class="p">(</span><span class="n">level_or_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Change the logging level during the session.</span>
+<span class="sd">    Acceptable values are [0, 10, 20, 30, 40, 50,</span>
+<span class="sd">    &#39;NOTSET&#39;, &#39;DEBUG&#39;, &#39;INFO&#39;, &#39;WARNING&#39;, &#39;ERROR&#39;,</span>
+<span class="sd">    &#39;CRITICAL&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lvl_names_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span>
+                        <span class="s1">&#39;NOTSET&#39;</span><span class="p">,</span> <span class="s1">&#39;DEBUG&#39;</span><span class="p">,</span> <span class="s1">&#39;INFO&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;WARNING&#39;</span><span class="p">,</span> <span class="s1">&#39;ERROR&#39;</span><span class="p">,</span> <span class="s1">&#39;CRITICAL&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">level_or_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lvl_names_values</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Please make sure you supply&#39;</span>
+                         <span class="s1">&#39; a value from: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lvl_names_values</span><span class="p">))</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level_or_name</span><span class="p">)</span></div>
+
+
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="s1">&#39;INFO&#39;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">advertools</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">advertools: create, scale, and manage online campaigns</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Elias Dabbas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

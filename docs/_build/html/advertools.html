@@ -535,6 +535,181 @@ matters, default False</li>
 </dd></dl>
 
 </div>
+<div class="section" id="module-advertools.serp">
+<span id="advertools-serp-module"></span><h2>advertools.serp module<a class="headerlink" href="#module-advertools.serp" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="advertools.serp.serp_goog">
+<code class="descclassname">advertools.serp.</code><code class="descname">serp_goog</code><span class="sig-paren">(</span><em>q</em>, <em>cx</em>, <em>key</em>, <em>c2coff=None</em>, <em>cr=None</em>, <em>dateRestrict=None</em>, <em>exactTerms=None</em>, <em>excludeTerms=None</em>, <em>fileType=None</em>, <em>filter=None</em>, <em>gl=None</em>, <em>highRange=None</em>, <em>hl=None</em>, <em>hq=None</em>, <em>imgColorType=None</em>, <em>imgDominantColor=None</em>, <em>imgSize=None</em>, <em>imgType=None</em>, <em>linkSite=None</em>, <em>lowRange=None</em>, <em>lr=None</em>, <em>num=None</em>, <em>orTerms=None</em>, <em>relatedSite=None</em>, <em>rights=None</em>, <em>safe=None</em>, <em>searchType=None</em>, <em>siteSearch=None</em>, <em>siteSearchFilter=None</em>, <em>sort=None</em>, <em>start=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#serp_goog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.serp_goog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query Google and get search results in a DataFrame.</p>
+<dl class="docutils">
+<dt>For each parameter, you can supply single or multiple values / arguments.</dt>
+<dd>If you pass multiple arguments, all the possible combinations of
+arguments (the product) will be requested, and you will get one
+DataFrame combining all queries. See examples below.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>q</strong> – The search expression.</li>
+<li><strong>cx</strong> – The custom search engine ID to use for this
+request.</li>
+<li><strong>key</strong> – The API key of your custom search engine.</li>
+<li><strong>c2coff</strong> – Enables or disables&nbsp;Simplified and
+Traditional Chinese Search.&nbsp;The default value for this
+parameter is&nbsp;0&nbsp;(zero), meaning that the feature is enabled.
+Supported values are:1: Disabled0: Enabled (default)</li>
+<li><strong>cr</strong> – Restricts search results to documents
+originating in a particular country. You may use&nbsp;Boolean
+operators&nbsp;in the&nbsp;cr&nbsp;parameter’s value.Google Search
+determines the country of a document by analyzing:the top-
+level domain (TLD) of the document’s URLthe geographic
+location of the Web server’s IP addressSee the&nbsp;Country
+Parameter Values&nbsp;page for a list of valid values for this
+parameter.</li>
+<li><strong>dateRestrict</strong> – Restricts results to URLs based on
+date. Supported values include:d[number]: requests results
+from the specified number of past days.
+- w[number]: requests results from the specified number of past weeks.
+- m[number]: requests results from the specified number of past months.
+- y[number]: requests results from the specified number of past years.</li>
+<li><strong>exactTerms</strong> – Identifies a phrase that all
+documents in the search results must contain.</li>
+<li><strong>excludeTerms</strong> – Identifies a word or phrase that
+should not appear in any documents in the search results.</li>
+<li><strong>fileType</strong> – Restricts results to files of a
+specified extension. A list of file types indexable by
+Google&nbsp;can be found in Search Console Help Center.</li>
+<li><strong>filter</strong> – Controls turning on or off the duplicate
+content filter.See&nbsp;Automatic Filtering&nbsp;for more information
+about Google’s search results filters. Note that host
+crowding filtering applies only to multi-site searches.By
+default, Google applies filtering to all search results to
+improve the quality of those results.  Acceptable values
+are:  “0”: Turns off duplicate content filter.  “1”: Turns
+on duplicate content filter.</li>
+<li><strong>gl</strong> – Geolocation of end user.&nbsp;The&nbsp;gl&nbsp;parameter
+value is a two-letter country code. The&nbsp;gl&nbsp;parameter boosts
+search results whose country of origin matches the parameter
+value. See the&nbsp;Country Codes&nbsp;page for a list of valid
+values.Specifying a&nbsp;gl&nbsp;parameter value should lead to more
+relevant results. This is particularly true for
+international customers and, even more specifically, for
+customers in English- speaking countries other than the
+United States.</li>
+<li><strong>highRange</strong> – Specifies the ending value for a
+search range.Use&nbsp;lowRange&nbsp;and&nbsp;highRange&nbsp;to append an
+inclusive search range of&nbsp;lowRange…highRange to the query.</li>
+<li><strong>hl</strong> – Sets the user interface language.&nbsp;Explicitly
+setting this parameter improves the performance and the
+quality of your search results.See the&nbsp;Interface
+Languages&nbsp;section of&nbsp;Internationalizing Queries and Results
+Presentation&nbsp;for more information, and&nbsp;Supported Interface
+Languages&nbsp;for a list of supported languages.</li>
+<li><strong>hq</strong> – Appends the specified query terms to the
+query, as if they were combined with a logical&nbsp;AND&nbsp;operator.</li>
+<li><strong>imgColorType</strong> – Returns black and white, grayscale,
+or color images: mono, gray, and color.  Acceptable values
+are:  “color”: color  “gray”: gray  “mono”: mono</li>
+<li><strong>imgDominantColor</strong> – Returns images of a specific
+dominant color.  Acceptable values are:  “black”: black
+“blue”: blue  “brown”: brown  “gray”: gray  “green”: green
+“orange”: orange  “pink”: pink  “purple”: purple  “red”: red
+“teal”: teal  “white”: white  “yellow”: yellow</li>
+<li><strong>imgSize</strong> – Returns images of a specified size.
+Acceptable values are:  “huge”: huge  “icon”: icon  “large”:
+large  “medium”: medium  “small”: small  “xlarge”: xlarge
+“xxlarge”: xxlarge</li>
+<li><strong>imgType</strong> – Returns images of a type.  Acceptable
+values are:  “clipart”: clipart  “face”: face  “lineart”:
+lineart  “news”: news  “photo”: photo</li>
+<li><strong>linkSite</strong> – Specifies that all search results
+should contain a link to a particular URL</li>
+<li><strong>lowRange</strong> – Specifies the starting value for a
+search range. Use&nbsp;lowRange&nbsp;and&nbsp;highRange&nbsp;to append an
+inclusive search range of&nbsp;lowRange…highRange&nbsp;to the query.</li>
+<li><strong>lr</strong> – Restricts the search to documents written in
+a particular language (e.g.,&nbsp;lr=lang_ja).  Acceptable values
+are:  “lang_ar”: Arabic  “lang_bg”: Bulgarian  “lang_ca”:
+Catalan  “lang_cs”: Czech  “lang_da”: Danish  “lang_de”:
+German  “lang_el”: Greek  “lang_en”: English  “lang_es”:
+Spanish  “lang_et”: Estonian  “lang_fi”: Finnish  “lang_fr”:
+French  “lang_hr”: Croatian  “lang_hu”: Hungarian
+“lang_id”: Indonesian  “lang_is”: Icelandic  “lang_it”:
+Italian  “lang_iw”: Hebrew  “lang_ja”: Japanese  “lang_ko”:
+Korean  “lang_lt”: Lithuanian  “lang_lv”: Latvian
+“lang_nl”: Dutch  “lang_no”: Norwegian  “lang_pl”: Polish
+“lang_pt”: Portuguese  “lang_ro”: Romanian  “lang_ru”:
+Russian  “lang_sk”: Slovak  “lang_sl”: Slovenian  “lang_sr”:
+Serbian  “lang_sv”: Swedish  “lang_tr”: Turkish  “lang_zh-
+CN”: Chinese (Simplified)  “lang_zh-TW”: Chinese
+(Traditional)</li>
+<li><strong>num</strong> – Number of search results to return.Valid
+values are integers between 1 and 10, inclusive.</li>
+<li><strong>orTerms</strong> – Provides additional search terms to
+check for in a document, where each document in the search
+results must contain at least one of the additional search
+terms.</li>
+<li><strong>relatedSite</strong> – Specifies that all search results
+should be pages that are related to the specified URL.</li>
+<li><strong>rights</strong> – Filters based on licensing. Supported
+values include: cc_publicdomain, cc_attribute,
+cc_sharealike, cc_noncommercial, cc_nonderived, and
+combinations of these.</li>
+<li><strong>safe</strong> – Search safety level.  Acceptable values
+are:  “active”: Enables SafeSearch filtering.  “off”:
+Disables SafeSearch filtering.  (default)</li>
+<li><strong>searchType</strong> – Specifies the search type: image. If
+unspecified, results are limited to webpages.  Acceptable
+values are:  “image”: custom image search.</li>
+<li><strong>siteSearch</strong> – Specifies all search results should
+be pages from a given site.</li>
+<li><strong>siteSearchFilter</strong> – Controls whether to include or
+exclude results from the site named in the siteSearch
+parameter.  Acceptable values are:  “e”: exclude  “i”:
+include</li>
+<li><strong>sort</strong> – The sort expression to apply to the
+results.</li>
+<li><strong>start</strong> – The index of the first result to
+return.Valid value are integers starting 1 (default) and the
+second result is 2 and so forth. For example &amp;start=11 gives
+the second page of results with the default “num” value of
+10 results per page.Note: No more than 100 results will ever
+be returned for any query with JSON API, even if more than
+100 documents match the query, so setting (start + num) to
+more than 100 will produce an error. Note that the maximum
+value for num is 10.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The following function call will produce two queries:
+“hotel” in English, and “hotel”</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">serp_goog</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="s1">&#39;hotel&#39;</span><span class="p">,</span> <span class="n">gl</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The below function call will prouce four queries and make four requests:
+“fligts” in UK
+“fligts” in Australia
+“tickets” in UK
+“tickets” in Australia</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">serp_goog</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;flights&#39;</span><span class="p">,</span> <span class="s1">&#39;tickets&#39;</span><span class="p">],</span> <span class="n">cr</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;uk&#39;</span><span class="p">,</span> <span class="s1">&#39;au&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.serp.set_logging_level">
+<code class="descclassname">advertools.serp.</code><code class="descname">set_logging_level</code><span class="sig-paren">(</span><em>level_or_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#set_logging_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.set_logging_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the logging level during the session.
+Acceptable values are [0, 10, 20, 30, 40, 50,
+‘NOTSET’, ‘DEBUG’, ‘INFO’, ‘WARNING’, ‘ERROR’,
+‘CRITICAL’]</p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-advertools.stopwords">
 <span id="advertools-stopwords-module"></span><h2>advertools.stopwords module<a class="headerlink" href="#module-advertools.stopwords" title="Permalink to this headline">¶</a></h2>
 <p>Stopwords from the nltk package</p>
@@ -570,11 +745,20 @@ Python dictionary.</p>
 
 <dl class="function">
 <dt id="advertools.twitter.get_application_rate_limit_status">
-<code class="descclassname">advertools.twitter.</code><code class="descname">get_application_rate_limit_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_application_rate_limit_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_application_rate_limit_status" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">advertools.twitter.</code><code class="descname">get_application_rate_limit_status</code><span class="sig-paren">(</span><em>consumed_only=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_application_rate_limit_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_application_rate_limit_status" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Returns the current rate limits for methods belonging to the</dt>
 <dd>specified resource families.</dd>
 </dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>consumed_only</strong> – Whether or not to return only items that
+have been consumed. Otherwise returns the full list.</td>
+</tr>
+</tbody>
+</table>
 <p><a class="reference external" href="https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status">https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status</a></p>
 </dd></dl>
 
@@ -1051,7 +1235,10 @@ all hashtags from the trends list.</li>
 <code class="descclassname">advertools.twitter.</code><code class="descname">get_retweeters_ids</code><span class="sig-paren">(</span><em>id</em>, <em>count=None</em>, <em>cursor=None</em>, <em>stringify_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_retweeters_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_retweeters_ids" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Returns a collection of up to 100 user IDs belonging to users who</dt>
-<dd>have retweeted the tweet specified by the <code class="docutils literal notranslate"><span class="pre">id</span></code> parameter.</dd>
+<dd>have retweeted the tweet specified by the <code class="docutils literal notranslate"><span class="pre">id</span></code> parameter.
+It’s better to use get_retweets because passing a count &gt; 100
+will only get you duplicated data. 100 is the maximum even
+if there were more retweeters.</dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
