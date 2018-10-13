@@ -2,6 +2,15 @@
 History
 =======
 
+0.4.1 (2018-10-13)
+------------------
+
+* New function serp_goog (based on Google CSE)
+    - Query Google search and get the result in a DataFrame
+    - Make multiple queries / requests in one function call
+    - All responses merged in one DataFrame
+* twitter.get_place_trends results are ranked by town and country
+
 0.4.0 (2018-10-08)
 ------------------
 
