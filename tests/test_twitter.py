@@ -22,9 +22,9 @@ set_auth_params(**auth_params)
 
 
 def test_get_counts():
-    for i in [13, 70, 100, 101, 200, 578]:
+    for i in [None, 13, 70, 100, 101, 200, 578]:
         result = _get_counts(i, 100)
-        assert sum(result) == i
+        assert sum(result) == i if i is not None else 100
         assert 0 not in result
 
 
@@ -38,9 +38,10 @@ def test_set_auth_params():
 
 
 def test_get_application_rate_limit_status():
-    result = get_application_rate_limit_status()
-    assert type(result) == pd.core.frame.DataFrame
-    assert 'endpoint' in result
+    for truth in [True, False]:
+        result = get_application_rate_limit_status(truth)
+        assert type(result) == pd.core.frame.DataFrame
+        assert 'endpoint' in result
 
 
 def test_get_available_trends():
