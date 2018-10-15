@@ -36,6 +36,7 @@
 
 <span class="kn">from</span> <span class="nn">twython</span> <span class="k">import</span> <span class="n">Twython</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pandas.io.json</span> <span class="k">import</span> <span class="n">json_normalize</span>
 
 
 <span class="c1"># Functions that depend on &#39;previous_cursor&#39; and &#39;next_cursor&#39; to </span>
@@ -115,11 +116,37 @@
     <span class="s1">&#39;show_owned_lists&#39;</span><span class="p">:</span> <span class="mi">1000</span>
 <span class="p">}</span>
 
+<span class="mi">12345678901234567890123456789012345678901234567890123456789012345678901234567890</span>
+<span class="k">def</span> <span class="nf">_expand_entities</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;tweet_entities&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+        <span class="n">colnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tweet_entities_&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mentions&#39;</span><span class="p">,</span> <span class="s1">&#39;hashtags&#39;</span><span class="p">,</span>
+                                                    <span class="s1">&#39;urls&#39;</span><span class="p">,</span> <span class="s1">&#39;symbols&#39;</span><span class="p">,</span> <span class="s1">&#39;media&#39;</span><span class="p">]]</span>
+        <span class="n">entities_df</span> <span class="o">=</span> <span class="n">json_normalize</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tweet_entities&#39;</span><span class="p">])</span>
+        <span class="n">mentions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;@&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;screen_name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;user_mentions&#39;</span><span class="p">]]</span>
+        <span class="n">hashtags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;hashtags&#39;</span><span class="p">]]</span>
+        <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;expanded_url&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;urls&#39;</span><span class="p">]]</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;$&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span>
+                   <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;symbols&#39;</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="s1">&#39;media&#39;</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">:</span>
+            <span class="n">media</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;media_url&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">else</span>
+                     <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;media&#39;</span><span class="p">]]</span>
+            <span class="n">entity_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">mentions</span><span class="p">,</span> <span class="n">hashtags</span><span class="p">,</span> <span class="n">urls</span><span class="p">,</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">media</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">entity_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">mentions</span><span class="p">,</span> <span class="n">hashtags</span><span class="p">,</span> <span class="n">urls</span><span class="p">,</span> <span class="n">symbols</span><span class="p">]</span>
+        <span class="n">col_idx</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s1">&#39;tweet_entities&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">entity_cols</span><span class="p">):</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">col_idx</span><span class="o">+</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">colnames</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">col</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
 
 <span class="k">def</span> <span class="nf">_get_counts</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Split a number into a list of divisors and the remainder.</span>
 <span class="sd">    The divisor is the default count in this case.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">number</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">number</span><span class="p">:</span>
         <span class="n">number</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">div</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">default</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">div</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
@@ -132,9 +159,7 @@
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">nonlocal</span> <span class="n">func</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">():</span>
-            <span class="k">return</span> <span class="s1">&#39;Please authenticate using the `set_auth_params` function&#39;</span>
-        
+
         <span class="n">twtr</span> <span class="o">=</span> <span class="n">Twython</span><span class="p">(</span><span class="o">**</span><span class="n">wrapper</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">())</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="n">func</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;twtr.&#39;</span> <span class="o">+</span> <span class="n">fname</span><span class="p">)</span>
@@ -200,6 +225,8 @@
             <span class="k">if</span> <span class="s1">&#39;source&#39;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">:</span>
                 <span class="n">final_df</span><span class="p">[</span><span class="n">col</span> <span class="o">+</span> <span class="s1">&#39;_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s1">&#39;&lt;a href=&quot;(.*)&quot; rel=&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s1">&#39;nofollow&quot;&gt;(.*)&lt;/a&gt;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;tweet_entities&#39;</span> <span class="ow">in</span> <span class="n">final_df</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_expand_entities</span><span class="p">(</span><span class="n">final_df</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">final_df</span>
     <span class="k">return</span> <span class="n">wrapper</span></div>
