@@ -2,6 +2,7 @@ from functools import wraps
 
 from twython import Twython
 import pandas as pd
+from pandas.io.json import json_normalize
 
 
 # Functions that depend on 'previous_cursor' and 'next_cursor' to 
@@ -82,10 +83,36 @@ DEFAULT_COUNTS = {
 }
 
 
+def _expand_entities(df):
+    if 'tweet_entities' in df:
+        colnames = ['tweet_entities_' + x for x in ['mentions', 'hashtags',
+                                                    'urls', 'symbols', 'media']]
+        entities_df = json_normalize(df['tweet_entities'])
+        mentions = [', '.join(['@' + x['screen_name'] for x in y])
+                    for y in entities_df['user_mentions']]
+        hashtags = [', '.join(['#' + x['text'] for x in y])
+                    for y in entities_df['hashtags']]
+        urls = [', '.join([x['expanded_url'] for x in y])
+                for y in entities_df['urls']]
+        symbols = [', '.join(['$' + x['text'] for x in y])
+                   for y in entities_df['symbols']]
+
+        if 'media' in entities_df:
+            media = [', '.join([x['media_url'] for x in y]) if pd.notna(y) else
+                     '' for y in entities_df['media']]
+            entity_cols = [mentions, hashtags, urls, symbols, media]
+        else:
+            entity_cols = [mentions, hashtags, urls, symbols]
+        col_idx = df.columns.get_loc('tweet_entities')
+        for j, col in enumerate(entity_cols):
+            df.insert(col_idx+j+1, colnames[j], col)
+    return df
+
+
 def _get_counts(number=None, default=None):
     """Split a number into a list of divisors and the remainder.
     The divisor is the default count in this case."""
-    if number is None:
+    if not number:
         number = 1
     div = divmod(number, default)
     result = [default for x in range(div[0])]
@@ -98,9 +125,7 @@ def make_dataframe(func):
     @wraps(func)
     def wrapper(count=None, max_id=None, *args, **kwargs):
         nonlocal func
-        if not wrapper.get_auth_params():
-            return 'Please authenticate using the `set_auth_params` function'
-        
+
         twtr = Twython(**wrapper.get_auth_params())
         fname = func.__name__
         func = eval('twtr.' + fname)
@@ -166,6 +191,8 @@ def make_dataframe(func):
             if 'source' in col:
                 final_df[col + '_url'] = final_df[col].str.extract('<a href="(.*)" rel=')[0]
                 final_df[col] = final_df[col].str.extract('nofollow">(.*)</a>')[0]
+        if 'tweet_entities' in final_df:
+            return _expand_entities(final_df)
 
         return final_df
     return wrapper
