@@ -1,11 +1,12 @@
 
-from advertools.extract import extract_mentions, extract_hashtags
+from advertools.extract import extract_mentions, extract_hashtags, extract_emoji
 
 mention_posts = ['hello @name', 'email@domain.com', '@oneword', 'hi @nam-e and @name',
                '@first @last', 'an @under_score', 'a @dot.one', 'non latin @مرحبا',
                'other at ＠sign', '@one.@two three', 'number @123text', '@_before @after_']
+
 mention_summary = extract_mentions(mention_posts)
-print(mention_summary['mentions'])
+
 mention_test_keys = ['mentions', 'mentions_flat', 'mention_counts',
                      'mention_freq', 'top_mentions', 'overview']
 
@@ -13,6 +14,12 @@ hashtag_posts = ['i like #blue', 'i like #green and #blue', 'i like all']
 hashtag_summary = extract_hashtags(hashtag_posts)
 hashtag_test_keys = ['hashtags', 'hashtags_flat', 'hashtag_counts',
                      'hashtag_freq', 'top_hashtags', 'overview']
+
+emoji_posts = ['one smiley 😀', 'one smiley 😀 one wink 😉', 'no emoji']
+emoji_summary = extract_emoji(emoji_posts)
+emoji_test_keys = ['emoji', 'emoji_text', 'emoji_flat', 'emoji_flat_text',
+                   'emoji_counts', 'emoji_freq', 'top_emoji', 'top_emoji_text', 
+                   'overview']
 
 
 def test_mention_result_has_correct_keys():
@@ -92,3 +99,36 @@ def test_correct_hashtag_overview():
     assert hashtag_overview['num_hashtags'] == 3
     assert hashtag_overview['hashtags_per_post'] == 1.0
     assert hashtag_overview['unique_hashtags'] == 2
+
+
+def test_emoji_result_has_correct_keys():
+    assert set(emoji_summary.keys()) == set(emoji_test_keys)
+
+
+def test_correct_emoji_extracted():
+    assert emoji_summary['emoji'] == [['😀'], ['😀', '😉'], []]
+
+
+def test_correct_flat_emoji():
+    assert emoji_summary['emoji_flat'] == ['😀', '😀', '😉']
+
+
+def test_correct_emoji_counts():
+    assert emoji_summary['emoji_counts'] == [1, 2, 0]
+
+
+def test_correct_emoji_freq():
+    assert emoji_summary['emoji_freq'] == [(0, 1), (1, 1), (2, 1)]
+
+
+def test_correct_top_emoji():
+    assert emoji_summary['top_emoji'] == [('😀', 2), ('😉', 1)]
+
+
+def test_correct_emoji_overview():
+    emoji_overview = emoji_summary['overview']
+    assert emoji_overview['num_posts'] == 3
+    assert emoji_overview['num_emoji'] == 3
+    assert emoji_overview['emoji_per_post'] == 1.0
+    assert emoji_overview['unique_emoji'] == 2
+
