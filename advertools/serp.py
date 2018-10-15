@@ -1,16 +1,18 @@
 import datetime
 import logging
 from itertools import product
+from collections import OrderedDict
 
 import pandas as pd
 from pandas.io.json import json_normalize
 import requests
 
-LOG_FMT = '%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d | %(funcName)s | %(message)s'
-logging.basicConfig(format=LOG_FMT)
+SERP_GOOG_LOG_FMT = ('%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d '
+                    '| %(funcName)s | %(message)s')
+logging.basicConfig(format=SERP_GOOG_LOG_FMT)
 
 
-VALID_VALUES = dict(
+SERP_GOOG_VALID_VALS = dict(
     fileType={
         'bas', 'c', 'cc', 'cpp', 'cs', 'cxx', 'doc', 'docx', 'dwf', 'gpx',
         'h', 'hpp', 'htm', 'html', 'hwp', 'java', 'kml', 'kmz', 'odp', 'ods',
@@ -188,6 +190,7 @@ def _dict_product(d):
          {'a': 1, 'b': 4, 'c': 5},
          {'a': 1, 'b': 4, 'c': 6}]
     """
+    d = OrderedDict(d)
     dicts = []
     for prod in product(*d.values()):
         tempdict = dict(zip(d.keys(), prod))
@@ -360,11 +363,12 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
             supplied_params[p] = [supplied_params[p]]
 
     for p in supplied_params:
-        if p in VALID_VALUES:
-            if not set(supplied_params[p]).issubset(VALID_VALUES[p]):
+        if p in SERP_GOOG_VALID_VALS:
+            if not set(supplied_params[p]).issubset(SERP_GOOG_VALID_VALS[p]):
                 raise ValueError('Please make sure you provide a'
                                  ' valid value for "{}", valid values:\n'
-                                 '{}'.format(p, sorted(VALID_VALUES[p])))
+                                 '{}'.format(p,
+                                             sorted(SERP_GOOG_VALID_VALS[p])))
     params_list = _dict_product(supplied_params)
     base_url = 'https://www.googleapis.com/customsearch/v1?'
     ordered_cols = ['searchTerms', 'rank', 'title', 'snippet',

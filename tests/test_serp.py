@@ -5,7 +5,7 @@ from itertools import product
 import pandas as pd
 import pytest
 
-from advertools.serp import (serp_goog, VALID_VALUES,
+from advertools.serp import (serp_goog, SERP_GOOG_VALID_VALS,
                              _dict_product, set_logging_level)
 
 goog_cse_cx = os.environ.get('GOOG_CSE_CX')
@@ -31,7 +31,7 @@ def test_dict_product_return_correct_types():
 
 def test_serp_goog_raises_error_on_invalid_args():
     with pytest.raises(ValueError):
-        for val in VALID_VALUES:
+        for val in SERP_GOOG_VALID_VALS:
             params = {val: 'WRONG VALUE'}
             serp_goog(q='q', cx='cx', key='key', **params)
 
