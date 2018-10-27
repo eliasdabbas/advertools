@@ -11,7 +11,8 @@
 .. image:: http://pepy.tech/badge/advertools
         :target: http://pepy.tech/project/advertools 
 
-🎉 New: `Query Twitter's API and get results in a DataFrame in one function call`_ 
+| 🎉 New: `Query Twitter's API and get results in a DataFrame in one function call`_
+| 🎉 New2 (SEO research): `Get multiple Google search results in a DataFrame in one function call`_
 
 advertools: create, scale, and manage online campaigns
 ======================================================
@@ -180,3 +181,4 @@ Function names mostly start with the object you are working on:
 .. _tutorial on how to create multiple text ads from scratch: https://nbviewer.jupyter.org/github/eliasdabbas/ad_create/blob/master/ad_create.ipynb
 .. _extract entities from social media posts: http://bit.ly/2wTWvBI
 .. _Query Twitter's API and get results in a DataFrame in one function call: https://www.kaggle.com/eliasdabbas/twitter-in-a-dataframe
+.. _Get multiple Google search results in a DataFrame in one function call: https://www.kaggle.com/eliasdabbas/search-engine-results-pages-serps-research
