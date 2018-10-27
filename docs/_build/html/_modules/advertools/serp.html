@@ -13,6 +13,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -35,16 +36,19 @@
 <span></span><span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">product</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="k">import</span> <span class="n">warn</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pandas.io.json</span> <span class="k">import</span> <span class="n">json_normalize</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="n">LOG_FMT</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> | </span><span class="si">%(levelname)s</span><span class="s1"> | </span><span class="si">%(filename)s</span><span class="s1">:</span><span class="si">%(lineno)d</span><span class="s1"> | </span><span class="si">%(funcName)s</span><span class="s1"> | </span><span class="si">%(message)s</span><span class="s1">&#39;</span>
-<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="n">LOG_FMT</span><span class="p">)</span>
+<span class="n">SERP_GOOG_LOG_FMT</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> | </span><span class="si">%(levelname)s</span><span class="s1"> | </span><span class="si">%(filename)s</span><span class="s1">:</span><span class="si">%(lineno)d</span><span class="s1"> &#39;</span>
+                    <span class="s1">&#39;| </span><span class="si">%(funcName)s</span><span class="s1"> | </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="n">SERP_GOOG_LOG_FMT</span><span class="p">)</span>
 
 
-<span class="n">VALID_VALUES</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+<span class="n">SERP_GOOG_VALID_VALS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
     <span class="n">fileType</span><span class="o">=</span><span class="p">{</span>
         <span class="s1">&#39;bas&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;cc&#39;</span><span class="p">,</span> <span class="s1">&#39;cpp&#39;</span><span class="p">,</span> <span class="s1">&#39;cs&#39;</span><span class="p">,</span> <span class="s1">&#39;cxx&#39;</span><span class="p">,</span> <span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;docx&#39;</span><span class="p">,</span> <span class="s1">&#39;dwf&#39;</span><span class="p">,</span> <span class="s1">&#39;gpx&#39;</span><span class="p">,</span>
         <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;hpp&#39;</span><span class="p">,</span> <span class="s1">&#39;htm&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;hwp&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;kml&#39;</span><span class="p">,</span> <span class="s1">&#39;kmz&#39;</span><span class="p">,</span> <span class="s1">&#39;odp&#39;</span><span class="p">,</span> <span class="s1">&#39;ods&#39;</span><span class="p">,</span>
@@ -222,6 +226,7 @@
 <span class="sd">         {&#39;a&#39;: 1, &#39;b&#39;: 4, &#39;c&#39;: 5},</span>
 <span class="sd">         {&#39;a&#39;: 1, &#39;b&#39;: 4, &#39;c&#39;: 6}]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
     <span class="n">dicts</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">prod</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
         <span class="n">tempdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">prod</span><span class="p">))</span>
@@ -392,13 +397,18 @@
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">supplied_params</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
             <span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span>
+    <span class="n">img_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;imgColorType&#39;</span><span class="p">,</span> <span class="s1">&#39;imgDominantColor&#39;</span><span class="p">,</span> <span class="s1">&#39;imgSize&#39;</span><span class="p">,</span> <span class="s1">&#39;imgType&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">supplied_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;searchType&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;image&#39;</span><span class="p">)</span> <span class="ow">and</span> 
+            <span class="n">img_args</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">supplied_params</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
+        <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Specifying an image attribute without passing searchType=&quot;image&quot;!&#39;</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">supplied_params</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">VALID_VALUES</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">VALID_VALUES</span><span class="p">[</span><span class="n">p</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">SERP_GOOG_VALID_VALS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">SERP_GOOG_VALID_VALS</span><span class="p">[</span><span class="n">p</span><span class="p">]):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Please make sure you provide a&#39;</span>
                                  <span class="s1">&#39; valid value for &quot;</span><span class="si">{}</span><span class="s1">&quot;, valid values:</span><span class="se">\n</span><span class="s1">&#39;</span>
-                                 <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">VALID_VALUES</span><span class="p">[</span><span class="n">p</span><span class="p">])))</span>
+                                 <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">,</span>
+                                             <span class="nb">sorted</span><span class="p">(</span><span class="n">SERP_GOOG_VALID_VALS</span><span class="p">[</span><span class="n">p</span><span class="p">])))</span>
     <span class="n">params_list</span> <span class="o">=</span> <span class="n">_dict_product</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">)</span>
     <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/customsearch/v1?&#39;</span>
     <span class="n">ordered_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;searchTerms&#39;</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span>
@@ -507,7 +517,7 @@
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
     </div>
