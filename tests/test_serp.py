@@ -15,10 +15,10 @@ goog_cse_key = os.environ.get('GOOG_CSE_KEY')
 def test_dict_product_produces_correct_result():
     d = {'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [10, 20]}
     dp = _dict_product(d)
-    assert (list(product(*d.values())) ==
-            [tuple(x.values()) for x in dp])
-    assert ([tuple(x.keys()) for x in dp] ==
-            [tuple(d.keys()) for x in range(len(dp))])
+    assert (sorted(list(product(*d.values()))) ==
+            sorted([tuple(x.values()) for x in dp]))
+    assert (sorted([tuple(x.keys()) for x in dp]) ==
+            sorted([tuple(d.keys()) for x in range(len(dp))]))
 
 
 def test_dict_product_return_correct_types():
