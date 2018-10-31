@@ -343,17 +343,20 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
         value for num is 10.
 
     The following function call will produce two queries:
-    "hotel" in English, and "hotel"
+    "hotel" in the USA, and "hotel" in France
 
-    >>> serp_goog(q='hotel', gl=['en', 'fr'])
+    >>> serp_goog(q='hotel', gl=['us', 'fr'], cx='YOUR_CX', key='YOUR_KEY')
 
     The below function call will prouce four queries and make four requests:
     "fligts" in UK
     "fligts" in Australia
     "tickets" in UK
     "tickets" in Australia
+    'cr' here refers to 'country restrict', which focuses on content
+    originating from the specified country.
 
-    >>> serp_goog(q=['flights', 'tickets'], cr=['uk', 'au'])
+    >>> serp_goog(q=['flights', 'tickets'], cr=['countryUK', 'countryAU'],
+                  cx='YOUR_CX', key='YOUR_KEY')
     """
     params = locals()
     supplied_params = {k: v for k, v in params.items() if params[k]}
