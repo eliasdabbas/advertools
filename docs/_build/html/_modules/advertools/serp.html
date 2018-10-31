@@ -37,7 +37,6 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">product</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">warnings</span> <span class="k">import</span> <span class="n">warn</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pandas.io.json</span> <span class="k">import</span> <span class="n">json_normalize</span>
@@ -397,10 +396,6 @@
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">supplied_params</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
             <span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span>
-    <span class="n">img_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;imgColorType&#39;</span><span class="p">,</span> <span class="s1">&#39;imgDominantColor&#39;</span><span class="p">,</span> <span class="s1">&#39;imgSize&#39;</span><span class="p">,</span> <span class="s1">&#39;imgType&#39;</span><span class="p">}</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">supplied_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;searchType&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;image&#39;</span><span class="p">)</span> <span class="ow">and</span> 
-            <span class="n">img_args</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">supplied_params</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
-        <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Specifying an image attribute without passing searchType=&quot;image&quot;!&#39;</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">supplied_params</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">SERP_GOOG_VALID_VALS</span><span class="p">:</span>
