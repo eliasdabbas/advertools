@@ -6,9 +6,9 @@ import pandas as pd
 import pytest
 
 from advertools.serp import (serp_goog, serp_youtube, SERP_GOOG_VALID_VALS,
-                             youtube_channel_details, youtube_video_details,
-                             YOUTUBE_VID_CATEGORY_IDS, YOUTUBE_TOPIC_IDS,
-                             _dict_product, set_logging_level)
+                             SERP_YTUBE_VALID_VALS, youtube_channel_details,
+                             youtube_video_details, YOUTUBE_VID_CATEGORY_IDS,
+                             YOUTUBE_TOPIC_IDS, _dict_product, set_logging_level)
 
 goog_cse_cx = os.environ.get('GOOG_CSE_CX')
 goog_cse_key = os.environ.get('GOOG_CSE_KEY')
