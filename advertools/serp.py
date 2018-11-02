@@ -1050,8 +1050,8 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
         if len(temp_df) == 0:
             temp_df = temp_df.assign(q=[params_list[i]['q']])
             temp_df = temp_df.assign(**dict.fromkeys(['title', 'description',
-                                                      'publishedAt',
-                                                      'channelTitle', 'kind']))
+                                                      'publishedAt', 'videoId'
+                                                      'channelId', 'kind']))
 
             temp_df = temp_df.assign(**page_info)
         del params_list[i]['key']
