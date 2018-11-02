@@ -5,11 +5,14 @@ from itertools import product
 import pandas as pd
 import pytest
 
-from advertools.serp import (serp_goog, SERP_GOOG_VALID_VALS,
+from advertools.serp import (serp_goog, serp_youtube, SERP_GOOG_VALID_VALS,
+                             youtube_channel_details, youtube_video_details,
+                             YOUTUBE_VID_CATEGORY_IDS, YOUTUBE_TOPIC_IDS,
                              _dict_product, set_logging_level)
 
 goog_cse_cx = os.environ.get('GOOG_CSE_CX')
 goog_cse_key = os.environ.get('GOOG_CSE_KEY')
+youtube_key = os.environ.get('YOUTUBE_KEY')
 
 
 def test_dict_product_produces_correct_result():
@@ -29,6 +32,7 @@ def test_dict_product_return_correct_types():
     assert len(dp) == len(list(product(*d.values())))
 
 
+# Google search tests:
 def test_serp_goog_raises_error_on_invalid_args():
     with pytest.raises(ValueError):
         for val in SERP_GOOG_VALID_VALS:
@@ -49,6 +53,31 @@ def test_serp_goog_handles_no_search_results():
     q = 'aquerythatdoesntgetrezultssss'
     result = serp_goog(q=q, cx=goog_cse_cx, key=goog_cse_key,
                        cr='countryRU', hl='zh-TW', gl='nf')
+    assert len(result) == 1
+    assert result['searchTerms'].values[0] == q
+
+
+# YouTube search tests:
+def test_serp_youtube_raises_error_on_invalid_args():
+    with pytest.raises(ValueError):
+        for val in SERP_YTUBE_VALID_VALS:
+            params = {val: 'WRONG VALUE'}
+            serp_youtube(q='q', key='key', **params)
+
+
+def test_serp_youtube_return_correct_result():
+    result = serp_youtube(q='testing hotels', key=youtube_key,
+                          order='date')
+    assert isinstance(result, pd.core.frame.DataFrame)
+    assert 'title' in result
+    assert 'rank' in result
+    assert len(result) == 5
+
+
+def test_serp_youtube_handles_no_search_results():
+    q = 'aquerythatdoesntgetrezultssss'
+    result = serp_youtube(q=q, key=youtube_key,
+                          relevanceLanguage='ar')
     assert len(result) == 1
     assert result['searchTerms'].values[0] == q
 
