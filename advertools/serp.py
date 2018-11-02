@@ -12,6 +12,11 @@ SERP_GOOG_LOG_FMT = ('%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d '
 logging.basicConfig(format=SERP_GOOG_LOG_FMT)
 
 
+##############################################################################
+# Google variables
+##############################################################################
+
+
 SERP_GOOG_VALID_VALS = dict(
     fileType={
         'bas', 'c', 'cc', 'cpp', 'cs', 'cxx', 'doc', 'docx', 'dwf', 'gpx',
@@ -173,6 +178,263 @@ SERP_GOOG_VALID_VALS = dict(
 
     start=range(1, 92)
 )
+
+
+##############################################################################
+# YouTube variables
+##############################################################################
+
+
+YOUTUBE_TOPIC_IDS = {
+    'Entertainment topics': {'Entertainment (parent topic)': '/m/02jjt',
+                             'Humor': '/m/09kqc',
+                             'Movies': '/m/02vxn',
+                             'Performing arts': '/m/05qjc',
+                             'Professional wrestling': '/m/066wd',
+                             'TV shows': '/m/0f2f9'},
+    'Gaming topics': {'Action game': '/m/025zzc',
+                      'Action-adventure game': '/m/02ntfj',
+                      'Casual game': '/m/0b1vjn',
+                      'Gaming (parent topic)': '/m/0bzvm2',
+                      'Music video game': '/m/02hygl',
+                      'Puzzle video game': '/m/04q1x3q',
+                      'Racing video game': '/m/01sjng',
+                      'Role-playing video game': '/m/0403l3g',
+                      'Simulation video game': '/m/021bp2',
+                      'Sports game': '/m/022dc6',
+                      'Strategy video game': '/m/03hf_rm'},
+    'Lifestyle topics': {'Fashion': '/m/032tl',
+                         'Fitness': '/m/027x7n',
+                         'Food': '/m/02wbm',
+                         'Hobby': '/m/03glg',
+                         'Lifestyle (parent topic)': '/m/019_rr',
+                         'Pets': '/m/068hy',
+                         'Physical attractiveness [Beauty]': '/m/041xxh',
+                         'Technology': '/m/07c1v',
+                         'Tourism': '/m/07bxq',
+                         'Vehicles': '/m/07yv9'},
+    'Music topics': {'Christian music': '/m/02mscn',
+                     'Classical music': '/m/0ggq0m',
+                     'Country': '/m/01lyv',
+                     'Electronic music': '/m/02lkt',
+                     'Hip hop music': '/m/0glt670',
+                     'Independent music': '/m/05rwpb',
+                     'Jazz': '/m/03_d0',
+                     'Music (parent topic)': '/m/04rlf',
+                     'Music of Asia': '/m/028sqc',
+                     'Music of Latin America': '/m/0g293',
+                     'Pop music': '/m/064t9',
+                     'Reggae': '/m/06cqb',
+                     'Rhythm and blues': '/m/06j6l',
+                     'Rock music': '/m/06by7',
+                     'Soul music': '/m/0gywn'},
+    'Other topics': {'Knowledge': '/m/01k8wb'},
+    'Society topics': {'Business': '/m/09s1f',
+                       'Health': '/m/0kt51',
+                       'Military': '/m/01h6rj',
+                       'Politics': '/m/05qt0',
+                       'Religion': '/m/06bvp',
+                       'Society (parent topic)': '/m/098wr'},
+    'Sports topics': {'American football': '/m/0jm_',
+                      'Baseball': '/m/018jz',
+                      'Basketball': '/m/018w8',
+                      'Boxing': '/m/01cgz',
+                      'Cricket': '/m/09xp_',
+                      'Football': '/m/02vx4',
+                      'Golf': '/m/037hz',
+                      'Ice hockey': '/m/03tmr',
+                      'Mixed martial arts': '/m/01h7lh',
+                      'Motorsport': '/m/0410tth',
+                      'Sports (parent topic)': '/m/06ntj',
+                      'Tennis': '/m/07bs0',
+                      'Volleyball': '/m/07_53'}
+                    }
+
+YOUTUBE_VID_CATEGORY_IDS = {
+    'Action/Adventure': '32',
+    'Anime/Animation': '31',
+    'Autos & Vehicles': '2',
+    'Classics': '33',
+    'Comedy': '34',
+    'Documentary': '35',
+    'Drama': '36',
+    'Education': '27',
+    'Entertainment': '24',
+    'Family': '37',
+    'Film & Animation': '1',
+    'Foreign': '38',
+    'Gaming': '20',
+    'Horror': '39',
+    'Howto & Style': '26',
+    'Movies': '30',
+    'Music': '10',
+    'News & Politics': '25',
+    'Nonprofits & Activism': '29',
+    'People & Blogs': '22',
+    'Pets & Animals': '15',
+    'Sci-Fi/Fantasy': '40',
+    'Science & Technology': '28',
+    'Short Movies': '18',
+    'Shorts': '42',
+    'Shows': '43',
+    'Sports': '17',
+    'Thriller': '41',
+    'Trailers': '44',
+    'Travel & Events': '19',
+    'Videoblogging': '21'
+}
+
+SERP_YTUBE_VALID_VALS = dict(
+    channelType={'any', 'show'
+    },
+
+    eventType={'completed', 'live', 'upcoming'
+    },
+
+    forContentOwner={True, False, 'true', 'false'
+    },
+
+    forDeveloper={True, False, 'true', 'false'
+    },
+
+    forMine={True, False, 'true', 'false'
+    },
+
+    maxResults=range(51),
+
+    order={'date', 'rating', 'relevance', 'title',
+           'videoCount', 'viewCount',
+    },
+
+    regionCode={
+        'ad', 'ae', 'af', 'ag', 'ai', 'al', 'am', 'an', 'ao', 'aq', 'ar',
+        'as', 'at', 'au', 'aw', 'az', 'ba', 'bb', 'bd', 'be', 'bf', 'bg',
+        'bh', 'bi', 'bj', 'bm', 'bn', 'bo', 'br', 'bs', 'bt', 'bv', 'bw',
+        'by', 'bz', 'ca', 'cc', 'cd', 'cf', 'cg', 'ch', 'ci', 'ck', 'cl',
+        'cm', 'cn', 'co', 'cr', 'cs', 'cu', 'cv', 'cx', 'cy', 'cz', 'de',
+        'dj', 'dk', 'dm', 'do', 'dz', 'ec', 'ee', 'eg', 'eh', 'er', 'es',
+        'et', 'fi', 'fj', 'fk', 'fm', 'fo', 'fr', 'ga', 'gd', 'ge', 'gf',
+        'gh', 'gi', 'gl', 'gm', 'gn', 'gp', 'gq', 'gr', 'gs', 'gt', 'gu',
+        'gw', 'gy', 'hk', 'hm', 'hn', 'hr', 'ht', 'hu', 'id', 'ie', 'il',
+        'in', 'io', 'iq', 'ir', 'is', 'it', 'jm', 'jo', 'jp', 'ke', 'kg',
+        'kh', 'ki', 'km', 'kn', 'kp', 'kr', 'kw', 'ky', 'kz', 'la', 'lb',
+        'lc', 'li', 'lk', 'lr', 'ls', 'lt', 'lu', 'lv', 'ly', 'ma', 'mc',
+        'md', 'mg', 'mh', 'mk', 'ml', 'mm', 'mn', 'mo', 'mp', 'mq', 'mr',
+        'ms', 'mt', 'mu', 'mv', 'mw', 'mx', 'my', 'mz', 'na', 'nc', 'ne',
+        'nf', 'ng', 'ni', 'nl', 'no', 'np', 'nr', 'nu', 'nz', 'om', 'pa',
+        'pe', 'pf', 'pg', 'ph', 'pk', 'pl', 'pm', 'pn', 'pr', 'ps', 'pt',
+        'pw', 'py', 'qa', 're', 'ro', 'ru', 'rw', 'sa', 'sb', 'sc', 'sd',
+        'se', 'sg', 'sh', 'si', 'sj', 'sk', 'sl', 'sm', 'sn', 'so', 'sr',
+        'st', 'sv', 'sy', 'sz', 'tc', 'td', 'tf', 'tg', 'th', 'tj', 'tk',
+        'tl', 'tm', 'tn', 'to', 'tr', 'tt', 'tv', 'tw', 'tz', 'ua', 'ug',
+        'uk', 'um', 'us', 'uy', 'uz', 'va', 'vc', 've', 'vg', 'vi', 'vn',
+        'vu', 'wf', 'ws', 'ye', 'yt', 'za', 'zm', 'zw',        
+    },
+
+    relevanceLanguage={
+        'af', 'sq', 'sm', 'ar', 'az', 'eu', 'be', 'bn', 'bh', 'bs', 'bg',
+        'ca', 'zh-CN', 'zh-TW', 'zh-Hans', 'zh-Hant', 'hr', 'cs', 'da',
+        'nl', 'en', 'eo', 'et', 'fo', 'fi', 'fr', 'fy', 'gl', 'ka', 'de',
+        'el', 'gu', 'iw', 'hi', 'hu', 'is', 'id', 'ia', 'ga', 'it', 'ja',
+        'jw', 'kn', 'ko', 'la', 'lv', 'lt', 'mk', 'ms', 'ml', 'mt', 'mr',
+        'ne', 'no', 'nn', 'oc', 'fa', 'pl', 'pt-BR', 'pt-PT', 'pa', 'ro',
+        'ru', 'gd', 'sr', 'si', 'sk', 'sl', 'es', 'su', 'sw', 'sv', 'tl',
+        'ta', 'te', 'th', 'ti', 'tr', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh',
+        'zu'
+    },
+
+    safeSearch={'moderate', 'none', 'strict'
+    },
+
+    topicId={
+        '/m/04rlf', '/m/02mscn', '/m/0ggq0m', '/m/01lyv', '/m/02lkt',
+        '/m/0glt670', '/m/05rwpb', '/m/03_d0', '/m/028sqc', '/m/0g293',
+        '/m/064t9', '/m/06cqb', '/m/06j6l', '/m/06by7', '/m/0gywn',
+        '/m/0bzvm2', '/m/025zzc', '/m/02ntfj', '/m/0b1vjn', '/m/02hygl',
+        '/m/04q1x3q', '/m/01sjng', '/m/0403l3g', '/m/021bp2', '/m/022dc6',
+        '/m/03hf_rm', '/m/06ntj', '/m/0jm_', '/m/018jz', '/m/018w8',
+        '/m/01cgz', '/m/09xp_', '/m/02vx4', '/m/037hz', '/m/03tmr',
+        '/m/01h7lh', '/m/0410tth', '/m/07bs0', '/m/07_53', '/m/02jjt',
+        '/m/09kqc', '/m/02vxn', '/m/05qjc', '/m/066wd', '/m/0f2f9',
+        '/m/019_rr', '/m/032tl', '/m/027x7n', '/m/02wbm', '/m/03glg',
+        '/m/068hy', '/m/041xxh', '/m/07c1v', '/m/07bxq', '/m/07yv9',
+        '/m/098wr', '/m/09s1f', '/m/0kt51', '/m/01h6rj', '/m/05qt0',
+        '/m/06bvp', '/m/01k8wb'        
+    },
+
+    type={'channel', 'playlist', 'video'
+    },
+
+    videoCaption={'any', 'closedCaption', 'none'
+    },
+
+    videoCategoryId={
+        '1', '2', '10', '15', '17', '18', '19', '20', '21', '22', '23',
+        '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34',
+        '35', '36', '37', '38', '39', '40', '41', '42', '43', '44'
+    },
+
+    videoDefinition={'any', 'high', 'standard'
+    },
+
+    videoDimension={'2d', '3d', 'any'
+    },
+
+    videoDuration={'any', 'long', 'medium', 'short'
+    },
+
+    videoEmbeddable={'any', True, 'true'
+    },
+
+    videoLicense={'any', 'creativeCommon', 'youtube'
+    },
+
+    videoSyndicated={'any', True, 'true'
+    },
+
+    videoType={'any', 'episode', 'movie'
+    },
+)
+
+
+def youtube_video_details(key, vid_ids):
+    """Return details of videos for which the ids are given. 
+    Assumes ``ids`` is a comma-separated list of video ids with
+    no spaces."""
+    base_url = ('https://www.googleapis.com/youtube/v3/videos?part='
+                'contentDetails,id,liveStreamingDetails,localizations,player,'
+                'recordingDetails,snippet,statistics,status,topicDetails')
+    params = {'id': vid_ids, 'key': key}
+    video_resp = requests.get(base_url, params=params)
+    if video_resp.status_code >= 400:
+            raise Exception(video_resp.json())
+    items_df = pd.DataFrame(video_resp.json()['items'])
+    details = ['snippet','topicDetails', 'statistics',
+               'status', 'contentDetails']
+    detail_df = pd.concat([pd.DataFrame([x[detail] for x in
+                                        video_resp.json()['items']])
+                           for detail in details], axis=1)
+    final_df = pd.concat([items_df, detail_df], axis=1)
+    return final_df
+
+
+def youtube_channel_details(key, channel_ids):
+    """Return details of channels for which the ids are given. 
+    Assumes ``ids`` is a comma-separated list of channel ids with
+    no spaces."""
+    base_url = ('https://www.googleapis.com/youtube/v3/channels?part='
+                'snippet,contentDetails,statistics')
+    params = {'id': channel_ids, 'key': key}
+    channel_resp = requests.get(base_url, params=params)
+    if channel_resp.status_code >= 400:
+            raise Exception(channel_resp.json())
+    items_df = pd.DataFrame(channel_resp.json()['items']) 
+    details = ['snippet', 'statistics', 'contentDetails']
+    detail_df = pd.concat([pd.DataFrame([x[detail] for x in 
+                                         channel_resp.json()['items']]) 
+                           for detail in details], axis=1) 
+    final_df = pd.concat([items_df, detail_df], axis=1)
+    return final_df
 
 
 def _dict_product(d):
@@ -410,6 +672,423 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
     non_ordered = [c for c in result_df.columns if c not in ordered_cols]
     result_df = result_df[ordered_cols + non_ordered]
     return result_df
+
+
+def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
+                 forContentOwner=None, forDeveloper=None, forMine=None,
+                 location=None, locationRadius=None, maxResults=None,
+                 onBehalfOfContentOwner=None, order=None, pageToken=None,
+                 publishedAfter=None, publishedBefore=None, regionCode=None,
+                 relatedToVideoId=None, relevanceLanguage=None, safeSearch=None,
+                 topicId=None, type=None, videoCaption=None, 
+                 videoCategoryId=None, videoDefinition=None, videoDimension=None,
+                 videoDuration=None, videoEmbeddable=None, videoLicense=None,
+                 videoSyndicated=None, videoType=None):
+    """Query the YouTube API and get search results in a DataFrame.
+    For each parameter you can supply a single or multiple value(s).
+    Looping and merging results is handled automatically in case of multiple
+    values. 
+
+    :param q: (string) The ``q`` parameter specifies the query term to
+        search for. Your request can also use the Boolean NOT (-) and OR (|)
+        operators to exclude videos or to find videos that are associated with
+        one of several search terms. For example, to search for videos
+        matching either "boating" or "sailing", set the ``q`` parameter value to
+        boating|sailing. Similarly, to search for videos matching either
+        "boating" or "sailing" but not "fishing", set the q parameter value to
+        boating|sailing -fishing. Note that the pipe character must be URL-
+        escaped when it is sent in your API request. The URL-escaped value for
+        the pipe character is %7C.
+    :param channelId: (string) The ``channelId`` parameter
+        indicates that the API response should only contain resources
+        created by the channel. Note: Search results are constrained
+        to a maximum of 500 videos if your request specifies a value
+        for the ``channelId`` parameter and sets the ``type`` parameter value
+        to video, but it does not also set one of the ``forContentOwner``,
+        ``forDeveloper``, or ``forMine`` filters.
+    :param channelType: (string) The ``channelType`` parameter
+        lets you restrict a search to a particular type of
+        channel. Acceptable values are:
+
+        any – Return all channels.
+
+        show – Only retrieve shows.
+    :param eventType: (string) The ``eventType`` parameter
+        restricts a search to broadcast events. If you specify a value
+        for this parameter, you must also set the type parameter's
+        value to video. Acceptable values are:
+
+        completed – Only include completed broadcasts.
+
+        live – Only include active broadcasts.
+
+        upcoming – Only include upcoming broadcasts.
+
+    :param forContentOwner: (boolean) This parameter can
+        only be used in a properly authorized request, and it is
+        intended exclusively for YouTube content partners. The
+        ``forContentOwner`` parameter restricts the search to only
+        retrieve videos owned by the content owner identified by
+        the ``onBehalfOfContentOwner`` parameter. If ``forContentOwner``
+        is set to true, the request must also meet these
+        requirements:The ``onBehalfOfContentOwner`` parameter is
+        required.The user authorizing the request must be using
+        an account linked to the specified content owner. The
+        ``type`` parameter value must be set to video.None of the
+        following other parameters can be set: ``videoDefinition``,
+        ``videoDimension``, ``videoDuration``, ``videoLicense``,
+        ``videoEmbeddable``, ``videoSyndicated``, ``videoType``.
+    :param forDeveloper: (boolean) This parameter can only
+        be used in a properly authorized request. The ``forDeveloper``
+        parameter restricts the search to only retrieve videos
+        uploaded via the developer's application or website. The
+        API server uses the request's authorization credentials to
+        identify the developer. The ``forDeveloper`` parameter can be
+        used in conjunction with optional search parameters like
+        the ``q`` parameter. For this feature, each uploaded video is
+        automatically tagged with the project number that is
+        associated with the developer's application in the Google
+        Developers Console. When a search request subsequently sets
+        the ``forDeveloper`` parameter to ``true`` the API server uses the
+        request's authorization credentials to identify the
+        developer. Therefore, a developer can restrict results to
+        videos uploaded through the developer's own app or website
+        but not to videos uploaded through other apps or sites.
+    :param forMine: (boolean) This parameter can only be used in
+        a properly authorized request. The ``forMine`` parameter restricts
+        the search to only retrieve videos owned by the authenticated
+        user. If you set this parameter to ``true``, then the ``type``
+        parameter's value must also be set to ``video``. In addition, none
+        of the following other parameters can be set in the same
+        request: ``videoDefinition``, ``videoDimension``, ``videoDuration``,
+        ``videoLicense``, ``videoEmbeddable``, ``videoSyndicated``, ``videoType``.
+    :param relatedToVideoId: (string) The
+        ``relatedToVideoId`` parameter retrieves a list of videos
+        that are related to the video that the parameter ``value``
+        identifies. The parameter ``value`` must be set to a
+        YouTube video ID and, if you are using this parameter,
+        the ``type`` parameter must be set to video.Note that if
+        the ``relatedToVideoId`` parameter is set, the only other
+        supported parameters are ``part``, ``maxResults``, ``pageToken``,
+        ``regionCode``, ``relevanceLanguage``, ``safeSearch``, ``type`` (which
+        must be set to video), and ``fields``.
+    :param location: (string) The ``location`` parameter, in
+        conjunction with the ``locationRadius`` parameter, defines a
+        circular geographic area and also restricts a search to videos
+        that specify, in their metadata, a geographic location that
+        falls within that area. The parameter value is a string that
+        specifies latitude/longitude coordinates e.g.
+        (37.42307,-122.08427).The location parameter value identifies
+        the point at the center of the area. The ``locationRadius``
+        parameter specifies the maximum distance that the location
+        associated with a video can be from that point for the video to
+        still be included in the search results. The API returns an
+        error if your request specifies a value for the ``location``
+        parameter but does not also specify a value for the
+        ``locationRadius`` parameter.
+    :param locationRadius: (string) The ``locationRadius``
+        parameter, in conjunction with the ``location`` parameter,
+        defines a circular geographic area. The parameter value
+        must be a floating point number followed by a measurement
+        unit. Valid measurement units are m, km, ft, and mi. For
+        example, valid parameter values include 1500m, 5km,
+        10000ft, and 0.75mi. The API does not support
+        ``locationRadius`` parameter values larger than 1000
+        kilometers. Note: See the definition of the ``location``
+        parameter for more information.
+    :param maxResults: (unsigned integer) The ``maxResults``
+        parameter specifies the maximum number of items that should
+        be returned in the result set. Acceptable values are 0 to 50,
+        inclusive. The default value is 5.
+    :param onBehalfOfContentOwner: (string) This
+        parameter can only be used in a properly
+        authorized request. Note: This parameter is
+        intended exclusively for YouTube content
+        partners.The ``onBehalfOfContentOwner`` parameter
+        indicates that the request's authorization
+        credentials identify a YouTube CMS user who is
+        acting on behalf of the content owner specified
+        in the parameter value. This parameter is
+        intended for YouTube content partners that own
+        and manage many different YouTube channels. It
+        allows content owners to authenticate once and
+        get access to all their video and channel data,
+        without having to provide authentication
+        credentials for each individual channel. The CMS
+        account that the user authenticates with must be
+        linked to the specified YouTube content owner.
+    :param order: (string) The order parameter specifies the
+        method that will be used to order resources in the API response.
+        The default value is relevance. Acceptable values are:
+
+        date – Resources are sorted in reverse chronological order based on the
+        date they were created.
+
+        rating – Resources are sorted from highest to lowest rating.
+
+        relevance – Resources are sorted based on their relevance to the search
+        query. This is the default value for this parameter.
+
+        title – Resources are sorted alphabetically by title.
+
+        videoCount – Channels are sorted in descending order of their number of
+        uploaded videos.
+
+        viewCount – Resources are sorted from highest to lowest number of views.
+        For live broadcasts, videos are sorted by number of concurrent viewers
+        while the broadcasts are ongoing.
+    :param pageToken: (string) The ``pageToken`` parameter
+        identifies a specific page in the result set that should be
+        returned. In an API response, the ``nextPageToken`` and
+        ``prevPageToken`` properties identify other pages that could be
+        retrieved.
+    :param publishedAfter: (datetime) The ``publishedAfter``
+        parameter indicates that the API response should only
+        contain resources created at or after the specified time.
+        The value is an RFC 3339 formatted date-time value
+        (1970-01-01T00:00:00Z).
+    :param publishedBefore: (datetime) The
+        ``publishedBefore`` parameter indicates that the API
+        response should only contain resources created before or
+        at the specified time. The value is an RFC 3339
+        formatted date-time value (1970-01-01T00:00:00Z).
+    :param regionCode: (string) The ``regionCode`` parameter
+        instructs the API to return search results for videos that
+        can be viewed in the specified country. The parameter value
+        is an ISO 3166-1 alpha-2 country code.
+    :param relevanceLanguage: (string) The
+        ``relevanceLanguage`` parameter instructs the API to
+        return search results that are most relevant to the
+        specified language. The parameter value is typically
+        an ISO 639-1 two-letter language code. However, you
+        should use the values zh-Hans for simplified Chinese
+        and zh-Hant for traditional Chinese. Please note that
+        results in other languages will still be returned if
+        they are highly relevant to the search query term.
+    :param safeSearch: (string) The ``safeSearch`` parameter
+        indicates whether the search results should include
+        restricted content as well as standard content. Acceptable
+        values are:
+
+        moderate – YouTube will filter some content from search results and,
+        at the least, will filter content that is restricted in your locale.
+        Based on their content, search results could be removed from search
+        results or demoted in search results. This is the default parameter value.
+
+        none – YouTube will not filter the search result set.
+
+        strict – YouTube will try to exclude all restricted content from the
+        search result set.
+
+        Based on their content, search results
+        could be removed from search results or demoted in search
+        results.
+    :param topicId: (string) The ``topicId`` parameter indicates
+        that the API response should only contain resources associated
+        with the specified topic. The value identifies a Freebase topic
+        ID.
+    :param type: (string) The ``type`` parameter restricts a search
+        query to only retrieve a particular type of resource. The value is
+        a comma-separated list of resource types. The default value is
+        video,channel,playlist. Acceptable values are: channel, playlist, and video
+    :param videoCaption: (string) The ``videoCaption``
+        parameter indicates whether the API should filter video
+        search results based on whether they have captions. If you
+        specify a value for this parameter, you must also set the
+        ``type`` parameter's value to video. Acceptable values are:
+
+        any – Do not filter results based on caption availability.
+
+        closedCaption – Only include videos that have captions.
+
+        none – Only include videos that do not have captions.
+    :param videoCategoryId: (string) The ``videoCategoryId``
+        parameter filters video search results based on their
+        category. If you specify a value for this parameter, you
+        must also set the ``type`` parameter's value to video.
+    :param videoDefinition: (string) The ``videoDefinition``
+        parameter lets you restrict a search to only include
+        either high definition (HD) or standard definition (SD)
+        videos. HD videos are available for playback in at least
+        720p, though higher resolutions, like 1080p, might also
+        be available. If you specify a value for this parameter,
+        you must also set the ``type`` parameter's value to
+        video. Acceptable values are:
+
+        any – Return all videos, regardless of their resolution.
+
+        high – Only retrieve HD videos.
+
+        standard – Only retrieve videos in standard definition.
+    :param videoDimension: (string) The ``videoDimension``
+        parameter lets you restrict a search to only retrieve 2D
+        or 3D videos. If you specify a value for this parameter,
+        you must also set the ``type`` parameter's value to
+        video. Acceptable values are:
+
+        2d – Restrict search results to exclude 3D videos.
+
+        3d – Restrict search results to only include 3D videos.
+
+        any – Include both 3D and non-3D videos in returned results. This is the
+        default value.
+    :param videoDuration: (string) The ``videoDuration``
+        parameter filters video search results based on their
+        duration. If you specify a value for this parameter, you
+        must also set the ``type`` parameter's value to
+        video. Acceptable values are:
+
+        any – Do not filter video search results based on their duration.
+        This is the default value.
+
+        long – Only include videos longer than 20 minutes.
+
+        medium – Only include videos that are between four and 20 minutes
+        long (inclusive).
+
+        short – Only include videos that are less than four minutes long.
+    :param videoEmbeddable: (string) The ``videoEmbeddable``
+        parameter lets you to restrict a search to only videos
+        that can be embedded into a webpage. If you specify a
+        value for this parameter, you must also set the ``type``
+        parameter's value to video. Acceptable values are:
+
+        any – Return all videos, embeddable or not.
+
+        true – Only retrieve embeddable videos.
+    :param videoLicense: (string) The ``videoLicense``
+        parameter filters search results to only include videos
+        with a particular license. YouTube lets video uploaders
+        choose to attach either the Creative Commons license or the
+        standard YouTube license to each of their videos. If you
+        specify a value for this parameter, you must also set the
+        ``type`` parameter's value to video. Acceptable values are:
+
+        any – Return all videos, regardless of which license they have, that
+        match the query parameters.
+
+        creativeCommon – Only return videos that have a Creative Commons license.
+        Users can reuse videos with this license in other videos that they create.
+
+        youtube – Only return videos that have the standard YouTube license.
+    :param videoSyndicated: (string) The ``videoSyndicated``
+        parameter lets you to restrict a search to only videos
+        that can be played outside youtube.com. If you specify a
+        value for this parameter, you must also set the ``type``
+        parameter's value to video. Acceptable values are:
+
+        any – Return all videos, syndicated or not.
+
+        true – Only retrieve syndicated videos.
+    :param videoType: (string) The ``videoType`` parameter lets
+        you restrict a search to a particular type of videos. If you
+        specify a value for this parameter, you must also set the ``type``
+        parameter's value to video. Acceptable values are:
+
+        any – Return all videos.
+
+        episode – Only retrieve episodes of shows.
+
+        movie – Only retrieve movies.    
+    """
+    params = locals()
+    supplied_params = {k: v for k, v in params.items() if params[k]}
+
+    type_vid_params = {'eventType', 'relatedToVideoId', 'videoCaption',
+                       'videoCategoryId', 'videoDefinition', 'videoDimension',
+                       'videoDuration', 'videoEmbeddable', 'videoLicense',
+                       'videoSyndicated', 'videoType', 'forMine',
+                       'forContentOwner'}
+
+    if (supplied_params.get('type') != 'video' and
+        type_vid_params.intersection(set(supplied_params.keys()))):
+        raise ValueError('You need to set type="video" if you want to set'
+                         ' any of the following:' + str(type_vid_params))
+
+    for p in supplied_params:
+        if isinstance(supplied_params[p], (str, int)):
+            supplied_params[p] = [supplied_params[p]]
+
+    for p in supplied_params:
+        if p in SERP_YTUBE_VALID_VALS:
+            if not set(supplied_params[p]).issubset(SERP_YTUBE_VALID_VALS[p]):
+                raise ValueError('Please make sure you provide a'
+                                 ' valid value for "{}", valid values:\n'
+                                 '{}'.format(p,
+                                             sorted(SERP_YTUBE_VALID_VALS[p])))
+
+    params_list = _dict_product(supplied_params)
+    base_url = "https://www.googleapis.com/youtube/v3/search?part=snippet"
+
+    responses = []
+    for param in params_list:
+        param_log = ', '.join([k + '=' + str(v) for k, v in param.items()])
+        logging.info(msg='Requesting: ' + param_log)
+        resp = requests.get(base_url, params=param)
+        if resp.status_code >= 400:
+            raise Exception(resp.json())
+        responses.append(resp)
+
+    result_df = pd.DataFrame()
+    for i, resp in enumerate(responses):
+        snippet_df = pd.DataFrame([x['snippet'] for x in resp.json()['items']])
+
+        id_df = pd.DataFrame([x['id'] for x in resp.json()['items']])
+        if 'channelId' in id_df:
+            id_df = id_df.drop('channelId', axis=1)
+
+        if 'thumbnails' in snippet_df:
+            thumb_df = json_normalize(snippet_df['thumbnails'])
+        else:
+            thumb_df = pd.DataFrame()
+        page_info = resp.json()['pageInfo']
+        temp_df = pd.concat([snippet_df, id_df, thumb_df],
+                            axis=1).assign(**page_info)
+        temp_df['rank'] = range(1, len(temp_df)+1)
+
+
+        if len(temp_df) == 0:
+            temp_df = temp_df.assign(q=[params_list[i]['q']])
+            temp_df = temp_df.assign(**dict.fromkeys(['title', 'description',
+                                                      'publishedAt',
+                                                      'channelTitle', 'kind']))
+
+            temp_df = temp_df.assign(**page_info)
+        del params_list[i]['key']
+        temp_df = temp_df.assign(**params_list[i])
+        result_df = result_df.append(temp_df, sort=False,
+                                     ignore_index=True)
+
+    result_df['queryTime'] = datetime.datetime.now(tz=datetime.timezone.utc)
+    result_df['queryTime'] = pd.to_datetime(result_df['queryTime'])
+
+    spedified_cols = ['queryTime', 'rank', 'title','description', 'publishedAt',
+                      'channelTitle', 'totalResults', 'kind']
+    ordered_cols = list(params_list[i].keys()) + spedified_cols
+    non_ordered = result_df.columns.difference(set(ordered_cols))
+    result_df = result_df[ordered_cols + list(non_ordered)]
+
+    vid_ids=','.join(result_df['videoId'].dropna())
+    vid_details_df = youtube_video_details(vid_ids=vid_ids, key=key)
+    common_vid_cols = result_df.columns.intersection(vid_details_df.columns)
+    vid_details_df = vid_details_df.drop(common_vid_cols, axis=1)
+    vid_details_df.columns = ['video.' + x for x in vid_details_df.columns]
+
+    channel_ids=','.join(result_df['channelId'].dropna())
+    channel_details_df = youtube_channel_details(channel_ids=channel_ids,
+                                                 key=key)
+    common_channel_cols = (result_df.columns
+                           .intersection(channel_details_df.columns))
+    channel_details_df = channel_details_df.drop(common_channel_cols,
+                                                 axis=1)
+    channel_details_df.columns = ['channel.' + x for x in
+                                  channel_details_df.columns]
+
+    final_df = pd.merge(result_df, vid_details_df,
+                        how='left', left_on='videoId', right_on='video.id')
+    final_df = pd.merge(final_df, channel_details_df,
+                    how='left', left_on='channelId', right_on='channel.id')
+    return final_df
 
 
 def set_logging_level(level_or_name):
