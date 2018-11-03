@@ -643,9 +643,9 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
         param_log = ', '.join([k + '=' + str(v) for k, v in param.items()])
         logging.info(msg='Requesting: ' + param_log)
         resp = requests.get(base_url, params=param)
-        resp.raise_for_status()
+        if resp.status_code >= 400:
+            raise Exception(resp.json())
         responses.append(resp)
-
     result_df = pd.DataFrame()
     for resp in responses:
         request_metadata = resp.json()['queries']['request'][0]
