@@ -47,6 +47,11 @@
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="n">SERP_GOOG_LOG_FMT</span><span class="p">)</span>
 
 
+<span class="c1">##############################################################################</span>
+<span class="c1"># Google variables</span>
+<span class="c1">##############################################################################</span>
+
+
 <span class="n">SERP_GOOG_VALID_VALS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
     <span class="n">fileType</span><span class="o">=</span><span class="p">{</span>
         <span class="s1">&#39;bas&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;cc&#39;</span><span class="p">,</span> <span class="s1">&#39;cpp&#39;</span><span class="p">,</span> <span class="s1">&#39;cs&#39;</span><span class="p">,</span> <span class="s1">&#39;cxx&#39;</span><span class="p">,</span> <span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;docx&#39;</span><span class="p">,</span> <span class="s1">&#39;dwf&#39;</span><span class="p">,</span> <span class="s1">&#39;gpx&#39;</span><span class="p">,</span>
@@ -208,6 +213,263 @@
 
     <span class="n">start</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">92</span><span class="p">)</span>
 <span class="p">)</span>
+
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># YouTube variables</span>
+<span class="c1">##############################################################################</span>
+
+
+<span class="n">YOUTUBE_TOPIC_IDS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Entertainment topics&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Entertainment (parent topic)&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/02jjt&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;Humor&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/09kqc&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;Movies&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/02vxn&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;Performing arts&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/05qjc&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;Professional wrestling&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/066wd&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;TV shows&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/0f2f9&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;Gaming topics&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Action game&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/025zzc&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Action-adventure game&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/02ntfj&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Casual game&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/0b1vjn&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Gaming (parent topic)&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/0bzvm2&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Music video game&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/02hygl&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Puzzle video game&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/04q1x3q&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Racing video game&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/01sjng&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Role-playing video game&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/0403l3g&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Simulation video game&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/021bp2&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Sports game&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/022dc6&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Strategy video game&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/03hf_rm&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;Lifestyle topics&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Fashion&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/032tl&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Fitness&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/027x7n&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Food&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/02wbm&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Hobby&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/03glg&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Lifestyle (parent topic)&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/019_rr&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Pets&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/068hy&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Physical attractiveness [Beauty]&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/041xxh&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Technology&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/07c1v&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Tourism&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/07bxq&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Vehicles&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/07yv9&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;Music topics&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Christian music&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/02mscn&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Classical music&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/0ggq0m&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Country&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/01lyv&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Electronic music&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/02lkt&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Hip hop music&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/0glt670&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Independent music&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/05rwpb&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Jazz&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/03_d0&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Music (parent topic)&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/04rlf&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Music of Asia&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/028sqc&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Music of Latin America&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/0g293&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Pop music&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/064t9&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Reggae&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/06cqb&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Rhythm and blues&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/06j6l&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Rock music&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/06by7&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Soul music&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/0gywn&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;Other topics&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Knowledge&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/01k8wb&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;Society topics&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Business&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/09s1f&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Health&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/0kt51&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Military&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/01h6rj&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Politics&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/05qt0&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Religion&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/06bvp&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Society (parent topic)&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/098wr&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;Sports topics&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;American football&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/0jm_&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Baseball&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/018jz&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Basketball&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/018w8&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Boxing&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/01cgz&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Cricket&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/09xp_&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Football&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/02vx4&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Golf&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/037hz&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Ice hockey&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/03tmr&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Mixed martial arts&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/01h7lh&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Motorsport&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/0410tth&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Sports (parent topic)&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/06ntj&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Tennis&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/07bs0&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Volleyball&#39;</span><span class="p">:</span> <span class="s1">&#39;/m/07_53&#39;</span><span class="p">}</span>
+                    <span class="p">}</span>
+
+<span class="n">YOUTUBE_VID_CATEGORY_IDS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Action/Adventure&#39;</span><span class="p">:</span> <span class="s1">&#39;32&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Anime/Animation&#39;</span><span class="p">:</span> <span class="s1">&#39;31&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Autos &amp; Vehicles&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Classics&#39;</span><span class="p">:</span> <span class="s1">&#39;33&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Comedy&#39;</span><span class="p">:</span> <span class="s1">&#39;34&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Documentary&#39;</span><span class="p">:</span> <span class="s1">&#39;35&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Drama&#39;</span><span class="p">:</span> <span class="s1">&#39;36&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Education&#39;</span><span class="p">:</span> <span class="s1">&#39;27&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Entertainment&#39;</span><span class="p">:</span> <span class="s1">&#39;24&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Family&#39;</span><span class="p">:</span> <span class="s1">&#39;37&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Film &amp; Animation&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Foreign&#39;</span><span class="p">:</span> <span class="s1">&#39;38&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Gaming&#39;</span><span class="p">:</span> <span class="s1">&#39;20&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Horror&#39;</span><span class="p">:</span> <span class="s1">&#39;39&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Howto &amp; Style&#39;</span><span class="p">:</span> <span class="s1">&#39;26&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Movies&#39;</span><span class="p">:</span> <span class="s1">&#39;30&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Music&#39;</span><span class="p">:</span> <span class="s1">&#39;10&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;News &amp; Politics&#39;</span><span class="p">:</span> <span class="s1">&#39;25&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Nonprofits &amp; Activism&#39;</span><span class="p">:</span> <span class="s1">&#39;29&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;People &amp; Blogs&#39;</span><span class="p">:</span> <span class="s1">&#39;22&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Pets &amp; Animals&#39;</span><span class="p">:</span> <span class="s1">&#39;15&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Sci-Fi/Fantasy&#39;</span><span class="p">:</span> <span class="s1">&#39;40&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Science &amp; Technology&#39;</span><span class="p">:</span> <span class="s1">&#39;28&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Short Movies&#39;</span><span class="p">:</span> <span class="s1">&#39;18&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Shorts&#39;</span><span class="p">:</span> <span class="s1">&#39;42&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Shows&#39;</span><span class="p">:</span> <span class="s1">&#39;43&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Sports&#39;</span><span class="p">:</span> <span class="s1">&#39;17&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Thriller&#39;</span><span class="p">:</span> <span class="s1">&#39;41&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Trailers&#39;</span><span class="p">:</span> <span class="s1">&#39;44&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Travel &amp; Events&#39;</span><span class="p">:</span> <span class="s1">&#39;19&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Videoblogging&#39;</span><span class="p">:</span> <span class="s1">&#39;21&#39;</span>
+<span class="p">}</span>
+
+<span class="n">SERP_YTUBE_VALID_VALS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">channelType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">eventType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;completed&#39;</span><span class="p">,</span> <span class="s1">&#39;live&#39;</span><span class="p">,</span> <span class="s1">&#39;upcoming&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">forContentOwner</span><span class="o">=</span><span class="p">{</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">forDeveloper</span><span class="o">=</span><span class="p">{</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">forMine</span><span class="o">=</span><span class="p">{</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">maxResults</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">51</span><span class="p">),</span>
+
+    <span class="n">order</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;rating&#39;</span><span class="p">,</span> <span class="s1">&#39;relevance&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;videoCount&#39;</span><span class="p">,</span> <span class="s1">&#39;viewCount&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+
+    <span class="n">regionCode</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;ad&#39;</span><span class="p">,</span> <span class="s1">&#39;ae&#39;</span><span class="p">,</span> <span class="s1">&#39;af&#39;</span><span class="p">,</span> <span class="s1">&#39;ag&#39;</span><span class="p">,</span> <span class="s1">&#39;ai&#39;</span><span class="p">,</span> <span class="s1">&#39;al&#39;</span><span class="p">,</span> <span class="s1">&#39;am&#39;</span><span class="p">,</span> <span class="s1">&#39;an&#39;</span><span class="p">,</span> <span class="s1">&#39;ao&#39;</span><span class="p">,</span> <span class="s1">&#39;aq&#39;</span><span class="p">,</span> <span class="s1">&#39;ar&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;as&#39;</span><span class="p">,</span> <span class="s1">&#39;at&#39;</span><span class="p">,</span> <span class="s1">&#39;au&#39;</span><span class="p">,</span> <span class="s1">&#39;aw&#39;</span><span class="p">,</span> <span class="s1">&#39;az&#39;</span><span class="p">,</span> <span class="s1">&#39;ba&#39;</span><span class="p">,</span> <span class="s1">&#39;bb&#39;</span><span class="p">,</span> <span class="s1">&#39;bd&#39;</span><span class="p">,</span> <span class="s1">&#39;be&#39;</span><span class="p">,</span> <span class="s1">&#39;bf&#39;</span><span class="p">,</span> <span class="s1">&#39;bg&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;bh&#39;</span><span class="p">,</span> <span class="s1">&#39;bi&#39;</span><span class="p">,</span> <span class="s1">&#39;bj&#39;</span><span class="p">,</span> <span class="s1">&#39;bm&#39;</span><span class="p">,</span> <span class="s1">&#39;bn&#39;</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="s1">&#39;br&#39;</span><span class="p">,</span> <span class="s1">&#39;bs&#39;</span><span class="p">,</span> <span class="s1">&#39;bt&#39;</span><span class="p">,</span> <span class="s1">&#39;bv&#39;</span><span class="p">,</span> <span class="s1">&#39;bw&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;by&#39;</span><span class="p">,</span> <span class="s1">&#39;bz&#39;</span><span class="p">,</span> <span class="s1">&#39;ca&#39;</span><span class="p">,</span> <span class="s1">&#39;cc&#39;</span><span class="p">,</span> <span class="s1">&#39;cd&#39;</span><span class="p">,</span> <span class="s1">&#39;cf&#39;</span><span class="p">,</span> <span class="s1">&#39;cg&#39;</span><span class="p">,</span> <span class="s1">&#39;ch&#39;</span><span class="p">,</span> <span class="s1">&#39;ci&#39;</span><span class="p">,</span> <span class="s1">&#39;ck&#39;</span><span class="p">,</span> <span class="s1">&#39;cl&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;cm&#39;</span><span class="p">,</span> <span class="s1">&#39;cn&#39;</span><span class="p">,</span> <span class="s1">&#39;co&#39;</span><span class="p">,</span> <span class="s1">&#39;cr&#39;</span><span class="p">,</span> <span class="s1">&#39;cs&#39;</span><span class="p">,</span> <span class="s1">&#39;cu&#39;</span><span class="p">,</span> <span class="s1">&#39;cv&#39;</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">,</span> <span class="s1">&#39;cy&#39;</span><span class="p">,</span> <span class="s1">&#39;cz&#39;</span><span class="p">,</span> <span class="s1">&#39;de&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;dj&#39;</span><span class="p">,</span> <span class="s1">&#39;dk&#39;</span><span class="p">,</span> <span class="s1">&#39;dm&#39;</span><span class="p">,</span> <span class="s1">&#39;do&#39;</span><span class="p">,</span> <span class="s1">&#39;dz&#39;</span><span class="p">,</span> <span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="s1">&#39;ee&#39;</span><span class="p">,</span> <span class="s1">&#39;eg&#39;</span><span class="p">,</span> <span class="s1">&#39;eh&#39;</span><span class="p">,</span> <span class="s1">&#39;er&#39;</span><span class="p">,</span> <span class="s1">&#39;es&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;et&#39;</span><span class="p">,</span> <span class="s1">&#39;fi&#39;</span><span class="p">,</span> <span class="s1">&#39;fj&#39;</span><span class="p">,</span> <span class="s1">&#39;fk&#39;</span><span class="p">,</span> <span class="s1">&#39;fm&#39;</span><span class="p">,</span> <span class="s1">&#39;fo&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">,</span> <span class="s1">&#39;ga&#39;</span><span class="p">,</span> <span class="s1">&#39;gd&#39;</span><span class="p">,</span> <span class="s1">&#39;ge&#39;</span><span class="p">,</span> <span class="s1">&#39;gf&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;gh&#39;</span><span class="p">,</span> <span class="s1">&#39;gi&#39;</span><span class="p">,</span> <span class="s1">&#39;gl&#39;</span><span class="p">,</span> <span class="s1">&#39;gm&#39;</span><span class="p">,</span> <span class="s1">&#39;gn&#39;</span><span class="p">,</span> <span class="s1">&#39;gp&#39;</span><span class="p">,</span> <span class="s1">&#39;gq&#39;</span><span class="p">,</span> <span class="s1">&#39;gr&#39;</span><span class="p">,</span> <span class="s1">&#39;gs&#39;</span><span class="p">,</span> <span class="s1">&#39;gt&#39;</span><span class="p">,</span> <span class="s1">&#39;gu&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;gw&#39;</span><span class="p">,</span> <span class="s1">&#39;gy&#39;</span><span class="p">,</span> <span class="s1">&#39;hk&#39;</span><span class="p">,</span> <span class="s1">&#39;hm&#39;</span><span class="p">,</span> <span class="s1">&#39;hn&#39;</span><span class="p">,</span> <span class="s1">&#39;hr&#39;</span><span class="p">,</span> <span class="s1">&#39;ht&#39;</span><span class="p">,</span> <span class="s1">&#39;hu&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;ie&#39;</span><span class="p">,</span> <span class="s1">&#39;il&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="s1">&#39;io&#39;</span><span class="p">,</span> <span class="s1">&#39;iq&#39;</span><span class="p">,</span> <span class="s1">&#39;ir&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;jm&#39;</span><span class="p">,</span> <span class="s1">&#39;jo&#39;</span><span class="p">,</span> <span class="s1">&#39;jp&#39;</span><span class="p">,</span> <span class="s1">&#39;ke&#39;</span><span class="p">,</span> <span class="s1">&#39;kg&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;kh&#39;</span><span class="p">,</span> <span class="s1">&#39;ki&#39;</span><span class="p">,</span> <span class="s1">&#39;km&#39;</span><span class="p">,</span> <span class="s1">&#39;kn&#39;</span><span class="p">,</span> <span class="s1">&#39;kp&#39;</span><span class="p">,</span> <span class="s1">&#39;kr&#39;</span><span class="p">,</span> <span class="s1">&#39;kw&#39;</span><span class="p">,</span> <span class="s1">&#39;ky&#39;</span><span class="p">,</span> <span class="s1">&#39;kz&#39;</span><span class="p">,</span> <span class="s1">&#39;la&#39;</span><span class="p">,</span> <span class="s1">&#39;lb&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lc&#39;</span><span class="p">,</span> <span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="s1">&#39;lk&#39;</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="s1">&#39;ls&#39;</span><span class="p">,</span> <span class="s1">&#39;lt&#39;</span><span class="p">,</span> <span class="s1">&#39;lu&#39;</span><span class="p">,</span> <span class="s1">&#39;lv&#39;</span><span class="p">,</span> <span class="s1">&#39;ly&#39;</span><span class="p">,</span> <span class="s1">&#39;ma&#39;</span><span class="p">,</span> <span class="s1">&#39;mc&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;md&#39;</span><span class="p">,</span> <span class="s1">&#39;mg&#39;</span><span class="p">,</span> <span class="s1">&#39;mh&#39;</span><span class="p">,</span> <span class="s1">&#39;mk&#39;</span><span class="p">,</span> <span class="s1">&#39;ml&#39;</span><span class="p">,</span> <span class="s1">&#39;mm&#39;</span><span class="p">,</span> <span class="s1">&#39;mn&#39;</span><span class="p">,</span> <span class="s1">&#39;mo&#39;</span><span class="p">,</span> <span class="s1">&#39;mp&#39;</span><span class="p">,</span> <span class="s1">&#39;mq&#39;</span><span class="p">,</span> <span class="s1">&#39;mr&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ms&#39;</span><span class="p">,</span> <span class="s1">&#39;mt&#39;</span><span class="p">,</span> <span class="s1">&#39;mu&#39;</span><span class="p">,</span> <span class="s1">&#39;mv&#39;</span><span class="p">,</span> <span class="s1">&#39;mw&#39;</span><span class="p">,</span> <span class="s1">&#39;mx&#39;</span><span class="p">,</span> <span class="s1">&#39;my&#39;</span><span class="p">,</span> <span class="s1">&#39;mz&#39;</span><span class="p">,</span> <span class="s1">&#39;na&#39;</span><span class="p">,</span> <span class="s1">&#39;nc&#39;</span><span class="p">,</span> <span class="s1">&#39;ne&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;nf&#39;</span><span class="p">,</span> <span class="s1">&#39;ng&#39;</span><span class="p">,</span> <span class="s1">&#39;ni&#39;</span><span class="p">,</span> <span class="s1">&#39;nl&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;np&#39;</span><span class="p">,</span> <span class="s1">&#39;nr&#39;</span><span class="p">,</span> <span class="s1">&#39;nu&#39;</span><span class="p">,</span> <span class="s1">&#39;nz&#39;</span><span class="p">,</span> <span class="s1">&#39;om&#39;</span><span class="p">,</span> <span class="s1">&#39;pa&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pe&#39;</span><span class="p">,</span> <span class="s1">&#39;pf&#39;</span><span class="p">,</span> <span class="s1">&#39;pg&#39;</span><span class="p">,</span> <span class="s1">&#39;ph&#39;</span><span class="p">,</span> <span class="s1">&#39;pk&#39;</span><span class="p">,</span> <span class="s1">&#39;pl&#39;</span><span class="p">,</span> <span class="s1">&#39;pm&#39;</span><span class="p">,</span> <span class="s1">&#39;pn&#39;</span><span class="p">,</span> <span class="s1">&#39;pr&#39;</span><span class="p">,</span> <span class="s1">&#39;ps&#39;</span><span class="p">,</span> <span class="s1">&#39;pt&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pw&#39;</span><span class="p">,</span> <span class="s1">&#39;py&#39;</span><span class="p">,</span> <span class="s1">&#39;qa&#39;</span><span class="p">,</span> <span class="s1">&#39;re&#39;</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="s1">&#39;ru&#39;</span><span class="p">,</span> <span class="s1">&#39;rw&#39;</span><span class="p">,</span> <span class="s1">&#39;sa&#39;</span><span class="p">,</span> <span class="s1">&#39;sb&#39;</span><span class="p">,</span> <span class="s1">&#39;sc&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;se&#39;</span><span class="p">,</span> <span class="s1">&#39;sg&#39;</span><span class="p">,</span> <span class="s1">&#39;sh&#39;</span><span class="p">,</span> <span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="s1">&#39;sj&#39;</span><span class="p">,</span> <span class="s1">&#39;sk&#39;</span><span class="p">,</span> <span class="s1">&#39;sl&#39;</span><span class="p">,</span> <span class="s1">&#39;sm&#39;</span><span class="p">,</span> <span class="s1">&#39;sn&#39;</span><span class="p">,</span> <span class="s1">&#39;so&#39;</span><span class="p">,</span> <span class="s1">&#39;sr&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;st&#39;</span><span class="p">,</span> <span class="s1">&#39;sv&#39;</span><span class="p">,</span> <span class="s1">&#39;sy&#39;</span><span class="p">,</span> <span class="s1">&#39;sz&#39;</span><span class="p">,</span> <span class="s1">&#39;tc&#39;</span><span class="p">,</span> <span class="s1">&#39;td&#39;</span><span class="p">,</span> <span class="s1">&#39;tf&#39;</span><span class="p">,</span> <span class="s1">&#39;tg&#39;</span><span class="p">,</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;tj&#39;</span><span class="p">,</span> <span class="s1">&#39;tk&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;tl&#39;</span><span class="p">,</span> <span class="s1">&#39;tm&#39;</span><span class="p">,</span> <span class="s1">&#39;tn&#39;</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">,</span> <span class="s1">&#39;tr&#39;</span><span class="p">,</span> <span class="s1">&#39;tt&#39;</span><span class="p">,</span> <span class="s1">&#39;tv&#39;</span><span class="p">,</span> <span class="s1">&#39;tw&#39;</span><span class="p">,</span> <span class="s1">&#39;tz&#39;</span><span class="p">,</span> <span class="s1">&#39;ua&#39;</span><span class="p">,</span> <span class="s1">&#39;ug&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;uk&#39;</span><span class="p">,</span> <span class="s1">&#39;um&#39;</span><span class="p">,</span> <span class="s1">&#39;us&#39;</span><span class="p">,</span> <span class="s1">&#39;uy&#39;</span><span class="p">,</span> <span class="s1">&#39;uz&#39;</span><span class="p">,</span> <span class="s1">&#39;va&#39;</span><span class="p">,</span> <span class="s1">&#39;vc&#39;</span><span class="p">,</span> <span class="s1">&#39;ve&#39;</span><span class="p">,</span> <span class="s1">&#39;vg&#39;</span><span class="p">,</span> <span class="s1">&#39;vi&#39;</span><span class="p">,</span> <span class="s1">&#39;vn&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;vu&#39;</span><span class="p">,</span> <span class="s1">&#39;wf&#39;</span><span class="p">,</span> <span class="s1">&#39;ws&#39;</span><span class="p">,</span> <span class="s1">&#39;ye&#39;</span><span class="p">,</span> <span class="s1">&#39;yt&#39;</span><span class="p">,</span> <span class="s1">&#39;za&#39;</span><span class="p">,</span> <span class="s1">&#39;zm&#39;</span><span class="p">,</span> <span class="s1">&#39;zw&#39;</span><span class="p">,</span>        
+    <span class="p">},</span>
+
+    <span class="n">relevanceLanguage</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;af&#39;</span><span class="p">,</span> <span class="s1">&#39;sq&#39;</span><span class="p">,</span> <span class="s1">&#39;sm&#39;</span><span class="p">,</span> <span class="s1">&#39;ar&#39;</span><span class="p">,</span> <span class="s1">&#39;az&#39;</span><span class="p">,</span> <span class="s1">&#39;eu&#39;</span><span class="p">,</span> <span class="s1">&#39;be&#39;</span><span class="p">,</span> <span class="s1">&#39;bn&#39;</span><span class="p">,</span> <span class="s1">&#39;bh&#39;</span><span class="p">,</span> <span class="s1">&#39;bs&#39;</span><span class="p">,</span> <span class="s1">&#39;bg&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ca&#39;</span><span class="p">,</span> <span class="s1">&#39;zh-CN&#39;</span><span class="p">,</span> <span class="s1">&#39;zh-TW&#39;</span><span class="p">,</span> <span class="s1">&#39;zh-Hans&#39;</span><span class="p">,</span> <span class="s1">&#39;zh-Hant&#39;</span><span class="p">,</span> <span class="s1">&#39;hr&#39;</span><span class="p">,</span> <span class="s1">&#39;cs&#39;</span><span class="p">,</span> <span class="s1">&#39;da&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;nl&#39;</span><span class="p">,</span> <span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="s1">&#39;eo&#39;</span><span class="p">,</span> <span class="s1">&#39;et&#39;</span><span class="p">,</span> <span class="s1">&#39;fo&#39;</span><span class="p">,</span> <span class="s1">&#39;fi&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">,</span> <span class="s1">&#39;fy&#39;</span><span class="p">,</span> <span class="s1">&#39;gl&#39;</span><span class="p">,</span> <span class="s1">&#39;ka&#39;</span><span class="p">,</span> <span class="s1">&#39;de&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;el&#39;</span><span class="p">,</span> <span class="s1">&#39;gu&#39;</span><span class="p">,</span> <span class="s1">&#39;iw&#39;</span><span class="p">,</span> <span class="s1">&#39;hi&#39;</span><span class="p">,</span> <span class="s1">&#39;hu&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;ia&#39;</span><span class="p">,</span> <span class="s1">&#39;ga&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;ja&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;jw&#39;</span><span class="p">,</span> <span class="s1">&#39;kn&#39;</span><span class="p">,</span> <span class="s1">&#39;ko&#39;</span><span class="p">,</span> <span class="s1">&#39;la&#39;</span><span class="p">,</span> <span class="s1">&#39;lv&#39;</span><span class="p">,</span> <span class="s1">&#39;lt&#39;</span><span class="p">,</span> <span class="s1">&#39;mk&#39;</span><span class="p">,</span> <span class="s1">&#39;ms&#39;</span><span class="p">,</span> <span class="s1">&#39;ml&#39;</span><span class="p">,</span> <span class="s1">&#39;mt&#39;</span><span class="p">,</span> <span class="s1">&#39;mr&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ne&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;nn&#39;</span><span class="p">,</span> <span class="s1">&#39;oc&#39;</span><span class="p">,</span> <span class="s1">&#39;fa&#39;</span><span class="p">,</span> <span class="s1">&#39;pl&#39;</span><span class="p">,</span> <span class="s1">&#39;pt-BR&#39;</span><span class="p">,</span> <span class="s1">&#39;pt-PT&#39;</span><span class="p">,</span> <span class="s1">&#39;pa&#39;</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ru&#39;</span><span class="p">,</span> <span class="s1">&#39;gd&#39;</span><span class="p">,</span> <span class="s1">&#39;sr&#39;</span><span class="p">,</span> <span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="s1">&#39;sk&#39;</span><span class="p">,</span> <span class="s1">&#39;sl&#39;</span><span class="p">,</span> <span class="s1">&#39;es&#39;</span><span class="p">,</span> <span class="s1">&#39;su&#39;</span><span class="p">,</span> <span class="s1">&#39;sw&#39;</span><span class="p">,</span> <span class="s1">&#39;sv&#39;</span><span class="p">,</span> <span class="s1">&#39;tl&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ta&#39;</span><span class="p">,</span> <span class="s1">&#39;te&#39;</span><span class="p">,</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;ti&#39;</span><span class="p">,</span> <span class="s1">&#39;tr&#39;</span><span class="p">,</span> <span class="s1">&#39;uk&#39;</span><span class="p">,</span> <span class="s1">&#39;ur&#39;</span><span class="p">,</span> <span class="s1">&#39;uz&#39;</span><span class="p">,</span> <span class="s1">&#39;vi&#39;</span><span class="p">,</span> <span class="s1">&#39;cy&#39;</span><span class="p">,</span> <span class="s1">&#39;xh&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;zu&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">safeSearch</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;moderate&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;strict&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">topicId</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;/m/04rlf&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/02mscn&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/0ggq0m&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/01lyv&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/02lkt&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/0glt670&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/05rwpb&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/03_d0&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/028sqc&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/0g293&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/064t9&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/06cqb&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/06j6l&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/06by7&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/0gywn&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/0bzvm2&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/025zzc&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/02ntfj&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/0b1vjn&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/02hygl&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/04q1x3q&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/01sjng&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/0403l3g&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/021bp2&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/022dc6&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/03hf_rm&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/06ntj&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/0jm_&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/018jz&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/018w8&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/01cgz&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/09xp_&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/02vx4&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/037hz&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/03tmr&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/01h7lh&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/0410tth&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/07bs0&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/07_53&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/02jjt&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/09kqc&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/02vxn&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/05qjc&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/066wd&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/0f2f9&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/019_rr&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/032tl&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/027x7n&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/02wbm&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/03glg&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/068hy&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/041xxh&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/07c1v&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/07bxq&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/07yv9&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/098wr&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/09s1f&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/0kt51&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/01h6rj&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/05qt0&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;/m/06bvp&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/01k8wb&#39;</span>        
+    <span class="p">},</span>
+
+    <span class="nb">type</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;channel&#39;</span><span class="p">,</span> <span class="s1">&#39;playlist&#39;</span><span class="p">,</span> <span class="s1">&#39;video&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">videoCaption</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;closedCaption&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">videoCategoryId</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;15&#39;</span><span class="p">,</span> <span class="s1">&#39;17&#39;</span><span class="p">,</span> <span class="s1">&#39;18&#39;</span><span class="p">,</span> <span class="s1">&#39;19&#39;</span><span class="p">,</span> <span class="s1">&#39;20&#39;</span><span class="p">,</span> <span class="s1">&#39;21&#39;</span><span class="p">,</span> <span class="s1">&#39;22&#39;</span><span class="p">,</span> <span class="s1">&#39;23&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;24&#39;</span><span class="p">,</span> <span class="s1">&#39;25&#39;</span><span class="p">,</span> <span class="s1">&#39;26&#39;</span><span class="p">,</span> <span class="s1">&#39;27&#39;</span><span class="p">,</span> <span class="s1">&#39;28&#39;</span><span class="p">,</span> <span class="s1">&#39;29&#39;</span><span class="p">,</span> <span class="s1">&#39;30&#39;</span><span class="p">,</span> <span class="s1">&#39;31&#39;</span><span class="p">,</span> <span class="s1">&#39;32&#39;</span><span class="p">,</span> <span class="s1">&#39;33&#39;</span><span class="p">,</span> <span class="s1">&#39;34&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;35&#39;</span><span class="p">,</span> <span class="s1">&#39;36&#39;</span><span class="p">,</span> <span class="s1">&#39;37&#39;</span><span class="p">,</span> <span class="s1">&#39;38&#39;</span><span class="p">,</span> <span class="s1">&#39;39&#39;</span><span class="p">,</span> <span class="s1">&#39;40&#39;</span><span class="p">,</span> <span class="s1">&#39;41&#39;</span><span class="p">,</span> <span class="s1">&#39;42&#39;</span><span class="p">,</span> <span class="s1">&#39;43&#39;</span><span class="p">,</span> <span class="s1">&#39;44&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">videoDefinition</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;standard&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">videoDimension</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;2d&#39;</span><span class="p">,</span> <span class="s1">&#39;3d&#39;</span><span class="p">,</span> <span class="s1">&#39;any&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">videoDuration</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;long&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;short&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">videoEmbeddable</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">videoLicense</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;creativeCommon&#39;</span><span class="p">,</span> <span class="s1">&#39;youtube&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">videoSyndicated</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span>
+    <span class="p">},</span>
+
+    <span class="n">videoType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;episode&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="youtube_video_details"><a class="viewcode-back" href="../../advertools.html#advertools.serp.youtube_video_details">[docs]</a><span class="k">def</span> <span class="nf">youtube_video_details</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">vid_ids</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return details of videos for which the ids are given. </span>
+<span class="sd">    Assumes ``ids`` is a comma-separated list of video ids with</span>
+<span class="sd">    no spaces.&quot;&quot;&quot;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://www.googleapis.com/youtube/v3/videos?part=&#39;</span>
+                <span class="s1">&#39;contentDetails,id,liveStreamingDetails,localizations,player,&#39;</span>
+                <span class="s1">&#39;recordingDetails,snippet,statistics,status,topicDetails&#39;</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">vid_ids</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
+    <span class="n">video_resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">video_resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">video_resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+    <span class="n">items_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">video_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">])</span>
+    <span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;snippet&#39;</span><span class="p">,</span><span class="s1">&#39;topicDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;statistics&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;contentDetails&#39;</span><span class="p">]</span>
+    <span class="n">detail_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">detail</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+                                        <span class="n">video_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">]])</span>
+                           <span class="k">for</span> <span class="n">detail</span> <span class="ow">in</span> <span class="n">details</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">items_df</span><span class="p">,</span> <span class="n">detail_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">final_df</span></div>
+
+
+<div class="viewcode-block" id="youtube_channel_details"><a class="viewcode-back" href="../../advertools.html#advertools.serp.youtube_channel_details">[docs]</a><span class="k">def</span> <span class="nf">youtube_channel_details</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">channel_ids</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return details of channels for which the ids are given. </span>
+<span class="sd">    Assumes ``ids`` is a comma-separated list of channel ids with</span>
+<span class="sd">    no spaces.&quot;&quot;&quot;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://www.googleapis.com/youtube/v3/channels?part=&#39;</span>
+                <span class="s1">&#39;snippet,contentDetails,statistics&#39;</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">channel_ids</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
+    <span class="n">channel_resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">channel_resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">channel_resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+    <span class="n">items_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">channel_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">])</span> 
+    <span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;statistics&#39;</span><span class="p">,</span> <span class="s1">&#39;contentDetails&#39;</span><span class="p">]</span>
+    <span class="n">detail_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">detail</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> 
+                                         <span class="n">channel_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">]])</span> 
+                           <span class="k">for</span> <span class="n">detail</span> <span class="ow">in</span> <span class="n">details</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">items_df</span><span class="p">,</span> <span class="n">detail_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">final_df</span></div>
 
 
 <span class="k">def</span> <span class="nf">_dict_product</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
@@ -378,17 +640,20 @@
 <span class="sd">        value for num is 10.</span>
 
 <span class="sd">    The following function call will produce two queries:</span>
-<span class="sd">    &quot;hotel&quot; in English, and &quot;hotel&quot;</span>
+<span class="sd">    &quot;hotel&quot; in the USA, and &quot;hotel&quot; in France</span>
 
-<span class="sd">    &gt;&gt;&gt; serp_goog(q=&#39;hotel&#39;, gl=[&#39;en&#39;, &#39;fr&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; serp_goog(q=&#39;hotel&#39;, gl=[&#39;us&#39;, &#39;fr&#39;], cx=&#39;YOUR_CX&#39;, key=&#39;YOUR_KEY&#39;)</span>
 
 <span class="sd">    The below function call will prouce four queries and make four requests:</span>
 <span class="sd">    &quot;fligts&quot; in UK</span>
 <span class="sd">    &quot;fligts&quot; in Australia</span>
 <span class="sd">    &quot;tickets&quot; in UK</span>
 <span class="sd">    &quot;tickets&quot; in Australia</span>
+<span class="sd">    &#39;cr&#39; here refers to &#39;country restrict&#39;, which focuses on content</span>
+<span class="sd">    originating from the specified country.</span>
 
-<span class="sd">    &gt;&gt;&gt; serp_goog(q=[&#39;flights&#39;, &#39;tickets&#39;], cr=[&#39;uk&#39;, &#39;au&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; serp_goog(q=[&#39;flights&#39;, &#39;tickets&#39;], cr=[&#39;countryUK&#39;, &#39;countryAU&#39;],</span>
+<span class="sd">                  cx=&#39;YOUR_CX&#39;, key=&#39;YOUR_KEY&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">params</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
     <span class="n">supplied_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="n">k</span><span class="p">]}</span>
@@ -413,9 +678,9 @@
         <span class="n">param_log</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">param</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Requesting: &#39;</span> <span class="o">+</span> <span class="n">param_log</span><span class="p">)</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param</span><span class="p">)</span>
-        <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
         <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
-
     <span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">resp</span> <span class="ow">in</span> <span class="n">responses</span><span class="p">:</span>
         <span class="n">request_metadata</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;queries&#39;</span><span class="p">][</span><span class="s1">&#39;request&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -442,6 +707,423 @@
     <span class="n">non_ordered</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">result_df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ordered_cols</span><span class="p">]</span>
     <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="p">[</span><span class="n">ordered_cols</span> <span class="o">+</span> <span class="n">non_ordered</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">result_df</span></div>
+
+
+<div class="viewcode-block" id="serp_youtube"><a class="viewcode-back" href="../../advertools.html#advertools.serp.serp_youtube">[docs]</a><span class="k">def</span> <span class="nf">serp_youtube</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">channelType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eventType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">forContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forDeveloper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forMine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">locationRadius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">publishedAfter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">publishedBefore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">relatedToVideoId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relevanceLanguage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">safeSearch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">topicId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoCaption</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                 <span class="n">videoCategoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDefinition</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDimension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">videoDuration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoEmbeddable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoLicense</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">videoSyndicated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoType</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Query the YouTube API and get search results in a DataFrame.</span>
+<span class="sd">    For each parameter you can supply a single or multiple value(s).</span>
+<span class="sd">    Looping and merging results is handled automatically in case of multiple</span>
+<span class="sd">    values. </span>
+
+<span class="sd">    :param q: (string) The ``q`` parameter specifies the query term to</span>
+<span class="sd">        search for. Your request can also use the Boolean NOT (-) and OR (|)</span>
+<span class="sd">        operators to exclude videos or to find videos that are associated with</span>
+<span class="sd">        one of several search terms. For example, to search for videos</span>
+<span class="sd">        matching either &quot;boating&quot; or &quot;sailing&quot;, set the ``q`` parameter value to</span>
+<span class="sd">        boating|sailing. Similarly, to search for videos matching either</span>
+<span class="sd">        &quot;boating&quot; or &quot;sailing&quot; but not &quot;fishing&quot;, set the q parameter value to</span>
+<span class="sd">        boating|sailing -fishing. Note that the pipe character must be URL-</span>
+<span class="sd">        escaped when it is sent in your API request. The URL-escaped value for</span>
+<span class="sd">        the pipe character is %7C.</span>
+<span class="sd">    :param channelId: (string) The ``channelId`` parameter</span>
+<span class="sd">        indicates that the API response should only contain resources</span>
+<span class="sd">        created by the channel. Note: Search results are constrained</span>
+<span class="sd">        to a maximum of 500 videos if your request specifies a value</span>
+<span class="sd">        for the ``channelId`` parameter and sets the ``type`` parameter value</span>
+<span class="sd">        to video, but it does not also set one of the ``forContentOwner``,</span>
+<span class="sd">        ``forDeveloper``, or ``forMine`` filters.</span>
+<span class="sd">    :param channelType: (string) The ``channelType`` parameter</span>
+<span class="sd">        lets you restrict a search to a particular type of</span>
+<span class="sd">        channel. Acceptable values are:</span>
+
+<span class="sd">        any – Return all channels.</span>
+
+<span class="sd">        show – Only retrieve shows.</span>
+<span class="sd">    :param eventType: (string) The ``eventType`` parameter</span>
+<span class="sd">        restricts a search to broadcast events. If you specify a value</span>
+<span class="sd">        for this parameter, you must also set the type parameter&#39;s</span>
+<span class="sd">        value to video. Acceptable values are:</span>
+
+<span class="sd">        completed – Only include completed broadcasts.</span>
+
+<span class="sd">        live – Only include active broadcasts.</span>
+
+<span class="sd">        upcoming – Only include upcoming broadcasts.</span>
+
+<span class="sd">    :param forContentOwner: (boolean) This parameter can</span>
+<span class="sd">        only be used in a properly authorized request, and it is</span>
+<span class="sd">        intended exclusively for YouTube content partners. The</span>
+<span class="sd">        ``forContentOwner`` parameter restricts the search to only</span>
+<span class="sd">        retrieve videos owned by the content owner identified by</span>
+<span class="sd">        the ``onBehalfOfContentOwner`` parameter. If ``forContentOwner``</span>
+<span class="sd">        is set to true, the request must also meet these</span>
+<span class="sd">        requirements:The ``onBehalfOfContentOwner`` parameter is</span>
+<span class="sd">        required.The user authorizing the request must be using</span>
+<span class="sd">        an account linked to the specified content owner. The</span>
+<span class="sd">        ``type`` parameter value must be set to video.None of the</span>
+<span class="sd">        following other parameters can be set: ``videoDefinition``,</span>
+<span class="sd">        ``videoDimension``, ``videoDuration``, ``videoLicense``,</span>
+<span class="sd">        ``videoEmbeddable``, ``videoSyndicated``, ``videoType``.</span>
+<span class="sd">    :param forDeveloper: (boolean) This parameter can only</span>
+<span class="sd">        be used in a properly authorized request. The ``forDeveloper``</span>
+<span class="sd">        parameter restricts the search to only retrieve videos</span>
+<span class="sd">        uploaded via the developer&#39;s application or website. The</span>
+<span class="sd">        API server uses the request&#39;s authorization credentials to</span>
+<span class="sd">        identify the developer. The ``forDeveloper`` parameter can be</span>
+<span class="sd">        used in conjunction with optional search parameters like</span>
+<span class="sd">        the ``q`` parameter. For this feature, each uploaded video is</span>
+<span class="sd">        automatically tagged with the project number that is</span>
+<span class="sd">        associated with the developer&#39;s application in the Google</span>
+<span class="sd">        Developers Console. When a search request subsequently sets</span>
+<span class="sd">        the ``forDeveloper`` parameter to ``true`` the API server uses the</span>
+<span class="sd">        request&#39;s authorization credentials to identify the</span>
+<span class="sd">        developer. Therefore, a developer can restrict results to</span>
+<span class="sd">        videos uploaded through the developer&#39;s own app or website</span>
+<span class="sd">        but not to videos uploaded through other apps or sites.</span>
+<span class="sd">    :param forMine: (boolean) This parameter can only be used in</span>
+<span class="sd">        a properly authorized request. The ``forMine`` parameter restricts</span>
+<span class="sd">        the search to only retrieve videos owned by the authenticated</span>
+<span class="sd">        user. If you set this parameter to ``true``, then the ``type``</span>
+<span class="sd">        parameter&#39;s value must also be set to ``video``. In addition, none</span>
+<span class="sd">        of the following other parameters can be set in the same</span>
+<span class="sd">        request: ``videoDefinition``, ``videoDimension``, ``videoDuration``,</span>
+<span class="sd">        ``videoLicense``, ``videoEmbeddable``, ``videoSyndicated``, ``videoType``.</span>
+<span class="sd">    :param relatedToVideoId: (string) The</span>
+<span class="sd">        ``relatedToVideoId`` parameter retrieves a list of videos</span>
+<span class="sd">        that are related to the video that the parameter ``value``</span>
+<span class="sd">        identifies. The parameter ``value`` must be set to a</span>
+<span class="sd">        YouTube video ID and, if you are using this parameter,</span>
+<span class="sd">        the ``type`` parameter must be set to video.Note that if</span>
+<span class="sd">        the ``relatedToVideoId`` parameter is set, the only other</span>
+<span class="sd">        supported parameters are ``part``, ``maxResults``, ``pageToken``,</span>
+<span class="sd">        ``regionCode``, ``relevanceLanguage``, ``safeSearch``, ``type`` (which</span>
+<span class="sd">        must be set to video), and ``fields``.</span>
+<span class="sd">    :param location: (string) The ``location`` parameter, in</span>
+<span class="sd">        conjunction with the ``locationRadius`` parameter, defines a</span>
+<span class="sd">        circular geographic area and also restricts a search to videos</span>
+<span class="sd">        that specify, in their metadata, a geographic location that</span>
+<span class="sd">        falls within that area. The parameter value is a string that</span>
+<span class="sd">        specifies latitude/longitude coordinates e.g.</span>
+<span class="sd">        (37.42307,-122.08427).The location parameter value identifies</span>
+<span class="sd">        the point at the center of the area. The ``locationRadius``</span>
+<span class="sd">        parameter specifies the maximum distance that the location</span>
+<span class="sd">        associated with a video can be from that point for the video to</span>
+<span class="sd">        still be included in the search results. The API returns an</span>
+<span class="sd">        error if your request specifies a value for the ``location``</span>
+<span class="sd">        parameter but does not also specify a value for the</span>
+<span class="sd">        ``locationRadius`` parameter.</span>
+<span class="sd">    :param locationRadius: (string) The ``locationRadius``</span>
+<span class="sd">        parameter, in conjunction with the ``location`` parameter,</span>
+<span class="sd">        defines a circular geographic area. The parameter value</span>
+<span class="sd">        must be a floating point number followed by a measurement</span>
+<span class="sd">        unit. Valid measurement units are m, km, ft, and mi. For</span>
+<span class="sd">        example, valid parameter values include 1500m, 5km,</span>
+<span class="sd">        10000ft, and 0.75mi. The API does not support</span>
+<span class="sd">        ``locationRadius`` parameter values larger than 1000</span>
+<span class="sd">        kilometers. Note: See the definition of the ``location``</span>
+<span class="sd">        parameter for more information.</span>
+<span class="sd">    :param maxResults: (unsigned integer) The ``maxResults``</span>
+<span class="sd">        parameter specifies the maximum number of items that should</span>
+<span class="sd">        be returned in the result set. Acceptable values are 0 to 50,</span>
+<span class="sd">        inclusive. The default value is 5.</span>
+<span class="sd">    :param onBehalfOfContentOwner: (string) This</span>
+<span class="sd">        parameter can only be used in a properly</span>
+<span class="sd">        authorized request. Note: This parameter is</span>
+<span class="sd">        intended exclusively for YouTube content</span>
+<span class="sd">        partners.The ``onBehalfOfContentOwner`` parameter</span>
+<span class="sd">        indicates that the request&#39;s authorization</span>
+<span class="sd">        credentials identify a YouTube CMS user who is</span>
+<span class="sd">        acting on behalf of the content owner specified</span>
+<span class="sd">        in the parameter value. This parameter is</span>
+<span class="sd">        intended for YouTube content partners that own</span>
+<span class="sd">        and manage many different YouTube channels. It</span>
+<span class="sd">        allows content owners to authenticate once and</span>
+<span class="sd">        get access to all their video and channel data,</span>
+<span class="sd">        without having to provide authentication</span>
+<span class="sd">        credentials for each individual channel. The CMS</span>
+<span class="sd">        account that the user authenticates with must be</span>
+<span class="sd">        linked to the specified YouTube content owner.</span>
+<span class="sd">    :param order: (string) The order parameter specifies the</span>
+<span class="sd">        method that will be used to order resources in the API response.</span>
+<span class="sd">        The default value is relevance. Acceptable values are:</span>
+
+<span class="sd">        date – Resources are sorted in reverse chronological order based on the</span>
+<span class="sd">        date they were created.</span>
+
+<span class="sd">        rating – Resources are sorted from highest to lowest rating.</span>
+
+<span class="sd">        relevance – Resources are sorted based on their relevance to the search</span>
+<span class="sd">        query. This is the default value for this parameter.</span>
+
+<span class="sd">        title – Resources are sorted alphabetically by title.</span>
+
+<span class="sd">        videoCount – Channels are sorted in descending order of their number of</span>
+<span class="sd">        uploaded videos.</span>
+
+<span class="sd">        viewCount – Resources are sorted from highest to lowest number of views.</span>
+<span class="sd">        For live broadcasts, videos are sorted by number of concurrent viewers</span>
+<span class="sd">        while the broadcasts are ongoing.</span>
+<span class="sd">    :param pageToken: (string) The ``pageToken`` parameter</span>
+<span class="sd">        identifies a specific page in the result set that should be</span>
+<span class="sd">        returned. In an API response, the ``nextPageToken`` and</span>
+<span class="sd">        ``prevPageToken`` properties identify other pages that could be</span>
+<span class="sd">        retrieved.</span>
+<span class="sd">    :param publishedAfter: (datetime) The ``publishedAfter``</span>
+<span class="sd">        parameter indicates that the API response should only</span>
+<span class="sd">        contain resources created at or after the specified time.</span>
+<span class="sd">        The value is an RFC 3339 formatted date-time value</span>
+<span class="sd">        (1970-01-01T00:00:00Z).</span>
+<span class="sd">    :param publishedBefore: (datetime) The</span>
+<span class="sd">        ``publishedBefore`` parameter indicates that the API</span>
+<span class="sd">        response should only contain resources created before or</span>
+<span class="sd">        at the specified time. The value is an RFC 3339</span>
+<span class="sd">        formatted date-time value (1970-01-01T00:00:00Z).</span>
+<span class="sd">    :param regionCode: (string) The ``regionCode`` parameter</span>
+<span class="sd">        instructs the API to return search results for videos that</span>
+<span class="sd">        can be viewed in the specified country. The parameter value</span>
+<span class="sd">        is an ISO 3166-1 alpha-2 country code.</span>
+<span class="sd">    :param relevanceLanguage: (string) The</span>
+<span class="sd">        ``relevanceLanguage`` parameter instructs the API to</span>
+<span class="sd">        return search results that are most relevant to the</span>
+<span class="sd">        specified language. The parameter value is typically</span>
+<span class="sd">        an ISO 639-1 two-letter language code. However, you</span>
+<span class="sd">        should use the values zh-Hans for simplified Chinese</span>
+<span class="sd">        and zh-Hant for traditional Chinese. Please note that</span>
+<span class="sd">        results in other languages will still be returned if</span>
+<span class="sd">        they are highly relevant to the search query term.</span>
+<span class="sd">    :param safeSearch: (string) The ``safeSearch`` parameter</span>
+<span class="sd">        indicates whether the search results should include</span>
+<span class="sd">        restricted content as well as standard content. Acceptable</span>
+<span class="sd">        values are:</span>
+
+<span class="sd">        moderate – YouTube will filter some content from search results and,</span>
+<span class="sd">        at the least, will filter content that is restricted in your locale.</span>
+<span class="sd">        Based on their content, search results could be removed from search</span>
+<span class="sd">        results or demoted in search results. This is the default parameter value.</span>
+
+<span class="sd">        none – YouTube will not filter the search result set.</span>
+
+<span class="sd">        strict – YouTube will try to exclude all restricted content from the</span>
+<span class="sd">        search result set.</span>
+
+<span class="sd">        Based on their content, search results</span>
+<span class="sd">        could be removed from search results or demoted in search</span>
+<span class="sd">        results.</span>
+<span class="sd">    :param topicId: (string) The ``topicId`` parameter indicates</span>
+<span class="sd">        that the API response should only contain resources associated</span>
+<span class="sd">        with the specified topic. The value identifies a Freebase topic</span>
+<span class="sd">        ID.</span>
+<span class="sd">    :param type: (string) The ``type`` parameter restricts a search</span>
+<span class="sd">        query to only retrieve a particular type of resource. The value is</span>
+<span class="sd">        a comma-separated list of resource types. The default value is</span>
+<span class="sd">        video,channel,playlist. Acceptable values are: channel, playlist, and video</span>
+<span class="sd">    :param videoCaption: (string) The ``videoCaption``</span>
+<span class="sd">        parameter indicates whether the API should filter video</span>
+<span class="sd">        search results based on whether they have captions. If you</span>
+<span class="sd">        specify a value for this parameter, you must also set the</span>
+<span class="sd">        ``type`` parameter&#39;s value to video. Acceptable values are:</span>
+
+<span class="sd">        any – Do not filter results based on caption availability.</span>
+
+<span class="sd">        closedCaption – Only include videos that have captions.</span>
+
+<span class="sd">        none – Only include videos that do not have captions.</span>
+<span class="sd">    :param videoCategoryId: (string) The ``videoCategoryId``</span>
+<span class="sd">        parameter filters video search results based on their</span>
+<span class="sd">        category. If you specify a value for this parameter, you</span>
+<span class="sd">        must also set the ``type`` parameter&#39;s value to video.</span>
+<span class="sd">    :param videoDefinition: (string) The ``videoDefinition``</span>
+<span class="sd">        parameter lets you restrict a search to only include</span>
+<span class="sd">        either high definition (HD) or standard definition (SD)</span>
+<span class="sd">        videos. HD videos are available for playback in at least</span>
+<span class="sd">        720p, though higher resolutions, like 1080p, might also</span>
+<span class="sd">        be available. If you specify a value for this parameter,</span>
+<span class="sd">        you must also set the ``type`` parameter&#39;s value to</span>
+<span class="sd">        video. Acceptable values are:</span>
+
+<span class="sd">        any – Return all videos, regardless of their resolution.</span>
+
+<span class="sd">        high – Only retrieve HD videos.</span>
+
+<span class="sd">        standard – Only retrieve videos in standard definition.</span>
+<span class="sd">    :param videoDimension: (string) The ``videoDimension``</span>
+<span class="sd">        parameter lets you restrict a search to only retrieve 2D</span>
+<span class="sd">        or 3D videos. If you specify a value for this parameter,</span>
+<span class="sd">        you must also set the ``type`` parameter&#39;s value to</span>
+<span class="sd">        video. Acceptable values are:</span>
+
+<span class="sd">        2d – Restrict search results to exclude 3D videos.</span>
+
+<span class="sd">        3d – Restrict search results to only include 3D videos.</span>
+
+<span class="sd">        any – Include both 3D and non-3D videos in returned results. This is the</span>
+<span class="sd">        default value.</span>
+<span class="sd">    :param videoDuration: (string) The ``videoDuration``</span>
+<span class="sd">        parameter filters video search results based on their</span>
+<span class="sd">        duration. If you specify a value for this parameter, you</span>
+<span class="sd">        must also set the ``type`` parameter&#39;s value to</span>
+<span class="sd">        video. Acceptable values are:</span>
+
+<span class="sd">        any – Do not filter video search results based on their duration.</span>
+<span class="sd">        This is the default value.</span>
+
+<span class="sd">        long – Only include videos longer than 20 minutes.</span>
+
+<span class="sd">        medium – Only include videos that are between four and 20 minutes</span>
+<span class="sd">        long (inclusive).</span>
+
+<span class="sd">        short – Only include videos that are less than four minutes long.</span>
+<span class="sd">    :param videoEmbeddable: (string) The ``videoEmbeddable``</span>
+<span class="sd">        parameter lets you to restrict a search to only videos</span>
+<span class="sd">        that can be embedded into a webpage. If you specify a</span>
+<span class="sd">        value for this parameter, you must also set the ``type``</span>
+<span class="sd">        parameter&#39;s value to video. Acceptable values are:</span>
+
+<span class="sd">        any – Return all videos, embeddable or not.</span>
+
+<span class="sd">        true – Only retrieve embeddable videos.</span>
+<span class="sd">    :param videoLicense: (string) The ``videoLicense``</span>
+<span class="sd">        parameter filters search results to only include videos</span>
+<span class="sd">        with a particular license. YouTube lets video uploaders</span>
+<span class="sd">        choose to attach either the Creative Commons license or the</span>
+<span class="sd">        standard YouTube license to each of their videos. If you</span>
+<span class="sd">        specify a value for this parameter, you must also set the</span>
+<span class="sd">        ``type`` parameter&#39;s value to video. Acceptable values are:</span>
+
+<span class="sd">        any – Return all videos, regardless of which license they have, that</span>
+<span class="sd">        match the query parameters.</span>
+
+<span class="sd">        creativeCommon – Only return videos that have a Creative Commons license.</span>
+<span class="sd">        Users can reuse videos with this license in other videos that they create.</span>
+
+<span class="sd">        youtube – Only return videos that have the standard YouTube license.</span>
+<span class="sd">    :param videoSyndicated: (string) The ``videoSyndicated``</span>
+<span class="sd">        parameter lets you to restrict a search to only videos</span>
+<span class="sd">        that can be played outside youtube.com. If you specify a</span>
+<span class="sd">        value for this parameter, you must also set the ``type``</span>
+<span class="sd">        parameter&#39;s value to video. Acceptable values are:</span>
+
+<span class="sd">        any – Return all videos, syndicated or not.</span>
+
+<span class="sd">        true – Only retrieve syndicated videos.</span>
+<span class="sd">    :param videoType: (string) The ``videoType`` parameter lets</span>
+<span class="sd">        you restrict a search to a particular type of videos. If you</span>
+<span class="sd">        specify a value for this parameter, you must also set the ``type``</span>
+<span class="sd">        parameter&#39;s value to video. Acceptable values are:</span>
+
+<span class="sd">        any – Return all videos.</span>
+
+<span class="sd">        episode – Only retrieve episodes of shows.</span>
+
+<span class="sd">        movie – Only retrieve movies.    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">supplied_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="n">k</span><span class="p">]}</span>
+
+    <span class="n">type_vid_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;eventType&#39;</span><span class="p">,</span> <span class="s1">&#39;relatedToVideoId&#39;</span><span class="p">,</span> <span class="s1">&#39;videoCaption&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;videoCategoryId&#39;</span><span class="p">,</span> <span class="s1">&#39;videoDefinition&#39;</span><span class="p">,</span> <span class="s1">&#39;videoDimension&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;videoDuration&#39;</span><span class="p">,</span> <span class="s1">&#39;videoEmbeddable&#39;</span><span class="p">,</span> <span class="s1">&#39;videoLicense&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;videoSyndicated&#39;</span><span class="p">,</span> <span class="s1">&#39;videoType&#39;</span><span class="p">,</span> <span class="s1">&#39;forMine&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;forContentOwner&#39;</span><span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">supplied_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;video&#39;</span> <span class="ow">and</span>
+        <span class="n">type_vid_params</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">supplied_params</span><span class="o">.</span><span class="n">keys</span><span class="p">()))):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You need to set type=&quot;video&quot; if you want to set&#39;</span>
+                         <span class="s1">&#39; any of the following:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">type_vid_params</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">supplied_params</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span>
+
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">supplied_params</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">SERP_YTUBE_VALID_VALS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">SERP_YTUBE_VALID_VALS</span><span class="p">[</span><span class="n">p</span><span class="p">]):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Please make sure you provide a&#39;</span>
+                                 <span class="s1">&#39; valid value for &quot;</span><span class="si">{}</span><span class="s1">&quot;, valid values:</span><span class="se">\n</span><span class="s1">&#39;</span>
+                                 <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">,</span>
+                                             <span class="nb">sorted</span><span class="p">(</span><span class="n">SERP_YTUBE_VALID_VALS</span><span class="p">[</span><span class="n">p</span><span class="p">])))</span>
+
+    <span class="n">params_list</span> <span class="o">=</span> <span class="n">_dict_product</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">)</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/search?part=snippet&quot;</span>
+
+    <span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params_list</span><span class="p">:</span>
+        <span class="n">param_log</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">param</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Requesting: &#39;</span> <span class="o">+</span> <span class="n">param_log</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+        <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+
+    <span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">resp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">responses</span><span class="p">):</span>
+        <span class="n">snippet_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;snippet&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">]])</span>
+        <span class="n">id_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">]])</span>
+
+        <span class="k">if</span> <span class="s1">&#39;thumbnails&#39;</span> <span class="ow">in</span> <span class="n">snippet_df</span><span class="p">:</span>
+            <span class="n">thumb_df</span> <span class="o">=</span> <span class="n">json_normalize</span><span class="p">(</span><span class="n">snippet_df</span><span class="p">[</span><span class="s1">&#39;thumbnails&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">thumb_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">page_info</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;pageInfo&#39;</span><span class="p">]</span>
+        <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">snippet_df</span><span class="p">,</span> <span class="n">id_df</span><span class="p">,</span> <span class="n">thumb_df</span><span class="p">],</span>
+                            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">page_info</span><span class="p">)</span>
+        <span class="n">temp_df</span><span class="p">[</span><span class="s1">&#39;rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp_df</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp_df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">empty_df_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;publishedAt&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;videoId&#39;</span><span class="p">,</span> <span class="s1">&#39;channelTitle&#39;</span><span class="p">,</span> <span class="s1">&#39;channelId&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;kind&#39;</span><span class="p">,</span> <span class="s1">&#39;video.id&#39;</span><span class="p">,</span> <span class="s1">&#39;channel.id&#39;</span><span class="p">]</span>
+            <span class="n">temp_df</span> <span class="o">=</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="p">[</span><span class="n">params_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;q&#39;</span><span class="p">]])</span>
+            <span class="n">temp_df</span> <span class="o">=</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">empty_df_cols</span><span class="p">))</span>
+
+            <span class="n">temp_df</span> <span class="o">=</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">page_info</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">params_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;key&#39;</span><span class="p">]</span>
+        <span class="n">temp_df</span> <span class="o">=</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">params_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_df</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                     <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+    <span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">])</span>
+
+    <span class="n">spedified_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;publishedAt&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;channelTitle&#39;</span><span class="p">,</span> <span class="s1">&#39;totalResults&#39;</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">]</span>
+    <span class="n">ordered_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">params_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="n">spedified_cols</span>
+    <span class="n">non_ordered</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ordered_cols</span><span class="p">))</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="p">[</span><span class="n">ordered_cols</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">non_ordered</span><span class="p">)]</span>
+
+    <span class="n">vid_ids</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;videoId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">vid_ids</span><span class="p">:</span>
+        <span class="n">vid_details_df</span> <span class="o">=</span> <span class="n">youtube_video_details</span><span class="p">(</span><span class="n">vid_ids</span><span class="o">=</span><span class="n">vid_ids</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">common_vid_cols</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">vid_details_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">vid_details_df</span> <span class="o">=</span> <span class="n">vid_details_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">common_vid_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">vid_details_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;video.&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vid_details_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+        <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">final_df</span><span class="p">,</span> <span class="n">vid_details_df</span><span class="p">,</span>
+                            <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;videoId&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;video.id&#39;</span><span class="p">)</span>
+
+    <span class="n">channel_ids</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;channelId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">channel_ids</span><span class="p">:</span>
+        <span class="n">channel_details_df</span> <span class="o">=</span> <span class="n">youtube_channel_details</span><span class="p">(</span><span class="n">channel_ids</span><span class="o">=</span><span class="n">channel_ids</span><span class="p">,</span>
+                                                     <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">common_channel_cols</span> <span class="o">=</span> <span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">columns</span>
+                               <span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">channel_details_df</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+        <span class="n">channel_details_df</span> <span class="o">=</span> <span class="n">channel_details_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">common_channel_cols</span><span class="p">,</span>
+                                                     <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">channel_details_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;channel.&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+                                      <span class="n">channel_details_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+
+        <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">final_df</span><span class="p">,</span> <span class="n">channel_details_df</span><span class="p">,</span>
+                        <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;channelId&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;channel.id&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">final_df</span></div>
 
 
 <div class="viewcode-block" id="set_logging_level"><a class="viewcode-back" href="../../advertools.html#advertools.serp.set_logging_level">[docs]</a><span class="k">def</span> <span class="nf">set_logging_level</span><span class="p">(</span><span class="n">level_or_name</span><span class="p">):</span>
