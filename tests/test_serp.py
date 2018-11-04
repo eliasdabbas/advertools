@@ -12,7 +12,7 @@ from advertools.serp import (serp_goog, serp_youtube, SERP_GOOG_VALID_VALS,
 
 goog_cse_cx = os.environ.get('GOOG_CSE_CX')
 goog_cse_key = os.environ.get('GOOG_CSE_KEY')
-youtube_key = os.environ.get('YOUTUBE_KEY')
+youtube_key = os.environ.get('GOOG_CSE_KEY')
 
 
 def test_dict_product_produces_correct_result():

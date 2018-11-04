@@ -8,7 +8,7 @@ from pandas.io.json import json_normalize
 import requests
 
 SERP_GOOG_LOG_FMT = ('%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d '
-                    '| %(funcName)s | %(message)s')
+                     '| %(funcName)s | %(message)s')
 logging.basicConfig(format=SERP_GOOG_LOG_FMT)
 
 
@@ -285,26 +285,20 @@ YOUTUBE_VID_CATEGORY_IDS = {
 }
 
 SERP_YTUBE_VALID_VALS = dict(
-    channelType={'any', 'show'
-    },
+    channelType={'any', 'show'},
 
-    eventType={'completed', 'live', 'upcoming'
-    },
+    eventType={'completed', 'live', 'upcoming'},
 
-    forContentOwner={True, False, 'true', 'false'
-    },
+    forContentOwner={True, False, 'true', 'false'},
 
-    forDeveloper={True, False, 'true', 'false'
-    },
+    forDeveloper={True, False, 'true', 'false'},
 
-    forMine={True, False, 'true', 'false'
-    },
+    forMine={True, False, 'true', 'false'},
 
     maxResults=range(51),
 
     order={'date', 'rating', 'relevance', 'title',
-           'videoCount', 'viewCount',
-    },
+           'videoCount', 'viewCount'},
 
     regionCode={
         'ad', 'ae', 'af', 'ag', 'ai', 'al', 'am', 'an', 'ao', 'aq', 'ar',
@@ -328,7 +322,7 @@ SERP_YTUBE_VALID_VALS = dict(
         'st', 'sv', 'sy', 'sz', 'tc', 'td', 'tf', 'tg', 'th', 'tj', 'tk',
         'tl', 'tm', 'tn', 'to', 'tr', 'tt', 'tv', 'tw', 'tz', 'ua', 'ug',
         'uk', 'um', 'us', 'uy', 'uz', 'va', 'vc', 've', 'vg', 'vi', 'vn',
-        'vu', 'wf', 'ws', 'ye', 'yt', 'za', 'zm', 'zw',        
+        'vu', 'wf', 'ws', 'ye', 'yt', 'za', 'zm', 'zw',
     },
 
     relevanceLanguage={
@@ -343,8 +337,7 @@ SERP_YTUBE_VALID_VALS = dict(
         'zu'
     },
 
-    safeSearch={'moderate', 'none', 'strict'
-    },
+    safeSearch={'moderate', 'none', 'strict'},
 
     topicId={
         '/m/04rlf', '/m/02mscn', '/m/0ggq0m', '/m/01lyv', '/m/02lkt',
@@ -359,14 +352,12 @@ SERP_YTUBE_VALID_VALS = dict(
         '/m/019_rr', '/m/032tl', '/m/027x7n', '/m/02wbm', '/m/03glg',
         '/m/068hy', '/m/041xxh', '/m/07c1v', '/m/07bxq', '/m/07yv9',
         '/m/098wr', '/m/09s1f', '/m/0kt51', '/m/01h6rj', '/m/05qt0',
-        '/m/06bvp', '/m/01k8wb'        
+        '/m/06bvp', '/m/01k8wb'
     },
 
-    type={'channel', 'playlist', 'video'
-    },
+    type={'channel', 'playlist', 'video'},
 
-    videoCaption={'any', 'closedCaption', 'none'
-    },
+    videoCaption={'any', 'closedCaption', 'none'},
 
     videoCategoryId={
         '1', '2', '10', '15', '17', '18', '19', '20', '21', '22', '23',
@@ -374,31 +365,24 @@ SERP_YTUBE_VALID_VALS = dict(
         '35', '36', '37', '38', '39', '40', '41', '42', '43', '44'
     },
 
-    videoDefinition={'any', 'high', 'standard'
-    },
+    videoDefinition={'any', 'high', 'standard'},
 
-    videoDimension={'2d', '3d', 'any'
-    },
+    videoDimension={'2d', '3d', 'any'},
 
-    videoDuration={'any', 'long', 'medium', 'short'
-    },
+    videoDuration={'any', 'long', 'medium', 'short'},
 
-    videoEmbeddable={'any', True, 'true'
-    },
+    videoEmbeddable={'any', True, 'true'},
 
-    videoLicense={'any', 'creativeCommon', 'youtube'
-    },
+    videoLicense={'any', 'creativeCommon', 'youtube'},
 
-    videoSyndicated={'any', True, 'true'
-    },
+    videoSyndicated={'any', True, 'true'},
 
-    videoType={'any', 'episode', 'movie'
-    },
+    videoType={'any', 'episode', 'movie'},
 )
 
 
 def youtube_video_details(key, vid_ids):
-    """Return details of videos for which the ids are given. 
+    """Return details of videos for which the ids are given.
     Assumes ``ids`` is a comma-separated list of video ids with
     no spaces."""
     base_url = ('https://www.googleapis.com/youtube/v3/videos?part='
@@ -409,7 +393,7 @@ def youtube_video_details(key, vid_ids):
     if video_resp.status_code >= 400:
             raise Exception(video_resp.json())
     items_df = pd.DataFrame(video_resp.json()['items'])
-    details = ['snippet','topicDetails', 'statistics',
+    details = ['snippet', 'topicDetails', 'statistics',
                'status', 'contentDetails']
     detail_df = pd.concat([pd.DataFrame([x[detail] for x in
                                         video_resp.json()['items']])
@@ -419,7 +403,7 @@ def youtube_video_details(key, vid_ids):
 
 
 def youtube_channel_details(key, channel_ids):
-    """Return details of channels for which the ids are given. 
+    """Return details of channels for which the ids are given.
     Assumes ``ids`` is a comma-separated list of channel ids with
     no spaces."""
     base_url = ('https://www.googleapis.com/youtube/v3/channels?part='
@@ -428,11 +412,11 @@ def youtube_channel_details(key, channel_ids):
     channel_resp = requests.get(base_url, params=params)
     if channel_resp.status_code >= 400:
             raise Exception(channel_resp.json())
-    items_df = pd.DataFrame(channel_resp.json()['items']) 
+    items_df = pd.DataFrame(channel_resp.json()['items'])
     details = ['snippet', 'statistics', 'contentDetails']
-    detail_df = pd.concat([pd.DataFrame([x[detail] for x in 
-                                         channel_resp.json()['items']]) 
-                           for detail in details], axis=1) 
+    detail_df = pd.concat([pd.DataFrame([x[detail] for x in
+                                         channel_resp.json()['items']])
+                           for detail in details], axis=1)
     final_df = pd.concat([items_df, detail_df], axis=1)
     return final_df
 
@@ -679,22 +663,22 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
                  location=None, locationRadius=None, maxResults=None,
                  onBehalfOfContentOwner=None, order=None, pageToken=None,
                  publishedAfter=None, publishedBefore=None, regionCode=None,
-                 relatedToVideoId=None, relevanceLanguage=None, safeSearch=None,
-                 topicId=None, type=None, videoCaption=None, 
-                 videoCategoryId=None, videoDefinition=None, videoDimension=None,
-                 videoDuration=None, videoEmbeddable=None, videoLicense=None,
-                 videoSyndicated=None, videoType=None):
+                 relatedToVideoId=None, relevanceLanguage=None,
+                 safeSearch=None, topicId=None, type=None, videoCaption=None,
+                 videoCategoryId=None, videoDefinition=None,
+                 videoDimension=None, videoDuration=None, videoEmbeddable=None,
+                 videoLicense=None, videoSyndicated=None, videoType=None):
     """Query the YouTube API and get search results in a DataFrame.
     For each parameter you can supply a single or multiple value(s).
     Looping and merging results is handled automatically in case of multiple
-    values. 
+    values.
 
     :param q: (string) The ``q`` parameter specifies the query term to
         search for. Your request can also use the Boolean NOT (-) and OR (|)
         operators to exclude videos or to find videos that are associated with
         one of several search terms. For example, to search for videos
-        matching either "boating" or "sailing", set the ``q`` parameter value to
-        boating|sailing. Similarly, to search for videos matching either
+        matching either "boating" or "sailing", set the ``q`` parameter value
+        to boating|sailing. Similarly, to search for videos matching either
         "boating" or "sailing" but not "fishing", set the q parameter value to
         boating|sailing -fishing. Note that the pipe character must be URL-
         escaped when it is sent in your API request. The URL-escaped value for
@@ -761,7 +745,8 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
         parameter's value must also be set to ``video``. In addition, none
         of the following other parameters can be set in the same
         request: ``videoDefinition``, ``videoDimension``, ``videoDuration``,
-        ``videoLicense``, ``videoEmbeddable``, ``videoSyndicated``, ``videoType``.
+        ``videoLicense``, ``videoEmbeddable``, ``videoSyndicated``,
+        ``videoType``.
     :param relatedToVideoId: (string) The
         ``relatedToVideoId`` parameter retrieves a list of videos
         that are related to the video that the parameter ``value``
@@ -834,7 +819,7 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
         videoCount – Channels are sorted in descending order of their number of
         uploaded videos.
 
-        viewCount – Resources are sorted from highest to lowest number of views.
+        viewCount – Resources sorted from highest to lowest number of views.
         For live broadcasts, videos are sorted by number of concurrent viewers
         while the broadcasts are ongoing.
     :param pageToken: (string) The ``pageToken`` parameter
@@ -873,7 +858,8 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
         moderate – YouTube will filter some content from search results and,
         at the least, will filter content that is restricted in your locale.
         Based on their content, search results could be removed from search
-        results or demoted in search results. This is the default parameter value.
+        results or demoted in search results. This is the default parameter
+        value.
 
         none – YouTube will not filter the search result set.
 
@@ -890,7 +876,8 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
     :param type: (string) The ``type`` parameter restricts a search
         query to only retrieve a particular type of resource. The value is
         a comma-separated list of resource types. The default value is
-        video,channel,playlist. Acceptable values are: channel, playlist, and video
+        video,channel,playlist. Acceptable values are: channel, playlist, and
+        video
     :param videoCaption: (string) The ``videoCaption``
         parameter indicates whether the API should filter video
         search results based on whether they have captions. If you
@@ -930,8 +917,8 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
 
         3d – Restrict search results to only include 3D videos.
 
-        any – Include both 3D and non-3D videos in returned results. This is the
-        default value.
+        any – Include both 3D and non-3D videos in returned results.
+        This is the default value.
     :param videoDuration: (string) The ``videoDuration``
         parameter filters video search results based on their
         duration. If you specify a value for this parameter, you
@@ -964,11 +951,13 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
         specify a value for this parameter, you must also set the
         ``type`` parameter's value to video. Acceptable values are:
 
-        any – Return all videos, regardless of which license they have, that
-        match the query parameters.
+        any – Return all videos, regardless of which license they have,
+        that match the query parameters.
 
-        creativeCommon – Only return videos that have a Creative Commons license.
-        Users can reuse videos with this license in other videos that they create.
+        creativeCommon – Only return videos that have a Creative Commons
+        license.
+        Users can reuse videos with this license in other videos that they
+        create.
 
         youtube – Only return videos that have the standard YouTube license.
     :param videoSyndicated: (string) The ``videoSyndicated``
@@ -989,7 +978,7 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
 
         episode – Only retrieve episodes of shows.
 
-        movie – Only retrieve movies.    
+        movie – Only retrieve movies.
     """
     params = locals()
     supplied_params = {k: v for k, v in params.items() if params[k]}
@@ -1001,7 +990,7 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
                        'forContentOwner'}
 
     if (supplied_params.get('type') != 'video' and
-        type_vid_params.intersection(set(supplied_params.keys()))):
+            type_vid_params.intersection(set(supplied_params.keys()))):
         raise ValueError('You need to set type="video" if you want to set'
                          ' any of the following:' + str(type_vid_params))
 
@@ -1043,7 +1032,6 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
                             axis=1).assign(**page_info)
         temp_df['rank'] = range(1, len(temp_df)+1)
 
-
         if len(temp_df) == 0:
             empty_df_cols = ['title', 'description', 'publishedAt',
                              'videoId', 'channelTitle', 'channelId',
@@ -1060,22 +1048,24 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
     result_df['queryTime'] = datetime.datetime.now(tz=datetime.timezone.utc)
     result_df['queryTime'] = pd.to_datetime(result_df['queryTime'])
 
-    spedified_cols = ['queryTime', 'rank', 'title','description', 'publishedAt',
-                      'channelTitle', 'totalResults', 'kind']
+    spedified_cols = ['queryTime', 'rank', 'title', 'description',
+                      'publishedAt', 'channelTitle', 'totalResults',
+                      'kind']
     ordered_cols = list(params_list[i].keys()) + spedified_cols
     non_ordered = result_df.columns.difference(set(ordered_cols))
     final_df = result_df[ordered_cols + list(non_ordered)]
 
-    vid_ids=','.join(final_df['videoId'].dropna())
+    vid_ids = ','.join(final_df['videoId'].dropna())
     if vid_ids:
         vid_details_df = youtube_video_details(vid_ids=vid_ids, key=key)
-        common_vid_cols = result_df.columns.intersection(vid_details_df.columns)
+        common_vid_cols = (result_df.columns
+                           .intersection(vid_details_df.columns))
         vid_details_df = vid_details_df.drop(common_vid_cols, axis=1)
         vid_details_df.columns = ['video.' + x for x in vid_details_df.columns]
         final_df = pd.merge(final_df, vid_details_df,
                             how='left', left_on='videoId', right_on='video.id')
 
-    channel_ids=','.join(final_df['channelId'].dropna())
+    channel_ids = ','.join(final_df['channelId'].dropna())
     if channel_ids:
         channel_details_df = youtube_channel_details(channel_ids=channel_ids,
                                                      key=key)
@@ -1087,7 +1077,8 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
                                       channel_details_df.columns]
 
         final_df = pd.merge(final_df, channel_details_df,
-                        how='left', left_on='channelId', right_on='channel.id')
+                            how='left', left_on='channelId',
+                            right_on='channel.id')
     return final_df
 
 
