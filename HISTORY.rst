@@ -2,6 +2,17 @@
 History
 =======
 
+0.5.0 (2018-11-04)
+------------------
+
+* New function serp_youtube
+    - Query YouTube API for videos, channels, or playlists
+    - Multiple queries (product of parameters) in one function call
+    - Reponse looping and merging handled, one DataFrame 
+* serp_goog return Google's original error messages
+* twitter responses with entities, get the entities extracted, each in
+a separate column
+
 0.4.1 (2018-10-13)
 ------------------
 
