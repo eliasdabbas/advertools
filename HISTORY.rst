@@ -2,6 +2,13 @@
 History
 =======
 
+0.5.1 (2018-11-06)
+------------------
+
+* Fix minor bugs
+    - _dict_product implemented with lists
+    - Missing keys in some YouTube responses
+
 0.5.0 (2018-11-04)
 ------------------
 
