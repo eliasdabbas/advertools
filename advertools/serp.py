@@ -395,9 +395,17 @@ def youtube_video_details(key, vid_ids):
     items_df = pd.DataFrame(video_resp.json()['items'])
     details = ['snippet', 'topicDetails', 'statistics',
                'status', 'contentDetails']
-    detail_df = pd.concat([pd.DataFrame([x[detail] for x in
-                                        video_resp.json()['items']])
-                           for detail in details], axis=1)
+    detail_df = pd.DataFrame()
+    for detail in details:
+        try:
+            detail_df = pd.concat([
+                detail_df,
+                pd.DataFrame([x[detail] for x in
+                              video_resp.json()['items']])
+            ], axis=1)
+        except KeyError:
+            continue
+
     final_df = pd.concat([items_df, detail_df], axis=1)
     return final_df
 
