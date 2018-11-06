@@ -444,10 +444,12 @@ def _dict_product(d):
          {'a': 1, 'b': 4, 'c': 5},
          {'a': 1, 'b': 4, 'c': 6}]
     """
-    d = OrderedDict(d)
+    items = list(d.items())
+    keys = [x[0] for x in items]
+    values = [x[1] for x in items]
     dicts = []
-    for prod in product(*d.values()):
-        tempdict = dict(zip(d.keys(), prod))
+    for prod in product(*values):
+        tempdict = dict(zip(keys, prod))
         dicts.append(tempdict)
     return dicts
 
