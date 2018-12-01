@@ -8,7 +8,8 @@ import pytest
 from advertools.serp import (serp_goog, serp_youtube, SERP_GOOG_VALID_VALS,
                              SERP_YTUBE_VALID_VALS, youtube_channel_details,
                              youtube_video_details, YOUTUBE_VID_CATEGORY_IDS,
-                             YOUTUBE_TOPIC_IDS, _dict_product, set_logging_level)
+                             YOUTUBE_TOPIC_IDS, _dict_product,
+                             set_logging_level)
 
 goog_cse_cx = os.environ.get('GOOG_CSE_CX')
 goog_cse_key = os.environ.get('GOOG_CSE_KEY')
@@ -55,6 +56,11 @@ def test_serp_goog_handles_no_search_results():
                        cr='countryRU', hl='zh-TW', gl='nf')
     assert len(result) == 1
     assert result['searchTerms'].values[0] == q
+
+
+def test_serp_raises_error_on_wrong_key():
+    with pytest.raises(Exception):
+        serp_goog(q='test credit cart', cx=goog_cse_cx, key='wrong key')
 
 
 # YouTube search tests:
