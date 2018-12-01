@@ -7,6 +7,8 @@ History
 
 * Fix minor bugs
     - Properly handle requests for >50 items (serp_youtube)
+    - Rewrite test for _dict_product
+    - Fix issue with string printing error msg
 
 0.5.1 (2018-11-06)
 ------------------
