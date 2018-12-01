@@ -2,6 +2,12 @@
 History
 =======
 
+0.5.2 (2018-12-01)
+------------------
+
+* Fix minor bugs
+    - Properly handle requests for >50 items (serp_youtube)
+
 0.5.1 (2018-11-06)
 ------------------
 

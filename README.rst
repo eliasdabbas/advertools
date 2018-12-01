@@ -71,8 +71,7 @@ Main Uses:
 1. From scratch: This is the traditional way of writing ads. You have
    a template text, and you want to insert the product name dynamically
    in a certain location. You also want to make sure you are within the
-   character limits. For more details, I have a `tutorial on how to
-   create multiple text ads from scratch`_.
+   character limits. For more details, I have a `tutorial on how to create multiple text ads from scratch`_.
 
 .. code:: python
 
@@ -118,14 +117,12 @@ Main Uses:
    frequency of words in a collection of documents to uncover hidden
    trends in the data. This is basically answering the question, ‘What
    did we write about vs. what was actually read?’
-   Here is a tutorial on DataCamp on `measuring absolute vs weighted
-   frequency of words`_.
+   Here is a tutorial on DataCamp on `measuring absolute vs weighted frequency of words`_.
 
 -  **Extract important elements from social media posts:** Get the more informative
     elements of social media posts (hashtags, mentions, emoji). You also 
     get some basic statistics about them.  
-    Check out a more detailed tutorial on Kaggle, on how to `extract entities from
-    social media posts`_ using these functions.
+    Check out a more detailed tutorial on Kaggle, on how to `extract entities from social media posts`_ using these functions.
     
 .. code:: python
 
