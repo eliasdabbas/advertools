@@ -381,6 +381,18 @@ SERP_YTUBE_VALID_VALS = dict(
 )
 
 
+def _split_by_comma(s, length=50):
+    """Group a comma-separated string into a list of at-most
+    ``length``-length words each."""
+    str_split = s.split(',')
+    str_list = []
+    for i in range(0, len(str_split) + length, length):
+        temp_str = ','.join(str_split[i:i+length])
+        if temp_str:
+            str_list.append(temp_str)
+    return str_list
+
+
 def youtube_video_details(key, vid_ids):
     """Return details of videos for which the ids are given.
     Assumes ``ids`` is a comma-separated list of video ids with
@@ -388,25 +400,29 @@ def youtube_video_details(key, vid_ids):
     base_url = ('https://www.googleapis.com/youtube/v3/videos?part='
                 'contentDetails,id,liveStreamingDetails,localizations,player,'
                 'recordingDetails,snippet,statistics,status,topicDetails')
-    params = {'id': vid_ids, 'key': key}
-    video_resp = requests.get(base_url, params=params)
-    if video_resp.status_code >= 400:
-            raise Exception(video_resp.json())
-    items_df = pd.DataFrame(video_resp.json()['items'])
-    details = ['snippet', 'topicDetails', 'statistics',
-               'status', 'contentDetails']
-    detail_df = pd.DataFrame()
-    for detail in details:
-        try:
-            detail_df = pd.concat([
-                detail_df,
-                pd.DataFrame([x[detail] for x in
-                              video_resp.json()['items']])
-            ], axis=1)
-        except KeyError:
-            continue
-
-    final_df = pd.concat([items_df, detail_df], axis=1)
+    vid_ids = _split_by_comma(vid_ids, length=50)
+    final_df = pd.DataFrame()
+    for vid_id in vid_ids:
+        params = {'id': vid_id, 'key': key}
+        logging.info(msg='Requesting: ' + 'video details')
+        video_resp = requests.get(base_url, params=params)
+        if video_resp.status_code >= 400:
+                raise Exception(video_resp.json())
+        items_df = pd.DataFrame(video_resp.json()['items'])
+        details = ['snippet', 'topicDetails', 'statistics',
+                   'status', 'contentDetails']
+        detail_df = pd.DataFrame()
+        for detail in details:
+            try:
+                detail_df = pd.concat([
+                    detail_df,
+                    pd.DataFrame([x[detail] for x in
+                                  video_resp.json()['items']])
+                ], axis=1)
+            except KeyError:
+                continue
+        temp_df = pd.concat([items_df, detail_df], axis=1)
+        final_df = final_df.append(temp_df, sort=False, ignore_index=True)
     return final_df
 
 
@@ -416,16 +432,28 @@ def youtube_channel_details(key, channel_ids):
     no spaces."""
     base_url = ('https://www.googleapis.com/youtube/v3/channels?part='
                 'snippet,contentDetails,statistics')
-    params = {'id': channel_ids, 'key': key}
-    channel_resp = requests.get(base_url, params=params)
-    if channel_resp.status_code >= 400:
-            raise Exception(channel_resp.json())
-    items_df = pd.DataFrame(channel_resp.json()['items'])
-    details = ['snippet', 'statistics', 'contentDetails']
-    detail_df = pd.concat([pd.DataFrame([x[detail] for x in
-                                         channel_resp.json()['items']])
-                           for detail in details], axis=1)
-    final_df = pd.concat([items_df, detail_df], axis=1)
+    channel_ids= _split_by_comma(channel_ids, length=50)
+    final_df = pd.DataFrame()
+    for channel_id in channel_ids:
+        params = {'id': channel_id, 'key': key}
+        logging.info(msg='Requesting: ' + 'channel details')
+        channel_resp = requests.get(base_url, params=params)
+        if channel_resp.status_code >= 400:
+                raise Exception(channel_resp.json())
+        items_df = pd.DataFrame(channel_resp.json()['items'])
+        details = ['snippet', 'statistics', 'contentDetails']
+        detail_df = pd.DataFrame()
+        for detail in details:
+            try:
+                detail_df = pd.concat([
+                    detail_df,
+                    pd.DataFrame([x[detail] for x in
+                                  channel_resp.json()['items']])
+                ], axis=1)
+            except KeyError:
+                continue
+        temp_df = pd.concat([items_df, detail_df], axis=1)
+        final_df = final_df.append(temp_df, sort=False, ignore_index=True)
     return final_df
 
 
@@ -1032,6 +1060,8 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
     for i, resp in enumerate(responses):
         snippet_df = pd.DataFrame([x['snippet'] for x in resp.json()['items']])
         id_df = pd.DataFrame([x['id'] for x in resp.json()['items']])
+        if 'channelId' in id_df:
+            id_df = id_df.drop('channelId', axis=1)
 
         if 'thumbnails' in snippet_df:
             thumb_df = json_normalize(snippet_df['thumbnails'])
@@ -1044,8 +1074,7 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
 
         if len(temp_df) == 0:
             empty_df_cols = ['title', 'description', 'publishedAt',
-                             'videoId', 'channelTitle', 'channelId',
-                             'kind', 'video.id', 'channel.id']
+                             'channelTitle', 'kind', 'videoId', 'channelId']
             temp_df = temp_df.assign(q=[params_list[i]['q']])
             temp_df = temp_df.assign(**dict.fromkeys(empty_df_cols))
 
@@ -1058,19 +1087,16 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
     result_df['queryTime'] = datetime.datetime.now(tz=datetime.timezone.utc)
     result_df['queryTime'] = pd.to_datetime(result_df['queryTime'])
 
-    spedified_cols = ['queryTime', 'rank', 'title', 'description',
+    specified_cols = ['queryTime', 'rank', 'title', 'description',
                       'publishedAt', 'channelTitle', 'totalResults',
                       'kind']
-    ordered_cols = list(params_list[i].keys()) + spedified_cols
+    ordered_cols = list(params_list[i].keys()) + specified_cols
     non_ordered = result_df.columns.difference(set(ordered_cols))
     final_df = result_df[ordered_cols + list(non_ordered)]
 
     vid_ids = ','.join(final_df['videoId'].dropna())
     if vid_ids:
         vid_details_df = youtube_video_details(vid_ids=vid_ids, key=key)
-        common_vid_cols = (result_df.columns
-                           .intersection(vid_details_df.columns))
-        vid_details_df = vid_details_df.drop(common_vid_cols, axis=1)
         vid_details_df.columns = ['video.' + x for x in vid_details_df.columns]
         final_df = pd.merge(final_df, vid_details_df,
                             how='left', left_on='videoId', right_on='video.id')
@@ -1079,16 +1105,13 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
     if channel_ids:
         channel_details_df = youtube_channel_details(channel_ids=channel_ids,
                                                      key=key)
-        common_channel_cols = (result_df.columns
-                               .intersection(channel_details_df.columns))
-        channel_details_df = channel_details_df.drop(common_channel_cols,
-                                                     axis=1)
         channel_details_df.columns = ['channel.' + x for x in
                                       channel_details_df.columns]
 
         final_df = pd.merge(final_df, channel_details_df,
                             how='left', left_on='channelId',
                             right_on='channel.id')
+    final_df = final_df.drop_duplicates(subset=['videoId'])
     return final_df
 
 
