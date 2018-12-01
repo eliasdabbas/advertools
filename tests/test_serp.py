@@ -18,11 +18,29 @@ youtube_key = os.environ.get('GOOG_CSE_KEY')
 
 def test_dict_product_produces_correct_result():
     d = {'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [10, 20]}
-    dp = _dict_product(d)
-    assert (sorted(list(product(*d.values()))) ==
-            sorted([tuple(x.values()) for x in dp]))
-    assert (sorted([tuple(x.keys()) for x in dp]) ==
-            sorted([tuple(d.keys()) for x in range(len(dp))]))
+    dp_exp = [
+        {'a': 1, 'b': 4, 'c': 10},
+        {'a': 1, 'b': 4, 'c': 20},
+        {'a': 1, 'b': 5, 'c': 10},
+        {'a': 1, 'b': 5, 'c': 20},
+        {'a': 1, 'b': 6, 'c': 10},
+        {'a': 1, 'b': 6, 'c': 20},
+        {'a': 2, 'b': 4, 'c': 10},
+        {'a': 2, 'b': 4, 'c': 20},
+        {'a': 2, 'b': 5, 'c': 10},
+        {'a': 2, 'b': 5, 'c': 20},
+        {'a': 2, 'b': 6, 'c': 10},
+        {'a': 2, 'b': 6, 'c': 20},
+        {'a': 3, 'b': 4, 'c': 10},
+        {'a': 3, 'b': 4, 'c': 20},
+        {'a': 3, 'b': 5, 'c': 10},
+        {'a': 3, 'b': 5, 'c': 20},
+        {'a': 3, 'b': 6, 'c': 10},
+        {'a': 3, 'b': 6, 'c': 20}
+    ]
+    dp_res = _dict_product(d)
+    for d_res in dp_res:
+        assert d_res in dp_exp
 
 
 def test_dict_product_return_correct_types():
