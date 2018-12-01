@@ -1040,9 +1040,10 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
         if p in SERP_YTUBE_VALID_VALS:
             if not set(supplied_params[p]).issubset(SERP_YTUBE_VALID_VALS[p]):
                 raise ValueError('Please make sure you provide a'
-                                 ' valid value for "{}", valid values:\n'
-                                 '{}'.format(p,
-                                             sorted(SERP_YTUBE_VALID_VALS[p])))
+                                 ' valid value for "{}", valid values:\n{}'
+                                 .format(p,
+                                         sorted([str(x) for x in
+                                                 SERP_YTUBE_VALID_VALS[p]])))
 
     params_list = _dict_product(supplied_params)
     base_url = "https://www.googleapis.com/youtube/v3/search?part=snippet"
