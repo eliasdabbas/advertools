@@ -1113,7 +1113,7 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
                             how='left', left_on='channelId',
                             right_on='channel.id')
     final_df = final_df.drop_duplicates(subset=['videoId'])
-    return final_df
+    return final_df.reset_index(drop=True)
 
 
 def set_logging_level(level_or_name):
