@@ -1,3 +1,4 @@
+import logging
 from functools import wraps
 
 from twython import Twython
@@ -5,7 +6,11 @@ import pandas as pd
 from pandas.io.json import json_normalize
 
 
-# Functions that depend on 'previous_cursor' and 'next_cursor' to 
+TWITTER_LOG_FMT = ('%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d '
+                     '| %(funcName)s | %(message)s')
+logging.basicConfig(format=TWITTER_LOG_FMT)
+
+# Functions that depend on 'previous_cursor' and 'next_cursor' to
 # navigate requests with a lot of data, request pagination basically.
 CURSORED_FUNCTIONS = [
     'get_followers_ids',
@@ -145,6 +150,11 @@ def make_dataframe(func):
                 max_id = None
             else:
                 cursor = None
+            kwargs_log = ', '.join([k + '=' + str(v) for k, v in kwargs.items()])
+            args_log = ', '.join(args)
+            logging.info(msg=fname + ' | ' + 'Requesting: ' +
+                             'count=' + str(count) + ', max_id=' +
+                             str(max_id) + ', ' + kwargs_log + args_log)
 
             resp = func(count=count,
                         max_id=max_id,
