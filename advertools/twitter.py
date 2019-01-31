@@ -142,6 +142,8 @@ def make_dataframe(func):
         responses = []
         for i, count  in enumerate(counts):
             if fname == 'search':
+                if responses and not responses[-1]['statuses']:
+                    break
                 max_id = (max_id or None) if i == 0 else (responses[-1]['statuses'][-1]['id'] - 1)
             if (fname != 'search') and (fname not in CURSORED_FUNCTIONS):
                 max_id = (max_id or None) if i == 0 else (responses[-1][-1]['id'] - 1)
@@ -1126,3 +1128,6 @@ def set_auth_params(app_key=None, app_secret=None, oauth_token=None,
     for func in FUNCTIONS:
         func.set_auth_params(**params)
     return None
+
+
+logging.getLogger().setLevel('INFO')
