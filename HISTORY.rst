@@ -2,6 +2,12 @@
 History
 =======
 
+0.5.3 (2019-01-31)
+-----------------
+
+* Fix minor bugs
+    - Handle Twitter search queries with 0 results in final request
+
 0.5.2 (2018-12-01)
 ------------------
 
