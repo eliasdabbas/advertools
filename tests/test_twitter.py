@@ -227,6 +227,13 @@ def test_search():
                     result['user_id'])])
 
 
+def test_search_no_error_on_empty_result():
+    result = search(q='thisqueryhasnoresult!@#$%^', lang='ar',
+                    count=200, tweet_mode='extended')
+    assert isinstance(result, pd.core.frame.DataFrame)
+    assert len(result) == 0
+
+
 def test_search_users():
     result = search_users(q='finance', count=5)
     assert type(result) == pd.core.frame.DataFrame
