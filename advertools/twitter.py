@@ -44,7 +44,7 @@ SPECIAL_KEY_FUNCS = {
 
 
 # Functions that contain an embedded ``user`` key, containing 
-# 40+ attribute of the user tweeting, listed, retweeted, etc
+# 40+ attributes of the user tweeting, listed, retweeted, etc.
 USER_DATA_EMBEDDED = {
     'get_favorites': 'tweet_',
     'get_home_timeline': 'tweet_',
@@ -103,8 +103,9 @@ def _expand_entities(df):
                    for y in entities_df['symbols']]
 
         if 'media' in entities_df:
-            media = [', '.join([x['media_url'] for x in y]) if pd.notna(y) else
-                     '' for y in entities_df['media']]
+            entities_df['media'] = entities_df['media'].fillna('')
+            media = [', '.join([x['media_url'] for x in y]) if y != '' else
+                     y for y in entities_df['media']]
             entity_cols = [mentions, hashtags, urls, symbols, media]
         else:
             entity_cols = [mentions, hashtags, urls, symbols]
@@ -140,12 +141,14 @@ def make_dataframe(func):
         counts = _get_counts(count, DEFAULT_COUNTS[fname])
 
         responses = []
-        for i, count  in enumerate(counts):
+        for i, count in enumerate(counts):
             if fname == 'search':
                 if responses and not responses[-1]['statuses']:
                     break
                 max_id = (max_id or None) if i == 0 else (responses[-1]['statuses'][-1]['id'] - 1)
             if (fname != 'search') and (fname not in CURSORED_FUNCTIONS):
+                if responses and len(responses[-1]) == 0:
+                    break
                 max_id = (max_id or None) if i == 0 else (responses[-1][-1]['id'] - 1)
             if fname in CURSORED_FUNCTIONS:
                 cursor = None if i == 0 else responses[-1]['next_cursor']
@@ -155,8 +158,8 @@ def make_dataframe(func):
             kwargs_log = ', '.join([k + '=' + str(v) for k, v in kwargs.items()])
             args_log = ', '.join(args)
             logging.info(msg=fname + ' | ' + 'Requesting: ' +
-                             'count=' + str(count) + ', max_id=' +
-                             str(max_id) + ', ' + kwargs_log + args_log)
+                         'count=' + str(count) + ', max_id=' +
+                         str(max_id) + ', ' + kwargs_log + args_log)
 
             resp = func(count=count,
                         max_id=max_id,
