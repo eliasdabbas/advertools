@@ -181,6 +181,9 @@ def test_get_user_timeline():
     assert all([embd_uid == uid for embd_uid, uid in
                 zip([x['id'] for x in result['tweet_user']],
                     result['user_id'])])
+    long_result = get_user_timeline(screen_name='eliasdabbas', count=2000,
+                                    tweet_mode='extended')
+    assert type(result) == pd.core.frame.DataFrame
 
 
 def test_lookup_status():
