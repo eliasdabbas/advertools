@@ -1,16 +1,21 @@
 
 from advertools.extract import extract_mentions, extract_hashtags, extract_emoji
 
-mention_posts = ['hello @name', 'email@domain.com', '@oneword', 'hi @nam-e and @name',
-               '@first @last', 'an @under_score', 'a @dot.one', 'non latin @مرحبا',
-               'other at ＠sign', '@one.@two three', 'number @123text', '@_before @after_']
+mention_posts = ['hello @name', 'email@domain.com', '@oneword',
+                 'hi @nam-e and @name', '@first @last', 'an @under_score',
+                 'a @dot.one', 'non latin @مرحبا', 'other at ＠sign',
+                 '@one.@two three', 'number @123text', '@_before @after_']
 
 mention_summary = extract_mentions(mention_posts)
 
 mention_test_keys = ['mentions', 'mentions_flat', 'mention_counts',
                      'mention_freq', 'top_mentions', 'overview']
 
-hashtag_posts = ['i like #blue', 'i like #green and #blue', 'i like all']
+hashtag_posts = ['hello #name', 'email#domain.com', '#oneword',
+                 'hi #nam-e and #name', '#first #last', 'an #under_score',
+                 'a #dot.one', 'non latin #مرحبا', 'other hash ＃sign',
+                 '#one.#two three', 'number #123text', '#_before #after_']
+
 hashtag_summary = extract_hashtags(hashtag_posts)
 hashtag_test_keys = ['hashtags', 'hashtags_flat', 'hashtag_counts',
                      'hashtag_freq', 'top_hashtags', 'overview']
@@ -74,31 +79,47 @@ def test_hashtag_result_has_correct_keys():
 
 
 def test_correct_hashtags_extracted():
-    assert hashtag_summary['hashtags'] == [['#blue'], ['#green', '#blue'], []]
+    assert hashtag_summary['hashtags'] == [['#name'], [], ['#oneword'],
+                                           ['#nam', '#name'],['#first', '#last'],
+                                           ['#under_score'], ['#dot'], ['#مرحبا'],
+                                           ['＃sign'], ['#one', '#two'],
+                                           ['#123text'], ['#_before', '#after_']]
+
 
 
 def test_correct_flat_hashtags():
-    assert hashtag_summary['hashtags_flat'] == ['#blue', '#green', '#blue']
+    assert hashtag_summary['hashtags_flat'] == ['#name', '#oneword', '#nam',
+                                                '#name', '#first', '#last',
+                                                '#under_score', '#dot', '#مرحبا',
+                                                '＃sign', '#one', '#two',
+                                                '#123text', '#_before', '#after_']
 
 
 def test_correct_hashtag_counts():
-    assert hashtag_summary['hashtag_counts'] == [1, 2, 0]
+    assert hashtag_summary['hashtag_counts'] == [1, 0, 1, 2, 2, 1, 1, 1, 1, 2, 1, 2]
 
 
 def test_correct_hashtag_freq():
-    assert hashtag_summary['hashtag_freq'] == [(0, 1), (1, 1), (2, 1)]
+    assert hashtag_summary['hashtag_freq'] == [(0, 1), (1, 7), (2, 4)]
 
 
 def test_correct_top_hashtags():
-    assert hashtag_summary['top_hashtags'] == [('#blue', 2), ('#green', 1)]
+    assert set(hashtag_summary['top_hashtags']) == set([('#name', 2), ('#oneword', 1),
+                                               ('#nam', 1), ('#first', 1),
+                                               ('#last', 1), ('#under_score', 1),
+                                               ('#dot', 1), ('＃sign', 1),
+                                               ('#one', 1), ('#two', 1),
+                                               ('#123text', 1), ('#مرحبا', 1),
+                                               ('#_before', 1), ('#after_', 1)])
+
 
 
 def test_correct_hashtag_overview():
     hashtag_overview = hashtag_summary['overview']
-    assert hashtag_overview['num_posts'] == 3
-    assert hashtag_overview['num_hashtags'] == 3
-    assert hashtag_overview['hashtags_per_post'] == 1.0
-    assert hashtag_overview['unique_hashtags'] == 2
+    assert hashtag_overview['num_posts'] == 12
+    assert hashtag_overview['num_hashtags'] == 15
+    assert hashtag_overview['hashtags_per_post'] == 15/12
+    assert hashtag_overview['unique_hashtags'] == 14
 
 
 def test_emoji_result_has_correct_keys():
@@ -131,4 +152,3 @@ def test_correct_emoji_overview():
     assert emoji_overview['num_emoji'] == 3
     assert emoji_overview['emoji_per_post'] == 1.0
     assert emoji_overview['unique_emoji'] == 2
-
