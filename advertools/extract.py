@@ -238,3 +238,125 @@ def extract_emoji(text_list):
 
     }
     return summary
+
+
+def extract_words(text_list, words_to_find, full_words_only=False):
+    """Return a summary dictionary about ``words_to_find`` in ``text_list``.
+
+    Get a summary of the number of words, their frequency, the top
+    ones, and more.
+
+    :param text_list: A list of text strings.
+    :param words_to_find: A list of words to find in ``text_list``.
+    :param full_words_only: Whether or not to find only complete words
+        (as specified by ``words_to_find``) or find any any of the
+        words as part of longer strings.
+    :returns summary: A dictionary with various stats about the words
+
+    >>> posts = ['there is rain, it is raining', 'there is snow and rain',
+                 'there is no rain, it is snowing', 'there is nothing']
+    >>> word_summary = extract_words(posts, ['rain', 'snow'], True)
+    >>> word_summary.keys()
+    dict_keys(['words', 'words_flat', 'word_counts', 'word_freq',
+    'top_words', 'overview'])
+
+    >>> word_summary['overview']
+    {'num_posts': 4,
+     'num_words': 4,
+     'words_per_post': 1,
+     'unique_words': 2}
+
+    >>> word_summary['words']
+    [['rain'], ['snow', 'rain'], ['rain'], []]
+
+    A simple extract of mentions from each of the posts. An empty list if
+    none exist
+
+    >>> word_summary['words_flat']
+    ['rain', 'snow', 'rain', 'rain']
+
+    All mentions in one flat list.
+
+    >>> word_summary['word_counts']
+    [1, 2, 1, 0]
+
+    The count of mentions for each post.
+
+    >>> word_summary['word_freq']
+    [(0, 1) (1, 2), (2, 1)]
+
+    Shows how many posts had 0, 1, 2, 3, etc. words
+    (number_of_words, count)
+
+    >>> word_summary['top_words']
+    [('rain', 3), ('snow', 1)]
+
+    Check the same posts extracting any occurrence of the specified words
+    with ``full_words_only=False``:
+
+    >>> word_summary = extract_words(posts, ['rain', 'snow'], False)
+
+    >>> word_summary['overview']
+    {'num_posts': 4, # number of posts
+     'num_words': 6,
+     'words_per_post': 1.5,
+     'unique_words': 4}
+
+    >>> word_summary['words']
+    [['rain', 'raining'], ['snow', 'rain'], ['rain', 'snowing'], []]
+
+    Note that the extracted words are the complete words so you can see
+    where they occurred. In case "training" was mentioned,
+    you would see that it is not related to rain for example.
+
+    >>> word_summary['words_flat']
+    ['rain', 'raining', 'snow', 'rain', 'rain', 'snowing']
+
+    All mentions in one flat list.
+
+    >>> word_summary['word_counts']
+    [2, 2, 2, 0]
+
+    >>> word_summary['word_freq']
+    [(0, 1), (2, 3)]
+
+    Shows how many posts had 0, 1, 2, 3, etc. words
+    (number_of_words, count)
+
+    >>> word_summary['top_words']
+    [('rain', 3), ('raining', 1), ('snow', 1), ('snowing', 1)]
+    """
+    if isinstance(words_to_find, str):
+        words_to_find = [words_to_find]
+    words_to_find = [word.lower() for word in words_to_find]
+    if full_words_only:
+        words = []
+        for text in text_list:
+            temp = []
+            for word in text.lower().split():
+                if word in words_to_find:
+                    temp.append(word)
+            words.append(temp)
+    else:
+        regex = [r'\S{0,}' + x + r'\S{0,}' for x in words_to_find]
+        word_regex = '|'.join(regex)
+        words = [re.findall(word_regex, text.lower()) for text in text_list]
+    words_flat = [item for sublist in words for item in sublist]
+    summary = {
+        'words': words,
+        'words_flat': words_flat,
+        'word_counts': [len(word) for word in words],
+        'word_freq': sorted(Counter([len(word)
+                                     for word in words]).items(),
+                            key=lambda x: x[0]),
+        'top_words': sorted(Counter(words_flat).items(),
+                            key=lambda x: x[1],
+                            reverse=True),
+        'overview': {
+            'num_posts': len(text_list),
+            'num_words': len(words_flat),
+            'words_per_post': len(words_flat) / len(text_list),
+            'unique_words': len(set(words_flat)),
+        }
+    }
+    return summary
