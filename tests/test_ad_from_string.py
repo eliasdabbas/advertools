@@ -22,10 +22,10 @@ def test_capitalizes_or_not():
     s = 'This text will be split by the Function'
     capitalized = ad_from_string(s, capitalize=True)
     assert capitalized == ['This Text Will Be Split By The',
-                           'Function', '', '', '', '']
+                           'Function', '', '', '', '', '', '']
     not_capitalized = ad_from_string(s, capitalize=False)
     assert not_capitalized == ['This text will be split by the',
-                               'Function', '', '', '', '']
+                               'Function', '', '', '', '', '', '']
 
 
 def test_result_lengths_within_slots():
