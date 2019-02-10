@@ -1,7 +1,7 @@
 import string
 
 
-def ad_from_string(s, slots=(30, 30, 80, 15, 15), sep=None, capitalize=False):
+def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None, capitalize=False):
     """Convert string ``s`` to an ad by splitting it into groups of words.
     Each group would have a length of at most the allowed length for that slot.
 
