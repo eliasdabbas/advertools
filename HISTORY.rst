@@ -2,6 +2,15 @@
 History
 =======
 
+0.6.0 (2019-02-11)
+-----------------
+
+* New function
+    - extract_words to extract an arbitrary set of words
+* Minor updates
+    - ad_from_string slots argument reflects new text ad lenghts 
+    - hashtag regex improved
+
 0.5.3 (2019-01-31)
 -----------------
 
