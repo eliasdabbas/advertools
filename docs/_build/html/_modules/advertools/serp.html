@@ -13,7 +13,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -43,7 +43,7 @@
 <span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="n">SERP_GOOG_LOG_FMT</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> | </span><span class="si">%(levelname)s</span><span class="s1"> | </span><span class="si">%(filename)s</span><span class="s1">:</span><span class="si">%(lineno)d</span><span class="s1"> &#39;</span>
-                    <span class="s1">&#39;| </span><span class="si">%(funcName)s</span><span class="s1"> | </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">)</span>
+                     <span class="s1">&#39;| </span><span class="si">%(funcName)s</span><span class="s1"> | </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="n">SERP_GOOG_LOG_FMT</span><span class="p">)</span>
 
 
@@ -320,26 +320,20 @@
 <span class="p">}</span>
 
 <span class="n">SERP_YTUBE_VALID_VALS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-    <span class="n">channelType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span>
-    <span class="p">},</span>
+    <span class="n">channelType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">},</span>
 
-    <span class="n">eventType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;completed&#39;</span><span class="p">,</span> <span class="s1">&#39;live&#39;</span><span class="p">,</span> <span class="s1">&#39;upcoming&#39;</span>
-    <span class="p">},</span>
+    <span class="n">eventType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;completed&#39;</span><span class="p">,</span> <span class="s1">&#39;live&#39;</span><span class="p">,</span> <span class="s1">&#39;upcoming&#39;</span><span class="p">},</span>
 
-    <span class="n">forContentOwner</span><span class="o">=</span><span class="p">{</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span>
-    <span class="p">},</span>
+    <span class="n">forContentOwner</span><span class="o">=</span><span class="p">{</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">},</span>
 
-    <span class="n">forDeveloper</span><span class="o">=</span><span class="p">{</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span>
-    <span class="p">},</span>
+    <span class="n">forDeveloper</span><span class="o">=</span><span class="p">{</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">},</span>
 
-    <span class="n">forMine</span><span class="o">=</span><span class="p">{</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span>
-    <span class="p">},</span>
+    <span class="n">forMine</span><span class="o">=</span><span class="p">{</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">},</span>
 
     <span class="n">maxResults</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">51</span><span class="p">),</span>
 
     <span class="n">order</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;rating&#39;</span><span class="p">,</span> <span class="s1">&#39;relevance&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;videoCount&#39;</span><span class="p">,</span> <span class="s1">&#39;viewCount&#39;</span><span class="p">,</span>
-    <span class="p">},</span>
+           <span class="s1">&#39;videoCount&#39;</span><span class="p">,</span> <span class="s1">&#39;viewCount&#39;</span><span class="p">},</span>
 
     <span class="n">regionCode</span><span class="o">=</span><span class="p">{</span>
         <span class="s1">&#39;ad&#39;</span><span class="p">,</span> <span class="s1">&#39;ae&#39;</span><span class="p">,</span> <span class="s1">&#39;af&#39;</span><span class="p">,</span> <span class="s1">&#39;ag&#39;</span><span class="p">,</span> <span class="s1">&#39;ai&#39;</span><span class="p">,</span> <span class="s1">&#39;al&#39;</span><span class="p">,</span> <span class="s1">&#39;am&#39;</span><span class="p">,</span> <span class="s1">&#39;an&#39;</span><span class="p">,</span> <span class="s1">&#39;ao&#39;</span><span class="p">,</span> <span class="s1">&#39;aq&#39;</span><span class="p">,</span> <span class="s1">&#39;ar&#39;</span><span class="p">,</span>
@@ -363,7 +357,7 @@
         <span class="s1">&#39;st&#39;</span><span class="p">,</span> <span class="s1">&#39;sv&#39;</span><span class="p">,</span> <span class="s1">&#39;sy&#39;</span><span class="p">,</span> <span class="s1">&#39;sz&#39;</span><span class="p">,</span> <span class="s1">&#39;tc&#39;</span><span class="p">,</span> <span class="s1">&#39;td&#39;</span><span class="p">,</span> <span class="s1">&#39;tf&#39;</span><span class="p">,</span> <span class="s1">&#39;tg&#39;</span><span class="p">,</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;tj&#39;</span><span class="p">,</span> <span class="s1">&#39;tk&#39;</span><span class="p">,</span>
         <span class="s1">&#39;tl&#39;</span><span class="p">,</span> <span class="s1">&#39;tm&#39;</span><span class="p">,</span> <span class="s1">&#39;tn&#39;</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">,</span> <span class="s1">&#39;tr&#39;</span><span class="p">,</span> <span class="s1">&#39;tt&#39;</span><span class="p">,</span> <span class="s1">&#39;tv&#39;</span><span class="p">,</span> <span class="s1">&#39;tw&#39;</span><span class="p">,</span> <span class="s1">&#39;tz&#39;</span><span class="p">,</span> <span class="s1">&#39;ua&#39;</span><span class="p">,</span> <span class="s1">&#39;ug&#39;</span><span class="p">,</span>
         <span class="s1">&#39;uk&#39;</span><span class="p">,</span> <span class="s1">&#39;um&#39;</span><span class="p">,</span> <span class="s1">&#39;us&#39;</span><span class="p">,</span> <span class="s1">&#39;uy&#39;</span><span class="p">,</span> <span class="s1">&#39;uz&#39;</span><span class="p">,</span> <span class="s1">&#39;va&#39;</span><span class="p">,</span> <span class="s1">&#39;vc&#39;</span><span class="p">,</span> <span class="s1">&#39;ve&#39;</span><span class="p">,</span> <span class="s1">&#39;vg&#39;</span><span class="p">,</span> <span class="s1">&#39;vi&#39;</span><span class="p">,</span> <span class="s1">&#39;vn&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;vu&#39;</span><span class="p">,</span> <span class="s1">&#39;wf&#39;</span><span class="p">,</span> <span class="s1">&#39;ws&#39;</span><span class="p">,</span> <span class="s1">&#39;ye&#39;</span><span class="p">,</span> <span class="s1">&#39;yt&#39;</span><span class="p">,</span> <span class="s1">&#39;za&#39;</span><span class="p">,</span> <span class="s1">&#39;zm&#39;</span><span class="p">,</span> <span class="s1">&#39;zw&#39;</span><span class="p">,</span>        
+        <span class="s1">&#39;vu&#39;</span><span class="p">,</span> <span class="s1">&#39;wf&#39;</span><span class="p">,</span> <span class="s1">&#39;ws&#39;</span><span class="p">,</span> <span class="s1">&#39;ye&#39;</span><span class="p">,</span> <span class="s1">&#39;yt&#39;</span><span class="p">,</span> <span class="s1">&#39;za&#39;</span><span class="p">,</span> <span class="s1">&#39;zm&#39;</span><span class="p">,</span> <span class="s1">&#39;zw&#39;</span><span class="p">,</span>
     <span class="p">},</span>
 
     <span class="n">relevanceLanguage</span><span class="o">=</span><span class="p">{</span>
@@ -378,8 +372,7 @@
         <span class="s1">&#39;zu&#39;</span>
     <span class="p">},</span>
 
-    <span class="n">safeSearch</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;moderate&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;strict&#39;</span>
-    <span class="p">},</span>
+    <span class="n">safeSearch</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;moderate&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;strict&#39;</span><span class="p">},</span>
 
     <span class="n">topicId</span><span class="o">=</span><span class="p">{</span>
         <span class="s1">&#39;/m/04rlf&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/02mscn&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/0ggq0m&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/01lyv&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/02lkt&#39;</span><span class="p">,</span>
@@ -394,14 +387,12 @@
         <span class="s1">&#39;/m/019_rr&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/032tl&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/027x7n&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/02wbm&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/03glg&#39;</span><span class="p">,</span>
         <span class="s1">&#39;/m/068hy&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/041xxh&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/07c1v&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/07bxq&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/07yv9&#39;</span><span class="p">,</span>
         <span class="s1">&#39;/m/098wr&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/09s1f&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/0kt51&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/01h6rj&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/05qt0&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;/m/06bvp&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/01k8wb&#39;</span>        
+        <span class="s1">&#39;/m/06bvp&#39;</span><span class="p">,</span> <span class="s1">&#39;/m/01k8wb&#39;</span>
     <span class="p">},</span>
 
-    <span class="nb">type</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;channel&#39;</span><span class="p">,</span> <span class="s1">&#39;playlist&#39;</span><span class="p">,</span> <span class="s1">&#39;video&#39;</span>
-    <span class="p">},</span>
+    <span class="nb">type</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;channel&#39;</span><span class="p">,</span> <span class="s1">&#39;playlist&#39;</span><span class="p">,</span> <span class="s1">&#39;video&#39;</span><span class="p">},</span>
 
-    <span class="n">videoCaption</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;closedCaption&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span>
-    <span class="p">},</span>
+    <span class="n">videoCaption</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;closedCaption&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">},</span>
 
     <span class="n">videoCategoryId</span><span class="o">=</span><span class="p">{</span>
         <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;15&#39;</span><span class="p">,</span> <span class="s1">&#39;17&#39;</span><span class="p">,</span> <span class="s1">&#39;18&#39;</span><span class="p">,</span> <span class="s1">&#39;19&#39;</span><span class="p">,</span> <span class="s1">&#39;20&#39;</span><span class="p">,</span> <span class="s1">&#39;21&#39;</span><span class="p">,</span> <span class="s1">&#39;22&#39;</span><span class="p">,</span> <span class="s1">&#39;23&#39;</span><span class="p">,</span>
@@ -409,66 +400,95 @@
         <span class="s1">&#39;35&#39;</span><span class="p">,</span> <span class="s1">&#39;36&#39;</span><span class="p">,</span> <span class="s1">&#39;37&#39;</span><span class="p">,</span> <span class="s1">&#39;38&#39;</span><span class="p">,</span> <span class="s1">&#39;39&#39;</span><span class="p">,</span> <span class="s1">&#39;40&#39;</span><span class="p">,</span> <span class="s1">&#39;41&#39;</span><span class="p">,</span> <span class="s1">&#39;42&#39;</span><span class="p">,</span> <span class="s1">&#39;43&#39;</span><span class="p">,</span> <span class="s1">&#39;44&#39;</span>
     <span class="p">},</span>
 
-    <span class="n">videoDefinition</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;standard&#39;</span>
-    <span class="p">},</span>
+    <span class="n">videoDefinition</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;standard&#39;</span><span class="p">},</span>
 
-    <span class="n">videoDimension</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;2d&#39;</span><span class="p">,</span> <span class="s1">&#39;3d&#39;</span><span class="p">,</span> <span class="s1">&#39;any&#39;</span>
-    <span class="p">},</span>
+    <span class="n">videoDimension</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;2d&#39;</span><span class="p">,</span> <span class="s1">&#39;3d&#39;</span><span class="p">,</span> <span class="s1">&#39;any&#39;</span><span class="p">},</span>
 
-    <span class="n">videoDuration</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;long&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;short&#39;</span>
-    <span class="p">},</span>
+    <span class="n">videoDuration</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;long&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;short&#39;</span><span class="p">},</span>
 
-    <span class="n">videoEmbeddable</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span>
-    <span class="p">},</span>
+    <span class="n">videoEmbeddable</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">},</span>
 
-    <span class="n">videoLicense</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;creativeCommon&#39;</span><span class="p">,</span> <span class="s1">&#39;youtube&#39;</span>
-    <span class="p">},</span>
+    <span class="n">videoLicense</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;creativeCommon&#39;</span><span class="p">,</span> <span class="s1">&#39;youtube&#39;</span><span class="p">},</span>
 
-    <span class="n">videoSyndicated</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span>
-    <span class="p">},</span>
+    <span class="n">videoSyndicated</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">},</span>
 
-    <span class="n">videoType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;episode&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span>
-    <span class="p">},</span>
+    <span class="n">videoType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;episode&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span><span class="p">},</span>
 <span class="p">)</span>
 
 
+<span class="k">def</span> <span class="nf">_split_by_comma</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Group a comma-separated string into a list of at-most</span>
+<span class="sd">    ``length``-length words each.&quot;&quot;&quot;</span>
+    <span class="n">str_split</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">str_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">str_split</span><span class="p">)</span> <span class="o">+</span> <span class="n">length</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="n">temp_str</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">str_split</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">length</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">temp_str</span><span class="p">:</span>
+            <span class="n">str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_str</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">str_list</span>
+
+
 <div class="viewcode-block" id="youtube_video_details"><a class="viewcode-back" href="../../advertools.html#advertools.serp.youtube_video_details">[docs]</a><span class="k">def</span> <span class="nf">youtube_video_details</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">vid_ids</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return details of videos for which the ids are given. </span>
+    <span class="sd">&quot;&quot;&quot;Return details of videos for which the ids are given.</span>
 <span class="sd">    Assumes ``ids`` is a comma-separated list of video ids with</span>
 <span class="sd">    no spaces.&quot;&quot;&quot;</span>
     <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://www.googleapis.com/youtube/v3/videos?part=&#39;</span>
                 <span class="s1">&#39;contentDetails,id,liveStreamingDetails,localizations,player,&#39;</span>
                 <span class="s1">&#39;recordingDetails,snippet,statistics,status,topicDetails&#39;</span><span class="p">)</span>
-    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">vid_ids</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
-    <span class="n">video_resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">video_resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">video_resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
-    <span class="n">items_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">video_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">])</span>
-    <span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;snippet&#39;</span><span class="p">,</span><span class="s1">&#39;topicDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;statistics&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;contentDetails&#39;</span><span class="p">]</span>
-    <span class="n">detail_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">detail</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
-                                        <span class="n">video_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">]])</span>
-                           <span class="k">for</span> <span class="n">detail</span> <span class="ow">in</span> <span class="n">details</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">items_df</span><span class="p">,</span> <span class="n">detail_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">vid_ids</span> <span class="o">=</span> <span class="n">_split_by_comma</span><span class="p">(</span><span class="n">vid_ids</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">vid_id</span> <span class="ow">in</span> <span class="n">vid_ids</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">vid_id</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Requesting: &#39;</span> <span class="o">+</span> <span class="s1">&#39;video details&#39;</span><span class="p">)</span>
+        <span class="n">video_resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">video_resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">video_resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+        <span class="n">items_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">video_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">])</span>
+        <span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;topicDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;statistics&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;contentDetails&#39;</span><span class="p">]</span>
+        <span class="n">detail_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">detail</span> <span class="ow">in</span> <span class="n">details</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">detail_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+                    <span class="n">detail_df</span><span class="p">,</span>
+                    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">detail</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+                                  <span class="n">video_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">]])</span>
+                <span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">items_df</span><span class="p">,</span> <span class="n">detail_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">final_df</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_df</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">final_df</span></div>
 
 
 <div class="viewcode-block" id="youtube_channel_details"><a class="viewcode-back" href="../../advertools.html#advertools.serp.youtube_channel_details">[docs]</a><span class="k">def</span> <span class="nf">youtube_channel_details</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">channel_ids</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return details of channels for which the ids are given. </span>
+    <span class="sd">&quot;&quot;&quot;Return details of channels for which the ids are given.</span>
 <span class="sd">    Assumes ``ids`` is a comma-separated list of channel ids with</span>
 <span class="sd">    no spaces.&quot;&quot;&quot;</span>
     <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://www.googleapis.com/youtube/v3/channels?part=&#39;</span>
                 <span class="s1">&#39;snippet,contentDetails,statistics&#39;</span><span class="p">)</span>
-    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">channel_ids</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
-    <span class="n">channel_resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">channel_resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">channel_resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
-    <span class="n">items_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">channel_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">])</span> 
-    <span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;statistics&#39;</span><span class="p">,</span> <span class="s1">&#39;contentDetails&#39;</span><span class="p">]</span>
-    <span class="n">detail_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">detail</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> 
-                                         <span class="n">channel_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">]])</span> 
-                           <span class="k">for</span> <span class="n">detail</span> <span class="ow">in</span> <span class="n">details</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
-    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">items_df</span><span class="p">,</span> <span class="n">detail_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">channel_ids</span><span class="o">=</span> <span class="n">_split_by_comma</span><span class="p">(</span><span class="n">channel_ids</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">channel_id</span> <span class="ow">in</span> <span class="n">channel_ids</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">channel_id</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Requesting: &#39;</span> <span class="o">+</span> <span class="s1">&#39;channel details&#39;</span><span class="p">)</span>
+        <span class="n">channel_resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">channel_resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">channel_resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+        <span class="n">items_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">channel_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">])</span>
+        <span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;statistics&#39;</span><span class="p">,</span> <span class="s1">&#39;contentDetails&#39;</span><span class="p">]</span>
+        <span class="n">detail_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">detail</span> <span class="ow">in</span> <span class="n">details</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">detail_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+                    <span class="n">detail_df</span><span class="p">,</span>
+                    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">detail</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+                                  <span class="n">channel_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">]])</span>
+                <span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">items_df</span><span class="p">,</span> <span class="n">detail_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">final_df</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_df</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">final_df</span></div>
 
 
@@ -487,10 +507,12 @@
 <span class="sd">         {&#39;a&#39;: 1, &#39;b&#39;: 4, &#39;c&#39;: 5},</span>
 <span class="sd">         {&#39;a&#39;: 1, &#39;b&#39;: 4, &#39;c&#39;: 6}]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
     <span class="n">dicts</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">prod</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
-        <span class="n">tempdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">prod</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">prod</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">):</span>
+        <span class="n">tempdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">prod</span><span class="p">))</span>
         <span class="n">dicts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tempdict</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dicts</span>
 
@@ -714,22 +736,22 @@
                  <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">locationRadius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">publishedAfter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">publishedBefore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">relatedToVideoId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relevanceLanguage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">safeSearch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">topicId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoCaption</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                 <span class="n">videoCategoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDefinition</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDimension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">videoDuration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoEmbeddable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoLicense</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">videoSyndicated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoType</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                 <span class="n">relatedToVideoId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relevanceLanguage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">safeSearch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">topicId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoCaption</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">videoCategoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDefinition</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">videoDimension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDuration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoEmbeddable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">videoLicense</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoSyndicated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoType</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Query the YouTube API and get search results in a DataFrame.</span>
 <span class="sd">    For each parameter you can supply a single or multiple value(s).</span>
 <span class="sd">    Looping and merging results is handled automatically in case of multiple</span>
-<span class="sd">    values. </span>
+<span class="sd">    values.</span>
 
 <span class="sd">    :param q: (string) The ``q`` parameter specifies the query term to</span>
 <span class="sd">        search for. Your request can also use the Boolean NOT (-) and OR (|)</span>
 <span class="sd">        operators to exclude videos or to find videos that are associated with</span>
 <span class="sd">        one of several search terms. For example, to search for videos</span>
-<span class="sd">        matching either &quot;boating&quot; or &quot;sailing&quot;, set the ``q`` parameter value to</span>
-<span class="sd">        boating|sailing. Similarly, to search for videos matching either</span>
+<span class="sd">        matching either &quot;boating&quot; or &quot;sailing&quot;, set the ``q`` parameter value</span>
+<span class="sd">        to boating|sailing. Similarly, to search for videos matching either</span>
 <span class="sd">        &quot;boating&quot; or &quot;sailing&quot; but not &quot;fishing&quot;, set the q parameter value to</span>
 <span class="sd">        boating|sailing -fishing. Note that the pipe character must be URL-</span>
 <span class="sd">        escaped when it is sent in your API request. The URL-escaped value for</span>
@@ -796,7 +818,8 @@
 <span class="sd">        parameter&#39;s value must also be set to ``video``. In addition, none</span>
 <span class="sd">        of the following other parameters can be set in the same</span>
 <span class="sd">        request: ``videoDefinition``, ``videoDimension``, ``videoDuration``,</span>
-<span class="sd">        ``videoLicense``, ``videoEmbeddable``, ``videoSyndicated``, ``videoType``.</span>
+<span class="sd">        ``videoLicense``, ``videoEmbeddable``, ``videoSyndicated``,</span>
+<span class="sd">        ``videoType``.</span>
 <span class="sd">    :param relatedToVideoId: (string) The</span>
 <span class="sd">        ``relatedToVideoId`` parameter retrieves a list of videos</span>
 <span class="sd">        that are related to the video that the parameter ``value``</span>
@@ -869,7 +892,7 @@
 <span class="sd">        videoCount – Channels are sorted in descending order of their number of</span>
 <span class="sd">        uploaded videos.</span>
 
-<span class="sd">        viewCount – Resources are sorted from highest to lowest number of views.</span>
+<span class="sd">        viewCount – Resources sorted from highest to lowest number of views.</span>
 <span class="sd">        For live broadcasts, videos are sorted by number of concurrent viewers</span>
 <span class="sd">        while the broadcasts are ongoing.</span>
 <span class="sd">    :param pageToken: (string) The ``pageToken`` parameter</span>
@@ -908,7 +931,8 @@
 <span class="sd">        moderate – YouTube will filter some content from search results and,</span>
 <span class="sd">        at the least, will filter content that is restricted in your locale.</span>
 <span class="sd">        Based on their content, search results could be removed from search</span>
-<span class="sd">        results or demoted in search results. This is the default parameter value.</span>
+<span class="sd">        results or demoted in search results. This is the default parameter</span>
+<span class="sd">        value.</span>
 
 <span class="sd">        none – YouTube will not filter the search result set.</span>
 
@@ -925,7 +949,8 @@
 <span class="sd">    :param type: (string) The ``type`` parameter restricts a search</span>
 <span class="sd">        query to only retrieve a particular type of resource. The value is</span>
 <span class="sd">        a comma-separated list of resource types. The default value is</span>
-<span class="sd">        video,channel,playlist. Acceptable values are: channel, playlist, and video</span>
+<span class="sd">        video,channel,playlist. Acceptable values are: channel, playlist, and</span>
+<span class="sd">        video</span>
 <span class="sd">    :param videoCaption: (string) The ``videoCaption``</span>
 <span class="sd">        parameter indicates whether the API should filter video</span>
 <span class="sd">        search results based on whether they have captions. If you</span>
@@ -965,8 +990,8 @@
 
 <span class="sd">        3d – Restrict search results to only include 3D videos.</span>
 
-<span class="sd">        any – Include both 3D and non-3D videos in returned results. This is the</span>
-<span class="sd">        default value.</span>
+<span class="sd">        any – Include both 3D and non-3D videos in returned results.</span>
+<span class="sd">        This is the default value.</span>
 <span class="sd">    :param videoDuration: (string) The ``videoDuration``</span>
 <span class="sd">        parameter filters video search results based on their</span>
 <span class="sd">        duration. If you specify a value for this parameter, you</span>
@@ -999,11 +1024,13 @@
 <span class="sd">        specify a value for this parameter, you must also set the</span>
 <span class="sd">        ``type`` parameter&#39;s value to video. Acceptable values are:</span>
 
-<span class="sd">        any – Return all videos, regardless of which license they have, that</span>
-<span class="sd">        match the query parameters.</span>
+<span class="sd">        any – Return all videos, regardless of which license they have,</span>
+<span class="sd">        that match the query parameters.</span>
 
-<span class="sd">        creativeCommon – Only return videos that have a Creative Commons license.</span>
-<span class="sd">        Users can reuse videos with this license in other videos that they create.</span>
+<span class="sd">        creativeCommon – Only return videos that have a Creative Commons</span>
+<span class="sd">        license.</span>
+<span class="sd">        Users can reuse videos with this license in other videos that they</span>
+<span class="sd">        create.</span>
 
 <span class="sd">        youtube – Only return videos that have the standard YouTube license.</span>
 <span class="sd">    :param videoSyndicated: (string) The ``videoSyndicated``</span>
@@ -1024,7 +1051,7 @@
 
 <span class="sd">        episode – Only retrieve episodes of shows.</span>
 
-<span class="sd">        movie – Only retrieve movies.    </span>
+<span class="sd">        movie – Only retrieve movies.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">params</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
     <span class="n">supplied_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="n">k</span><span class="p">]}</span>
@@ -1036,7 +1063,7 @@
                        <span class="s1">&#39;forContentOwner&#39;</span><span class="p">}</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="n">supplied_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;video&#39;</span> <span class="ow">and</span>
-        <span class="n">type_vid_params</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">supplied_params</span><span class="o">.</span><span class="n">keys</span><span class="p">()))):</span>
+            <span class="n">type_vid_params</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">supplied_params</span><span class="o">.</span><span class="n">keys</span><span class="p">()))):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You need to set type=&quot;video&quot; if you want to set&#39;</span>
                          <span class="s1">&#39; any of the following:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">type_vid_params</span><span class="p">))</span>
 
@@ -1048,9 +1075,10 @@
         <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">SERP_YTUBE_VALID_VALS</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">SERP_YTUBE_VALID_VALS</span><span class="p">[</span><span class="n">p</span><span class="p">]):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Please make sure you provide a&#39;</span>
-                                 <span class="s1">&#39; valid value for &quot;</span><span class="si">{}</span><span class="s1">&quot;, valid values:</span><span class="se">\n</span><span class="s1">&#39;</span>
-                                 <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">,</span>
-                                             <span class="nb">sorted</span><span class="p">(</span><span class="n">SERP_YTUBE_VALID_VALS</span><span class="p">[</span><span class="n">p</span><span class="p">])))</span>
+                                 <span class="s1">&#39; valid value for &quot;</span><span class="si">{}</span><span class="s1">&quot;, valid values:</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">,</span>
+                                         <span class="nb">sorted</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+                                                 <span class="n">SERP_YTUBE_VALID_VALS</span><span class="p">[</span><span class="n">p</span><span class="p">]])))</span>
 
     <span class="n">params_list</span> <span class="o">=</span> <span class="n">_dict_product</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">)</span>
     <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/search?part=snippet&quot;</span>
@@ -1068,6 +1096,8 @@
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">resp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">responses</span><span class="p">):</span>
         <span class="n">snippet_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;snippet&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">]])</span>
         <span class="n">id_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;items&#39;</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="s1">&#39;channelId&#39;</span> <span class="ow">in</span> <span class="n">id_df</span><span class="p">:</span>
+            <span class="n">id_df</span> <span class="o">=</span> <span class="n">id_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;channelId&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="s1">&#39;thumbnails&#39;</span> <span class="ow">in</span> <span class="n">snippet_df</span><span class="p">:</span>
             <span class="n">thumb_df</span> <span class="o">=</span> <span class="n">json_normalize</span><span class="p">(</span><span class="n">snippet_df</span><span class="p">[</span><span class="s1">&#39;thumbnails&#39;</span><span class="p">])</span>
@@ -1078,11 +1108,9 @@
                             <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">page_info</span><span class="p">)</span>
         <span class="n">temp_df</span><span class="p">[</span><span class="s1">&#39;rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp_df</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 
-
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp_df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">empty_df_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;publishedAt&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;videoId&#39;</span><span class="p">,</span> <span class="s1">&#39;channelTitle&#39;</span><span class="p">,</span> <span class="s1">&#39;channelId&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;kind&#39;</span><span class="p">,</span> <span class="s1">&#39;video.id&#39;</span><span class="p">,</span> <span class="s1">&#39;channel.id&#39;</span><span class="p">]</span>
+                             <span class="s1">&#39;channelTitle&#39;</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">,</span> <span class="s1">&#39;videoId&#39;</span><span class="p">,</span> <span class="s1">&#39;channelId&#39;</span><span class="p">]</span>
             <span class="n">temp_df</span> <span class="o">=</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="p">[</span><span class="n">params_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;q&#39;</span><span class="p">]])</span>
             <span class="n">temp_df</span> <span class="o">=</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">empty_df_cols</span><span class="p">))</span>
 
@@ -1095,35 +1123,32 @@
     <span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
     <span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">])</span>
 
-    <span class="n">spedified_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;publishedAt&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;channelTitle&#39;</span><span class="p">,</span> <span class="s1">&#39;totalResults&#39;</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">]</span>
-    <span class="n">ordered_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">params_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="n">spedified_cols</span>
+    <span class="n">specified_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;queryTime&#39;</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;publishedAt&#39;</span><span class="p">,</span> <span class="s1">&#39;channelTitle&#39;</span><span class="p">,</span> <span class="s1">&#39;totalResults&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;kind&#39;</span><span class="p">]</span>
+    <span class="n">ordered_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">params_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="n">specified_cols</span>
     <span class="n">non_ordered</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ordered_cols</span><span class="p">))</span>
     <span class="n">final_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="p">[</span><span class="n">ordered_cols</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">non_ordered</span><span class="p">)]</span>
 
-    <span class="n">vid_ids</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;videoId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
+    <span class="n">vid_ids</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;videoId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">vid_ids</span><span class="p">:</span>
         <span class="n">vid_details_df</span> <span class="o">=</span> <span class="n">youtube_video_details</span><span class="p">(</span><span class="n">vid_ids</span><span class="o">=</span><span class="n">vid_ids</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
-        <span class="n">common_vid_cols</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">vid_details_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-        <span class="n">vid_details_df</span> <span class="o">=</span> <span class="n">vid_details_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">common_vid_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">vid_details_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;video.&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vid_details_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
         <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">final_df</span><span class="p">,</span> <span class="n">vid_details_df</span><span class="p">,</span>
                             <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;videoId&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;video.id&#39;</span><span class="p">)</span>
 
-    <span class="n">channel_ids</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;channelId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
+    <span class="n">channel_ids</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;channelId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">channel_ids</span><span class="p">:</span>
         <span class="n">channel_details_df</span> <span class="o">=</span> <span class="n">youtube_channel_details</span><span class="p">(</span><span class="n">channel_ids</span><span class="o">=</span><span class="n">channel_ids</span><span class="p">,</span>
                                                      <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
-        <span class="n">common_channel_cols</span> <span class="o">=</span> <span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">columns</span>
-                               <span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">channel_details_df</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
-        <span class="n">channel_details_df</span> <span class="o">=</span> <span class="n">channel_details_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">common_channel_cols</span><span class="p">,</span>
-                                                     <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">channel_details_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;channel.&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
                                       <span class="n">channel_details_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
 
         <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">final_df</span><span class="p">,</span> <span class="n">channel_details_df</span><span class="p">,</span>
-                        <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;channelId&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;channel.id&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">final_df</span></div>
+                            <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;channelId&#39;</span><span class="p">,</span>
+                            <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;channel.id&#39;</span><span class="p">)</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;videoId&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">final_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="set_logging_level"><a class="viewcode-back" href="../../advertools.html#advertools.serp.set_logging_level">[docs]</a><span class="k">def</span> <span class="nf">set_logging_level</span><span class="p">(</span><span class="n">level_or_name</span><span class="p">):</span>
@@ -1194,7 +1219,7 @@
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
     </div>

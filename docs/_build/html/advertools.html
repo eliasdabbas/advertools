@@ -13,7 +13,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -81,7 +81,7 @@ is too long</li>
 <span id="advertools-ad-from-string-module"></span><h2>advertools.ad_from_string module<a class="headerlink" href="#module-advertools.ad_from_string" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="advertools.ad_from_string.ad_from_string">
-<code class="descclassname">advertools.ad_from_string.</code><code class="descname">ad_from_string</code><span class="sig-paren">(</span><em>s</em>, <em>slots=(30</em>, <em>30</em>, <em>80</em>, <em>15</em>, <em>15)</em>, <em>sep=None</em>, <em>capitalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">advertools.ad_from_string.</code><code class="descname">ad_from_string</code><span class="sig-paren">(</span><em>s</em>, <em>slots=(30</em>, <em>30</em>, <em>30</em>, <em>90</em>, <em>90</em>, <em>15</em>, <em>15)</em>, <em>sep=None</em>, <em>capitalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert string <code class="docutils literal notranslate"><span class="pre">s</span></code> to an ad by splitting it into groups of words.
 Each group would have a length of at most the allowed length for that slot.</p>
 <p>If the total length of <code class="docutils literal notranslate"><span class="pre">s</span></code> exceeds the total allowed length, all remaining
@@ -321,6 +321,112 @@ none exist</p>
 <span class="go"> &#39;num_mentions&#39;: 3,</span>
 <span class="go"> &#39;mentions_per_post&#39;: 1.0,</span>
 <span class="go"> &#39;unique_mentions&#39;: 2}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_words">
+<code class="descclassname">advertools.extract.</code><code class="descname">extract_words</code><span class="sig-paren">(</span><em>text_list</em>, <em>words_to_find</em>, <em>full_words_only=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about <code class="docutils literal notranslate"><span class="pre">words_to_find</span></code> in <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</p>
+<p>Get a summary of the number of words, their frequency, the top
+ones, and more.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text_list</strong> – A list of text strings.</li>
+<li><strong>words_to_find</strong> – A list of words to find in <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</li>
+<li><strong>full_words_only</strong> – Whether or not to find only complete words
+(as specified by <code class="docutils literal notranslate"><span class="pre">words_to_find</span></code>) or find any any of the
+words as part of longer strings.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns summary:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">A dictionary with various stats about the words</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;there is rain, it is raining&#39;</span><span class="p">,</span> <span class="s1">&#39;there is snow and rain&#39;</span><span class="p">,</span>
+<span class="go">             &#39;there is no rain, it is snowing&#39;, &#39;there is nothing&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span> <span class="o">=</span> <span class="n">extract_words</span><span class="p">(</span><span class="n">posts</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;rain&#39;</span><span class="p">,</span> <span class="s1">&#39;snow&#39;</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;words&#39;, &#39;words_flat&#39;, &#39;word_counts&#39;, &#39;word_freq&#39;,</span>
+<span class="go">&#39;top_words&#39;, &#39;overview&#39;])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go"> &#39;num_words&#39;: 4,</span>
+<span class="go"> &#39;words_per_post&#39;: 1,</span>
+<span class="go"> &#39;unique_words&#39;: 2}</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;words&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;rain&#39;], [&#39;snow&#39;, &#39;rain&#39;], [&#39;rain&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of mentions from each of the posts. An empty list if
+none exist</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;words_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;rain&#39;, &#39;snow&#39;, &#39;rain&#39;, &#39;rain&#39;]</span>
+</pre></div>
+</div>
+<p>All mentions in one flat list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;word_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 2, 1, 0]</span>
+</pre></div>
+</div>
+<p>The count of mentions for each post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;word_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1) (1, 2), (2, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. words
+(number_of_words, count)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;top_words&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;rain&#39;, 3), (&#39;snow&#39;, 1)]</span>
+</pre></div>
+</div>
+<p>Check the same posts extracting any occurrence of the specified words
+with <code class="docutils literal notranslate"><span class="pre">full_words_only=False</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span> <span class="o">=</span> <span class="n">extract_words</span><span class="p">(</span><span class="n">posts</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;rain&#39;</span><span class="p">,</span> <span class="s1">&#39;snow&#39;</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4, # number of posts</span>
+<span class="go"> &#39;num_words&#39;: 6,</span>
+<span class="go"> &#39;words_per_post&#39;: 1.5,</span>
+<span class="go"> &#39;unique_words&#39;: 4}</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;words&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;rain&#39;, &#39;raining&#39;], [&#39;snow&#39;, &#39;rain&#39;], [&#39;rain&#39;, &#39;snowing&#39;], []]</span>
+</pre></div>
+</div>
+<p>Note that the extracted words are the complete words so you can see
+where they occurred. In case “training” was mentioned,
+you would see that it is not related to rain for example.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;words_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;rain&#39;, &#39;raining&#39;, &#39;snow&#39;, &#39;rain&#39;, &#39;rain&#39;, &#39;snowing&#39;]</span>
+</pre></div>
+</div>
+<p>All mentions in one flat list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;word_counts&#39;</span><span class="p">]</span>
+<span class="go">[2, 2, 2, 0]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;word_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (2, 3)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. words
+(number_of_words, count)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;top_words&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;rain&#39;, 3), (&#39;raining&#39;, 1), (&#39;snow&#39;, 1), (&#39;snowing&#39;, 1)]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -720,8 +826,8 @@ values.</p>
 search for. Your request can also use the Boolean NOT (-) and OR (|)
 operators to exclude videos or to find videos that are associated with
 one of several search terms. For example, to search for videos
-matching either “boating” or “sailing”, set the <code class="docutils literal notranslate"><span class="pre">q</span></code> parameter value to
-boating|sailing. Similarly, to search for videos matching either
+matching either “boating” or “sailing”, set the <code class="docutils literal notranslate"><span class="pre">q</span></code> parameter value
+to boating|sailing. Similarly, to search for videos matching either
 “boating” or “sailing” but not “fishing”, set the q parameter value to
 boating|sailing -fishing. Note that the pipe character must be URL-
 escaped when it is sent in your API request. The URL-escaped value for
@@ -784,7 +890,8 @@ user. If you set this parameter to <code class="docutils literal notranslate"><s
 parameter’s value must also be set to <code class="docutils literal notranslate"><span class="pre">video</span></code>. In addition, none
 of the following other parameters can be set in the same
 request: <code class="docutils literal notranslate"><span class="pre">videoDefinition</span></code>, <code class="docutils literal notranslate"><span class="pre">videoDimension</span></code>, <code class="docutils literal notranslate"><span class="pre">videoDuration</span></code>,
-<code class="docutils literal notranslate"><span class="pre">videoLicense</span></code>, <code class="docutils literal notranslate"><span class="pre">videoEmbeddable</span></code>, <code class="docutils literal notranslate"><span class="pre">videoSyndicated</span></code>, <code class="docutils literal notranslate"><span class="pre">videoType</span></code>.</li>
+<code class="docutils literal notranslate"><span class="pre">videoLicense</span></code>, <code class="docutils literal notranslate"><span class="pre">videoEmbeddable</span></code>, <code class="docutils literal notranslate"><span class="pre">videoSyndicated</span></code>,
+<code class="docutils literal notranslate"><span class="pre">videoType</span></code>.</li>
 <li><strong>relatedToVideoId</strong> – (string) The
 <code class="docutils literal notranslate"><span class="pre">relatedToVideoId</span></code> parameter retrieves a list of videos
 that are related to the video that the parameter <code class="docutils literal notranslate"><span class="pre">value</span></code>
@@ -851,7 +958,7 @@ query. This is the default value for this parameter.</p>
 <p>title – Resources are sorted alphabetically by title.</p>
 <p>videoCount – Channels are sorted in descending order of their number of
 uploaded videos.</p>
-<p>viewCount – Resources are sorted from highest to lowest number of views.
+<p>viewCount – Resources sorted from highest to lowest number of views.
 For live broadcasts, videos are sorted by number of concurrent viewers
 while the broadcasts are ongoing.</p>
 </li>
@@ -890,7 +997,8 @@ values are:</p>
 <p>moderate – YouTube will filter some content from search results and,
 at the least, will filter content that is restricted in your locale.
 Based on their content, search results could be removed from search
-results or demoted in search results. This is the default parameter value.</p>
+results or demoted in search results. This is the default parameter
+value.</p>
 <p>none – YouTube will not filter the search result set.</p>
 <p>strict – YouTube will try to exclude all restricted content from the
 search result set.</p>
@@ -905,7 +1013,8 @@ ID.</li>
 <li><strong>type</strong> – (string) The <code class="docutils literal notranslate"><span class="pre">type</span></code> parameter restricts a search
 query to only retrieve a particular type of resource. The value is
 a comma-separated list of resource types. The default value is
-video,channel,playlist. Acceptable values are: channel, playlist, and video</li>
+video,channel,playlist. Acceptable values are: channel, playlist, and
+video</li>
 <li><strong>videoCaption</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">videoCaption</span></code>
 parameter indicates whether the API should filter video
 search results based on whether they have captions. If you
@@ -938,8 +1047,8 @@ you must also set the <code class="docutils literal notranslate"><span class="pr
 video. Acceptable values are:</p>
 <p>2d – Restrict search results to exclude 3D videos.</p>
 <p>3d – Restrict search results to only include 3D videos.</p>
-<p>any – Include both 3D and non-3D videos in returned results. This is the
-default value.</p>
+<p>any – Include both 3D and non-3D videos in returned results.
+This is the default value.</p>
 </li>
 <li><strong>videoDuration</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">videoDuration</span></code>
 parameter filters video search results based on their
@@ -968,10 +1077,12 @@ choose to attach either the Creative Commons license or the
 standard YouTube license to each of their videos. If you
 specify a value for this parameter, you must also set the
 <code class="docutils literal notranslate"><span class="pre">type</span></code> parameter’s value to video. Acceptable values are:</p>
-<p>any – Return all videos, regardless of which license they have, that
-match the query parameters.</p>
-<p>creativeCommon – Only return videos that have a Creative Commons license.
-Users can reuse videos with this license in other videos that they create.</p>
+<p>any – Return all videos, regardless of which license they have,
+that match the query parameters.</p>
+<p>creativeCommon – Only return videos that have a Creative Commons
+license.
+Users can reuse videos with this license in other videos that they
+create.</p>
 <p>youtube – Only return videos that have the standard YouTube license.</p>
 </li>
 <li><strong>videoSyndicated</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">videoSyndicated</span></code>
@@ -1009,7 +1120,7 @@ Acceptable values are [0, 10, 20, 30, 40, 50,
 <dl class="function">
 <dt id="advertools.serp.youtube_channel_details">
 <code class="descclassname">advertools.serp.</code><code class="descname">youtube_channel_details</code><span class="sig-paren">(</span><em>key</em>, <em>channel_ids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#youtube_channel_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.youtube_channel_details" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return details of channels for which the ids are given. 
+<dd><p>Return details of channels for which the ids are given.
 Assumes <code class="docutils literal notranslate"><span class="pre">ids</span></code> is a comma-separated list of channel ids with
 no spaces.</p>
 </dd></dl>
@@ -1017,7 +1128,7 @@ no spaces.</p>
 <dl class="function">
 <dt id="advertools.serp.youtube_video_details">
 <code class="descclassname">advertools.serp.</code><code class="descname">youtube_video_details</code><span class="sig-paren">(</span><em>key</em>, <em>vid_ids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#youtube_video_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.youtube_video_details" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return details of videos for which the ids are given. 
+<dd><p>Return details of videos for which the ids are given.
 Assumes <code class="docutils literal notranslate"><span class="pre">ids</span></code> is a comma-separated list of video ids with
 no spaces.</p>
 </dd></dl>
@@ -2229,7 +2340,7 @@ all columns.</p>
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |

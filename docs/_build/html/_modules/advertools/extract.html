@@ -13,7 +13,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -39,7 +39,7 @@
 <span class="kn">from</span> <span class="nn">.emoji_dict</span> <span class="k">import</span> <span class="n">emoji_dict</span>
 <span class="kn">from</span> <span class="nn">.emoji_dict</span> <span class="k">import</span> <span class="n">emoji_regexp</span> <span class="k">as</span> <span class="n">EMOJI</span>
 
-<span class="n">HASHTAG</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;#\w+&#39;</span>
+<span class="n">HASHTAG</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(?:^|\W)([＃#]</span><span class="si">{1}</span><span class="s2">\w+)&quot;</span>
 <span class="n">MENTION</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;(?:^|\W)([@＠][A-Za-z0-9_]+)&#39;</span>
 
 
@@ -273,6 +273,128 @@
 
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">summary</span></div>
+
+
+<div class="viewcode-block" id="extract_words"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_words">[docs]</a><span class="k">def</span> <span class="nf">extract_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">words_to_find</span><span class="p">,</span> <span class="n">full_words_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about ``words_to_find`` in ``text_list``.</span>
+
+<span class="sd">    Get a summary of the number of words, their frequency, the top</span>
+<span class="sd">    ones, and more.</span>
+
+<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :param words_to_find: A list of words to find in ``text_list``.</span>
+<span class="sd">    :param full_words_only: Whether or not to find only complete words</span>
+<span class="sd">        (as specified by ``words_to_find``) or find any any of the</span>
+<span class="sd">        words as part of longer strings.</span>
+<span class="sd">    :returns summary: A dictionary with various stats about the words</span>
+
+<span class="sd">    &gt;&gt;&gt; posts = [&#39;there is rain, it is raining&#39;, &#39;there is snow and rain&#39;,</span>
+<span class="sd">                 &#39;there is no rain, it is snowing&#39;, &#39;there is nothing&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; word_summary = extract_words(posts, [&#39;rain&#39;, &#39;snow&#39;], True)</span>
+<span class="sd">    &gt;&gt;&gt; word_summary.keys()</span>
+<span class="sd">    dict_keys([&#39;words&#39;, &#39;words_flat&#39;, &#39;word_counts&#39;, &#39;word_freq&#39;,</span>
+<span class="sd">    &#39;top_words&#39;, &#39;overview&#39;])</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;overview&#39;]</span>
+<span class="sd">    {&#39;num_posts&#39;: 4,</span>
+<span class="sd">     &#39;num_words&#39;: 4,</span>
+<span class="sd">     &#39;words_per_post&#39;: 1,</span>
+<span class="sd">     &#39;unique_words&#39;: 2}</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;words&#39;]</span>
+<span class="sd">    [[&#39;rain&#39;], [&#39;snow&#39;, &#39;rain&#39;], [&#39;rain&#39;], []]</span>
+
+<span class="sd">    A simple extract of mentions from each of the posts. An empty list if</span>
+<span class="sd">    none exist</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;words_flat&#39;]</span>
+<span class="sd">    [&#39;rain&#39;, &#39;snow&#39;, &#39;rain&#39;, &#39;rain&#39;]</span>
+
+<span class="sd">    All mentions in one flat list.</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;word_counts&#39;]</span>
+<span class="sd">    [1, 2, 1, 0]</span>
+
+<span class="sd">    The count of mentions for each post.</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;word_freq&#39;]</span>
+<span class="sd">    [(0, 1) (1, 2), (2, 1)]</span>
+
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. words</span>
+<span class="sd">    (number_of_words, count)</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;top_words&#39;]</span>
+<span class="sd">    [(&#39;rain&#39;, 3), (&#39;snow&#39;, 1)]</span>
+
+<span class="sd">    Check the same posts extracting any occurrence of the specified words</span>
+<span class="sd">    with ``full_words_only=False``:</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary = extract_words(posts, [&#39;rain&#39;, &#39;snow&#39;], False)</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;overview&#39;]</span>
+<span class="sd">    {&#39;num_posts&#39;: 4, # number of posts</span>
+<span class="sd">     &#39;num_words&#39;: 6,</span>
+<span class="sd">     &#39;words_per_post&#39;: 1.5,</span>
+<span class="sd">     &#39;unique_words&#39;: 4}</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;words&#39;]</span>
+<span class="sd">    [[&#39;rain&#39;, &#39;raining&#39;], [&#39;snow&#39;, &#39;rain&#39;], [&#39;rain&#39;, &#39;snowing&#39;], []]</span>
+
+<span class="sd">    Note that the extracted words are the complete words so you can see</span>
+<span class="sd">    where they occurred. In case &quot;training&quot; was mentioned,</span>
+<span class="sd">    you would see that it is not related to rain for example.</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;words_flat&#39;]</span>
+<span class="sd">    [&#39;rain&#39;, &#39;raining&#39;, &#39;snow&#39;, &#39;rain&#39;, &#39;rain&#39;, &#39;snowing&#39;]</span>
+
+<span class="sd">    All mentions in one flat list.</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;word_counts&#39;]</span>
+<span class="sd">    [2, 2, 2, 0]</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;word_freq&#39;]</span>
+<span class="sd">    [(0, 1), (2, 3)]</span>
+
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. words</span>
+<span class="sd">    (number_of_words, count)</span>
+
+<span class="sd">    &gt;&gt;&gt; word_summary[&#39;top_words&#39;]</span>
+<span class="sd">    [(&#39;rain&#39;, 3), (&#39;raining&#39;, 1), (&#39;snow&#39;, 1), (&#39;snowing&#39;, 1)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">words_to_find</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">words_to_find</span> <span class="o">=</span> <span class="p">[</span><span class="n">words_to_find</span><span class="p">]</span>
+    <span class="n">words_to_find</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words_to_find</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">full_words_only</span><span class="p">:</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words_to_find</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+            <span class="n">words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;\S{0,}&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\S{0,}&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words_to_find</span><span class="p">]</span>
+        <span class="n">word_regex</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">word_regex</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="n">words_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">words</span><span class="p">,</span>
+        <span class="s1">&#39;words_flat&#39;</span><span class="p">:</span> <span class="n">words_flat</span><span class="p">,</span>
+        <span class="s1">&#39;word_counts&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">],</span>
+        <span class="s1">&#39;word_freq&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+                                     <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">])</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="s1">&#39;top_words&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">words_flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                            <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;overview&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;num_posts&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
+            <span class="s1">&#39;num_words&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">words_flat</span><span class="p">),</span>
+            <span class="s1">&#39;words_per_post&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">words_flat</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
+            <span class="s1">&#39;unique_words&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">words_flat</span><span class="p">)),</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">summary</span></div>
 </pre></div>
 
           </div>
@@ -325,7 +447,7 @@
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
     </div>

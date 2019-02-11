@@ -13,7 +13,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -33,14 +33,19 @@
           <div class="body" role="main">
             
   <h1>Source code for advertools.twitter</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">wraps</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">wraps</span>
 
 <span class="kn">from</span> <span class="nn">twython</span> <span class="k">import</span> <span class="n">Twython</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pandas.io.json</span> <span class="k">import</span> <span class="n">json_normalize</span>
 
 
-<span class="c1"># Functions that depend on &#39;previous_cursor&#39; and &#39;next_cursor&#39; to </span>
+<span class="n">TWITTER_LOG_FMT</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> | </span><span class="si">%(levelname)s</span><span class="s1"> | </span><span class="si">%(filename)s</span><span class="s1">:</span><span class="si">%(lineno)d</span><span class="s1"> &#39;</span>
+                     <span class="s1">&#39;| </span><span class="si">%(funcName)s</span><span class="s1"> | </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="n">TWITTER_LOG_FMT</span><span class="p">)</span>
+
+<span class="c1"># Functions that depend on &#39;previous_cursor&#39; and &#39;next_cursor&#39; to</span>
 <span class="c1"># navigate requests with a lot of data, request pagination basically.</span>
 <span class="n">CURSORED_FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;get_followers_ids&#39;</span><span class="p">,</span>
@@ -74,7 +79,7 @@
 
 
 <span class="c1"># Functions that contain an embedded ``user`` key, containing </span>
-<span class="c1"># 40+ attribute of the user tweeting, listed, retweeted, etc</span>
+<span class="c1"># 40+ attributes of the user tweeting, listed, retweeted, etc.</span>
 <span class="n">USER_DATA_EMBEDDED</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;get_favorites&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
     <span class="s1">&#39;get_home_timeline&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
@@ -133,8 +138,9 @@
                    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;symbols&#39;</span><span class="p">]]</span>
 
         <span class="k">if</span> <span class="s1">&#39;media&#39;</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">:</span>
-            <span class="n">media</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;media_url&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">else</span>
-                     <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;media&#39;</span><span class="p">]]</span>
+            <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;media&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;media&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">media</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;media_url&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span> <span class="k">if</span> <span class="n">y</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span>
+                     <span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;media&#39;</span><span class="p">]]</span>
             <span class="n">entity_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">mentions</span><span class="p">,</span> <span class="n">hashtags</span><span class="p">,</span> <span class="n">urls</span><span class="p">,</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">media</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">entity_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">mentions</span><span class="p">,</span> <span class="n">hashtags</span><span class="p">,</span> <span class="n">urls</span><span class="p">,</span> <span class="n">symbols</span><span class="p">]</span>
@@ -170,16 +176,25 @@
         <span class="n">counts</span> <span class="o">=</span> <span class="n">_get_counts</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">DEFAULT_COUNTS</span><span class="p">[</span><span class="n">fname</span><span class="p">])</span>
 
         <span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">count</span>  <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">counts</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">counts</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">fname</span> <span class="o">==</span> <span class="s1">&#39;search&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">responses</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;statuses&#39;</span><span class="p">]:</span>
+                    <span class="k">break</span>
                 <span class="n">max_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_id</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;statuses&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">fname</span> <span class="o">!=</span> <span class="s1">&#39;search&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">fname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">CURSORED_FUNCTIONS</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">responses</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">break</span>
                 <span class="n">max_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_id</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">CURSORED_FUNCTIONS</span><span class="p">:</span>
                 <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;next_cursor&#39;</span><span class="p">]</span>
                 <span class="n">max_id</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">kwargs_log</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+            <span class="n">args_log</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39; | &#39;</span> <span class="o">+</span> <span class="s1">&#39;Requesting: &#39;</span> <span class="o">+</span>
+                         <span class="s1">&#39;count=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;, max_id=&#39;</span> <span class="o">+</span>
+                         <span class="nb">str</span><span class="p">(</span><span class="n">max_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="n">kwargs_log</span> <span class="o">+</span> <span class="n">args_log</span><span class="p">)</span>
 
             <span class="n">resp</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
                         <span class="n">max_id</span><span class="o">=</span><span class="n">max_id</span><span class="p">,</span>
@@ -1151,6 +1166,9 @@
     <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">FUNCTIONS</span><span class="p">:</span>
         <span class="n">func</span><span class="o">.</span><span class="n">set_auth_params</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="s1">&#39;INFO&#39;</span><span class="p">)</span>
 </pre></div>
 
           </div>
@@ -1203,7 +1221,7 @@
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
     </div>
