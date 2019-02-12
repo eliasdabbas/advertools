@@ -2,6 +2,20 @@
 History
 =======
 
+Unreleased
+-----------------
+
+* Added
+    - New stop-words from the spaCy package:
+        current : 'Arabic', 'Azerbaijani', 'Danish', 'Dutch', 'English',
+            'Finnish', 'French', 'German', 'Greek', 'Hungarian', 'Italian',
+            'Kazakh', 'Nepali', 'Norwegian', 'Portuguese', 'Romanian',
+            'Russian', 'Spanish', 'Swedish', 'Turkish'.
+        new : 'Bengali', 'Catalan', 'Chinese', 'Croatian', 'Hebrew', 'Hindi',
+            'Indonesian', 'Irish', 'Japanese', 'Persian', 'Polish', 'Sinhala',
+            'Tagalog', 'Tamil', 'Tatar', 'Telugu', 'Thai', 'Ukrainian',
+            'Urdu', 'Vietnamese'
+
 0.6.0 (2019-02-11)
 -----------------
 
