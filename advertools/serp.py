@@ -1,7 +1,6 @@
 import datetime
 import logging
 from itertools import product
-from collections import OrderedDict
 
 import pandas as pd
 from pandas.io.json import json_normalize
@@ -432,7 +431,7 @@ def youtube_channel_details(key, channel_ids):
     no spaces."""
     base_url = ('https://www.googleapis.com/youtube/v3/channels?part='
                 'snippet,contentDetails,statistics')
-    channel_ids= _split_by_comma(channel_ids, length=50)
+    channel_ids = _split_by_comma(channel_ids, length=50)
     final_df = pd.DataFrame()
     for channel_id in channel_ids:
         params = {'id': channel_id, 'key': key}
@@ -658,8 +657,8 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
                                              sorted(SERP_GOOG_VALID_VALS[p])))
     params_list = _dict_product(supplied_params)
     base_url = 'https://www.googleapis.com/customsearch/v1?'
-    ordered_cols = ['searchTerms', 'rank', 'title', 'snippet',
-                    'displayLink', 'link', 'queryTime', 'totalResults']
+    specified_cols = ['searchTerms', 'rank', 'title', 'snippet',
+                      'displayLink', 'link', 'queryTime', 'totalResults']
     responses = []
     for param in params_list:
         param_log = ', '.join([k + '=' + str(v) for k, v in param.items()])
@@ -669,12 +668,12 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
             raise Exception(resp.json())
         responses.append(resp)
     result_df = pd.DataFrame()
-    for resp in responses:
+    for i, resp in enumerate(responses):
         request_metadata = resp.json()['queries']['request'][0]
         del request_metadata['title']
         search_info = resp.json()['searchInformation']
         if int(search_info['totalResults']) == 0:
-            df = pd.DataFrame(columns=ordered_cols, index=range(1))
+            df = pd.DataFrame(columns=specified_cols, index=range(1))
             df['searchTerms'] = request_metadata['searchTerms']
         else:
             df = pd.DataFrame(resp.json()['items'])
@@ -691,9 +690,11 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
             img_df.columns = ['image.' + c for c in img_df.columns]
             df = pd.concat([df, img_df], axis=1)
         result_df = result_df.append(df, sort=False, ignore_index=True)
-    non_ordered = [c for c in result_df.columns if c not in ordered_cols]
-    result_df = result_df[ordered_cols + non_ordered]
-    return result_df
+    ordered_cols = (list(set(params_list[i]).difference({'q', 'key', 'cx'})) +
+                    specified_cols)
+    non_ordered = result_df.columns.difference(set(ordered_cols))
+    final_df = result_df[ordered_cols + list(non_ordered)]
+    return final_df
 
 
 def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
