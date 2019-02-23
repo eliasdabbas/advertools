@@ -16,6 +16,9 @@ Unreleased
             'Tagalog', 'Tamil', 'Tatar', 'Telugu', 'Thai', 'Ukrainian',
             'Urdu', 'Vietnamese'
 
+* Changed
+    - Parameters supplied to serp_goog appear at the beginning of the result df
+
 0.6.0 (2019-02-11)
 -----------------
 
