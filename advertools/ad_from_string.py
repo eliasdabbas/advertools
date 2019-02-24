@@ -1,15 +1,18 @@
 import string
 
 
-def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None, capitalize=False):
+def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None,
+                   capitalize=False):
     """Convert string ``s`` to an ad by splitting it into groups of words.
     Each group would have a length of at most the allowed length for that slot.
 
-    If the total length of ``s`` exceeds the total allowed length, all remaining
-    characters would be grouped in the last element of the returned list.
+    If the total length of ``s`` exceeds the total allowed length, all
+    remaining characters would be grouped in the last element of the
+    returned list.
 
     :param s: a string of characters, with no restrictions on length.
-    :param slots: an iterable of integers for the maximum lengths for each slot.
+    :param slots: an iterable of integers for the maximum lengths for
+    each slot.
     :param sep: by which character to split ``s``.
     :param capitalize: whether or not to capitalize each word after grouping.
         Setting it as False would leave the input string as is.
@@ -18,8 +21,9 @@ def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None, capitalize=F
     >>> ad_from_string('this is a short ad')
     ['This Is A Short Ad', '', '', '', '', '']
 
-    >>> ad_from_string('this is a longer ad and would take the first two slots')
-    ['This Is A Longer Ad And Would', 'Take The First Two Slots', '', '', '', '']
+    >>> ad_from_string('this is a longer ad and will take the first two slots')
+    ['This Is A Longer Ad And Would', 'Take The First Two Slots',
+    '', '', '', '']
     """
 
     str_words = s.split(sep=sep)
@@ -30,7 +34,8 @@ def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None, capitalize=F
         while counter <= len(str_words) - 1:
             if len(text_ad[i] + str_words[counter]) + 1 > slot:
                 break
-            text_ad[i] += ' ' + str_words[counter] if text_ad[i] else str_words[counter]
+            text_ad[i] += ' ' + (str_words[counter] if text_ad[i]
+                                 else str_words[counter])
             counter += 1
 
     text_ad[-1] = (sep.join(str_words[counter:])
