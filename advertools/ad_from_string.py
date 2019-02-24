@@ -24,6 +24,19 @@ def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None,
     >>> ad_from_string('this is a longer ad and will take the first two slots')
     ['This Is A Longer Ad And Would', 'Take The First Two Slots',
     '', '', '', '']
+
+    >>> ad_from_string("Slots can be changed the way you want", (10, 15, 10))
+    ['Slots can', ' be changed the', ' way you', 'want']
+
+    >>> adv.ad_from_string("The capitalization REMAinS as IS bY DefAULt",
+    ...                       (10, 15, 10))
+    ['The', 'capitalization', 'REMAinS as', 'IS bY DefAULt']
+
+    >>> adv.ad_from_string("set captialize=True to capitalize first letters",
+    ...                    capitalize=True))
+    ['Set Captialize=true To', 'Capitalize First Letters',
+     '', '', '', '', '', '']
+
     """
 
     str_words = s.split(sep=sep)
@@ -34,8 +47,8 @@ def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None,
         while counter <= len(str_words) - 1:
             if len(text_ad[i] + str_words[counter]) + 1 > slot:
                 break
-            text_ad[i] += ' ' + (str_words[counter] if text_ad[i]
-                                 else str_words[counter])
+            text_ad[i] += (' ' + str_words[counter] if text_ad[i]
+                           else str_words[counter])
             counter += 1
 
     text_ad[-1] = (sep.join(str_words[counter:])
