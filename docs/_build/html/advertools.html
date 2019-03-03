@@ -84,24 +84,32 @@ is too long</li>
 <code class="descclassname">advertools.ad_from_string.</code><code class="descname">ad_from_string</code><span class="sig-paren">(</span><em>s</em>, <em>slots=(30</em>, <em>30</em>, <em>30</em>, <em>90</em>, <em>90</em>, <em>15</em>, <em>15)</em>, <em>sep=None</em>, <em>capitalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert string <code class="docutils literal notranslate"><span class="pre">s</span></code> to an ad by splitting it into groups of words.
 Each group would have a length of at most the allowed length for that slot.</p>
-<p>If the total length of <code class="docutils literal notranslate"><span class="pre">s</span></code> exceeds the total allowed length, all remaining
-characters would be grouped in the last element of the returned list.</p>
+<p>If the total length of <code class="docutils literal notranslate"><span class="pre">s</span></code> exceeds the total allowed length, all
+remaining characters would be grouped in the last element of the
+returned list.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>s</strong> – a string of characters, with no restrictions on length.</li>
-<li><strong>slots</strong> – an iterable of integers for the maximum lengths for each slot.</li>
-<li><strong>sep</strong> – by which character to split <code class="docutils literal notranslate"><span class="pre">s</span></code>.</li>
-<li><strong>capitalize</strong> – whether or not to capitalize each word after grouping.
-Setting it as False would leave the input string as is.</li>
+<li><strong>slots</strong> – an iterable of integers for the maximum lengths for</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Returns text_ad:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">a list of strings.</p>
-</td>
+</tbody>
+</table>
+<p>each slot.
+:param sep: by which character to split <code class="docutils literal notranslate"><span class="pre">s</span></code>.
+:param capitalize: whether or not to capitalize each word after grouping.</p>
+<blockquote>
+<div>Setting it as False would leave the input string as is.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Returns text_ad:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">a list of strings.</td>
 </tr>
 </tbody>
 </table>
@@ -109,8 +117,24 @@ Setting it as False would leave the input string as is.</li>
 <span class="go">[&#39;This Is A Short Ad&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s1">&#39;this is a longer ad and would take the first two slots&#39;</span><span class="p">)</span>
-<span class="go">[&#39;This Is A Longer Ad And Would&#39;, &#39;Take The First Two Slots&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s1">&#39;this is a longer ad and will take the first two slots&#39;</span><span class="p">)</span>
+<span class="go">[&#39;This Is A Longer Ad And Would&#39;, &#39;Take The First Two Slots&#39;,</span>
+<span class="go">&#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s2">&quot;Slots can be changed the way you want&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="go">[&#39;Slots can&#39;, &#39; be changed the&#39;, &#39; way you&#39;, &#39;want&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="s2">&quot;The capitalization REMAinS as IS bY DefAULt&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                      <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="go">[&#39;The&#39;, &#39;capitalization&#39;, &#39;REMAinS as&#39;, &#39;IS bY DefAULt&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="s2">&quot;set captialize=True to capitalize first letters&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                   <span class="n">capitalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="go">[&#39;Set Captialize=true To&#39;, &#39;Capitalize First Letters&#39;,</span>
+<span class="go"> &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1136,26 +1160,30 @@ no spaces.</p>
 </div>
 <div class="section" id="module-advertools.stopwords">
 <span id="advertools-stopwords-module"></span><h2>advertools.stopwords module<a class="headerlink" href="#module-advertools.stopwords" title="Permalink to this headline">¶</a></h2>
-<p>Stopwords from the nltk package</p>
-<p>Bird, Steven, Edward Loper and Ewan Klein (2009).
-Natural Language Processing with Python.  O’Reilly Media Inc.</p>
+<p>Stopwords by the spaCy package
+Copyright (C) 2016 ExplosionAI UG (haftungsbeschränkt), 2016 spaCy GmbH,
+2015 Matthew Honnibal</p>
 <p>List of stopwords useful in text mining, analyzing content of tweets, web
 pages, keywords, etc.</p>
 <p>Each list is accessible as part of a dictionary <cite>stopwords</cite> which is a normal
 Python dictionary.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
-<span class="go">[&#39;i&#39;, &#39;me&#39;, &#39;my&#39;, &#39;myself&#39;, &#39;we&#39;]</span>
+<span class="go">[&quot;a&quot;, &quot;about&quot;, &quot;above&quot;, &quot;across&quot;, &quot;after&quot;]</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;german&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
-<span class="go">[&#39;aber&#39;, &#39;alle&#39;, &#39;allem&#39;, &#39;allen&#39;, &#39;aller&#39;]</span>
+<span class="go">[&quot;a&quot;, &quot;ab&quot;, &quot;aber&quot;, &quot;ach&quot;, &quot;acht&quot;]</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-<span class="go">dict_keys([&#39;arabic&#39;, &#39;azerbaijani&#39;, &#39;danish&#39;, &#39;dutch&#39;, &#39;english&#39;, &#39;finnish&#39;, &#39;french&#39;, </span>
-<span class="go">&#39;german&#39;, &#39;greek&#39;, &#39;hungarian&#39;, &#39;italian&#39;, &#39;kazakh&#39;, &#39;nepali&#39;, &#39;norwegian&#39;, &#39;portuguese&#39;, </span>
-<span class="go">&#39;romanian&#39;, &#39;russian&#39;, &#39;spanish&#39;, &#39;swedish&#39;, &#39;turkish&#39;])</span>
+<span class="go">dict_keys([&#39;arabic&#39;, &#39;azerbaijani&#39;, &#39;bengali&#39;, &#39;catalan&#39;, &#39;chinese&#39;,</span>
+<span class="go">&#39;croatian&#39;, &#39;danish&#39;, &#39;dutch&#39;, &#39;english&#39;, &#39;finnish&#39;, &#39;french&#39;,</span>
+<span class="go">&#39;german&#39;, &#39;greek&#39;, &#39;hebrew&#39;, &#39;hindi&#39;, &#39;hungarian&#39;, &#39;indonesian&#39;,</span>
+<span class="go">&#39;irish&#39;, &#39;italian&#39;, &#39;japanese&#39;, &#39;kazakh&#39;, &#39;nepali&#39;, &#39;norwegian&#39;,</span>
+<span class="go">&#39;persian&#39;, &#39;polish&#39;, &#39;portuguese&#39;, &#39;romanian&#39;, &#39;russian&#39;, &#39;sinhala&#39;,</span>
+<span class="go">&#39;spanish&#39;, &#39;swedish&#39;, &#39;tagalog&#39;, &#39;tamil&#39;, &#39;tatar&#39;, &#39;telugu&#39;, &#39;thai&#39;,</span>
+<span class="go">&#39;turkish&#39;, &#39;ukrainian&#39;, &#39;urdu&#39;, &#39;vietnamese&#39;])</span>
 </pre></div>
 </div>
 </div>
@@ -2178,7 +2206,7 @@ Cursoring for more information.</li>
 <span id="advertools-word-frequency-module"></span><h2>advertools.word_frequency module<a class="headerlink" href="#module-advertools.word_frequency" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="advertools.word_frequency.word_frequency">
-<code class="descclassname">advertools.word_frequency.</code><code class="descname">word_frequency</code><span class="sig-paren">(</span><em>text_list, num_list, sep=None, rm_words=['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', &quot;you're&quot;, &quot;you've&quot;, &quot;you'll&quot;, &quot;you'd&quot;, 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', &quot;she's&quot;, 'her', 'hers', 'herself', 'it', &quot;it's&quot;, 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', &quot;that'll&quot;, 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', &quot;don't&quot;, 'should', &quot;should've&quot;, 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', &quot;aren't&quot;, 'couldn', &quot;couldn't&quot;, 'didn', &quot;didn't&quot;, 'doesn', &quot;doesn't&quot;, 'hadn', &quot;hadn't&quot;, 'hasn', &quot;hasn't&quot;, 'haven', &quot;haven't&quot;, 'isn', &quot;isn't&quot;, 'ma', 'mightn', &quot;mightn't&quot;, 'mustn', &quot;mustn't&quot;, 'needn', &quot;needn't&quot;, 'shan', &quot;shan't&quot;, 'shouldn', &quot;shouldn't&quot;, 'wasn', &quot;wasn't&quot;, 'weren', &quot;weren't&quot;, 'won', &quot;won't&quot;, 'wouldn', &quot;wouldn't&quot;], extra_info=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">advertools.word_frequency.</code><code class="descname">word_frequency</code><span class="sig-paren">(</span><em>text_list</em>, <em>num_list</em>, <em>sep=None</em>, <em>rm_words={'a'</em>, <em>'about'</em>, <em>'above'</em>, <em>'across'</em>, <em>'after'</em>, <em>'afterwards'</em>, <em>'again'</em>, <em>'against'</em>, <em>'all'</em>, <em>'almost'</em>, <em>'alone'</em>, <em>'along'</em>, <em>'already'</em>, <em>'also'</em>, <em>'although'</em>, <em>'always'</em>, <em>'am'</em>, <em>'among'</em>, <em>'amongst'</em>, <em>'amount'</em>, <em>'an'</em>, <em>'and'</em>, <em>'another'</em>, <em>'any'</em>, <em>'anyhow'</em>, <em>'anyone'</em>, <em>'anything'</em>, <em>'anyway'</em>, <em>'anywhere'</em>, <em>'are'</em>, <em>'around'</em>, <em>'as'</em>, <em>'at'</em>, <em>'back'</em>, <em>'be'</em>, <em>'became'</em>, <em>'because'</em>, <em>'become'</em>, <em>'becomes'</em>, <em>'becoming'</em>, <em>'been'</em>, <em>'before'</em>, <em>'beforehand'</em>, <em>'behind'</em>, <em>'being'</em>, <em>'below'</em>, <em>'beside'</em>, <em>'besides'</em>, <em>'between'</em>, <em>'beyond'</em>, <em>'both'</em>, <em>'bottom'</em>, <em>'but'</em>, <em>'by'</em>, <em>'ca'</em>, <em>'call'</em>, <em>'can'</em>, <em>'cannot'</em>, <em>'could'</em>, <em>'did'</em>, <em>'do'</em>, <em>'does'</em>, <em>'doing'</em>, <em>'done'</em>, <em>'down'</em>, <em>'due'</em>, <em>'during'</em>, <em>'each'</em>, <em>'eight'</em>, <em>'either'</em>, <em>'eleven'</em>, <em>'else'</em>, <em>'elsewhere'</em>, <em>'empty'</em>, <em>'enough'</em>, <em>'even'</em>, <em>'ever'</em>, <em>'every'</em>, <em>'everyone'</em>, <em>'everything'</em>, <em>'everywhere'</em>, <em>'except'</em>, <em>'few'</em>, <em>'fifteen'</em>, <em>'fifty'</em>, <em>'first'</em>, <em>'five'</em>, <em>'for'</em>, <em>'former'</em>, <em>'formerly'</em>, <em>'forty'</em>, <em>'four'</em>, <em>'from'</em>, <em>'front'</em>, <em>'full'</em>, <em>'further'</em>, <em>'get'</em>, <em>'give'</em>, <em>'go'</em>, <em>'had'</em>, <em>'has'</em>, <em>'have'</em>, <em>'he'</em>, <em>'hence'</em>, <em>'her'</em>, <em>'here'</em>, <em>'hereafter'</em>, <em>'hereby'</em>, <em>'herein'</em>, <em>'hereupon'</em>, <em>'hers'</em>, <em>'herself'</em>, <em>'him'</em>, <em>'himself'</em>, <em>'his'</em>, <em>'how'</em>, <em>'however'</em>, <em>'hundred'</em>, <em>'i'</em>, <em>'if'</em>, <em>'in'</em>, <em>'indeed'</em>, <em>'into'</em>, <em>'is'</em>, <em>'it'</em>, <em>'its'</em>, <em>'itself'</em>, <em>'just'</em>, <em>'keep'</em>, <em>'last'</em>, <em>'latter'</em>, <em>'latterly'</em>, <em>'least'</em>, <em>'less'</em>, <em>'made'</em>, <em>'make'</em>, <em>'many'</em>, <em>'may'</em>, <em>'me'</em>, <em>'meanwhile'</em>, <em>'might'</em>, <em>'mine'</em>, <em>'more'</em>, <em>'moreover'</em>, <em>'most'</em>, <em>'mostly'</em>, <em>'move'</em>, <em>'much'</em>, <em>'must'</em>, <em>'my'</em>, <em>'myself'</em>, <em>'name'</em>, <em>'namely'</em>, <em>'neither'</em>, <em>'never'</em>, <em>'nevertheless'</em>, <em>'next'</em>, <em>'nine'</em>, <em>'no'</em>, <em>'nobody'</em>, <em>'none'</em>, <em>'noone'</em>, <em>'nor'</em>, <em>'not'</em>, <em>'nothing'</em>, <em>'now'</em>, <em>'nowhere'</em>, <em>'of'</em>, <em>'off'</em>, <em>'often'</em>, <em>'on'</em>, <em>'once'</em>, <em>'one'</em>, <em>'only'</em>, <em>'onto'</em>, <em>'or'</em>, <em>'other'</em>, <em>'others'</em>, <em>'otherwise'</em>, <em>'our'</em>, <em>'ours'</em>, <em>'ourselves'</em>, <em>'out'</em>, <em>'over'</em>, <em>'own'</em>, <em>'part'</em>, <em>'per'</em>, <em>'perhaps'</em>, <em>'please'</em>, <em>'put'</em>, <em>'quite'</em>, <em>'rather'</em>, <em>'re'</em>, <em>'really'</em>, <em>'regarding'</em>, <em>'same'</em>, <em>'say'</em>, <em>'see'</em>, <em>'seem'</em>, <em>'seemed'</em>, <em>'seeming'</em>, <em>'seems'</em>, <em>'serious'</em>, <em>'several'</em>, <em>'she'</em>, <em>'should'</em>, <em>'show'</em>, <em>'side'</em>, <em>'since'</em>, <em>'six'</em>, <em>'sixty'</em>, <em>'so'</em>, <em>'some'</em>, <em>'somehow'</em>, <em>'someone'</em>, <em>'something'</em>, <em>'sometime'</em>, <em>'sometimes'</em>, <em>'somewhere'</em>, <em>'still'</em>, <em>'such'</em>, <em>'take'</em>, <em>'ten'</em>, <em>'than'</em>, <em>'that'</em>, <em>'the'</em>, <em>'their'</em>, <em>'them'</em>, <em>'themselves'</em>, <em>'then'</em>, <em>'thence'</em>, <em>'there'</em>, <em>'thereafter'</em>, <em>'thereby'</em>, <em>'therefore'</em>, <em>'therein'</em>, <em>'thereupon'</em>, <em>'these'</em>, <em>'they'</em>, <em>'third'</em>, <em>'this'</em>, <em>'those'</em>, <em>'though'</em>, <em>'three'</em>, <em>'through'</em>, <em>'throughout'</em>, <em>'thru'</em>, <em>'thus'</em>, <em>'to'</em>, <em>'together'</em>, <em>'too'</em>, <em>'top'</em>, <em>'toward'</em>, <em>'towards'</em>, <em>'twelve'</em>, <em>'twenty'</em>, <em>'two'</em>, <em>'under'</em>, <em>'unless'</em>, <em>'until'</em>, <em>'up'</em>, <em>'upon'</em>, <em>'us'</em>, <em>'used'</em>, <em>'using'</em>, <em>'various'</em>, <em>'very'</em>, <em>'via'</em>, <em>'was'</em>, <em>'we'</em>, <em>'well'</em>, <em>'were'</em>, <em>'what'</em>, <em>'whatever'</em>, <em>'when'</em>, <em>'whence'</em>, <em>'whenever'</em>, <em>'where'</em>, <em>'whereafter'</em>, <em>'whereas'</em>, <em>'whereby'</em>, <em>'wherein'</em>, <em>'whereupon'</em>, <em>'wherever'</em>, <em>'whether'</em>, <em>'which'</em>, <em>'while'</em>, <em>'whither'</em>, <em>'who'</em>, <em>'whoever'</em>, <em>'whole'</em>, <em>'whom'</em>, <em>'whose'</em>, <em>'why'</em>, <em>'will'</em>, <em>'with'</em>, <em>'within'</em>, <em>'without'</em>, <em>'would'</em>, <em>'yet'</em>, <em>'you'</em>, <em>'your'</em>, <em>'yours'</em>, <em>'yourself'</em>, <em>'yourselves'}</em>, <em>extra_info=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Count the absolute as well as the weighted frequency of words
 in <code class="docutils literal notranslate"><span class="pre">text_list</span></code> (based on <code class="docutils literal notranslate"><span class="pre">num_list</span></code>).</p>
 <table class="docutils field-list" frame="void" rules="none">

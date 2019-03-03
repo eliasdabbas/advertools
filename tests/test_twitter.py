@@ -20,7 +20,6 @@ auth_params = {
 set_auth_params(**auth_params)
 
 
-
 def test_get_counts():
     for i in [None, 13, 70, 100, 101, 200, 578]:
         result = _get_counts(i, 100)
