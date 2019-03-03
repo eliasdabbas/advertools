@@ -18,6 +18,7 @@ Unreleased
 
 * Changed
     - Parameters supplied to serp_goog appear at the beginning of the result df
+    - serp_youtube now contains nextPageToken to make paginating requests easier
 
 0.6.0 (2019-02-11)
 -----------------
