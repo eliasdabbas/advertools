@@ -1083,6 +1083,7 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
             temp_df = temp_df.assign(**page_info)
         del params_list[i]['key']
         temp_df = temp_df.assign(**params_list[i])
+        temp_df['nextPageToken'] = resp.json().get('nextPageToken')
         result_df = result_df.append(temp_df, sort=False,
                                      ignore_index=True)
 
