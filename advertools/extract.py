@@ -339,8 +339,8 @@ def extract_words(text_list, words_to_find, full_words_only=False):
             words.append(temp)
     else:
         regex = [r'\S{0,}' + x + r'\S{0,}' for x in words_to_find]
-        word_regex = '|'.join(regex)
-        words = [re.findall(word_regex, text.lower()) for text in text_list]
+        word_regex = re.compile('|'.join(regex))
+        words = [word_regex .findall(text.lower()) for text in text_list]
     words_flat = [item for sublist in words for item in sublist]
     summary = {
         'words': words,
