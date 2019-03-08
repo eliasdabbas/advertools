@@ -24,7 +24,7 @@ hashtag_test_keys = ['hashtags', 'hashtags_flat', 'hashtag_counts',
 emoji_posts = ['one smiley 😀', 'one smiley 😀 one wink 😉', 'no emoji']
 emoji_summary = extract_emoji(emoji_posts)
 emoji_test_keys = ['emoji', 'emoji_text', 'emoji_flat', 'emoji_flat_text',
-                   'emoji_counts', 'emoji_freq', 'top_emoji', 'top_emoji_text', 
+                   'emoji_counts', 'emoji_freq', 'top_emoji', 'top_emoji_text',
                    'overview']
 
 word_posts = ['today it is raining', 'i like rain and raining',
@@ -44,22 +44,25 @@ def test_mention_result_has_correct_keys():
 
 def test_correct_mentions_extracted():
     assert mention_summary['mentions'] == [['@name'], [], ['@oneword'],
-                                           ['@nam', '@name'],['@first', '@last'],
+                                           ['@nam', '@name'],
+                                           ['@first', '@last'],
                                            ['@under_score'], ['@dot'], [],
                                            ['＠sign'], ['@one', '@two'],
-                                           ['@123text'], ['@_before', '@after_']]
+                                           ['@123text'],
+                                           ['@_before', '@after_']]
 
 
 def test_correct_flat_mentions():
     assert mention_summary['mentions_flat'] == ['@name', '@oneword', '@nam',
                                                 '@name', '@first', '@last',
-                                                '@under_score', '@dot', '＠sign',
-                                                '@one', '@two', '@123text',
-                                                '@_before', '@after_']
+                                                '@under_score', '@dot',
+                                                '＠sign', '@one', '@two',
+                                                '@123text', '@_before',
+                                                '@after_']
 
 
 def test_correct_mention_counts():
-    assert mention_summary['mention_counts'] == [1, 0, 1, 2, 2, 1, 1, 0, 
+    assert mention_summary['mention_counts'] == [1, 0, 1, 2, 2, 1, 1, 0,
                                                  1, 2, 1, 2]
 
 
@@ -68,13 +71,16 @@ def test_correct_mention_freq():
 
 
 def test_correct_top_mentions():
-    assert set(mention_summary['top_mentions']) == set([('@name', 2), ('@oneword', 1),
-                                               ('@nam', 1), ('@first', 1),
-                                               ('@last', 1), ('@under_score', 1),
-                                               ('@dot', 1), ('＠sign', 1),
-                                               ('@one', 1), ('@two', 1),
-                                               ('@123text', 1),
-                                               ('@_before', 1), ('@after_', 1)])
+    assert set(mention_summary['top_mentions']) == {('@name', 2),
+                                                    ('@oneword', 1),
+                                                    ('@nam', 1), ('@first', 1),
+                                                    ('@last', 1),
+                                                    ('@under_score', 1),
+                                                    ('@dot', 1), ('＠sign', 1),
+                                                    ('@one', 1), ('@two', 1),
+                                                    ('@123text', 1),
+                                                    ('@_before', 1),
+                                                    ('@after_', 1)}
 
 
 def test_correct_mention_overview():
@@ -91,22 +97,26 @@ def test_hashtag_result_has_correct_keys():
 
 def test_correct_hashtags_extracted():
     assert hashtag_summary['hashtags'] == [['#name'], [], ['#oneword'],
-                                           ['#nam', '#name'],['#first', '#last'],
-                                           ['#under_score'], ['#dot'], ['#مرحبا'],
-                                           ['＃sign'], ['#one', '#two'],
-                                           ['#123text'], ['#_before', '#after_']]
+                                           ['#nam', '#name'],
+                                           ['#first', '#last'],
+                                           ['#under_score'], ['#dot'],
+                                           ['#مرحبا'], ['＃sign'],
+                                           ['#one', '#two'], ['#123text'],
+                                           ['#_before', '#after_']]
 
 
 def test_correct_flat_hashtags():
     assert hashtag_summary['hashtags_flat'] == ['#name', '#oneword', '#nam',
                                                 '#name', '#first', '#last',
-                                                '#under_score', '#dot', '#مرحبا',
-                                                '＃sign', '#one', '#two',
-                                                '#123text', '#_before', '#after_']
+                                                '#under_score', '#dot',
+                                                '#مرحبا', '＃sign', '#one',
+                                                '#two', '#123text', '#_before',
+                                                '#after_']
 
 
 def test_correct_hashtag_counts():
-    assert hashtag_summary['hashtag_counts'] == [1, 0, 1, 2, 2, 1, 1, 1, 1, 2, 1, 2]
+    assert hashtag_summary['hashtag_counts'] == [1, 0, 1, 2, 2, 1,
+                                                 1, 1, 1, 2, 1, 2]
 
 
 def test_correct_hashtag_freq():
@@ -114,13 +124,17 @@ def test_correct_hashtag_freq():
 
 
 def test_correct_top_hashtags():
-    assert set(hashtag_summary['top_hashtags']) == set([('#name', 2), ('#oneword', 1),
-                                               ('#nam', 1), ('#first', 1),
-                                               ('#last', 1), ('#under_score', 1),
-                                               ('#dot', 1), ('＃sign', 1),
-                                               ('#one', 1), ('#two', 1),
-                                               ('#123text', 1), ('#مرحبا', 1),
-                                               ('#_before', 1), ('#after_', 1)])
+    assert set(hashtag_summary['top_hashtags']) == {('#name', 2),
+                                                    ('#oneword', 1),
+                                                    ('#nam', 1), ('#first', 1),
+                                                    ('#last', 1),
+                                                    ('#under_score', 1),
+                                                    ('#dot', 1), ('＃sign', 1),
+                                                    ('#one', 1), ('#two', 1),
+                                                    ('#123text', 1),
+                                                    ('#مرحبا', 1),
+                                                    ('#_before', 1),
+                                                    ('#after_', 1)}
 
 
 def test_correct_hashtag_overview():
@@ -163,7 +177,6 @@ def test_correct_emoji_overview():
     assert emoji_overview['unique_emoji'] == 2
 
 
-
 def test_word_result_has_correct_keys():
     assert set(word_summary_full.keys()) == set(word_test_keys)
     assert set(word_summary_not_full.keys()) == set(word_test_keys)
@@ -183,11 +196,12 @@ def test_correct_words_extracted():
 def test_correct_flat_words():
     assert word_summary_full['words_flat'] == ['rain', 'snow', 'rain', 'snow',
                                                'rain']
-    assert word_summary_not_full['words_flat'] == ['raining', 'rain', 'raining',
-                                                   'snowing', 'snowing',
-                                                   'raining', 'training',
-                                                   'snow', 'rain', 'snow',
-                                                   '@rain,', '#snow', 'rain']
+    assert word_summary_not_full['words_flat'] == ['raining', 'rain',
+                                                   'raining', 'snowing',
+                                                   'snowing', 'raining',
+                                                   'training', 'snow', 'rain',
+                                                   'snow', '@rain,', '#snow',
+                                                   'rain']
 
 
 def test_correct_word_counts():
@@ -203,9 +217,12 @@ def test_correct_word_freq():
 
 def test_correct_top_words():
     assert set(word_summary_full['top_words']) == {('rain', 3), ('snow', 2)}
-    assert set(word_summary_not_full['top_words']) == {('rain', 3), ('raining', 3),
-                                                       ('snow', 2), ('snowing', 2),
-                                                       ('#snow', 1), ('@rain,', 1),
+    assert set(word_summary_not_full['top_words']) == {('rain', 3),
+                                                       ('raining', 3),
+                                                       ('snow', 2),
+                                                       ('snowing', 2),
+                                                       ('#snow', 1),
+                                                       ('@rain,', 1),
                                                        ('training', 1)}
 
 

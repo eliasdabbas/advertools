@@ -4,8 +4,8 @@ from collections import Counter
 from .emoji_dict import emoji_dict
 from .emoji_dict import emoji_regexp as EMOJI
 
-HASHTAG = r"(?:^|\W)([＃#]{1}\w+)"
-MENTION = r'(?:^|\W)([@＠][A-Za-z0-9_]+)'
+HASHTAG = re.compile(r"(?:^|\W)([＃#]{1}\w+)")
+MENTION = re.compile(r'(?:^|\W)([@＠][A-Za-z0-9_]+)')
 
 
 def extract_mentions(text_list):
@@ -54,7 +54,7 @@ def extract_mentions(text_list):
      'mentions_per_post': 1.0,
      'unique_mentions': 2}
     """
-    mentions = [re.findall(MENTION, text.lower()) for text in text_list]
+    mentions = [MENTION.findall(text.lower()) for text in text_list]
     mentions_flat = [item for sublist in mentions for item in sublist]
     summary = {
         'mentions': mentions,
@@ -122,7 +122,7 @@ def extract_hashtags(text_list):
      'hashtags_per_post': 1.0,
      'unique_hashtags': 2}
      """
-    hashtags = [re.findall(HASHTAG, text.lower()) for text in text_list]
+    hashtags = [HASHTAG.findall(text.lower()) for text in text_list]
     hashtags_flat = [item for sublist in hashtags for item in sublist]
     summary = {
         'hashtags': hashtags,
