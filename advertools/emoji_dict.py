@@ -2,7 +2,8 @@
 Copyright (c) 2014-2015, Taehoon Kim and Kevin Wurster
 All rights reserved.
 
-Emoji dictionary and regular expression for easy extraction and manipulation of emojis in text. 
+Emoji dictionary and regular expression for easy extraction and manipulation
+of emojis in text.
 Imported from the Python emoji package https://github.com/carpedm20/emoji
 
 Last update: June 21, 2018
@@ -97,7 +98,8 @@ emoji_dict = {
     '🇪🇨': ':Ecuador:',
     '🇪🇬': ':Egypt:',
     '🇸🇻': ':El_Salvador:',
-    '🏴\U000e0067\U000e0062\U000e0065\U000e006e\U000e0067\U000e007f': ':England:',
+    '🏴\U000e0067\U000e0062\U000e0065\U000e006e\U000e0067\U000e007f':
+        ':England:',
     '🇬🇶': ':Equatorial_Guinea:',
     '🇪🇷': ':Eritrea:',
     '🇪🇪': ':Estonia:',
@@ -274,7 +276,8 @@ emoji_dict = {
     '🎅🏽': ':Santa_Claus_medium_skin_tone:',
     '🇸🇦': ':Saudi_Arabia:',
     '♏': ':Scorpio:',
-    '🏴\U000e0067\U000e0062\U000e0073\U000e0063\U000e0074\U000e007f': ':Scotland:',
+    '🏴\U000e0067\U000e0062\U000e0073\U000e0063\U000e0074\U000e007f':
+        ':Scotland:',
     '🇸🇳': ':Senegal:',
     '🇷🇸': ':Serbia:',
     '🇸🇨': ':Seychelles:',

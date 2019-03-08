@@ -406,7 +406,7 @@ def youtube_video_details(key, vid_ids):
         logging.info(msg='Requesting: ' + 'video details')
         video_resp = requests.get(base_url, params=params)
         if video_resp.status_code >= 400:
-                raise Exception(video_resp.json())
+            raise Exception(video_resp.json())
         items_df = pd.DataFrame(video_resp.json()['items'])
         details = ['snippet', 'topicDetails', 'statistics',
                    'status', 'contentDetails']
@@ -438,7 +438,7 @@ def youtube_channel_details(key, channel_ids):
         logging.info(msg='Requesting: ' + 'channel details')
         channel_resp = requests.get(base_url, params=params)
         if channel_resp.status_code >= 400:
-                raise Exception(channel_resp.json())
+            raise Exception(channel_resp.json())
         items_df = pd.DataFrame(channel_resp.json()['items'])
         details = ['snippet', 'statistics', 'contentDetails']
         detail_df = pd.DataFrame()

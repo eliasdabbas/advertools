@@ -7,7 +7,7 @@ from pandas.io.json import json_normalize
 
 
 TWITTER_LOG_FMT = ('%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d '
-                     '| %(funcName)s | %(message)s')
+                   '| %(funcName)s | %(message)s')
 logging.basicConfig(format=TWITTER_LOG_FMT)
 
 # Functions that depend on 'previous_cursor' and 'next_cursor' to
@@ -32,8 +32,8 @@ CURSORED_FUNCTIONS = [
 # call DataFrame on them directly
 SPECIAL_KEY_FUNCS = {
     'search': 'statuses',
-    'get_followers_list': 'users', 
-    'get_friends_list': 'users', 
+    'get_followers_list': 'users',
+    'get_friends_list': 'users',
     'get_list_members': 'users',
     'get_list_subscribers': 'users',
     'get_list_memberships': 'lists',
@@ -43,7 +43,7 @@ SPECIAL_KEY_FUNCS = {
 }
 
 
-# Functions that contain an embedded ``user`` key, containing 
+# Functions that contain an embedded ``user`` key, containing
 # 40+ attributes of the user tweeting, listed, retweeted, etc.
 USER_DATA_EMBEDDED = {
     'get_favorites': 'tweet_',
@@ -91,7 +91,8 @@ DEFAULT_COUNTS = {
 def _expand_entities(df):
     if 'tweet_entities' in df:
         colnames = ['tweet_entities_' + x for x in ['mentions', 'hashtags',
-                                                    'urls', 'symbols', 'media']]
+                                                    'urls', 'symbols',
+                                                    'media']]
         entities_df = json_normalize(df['tweet_entities'])
         mentions = [', '.join(['@' + x['screen_name'] for x in y])
                     for y in entities_df['user_mentions']]

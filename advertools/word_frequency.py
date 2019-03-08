@@ -26,8 +26,8 @@ def word_frequency(text_list, num_list, sep=None,
         Whethr or not to give additional columns about the frequencies
     :returns abs_wtd_df: absolute and weighted DataFrame.
         pandas.DataFrame with several metrics calculated. The most important
-        are ``abs_freq`` and ``wtd_freq``. These show the difference between the
-        number of occurrences of each word together with their respective
+        are ``abs_freq`` and ``wtd_freq``. These show the difference between
+        the number of occurrences of each word together with their respective
         weighted occurrences (frequency vs. weighted frequency). Other metrics
         are also provided. The columns are as follows:
 
@@ -49,11 +49,11 @@ def word_frequency(text_list, num_list, sep=None,
         abs_perc_cum: Cumulative absolute percentage.
             Cumulative sum of ``abs_perc`` to see how many words form x% of
             the occurrences.
-        wtd_freq_perc: ``wtd_freq`` divided by the total weighted frequencies of
-            all words.
+        wtd_freq_perc: ``wtd_freq`` divided by the total weighted frequencies
+            of all words.
         wtd_freq_perc_cum: Cumulative weighted frequncy percentage.
-            Cumulative sum of ``wtd_freq_perc`` to see how many words form x% of
-            the weighted occurrences.
+            Cumulative sum of ``wtd_freq_perc`` to see how many words form x%
+            of the weighted occurrences.
 
     >>> text_list = ['apple orange', 'apple orange banana',
                      'apple kiwi', 'kiwi mango']
