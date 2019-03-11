@@ -144,7 +144,8 @@ returned list.</p>
 <span id="advertools-emoji-dict-module"></span><h2>advertools.emoji_dict module<a class="headerlink" href="#module-advertools.emoji_dict" title="Permalink to this headline">¶</a></h2>
 <p>Copyright (c) 2014-2015, Taehoon Kim and Kevin Wurster
 All rights reserved.</p>
-<p>Emoji dictionary and regular expression for easy extraction and manipulation of emojis in text. 
+<p>Emoji dictionary and regular expression for easy extraction and manipulation
+of emojis in text.
 Imported from the Python emoji package <a class="reference external" href="https://github.com/carpedm20/emoji">https://github.com/carpedm20/emoji</a></p>
 <p>Last update: June 21, 2018</p>
 </div>
@@ -2235,8 +2236,8 @@ Whethr or not to give additional columns about the frequencies</li>
 <tr class="field-even field"><th class="field-name" colspan="2">Returns abs_wtd_df:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first">absolute and weighted DataFrame.
 pandas.DataFrame with several metrics calculated. The most important
-are <code class="docutils literal notranslate"><span class="pre">abs_freq</span></code> and <code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code>. These show the difference between the
-number of occurrences of each word together with their respective
+are <code class="docutils literal notranslate"><span class="pre">abs_freq</span></code> and <code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code>. These show the difference between
+the number of occurrences of each word together with their respective
 weighted occurrences (frequency vs. weighted frequency). Other metrics
 are also provided. The columns are as follows:</p>
 <dl class="docutils">
@@ -2271,12 +2272,12 @@ occurrence of <code class="docutils literal notranslate"><span class="pre">word<
 <dd><p class="first last">Cumulative sum of <code class="docutils literal notranslate"><span class="pre">abs_perc</span></code> to see how many words form x% of
 the occurrences.</p>
 </dd>
-<dt>wtd_freq_perc: <code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code> divided by the total weighted frequencies of</dt>
-<dd><p class="first last">all words.</p>
+<dt>wtd_freq_perc: <code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code> divided by the total weighted frequencies</dt>
+<dd><p class="first last">of all words.</p>
 </dd>
 <dt>wtd_freq_perc_cum: Cumulative weighted frequncy percentage.</dt>
-<dd><p class="first last">Cumulative sum of <code class="docutils literal notranslate"><span class="pre">wtd_freq_perc</span></code> to see how many words form x% of
-the weighted occurrences.</p>
+<dd><p class="first last">Cumulative sum of <code class="docutils literal notranslate"><span class="pre">wtd_freq_perc</span></code> to see how many words form x%
+of the weighted occurrences.</p>
 </dd>
 </dl>
 </td>
@@ -2284,7 +2285,7 @@ the weighted occurrences.</p>
 </tbody>
 </table>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;apple orange&#39;</span><span class="p">,</span> <span class="s1">&#39;apple orange banana&#39;</span><span class="p">,</span>
-<span class="go">                 &#39;apple kiwi&#39;, &#39;kiwi mango&#39;]</span>
+<span class="gp">... </span>             <span class="s1">&#39;apple kiwi&#39;</span><span class="p">,</span> <span class="s1">&#39;kiwi mango&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -2310,6 +2311,64 @@ and the other 400, so the wtd_freq is the sum (100 + 400 = 500)</p>
 </div>
 <p>This is the same result as above but giving the full DataFrame including
 all columns.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-advertools.word_tokenize">
+<span id="advertools-word-tokenize-module"></span><h2>advertools.word_tokenize module<a class="headerlink" href="#module-advertools.word_tokenize" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="advertools.word_tokenize.word_tokenize">
+<code class="descclassname">advertools.word_tokenize.</code><code class="descname">word_tokenize</code><span class="sig-paren">(</span><em>s</em>, <em>word_token_len=2</em>, <em>lower_case=True</em>, <em>keep_punctuation=False</em>, <em>regex='\\w+'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split text <code class="docutils literal notranslate"><span class="pre">s</span></code> into word tokens of length <code class="docutils literal notranslate"><span class="pre">word_token_len</span></code> each.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>s</strong> – Any string of text.</li>
+<li><strong>word_token_len</strong> – Length of word tokens, defaults to 2.</li>
+<li><strong>lower_case</strong> – Whether or not to return the result in lower case.</li>
+<li><strong>keep_punctuation</strong> – Whether or not to keep punctuation in the result.</li>
+<li><strong>regex</strong> – The regex used to extract words, change if you really</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>need a different way of splitting.
+:return: List of word tokens of length <code class="docutils literal notranslate"><span class="pre">word_token_len</span></code> each.</p>
+<p>s = ‘Please split into words of length 1, 2, &amp; 3. Thanks!’</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">[&#39;please&#39;, &#39;split&#39;, &#39;into&#39;, &#39;words&#39;, &#39;of&#39;, &#39;length&#39;,</span>
+<span class="go">&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;thanks&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">[&#39;please&#39;, &#39;split&#39;, &#39;into&#39;, &#39;words&#39;, &#39;of&#39;, &#39;length&#39;,</span>
+<span class="go">&#39;1,&#39;, &#39;2,&#39;, &#39;&amp;&#39;, &#39;3.&#39;, &#39;thanks!&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">[&#39;please split&#39;, &#39;split into&#39;, &#39;into words&#39;, &#39;words of&#39;,</span>
+<span class="go">&#39;of length&#39;, &#39;length 1&#39;, &#39;1 2&#39;, &#39;2 3&#39;, &#39;3 thanks&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">[&#39;please split&#39;, &#39;split into&#39;, &#39;into words&#39;, &#39;words of&#39;,</span>
+<span class="go">&#39;of length&#39;, &#39;length 1,&#39;, &#39;1, 2,&#39;, &#39;2, &amp;&#39;, &#39;&amp; 3.&#39;, &#39;3. thanks!&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">[&#39;please split into&#39;, &#39;split into words&#39;, &#39;into words of&#39;,</span>
+<span class="go">&#39;words of length&#39;, &#39;of length 1&#39;, &#39;length 1 2&#39;, &#39;1 2 3&#39;, &#39;2 3 thanks&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">[&#39;please split into&#39;, &#39;split into words&#39;, &#39;into words of&#39;,</span>
+<span class="go">&#39;words of length&#39;, &#39;of length 1,&#39;, &#39;length 1, 2,&#39;, &#39;1, 2, &amp;&#39;,</span>
+<span class="go">&#39;2, &amp; 3.&#39;, &#39;&amp; 3. thanks!&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -2368,7 +2427,7 @@ all columns.</p>
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.4</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |

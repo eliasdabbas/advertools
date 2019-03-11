@@ -84,6 +84,14 @@ advertools.word\_frequency module
     :undoc-members:
     :show-inheritance:
 
+advertools.word\_tokenize module
+--------------------------------
+
+.. automodule:: advertools.word_tokenize
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------

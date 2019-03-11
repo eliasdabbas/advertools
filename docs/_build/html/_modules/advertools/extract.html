@@ -39,8 +39,8 @@
 <span class="kn">from</span> <span class="nn">.emoji_dict</span> <span class="k">import</span> <span class="n">emoji_dict</span>
 <span class="kn">from</span> <span class="nn">.emoji_dict</span> <span class="k">import</span> <span class="n">emoji_regexp</span> <span class="k">as</span> <span class="n">EMOJI</span>
 
-<span class="n">HASHTAG</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(?:^|\W)([＃#]</span><span class="si">{1}</span><span class="s2">\w+)&quot;</span>
-<span class="n">MENTION</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;(?:^|\W)([@＠][A-Za-z0-9_]+)&#39;</span>
+<span class="n">HASHTAG</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?:^|\W)([＃#]</span><span class="si">{1}</span><span class="s2">\w+)&quot;</span><span class="p">)</span>
+<span class="n">MENTION</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(?:^|\W)([@＠][A-Za-z0-9_]+)&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="extract_mentions"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_mentions">[docs]</a><span class="k">def</span> <span class="nf">extract_mentions</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
@@ -89,7 +89,7 @@
 <span class="sd">     &#39;mentions_per_post&#39;: 1.0,</span>
 <span class="sd">     &#39;unique_mentions&#39;: 2}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">mentions</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">MENTION</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="n">mentions</span> <span class="o">=</span> <span class="p">[</span><span class="n">MENTION</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
     <span class="n">mentions_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">mentions</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
     <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;mentions&#39;</span><span class="p">:</span> <span class="n">mentions</span><span class="p">,</span>
@@ -157,7 +157,7 @@
 <span class="sd">     &#39;hashtags_per_post&#39;: 1.0,</span>
 <span class="sd">     &#39;unique_hashtags&#39;: 2}</span>
 <span class="sd">     &quot;&quot;&quot;</span>
-    <span class="n">hashtags</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">HASHTAG</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="n">hashtags</span> <span class="o">=</span> <span class="p">[</span><span class="n">HASHTAG</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
     <span class="n">hashtags_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">hashtags</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
     <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;hashtags&#39;</span><span class="p">:</span> <span class="n">hashtags</span><span class="p">,</span>
@@ -374,8 +374,8 @@
             <span class="n">words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">regex</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;\S{0,}&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\S{0,}&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words_to_find</span><span class="p">]</span>
-        <span class="n">word_regex</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
-        <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">word_regex</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+        <span class="n">word_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="p">))</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word_regex</span> <span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
     <span class="n">words_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
     <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">words</span><span class="p">,</span>
@@ -447,7 +447,7 @@
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.4</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
     </div>

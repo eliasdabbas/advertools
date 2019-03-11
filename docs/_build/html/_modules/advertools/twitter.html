@@ -42,7 +42,7 @@
 
 
 <span class="n">TWITTER_LOG_FMT</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> | </span><span class="si">%(levelname)s</span><span class="s1"> | </span><span class="si">%(filename)s</span><span class="s1">:</span><span class="si">%(lineno)d</span><span class="s1"> &#39;</span>
-                     <span class="s1">&#39;| </span><span class="si">%(funcName)s</span><span class="s1"> | </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">)</span>
+                   <span class="s1">&#39;| </span><span class="si">%(funcName)s</span><span class="s1"> | </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="n">TWITTER_LOG_FMT</span><span class="p">)</span>
 
 <span class="c1"># Functions that depend on &#39;previous_cursor&#39; and &#39;next_cursor&#39; to</span>
@@ -67,8 +67,8 @@
 <span class="c1"># call DataFrame on them directly</span>
 <span class="n">SPECIAL_KEY_FUNCS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;search&#39;</span><span class="p">:</span> <span class="s1">&#39;statuses&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_followers_list&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span> 
-    <span class="s1">&#39;get_friends_list&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;get_followers_list&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_friends_list&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>
     <span class="s1">&#39;get_list_members&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>
     <span class="s1">&#39;get_list_subscribers&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>
     <span class="s1">&#39;get_list_memberships&#39;</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">,</span>
@@ -78,7 +78,7 @@
 <span class="p">}</span>
 
 
-<span class="c1"># Functions that contain an embedded ``user`` key, containing </span>
+<span class="c1"># Functions that contain an embedded ``user`` key, containing</span>
 <span class="c1"># 40+ attributes of the user tweeting, listed, retweeted, etc.</span>
 <span class="n">USER_DATA_EMBEDDED</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;get_favorites&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
@@ -126,7 +126,8 @@
 <span class="k">def</span> <span class="nf">_expand_entities</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="k">if</span> <span class="s1">&#39;tweet_entities&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
         <span class="n">colnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tweet_entities_&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mentions&#39;</span><span class="p">,</span> <span class="s1">&#39;hashtags&#39;</span><span class="p">,</span>
-                                                    <span class="s1">&#39;urls&#39;</span><span class="p">,</span> <span class="s1">&#39;symbols&#39;</span><span class="p">,</span> <span class="s1">&#39;media&#39;</span><span class="p">]]</span>
+                                                    <span class="s1">&#39;urls&#39;</span><span class="p">,</span> <span class="s1">&#39;symbols&#39;</span><span class="p">,</span>
+                                                    <span class="s1">&#39;media&#39;</span><span class="p">]]</span>
         <span class="n">entities_df</span> <span class="o">=</span> <span class="n">json_normalize</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tweet_entities&#39;</span><span class="p">])</span>
         <span class="n">mentions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;@&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;screen_name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span>
                     <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;user_mentions&#39;</span><span class="p">]]</span>
@@ -1221,7 +1222,7 @@
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.4</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
     </div>

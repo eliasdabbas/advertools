@@ -1,0 +1,147 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>advertools.word_tokenize &#8212; advertools 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for advertools.word_tokenize</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+
+
+<div class="viewcode-block" id="word_tokenize"><a class="viewcode-back" href="../../advertools.html#advertools.word_tokenize.word_tokenize">[docs]</a><span class="k">def</span> <span class="nf">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">lower_case</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                  <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\w+&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Split text ``s`` into word tokens of length ``word_token_len`` each.</span>
+
+<span class="sd">    :param s: Any string of text.</span>
+<span class="sd">    :param word_token_len: Length of word tokens, defaults to 2.</span>
+<span class="sd">    :param lower_case: Whether or not to return the result in lower case.</span>
+<span class="sd">    :param keep_punctuation: Whether or not to keep punctuation in the result.</span>
+<span class="sd">    :param regex: The regex used to extract words, change if you really</span>
+<span class="sd">    need a different way of splitting.</span>
+<span class="sd">    :return: List of word tokens of length ``word_token_len`` each.</span>
+
+<span class="sd">    s = &#39;Please split into words of length 1, 2, &amp; 3. Thanks!&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; word_tokenize(s, word_token_len=1, keep_punctuation=False)</span>
+<span class="sd">    [&#39;please&#39;, &#39;split&#39;, &#39;into&#39;, &#39;words&#39;, &#39;of&#39;, &#39;length&#39;,</span>
+<span class="sd">    &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;thanks&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; word_tokenize(s, word_token_len=1, keep_punctuation=True)</span>
+<span class="sd">    [&#39;please&#39;, &#39;split&#39;, &#39;into&#39;, &#39;words&#39;, &#39;of&#39;, &#39;length&#39;,</span>
+<span class="sd">    &#39;1,&#39;, &#39;2,&#39;, &#39;&amp;&#39;, &#39;3.&#39;, &#39;thanks!&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; word_tokenize(s, word_token_len=2, keep_punctuation=False)</span>
+<span class="sd">    [&#39;please split&#39;, &#39;split into&#39;, &#39;into words&#39;, &#39;words of&#39;,</span>
+<span class="sd">    &#39;of length&#39;, &#39;length 1&#39;, &#39;1 2&#39;, &#39;2 3&#39;, &#39;3 thanks&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; word_tokenize(s, word_token_len=2, keep_punctuation=True)</span>
+<span class="sd">    [&#39;please split&#39;, &#39;split into&#39;, &#39;into words&#39;, &#39;words of&#39;,</span>
+<span class="sd">    &#39;of length&#39;, &#39;length 1,&#39;, &#39;1, 2,&#39;, &#39;2, &amp;&#39;, &#39;&amp; 3.&#39;, &#39;3. thanks!&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; word_tokenize(s, word_token_len=3, keep_punctuation=False)</span>
+<span class="sd">    [&#39;please split into&#39;, &#39;split into words&#39;, &#39;into words of&#39;,</span>
+<span class="sd">    &#39;words of length&#39;, &#39;of length 1&#39;, &#39;length 1 2&#39;, &#39;1 2 3&#39;, &#39;2 3 thanks&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; word_tokenize(s, word_token_len=3, keep_punctuation=True)</span>
+<span class="sd">    [&#39;please split into&#39;, &#39;split into words&#39;, &#39;into words of&#39;,</span>
+<span class="sd">    &#39;words of length&#39;, &#39;of length 1,&#39;, &#39;length 1, 2,&#39;, &#39;1, 2, &amp;&#39;,</span>
+<span class="sd">    &#39;2, &amp; 3.&#39;, &#39;&amp; 3. thanks!&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">keep_punctuation</span><span class="p">:</span>
+        <span class="n">split</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span> <span class="k">if</span> <span class="n">lower_case</span> <span class="k">else</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">split</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">lower_case</span> <span class="k">else</span> <span class="n">word</span>
+                 <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">s</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">split</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">word_token_len</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">split</span><span class="p">)</span><span class="o">-</span><span class="n">word_token_len</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">advertools</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">advertools: create, scale, and manage online campaigns</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Elias Dabbas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

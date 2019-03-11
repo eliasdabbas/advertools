@@ -38,6 +38,8 @@
 <span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
+<span class="kn">from</span> <span class="nn">advertools.word_tokenize</span> <span class="k">import</span> <span class="n">word_tokenize</span>
+
 
 <div class="viewcode-block" id="word_frequency"><a class="viewcode-back" href="../../advertools.html#advertools.word_frequency.word_frequency">[docs]</a><span class="k">def</span> <span class="nf">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">rm_words</span><span class="o">=</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">],</span> <span class="n">extra_info</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -61,8 +63,8 @@
 <span class="sd">        Whethr or not to give additional columns about the frequencies</span>
 <span class="sd">    :returns abs_wtd_df: absolute and weighted DataFrame.</span>
 <span class="sd">        pandas.DataFrame with several metrics calculated. The most important</span>
-<span class="sd">        are ``abs_freq`` and ``wtd_freq``. These show the difference between the</span>
-<span class="sd">        number of occurrences of each word together with their respective</span>
+<span class="sd">        are ``abs_freq`` and ``wtd_freq``. These show the difference between</span>
+<span class="sd">        the number of occurrences of each word together with their respective</span>
 <span class="sd">        weighted occurrences (frequency vs. weighted frequency). Other metrics</span>
 <span class="sd">        are also provided. The columns are as follows:</span>
 
@@ -84,14 +86,14 @@
 <span class="sd">        abs_perc_cum: Cumulative absolute percentage.</span>
 <span class="sd">            Cumulative sum of ``abs_perc`` to see how many words form x% of</span>
 <span class="sd">            the occurrences.</span>
-<span class="sd">        wtd_freq_perc: ``wtd_freq`` divided by the total weighted frequencies of</span>
-<span class="sd">            all words.</span>
+<span class="sd">        wtd_freq_perc: ``wtd_freq`` divided by the total weighted frequencies</span>
+<span class="sd">            of all words.</span>
 <span class="sd">        wtd_freq_perc_cum: Cumulative weighted frequncy percentage.</span>
-<span class="sd">            Cumulative sum of ``wtd_freq_perc`` to see how many words form x% of</span>
-<span class="sd">            the weighted occurrences.</span>
+<span class="sd">            Cumulative sum of ``wtd_freq_perc`` to see how many words form x%</span>
+<span class="sd">            of the weighted occurrences.</span>
 
 <span class="sd">    &gt;&gt;&gt; text_list = [&#39;apple orange&#39;, &#39;apple orange banana&#39;,</span>
-<span class="sd">                     &#39;apple kiwi&#39;, &#39;kiwi mango&#39;]</span>
+<span class="sd">    ...              &#39;apple kiwi&#39;, &#39;kiwi mango&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; num_list = [100, 100, 100, 400]</span>
 
 <span class="sd">    &gt;&gt;&gt; adv.word_frequency(text_list, num_list)</span>
@@ -196,7 +198,7 @@
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.4</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
     </div>
