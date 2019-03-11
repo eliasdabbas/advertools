@@ -6,6 +6,11 @@ Unreleased
 -----------------
 
 * Added
+    - New function word_tokenize: 
+      * Split a list of text into tokens of a specified number of words each.
+      * Preserve case or change into lower case.
+      * Keep or remove punctuation.
+      * Ability to change the splitting regex as well.
     - New stop-words from the spaCy package:
         current : 'Arabic', 'Azerbaijani', 'Danish', 'Dutch', 'English',
             'Finnish', 'French', 'German', 'Greek', 'Hungarian', 'Italian',
