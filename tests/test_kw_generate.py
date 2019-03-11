@@ -94,7 +94,7 @@ class KeywordTests(unittest.TestCase):
 
     def test_modified_adds_plus_sign_as_many_as_spaces(self):
         df = kw_generate(['one', 'two'], ['three'], match_types=['Modified'])
-        self.assertTrue(all(df['Keyword'].str.count('\+')
+        self.assertTrue(all(df['Keyword'].str.count(r'\+')
                             == df['Keyword'].str.count(' ')+1))
         self.assertTrue(set(df['Criterion Type']) == {'Broad'})
 

@@ -16,7 +16,7 @@ def kw_generate(products, words, max_len=3,
     :param max_len: the maximum number of words to include in each permutation
         of product keywords
     :param match_types: can be restricted or kept as is based on preference,
-        possible values\: 'Exact', 'Phrase', 'Modified', 'Broad'
+        possible values: 'Exact', 'Phrase', 'Modified', 'Broad'
     :param order_matters: whether or not the order of words in keywords
         matters, default False
     :param campaign_name: name of campaign

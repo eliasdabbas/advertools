@@ -11,7 +11,7 @@ def word_tokenize(s, word_token_len=2, lower_case=True, keep_punctuation=False,
     :param keep_punctuation: Whether or not to keep punctuation in the result.
     :param regex: The regex used to extract words, change if you really
         need a different way of splitting.
-    :return: List of word tokens of length ``word_token_len`` each.
+    :returns tokenized: List of word tokens of length ``word_token_len`` each.
 
     s = 'Please split into words of length 1, 2, & 3. Thanks!'
 

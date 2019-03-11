@@ -10,13 +10,13 @@ def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None,
     remaining characters would be grouped in the last element of the
     returned list.
 
-    :param s: a string of characters, with no restrictions on length.
+    :param s: a string of characters, with no restrictions on length
     :param slots: an iterable of integers for the maximum lengths for
-    each slot.
-    :param sep: by which character to split ``s``.
-    :param capitalize: whether or not to capitalize each word after grouping.
-        Setting it as False would leave the input string as is.
-    :returns text_ad: a list of strings.
+        each slot
+    :param sep: by which character to split ``s``
+    :param capitalize: whether or not to capitalize each word after grouping
+        Setting it as False would leave the input string as is
+    :returns text_ad: a list of strings
 
     >>> ad_from_string('this is a short ad')
     ['This Is A Short Ad', '', '', '', '', '']

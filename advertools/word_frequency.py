@@ -3,6 +3,8 @@ from collections import defaultdict
 import advertools as adv
 import pandas as pd
 
+from advertools.word_tokenize import word_tokenize
+
 
 def word_frequency(text_list, num_list, sep=None,
                    rm_words=adv.stopwords['english'], extra_info=False):
@@ -56,7 +58,7 @@ def word_frequency(text_list, num_list, sep=None,
             of the weighted occurrences.
 
     >>> text_list = ['apple orange', 'apple orange banana',
-                     'apple kiwi', 'kiwi mango']
+    ...              'apple kiwi', 'kiwi mango']
     >>> num_list = [100, 100, 100, 400]
 
     >>> adv.word_frequency(text_list, num_list)
