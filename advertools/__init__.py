@@ -13,6 +13,7 @@ from advertools.kw_generate import *
 from advertools.stopwords import stopwords
 from advertools.url_builders import url_utm_ga
 from advertools.word_frequency import word_frequency
+from advertools.word_tokenize import word_tokenize
 from . import twitter
 from .serp import (serp_goog, serp_youtube, SERP_GOOG_VALID_VALS,
                    youtube_channel_details, youtube_video_details,
