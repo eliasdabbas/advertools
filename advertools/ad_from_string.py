@@ -19,26 +19,24 @@ def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None,
     :returns text_ad: a list of strings
 
     >>> ad_from_string('this is a short ad')
-    ['This Is A Short Ad', '', '', '', '', '']
+    ['this is a short ad', '', '', '', '', '', '', '']
 
     >>> ad_from_string('this is a longer ad and will take the first two slots')
-    ['This Is A Longer Ad And Would', 'Take The First Two Slots',
-    '', '', '', '']
+    ['this as a longer ad and would', 'take the first two slots',
+    '', '', '', '', '', '']
 
     >>> ad_from_string("Slots can be changed the way you want", (10, 15, 10))
-    ['Slots can', ' be changed the', ' way you', 'want']
+    ['Slots can', 'be changed the', 'way you', 'want']
 
-    >>> adv.ad_from_string("The capitalization REMAinS as IS bY DefAULt",
+    >>> ad_from_string("The capitalization REMAinS as IS bY DefAULt",
     ...                       (10, 15, 10))
     ['The', 'capitalization', 'REMAinS as', 'IS bY DefAULt']
 
-    >>> adv.ad_from_string("set captialize=True to capitalize first letters",
-    ...                    capitalize=True))
+    >>> ad_from_string("set captialize=True to capitalize first letters",
+    ...                capitalize=True)
     ['Set Captialize=true To', 'Capitalize First Letters',
      '', '', '', '', '', '']
-
     """
-
     str_words = s.split(sep=sep)
     text_ad = ['' for x in range(len(slots)+1)]
     counter = 0
