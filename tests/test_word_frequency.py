@@ -1,8 +1,6 @@
 from advertools.word_frequency import word_frequency
 
 
-sep_list = [None, ' ', '-', '_']
-
 text_list = [
     'one two',
     'one two  three',
@@ -23,25 +21,11 @@ num_list = [
     700
 ]
 
-separators = [
-    '-',
-    '_',
-    ' ',
-    'f'
-]
-
-
-def test_len_result_one_more_than_len_slots():
-    for sep in sep_list:
-        result = word_frequency(text_list, num_list, sep=sep)
-        if sep is not None:
-            assert sep not in result['word']
-
 
 def test_rm_words_removed():
     result = word_frequency(text_list, num_list, rm_words=['one', 'two'])
-    assert 'one' not in result['word']
-    assert 'two' not in result['word']
+    assert not result['word'].eq('one').any()
+    assert not result['word'].eq('two').any()
 
 
 def test_extra_info_not_provided():
@@ -58,12 +42,11 @@ def test_extra_info_provided():
                                           'rel_value'}
 
 
-def test_words_separated_with_given_sep():
-    for sep in separators:
-        result = word_frequency(text_list, num_list, sep=sep)
-        assert sep not in result['word']
-
-
 def test_works_fine_with_only_stopwords_supplied():
     result = word_frequency(['on'], [3])
     assert result.shape == (0, 4)
+
+
+def test_works_without_numlist_provided():
+    result = word_frequency(['Great Text in a List', 'Greater text as well'])
+    assert result['word'].eq('text').any()
