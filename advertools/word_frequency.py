@@ -6,7 +6,7 @@ import pandas as pd
 from advertools.word_tokenize import word_tokenize
 
 
-def word_frequency(text_list, num_list, sep=None,
+def word_frequency(text_list, num_list=None, token_word_len=1, regex=r'\w+',
                    rm_words=adv.stopwords['english'], extra_info=False):
     """Count the absolute as well as the weighted frequency of words
     in ``text_list`` (based on ``num_list``).
@@ -17,15 +17,16 @@ def word_frequency(text_list, num_list, sep=None,
     :param num_list: iterable of numbers.
         A list of numbers with the same length as ``text_list``, describing a
         certain attribute of these 'documents'; views, retweets, sales, etc.
-    :param sep: string.
-        The seperator with which to separate words in each document.
-        The default uses white spaces, and you can specify another separator.
+    :param regex: string.
+        The regex used to split words. Doesn't need changing in most cases.
+    :param token_word_len: integer, the length in words of each token that
+        text is split into.
     :param rm_words: iterable of strings.
         Words to remove from the list 'stop-words'. The default uses
-        ``nltk``'s list of English stopwords. To get all available languages
+        ``spacy``'s list of English stopwords. To get all available languages
         run ``adv.stopwords.keys()``
     :param extra_info: boolean.
-        Whethr or not to give additional columns about the frequencies
+        Whether or not to give additional columns about the frequencies
     :returns abs_wtd_df: absolute and weighted DataFrame.
         pandas.DataFrame with several metrics calculated. The most important
         are ``abs_freq`` and ``wtd_freq``. These show the difference between
@@ -34,7 +35,9 @@ def word_frequency(text_list, num_list, sep=None,
         are also provided. The columns are as follows:
 
         word: Word.
-            Words in the document list each on its own row.
+            Words in the document list each on its own row. The length of
+            these words is determined by ``token_word_len``, essentially
+            phrases if containing more than one word each.
         abs_freq: Absolute frequency.
             The number of occurrences of each word in all the documents.
         wtd_freq: Weighted frequency.
@@ -72,6 +75,34 @@ def word_frequency(text_list, num_list, sep=None,
     "kiwi" occurred twice (abs_freq), one of these phrases has a score of 100,
     and the other 400, so the wtd_freq is the sum (100 + 400 = 500)
 
+    >>> adv.word_frequency(text_list)  # num_list values default to 1 each
+         word  abs_freq  wtd_freq  rel_value
+    0   apple         3         3        1.0
+    1  orange         2         2        1.0
+    2    kiwi         2         2        1.0
+    3  banana         1         1        1.0
+    4   mango         1         1        1.0
+
+    >>> text_list2 = ['my favorite color is blue',
+    ... 'my favorite color is green', 'the best color is green',
+    ... 'i love the color black']
+
+    Setting ``token_word_len`` to 2, "words" become two-word phrases instead:
+
+    >>> word_frequency(text_list2, token_word_len=2, rm_words=[])
+                  word  abs_freq  wtd_freq  rel_value
+    0         color is         3         3        1.0
+    1      my favorite         2         2        1.0
+    2   favorite color         2         2        1.0
+    3         is green         2         2        1.0
+    4          is blue         1         1        1.0
+    5         the best         1         1        1.0
+    6       best color         1         1        1.0
+    7           i love         1         1        1.0
+    8         love the         1         1        1.0
+    9        the color         1         1        1.0
+    10     color black         1         1        1.0
+
     >>> adv.word_frequency(text_list, num_list, extra_info=True)
          word  abs_freq  abs_perc  abs_perc_cum  wtd_freq  wtd_freq_perc  wtd_freq_perc_cum  rel_value
     0    kiwi         2  0.222222      0.222222       500       0.333333           0.333333      250.0
@@ -83,10 +114,13 @@ def word_frequency(text_list, num_list, sep=None,
     This is the same result as above but giving the full DataFrame including
     all columns.
     """
+    if num_list is None:
+        num_list = [1 for i in range(len(text_list))]
     word_freq = defaultdict(lambda: [0, 0])
 
     for text, num in zip(text_list, num_list):
-        for word in text.split(sep=sep):
+        for word in word_tokenize(text, token_word_len=token_word_len,
+                                  regex=regex):
             if word.lower() in rm_words:
                 continue
             word_freq[word.lower()][0] += 1

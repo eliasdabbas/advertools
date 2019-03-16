@@ -63,15 +63,29 @@ is too long</li>
 </tbody>
 </table>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s2">&quot;Let&#39;s count </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">],</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-<span class="go">[&quot;Let&#39;s count one&quot;, &quot;Let&#39;s count two&quot;, &quot;Let&#39;s count three&quot;]</span>
+<span class="go">[&quot;Let&#39;s Count One&quot;, &quot;Let&#39;s Count Two&quot;, &quot;Let&#39;s Count Three&quot;]</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;My favorite car is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
-<span class="go">             replacements=[&#39;Toyota&#39;, &#39;BMW&#39;, &#39;Mercedes&#39;, &#39;Lamborghini&#39;],</span>
-<span class="go">             fallback=&#39;great&#39;,</span>
-<span class="go">             max_len=28)</span>
-<span class="go">[&#39;My favorite car is Toyota&#39;, &#39;My favorite car is BMW&#39;,</span>
-<span class="go">&#39;My favorite car is Mercedes&#39;, &#39;My favorite car is great&#39;]</span>
+<span class="gp">... </span>          <span class="n">replacements</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Toyota&#39;</span><span class="p">,</span> <span class="s1">&#39;BMW&#39;</span><span class="p">,</span> <span class="s1">&#39;Mercedes&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamborghini&#39;</span><span class="p">],</span>
+<span class="gp">... </span>          <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;great&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">max_len</span><span class="o">=</span><span class="mi">28</span><span class="p">)</span>
+<span class="go">[&#39;My Favorite Car Is Toyota&#39;, &#39;My Favorite Car Is Bmw&#39;,</span>
+<span class="go">&#39;My Favorite Car Is Mercedes&#39;, &#39;My Favorite Car Is Great&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s1">&#39;KeEP cApITalization </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;As IS&#39;</span><span class="p">],</span>
+<span class="gp">... </span>          <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;fallback&#39;</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">capitalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">[&#39;KeEP cApITalization As IS&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; ad_create(&#39;This is very long and will produce and error&#39;,
+...           replacements=[&#39;something&#39;, &#39;long&#39;], fallback=&#39;Very long&#39;,
+...           max_len=20)
+Traceback (most recent call last):
+File &quot;&lt;input&gt;&quot;, line 1, in &lt;module&gt;
+File &quot;&lt;input&gt;&quot;, line 26, in ad_create
+ValueError: template + fallback should be &lt;= 20 chars
 </pre></div>
 </div>
 </dd></dl>
@@ -91,48 +105,42 @@ returned list.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>s</strong> – a string of characters, with no restrictions on length.</li>
-<li><strong>slots</strong> – an iterable of integers for the maximum lengths for</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> – a string of characters, with no restrictions on length</li>
+<li><strong>slots</strong> – an iterable of integers for the maximum lengths for
+each slot</li>
+<li><strong>sep</strong> – by which character to split <code class="docutils literal notranslate"><span class="pre">s</span></code></li>
+<li><strong>capitalize</strong> – whether or not to capitalize each word after grouping
+Setting it as False would leave the input string as is</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns text_ad:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">a list of strings</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p>each slot.
-:param sep: by which character to split <code class="docutils literal notranslate"><span class="pre">s</span></code>.
-:param capitalize: whether or not to capitalize each word after grouping.</p>
-<blockquote>
-<div>Setting it as False would leave the input string as is.</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Returns text_ad:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">a list of strings.</td>
-</tr>
-</tbody>
-</table>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s1">&#39;this is a short ad&#39;</span><span class="p">)</span>
-<span class="go">[&#39;This Is A Short Ad&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
+<span class="go">[&#39;this is a short ad&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s1">&#39;this is a longer ad and will take the first two slots&#39;</span><span class="p">)</span>
-<span class="go">[&#39;This Is A Longer Ad And Would&#39;, &#39;Take The First Two Slots&#39;,</span>
-<span class="go">&#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
+<span class="go">[&#39;this as a longer ad and would&#39;, &#39;take the first two slots&#39;,</span>
+<span class="go">&#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s2">&quot;Slots can be changed the way you want&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="go">[&#39;Slots can&#39;, &#39; be changed the&#39;, &#39; way you&#39;, &#39;want&#39;]</span>
+<span class="go">[&#39;Slots can&#39;, &#39;be changed the&#39;, &#39;way you&#39;, &#39;want&#39;]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="s2">&quot;The capitalization REMAinS as IS bY DefAULt&quot;</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s2">&quot;The capitalization REMAinS as IS bY DefAULt&quot;</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="go">[&#39;The&#39;, &#39;capitalization&#39;, &#39;REMAinS as&#39;, &#39;IS bY DefAULt&#39;]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="s2">&quot;set captialize=True to capitalize first letters&quot;</span><span class="p">,</span>
-<span class="gp">... </span>                   <span class="n">capitalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s2">&quot;set captialize=True to capitalize first letters&quot;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">capitalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">[&#39;Set Captialize=true To&#39;, &#39;Capitalize First Letters&#39;,</span>
 <span class="go"> &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
 </pre></div>
@@ -2207,7 +2215,7 @@ Cursoring for more information.</li>
 <span id="advertools-word-frequency-module"></span><h2>advertools.word_frequency module<a class="headerlink" href="#module-advertools.word_frequency" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="advertools.word_frequency.word_frequency">
-<code class="descclassname">advertools.word_frequency.</code><code class="descname">word_frequency</code><span class="sig-paren">(</span><em>text_list</em>, <em>num_list</em>, <em>sep=None</em>, <em>rm_words={'a'</em>, <em>'about'</em>, <em>'above'</em>, <em>'across'</em>, <em>'after'</em>, <em>'afterwards'</em>, <em>'again'</em>, <em>'against'</em>, <em>'all'</em>, <em>'almost'</em>, <em>'alone'</em>, <em>'along'</em>, <em>'already'</em>, <em>'also'</em>, <em>'although'</em>, <em>'always'</em>, <em>'am'</em>, <em>'among'</em>, <em>'amongst'</em>, <em>'amount'</em>, <em>'an'</em>, <em>'and'</em>, <em>'another'</em>, <em>'any'</em>, <em>'anyhow'</em>, <em>'anyone'</em>, <em>'anything'</em>, <em>'anyway'</em>, <em>'anywhere'</em>, <em>'are'</em>, <em>'around'</em>, <em>'as'</em>, <em>'at'</em>, <em>'back'</em>, <em>'be'</em>, <em>'became'</em>, <em>'because'</em>, <em>'become'</em>, <em>'becomes'</em>, <em>'becoming'</em>, <em>'been'</em>, <em>'before'</em>, <em>'beforehand'</em>, <em>'behind'</em>, <em>'being'</em>, <em>'below'</em>, <em>'beside'</em>, <em>'besides'</em>, <em>'between'</em>, <em>'beyond'</em>, <em>'both'</em>, <em>'bottom'</em>, <em>'but'</em>, <em>'by'</em>, <em>'ca'</em>, <em>'call'</em>, <em>'can'</em>, <em>'cannot'</em>, <em>'could'</em>, <em>'did'</em>, <em>'do'</em>, <em>'does'</em>, <em>'doing'</em>, <em>'done'</em>, <em>'down'</em>, <em>'due'</em>, <em>'during'</em>, <em>'each'</em>, <em>'eight'</em>, <em>'either'</em>, <em>'eleven'</em>, <em>'else'</em>, <em>'elsewhere'</em>, <em>'empty'</em>, <em>'enough'</em>, <em>'even'</em>, <em>'ever'</em>, <em>'every'</em>, <em>'everyone'</em>, <em>'everything'</em>, <em>'everywhere'</em>, <em>'except'</em>, <em>'few'</em>, <em>'fifteen'</em>, <em>'fifty'</em>, <em>'first'</em>, <em>'five'</em>, <em>'for'</em>, <em>'former'</em>, <em>'formerly'</em>, <em>'forty'</em>, <em>'four'</em>, <em>'from'</em>, <em>'front'</em>, <em>'full'</em>, <em>'further'</em>, <em>'get'</em>, <em>'give'</em>, <em>'go'</em>, <em>'had'</em>, <em>'has'</em>, <em>'have'</em>, <em>'he'</em>, <em>'hence'</em>, <em>'her'</em>, <em>'here'</em>, <em>'hereafter'</em>, <em>'hereby'</em>, <em>'herein'</em>, <em>'hereupon'</em>, <em>'hers'</em>, <em>'herself'</em>, <em>'him'</em>, <em>'himself'</em>, <em>'his'</em>, <em>'how'</em>, <em>'however'</em>, <em>'hundred'</em>, <em>'i'</em>, <em>'if'</em>, <em>'in'</em>, <em>'indeed'</em>, <em>'into'</em>, <em>'is'</em>, <em>'it'</em>, <em>'its'</em>, <em>'itself'</em>, <em>'just'</em>, <em>'keep'</em>, <em>'last'</em>, <em>'latter'</em>, <em>'latterly'</em>, <em>'least'</em>, <em>'less'</em>, <em>'made'</em>, <em>'make'</em>, <em>'many'</em>, <em>'may'</em>, <em>'me'</em>, <em>'meanwhile'</em>, <em>'might'</em>, <em>'mine'</em>, <em>'more'</em>, <em>'moreover'</em>, <em>'most'</em>, <em>'mostly'</em>, <em>'move'</em>, <em>'much'</em>, <em>'must'</em>, <em>'my'</em>, <em>'myself'</em>, <em>'name'</em>, <em>'namely'</em>, <em>'neither'</em>, <em>'never'</em>, <em>'nevertheless'</em>, <em>'next'</em>, <em>'nine'</em>, <em>'no'</em>, <em>'nobody'</em>, <em>'none'</em>, <em>'noone'</em>, <em>'nor'</em>, <em>'not'</em>, <em>'nothing'</em>, <em>'now'</em>, <em>'nowhere'</em>, <em>'of'</em>, <em>'off'</em>, <em>'often'</em>, <em>'on'</em>, <em>'once'</em>, <em>'one'</em>, <em>'only'</em>, <em>'onto'</em>, <em>'or'</em>, <em>'other'</em>, <em>'others'</em>, <em>'otherwise'</em>, <em>'our'</em>, <em>'ours'</em>, <em>'ourselves'</em>, <em>'out'</em>, <em>'over'</em>, <em>'own'</em>, <em>'part'</em>, <em>'per'</em>, <em>'perhaps'</em>, <em>'please'</em>, <em>'put'</em>, <em>'quite'</em>, <em>'rather'</em>, <em>'re'</em>, <em>'really'</em>, <em>'regarding'</em>, <em>'same'</em>, <em>'say'</em>, <em>'see'</em>, <em>'seem'</em>, <em>'seemed'</em>, <em>'seeming'</em>, <em>'seems'</em>, <em>'serious'</em>, <em>'several'</em>, <em>'she'</em>, <em>'should'</em>, <em>'show'</em>, <em>'side'</em>, <em>'since'</em>, <em>'six'</em>, <em>'sixty'</em>, <em>'so'</em>, <em>'some'</em>, <em>'somehow'</em>, <em>'someone'</em>, <em>'something'</em>, <em>'sometime'</em>, <em>'sometimes'</em>, <em>'somewhere'</em>, <em>'still'</em>, <em>'such'</em>, <em>'take'</em>, <em>'ten'</em>, <em>'than'</em>, <em>'that'</em>, <em>'the'</em>, <em>'their'</em>, <em>'them'</em>, <em>'themselves'</em>, <em>'then'</em>, <em>'thence'</em>, <em>'there'</em>, <em>'thereafter'</em>, <em>'thereby'</em>, <em>'therefore'</em>, <em>'therein'</em>, <em>'thereupon'</em>, <em>'these'</em>, <em>'they'</em>, <em>'third'</em>, <em>'this'</em>, <em>'those'</em>, <em>'though'</em>, <em>'three'</em>, <em>'through'</em>, <em>'throughout'</em>, <em>'thru'</em>, <em>'thus'</em>, <em>'to'</em>, <em>'together'</em>, <em>'too'</em>, <em>'top'</em>, <em>'toward'</em>, <em>'towards'</em>, <em>'twelve'</em>, <em>'twenty'</em>, <em>'two'</em>, <em>'under'</em>, <em>'unless'</em>, <em>'until'</em>, <em>'up'</em>, <em>'upon'</em>, <em>'us'</em>, <em>'used'</em>, <em>'using'</em>, <em>'various'</em>, <em>'very'</em>, <em>'via'</em>, <em>'was'</em>, <em>'we'</em>, <em>'well'</em>, <em>'were'</em>, <em>'what'</em>, <em>'whatever'</em>, <em>'when'</em>, <em>'whence'</em>, <em>'whenever'</em>, <em>'where'</em>, <em>'whereafter'</em>, <em>'whereas'</em>, <em>'whereby'</em>, <em>'wherein'</em>, <em>'whereupon'</em>, <em>'wherever'</em>, <em>'whether'</em>, <em>'which'</em>, <em>'while'</em>, <em>'whither'</em>, <em>'who'</em>, <em>'whoever'</em>, <em>'whole'</em>, <em>'whom'</em>, <em>'whose'</em>, <em>'why'</em>, <em>'will'</em>, <em>'with'</em>, <em>'within'</em>, <em>'without'</em>, <em>'would'</em>, <em>'yet'</em>, <em>'you'</em>, <em>'your'</em>, <em>'yours'</em>, <em>'yourself'</em>, <em>'yourselves'}</em>, <em>extra_info=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">advertools.word_frequency.</code><code class="descname">word_frequency</code><span class="sig-paren">(</span><em>text_list</em>, <em>num_list=None</em>, <em>token_word_len=1</em>, <em>regex='\\w+'</em>, <em>rm_words={'a'</em>, <em>'about'</em>, <em>'above'</em>, <em>'across'</em>, <em>'after'</em>, <em>'afterwards'</em>, <em>'again'</em>, <em>'against'</em>, <em>'all'</em>, <em>'almost'</em>, <em>'alone'</em>, <em>'along'</em>, <em>'already'</em>, <em>'also'</em>, <em>'although'</em>, <em>'always'</em>, <em>'am'</em>, <em>'among'</em>, <em>'amongst'</em>, <em>'amount'</em>, <em>'an'</em>, <em>'and'</em>, <em>'another'</em>, <em>'any'</em>, <em>'anyhow'</em>, <em>'anyone'</em>, <em>'anything'</em>, <em>'anyway'</em>, <em>'anywhere'</em>, <em>'are'</em>, <em>'around'</em>, <em>'as'</em>, <em>'at'</em>, <em>'back'</em>, <em>'be'</em>, <em>'became'</em>, <em>'because'</em>, <em>'become'</em>, <em>'becomes'</em>, <em>'becoming'</em>, <em>'been'</em>, <em>'before'</em>, <em>'beforehand'</em>, <em>'behind'</em>, <em>'being'</em>, <em>'below'</em>, <em>'beside'</em>, <em>'besides'</em>, <em>'between'</em>, <em>'beyond'</em>, <em>'both'</em>, <em>'bottom'</em>, <em>'but'</em>, <em>'by'</em>, <em>'ca'</em>, <em>'call'</em>, <em>'can'</em>, <em>'cannot'</em>, <em>'could'</em>, <em>'did'</em>, <em>'do'</em>, <em>'does'</em>, <em>'doing'</em>, <em>'done'</em>, <em>'down'</em>, <em>'due'</em>, <em>'during'</em>, <em>'each'</em>, <em>'eight'</em>, <em>'either'</em>, <em>'eleven'</em>, <em>'else'</em>, <em>'elsewhere'</em>, <em>'empty'</em>, <em>'enough'</em>, <em>'even'</em>, <em>'ever'</em>, <em>'every'</em>, <em>'everyone'</em>, <em>'everything'</em>, <em>'everywhere'</em>, <em>'except'</em>, <em>'few'</em>, <em>'fifteen'</em>, <em>'fifty'</em>, <em>'first'</em>, <em>'five'</em>, <em>'for'</em>, <em>'former'</em>, <em>'formerly'</em>, <em>'forty'</em>, <em>'four'</em>, <em>'from'</em>, <em>'front'</em>, <em>'full'</em>, <em>'further'</em>, <em>'get'</em>, <em>'give'</em>, <em>'go'</em>, <em>'had'</em>, <em>'has'</em>, <em>'have'</em>, <em>'he'</em>, <em>'hence'</em>, <em>'her'</em>, <em>'here'</em>, <em>'hereafter'</em>, <em>'hereby'</em>, <em>'herein'</em>, <em>'hereupon'</em>, <em>'hers'</em>, <em>'herself'</em>, <em>'him'</em>, <em>'himself'</em>, <em>'his'</em>, <em>'how'</em>, <em>'however'</em>, <em>'hundred'</em>, <em>'i'</em>, <em>'if'</em>, <em>'in'</em>, <em>'indeed'</em>, <em>'into'</em>, <em>'is'</em>, <em>'it'</em>, <em>'its'</em>, <em>'itself'</em>, <em>'just'</em>, <em>'keep'</em>, <em>'last'</em>, <em>'latter'</em>, <em>'latterly'</em>, <em>'least'</em>, <em>'less'</em>, <em>'made'</em>, <em>'make'</em>, <em>'many'</em>, <em>'may'</em>, <em>'me'</em>, <em>'meanwhile'</em>, <em>'might'</em>, <em>'mine'</em>, <em>'more'</em>, <em>'moreover'</em>, <em>'most'</em>, <em>'mostly'</em>, <em>'move'</em>, <em>'much'</em>, <em>'must'</em>, <em>'my'</em>, <em>'myself'</em>, <em>'name'</em>, <em>'namely'</em>, <em>'neither'</em>, <em>'never'</em>, <em>'nevertheless'</em>, <em>'next'</em>, <em>'nine'</em>, <em>'no'</em>, <em>'nobody'</em>, <em>'none'</em>, <em>'noone'</em>, <em>'nor'</em>, <em>'not'</em>, <em>'nothing'</em>, <em>'now'</em>, <em>'nowhere'</em>, <em>'of'</em>, <em>'off'</em>, <em>'often'</em>, <em>'on'</em>, <em>'once'</em>, <em>'one'</em>, <em>'only'</em>, <em>'onto'</em>, <em>'or'</em>, <em>'other'</em>, <em>'others'</em>, <em>'otherwise'</em>, <em>'our'</em>, <em>'ours'</em>, <em>'ourselves'</em>, <em>'out'</em>, <em>'over'</em>, <em>'own'</em>, <em>'part'</em>, <em>'per'</em>, <em>'perhaps'</em>, <em>'please'</em>, <em>'put'</em>, <em>'quite'</em>, <em>'rather'</em>, <em>'re'</em>, <em>'really'</em>, <em>'regarding'</em>, <em>'same'</em>, <em>'say'</em>, <em>'see'</em>, <em>'seem'</em>, <em>'seemed'</em>, <em>'seeming'</em>, <em>'seems'</em>, <em>'serious'</em>, <em>'several'</em>, <em>'she'</em>, <em>'should'</em>, <em>'show'</em>, <em>'side'</em>, <em>'since'</em>, <em>'six'</em>, <em>'sixty'</em>, <em>'so'</em>, <em>'some'</em>, <em>'somehow'</em>, <em>'someone'</em>, <em>'something'</em>, <em>'sometime'</em>, <em>'sometimes'</em>, <em>'somewhere'</em>, <em>'still'</em>, <em>'such'</em>, <em>'take'</em>, <em>'ten'</em>, <em>'than'</em>, <em>'that'</em>, <em>'the'</em>, <em>'their'</em>, <em>'them'</em>, <em>'themselves'</em>, <em>'then'</em>, <em>'thence'</em>, <em>'there'</em>, <em>'thereafter'</em>, <em>'thereby'</em>, <em>'therefore'</em>, <em>'therein'</em>, <em>'thereupon'</em>, <em>'these'</em>, <em>'they'</em>, <em>'third'</em>, <em>'this'</em>, <em>'those'</em>, <em>'though'</em>, <em>'three'</em>, <em>'through'</em>, <em>'throughout'</em>, <em>'thru'</em>, <em>'thus'</em>, <em>'to'</em>, <em>'together'</em>, <em>'too'</em>, <em>'top'</em>, <em>'toward'</em>, <em>'towards'</em>, <em>'twelve'</em>, <em>'twenty'</em>, <em>'two'</em>, <em>'under'</em>, <em>'unless'</em>, <em>'until'</em>, <em>'up'</em>, <em>'upon'</em>, <em>'us'</em>, <em>'used'</em>, <em>'using'</em>, <em>'various'</em>, <em>'very'</em>, <em>'via'</em>, <em>'was'</em>, <em>'we'</em>, <em>'well'</em>, <em>'were'</em>, <em>'what'</em>, <em>'whatever'</em>, <em>'when'</em>, <em>'whence'</em>, <em>'whenever'</em>, <em>'where'</em>, <em>'whereafter'</em>, <em>'whereas'</em>, <em>'whereby'</em>, <em>'wherein'</em>, <em>'whereupon'</em>, <em>'wherever'</em>, <em>'whether'</em>, <em>'which'</em>, <em>'while'</em>, <em>'whither'</em>, <em>'who'</em>, <em>'whoever'</em>, <em>'whole'</em>, <em>'whom'</em>, <em>'whose'</em>, <em>'why'</em>, <em>'will'</em>, <em>'with'</em>, <em>'within'</em>, <em>'without'</em>, <em>'would'</em>, <em>'yet'</em>, <em>'you'</em>, <em>'your'</em>, <em>'yours'</em>, <em>'yourself'</em>, <em>'yourselves'}</em>, <em>extra_info=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Count the absolute as well as the weighted frequency of words
 in <code class="docutils literal notranslate"><span class="pre">text_list</span></code> (based on <code class="docutils literal notranslate"><span class="pre">num_list</span></code>).</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2221,15 +2229,16 @@ Usually, you would use this to analyze tweets, book titles, URLs, etc.</li>
 <li><strong>num_list</strong> – iterable of numbers.
 A list of numbers with the same length as <code class="docutils literal notranslate"><span class="pre">text_list</span></code>, describing a
 certain attribute of these ‘documents’; views, retweets, sales, etc.</li>
-<li><strong>sep</strong> – string.
-The seperator with which to separate words in each document.
-The default uses white spaces, and you can specify another separator.</li>
+<li><strong>regex</strong> – string.
+The regex used to split words. Doesn’t need changing in most cases.</li>
+<li><strong>token_word_len</strong> – integer, the length in words of each token that
+text is split into.</li>
 <li><strong>rm_words</strong> – iterable of strings.
 Words to remove from the list ‘stop-words’. The default uses
-<code class="docutils literal notranslate"><span class="pre">nltk</span></code>’s list of English stopwords. To get all available languages
+<code class="docutils literal notranslate"><span class="pre">spacy</span></code>’s list of English stopwords. To get all available languages
 run <code class="docutils literal notranslate"><span class="pre">adv.stopwords.keys()</span></code></li>
 <li><strong>extra_info</strong> – boolean.
-Whethr or not to give additional columns about the frequencies</li>
+Whether or not to give additional columns about the frequencies</li>
 </ul>
 </td>
 </tr>
@@ -2242,7 +2251,9 @@ weighted occurrences (frequency vs. weighted frequency). Other metrics
 are also provided. The columns are as follows:</p>
 <dl class="docutils">
 <dt>word: Word.</dt>
-<dd><p class="first last">Words in the document list each on its own row.</p>
+<dd><p class="first last">Words in the document list each on its own row. The length of
+these words is determined by <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code>, essentially
+phrases if containing more than one word each.</p>
 </dd>
 <dt>abs_freq: Absolute frequency.</dt>
 <dd><p class="first last">The number of occurrences of each word in all the documents.</p>
@@ -2300,6 +2311,36 @@ of the weighted occurrences.</p>
 </div>
 <p>“kiwi” occurred twice (abs_freq), one of these phrases has a score of 100,
 and the other 400, so the wtd_freq is the sum (100 + 400 = 500)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">)</span>  <span class="c1"># num_list values default to 1 each</span>
+<span class="go">     word  abs_freq  wtd_freq  rel_value</span>
+<span class="go">0   apple         3         3        1.0</span>
+<span class="go">1  orange         2         2        1.0</span>
+<span class="go">2    kiwi         2         2        1.0</span>
+<span class="go">3  banana         1         1        1.0</span>
+<span class="go">4   mango         1         1        1.0</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text_list2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;my favorite color is blue&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;my favorite color is green&#39;</span><span class="p">,</span> <span class="s1">&#39;the best color is green&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;i love the color black&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Setting <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code> to 2, “words” become two-word phrases instead:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list2</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rm_words</span><span class="o">=</span><span class="p">[])</span>
+<span class="go">              word  abs_freq  wtd_freq  rel_value</span>
+<span class="go">0         color is         3         3        1.0</span>
+<span class="go">1      my favorite         2         2        1.0</span>
+<span class="go">2   favorite color         2         2        1.0</span>
+<span class="go">3         is green         2         2        1.0</span>
+<span class="go">4          is blue         1         1        1.0</span>
+<span class="go">5         the best         1         1        1.0</span>
+<span class="go">6       best color         1         1        1.0</span>
+<span class="go">7           i love         1         1        1.0</span>
+<span class="go">8         love the         1         1        1.0</span>
+<span class="go">9        the color         1         1        1.0</span>
+<span class="go">10     color black         1         1        1.0</span>
+</pre></div>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">,</span> <span class="n">extra_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">     word  abs_freq  abs_perc  abs_perc_cum  wtd_freq  wtd_freq_perc  wtd_freq_perc_cum  rel_value</span>
 <span class="go">0    kiwi         2  0.222222      0.222222       500       0.333333           0.333333      250.0</span>
@@ -2318,52 +2359,57 @@ all columns.</p>
 <span id="advertools-word-tokenize-module"></span><h2>advertools.word_tokenize module<a class="headerlink" href="#module-advertools.word_tokenize" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="advertools.word_tokenize.word_tokenize">
-<code class="descclassname">advertools.word_tokenize.</code><code class="descname">word_tokenize</code><span class="sig-paren">(</span><em>s</em>, <em>word_token_len=2</em>, <em>lower_case=True</em>, <em>keep_punctuation=False</em>, <em>regex='\\w+'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Split text <code class="docutils literal notranslate"><span class="pre">s</span></code> into word tokens of length <code class="docutils literal notranslate"><span class="pre">word_token_len</span></code> each.</p>
+<code class="descclassname">advertools.word_tokenize.</code><code class="descname">word_tokenize</code><span class="sig-paren">(</span><em>s</em>, <em>token_word_len=2</em>, <em>lower_case=True</em>, <em>keep_punctuation=False</em>, <em>regex='\\w+'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split text <code class="docutils literal notranslate"><span class="pre">s</span></code> into word tokens of length <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code> each.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>s</strong> – Any string of text.</li>
-<li><strong>word_token_len</strong> – Length of word tokens, defaults to 2.</li>
+<li><strong>token_word_len</strong> – Length of word tokens, defaults to 2.</li>
 <li><strong>lower_case</strong> – Whether or not to return the result in lower case.</li>
 <li><strong>keep_punctuation</strong> – Whether or not to keep punctuation in the result.</li>
-<li><strong>regex</strong> – The regex used to extract words, change if you really</li>
+<li><strong>regex</strong> – The regex used to extract words, change if you really
+need a different way of splitting.</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns tokenized:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">List of word tokens of length <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code> each.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p>need a different way of splitting.
-:return: List of word tokens of length <code class="docutils literal notranslate"><span class="pre">word_token_len</span></code> each.</p>
-<p>s = ‘Please split into words of length 1, 2, &amp; 3. Thanks!’</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;Please split into words of length 1, 2, &amp; 3. Thanks!&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">[&#39;please&#39;, &#39;split&#39;, &#39;into&#39;, &#39;words&#39;, &#39;of&#39;, &#39;length&#39;,</span>
 <span class="go">&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;thanks&#39;]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">[&#39;please&#39;, &#39;split&#39;, &#39;into&#39;, &#39;words&#39;, &#39;of&#39;, &#39;length&#39;,</span>
 <span class="go">&#39;1,&#39;, &#39;2,&#39;, &#39;&amp;&#39;, &#39;3.&#39;, &#39;thanks!&#39;]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">[&#39;please split&#39;, &#39;split into&#39;, &#39;into words&#39;, &#39;words of&#39;,</span>
 <span class="go">&#39;of length&#39;, &#39;length 1&#39;, &#39;1 2&#39;, &#39;2 3&#39;, &#39;3 thanks&#39;]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">[&#39;please split&#39;, &#39;split into&#39;, &#39;into words&#39;, &#39;words of&#39;,</span>
 <span class="go">&#39;of length&#39;, &#39;length 1,&#39;, &#39;1, 2,&#39;, &#39;2, &amp;&#39;, &#39;&amp; 3.&#39;, &#39;3. thanks!&#39;]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">[&#39;please split into&#39;, &#39;split into words&#39;, &#39;into words of&#39;,</span>
 <span class="go">&#39;words of length&#39;, &#39;of length 1&#39;, &#39;length 1 2&#39;, &#39;1 2 3&#39;, &#39;2 3 thanks&#39;]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">word_token_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">[&#39;please split into&#39;, &#39;split into words&#39;, &#39;into words of&#39;,</span>
 <span class="go">&#39;words of length&#39;, &#39;of length 1,&#39;, &#39;length 1, 2,&#39;, &#39;1, 2, &amp;&#39;,</span>
 <span class="go">&#39;2, &amp; 3.&#39;, &#39;&amp; 3. thanks!&#39;]</span>

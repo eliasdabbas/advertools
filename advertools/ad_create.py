@@ -12,14 +12,26 @@ def ad_create(template, replacements, fallback, max_len=30, capitalize=True):
     :returns formatted: list of strings
 
     >>> ad_create("Let\'s count {}", ['one', 'two', 'three'], 'one', 20)
-    ["Let's count one", "Let's count two", "Let's count three"]
+    ["Let's Count One", "Let's Count Two", "Let's Count Three"]
 
     >>> ad_create(template='My favorite car is {}',
-                 replacements=['Toyota', 'BMW', 'Mercedes', 'Lamborghini'],
-                 fallback='great',
-                 max_len=28)
-    ['My favorite car is Toyota', 'My favorite car is BMW',
-    'My favorite car is Mercedes', 'My favorite car is great']
+    ...           replacements=['Toyota', 'BMW', 'Mercedes', 'Lamborghini'],
+    ...           fallback='great',
+    ...           max_len=28)
+    ['My Favorite Car Is Toyota', 'My Favorite Car Is Bmw',
+    'My Favorite Car Is Mercedes', 'My Favorite Car Is Great']
+
+    >>> ad_create('KeEP cApITalization {}', ['As IS'],
+    ...           fallback='fallback', max_len=50, capitalize=False)
+    ['KeEP cApITalization As IS']
+
+    >>> ad_create('This is very long and will produce and error',
+    ...           replacements=['something', 'long'], fallback='Very long',
+    ...           max_len=20)
+    Traceback (most recent call last):
+    File "<input>", line 1, in <module>
+    File "<input>", line 26, in ad_create
+    ValueError: template + fallback should be <= 20 chars
     """
     if len(template.format(fallback)) > max_len:
         raise ValueError('template + fallback should be <= '

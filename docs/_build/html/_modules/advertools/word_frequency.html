@@ -41,7 +41,7 @@
 <span class="kn">from</span> <span class="nn">advertools.word_tokenize</span> <span class="k">import</span> <span class="n">word_tokenize</span>
 
 
-<div class="viewcode-block" id="word_frequency"><a class="viewcode-back" href="../../advertools.html#advertools.word_frequency.word_frequency">[docs]</a><span class="k">def</span> <span class="nf">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="word_frequency"><a class="viewcode-back" href="../../advertools.html#advertools.word_frequency.word_frequency">[docs]</a><span class="k">def</span> <span class="nf">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\w+&#39;</span><span class="p">,</span>
                    <span class="n">rm_words</span><span class="o">=</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">],</span> <span class="n">extra_info</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Count the absolute as well as the weighted frequency of words</span>
 <span class="sd">    in ``text_list`` (based on ``num_list``).</span>
@@ -52,15 +52,16 @@
 <span class="sd">    :param num_list: iterable of numbers.</span>
 <span class="sd">        A list of numbers with the same length as ``text_list``, describing a</span>
 <span class="sd">        certain attribute of these &#39;documents&#39;; views, retweets, sales, etc.</span>
-<span class="sd">    :param sep: string.</span>
-<span class="sd">        The seperator with which to separate words in each document.</span>
-<span class="sd">        The default uses white spaces, and you can specify another separator.</span>
+<span class="sd">    :param regex: string.</span>
+<span class="sd">        The regex used to split words. Doesn&#39;t need changing in most cases.</span>
+<span class="sd">    :param token_word_len: integer, the length in words of each token that</span>
+<span class="sd">        text is split into.</span>
 <span class="sd">    :param rm_words: iterable of strings.</span>
 <span class="sd">        Words to remove from the list &#39;stop-words&#39;. The default uses</span>
-<span class="sd">        ``nltk``&#39;s list of English stopwords. To get all available languages</span>
+<span class="sd">        ``spacy``&#39;s list of English stopwords. To get all available languages</span>
 <span class="sd">        run ``adv.stopwords.keys()``</span>
 <span class="sd">    :param extra_info: boolean.</span>
-<span class="sd">        Whethr or not to give additional columns about the frequencies</span>
+<span class="sd">        Whether or not to give additional columns about the frequencies</span>
 <span class="sd">    :returns abs_wtd_df: absolute and weighted DataFrame.</span>
 <span class="sd">        pandas.DataFrame with several metrics calculated. The most important</span>
 <span class="sd">        are ``abs_freq`` and ``wtd_freq``. These show the difference between</span>
@@ -69,7 +70,9 @@
 <span class="sd">        are also provided. The columns are as follows:</span>
 
 <span class="sd">        word: Word.</span>
-<span class="sd">            Words in the document list each on its own row.</span>
+<span class="sd">            Words in the document list each on its own row. The length of</span>
+<span class="sd">            these words is determined by ``token_word_len``, essentially</span>
+<span class="sd">            phrases if containing more than one word each.</span>
 <span class="sd">        abs_freq: Absolute frequency.</span>
 <span class="sd">            The number of occurrences of each word in all the documents.</span>
 <span class="sd">        wtd_freq: Weighted frequency.</span>
@@ -107,6 +110,34 @@
 <span class="sd">    &quot;kiwi&quot; occurred twice (abs_freq), one of these phrases has a score of 100,</span>
 <span class="sd">    and the other 400, so the wtd_freq is the sum (100 + 400 = 500)</span>
 
+<span class="sd">    &gt;&gt;&gt; adv.word_frequency(text_list)  # num_list values default to 1 each</span>
+<span class="sd">         word  abs_freq  wtd_freq  rel_value</span>
+<span class="sd">    0   apple         3         3        1.0</span>
+<span class="sd">    1  orange         2         2        1.0</span>
+<span class="sd">    2    kiwi         2         2        1.0</span>
+<span class="sd">    3  banana         1         1        1.0</span>
+<span class="sd">    4   mango         1         1        1.0</span>
+
+<span class="sd">    &gt;&gt;&gt; text_list2 = [&#39;my favorite color is blue&#39;,</span>
+<span class="sd">    ... &#39;my favorite color is green&#39;, &#39;the best color is green&#39;,</span>
+<span class="sd">    ... &#39;i love the color black&#39;]</span>
+
+<span class="sd">    Setting ``token_word_len`` to 2, &quot;words&quot; become two-word phrases instead:</span>
+
+<span class="sd">    &gt;&gt;&gt; word_frequency(text_list2, token_word_len=2, rm_words=[])</span>
+<span class="sd">                  word  abs_freq  wtd_freq  rel_value</span>
+<span class="sd">    0         color is         3         3        1.0</span>
+<span class="sd">    1      my favorite         2         2        1.0</span>
+<span class="sd">    2   favorite color         2         2        1.0</span>
+<span class="sd">    3         is green         2         2        1.0</span>
+<span class="sd">    4          is blue         1         1        1.0</span>
+<span class="sd">    5         the best         1         1        1.0</span>
+<span class="sd">    6       best color         1         1        1.0</span>
+<span class="sd">    7           i love         1         1        1.0</span>
+<span class="sd">    8         love the         1         1        1.0</span>
+<span class="sd">    9        the color         1         1        1.0</span>
+<span class="sd">    10     color black         1         1        1.0</span>
+
 <span class="sd">    &gt;&gt;&gt; adv.word_frequency(text_list, num_list, extra_info=True)</span>
 <span class="sd">         word  abs_freq  abs_perc  abs_perc_cum  wtd_freq  wtd_freq_perc  wtd_freq_perc_cum  rel_value</span>
 <span class="sd">    0    kiwi         2  0.222222      0.222222       500       0.333333           0.333333      250.0</span>
@@ -118,10 +149,13 @@
 <span class="sd">    This is the same result as above but giving the full DataFrame including</span>
 <span class="sd">    all columns.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">num_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">))]</span>
     <span class="n">word_freq</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
     <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="n">sep</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="n">token_word_len</span><span class="p">,</span>
+                                  <span class="n">regex</span><span class="o">=</span><span class="n">regex</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">rm_words</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">word_freq</span><span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
