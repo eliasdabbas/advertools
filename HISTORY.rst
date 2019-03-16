@@ -11,30 +11,21 @@ Unreleased
       * Preserve case or change into lower case.
       * Keep or remove punctuation.
       * Ability to change the splitting regex as well.
-<<<<<<< HEAD
-    - New stop-words from the spaCy package:
-=======
+
     - New stop-words from the ``spaCy`` package:
-        current : 'Arabic', 'Azerbaijani', 'Danish', 'Dutch', 'English',
-            'Finnish', 'French', 'German', 'Greek', 'Hungarian', 'Italian',
-            'Kazakh', 'Nepali', 'Norwegian', 'Portuguese', 'Romanian',
-            'Russian', 'Spanish', 'Swedish', 'Turkish'.
-        new : 'Bengali', 'Catalan', 'Chinese', 'Croatian', 'Hebrew', 'Hindi',
-            'Indonesian', 'Irish', 'Japanese', 'Persian', 'Polish', 'Sinhala',
-            'Tagalog', 'Tamil', 'Tatar', 'Telugu', 'Thai', 'Ukrainian',
-            'Urdu', 'Vietnamese'
->>>>>>> word_freq_tokenized
 
       current: Arabic, Azerbaijani, Danish, Dutch, English, Finnish, French, German, Greek, Hungarian, Italian, Kazakh, Nepali, Norwegian, Portuguese, Romanian, Russian, Spanish, Swedish, Turkish.
 
       new: Bengali, Catalan, Chinese, Croatian, Hebrew, Hindi, Indonesian, Irish, Japanese, Persian, Polish, Sinhala, Tagalog, Tamil, Tatar, Telugu, Thai, Ukrainian, Urdu, Vietnamese
 * Changed
     - ``word_frequency`` takes new parameters:
-        ``regex``: defaults to words, but can be changed to anything '\S+' to
-        split words and keep punctuation for example.
+        ``regex``: defaults to words, but can be changed to anything '\S+' to split words and keep punctuation for example.
+
         ``sep``: not longer used as an option, the above regex can be used instead
+
         ``num_list``: now optional, and defaults to counts of 1 each if not
         provided. Usefull for counting abs_freq only if data not available.
+
         ``token_word_len``: the number of words in each split token. Defaults to 1
         and can be set to 2 or higher. This helps in analyzing phrases as
         opposed to words.
@@ -79,12 +70,8 @@ Unreleased
     - Multiple queries (product of parameters) in one function call
     - Reponse looping and merging handled, one DataFrame 
 * serp_goog return Google's original error messages
-<<<<<<< HEAD
 * twitter responses with entities, get the entities extracted, each in a separate column
-=======
-* twitter responses with entities, get the entities extracted, each in
-  a separate column
->>>>>>> word_freq_tokenized
+
 
 0.4.1 (2018-10-13)
 ------------------
