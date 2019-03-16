@@ -12,21 +12,16 @@ Unreleased
       * Keep or remove punctuation.
       * Ability to change the splitting regex as well.
     - New stop-words from the spaCy package:
-        current : 'Arabic', 'Azerbaijani', 'Danish', 'Dutch', 'English',
-            'Finnish', 'French', 'German', 'Greek', 'Hungarian', 'Italian',
-            'Kazakh', 'Nepali', 'Norwegian', 'Portuguese', 'Romanian',
-            'Russian', 'Spanish', 'Swedish', 'Turkish'.
-        new : 'Bengali', 'Catalan', 'Chinese', 'Croatian', 'Hebrew', 'Hindi',
-            'Indonesian', 'Irish', 'Japanese', 'Persian', 'Polish', 'Sinhala',
-            'Tagalog', 'Tamil', 'Tatar', 'Telugu', 'Thai', 'Ukrainian',
-            'Urdu', 'Vietnamese'
 
+      current: Arabic, Azerbaijani, Danish, Dutch, English, Finnish, French, German, Greek, Hungarian, Italian, Kazakh, Nepali, Norwegian, Portuguese, Romanian, Russian, Spanish, Swedish, Turkish.
+
+      new: Bengali, Catalan, Chinese, Croatian, Hebrew, Hindi, Indonesian, Irish, Japanese, Persian, Polish, Sinhala, Tagalog, Tamil, Tatar, Telugu, Thai, Ukrainian, Urdu, Vietnamese
 * Changed
     - Parameters supplied to serp_goog appear at the beginning of the result df
     - serp_youtube now contains nextPageToken to make paginating requests easier
 
 0.6.0 (2019-02-11)
------------------
+------------------
 
 * New function
     - extract_words to extract an arbitrary set of words
@@ -35,7 +30,7 @@ Unreleased
     - hashtag regex improved
 
 0.5.3 (2019-01-31)
------------------
+------------------
 
 * Fix minor bugs
     - Handle Twitter search queries with 0 results in final request
@@ -63,8 +58,7 @@ Unreleased
     - Multiple queries (product of parameters) in one function call
     - Reponse looping and merging handled, one DataFrame 
 * serp_goog return Google's original error messages
-* twitter responses with entities, get the entities extracted, each in
-a separate column
+* twitter responses with entities, get the entities extracted, each in a separate column
 
 0.4.1 (2018-10-13)
 ------------------
