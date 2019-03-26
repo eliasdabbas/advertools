@@ -33,54 +33,54 @@
           <div class="body" role="main">
             
   <h1>Source code for advertools.word_tokenize</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span></span><span class="kn">from</span> <span class="nn">.regex</span> <span class="k">import</span> <span class="n">WORD_DELIM</span>
 
 
-<div class="viewcode-block" id="word_tokenize"><a class="viewcode-back" href="../../advertools.html#advertools.word_tokenize.word_tokenize">[docs]</a><span class="k">def</span> <span class="nf">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">lower_case</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                  <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\w+&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Split text ``s`` into word tokens of length ``token_word_len`` each.</span>
+<div class="viewcode-block" id="word_tokenize"><a class="viewcode-back" href="../../advertools.html#advertools.word_tokenize.word_tokenize">[docs]</a><span class="k">def</span> <span class="nf">word_tokenize</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">phrase_len</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Split ``text_list`` into phrases of length ``phrase_len`` words each.</span>
 
-<span class="sd">    :param s: Any string of text.</span>
-<span class="sd">    :param token_word_len: Length of word tokens, defaults to 2.</span>
-<span class="sd">    :param lower_case: Whether or not to return the result in lower case.</span>
-<span class="sd">    :param keep_punctuation: Whether or not to keep punctuation in the result.</span>
-<span class="sd">    :param regex: The regex used to extract words, change if you really</span>
-<span class="sd">        need a different way of splitting.</span>
-<span class="sd">    :returns tokenized: List of word tokens of length ``token_word_len`` each.</span>
+<span class="sd">    A &quot;word&quot; is any string between white spaces (or beginning or</span>
+<span class="sd">    end of string) with delimiters stripped from both sides.</span>
+<span class="sd">    Delimiters include quotes, question marks, parentheses, etc.</span>
+<span class="sd">    Any delimiter contained within the string remains. See examples below.</span>
 
-<span class="sd">    &gt;&gt;&gt; s = &#39;Please split into words of length 1, 2, &amp; 3. Thanks!&#39;</span>
+<span class="sd">    :param text_list: List of strings.</span>
+<span class="sd">    :param phrase_len: Length of word tokens, defaults to 2.</span>
+<span class="sd">    :return tokenized: List of lists, split according to ``token_word_len``.</span>
 
-<span class="sd">    &gt;&gt;&gt; word_tokenize(s, token_word_len=1, keep_punctuation=False)</span>
-<span class="sd">    [&#39;please&#39;, &#39;split&#39;, &#39;into&#39;, &#39;words&#39;, &#39;of&#39;, &#39;length&#39;,</span>
-<span class="sd">    &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;thanks&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; t = [&#39;split me into length-n-words&#39;,</span>
+<span class="sd">    ... &#39;commas, (parentheses) get removed!&#39;,</span>
+<span class="sd">    ... &#39;commas within text remain $1,000, but not the trailing commas.&#39;]</span>
 
-<span class="sd">    &gt;&gt;&gt; word_tokenize(s, token_word_len=1, keep_punctuation=True)</span>
-<span class="sd">    [&#39;please&#39;, &#39;split&#39;, &#39;into&#39;, &#39;words&#39;, &#39;of&#39;, &#39;length&#39;,</span>
-<span class="sd">    &#39;1,&#39;, &#39;2,&#39;, &#39;&amp;&#39;, &#39;3.&#39;, &#39;thanks!&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; word_tokenize(t, 1)</span>
+<span class="sd">    [[&#39;split&#39;, &#39;me&#39;, &#39;into&#39;, &#39;length-n-words&#39;],</span>
+<span class="sd">    [&#39;commas&#39;, &#39;parentheses&#39;, &#39;get&#39;, &#39;removed&#39;],</span>
+<span class="sd">    [&#39;commas&#39;, &#39;within&#39;, &#39;text&#39;, &#39;remain&#39;, &#39;$1,000&#39;,</span>
+<span class="sd">    &#39;but&#39;, &#39;not&#39;, &#39;the&#39;, &#39;trailing&#39;, &#39;commas&#39;]]</span>
 
-<span class="sd">    &gt;&gt;&gt; word_tokenize(s, token_word_len=2, keep_punctuation=False)</span>
-<span class="sd">    [&#39;please split&#39;, &#39;split into&#39;, &#39;into words&#39;, &#39;words of&#39;,</span>
-<span class="sd">    &#39;of length&#39;, &#39;length 1&#39;, &#39;1 2&#39;, &#39;2 3&#39;, &#39;3 thanks&#39;]</span>
 
-<span class="sd">    &gt;&gt;&gt; word_tokenize(s, token_word_len=2, keep_punctuation=True)</span>
-<span class="sd">    [&#39;please split&#39;, &#39;split into&#39;, &#39;into words&#39;, &#39;words of&#39;,</span>
-<span class="sd">    &#39;of length&#39;, &#39;length 1,&#39;, &#39;1, 2,&#39;, &#39;2, &amp;&#39;, &#39;&amp; 3.&#39;, &#39;3. thanks!&#39;]</span>
+<span class="sd">    The comma inside &quot;$1,000&quot; as well as the dollar sign remain, as they</span>
+<span class="sd">    are part of the &quot;word&quot;, but the trailing comma is stripped.</span>
 
-<span class="sd">    &gt;&gt;&gt; word_tokenize(s, token_word_len=3, keep_punctuation=False)</span>
-<span class="sd">    [&#39;please split into&#39;, &#39;split into words&#39;, &#39;into words of&#39;,</span>
-<span class="sd">    &#39;words of length&#39;, &#39;of length 1&#39;, &#39;length 1 2&#39;, &#39;1 2 3&#39;, &#39;2 3 thanks&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; word_tokenize(t, 2)</span>
+<span class="sd">    [[&#39;split me&#39;, &#39;me into&#39;, &#39;into length-n-words&#39;],</span>
+<span class="sd">    [&#39;commas parentheses&#39;, &#39;parentheses get&#39;, &#39;get removed&#39;],</span>
+<span class="sd">    [&#39;commas within&#39;, &#39;within text&#39;, &#39;text remain&#39;, &#39;remain $1,000&#39;,</span>
+<span class="sd">    &#39;$1,000 but&#39;, &#39;but not&#39;, &#39;not the&#39;, &#39;the trailing&#39;, &#39;trailing commas&#39;]]</span>
 
-<span class="sd">    &gt;&gt;&gt; word_tokenize(s, token_word_len=3, keep_punctuation=True)</span>
-<span class="sd">    [&#39;please split into&#39;, &#39;split into words&#39;, &#39;into words of&#39;,</span>
-<span class="sd">    &#39;words of length&#39;, &#39;of length 1,&#39;, &#39;length 1, 2,&#39;, &#39;1, 2, &amp;&#39;,</span>
-<span class="sd">    &#39;2, &amp; 3.&#39;, &#39;&amp; 3. thanks!&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; word_tokenize(t, 3)</span>
+<span class="sd">    [[&#39;split me into&#39;, &#39;me into length-n-words&#39;],</span>
+<span class="sd">    [&#39;commas parentheses get&#39;, &#39;parentheses get removed&#39;],</span>
+<span class="sd">    [&#39;commas within text&#39;, &#39;within text remain&#39;, &#39;text remain $1,000&#39;,</span>
+<span class="sd">    &#39;remain $1,000 but&#39;, &#39;$1,000 but not&#39;, &#39;but not the&#39;,</span>
+<span class="sd">    &#39;not the trailing&#39;, &#39;the trailing commas&#39;]]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">keep_punctuation</span><span class="p">:</span>
-        <span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\S+&#39;</span>
-    <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
-    <span class="n">split</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">lower_case</span> <span class="k">else</span> <span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">s</span><span class="p">)]</span>
-    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">split</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">token_word_len</span><span class="p">])</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">split</span><span class="p">)</span><span class="o">-</span><span class="n">token_word_len</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span></div>
+    <span class="n">split</span> <span class="o">=</span> <span class="p">[</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="n">split</span> <span class="o">=</span> <span class="p">[[</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">WORD_DELIM</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">]</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">split</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">[[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">phrase_len</span><span class="p">])</span>
+             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-</span> <span class="n">phrase_len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">split</span><span class="p">]</span></div>
 </pre></div>
 
           </div>

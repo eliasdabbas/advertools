@@ -33,149 +33,136 @@
           <div class="body" role="main">
             
   <h1>Source code for advertools.extract</h1><div class="highlight"><pre>
-<span></span>
-<span class="kn">import</span> <span class="nn">re</span>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">unicodedata</span> <span class="k">import</span> <span class="n">name</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
 <span class="kn">from</span> <span class="nn">.emoji_dict</span> <span class="k">import</span> <span class="n">emoji_dict</span>
 <span class="kn">from</span> <span class="nn">.emoji_dict</span> <span class="k">import</span> <span class="n">emoji_regexp</span> <span class="k">as</span> <span class="n">EMOJI</span>
+<span class="kn">from</span> <span class="nn">.regex</span> <span class="k">import</span> <span class="p">(</span><span class="n">MENTION</span><span class="p">,</span> <span class="n">HASHTAG</span><span class="p">,</span> <span class="n">CURRENCY</span><span class="p">,</span> <span class="n">CURRENCY_RAW</span><span class="p">,</span> <span class="n">QUESTION</span><span class="p">,</span>
+                    <span class="n">QUESTION_MARK</span><span class="p">)</span>
 
-<span class="n">HASHTAG</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?:^|\W)([＃#]</span><span class="si">{1}</span><span class="s2">\w+)&quot;</span><span class="p">)</span>
-<span class="n">MENTION</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(?:^|\W)([@＠][A-Za-z0-9_]+)&#39;</span><span class="p">)</span>
 
+<div class="viewcode-block" id="extract"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract">[docs]</a><span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">key_name</span><span class="p">,</span> <span class="n">extracted</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about arbitrary matches in ``text_list``.</span>
 
-<div class="viewcode-block" id="extract_mentions"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_mentions">[docs]</a><span class="k">def</span> <span class="nf">extract_mentions</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about mentions in ``text_list``</span>
+<span class="sd">    This function is used by other specialized functions to extract</span>
+<span class="sd">    certain elements (hashtags, mentions, emojis, etc.).</span>
+<span class="sd">    It can be used for other arbitrary elements/matches. You only need to</span>
+<span class="sd">    provide your own regex.</span>
 
-<span class="sd">    Get a summary of the number of mentions, their frequency, the top</span>
-<span class="sd">    ones, and more.</span>
-
-<span class="sd">    :param text_list: A list of text strings.</span>
-<span class="sd">    :returns summary: A dictionary with various stats about mentions</span>
-
-<span class="sd">    &gt;&gt;&gt; posts = [&#39;hello @john and @jenny&#39;, &#39;hi there @john&#39;, &#39;good morning&#39;]</span>
-<span class="sd">    &gt;&gt;&gt; mention_summary = extract_mentions(posts)</span>
-<span class="sd">    &gt;&gt;&gt; mention_summary.keys()</span>
-<span class="sd">    dict_keys([&#39;mentions&#39;, &#39;mentions_flat&#39;, &#39;mention_counts&#39;, &#39;mention_freq&#39;,</span>
-<span class="sd">    &#39;top_mentions&#39;, &#39;overview&#39;])</span>
-
-<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;mentions&#39;]</span>
-<span class="sd">    [[&#39;@john&#39;, &#39;@jenny&#39;], [&#39;@john&#39;], []]</span>
-
-<span class="sd">    A simple extract of mentions from each of the posts. An empty list if</span>
-<span class="sd">    none exist</span>
-
-<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;mentions_flat&#39;]</span>
-<span class="sd">    [&#39;@john&#39;, &#39;@jenny&#39;, &#39;@john&#39;]</span>
-
-<span class="sd">    All mentions in one flat list.</span>
-
-<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;mention_counts&#39;]</span>
-<span class="sd">    [2, 1, 0]</span>
-
-<span class="sd">    The count of mentions per post.</span>
-
-<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;mention_freq&#39;]</span>
-<span class="sd">    [(0, 1), (1, 1), (2, 1)]</span>
-
-<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. mentions</span>
-<span class="sd">    (number_of_mentions, count)</span>
-
-<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;top_mentions&#39;]</span>
-<span class="sd">    [(&#39;@john&#39;, 2), (&#39;@jenny&#39;, 1)]</span>
-
-<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;overview&#39;]</span>
-<span class="sd">    {&#39;num_posts&#39;: 3, # number of posts</span>
-<span class="sd">     &#39;num_mentions&#39;: 3,</span>
-<span class="sd">     &#39;mentions_per_post&#39;: 1.0,</span>
-<span class="sd">     &#39;unique_mentions&#39;: 2}</span>
+<span class="sd">    :param text_list: Any list of strings (social posts, page titles, etc.)</span>
+<span class="sd">    :param regex: The regex pattern to use for extraction.</span>
+<span class="sd">    :param key_name: The name of the object extracted in singular form</span>
+<span class="sd">        (hashtag, mention, etc.)</span>
+<span class="sd">    :param extracted: List of lists, optional. If the regex is not</span>
+<span class="sd">        straightforward, and matches need to be made with special code,</span>
+<span class="sd">        provide the extracted words/matches as a list for each element</span>
+<span class="sd">        of ``text_list``.</span>
+<span class="sd">    :param kwargs: Other kwargs that might be needed.</span>
+<span class="sd">    :return summary: A dictionary summarizing the extracted data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">mentions</span> <span class="o">=</span> <span class="p">[</span><span class="n">MENTION</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
-    <span class="n">mentions_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">mentions</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">text_list</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">extracted</span><span class="p">:</span>
+        <span class="n">extracted</span> <span class="o">=</span> <span class="p">[</span><span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+                     <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="n">flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">extracted</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+
     <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;mentions&#39;</span><span class="p">:</span> <span class="n">mentions</span><span class="p">,</span>
-        <span class="s1">&#39;mentions_flat&#39;</span><span class="p">:</span> <span class="n">mentions_flat</span><span class="p">,</span>
-        <span class="s1">&#39;mention_counts&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">mention</span><span class="p">)</span> <span class="k">for</span> <span class="n">mention</span> <span class="ow">in</span> <span class="n">mentions</span><span class="p">],</span>
-        <span class="s1">&#39;mention_freq&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">mention</span><span class="p">)</span>
-                                        <span class="k">for</span> <span class="n">mention</span> <span class="ow">in</span> <span class="n">mentions</span><span class="p">])</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                               <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
-        <span class="s1">&#39;top_mentions&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">mentions_flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                               <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                               <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="n">extracted</span><span class="p">,</span>
+        <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span> <span class="o">+</span> <span class="s1">&#39;_flat&#39;</span><span class="p">:</span> <span class="n">flat</span><span class="p">,</span>
+        <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;_counts&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">extracted</span><span class="p">],</span>
+        <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;_freq&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">extracted</span><span class="p">])</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                                   <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="s1">&#39;top_&#39;</span> <span class="o">+</span> <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                                        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                        <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
         <span class="s1">&#39;overview&#39;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s1">&#39;num_posts&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
-            <span class="s1">&#39;num_mentions&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">mentions_flat</span><span class="p">),</span>
-            <span class="s1">&#39;mentions_per_post&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">mentions_flat</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
-            <span class="s1">&#39;unique_mentions&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">mentions_flat</span><span class="p">)),</span>
+            <span class="s1">&#39;num_&#39;</span> <span class="o">+</span> <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">flat</span><span class="p">),</span>
+            <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span> <span class="o">+</span> <span class="s1">&#39;_per_post&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">flat</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
+            <span class="s1">&#39;unique_&#39;</span> <span class="o">+</span> <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">flat</span><span class="p">)),</span>
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
-<div class="viewcode-block" id="extract_hashtags"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_hashtags">[docs]</a><span class="k">def</span> <span class="nf">extract_hashtags</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about hashtags in ``text_list``</span>
+<div class="viewcode-block" id="extract_currency"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_currency">[docs]</a><span class="k">def</span> <span class="nf">extract_currency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">left_chars</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">right_chars</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about currency symbols in ``text_list``</span>
 
-<span class="sd">    Get a summary of the number of hashtags, their frequency, the top</span>
-<span class="sd">    ones, and more.</span>
+<span class="sd">    Get a summary of the number of currency symbols, their frequency,</span>
+<span class="sd">    the top ones, and more.</span>
 
 <span class="sd">    :param text_list: A list of text strings.</span>
-<span class="sd">    :returns summary: A dictionary with various stats about hashtags</span>
+<span class="sd">    :param left_chars: The number of characters to extract, to the</span>
+<span class="sd">        left of the symbol when getting ``surrounding_text``</span>
+<span class="sd">    :param right_chars: The number of characters to extract, to the</span>
+<span class="sd">        left of the symbol when getting ``surrounding_text``</span>
+<span class="sd">    :returns summary: A dictionary with various stats about currencies</span>
 
-<span class="sd">    &gt;&gt;&gt; posts = [&#39;i like #blue&#39;, &#39;i like #green and #blue&#39;, &#39;i like all&#39;]</span>
-<span class="sd">    &gt;&gt;&gt; hashtag_summary = extract_hashtags(posts)</span>
-<span class="sd">    &gt;&gt;&gt; hashtag_summary.keys()</span>
-<span class="sd">    dict_keys([&#39;hashtags&#39;, &#39;hashtags_flat&#39;, &#39;hashtag_counts&#39;, &#39;hashtag_freq&#39;,</span>
-<span class="sd">    &#39;top_hashtags&#39;, &#39;overview&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; posts = [&#39;today ₿1 is around $4k&#39;, &#39;and ₿ in £ &amp; €?&#39;, &#39;no idea&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; currency_summary = extract_currency(posts)</span>
+<span class="sd">    &gt;&gt;&gt; currency_summary.keys()</span>
+<span class="sd">    dict_keys([&#39;currency_symbols&#39;, &#39;currency_symbols_flat&#39;,</span>
+<span class="sd">    &#39;currency_symbol_counts&#39;, &#39;currency_symbol_freq&#39;,</span>
+<span class="sd">    &#39;top_currency_symbols&#39;, &#39;overview&#39;, &#39;currency_symbol_names&#39;])</span>
 
-<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;hashtags&#39;]</span>
-<span class="sd">    [[&#39;#blue&#39;], [&#39;#green&#39;, &#39;#blue&#39;], []]</span>
+<span class="sd">    &gt;&gt;&gt; currency_summary[&#39;currency_symbols&#39;]</span>
+<span class="sd">    [[&#39;₿&#39;, &#39;$&#39;], [&#39;₿&#39;, &#39;£&#39;, &#39;€&#39;], []]</span>
 
-<span class="sd">    A simple extract of hashtags from each of the posts. An empty list if</span>
+<span class="sd">    A simple extract of currencies from each of the posts. An empty list if</span>
 <span class="sd">    none exist</span>
 
-<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;hashtags_flat&#39;]</span>
-<span class="sd">    [&#39;#blue&#39;, &#39;#green&#39;, &#39;#blue&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; currency_summary[&#39;currency_symbols_flat&#39;]</span>
+<span class="sd">    [&#39;₿&#39;, &#39;$&#39;, &#39;₿&#39;, &#39;£&#39;, &#39;€&#39;]</span>
 
-<span class="sd">    All hashtags in one flat list.</span>
+<span class="sd">    All currency symbols in one flat list.</span>
 
-<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;hashtag_counts&#39;]</span>
-<span class="sd">    [1, 2, 0]</span>
+<span class="sd">    &gt;&gt;&gt; currency_summary[&#39;currency_symbol_counts&#39;]</span>
+<span class="sd">    [2, 3, 0]</span>
 
-<span class="sd">    The count of hashtags per post.</span>
+<span class="sd">    The count of currency symbols per post.</span>
 
-<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;hashtag_freq&#39;]</span>
-<span class="sd">    [(0, 1), (1, 1), (2, 1)]</span>
+<span class="sd">    &gt;&gt;&gt; currency_summary[&#39;currency_symbol_freq&#39;]</span>
+<span class="sd">    [(0, 1), (2, 1), (3, 1)]</span>
 
-<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. hashtags</span>
-<span class="sd">    (number_of_hashtags, count)</span>
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. currency symbols</span>
+<span class="sd">    (number_of_symbols, count)</span>
 
-<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;top_hashtags&#39;]</span>
-<span class="sd">    [(&#39;#blue&#39;, 2), (&#39;#green&#39;, 1)]</span>
+<span class="sd">    &gt;&gt;&gt; currency_summary[&#39;top_currency_symbols&#39;]</span>
+<span class="sd">    [(&#39;₿&#39;, 2), (&#39;$&#39;, 1), (&#39;£&#39;, 1), (&#39;€&#39;, 1)]</span>
 
-<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;overview&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; currency_summary[&#39;currency_symbol_names&#39;]</span>
+<span class="sd">    [[&#39;bitcoin sign&#39;, &#39;dollar sign&#39;], [&#39;bitcoin sign&#39;, &#39;pound sign&#39;,</span>
+<span class="sd">    &#39;euro sign&#39;], []]</span>
+
+<span class="sd">    &gt;&gt;&gt; currency_summary[&#39;surrounding_text&#39;]</span>
+<span class="sd">    [[&#39;today ₿1 is around $4k&#39;], [&#39;and ₿ in £ &amp; €?&#39;], []]</span>
+
+<span class="sd">    &gt;&gt;&gt; extract_currency(posts, 5, 5)[&#39;surrounding_text&#39;]</span>
+<span class="sd">    [[&#39;oday ₿1 is &#39;, &#39;ound $4k&#39;], [&#39;and ₿ in £&#39;, &#39; &amp; €?&#39;], []]</span>
+
+<span class="sd">    &gt;&gt;&gt; extract_currency(posts, 0, 3)[&#39;surrounding_text&#39;]</span>
+<span class="sd">    [[&#39;₿1 i&#39;, &#39;$4k&#39;], [&#39;₿ in&#39;, &#39;£ &amp; &#39;, &#39;€?&#39;], []]</span>
+
+<span class="sd">    &gt;&gt;&gt; currency_summary[&#39;overview&#39;]</span>
 <span class="sd">    {&#39;num_posts&#39;: 3,</span>
-<span class="sd">     &#39;num_hashtags&#39;: 3,</span>
-<span class="sd">     &#39;hashtags_per_post&#39;: 1.0,</span>
-<span class="sd">     &#39;unique_hashtags&#39;: 2}</span>
-<span class="sd">     &quot;&quot;&quot;</span>
-    <span class="n">hashtags</span> <span class="o">=</span> <span class="p">[</span><span class="n">HASHTAG</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
-    <span class="n">hashtags_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">hashtags</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
-    <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;hashtags&#39;</span><span class="p">:</span> <span class="n">hashtags</span><span class="p">,</span>
-        <span class="s1">&#39;hashtags_flat&#39;</span><span class="p">:</span> <span class="n">hashtags_flat</span><span class="p">,</span>
-        <span class="s1">&#39;hashtag_counts&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">hashtag</span><span class="p">)</span> <span class="k">for</span> <span class="n">hashtag</span> <span class="ow">in</span> <span class="n">hashtags</span><span class="p">],</span>
-        <span class="s1">&#39;hashtag_freq&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">hashtag</span><span class="p">)</span>
-                                        <span class="k">for</span> <span class="n">hashtag</span> <span class="ow">in</span> <span class="n">hashtags</span><span class="p">])</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                               <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
-        <span class="s1">&#39;top_hashtags&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">hashtags_flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                               <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                               <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-        <span class="s1">&#39;overview&#39;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s1">&#39;num_posts&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
-            <span class="s1">&#39;num_hashtags&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">hashtags_flat</span><span class="p">),</span>
-            <span class="s1">&#39;hashtags_per_post&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">hashtags_flat</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
-            <span class="s1">&#39;unique_hashtags&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">hashtags_flat</span><span class="p">)),</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+<span class="sd">    &#39;num_currency_symbols&#39;: 5,</span>
+<span class="sd">    &#39;currency_symbols_per_post&#39;: 1.6666666666666667,</span>
+<span class="sd">    &#39;unique_currency_symbols&#39;: 4}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">CURRENCY</span><span class="p">,</span> <span class="s1">&#39;currency_symbol&#39;</span><span class="p">)</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;currency_symbol_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="n">name</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span>
+                                        <span class="k">else</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+                                        <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;currency_symbols&#39;</span><span class="p">]]</span>
+    <span class="n">surrounding_text_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;.{0,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">left_chars</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span> <span class="o">+</span>
+                                        <span class="n">CURRENCY_RAW</span> <span class="o">+</span>
+                                        <span class="sa">r</span><span class="s1">&#39;.{0,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">right_chars</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">)</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;surrounding_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">surrounding_text_regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+                                   <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
@@ -275,15 +262,228 @@
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
-<div class="viewcode-block" id="extract_words"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_words">[docs]</a><span class="k">def</span> <span class="nf">extract_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">words_to_find</span><span class="p">,</span> <span class="n">full_words_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about ``words_to_find`` in ``text_list``.</span>
+<div class="viewcode-block" id="extract_hashtags"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_hashtags">[docs]</a><span class="k">def</span> <span class="nf">extract_hashtags</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about hashtags in ``text_list``</span>
+
+<span class="sd">    Get a summary of the number of hashtags, their frequency, the top</span>
+<span class="sd">    ones, and more.</span>
+
+<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :returns summary: A dictionary with various stats about hashtags</span>
+
+<span class="sd">    &gt;&gt;&gt; posts = [&#39;i like #blue&#39;, &#39;i like #green and #blue&#39;, &#39;i like all&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; hashtag_summary = extract_hashtags(posts)</span>
+<span class="sd">    &gt;&gt;&gt; hashtag_summary.keys()</span>
+<span class="sd">    dict_keys([&#39;hashtags&#39;, &#39;hashtags_flat&#39;, &#39;hashtag_counts&#39;, &#39;hashtag_freq&#39;,</span>
+<span class="sd">    &#39;top_hashtags&#39;, &#39;overview&#39;])</span>
+
+<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;hashtags&#39;]</span>
+<span class="sd">    [[&#39;#blue&#39;], [&#39;#green&#39;, &#39;#blue&#39;], []]</span>
+
+<span class="sd">    A simple extract of hashtags from each of the posts. An empty list if</span>
+<span class="sd">    none exist</span>
+
+<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;hashtags_flat&#39;]</span>
+<span class="sd">    [&#39;#blue&#39;, &#39;#green&#39;, &#39;#blue&#39;]</span>
+
+<span class="sd">    All hashtags in one flat list.</span>
+
+<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;hashtag_counts&#39;]</span>
+<span class="sd">    [1, 2, 0]</span>
+
+<span class="sd">    The count of hashtags per post.</span>
+
+<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;hashtag_freq&#39;]</span>
+<span class="sd">    [(0, 1), (1, 1), (2, 1)]</span>
+
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. hashtags</span>
+<span class="sd">    (number_of_hashtags, count)</span>
+
+<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;top_hashtags&#39;]</span>
+<span class="sd">    [(&#39;#blue&#39;, 2), (&#39;#green&#39;, 1)]</span>
+
+<span class="sd">    &gt;&gt;&gt; hashtag_summary[&#39;overview&#39;]</span>
+<span class="sd">    {&#39;num_posts&#39;: 3,</span>
+<span class="sd">     &#39;num_hashtags&#39;: 3,</span>
+<span class="sd">     &#39;hashtags_per_post&#39;: 1.0,</span>
+<span class="sd">     &#39;unique_hashtags&#39;: 2}</span>
+<span class="sd">     &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">HASHTAG</span><span class="p">,</span> <span class="s1">&#39;hashtag&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extract_intense_words"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_intense_words">[docs]</a><span class="k">def</span> <span class="nf">extract_intense_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">min_reps</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\S*)(\S)(</span><span class="si">{}</span><span class="s1">\S*)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">min_reps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="sa">r</span><span class="s1">&#39;\2&#39;</span><span class="p">))</span>
+    <span class="n">extracted</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)]</span>
+                 <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="s1">&#39;intense_word&#39;</span><span class="p">,</span> <span class="n">extracted</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extract_mentions"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_mentions">[docs]</a><span class="k">def</span> <span class="nf">extract_mentions</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about mentions in ``text_list``</span>
+
+<span class="sd">    Get a summary of the number of mentions, their frequency, the top</span>
+<span class="sd">    ones, and more.</span>
+
+<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :returns summary: A dictionary with various stats about mentions</span>
+
+<span class="sd">    &gt;&gt;&gt; posts = [&#39;hello @john and @jenny&#39;, &#39;hi there @john&#39;, &#39;good morning&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; mention_summary = extract_mentions(posts)</span>
+<span class="sd">    &gt;&gt;&gt; mention_summary.keys()</span>
+<span class="sd">    dict_keys([&#39;mentions&#39;, &#39;mentions_flat&#39;, &#39;mention_counts&#39;, &#39;mention_freq&#39;,</span>
+<span class="sd">    &#39;top_mentions&#39;, &#39;overview&#39;])</span>
+
+<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;mentions&#39;]</span>
+<span class="sd">    [[&#39;@john&#39;, &#39;@jenny&#39;], [&#39;@john&#39;], []]</span>
+
+<span class="sd">    A simple extract of mentions from each of the posts. An empty list if</span>
+<span class="sd">    none exist</span>
+
+<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;mentions_flat&#39;]</span>
+<span class="sd">    [&#39;@john&#39;, &#39;@jenny&#39;, &#39;@john&#39;]</span>
+
+<span class="sd">    All mentions in one flat list.</span>
+
+<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;mention_counts&#39;]</span>
+<span class="sd">    [2, 1, 0]</span>
+
+<span class="sd">    The count of mentions per post.</span>
+
+<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;mention_freq&#39;]</span>
+<span class="sd">    [(0, 1), (1, 1), (2, 1)]</span>
+
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. mentions</span>
+<span class="sd">    (number_of_mentions, count)</span>
+
+<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;top_mentions&#39;]</span>
+<span class="sd">    [(&#39;@john&#39;, 2), (&#39;@jenny&#39;, 1)]</span>
+
+<span class="sd">    &gt;&gt;&gt; mention_summary[&#39;overview&#39;]</span>
+<span class="sd">    {&#39;num_posts&#39;: 3, # number of posts</span>
+<span class="sd">     &#39;num_mentions&#39;: 3,</span>
+<span class="sd">     &#39;mentions_per_post&#39;: 1.0,</span>
+<span class="sd">     &#39;unique_mentions&#39;: 2}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">MENTION</span><span class="p">,</span> <span class="s1">&#39;mention&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extract_questions"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_questions">[docs]</a><span class="k">def</span> <span class="nf">extract_questions</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about question(mark)s in ``text_list``</span>
+
+<span class="sd">    Get a summary of the number of question marks, their frequency,</span>
+<span class="sd">    the top ones, as well the questions asked.</span>
+
+<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :returns summary: A dictionary with various stats about questions</span>
+
+<span class="sd">    &gt;&gt;&gt; posts = [&#39;How are you?&#39;, &#39;What is this?&#39;, &#39;No question Here!&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; question_summary = extract_questions(posts)</span>
+<span class="sd">    &gt;&gt;&gt; question_summary.keys()</span>
+<span class="sd">    dict_keys([&#39;question_marks&#39;, &#39;question_marks_flat&#39;,</span>
+<span class="sd">    &#39;question_mark_counts&#39;, &#39;question_mark_freq&#39;, &#39;top_question_marks&#39;,</span>
+<span class="sd">    &#39;overview&#39;, &#39;question_mark_names&#39;, &#39;question_text&#39;])</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;question_marks&#39;]</span>
+<span class="sd">    [[&#39;?&#39;], [&#39;?&#39;], []]</span>
+
+<span class="sd">    A simple extract of question marks from each of the posts. An empty</span>
+<span class="sd">    list if none exist</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;question_marks_flat&#39;]</span>
+<span class="sd">    [&#39;?&#39;, &#39;?&#39;]</span>
+
+<span class="sd">    All question marks in one flat list.</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;question_mark_counts&#39;]</span>
+<span class="sd">    [1, 1, 0]</span>
+
+<span class="sd">    The count of question marks per post.</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;question_mark_freq&#39;]</span>
+<span class="sd">    [(0, 1), (1, 2)]</span>
+
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. question marks</span>
+<span class="sd">    (number_of_symbols, count)</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;top_question_marks&#39;]</span>
+<span class="sd">    [(&#39;?&#39;, 2)]</span>
+
+<span class="sd">    Might be interesting if you have different types of question marks</span>
+<span class="sd">    (Arabic, Spanish, Greek, Armenian, or other)</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;question_mark_names&#39;]</span>
+<span class="sd">    [[&#39;question mark&#39;], [&#39;question mark&#39;], []]</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;overview&#39;]</span>
+<span class="sd">    {&#39;num_posts&#39;: 3,</span>
+<span class="sd">    &#39;num_question_marks&#39;: 2,</span>
+<span class="sd">    &#39;question_marks_per_post&#39;: 0.6666666666666666,</span>
+<span class="sd">    &#39;unique_question_marks&#39;: 1}</span>
+
+<span class="sd">    &gt;&gt;&gt; posts2 = [&#39;Πώς είσαι;&#39;, &#39;مرحباً. كيف حالك؟&#39;, &#39;Hola, ¿cómo estás?&#39;,</span>
+<span class="sd">    ... &#39;Can you see the new questions? Did you notice the different marks?&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary = extract_questions(posts2)</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;question_marks&#39;]</span>
+<span class="sd">    [[&#39;;&#39;], [&#39;؟&#39;], [&#39;¿&#39;, &#39;?&#39;], [&#39;?&#39;, &#39;?&#39;]]</span>
+<span class="sd">    # might be displayed in opposite order due to RTL question mark</span>
+<span class="sd">    A simple extract of question marks from each of the posts. An empty list if</span>
+<span class="sd">    none exist</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;question_marks_flat&#39;]</span>
+<span class="sd">    [&#39;;&#39;, &#39;؟&#39;, &#39;¿&#39;, &#39;?&#39;, &#39;?&#39;, &#39;?&#39;]</span>
+
+<span class="sd">    All question marks in one flat list.</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;question_mark_counts&#39;]</span>
+<span class="sd">    [1, 1, 2, 2]</span>
+
+<span class="sd">    The count of question marks per post.</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;question_mark_freq&#39;]</span>
+<span class="sd">    [(1, 2), (2, 2)]</span>
+
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. question marks</span>
+<span class="sd">    (number_of_symbols, count)</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;top_question_marks&#39;]</span>
+<span class="sd">    [(&#39;?&#39;, 3), (&#39;;&#39;, 1), (&#39;؟&#39;, 1), (&#39;¿&#39;, 1)]</span>
+
+<span class="sd">    Might be interesting if you have different types of question marks</span>
+<span class="sd">    (Arabic, Spanish, Greek, Armenian, or other)</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;question_mark_names&#39;]</span>
+<span class="sd">    [[&#39;greek question mark&#39;], [&#39;arabic question mark&#39;],</span>
+<span class="sd">    [&#39;inverted question mark&#39;, &#39;question mark&#39;],</span>
+<span class="sd">    [&#39;question mark&#39;, &#39;question mark&#39;]]</span>
+<span class="sd">    # correct order</span>
+
+<span class="sd">    &gt;&gt;&gt; question_summary[&#39;overview&#39;]</span>
+<span class="sd">    {&#39;num_posts&#39;: 4,</span>
+<span class="sd">    &#39;num_question_marks&#39;: 6,</span>
+<span class="sd">    &#39;question_marks_per_post&#39;: 1.5,</span>
+<span class="sd">    &#39;unique_question_marks&#39;: 4}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">QUESTION_MARK</span><span class="p">,</span> <span class="n">key_name</span><span class="o">=</span><span class="s1">&#39;question_mark&#39;</span><span class="p">)</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;question_mark_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="n">name</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span>
+                                      <span class="k">else</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+                                      <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;question_marks&#39;</span><span class="p">]]</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;question_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">QUESTION</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">summary</span></div>
+
+
+<div class="viewcode-block" id="extract_words"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_words">[docs]</a><span class="k">def</span> <span class="nf">extract_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">words_to_extract</span><span class="p">,</span> <span class="n">entire_words_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about ``words_to_extract`` in ``text_list``.</span>
 
 <span class="sd">    Get a summary of the number of words, their frequency, the top</span>
 <span class="sd">    ones, and more.</span>
 
 <span class="sd">    :param text_list: A list of text strings.</span>
-<span class="sd">    :param words_to_find: A list of words to find in ``text_list``.</span>
-<span class="sd">    :param full_words_only: Whether or not to find only complete words</span>
+<span class="sd">    :param words_to_extract: A list of words to extract from ``text_list``.</span>
+<span class="sd">    :param entire_words_only: Whether or not to find only complete words</span>
 <span class="sd">        (as specified by ``words_to_find``) or find any any of the</span>
 <span class="sd">        words as part of longer strings.</span>
 <span class="sd">    :returns summary: A dictionary with various stats about the words</span>
@@ -361,40 +561,20 @@
 <span class="sd">    &gt;&gt;&gt; word_summary[&#39;top_words&#39;]</span>
 <span class="sd">    [(&#39;rain&#39;, 3), (&#39;raining&#39;, 1), (&#39;snow&#39;, 1), (&#39;snowing&#39;, 1)]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">words_to_find</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">words_to_find</span> <span class="o">=</span> <span class="p">[</span><span class="n">words_to_find</span><span class="p">]</span>
-    <span class="n">words_to_find</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words_to_find</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">full_words_only</span><span class="p">:</span>
-        <span class="n">words</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">:</span>
-            <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words_to_find</span><span class="p">:</span>
-                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-            <span class="n">words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">words_to_extract</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">words_to_extract</span> <span class="o">=</span> <span class="p">[</span><span class="n">words_to_extract</span><span class="p">]</span>
+
+    <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="n">words_to_extract</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words_to_extract</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">entire_words_only</span><span class="p">:</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;\b&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\b&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words_to_extract</span><span class="p">]</span>
+        <span class="n">word_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="p">),</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">regex</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;\S{0,}&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\S{0,}&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words_to_find</span><span class="p">]</span>
-        <span class="n">word_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="p">))</span>
-        <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word_regex</span> <span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
-    <span class="n">words_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
-    <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">words</span><span class="p">,</span>
-        <span class="s1">&#39;words_flat&#39;</span><span class="p">:</span> <span class="n">words_flat</span><span class="p">,</span>
-        <span class="s1">&#39;word_counts&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">],</span>
-        <span class="s1">&#39;word_freq&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-                                     <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">])</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
-        <span class="s1">&#39;top_words&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">words_flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                            <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-        <span class="s1">&#39;overview&#39;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s1">&#39;num_posts&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
-            <span class="s1">&#39;num_words&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">words_flat</span><span class="p">),</span>
-            <span class="s1">&#39;words_per_post&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">words_flat</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
-            <span class="s1">&#39;unique_words&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">words_flat</span><span class="p">)),</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">summary</span></div>
+        <span class="n">regex</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;\S*&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\S*&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words_to_extract</span><span class="p">]</span>
+        <span class="n">word_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="p">),</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">word_regex</span><span class="p">,</span> <span class="s1">&#39;word&#39;</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

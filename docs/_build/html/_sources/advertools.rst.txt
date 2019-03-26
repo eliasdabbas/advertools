@@ -44,6 +44,14 @@ advertools.kw\_generate module
     :undoc-members:
     :show-inheritance:
 
+advertools.regex module
+-----------------------
+
+.. automodule:: advertools.regex
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 advertools.serp module
 ----------------------
 

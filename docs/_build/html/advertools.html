@@ -160,6 +160,123 @@ Imported from the Python emoji package <a class="reference external" href="https
 <div class="section" id="module-advertools.extract">
 <span id="advertools-extract-module"></span><h2>advertools.extract module<a class="headerlink" href="#module-advertools.extract" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="advertools.extract.extract">
+<code class="descclassname">advertools.extract.</code><code class="descname">extract</code><span class="sig-paren">(</span><em>text_list</em>, <em>regex</em>, <em>key_name</em>, <em>extracted=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about arbitrary matches in <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</p>
+<p>This function is used by other specialized functions to extract
+certain elements (hashtags, mentions, emojis, etc.).
+It can be used for other arbitrary elements/matches. You only need to
+provide your own regex.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text_list</strong> – Any list of strings (social posts, page titles, etc.)</li>
+<li><strong>regex</strong> – The regex pattern to use for extraction.</li>
+<li><strong>key_name</strong> – The name of the object extracted in singular form
+(hashtag, mention, etc.)</li>
+<li><strong>extracted</strong> – List of lists, optional. If the regex is not
+straightforward, and matches need to be made with special code,
+provide the extracted words/matches as a list for each element
+of <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</li>
+<li><strong>kwargs</strong> – Other kwargs that might be needed.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return summary:</th><td class="field-body"><p class="first last">A dictionary summarizing the extracted data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_currency">
+<code class="descclassname">advertools.extract.</code><code class="descname">extract_currency</code><span class="sig-paren">(</span><em>text_list</em>, <em>left_chars=20</em>, <em>right_chars=20</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_currency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_currency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about currency symbols in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of currency symbols, their frequency,
+the top ones, and more.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text_list</strong> – A list of text strings.</li>
+<li><strong>left_chars</strong> – The number of characters to extract, to the
+left of the symbol when getting <code class="docutils literal notranslate"><span class="pre">surrounding_text</span></code></li>
+<li><strong>right_chars</strong> – The number of characters to extract, to the
+left of the symbol when getting <code class="docutils literal notranslate"><span class="pre">surrounding_text</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns summary:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">A dictionary with various stats about currencies</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;today ₿1 is around $4k&#39;</span><span class="p">,</span> <span class="s1">&#39;and ₿ in £ &amp; €?&#39;</span><span class="p">,</span> <span class="s1">&#39;no idea&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span> <span class="o">=</span> <span class="n">extract_currency</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;currency_symbols&#39;, &#39;currency_symbols_flat&#39;,</span>
+<span class="go">&#39;currency_symbol_counts&#39;, &#39;currency_symbol_freq&#39;,</span>
+<span class="go">&#39;top_currency_symbols&#39;, &#39;overview&#39;, &#39;currency_symbol_names&#39;])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;currency_symbols&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;₿&#39;, &#39;$&#39;], [&#39;₿&#39;, &#39;£&#39;, &#39;€&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of currencies from each of the posts. An empty list if
+none exist</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;currency_symbols_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;₿&#39;, &#39;$&#39;, &#39;₿&#39;, &#39;£&#39;, &#39;€&#39;]</span>
+</pre></div>
+</div>
+<p>All currency symbols in one flat list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;currency_symbol_counts&#39;</span><span class="p">]</span>
+<span class="go">[2, 3, 0]</span>
+</pre></div>
+</div>
+<p>The count of currency symbols per post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;currency_symbol_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (2, 1), (3, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. currency symbols
+(number_of_symbols, count)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;top_currency_symbols&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;₿&#39;, 2), (&#39;$&#39;, 1), (&#39;£&#39;, 1), (&#39;€&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;currency_symbol_names&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;bitcoin sign&#39;, &#39;dollar sign&#39;], [&#39;bitcoin sign&#39;, &#39;pound sign&#39;,</span>
+<span class="go">&#39;euro sign&#39;], []]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;surrounding_text&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;today ₿1 is around $4k&#39;], [&#39;and ₿ in £ &amp; €?&#39;], []]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">extract_currency</span><span class="p">(</span><span class="n">posts</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)[</span><span class="s1">&#39;surrounding_text&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;oday ₿1 is &#39;, &#39;ound $4k&#39;], [&#39;and ₿ in £&#39;, &#39; &amp; €?&#39;], []]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">extract_currency</span><span class="p">(</span><span class="n">posts</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)[</span><span class="s1">&#39;surrounding_text&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;₿1 i&#39;, &#39;$4k&#39;], [&#39;₿ in&#39;, &#39;£ &amp; &#39;, &#39;€?&#39;], []]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 3,</span>
+<span class="go">&#39;num_currency_symbols&#39;: 5,</span>
+<span class="go">&#39;currency_symbols_per_post&#39;: 1.6666666666666667,</span>
+<span class="go">&#39;unique_currency_symbols&#39;: 4}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="advertools.extract.extract_emoji">
 <code class="descclassname">advertools.extract.</code><code class="descname">extract_emoji</code><span class="sig-paren">(</span><em>text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_emoji"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_emoji" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about emoji in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
@@ -300,6 +417,11 @@ none exist</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="advertools.extract.extract_intense_words">
+<code class="descclassname">advertools.extract.</code><code class="descname">extract_intense_words</code><span class="sig-paren">(</span><em>text_list</em>, <em>min_reps=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_intense_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_intense_words" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="advertools.extract.extract_mentions">
 <code class="descclassname">advertools.extract.</code><code class="descname">extract_mentions</code><span class="sig-paren">(</span><em>text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_mentions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_mentions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about mentions in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
@@ -359,9 +481,125 @@ none exist</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="advertools.extract.extract_questions">
+<code class="descclassname">advertools.extract.</code><code class="descname">extract_questions</code><span class="sig-paren">(</span><em>text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_questions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_questions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about question(mark)s in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of question marks, their frequency,
+the top ones, as well the questions asked.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text_list</strong> – A list of text strings.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns summary:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">A dictionary with various stats about questions</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;How are you?&#39;</span><span class="p">,</span> <span class="s1">&#39;What is this?&#39;</span><span class="p">,</span> <span class="s1">&#39;No question Here!&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span> <span class="o">=</span> <span class="n">extract_questions</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;question_marks&#39;, &#39;question_marks_flat&#39;,</span>
+<span class="go">&#39;question_mark_counts&#39;, &#39;question_mark_freq&#39;, &#39;top_question_marks&#39;,</span>
+<span class="go">&#39;overview&#39;, &#39;question_mark_names&#39;, &#39;question_text&#39;])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_marks&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;?&#39;], [&#39;?&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of question marks from each of the posts. An empty
+list if none exist</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_marks_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;?&#39;, &#39;?&#39;]</span>
+</pre></div>
+</div>
+<p>All question marks in one flat list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 0]</span>
+</pre></div>
+</div>
+<p>The count of question marks per post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 2)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. question marks
+(number_of_symbols, count)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;top_question_marks&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;?&#39;, 2)]</span>
+</pre></div>
+</div>
+<p>Might be interesting if you have different types of question marks
+(Arabic, Spanish, Greek, Armenian, or other)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_names&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;question mark&#39;], [&#39;question mark&#39;], []]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 3,</span>
+<span class="go">&#39;num_question_marks&#39;: 2,</span>
+<span class="go">&#39;question_marks_per_post&#39;: 0.6666666666666666,</span>
+<span class="go">&#39;unique_question_marks&#39;: 1}</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Πώς είσαι;&#39;</span><span class="p">,</span> <span class="s1">&#39;مرحباً. كيف حالك؟&#39;</span><span class="p">,</span> <span class="s1">&#39;Hola, ¿cómo estás?&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;Can you see the new questions? Did you notice the different marks?&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span> <span class="o">=</span> <span class="n">extract_questions</span><span class="p">(</span><span class="n">posts2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_marks&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;;&#39;], [&#39;؟&#39;], [&#39;¿&#39;, &#39;?&#39;], [&#39;?&#39;, &#39;?&#39;]]</span>
+<span class="go"># might be displayed in opposite order due to RTL question mark</span>
+<span class="go">A simple extract of question marks from each of the posts. An empty list if</span>
+<span class="go">none exist</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_marks_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;;&#39;, &#39;؟&#39;, &#39;¿&#39;, &#39;?&#39;, &#39;?&#39;, &#39;?&#39;]</span>
+</pre></div>
+</div>
+<p>All question marks in one flat list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 2, 2]</span>
+</pre></div>
+</div>
+<p>The count of question marks per post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_freq&#39;</span><span class="p">]</span>
+<span class="go">[(1, 2), (2, 2)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. question marks
+(number_of_symbols, count)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;top_question_marks&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;?&#39;, 3), (&#39;;&#39;, 1), (&#39;؟&#39;, 1), (&#39;¿&#39;, 1)]</span>
+</pre></div>
+</div>
+<p>Might be interesting if you have different types of question marks
+(Arabic, Spanish, Greek, Armenian, or other)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_names&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;greek question mark&#39;], [&#39;arabic question mark&#39;],</span>
+<span class="go">[&#39;inverted question mark&#39;, &#39;question mark&#39;],</span>
+<span class="go">[&#39;question mark&#39;, &#39;question mark&#39;]]</span>
+<span class="go"># correct order</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go">&#39;num_question_marks&#39;: 6,</span>
+<span class="go">&#39;question_marks_per_post&#39;: 1.5,</span>
+<span class="go">&#39;unique_question_marks&#39;: 4}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="advertools.extract.extract_words">
-<code class="descclassname">advertools.extract.</code><code class="descname">extract_words</code><span class="sig-paren">(</span><em>text_list</em>, <em>words_to_find</em>, <em>full_words_only=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_words" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a summary dictionary about <code class="docutils literal notranslate"><span class="pre">words_to_find</span></code> in <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</p>
+<code class="descclassname">advertools.extract.</code><code class="descname">extract_words</code><span class="sig-paren">(</span><em>text_list</em>, <em>words_to_extract</em>, <em>entire_words_only=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about <code class="docutils literal notranslate"><span class="pre">words_to_extract</span></code> in <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</p>
 <p>Get a summary of the number of words, their frequency, the top
 ones, and more.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -370,8 +608,8 @@ ones, and more.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>text_list</strong> – A list of text strings.</li>
-<li><strong>words_to_find</strong> – A list of words to find in <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</li>
-<li><strong>full_words_only</strong> – Whether or not to find only complete words
+<li><strong>words_to_extract</strong> – A list of words to extract from <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</li>
+<li><strong>entire_words_only</strong> – Whether or not to find only complete words
 (as specified by <code class="docutils literal notranslate"><span class="pre">words_to_find</span></code>) or find any any of the
 words as part of longer strings.</li>
 </ul>
@@ -674,6 +912,14 @@ matters, default False</li>
 </div>
 </dd></dl>
 
+</div>
+<div class="section" id="module-advertools.regex">
+<span id="advertools-regex-module"></span><h2>advertools.regex module<a class="headerlink" href="#module-advertools.regex" title="Permalink to this headline">¶</a></h2>
+<p>A collection of regular expressions for use in different contexts.
+Each one is available in two formats
+- REGEX_RAW: raw string only, for sharing, and combining with other regexes
+- REGEX: compiled, readable, annotated version
+Based on Unicode database v11.0.0</p>
 </div>
 <div class="section" id="module-advertools.serp">
 <span id="advertools-serp-module"></span><h2>advertools.serp module<a class="headerlink" href="#module-advertools.serp" title="Permalink to this headline">¶</a></h2>
@@ -2215,7 +2461,7 @@ Cursoring for more information.</li>
 <span id="advertools-word-frequency-module"></span><h2>advertools.word_frequency module<a class="headerlink" href="#module-advertools.word_frequency" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="advertools.word_frequency.word_frequency">
-<code class="descclassname">advertools.word_frequency.</code><code class="descname">word_frequency</code><span class="sig-paren">(</span><em>text_list</em>, <em>num_list=None</em>, <em>token_word_len=1</em>, <em>regex='\\w+'</em>, <em>rm_words={'a'</em>, <em>'about'</em>, <em>'above'</em>, <em>'across'</em>, <em>'after'</em>, <em>'afterwards'</em>, <em>'again'</em>, <em>'against'</em>, <em>'all'</em>, <em>'almost'</em>, <em>'alone'</em>, <em>'along'</em>, <em>'already'</em>, <em>'also'</em>, <em>'although'</em>, <em>'always'</em>, <em>'am'</em>, <em>'among'</em>, <em>'amongst'</em>, <em>'amount'</em>, <em>'an'</em>, <em>'and'</em>, <em>'another'</em>, <em>'any'</em>, <em>'anyhow'</em>, <em>'anyone'</em>, <em>'anything'</em>, <em>'anyway'</em>, <em>'anywhere'</em>, <em>'are'</em>, <em>'around'</em>, <em>'as'</em>, <em>'at'</em>, <em>'back'</em>, <em>'be'</em>, <em>'became'</em>, <em>'because'</em>, <em>'become'</em>, <em>'becomes'</em>, <em>'becoming'</em>, <em>'been'</em>, <em>'before'</em>, <em>'beforehand'</em>, <em>'behind'</em>, <em>'being'</em>, <em>'below'</em>, <em>'beside'</em>, <em>'besides'</em>, <em>'between'</em>, <em>'beyond'</em>, <em>'both'</em>, <em>'bottom'</em>, <em>'but'</em>, <em>'by'</em>, <em>'ca'</em>, <em>'call'</em>, <em>'can'</em>, <em>'cannot'</em>, <em>'could'</em>, <em>'did'</em>, <em>'do'</em>, <em>'does'</em>, <em>'doing'</em>, <em>'done'</em>, <em>'down'</em>, <em>'due'</em>, <em>'during'</em>, <em>'each'</em>, <em>'eight'</em>, <em>'either'</em>, <em>'eleven'</em>, <em>'else'</em>, <em>'elsewhere'</em>, <em>'empty'</em>, <em>'enough'</em>, <em>'even'</em>, <em>'ever'</em>, <em>'every'</em>, <em>'everyone'</em>, <em>'everything'</em>, <em>'everywhere'</em>, <em>'except'</em>, <em>'few'</em>, <em>'fifteen'</em>, <em>'fifty'</em>, <em>'first'</em>, <em>'five'</em>, <em>'for'</em>, <em>'former'</em>, <em>'formerly'</em>, <em>'forty'</em>, <em>'four'</em>, <em>'from'</em>, <em>'front'</em>, <em>'full'</em>, <em>'further'</em>, <em>'get'</em>, <em>'give'</em>, <em>'go'</em>, <em>'had'</em>, <em>'has'</em>, <em>'have'</em>, <em>'he'</em>, <em>'hence'</em>, <em>'her'</em>, <em>'here'</em>, <em>'hereafter'</em>, <em>'hereby'</em>, <em>'herein'</em>, <em>'hereupon'</em>, <em>'hers'</em>, <em>'herself'</em>, <em>'him'</em>, <em>'himself'</em>, <em>'his'</em>, <em>'how'</em>, <em>'however'</em>, <em>'hundred'</em>, <em>'i'</em>, <em>'if'</em>, <em>'in'</em>, <em>'indeed'</em>, <em>'into'</em>, <em>'is'</em>, <em>'it'</em>, <em>'its'</em>, <em>'itself'</em>, <em>'just'</em>, <em>'keep'</em>, <em>'last'</em>, <em>'latter'</em>, <em>'latterly'</em>, <em>'least'</em>, <em>'less'</em>, <em>'made'</em>, <em>'make'</em>, <em>'many'</em>, <em>'may'</em>, <em>'me'</em>, <em>'meanwhile'</em>, <em>'might'</em>, <em>'mine'</em>, <em>'more'</em>, <em>'moreover'</em>, <em>'most'</em>, <em>'mostly'</em>, <em>'move'</em>, <em>'much'</em>, <em>'must'</em>, <em>'my'</em>, <em>'myself'</em>, <em>'name'</em>, <em>'namely'</em>, <em>'neither'</em>, <em>'never'</em>, <em>'nevertheless'</em>, <em>'next'</em>, <em>'nine'</em>, <em>'no'</em>, <em>'nobody'</em>, <em>'none'</em>, <em>'noone'</em>, <em>'nor'</em>, <em>'not'</em>, <em>'nothing'</em>, <em>'now'</em>, <em>'nowhere'</em>, <em>'of'</em>, <em>'off'</em>, <em>'often'</em>, <em>'on'</em>, <em>'once'</em>, <em>'one'</em>, <em>'only'</em>, <em>'onto'</em>, <em>'or'</em>, <em>'other'</em>, <em>'others'</em>, <em>'otherwise'</em>, <em>'our'</em>, <em>'ours'</em>, <em>'ourselves'</em>, <em>'out'</em>, <em>'over'</em>, <em>'own'</em>, <em>'part'</em>, <em>'per'</em>, <em>'perhaps'</em>, <em>'please'</em>, <em>'put'</em>, <em>'quite'</em>, <em>'rather'</em>, <em>'re'</em>, <em>'really'</em>, <em>'regarding'</em>, <em>'same'</em>, <em>'say'</em>, <em>'see'</em>, <em>'seem'</em>, <em>'seemed'</em>, <em>'seeming'</em>, <em>'seems'</em>, <em>'serious'</em>, <em>'several'</em>, <em>'she'</em>, <em>'should'</em>, <em>'show'</em>, <em>'side'</em>, <em>'since'</em>, <em>'six'</em>, <em>'sixty'</em>, <em>'so'</em>, <em>'some'</em>, <em>'somehow'</em>, <em>'someone'</em>, <em>'something'</em>, <em>'sometime'</em>, <em>'sometimes'</em>, <em>'somewhere'</em>, <em>'still'</em>, <em>'such'</em>, <em>'take'</em>, <em>'ten'</em>, <em>'than'</em>, <em>'that'</em>, <em>'the'</em>, <em>'their'</em>, <em>'them'</em>, <em>'themselves'</em>, <em>'then'</em>, <em>'thence'</em>, <em>'there'</em>, <em>'thereafter'</em>, <em>'thereby'</em>, <em>'therefore'</em>, <em>'therein'</em>, <em>'thereupon'</em>, <em>'these'</em>, <em>'they'</em>, <em>'third'</em>, <em>'this'</em>, <em>'those'</em>, <em>'though'</em>, <em>'three'</em>, <em>'through'</em>, <em>'throughout'</em>, <em>'thru'</em>, <em>'thus'</em>, <em>'to'</em>, <em>'together'</em>, <em>'too'</em>, <em>'top'</em>, <em>'toward'</em>, <em>'towards'</em>, <em>'twelve'</em>, <em>'twenty'</em>, <em>'two'</em>, <em>'under'</em>, <em>'unless'</em>, <em>'until'</em>, <em>'up'</em>, <em>'upon'</em>, <em>'us'</em>, <em>'used'</em>, <em>'using'</em>, <em>'various'</em>, <em>'very'</em>, <em>'via'</em>, <em>'was'</em>, <em>'we'</em>, <em>'well'</em>, <em>'were'</em>, <em>'what'</em>, <em>'whatever'</em>, <em>'when'</em>, <em>'whence'</em>, <em>'whenever'</em>, <em>'where'</em>, <em>'whereafter'</em>, <em>'whereas'</em>, <em>'whereby'</em>, <em>'wherein'</em>, <em>'whereupon'</em>, <em>'wherever'</em>, <em>'whether'</em>, <em>'which'</em>, <em>'while'</em>, <em>'whither'</em>, <em>'who'</em>, <em>'whoever'</em>, <em>'whole'</em>, <em>'whom'</em>, <em>'whose'</em>, <em>'why'</em>, <em>'will'</em>, <em>'with'</em>, <em>'within'</em>, <em>'without'</em>, <em>'would'</em>, <em>'yet'</em>, <em>'you'</em>, <em>'your'</em>, <em>'yours'</em>, <em>'yourself'</em>, <em>'yourselves'}</em>, <em>extra_info=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">advertools.word_frequency.</code><code class="descname">word_frequency</code><span class="sig-paren">(</span><em>text_list</em>, <em>num_list=None</em>, <em>phrase_len=1</em>, <em>regex=None</em>, <em>rm_words={'a'</em>, <em>'about'</em>, <em>'above'</em>, <em>'across'</em>, <em>'after'</em>, <em>'afterwards'</em>, <em>'again'</em>, <em>'against'</em>, <em>'all'</em>, <em>'almost'</em>, <em>'alone'</em>, <em>'along'</em>, <em>'already'</em>, <em>'also'</em>, <em>'although'</em>, <em>'always'</em>, <em>'am'</em>, <em>'among'</em>, <em>'amongst'</em>, <em>'amount'</em>, <em>'an'</em>, <em>'and'</em>, <em>'another'</em>, <em>'any'</em>, <em>'anyhow'</em>, <em>'anyone'</em>, <em>'anything'</em>, <em>'anyway'</em>, <em>'anywhere'</em>, <em>'are'</em>, <em>'around'</em>, <em>'as'</em>, <em>'at'</em>, <em>'back'</em>, <em>'be'</em>, <em>'became'</em>, <em>'because'</em>, <em>'become'</em>, <em>'becomes'</em>, <em>'becoming'</em>, <em>'been'</em>, <em>'before'</em>, <em>'beforehand'</em>, <em>'behind'</em>, <em>'being'</em>, <em>'below'</em>, <em>'beside'</em>, <em>'besides'</em>, <em>'between'</em>, <em>'beyond'</em>, <em>'both'</em>, <em>'bottom'</em>, <em>'but'</em>, <em>'by'</em>, <em>'ca'</em>, <em>'call'</em>, <em>'can'</em>, <em>'cannot'</em>, <em>'could'</em>, <em>'did'</em>, <em>'do'</em>, <em>'does'</em>, <em>'doing'</em>, <em>'done'</em>, <em>'down'</em>, <em>'due'</em>, <em>'during'</em>, <em>'each'</em>, <em>'eight'</em>, <em>'either'</em>, <em>'eleven'</em>, <em>'else'</em>, <em>'elsewhere'</em>, <em>'empty'</em>, <em>'enough'</em>, <em>'even'</em>, <em>'ever'</em>, <em>'every'</em>, <em>'everyone'</em>, <em>'everything'</em>, <em>'everywhere'</em>, <em>'except'</em>, <em>'few'</em>, <em>'fifteen'</em>, <em>'fifty'</em>, <em>'first'</em>, <em>'five'</em>, <em>'for'</em>, <em>'former'</em>, <em>'formerly'</em>, <em>'forty'</em>, <em>'four'</em>, <em>'from'</em>, <em>'front'</em>, <em>'full'</em>, <em>'further'</em>, <em>'get'</em>, <em>'give'</em>, <em>'go'</em>, <em>'had'</em>, <em>'has'</em>, <em>'have'</em>, <em>'he'</em>, <em>'hence'</em>, <em>'her'</em>, <em>'here'</em>, <em>'hereafter'</em>, <em>'hereby'</em>, <em>'herein'</em>, <em>'hereupon'</em>, <em>'hers'</em>, <em>'herself'</em>, <em>'him'</em>, <em>'himself'</em>, <em>'his'</em>, <em>'how'</em>, <em>'however'</em>, <em>'hundred'</em>, <em>'i'</em>, <em>'if'</em>, <em>'in'</em>, <em>'indeed'</em>, <em>'into'</em>, <em>'is'</em>, <em>'it'</em>, <em>'its'</em>, <em>'itself'</em>, <em>'just'</em>, <em>'keep'</em>, <em>'last'</em>, <em>'latter'</em>, <em>'latterly'</em>, <em>'least'</em>, <em>'less'</em>, <em>'made'</em>, <em>'make'</em>, <em>'many'</em>, <em>'may'</em>, <em>'me'</em>, <em>'meanwhile'</em>, <em>'might'</em>, <em>'mine'</em>, <em>'more'</em>, <em>'moreover'</em>, <em>'most'</em>, <em>'mostly'</em>, <em>'move'</em>, <em>'much'</em>, <em>'must'</em>, <em>'my'</em>, <em>'myself'</em>, <em>'name'</em>, <em>'namely'</em>, <em>'neither'</em>, <em>'never'</em>, <em>'nevertheless'</em>, <em>'next'</em>, <em>'nine'</em>, <em>'no'</em>, <em>'nobody'</em>, <em>'none'</em>, <em>'noone'</em>, <em>'nor'</em>, <em>'not'</em>, <em>'nothing'</em>, <em>'now'</em>, <em>'nowhere'</em>, <em>'of'</em>, <em>'off'</em>, <em>'often'</em>, <em>'on'</em>, <em>'once'</em>, <em>'one'</em>, <em>'only'</em>, <em>'onto'</em>, <em>'or'</em>, <em>'other'</em>, <em>'others'</em>, <em>'otherwise'</em>, <em>'our'</em>, <em>'ours'</em>, <em>'ourselves'</em>, <em>'out'</em>, <em>'over'</em>, <em>'own'</em>, <em>'part'</em>, <em>'per'</em>, <em>'perhaps'</em>, <em>'please'</em>, <em>'put'</em>, <em>'quite'</em>, <em>'rather'</em>, <em>'re'</em>, <em>'really'</em>, <em>'regarding'</em>, <em>'same'</em>, <em>'say'</em>, <em>'see'</em>, <em>'seem'</em>, <em>'seemed'</em>, <em>'seeming'</em>, <em>'seems'</em>, <em>'serious'</em>, <em>'several'</em>, <em>'she'</em>, <em>'should'</em>, <em>'show'</em>, <em>'side'</em>, <em>'since'</em>, <em>'six'</em>, <em>'sixty'</em>, <em>'so'</em>, <em>'some'</em>, <em>'somehow'</em>, <em>'someone'</em>, <em>'something'</em>, <em>'sometime'</em>, <em>'sometimes'</em>, <em>'somewhere'</em>, <em>'still'</em>, <em>'such'</em>, <em>'take'</em>, <em>'ten'</em>, <em>'than'</em>, <em>'that'</em>, <em>'the'</em>, <em>'their'</em>, <em>'them'</em>, <em>'themselves'</em>, <em>'then'</em>, <em>'thence'</em>, <em>'there'</em>, <em>'thereafter'</em>, <em>'thereby'</em>, <em>'therefore'</em>, <em>'therein'</em>, <em>'thereupon'</em>, <em>'these'</em>, <em>'they'</em>, <em>'third'</em>, <em>'this'</em>, <em>'those'</em>, <em>'though'</em>, <em>'three'</em>, <em>'through'</em>, <em>'throughout'</em>, <em>'thru'</em>, <em>'thus'</em>, <em>'to'</em>, <em>'together'</em>, <em>'too'</em>, <em>'top'</em>, <em>'toward'</em>, <em>'towards'</em>, <em>'twelve'</em>, <em>'twenty'</em>, <em>'two'</em>, <em>'under'</em>, <em>'unless'</em>, <em>'until'</em>, <em>'up'</em>, <em>'upon'</em>, <em>'us'</em>, <em>'used'</em>, <em>'using'</em>, <em>'various'</em>, <em>'very'</em>, <em>'via'</em>, <em>'was'</em>, <em>'we'</em>, <em>'well'</em>, <em>'were'</em>, <em>'what'</em>, <em>'whatever'</em>, <em>'when'</em>, <em>'whence'</em>, <em>'whenever'</em>, <em>'where'</em>, <em>'whereafter'</em>, <em>'whereas'</em>, <em>'whereby'</em>, <em>'wherein'</em>, <em>'whereupon'</em>, <em>'wherever'</em>, <em>'whether'</em>, <em>'which'</em>, <em>'while'</em>, <em>'whither'</em>, <em>'who'</em>, <em>'whoever'</em>, <em>'whole'</em>, <em>'whom'</em>, <em>'whose'</em>, <em>'why'</em>, <em>'will'</em>, <em>'with'</em>, <em>'within'</em>, <em>'without'</em>, <em>'would'</em>, <em>'yet'</em>, <em>'you'</em>, <em>'your'</em>, <em>'yours'</em>, <em>'yourself'</em>, <em>'yourselves'}</em>, <em>extra_info=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Count the absolute as well as the weighted frequency of words
 in <code class="docutils literal notranslate"><span class="pre">text_list</span></code> (based on <code class="docutils literal notranslate"><span class="pre">num_list</span></code>).</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2231,8 +2477,8 @@ A list of numbers with the same length as <code class="docutils literal notransl
 certain attribute of these ‘documents’; views, retweets, sales, etc.</li>
 <li><strong>regex</strong> – string.
 The regex used to split words. Doesn’t need changing in most cases.</li>
-<li><strong>token_word_len</strong> – integer, the length in words of each token that
-text is split into.</li>
+<li><strong>phrase_len</strong> – integer, the length in words of each token the
+text is split into, defaults to 1.</li>
 <li><strong>rm_words</strong> – iterable of strings.
 Words to remove from the list ‘stop-words’. The default uses
 <code class="docutils literal notranslate"><span class="pre">spacy</span></code>’s list of English stopwords. To get all available languages
@@ -2359,60 +2605,55 @@ all columns.</p>
 <span id="advertools-word-tokenize-module"></span><h2>advertools.word_tokenize module<a class="headerlink" href="#module-advertools.word_tokenize" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="advertools.word_tokenize.word_tokenize">
-<code class="descclassname">advertools.word_tokenize.</code><code class="descname">word_tokenize</code><span class="sig-paren">(</span><em>s</em>, <em>token_word_len=2</em>, <em>lower_case=True</em>, <em>keep_punctuation=False</em>, <em>regex='\\w+'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Split text <code class="docutils literal notranslate"><span class="pre">s</span></code> into word tokens of length <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code> each.</p>
+<code class="descclassname">advertools.word_tokenize.</code><code class="descname">word_tokenize</code><span class="sig-paren">(</span><em>text_list</em>, <em>phrase_len=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split <code class="docutils literal notranslate"><span class="pre">text_list</span></code> into phrases of length <code class="docutils literal notranslate"><span class="pre">phrase_len</span></code> words each.</p>
+<p>A “word” is any string between white spaces (or beginning or
+end of string) with delimiters stripped from both sides.
+Delimiters include quotes, question marks, parentheses, etc.
+Any delimiter contained within the string remains. See examples below.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>s</strong> – Any string of text.</li>
-<li><strong>token_word_len</strong> – Length of word tokens, defaults to 2.</li>
-<li><strong>lower_case</strong> – Whether or not to return the result in lower case.</li>
-<li><strong>keep_punctuation</strong> – Whether or not to keep punctuation in the result.</li>
-<li><strong>regex</strong> – The regex used to extract words, change if you really
-need a different way of splitting.</li>
+<li><strong>text_list</strong> – List of strings.</li>
+<li><strong>phrase_len</strong> – Length of word tokens, defaults to 2.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Returns tokenized:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">List of word tokens of length <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code> each.</p>
+<tr class="field-even field"><th class="field-name" colspan="2">Return tokenized:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">List of lists, split according to <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code>.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;Please split into words of length 1, 2, &amp; 3. Thanks!&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;split me into length-n-words&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;commas, (parentheses) get removed!&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;commas within text remain $1,000, but not the trailing commas.&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="go">[&#39;please&#39;, &#39;split&#39;, &#39;into&#39;, &#39;words&#39;, &#39;of&#39;, &#39;length&#39;,</span>
-<span class="go">&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;thanks&#39;]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">[[&#39;split&#39;, &#39;me&#39;, &#39;into&#39;, &#39;length-n-words&#39;],</span>
+<span class="go">[&#39;commas&#39;, &#39;parentheses&#39;, &#39;get&#39;, &#39;removed&#39;],</span>
+<span class="go">[&#39;commas&#39;, &#39;within&#39;, &#39;text&#39;, &#39;remain&#39;, &#39;$1,000&#39;,</span>
+<span class="go">&#39;but&#39;, &#39;not&#39;, &#39;the&#39;, &#39;trailing&#39;, &#39;commas&#39;]]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="go">[&#39;please&#39;, &#39;split&#39;, &#39;into&#39;, &#39;words&#39;, &#39;of&#39;, &#39;length&#39;,</span>
-<span class="go">&#39;1,&#39;, &#39;2,&#39;, &#39;&amp;&#39;, &#39;3.&#39;, &#39;thanks!&#39;]</span>
+<p>The comma inside “$1,000” as well as the dollar sign remain, as they
+are part of the “word”, but the trailing comma is stripped.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">[[&#39;split me&#39;, &#39;me into&#39;, &#39;into length-n-words&#39;],</span>
+<span class="go">[&#39;commas parentheses&#39;, &#39;parentheses get&#39;, &#39;get removed&#39;],</span>
+<span class="go">[&#39;commas within&#39;, &#39;within text&#39;, &#39;text remain&#39;, &#39;remain $1,000&#39;,</span>
+<span class="go">&#39;$1,000 but&#39;, &#39;but not&#39;, &#39;not the&#39;, &#39;the trailing&#39;, &#39;trailing commas&#39;]]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="go">[&#39;please split&#39;, &#39;split into&#39;, &#39;into words&#39;, &#39;words of&#39;,</span>
-<span class="go">&#39;of length&#39;, &#39;length 1&#39;, &#39;1 2&#39;, &#39;2 3&#39;, &#39;3 thanks&#39;]</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="go">[&#39;please split&#39;, &#39;split into&#39;, &#39;into words&#39;, &#39;words of&#39;,</span>
-<span class="go">&#39;of length&#39;, &#39;length 1,&#39;, &#39;1, 2,&#39;, &#39;2, &amp;&#39;, &#39;&amp; 3.&#39;, &#39;3. thanks!&#39;]</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="go">[&#39;please split into&#39;, &#39;split into words&#39;, &#39;into words of&#39;,</span>
-<span class="go">&#39;words of length&#39;, &#39;of length 1&#39;, &#39;length 1 2&#39;, &#39;1 2 3&#39;, &#39;2 3 thanks&#39;]</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keep_punctuation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="go">[&#39;please split into&#39;, &#39;split into words&#39;, &#39;into words of&#39;,</span>
-<span class="go">&#39;words of length&#39;, &#39;of length 1,&#39;, &#39;length 1, 2,&#39;, &#39;1, 2, &amp;&#39;,</span>
-<span class="go">&#39;2, &amp; 3.&#39;, &#39;&amp; 3. thanks!&#39;]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">[[&#39;split me into&#39;, &#39;me into length-n-words&#39;],</span>
+<span class="go">[&#39;commas parentheses get&#39;, &#39;parentheses get removed&#39;],</span>
+<span class="go">[&#39;commas within text&#39;, &#39;within text remain&#39;, &#39;text remain $1,000&#39;,</span>
+<span class="go">&#39;remain $1,000 but&#39;, &#39;$1,000 but not&#39;, &#39;but not the&#39;,</span>
+<span class="go">&#39;not the trailing&#39;, &#39;the trailing commas&#39;]]</span>
 </pre></div>
 </div>
 </dd></dl>

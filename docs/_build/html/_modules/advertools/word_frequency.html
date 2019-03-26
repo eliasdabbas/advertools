@@ -33,7 +33,8 @@
           <div class="body" role="main">
             
   <h1>Source code for advertools.word_frequency</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
 
 <span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -41,7 +42,7 @@
 <span class="kn">from</span> <span class="nn">advertools.word_tokenize</span> <span class="k">import</span> <span class="n">word_tokenize</span>
 
 
-<div class="viewcode-block" id="word_frequency"><a class="viewcode-back" href="../../advertools.html#advertools.word_frequency.word_frequency">[docs]</a><span class="k">def</span> <span class="nf">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\w+&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="word_frequency"><a class="viewcode-back" href="../../advertools.html#advertools.word_frequency.word_frequency">[docs]</a><span class="k">def</span> <span class="nf">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phrase_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">rm_words</span><span class="o">=</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">],</span> <span class="n">extra_info</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Count the absolute as well as the weighted frequency of words</span>
 <span class="sd">    in ``text_list`` (based on ``num_list``).</span>
@@ -54,8 +55,8 @@
 <span class="sd">        certain attribute of these &#39;documents&#39;; views, retweets, sales, etc.</span>
 <span class="sd">    :param regex: string.</span>
 <span class="sd">        The regex used to split words. Doesn&#39;t need changing in most cases.</span>
-<span class="sd">    :param token_word_len: integer, the length in words of each token that</span>
-<span class="sd">        text is split into.</span>
+<span class="sd">    :param phrase_len: integer, the length in words of each token the</span>
+<span class="sd">        text is split into, defaults to 1.</span>
 <span class="sd">    :param rm_words: iterable of strings.</span>
 <span class="sd">        Words to remove from the list &#39;stop-words&#39;. The default uses</span>
 <span class="sd">        ``spacy``&#39;s list of English stopwords. To get all available languages</span>
@@ -151,11 +152,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">num_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">))]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+        <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">))</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+
     <span class="n">word_freq</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
-    <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="n">token_word_len</span><span class="p">,</span>
-                                  <span class="n">regex</span><span class="o">=</span><span class="n">regex</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">phrase_len</span><span class="o">=</span><span class="n">phrase_len</span><span class="p">),</span>
+                         <span class="n">num_list</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">rm_words</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">word_freq</span><span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
