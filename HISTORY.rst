@@ -6,7 +6,7 @@ History
 ------------------
 
 * Fixed
-    - Missing __init__ imports
+    - Missing __init__ imports.
 
 0.7.0 (2019-03-26)
 ------------------
