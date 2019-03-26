@@ -1,48 +1,48 @@
-import re
+from .regex import WORD_DELIM
 
 
-def word_tokenize(s, token_word_len=2, lower_case=True, keep_punctuation=False,
-                  regex=r'\w+'):
-    """Split text ``s`` into word tokens of length ``token_word_len`` each.
+def word_tokenize(text_list, phrase_len=2):
+    """Split ``text_list`` into phrases of length ``phrase_len`` words each.
 
-    :param s: Any string of text.
-    :param token_word_len: Length of word tokens, defaults to 2.
-    :param lower_case: Whether or not to return the result in lower case.
-    :param keep_punctuation: Whether or not to keep punctuation in the result.
-    :param regex: The regex used to extract words, change if you really
-        need a different way of splitting.
-    :returns tokenized: List of word tokens of length ``token_word_len`` each.
+    A "word" is any string between white spaces (or beginning or
+    end of string) with delimiters stripped from both sides.
+    Delimiters include quotes, question marks, parentheses, etc.
+    Any delimiter contained within the string remains. See examples below.
 
-    >>> s = 'Please split into words of length 1, 2, & 3. Thanks!'
+    :param text_list: List of strings.
+    :param phrase_len: Length of word tokens, defaults to 2.
+    :return tokenized: List of lists, split according to ``token_word_len``.
 
-    >>> word_tokenize(s, token_word_len=1, keep_punctuation=False)
-    ['please', 'split', 'into', 'words', 'of', 'length',
-    '1', '2', '3', 'thanks']
+    >>> t = ['split me into length-n-words',
+    ... 'commas, (parentheses) get removed!',
+    ... 'commas within text remain $1,000, but not the trailing commas.']
 
-    >>> word_tokenize(s, token_word_len=1, keep_punctuation=True)
-    ['please', 'split', 'into', 'words', 'of', 'length',
-    '1,', '2,', '&', '3.', 'thanks!']
+    >>> word_tokenize(t, 1)
+    [['split', 'me', 'into', 'length-n-words'],
+    ['commas', 'parentheses', 'get', 'removed'],
+    ['commas', 'within', 'text', 'remain', '$1,000',
+    'but', 'not', 'the', 'trailing', 'commas']]
 
-    >>> word_tokenize(s, token_word_len=2, keep_punctuation=False)
-    ['please split', 'split into', 'into words', 'words of',
-    'of length', 'length 1', '1 2', '2 3', '3 thanks']
 
-    >>> word_tokenize(s, token_word_len=2, keep_punctuation=True)
-    ['please split', 'split into', 'into words', 'words of',
-    'of length', 'length 1,', '1, 2,', '2, &', '& 3.', '3. thanks!']
+    The comma inside "$1,000" as well as the dollar sign remain, as they
+    are part of the "word", but the trailing comma is stripped.
 
-    >>> word_tokenize(s, token_word_len=3, keep_punctuation=False)
-    ['please split into', 'split into words', 'into words of',
-    'words of length', 'of length 1', 'length 1 2', '1 2 3', '2 3 thanks']
+    >>> word_tokenize(t, 2)
+    [['split me', 'me into', 'into length-n-words'],
+    ['commas parentheses', 'parentheses get', 'get removed'],
+    ['commas within', 'within text', 'text remain', 'remain $1,000',
+    '$1,000 but', 'but not', 'not the', 'the trailing', 'trailing commas']]
 
-    >>> word_tokenize(s, token_word_len=3, keep_punctuation=True)
-    ['please split into', 'split into words', 'into words of',
-    'words of length', 'of length 1,', 'length 1, 2,', '1, 2, &',
-    '2, & 3.', '& 3. thanks!']
+
+    >>> word_tokenize(t, 3)
+    [['split me into', 'me into length-n-words'],
+    ['commas parentheses get', 'parentheses get removed'],
+    ['commas within text', 'within text remain', 'text remain $1,000',
+    'remain $1,000 but', '$1,000 but not', 'but not the',
+    'not the trailing', 'the trailing commas']]
     """
-    if keep_punctuation:
-        regex = r'\S+'
-    regex = re.compile(regex)
-    split = [word.lower() if lower_case else word for word in regex.findall(s)]
-    return [' '.join(split[i:i+token_word_len])
-            for i in range(len(split)-token_word_len+1)]
+    split = [text.lower().split() for text in text_list]
+    split = [[word.strip(WORD_DELIM) for word in text] for text in split]
+
+    return [[' '.join(s[i:i + phrase_len])
+             for i in range(len(s) - phrase_len + 1)] for s in split]
