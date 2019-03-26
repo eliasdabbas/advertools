@@ -1,3 +1,4 @@
+import re
 from collections import defaultdict
 
 import advertools as adv
@@ -6,7 +7,7 @@ import pandas as pd
 from advertools.word_tokenize import word_tokenize
 
 
-def word_frequency(text_list, num_list=None, token_word_len=1, regex=r'\w+',
+def word_frequency(text_list, num_list=None, phrase_len=1, regex=None,
                    rm_words=adv.stopwords['english'], extra_info=False):
     """Count the absolute as well as the weighted frequency of words
     in ``text_list`` (based on ``num_list``).
@@ -19,8 +20,8 @@ def word_frequency(text_list, num_list=None, token_word_len=1, regex=r'\w+',
         certain attribute of these 'documents'; views, retweets, sales, etc.
     :param regex: string.
         The regex used to split words. Doesn't need changing in most cases.
-    :param token_word_len: integer, the length in words of each token that
-        text is split into.
+    :param phrase_len: integer, the length in words of each token the
+        text is split into, defaults to 1.
     :param rm_words: iterable of strings.
         Words to remove from the list 'stop-words'. The default uses
         ``spacy``'s list of English stopwords. To get all available languages
@@ -116,11 +117,15 @@ def word_frequency(text_list, num_list=None, token_word_len=1, regex=r'\w+',
     """
     if num_list is None:
         num_list = [1 for i in range(len(text_list))]
+    if isinstance(regex, str):
+        regex = re.compile(regex)
+        text_list = [' '.join(regex.findall(text)) for text in text_list]
+
     word_freq = defaultdict(lambda: [0, 0])
 
-    for text, num in zip(text_list, num_list):
-        for word in word_tokenize(text, token_word_len=token_word_len,
-                                  regex=regex):
+    for text, num in zip(word_tokenize(text_list, phrase_len=phrase_len),
+                         num_list):
+        for word in text:
             if word.lower() in rm_words:
                 continue
             word_freq[word.lower()][0] += 1
