@@ -7,9 +7,10 @@ __version__ = '0.7.0'
 
 from advertools.ad_create import ad_create
 from advertools.ad_from_string import ad_from_string
-from advertools.extract import (extract_mentions, extract_hashtags,
-                                extract_emoji, extract_words, extract_currency,
-                                extract_questions)
+from advertools.extract import (extract, extract_currency, extract_emoji,
+                                extract_hashtags, extract_intense_words,
+                                extract_mentions, extract_questions,
+                                extract_words)
 from advertools.kw_generate import *
 from advertools.regex import *
 from advertools.stopwords import stopwords
