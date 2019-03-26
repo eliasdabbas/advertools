@@ -10,7 +10,7 @@ import pandas as pd
 
 
 def kw_generate(products, words, max_len=3,
-                match_types=['Exact', 'Phrase', 'Modified'],
+                match_types=('Exact', 'Phrase', 'Modified'),
                 order_matters=True, campaign_name='SEM_Campaign'):
     """Generate a data frame of keywords using a list of products and relevant
     words.
