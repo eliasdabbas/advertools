@@ -2,15 +2,21 @@
 History
 =======
 
-Unreleased
------------------
+0.7.0 (2019-03-26)
+------------------
 
 * Added
+    - New ``extract_`` functions:
+
+      * Generic ``extract`` used by all others, and takes arbitrary regex to extract text.
+      * ``extract_questions`` to get question mark statistics, as well as the text of questions asked. 
+      * ``extract_currency`` shows text that has currency symbols in it, as well as surrounding text.
+      * ``extract_intense_words`` gets statistics about, and extract words with any character repeated three or more times, indicating an intense feeling (+ve or -ve).
+
     - New function ``word_tokenize``: 
+      
+      * Used by ``word_frequency`` to get tokens of 1,2,3-word phrases (or more).
       * Split a list of text into tokens of a specified number of words each.
-      * Preserve case or change into lower case.
-      * Keep or remove punctuation.
-      * Ability to change the splitting regex as well.
 
     - New stop-words from the ``spaCy`` package:
 
@@ -26,7 +32,7 @@ Unreleased
         ``num_list``: now optional, and defaults to counts of 1 each if not
         provided. Usefull for counting abs_freq only if data not available.
 
-        ``token_word_len``: the number of words in each split token. Defaults to 1
+        ``phrase_len``: the number of words in each split token. Defaults to 1
         and can be set to 2 or higher. This helps in analyzing phrases as
         opposed to words.
     - Parameters supplied to ``serp_goog`` appear at the beginning of the result df
