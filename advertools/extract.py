@@ -492,7 +492,7 @@ def extract_words(text_list, words_to_extract, entire_words_only=False):
     [('rain', 3), ('snow', 1)]
 
     Check the same posts extracting any occurrence of the specified words
-    with ``full_words_only=False``:
+    with ``entire_words_only=False``:
 
     >>> word_summary = extract_words(posts, ['rain', 'snow'], False)
 
