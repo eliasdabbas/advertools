@@ -9,6 +9,7 @@ def ad_create(template, replacements, fallback, max_len=30, capitalize=True):
     :param fallback: the string to insert in template in case the replacement
         is too long
     :param max_len: the maximum allowed length of the full string
+    :param capitalize: whether or not to capitalize words in the result
     :returns formatted: list of strings
 
     >>> ad_create("Let\'s count {}", ['one', 'two', 'three'], 'one', 20)
