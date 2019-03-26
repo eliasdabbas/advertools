@@ -1,3 +1,8 @@
+
+__all__ = ['kw_broad', 'kw_exact', 'kw_generate', 'kw_modified',
+           'kw_neg_broad', 'kw_neg_exact', 'kw_neg_phrase',
+           'kw_phrase']
+
 import re
 from itertools import permutations, combinations
 

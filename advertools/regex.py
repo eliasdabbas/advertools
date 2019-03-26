@@ -5,6 +5,14 @@ Each one is available in two formats
 - REGEX: compiled, readable, annotated version
 Based on Unicode database v11.0.0
 """
+
+__all__ = ['APOSTROPHE', 'BRACKET', 'COLON', 'COMMA', 'CURRENCY',
+           'CURRENCY_RAW', 'EXCLAMATION', 'FULL_STOP', 'HASHTAG',
+           'HASHTAG_RAW', 'MENTION', 'MENTION_RAW', 'PAREN',
+           'QUESTION', 'QUESTION_MARK', 'QUESTION_MARK_NEG_RAW',
+           'QUESTION_MARK_RAW', 'QUESTION_RAW', 'QUOTE',
+           'SENTENCE_END', 'WORD_DELIM']
+
 import re
 
 
