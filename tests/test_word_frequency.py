@@ -50,3 +50,8 @@ def test_works_fine_with_only_stopwords_supplied():
 def test_works_without_numlist_provided():
     result = word_frequency(['Great Text in a List', 'Greater text as well'])
     assert result['word'].eq('text').any()
+
+
+def test_word_freq_uses_regex():
+    result = word_frequency(['pizza burger', 'pizza sandwitch'], regex='pizza')
+    assert result['word'][0] == 'pizza'
