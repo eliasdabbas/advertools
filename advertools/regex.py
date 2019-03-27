@@ -80,17 +80,19 @@ CURRENCY = re.compile(
     """, re.VERBOSE)
 
 
-QUESTION_RAW = (r'(?i)(?:(?<={})(?:{}*)\s+|^)(¿?{}+?{}+)'
+QUESTION_RAW = (r'(?i)(?:(?:(?<={})(?:{}*)\s+|^)|(?=¿))(¿?{}+?{}+)'
                 .format(SENTENCE_END, QUOTE,
                         QUESTION_MARK_NEG_RAW,
                         QUESTION_MARK_RAW.replace('¿', '')))
 
 QUESTION = re.compile(r"""
     (?i)           # case insensitive
+    (?:
     (?:(?<={s})    # beginning of string, or assert current position
                    #   preceded by a SENTENCE_END character
     (?:{q}*)       # optional quote character(s)
     \s+|^)         # one or more spaces
+    |(?=¿))       # or assert current position is "¿" 
     (¿?{neg}+?     # optional Spanish question mark, then one or more
                    #   non-SENTENCE_END characters
      {raw}+)       # one or more question mark characters excluding "¿"

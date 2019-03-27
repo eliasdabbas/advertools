@@ -1,4 +1,3 @@
-import pytest
 
 from advertools.extract import (extract, extract_currency, extract_emoji,
                                 extract_hashtags, extract_intense_words,
@@ -418,7 +417,7 @@ def test_question_result_has_correct_keys():
     assert set(question_summary.keys()) == set(question_test_keys)
 
 
-def test_correct_questions_extracted():
+def test_correct_question_marks_extracted():
     assert question_summary['question_marks'] == [['?'], [], ['?'],
                                                   ['¿', '?'], [';']]
 
@@ -438,6 +437,14 @@ def test_correct_question_freq():
 def test_correct_top_question_marks():
     assert set(question_summary['top_question_marks']) == {('¿', 1), ('?', 3),
                                                            (';', 1)}
+
+
+def test_correct_question_text_extracted():
+    assert question_summary['question_text'] == [['how are you?'],
+                                                 [],
+                                                 ['what about you?'],
+                                                 ['¿cómo estás?'],
+                                                 ['Πώς είσαι;']]
 
 
 def test_correct_question_overview():
