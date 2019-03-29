@@ -95,7 +95,7 @@ def test_serp_youtube_return_correct_result():
     assert isinstance(result, pd.core.frame.DataFrame)
     assert 'title' in result
     assert 'rank' in result
-    assert len(result) == 10
+    assert len(result) <= 10
 
 
 def test_serp_youtube_handles_no_search_results():
