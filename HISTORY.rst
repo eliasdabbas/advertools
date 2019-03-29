@@ -2,6 +2,13 @@
 History
 =======
 
+0.7.2 (2019-03-29)
+-----------------
+
+* Changed
+    - Emoji regex updated
+    - Simpler extraction of Spanish questions
+
 0.7.1 (2019-03-26)
 ------------------
 
