@@ -41,6 +41,8 @@ def word_tokenize(text_list, phrase_len=2):
     'remain $1,000 but', '$1,000 but not', 'but not the',
     'not the trailing', 'the trailing commas']]
     """
+    if isinstance(text_list, str):
+        text_list = [text_list]
     split = [text.lower().split() for text in text_list]
     split = [[word.strip(WORD_DELIM) for word in text] for text in split]
 
