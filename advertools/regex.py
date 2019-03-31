@@ -7,8 +7,8 @@ Based on Unicode database v11.0.0
 """
 
 __all__ = ['APOSTROPHE', 'BRACKET', 'COLON', 'COMMA', 'CURRENCY',
-           'CURRENCY_RAW', 'EXCLAMATION', 'FULL_STOP', 'HASHTAG',
-           'HASHTAG_RAW', 'MENTION', 'MENTION_RAW', 'PAREN',
+           'CURRENCY_RAW', 'EXCLAMATION', 'EXCLAMATION_MARK', 'FULL_STOP',
+           'HASHTAG', 'HASHTAG_RAW', 'MENTION', 'MENTION_RAW', 'PAREN',
            'QUESTION', 'QUESTION_MARK', 'QUESTION_MARK_NEG_RAW',
            'QUESTION_MARK_RAW', 'QUESTION_RAW', 'QUOTE',
            'SENTENCE_END', 'WORD_DELIM']
@@ -34,6 +34,15 @@ COLON = r'[:;؛܃܄܅܆܇܈܉፤፥፦᠄⁏⁝⸵꛴꛶︓︔﹔﹕：；𒑱�
 PAREN = r'[()⁽⁾₍₎❨❩❪❫⟮⟯⦅⦆⸨⸩﴾﴿︵︶﹙﹚（）｟｠𝪋]'
 
 APOSTROPHE = r'["\'ʼˮ՚ߴߵ＇"]'
+
+EXCLAMATION_MARK_RAW = r'[!¡՜߹᥄‼⁈⁉︕﹗！𖺚𞥞]'
+
+EXCLAMATION_MARK = re.compile(
+    r"""[!¡՜߹᥄‼⁈⁉︕﹗！𖺚𞥞]
+        # Unicode characters named exclamation mark
+    """, re.VERBOSE)
+
+EXCLAMATION_MARK_NEG_RAW = r'[^!¡՜߹᥄‼⁈⁉︕﹗！𖺚𞥞]'
 
 QUESTION_MARK_RAW = r'[?¿;՞؟፧᥅⁇⁈⁉⳺⳻⸮꘏꛷︖﹖？𑅃𞥟' + r'ʔ‽' + r']'
 
@@ -80,6 +89,30 @@ CURRENCY = re.compile(
     """, re.VERBOSE)
 
 
+EXCLAMATION_RAW = (r'(?i)(?:(?:(?<={})(?:{}*)\s+|^)|(?=¡))(¡?{}+?{}+)'
+                   .format(SENTENCE_END, QUOTE,
+                           EXCLAMATION_MARK_NEG_RAW,
+                           EXCLAMATION_MARK_RAW.replace('¡', '')))
+
+
+EXCLAMATION = re.compile(r"""
+    (?i)           # case insensitive
+    (?:
+    (?:(?<={s})    # beginning of string, or assert current position
+                   #   preceded by a SENTENCE_END character
+    (?:{q}*)       # optional quote character(s)
+    \s+|^)         # one or more spaces
+    |(?=¡))        # or assert current position is "¡" 
+    (¡?{neg}+?     # optional Spanish exclamation mark, then one or more
+                   #   non-SENTENCE_END characters
+     {raw}+)       # one or more exclamation mark characters excluding "¡"
+    """.format(s=SENTENCE_END,
+               q=QUOTE,
+               neg=SENTENCE_END.replace('[', '[^'),
+               raw=EXCLAMATION_MARK_RAW.replace('¡', '')),
+    re.VERBOSE)
+
+
 QUESTION_RAW = (r'(?i)(?:(?:(?<={})(?:{}*)\s+|^)|(?=¿))(¿?{}+?{}+)'
                 .format(SENTENCE_END, QUOTE,
                         QUESTION_MARK_NEG_RAW,
@@ -92,7 +125,7 @@ QUESTION = re.compile(r"""
                    #   preceded by a SENTENCE_END character
     (?:{q}*)       # optional quote character(s)
     \s+|^)         # one or more spaces
-    |(?=¿))       # or assert current position is "¿" 
+    |(?=¿))        # or assert current position is "¿" 
     (¿?{neg}+?     # optional Spanish question mark, then one or more
                    #   non-SENTENCE_END characters
      {raw}+)       # one or more question mark characters excluding "¿"
