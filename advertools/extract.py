@@ -1,8 +1,8 @@
 
 __all__ = ['extract', 'extract_currency', 'extract_emoji',
-           'extract_hashtags', 'extract_intense_words',
-           'extract_mentions', 'extract_questions',
-           'extract_words'
+           'extract_exclamations', 'extract_hashtags',
+           'extract_intense_words', 'extract_mentions',
+           'extract_questions', 'extract_words'
            ]
 
 import re
@@ -10,8 +10,8 @@ from unicodedata import name
 from collections import Counter
 from .emoji_dict import emoji_dict
 from .emoji_dict import emoji_regexp as EMOJI
-from .regex import (MENTION, HASHTAG, CURRENCY, CURRENCY_RAW, QUESTION,
-                    QUESTION_MARK)
+from .regex import (MENTION, HASHTAG, CURRENCY, CURRENCY_RAW, EXCLAMATION,
+                    EXCLAMATION_MARK, QUESTION, QUESTION_MARK)
 
 
 def extract(text_list, regex, key_name, extracted=None, **kwargs):
@@ -231,6 +231,112 @@ def extract_emoji(text_list):
         }
 
     }
+    return summary
+
+
+def extract_exclamations(text_list):
+    """Return a summary dictionary about exclamation (mark)s in ``text_list``
+
+    Get a summary of the number of exclamation marks, their frequency,
+    the top ones, as well the exclamations written/said.
+
+    :param text_list: A list of text strings.
+    :returns summary: A dictionary with various stats about exclamations
+
+    >>> posts = ['Who are you!', 'What is this!', 'No exclamation here?']
+    >>> exclamation_summary = extract_exclamations(posts)
+    >>> exclamation_summary.keys()
+    dict_keys(['exclamation_marks', 'exclamation_marks_flat',
+    'exclamation_mark_counts', 'exclamation_mark_freq',
+    'top_exclamation_marks', 'overview', 'exclamation_mark_names',
+    'exclamation_text'])
+
+    >>> exclamation_summary['exclamation_marks']
+    [['!'], ['!'], []]
+
+    A simple extract of exclamation marks from each of the posts. An empty
+    list if none exist
+
+    >>> exclamation_summary['exclamation_marks_flat']
+    ['!', '!']
+
+    All exclamation marks in one flat list.
+
+    >>> exclamation_summary['exclamation_mark_counts']
+    [1, 1, 0]
+
+    The count of exclamation marks per post.
+
+    >>> exclamation_summary['exclamation_mark_freq']
+    [(0, 1), (1, 2)]
+
+    Shows how many posts had 0, 1, 2, 3, etc. exclamation marks
+    (number_of_symbols, count)
+
+    >>> exclamation_summary['top_exclamation_marks']
+    [('!', 2)]
+
+    Might be interesting if you have different types of exclamation marks
+    (Arabic, Spanish, Greek, Armenian, or other)
+
+    >>> exclamation_summary['exclamation_mark_names']
+    [['exclamation mark'], ['exclamation mark'], []]
+
+    >>> exclamation_summary['overview']
+    {'num_posts': 3,
+    'num_exclamation_marks': 2,
+    'exclamation_marks_per_post': 0.6666666666666666,
+    'unique_exclamation_marks': 1}
+
+    >>> posts2 = ["don't go there!", 'مرحبا. لا تذهب!', '¡Hola! ¿cómo estás?',
+    ... 'a few different exclamation marks! make sure you see them!']
+
+    >>> exclamation_summary = extract_exclamations(posts2)
+
+    >>> exclamation_summary['exclamation_marks']
+    [['!'], ['!'], ['¡', '!'], ['!', '!']]
+    # might be displayed in opposite order due to RTL exclamation mark
+    A simple extract of exclamation marks from each of the posts.
+    An empty list if none exist
+
+    >>> exclamation_summary['exclamation_marks_flat']
+    ['!', '!', '¡', '!', '!', '!']
+
+    All exclamation marks in one flat list.
+
+    >>> exclamation_summary['exclamation_mark_counts']
+    [1, 1, 2, 2]
+
+    The count of exclamation marks per post.
+
+    >>> exclamation_summary['exclamation_mark_freq']
+    [(1, 2), (2, 2)]
+
+    Shows how many posts had 0, 1, 2, 3, etc. exclamation marks
+    (number_of_symbols, count)
+
+    >>> exclamation_summary['top_exclamation_marks']
+    [('!', 5), ('¡', 1)]
+
+    Might be interesting if you have different types of exclamation marks
+
+    >>> exclamation_summary['exclamation_mark_names']
+    [['exclamation mark'], ['exclamation mark'],
+    ['inverted exclamation mark', 'exclamation mark'],
+    ['exclamation mark', 'exclamation mark']]
+
+    >>> exclamation_summary['overview']
+    {'num_posts': 4,
+    'num_exclamation_marks': 6,
+    'exclamation_marks_per_post': 1.5,
+    'unique_exclamation_marks': 4}
+    """
+    summary = extract(text_list, EXCLAMATION_MARK, key_name='exclamation_mark')
+    summary['exclamation_mark_names'] = [[name(c).lower() for c in x] if x
+                                         else [] for x in
+                                         summary['exclamation_marks']]
+    summary['exclamation_text'] = [EXCLAMATION.findall(text)
+                                   for text in text_list]
     return summary
 
 
