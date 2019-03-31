@@ -1,8 +1,8 @@
 
 from advertools.extract import (extract, extract_currency, extract_emoji,
-                                extract_hashtags, extract_intense_words,
-                                extract_mentions, extract_questions,
-                                extract_words)
+                                extract_exclamations, extract_hashtags,
+                                extract_intense_words, extract_mentions,
+                                extract_questions, extract_words)
 
 mention_posts = ['hello @name', 'email@domain.com', '@oneword',
                  'hi @nam-e and @name', '@first @last', 'an @under_score',
@@ -72,6 +72,17 @@ question_test_keys = ['question_marks', 'question_marks_flat',
                       'question_mark_counts', 'question_mark_freq',
                       'top_question_marks', 'overview',
                       'question_mark_names', 'question_text']
+
+
+exclamation_posts = ['how dare you!', 'no exclamation', 'no! do not do this!',
+                     '¡Hola!  ¿cómo estás?', 'مرحبا. لا تذهب!']
+
+exclamation_summary = extract_exclamations(exclamation_posts)
+
+exclamation_test_keys = ['exclamation_marks', 'exclamation_marks_flat',
+                         'exclamation_mark_counts', 'exclamation_mark_freq',
+                         'top_exclamation_marks', 'overview',
+                         'exclamation_mark_names', 'exclamation_text']
 
 
 def test_mention_result_has_correct_keys():
@@ -453,3 +464,48 @@ def test_correct_question_overview():
     assert question_overview['num_question_marks'] == 5
     assert question_overview['question_marks_per_post'] == 1/1
     assert question_overview['unique_question_marks'] == 3
+
+
+def test_exclamation_result_has_correct_keys():
+    assert set(exclamation_summary.keys()) == set(exclamation_test_keys)
+
+
+def test_correct_exclamation_marks_extracted():
+    assert exclamation_summary['exclamation_marks'] == [['!'], [], ['!', '!'],
+                                                        ['¡', '!'], ['!']]
+
+
+def test_correct_flat_exclamation_marks():
+    assert exclamation_summary['exclamation_marks_flat'] == ['!', '!', '!',
+                                                             '¡', '!', '!', ]
+
+
+def test_correct_exclamation_counts():
+    assert exclamation_summary['exclamation_mark_counts'] == [1, 0, 2, 2, 1]
+
+
+def test_correct_exclamation_freq():
+    assert exclamation_summary['exclamation_mark_freq'] == [(0, 1), (1, 2),
+                                                            (2, 2)]
+
+
+def test_correct_top_exclamation_marks():
+    assert set(exclamation_summary['top_exclamation_marks']) == {('!', 5),
+                                                                 ('¡', 1)}
+
+
+def test_correct_exclamation_text_extracted():
+    assert exclamation_summary['exclamation_text'] == [['how dare you!'],
+                                                       [],
+                                                       ['no!',
+                                                        'do not do this!'],
+                                                       ['¡Hola!'],
+                                                       ['لا تذهب!']]
+
+
+def test_correct_exclamation_overview():
+    exclamation_overview = exclamation_summary['overview']
+    assert exclamation_overview['num_posts'] == 5
+    assert exclamation_overview['num_exclamation_marks'] == 6
+    assert exclamation_overview['exclamation_marks_per_post'] == 6/5
+    assert exclamation_overview['unique_exclamation_marks'] == 2
