@@ -2,6 +2,12 @@
 History
 =======
 
+Unreleased
+----------
+
+* Added
+    - New function ``extract_exclamations`` very similar to ``extract_questions``
+
 0.7.2 (2019-03-29)
 ------------------
 
