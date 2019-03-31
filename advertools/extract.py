@@ -277,7 +277,6 @@ def extract_exclamations(text_list):
     [('!', 2)]
 
     Might be interesting if you have different types of exclamation marks
-    (Arabic, Spanish, Greek, Armenian, or other)
 
     >>> exclamation_summary['exclamation_mark_names']
     [['exclamation mark'], ['exclamation mark'], []]

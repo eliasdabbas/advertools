@@ -33,13 +33,20 @@
           <div class="body" role="main">
             
   <h1>Source code for advertools.extract</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span></span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;extract&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_currency&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_emoji&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;extract_exclamations&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_hashtags&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;extract_intense_words&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_mentions&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;extract_questions&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_words&#39;</span>
+           <span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">unicodedata</span> <span class="k">import</span> <span class="n">name</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
 <span class="kn">from</span> <span class="nn">.emoji_dict</span> <span class="k">import</span> <span class="n">emoji_dict</span>
 <span class="kn">from</span> <span class="nn">.emoji_dict</span> <span class="k">import</span> <span class="n">emoji_regexp</span> <span class="k">as</span> <span class="n">EMOJI</span>
-<span class="kn">from</span> <span class="nn">.regex</span> <span class="k">import</span> <span class="p">(</span><span class="n">MENTION</span><span class="p">,</span> <span class="n">HASHTAG</span><span class="p">,</span> <span class="n">CURRENCY</span><span class="p">,</span> <span class="n">CURRENCY_RAW</span><span class="p">,</span> <span class="n">QUESTION</span><span class="p">,</span>
-                    <span class="n">QUESTION_MARK</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.regex</span> <span class="k">import</span> <span class="p">(</span><span class="n">MENTION</span><span class="p">,</span> <span class="n">HASHTAG</span><span class="p">,</span> <span class="n">CURRENCY</span><span class="p">,</span> <span class="n">CURRENCY_RAW</span><span class="p">,</span> <span class="n">EXCLAMATION</span><span class="p">,</span>
+                    <span class="n">EXCLAMATION_MARK</span><span class="p">,</span> <span class="n">QUESTION</span><span class="p">,</span> <span class="n">QUESTION_MARK</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="extract"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract">[docs]</a><span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">key_name</span><span class="p">,</span> <span class="n">extracted</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -259,6 +266,111 @@
         <span class="p">}</span>
 
     <span class="p">}</span>
+    <span class="k">return</span> <span class="n">summary</span></div>
+
+
+<div class="viewcode-block" id="extract_exclamations"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_exclamations">[docs]</a><span class="k">def</span> <span class="nf">extract_exclamations</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about exclamation (mark)s in ``text_list``</span>
+
+<span class="sd">    Get a summary of the number of exclamation marks, their frequency,</span>
+<span class="sd">    the top ones, as well the exclamations written/said.</span>
+
+<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :returns summary: A dictionary with various stats about exclamations</span>
+
+<span class="sd">    &gt;&gt;&gt; posts = [&#39;Who are you!&#39;, &#39;What is this!&#39;, &#39;No exclamation here?&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; exclamation_summary = extract_exclamations(posts)</span>
+<span class="sd">    &gt;&gt;&gt; exclamation_summary.keys()</span>
+<span class="sd">    dict_keys([&#39;exclamation_marks&#39;, &#39;exclamation_marks_flat&#39;,</span>
+<span class="sd">    &#39;exclamation_mark_counts&#39;, &#39;exclamation_mark_freq&#39;,</span>
+<span class="sd">    &#39;top_exclamation_marks&#39;, &#39;overview&#39;, &#39;exclamation_mark_names&#39;,</span>
+<span class="sd">    &#39;exclamation_text&#39;])</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;exclamation_marks&#39;]</span>
+<span class="sd">    [[&#39;!&#39;], [&#39;!&#39;], []]</span>
+
+<span class="sd">    A simple extract of exclamation marks from each of the posts. An empty</span>
+<span class="sd">    list if none exist</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;exclamation_marks_flat&#39;]</span>
+<span class="sd">    [&#39;!&#39;, &#39;!&#39;]</span>
+
+<span class="sd">    All exclamation marks in one flat list.</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;exclamation_mark_counts&#39;]</span>
+<span class="sd">    [1, 1, 0]</span>
+
+<span class="sd">    The count of exclamation marks per post.</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;exclamation_mark_freq&#39;]</span>
+<span class="sd">    [(0, 1), (1, 2)]</span>
+
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. exclamation marks</span>
+<span class="sd">    (number_of_symbols, count)</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;top_exclamation_marks&#39;]</span>
+<span class="sd">    [(&#39;!&#39;, 2)]</span>
+
+<span class="sd">    Might be interesting if you have different types of exclamation marks</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;exclamation_mark_names&#39;]</span>
+<span class="sd">    [[&#39;exclamation mark&#39;], [&#39;exclamation mark&#39;], []]</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;overview&#39;]</span>
+<span class="sd">    {&#39;num_posts&#39;: 3,</span>
+<span class="sd">    &#39;num_exclamation_marks&#39;: 2,</span>
+<span class="sd">    &#39;exclamation_marks_per_post&#39;: 0.6666666666666666,</span>
+<span class="sd">    &#39;unique_exclamation_marks&#39;: 1}</span>
+
+<span class="sd">    &gt;&gt;&gt; posts2 = [&quot;don&#39;t go there!&quot;, &#39;مرحبا. لا تذهب!&#39;, &#39;¡Hola! ¿cómo estás?&#39;,</span>
+<span class="sd">    ... &#39;a few different exclamation marks! make sure you see them!&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary = extract_exclamations(posts2)</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;exclamation_marks&#39;]</span>
+<span class="sd">    [[&#39;!&#39;], [&#39;!&#39;], [&#39;¡&#39;, &#39;!&#39;], [&#39;!&#39;, &#39;!&#39;]]</span>
+<span class="sd">    # might be displayed in opposite order due to RTL exclamation mark</span>
+<span class="sd">    A simple extract of exclamation marks from each of the posts.</span>
+<span class="sd">    An empty list if none exist</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;exclamation_marks_flat&#39;]</span>
+<span class="sd">    [&#39;!&#39;, &#39;!&#39;, &#39;¡&#39;, &#39;!&#39;, &#39;!&#39;, &#39;!&#39;]</span>
+
+<span class="sd">    All exclamation marks in one flat list.</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;exclamation_mark_counts&#39;]</span>
+<span class="sd">    [1, 1, 2, 2]</span>
+
+<span class="sd">    The count of exclamation marks per post.</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;exclamation_mark_freq&#39;]</span>
+<span class="sd">    [(1, 2), (2, 2)]</span>
+
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. exclamation marks</span>
+<span class="sd">    (number_of_symbols, count)</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;top_exclamation_marks&#39;]</span>
+<span class="sd">    [(&#39;!&#39;, 5), (&#39;¡&#39;, 1)]</span>
+
+<span class="sd">    Might be interesting if you have different types of exclamation marks</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;exclamation_mark_names&#39;]</span>
+<span class="sd">    [[&#39;exclamation mark&#39;], [&#39;exclamation mark&#39;],</span>
+<span class="sd">    [&#39;inverted exclamation mark&#39;, &#39;exclamation mark&#39;],</span>
+<span class="sd">    [&#39;exclamation mark&#39;, &#39;exclamation mark&#39;]]</span>
+
+<span class="sd">    &gt;&gt;&gt; exclamation_summary[&#39;overview&#39;]</span>
+<span class="sd">    {&#39;num_posts&#39;: 4,</span>
+<span class="sd">    &#39;num_exclamation_marks&#39;: 6,</span>
+<span class="sd">    &#39;exclamation_marks_per_post&#39;: 1.5,</span>
+<span class="sd">    &#39;unique_exclamation_marks&#39;: 4}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">EXCLAMATION_MARK</span><span class="p">,</span> <span class="n">key_name</span><span class="o">=</span><span class="s1">&#39;exclamation_mark&#39;</span><span class="p">)</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="n">name</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span>
+                                         <span class="k">else</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+                                         <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;exclamation_marks&#39;</span><span class="p">]]</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;exclamation_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">EXCLAMATION</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+                                   <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
@@ -527,7 +639,7 @@
 <span class="sd">    [(&#39;rain&#39;, 3), (&#39;snow&#39;, 1)]</span>
 
 <span class="sd">    Check the same posts extracting any occurrence of the specified words</span>
-<span class="sd">    with ``full_words_only=False``:</span>
+<span class="sd">    with ``entire_words_only=False``:</span>
 
 <span class="sd">    &gt;&gt;&gt; word_summary = extract_words(posts, [&#39;rain&#39;, &#39;snow&#39;], False)</span>
 

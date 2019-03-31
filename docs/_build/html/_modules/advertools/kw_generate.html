@@ -33,14 +33,19 @@
           <div class="body" role="main">
             
   <h1>Source code for advertools.kw_generate</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span></span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;kw_broad&#39;</span><span class="p">,</span> <span class="s1">&#39;kw_exact&#39;</span><span class="p">,</span> <span class="s1">&#39;kw_generate&#39;</span><span class="p">,</span> <span class="s1">&#39;kw_modified&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;kw_neg_broad&#39;</span><span class="p">,</span> <span class="s1">&#39;kw_neg_exact&#39;</span><span class="p">,</span> <span class="s1">&#39;kw_neg_phrase&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;kw_phrase&#39;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">permutations</span><span class="p">,</span> <span class="n">combinations</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
 <div class="viewcode-block" id="kw_generate"><a class="viewcode-back" href="../../advertools.html#advertools.kw_generate.kw_generate">[docs]</a><span class="k">def</span> <span class="nf">kw_generate</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">words</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                <span class="n">match_types</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Exact&#39;</span><span class="p">,</span> <span class="s1">&#39;Phrase&#39;</span><span class="p">,</span> <span class="s1">&#39;Modified&#39;</span><span class="p">],</span>
+                <span class="n">match_types</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Exact&#39;</span><span class="p">,</span> <span class="s1">&#39;Phrase&#39;</span><span class="p">,</span> <span class="s1">&#39;Modified&#39;</span><span class="p">),</span>
                 <span class="n">order_matters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">campaign_name</span><span class="o">=</span><span class="s1">&#39;SEM_Campaign&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate a data frame of keywords using a list of products and relevant</span>
 <span class="sd">    words.</span>

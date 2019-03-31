@@ -76,6 +76,8 @@
 <span class="sd">    &#39;remain $1,000 but&#39;, &#39;$1,000 but not&#39;, &#39;but not the&#39;,</span>
 <span class="sd">    &#39;not the trailing&#39;, &#39;the trailing commas&#39;]]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">text_list</span><span class="p">]</span>
     <span class="n">split</span> <span class="o">=</span> <span class="p">[</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
     <span class="n">split</span> <span class="o">=</span> <span class="p">[[</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">WORD_DELIM</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">]</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">split</span><span class="p">]</span>
 

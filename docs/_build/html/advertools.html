@@ -53,6 +53,7 @@
 <li><strong>fallback</strong> – the string to insert in template in case the replacement
 is too long</li>
 <li><strong>max_len</strong> – the maximum allowed length of the full string</li>
+<li><strong>capitalize</strong> – whether or not to capitalize words in the result</li>
 </ul>
 </td>
 </tr>
@@ -155,7 +156,7 @@ All rights reserved.</p>
 <p>Emoji dictionary and regular expression for easy extraction and manipulation
 of emojis in text.
 Imported from the Python emoji package <a class="reference external" href="https://github.com/carpedm20/emoji">https://github.com/carpedm20/emoji</a></p>
-<p>Last update: June 21, 2018</p>
+<p>Last update: Sep 14, 2018</p>
 </div>
 <div class="section" id="module-advertools.extract">
 <span id="advertools-extract-module"></span><h2>advertools.extract module<a class="headerlink" href="#module-advertools.extract" title="Permalink to this headline">¶</a></h2>
@@ -353,6 +354,120 @@ list if none exist</p>
 <span class="go"> &#39;num_emoji&#39;: 7,</span>
 <span class="go"> &#39;emoji_per_post&#39;: 1.75,</span>
 <span class="go"> &#39;unique_emoji&#39;: 3}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_exclamations">
+<code class="descclassname">advertools.extract.</code><code class="descname">extract_exclamations</code><span class="sig-paren">(</span><em>text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_exclamations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_exclamations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about exclamation (mark)s in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of exclamation marks, their frequency,
+the top ones, as well the exclamations written/said.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text_list</strong> – A list of text strings.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns summary:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">A dictionary with various stats about exclamations</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Who are you!&#39;</span><span class="p">,</span> <span class="s1">&#39;What is this!&#39;</span><span class="p">,</span> <span class="s1">&#39;No exclamation here?&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span> <span class="o">=</span> <span class="n">extract_exclamations</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;exclamation_marks&#39;, &#39;exclamation_marks_flat&#39;,</span>
+<span class="go">&#39;exclamation_mark_counts&#39;, &#39;exclamation_mark_freq&#39;,</span>
+<span class="go">&#39;top_exclamation_marks&#39;, &#39;overview&#39;, &#39;exclamation_mark_names&#39;,</span>
+<span class="go">&#39;exclamation_text&#39;])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_marks&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;!&#39;], [&#39;!&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of exclamation marks from each of the posts. An empty
+list if none exist</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_marks_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;!&#39;, &#39;!&#39;]</span>
+</pre></div>
+</div>
+<p>All exclamation marks in one flat list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 0]</span>
+</pre></div>
+</div>
+<p>The count of exclamation marks per post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 2)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. exclamation marks
+(number_of_symbols, count)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;top_exclamation_marks&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;!&#39;, 2)]</span>
+</pre></div>
+</div>
+<p>Might be interesting if you have different types of exclamation marks</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_names&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;exclamation mark&#39;], [&#39;exclamation mark&#39;], []]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 3,</span>
+<span class="go">&#39;num_exclamation_marks&#39;: 2,</span>
+<span class="go">&#39;exclamation_marks_per_post&#39;: 0.6666666666666666,</span>
+<span class="go">&#39;unique_exclamation_marks&#39;: 1}</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts2</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;don&#39;t go there!&quot;</span><span class="p">,</span> <span class="s1">&#39;مرحبا. لا تذهب!&#39;</span><span class="p">,</span> <span class="s1">&#39;¡Hola! ¿cómo estás?&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;a few different exclamation marks! make sure you see them!&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span> <span class="o">=</span> <span class="n">extract_exclamations</span><span class="p">(</span><span class="n">posts2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_marks&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;!&#39;], [&#39;!&#39;], [&#39;¡&#39;, &#39;!&#39;], [&#39;!&#39;, &#39;!&#39;]]</span>
+<span class="go"># might be displayed in opposite order due to RTL exclamation mark</span>
+<span class="go">A simple extract of exclamation marks from each of the posts.</span>
+<span class="go">An empty list if none exist</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_marks_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;!&#39;, &#39;!&#39;, &#39;¡&#39;, &#39;!&#39;, &#39;!&#39;, &#39;!&#39;]</span>
+</pre></div>
+</div>
+<p>All exclamation marks in one flat list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 2, 2]</span>
+</pre></div>
+</div>
+<p>The count of exclamation marks per post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_freq&#39;</span><span class="p">]</span>
+<span class="go">[(1, 2), (2, 2)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. exclamation marks
+(number_of_symbols, count)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;top_exclamation_marks&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;!&#39;, 5), (&#39;¡&#39;, 1)]</span>
+</pre></div>
+</div>
+<p>Might be interesting if you have different types of exclamation marks</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_names&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;exclamation mark&#39;], [&#39;exclamation mark&#39;],</span>
+<span class="go">[&#39;inverted exclamation mark&#39;, &#39;exclamation mark&#39;],</span>
+<span class="go">[&#39;exclamation mark&#39;, &#39;exclamation mark&#39;]]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go">&#39;num_exclamation_marks&#39;: 6,</span>
+<span class="go">&#39;exclamation_marks_per_post&#39;: 1.5,</span>
+<span class="go">&#39;unique_exclamation_marks&#39;: 4}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -663,7 +778,7 @@ none exist</p>
 </pre></div>
 </div>
 <p>Check the same posts extracting any occurrence of the specified words
-with <code class="docutils literal notranslate"><span class="pre">full_words_only=False</span></code>:</p>
+with <code class="docutils literal notranslate"><span class="pre">entire_words_only=False</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span> <span class="o">=</span> <span class="n">extract_words</span><span class="p">(</span><span class="n">posts</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;rain&#39;</span><span class="p">,</span> <span class="s1">&#39;snow&#39;</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -751,7 +866,7 @@ you would see that it is not related to rain for example.</p>
 
 <dl class="function">
 <dt id="advertools.kw_generate.kw_generate">
-<code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_generate</code><span class="sig-paren">(</span><em>products, words, max_len=3, match_types=['Exact', 'Phrase', 'Modified'], order_matters=True, campaign_name='SEM_Campaign'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_generate" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">advertools.kw_generate.</code><code class="descname">kw_generate</code><span class="sig-paren">(</span><em>products</em>, <em>words</em>, <em>max_len=3</em>, <em>match_types=('Exact'</em>, <em>'Phrase'</em>, <em>'Modified')</em>, <em>order_matters=True</em>, <em>campaign_name='SEM_Campaign'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_generate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a data frame of keywords using a list of products and relevant
 words.</p>
 <table class="docutils field-list" frame="void" rules="none">
