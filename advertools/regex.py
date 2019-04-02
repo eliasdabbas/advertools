@@ -4,6 +4,7 @@ Each one is available in two formats
 - REGEX_RAW: raw string only, for sharing, and combining with other regexes
 - REGEX: compiled, readable, annotated version
 Based on Unicode database v11.0.0
+URL regex from Regular Expressions Cookbook 2nd Ed. O'Reilly
 """
 
 __all__ = ['APOSTROPHE', 'BRACKET', 'COLON', 'COMMA', 'CURRENCY',
@@ -11,7 +12,7 @@ __all__ = ['APOSTROPHE', 'BRACKET', 'COLON', 'COMMA', 'CURRENCY',
            'HASHTAG', 'HASHTAG_RAW', 'MENTION', 'MENTION_RAW', 'PAREN',
            'QUESTION', 'QUESTION_MARK', 'QUESTION_MARK_NEG_RAW',
            'QUESTION_MARK_RAW', 'QUESTION_RAW', 'QUOTE',
-           'SENTENCE_END', 'WORD_DELIM']
+           'SENTENCE_END', 'WORD_DELIM', 'URL', 'URL_RAW']
 
 import re
 
@@ -134,3 +135,18 @@ QUESTION = re.compile(r"""
                neg=SENTENCE_END.replace('[', '[^'),
                raw=QUESTION_MARK_RAW.replace('¿', '')),
     re.VERBOSE)
+
+URL_RAW = (r'(?xi)\b(?:(?:https?|ftp|file)://|www\.|ftp\.)'
+           r'(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|'
+           r'[-A-Z0-9+&@#/%=~_|$?!:,.])*'
+           r'(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|'
+           r'[A-Z0-9+&@#/%=~_|$])')
+
+URL = re.compile(r"""
+    (?xi)                                     # case-insensitive / verbose
+    \b(?:(?:https?|ftp|file)://|www\.|ftp\.)  # starts w/ http(s), ftp or www
+      (?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|      # acceptable url chars in parens
+       [-A-Z0-9+&@#/%=~_|$?!:,.])*            # acceptable url chars
+       (?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|     # acceptable url chars in parens
+       [A-Z0-9+&@#/%=~_|$])                   # acceptable url chars  
+    """, re.VERBOSE)
