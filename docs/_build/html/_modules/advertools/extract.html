@@ -37,16 +37,17 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;extract&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_currency&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_emoji&#39;</span><span class="p">,</span>
            <span class="s1">&#39;extract_exclamations&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_hashtags&#39;</span><span class="p">,</span>
            <span class="s1">&#39;extract_intense_words&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_mentions&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;extract_questions&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_words&#39;</span>
+           <span class="s1">&#39;extract_questions&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_words&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_urls&#39;</span>
            <span class="p">]</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">unicodedata</span> <span class="k">import</span> <span class="n">name</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
 <span class="kn">from</span> <span class="nn">.emoji_dict</span> <span class="k">import</span> <span class="n">emoji_dict</span>
 <span class="kn">from</span> <span class="nn">.emoji_dict</span> <span class="k">import</span> <span class="n">emoji_regexp</span> <span class="k">as</span> <span class="n">EMOJI</span>
 <span class="kn">from</span> <span class="nn">.regex</span> <span class="k">import</span> <span class="p">(</span><span class="n">MENTION</span><span class="p">,</span> <span class="n">HASHTAG</span><span class="p">,</span> <span class="n">CURRENCY</span><span class="p">,</span> <span class="n">CURRENCY_RAW</span><span class="p">,</span> <span class="n">EXCLAMATION</span><span class="p">,</span>
-                    <span class="n">EXCLAMATION_MARK</span><span class="p">,</span> <span class="n">QUESTION</span><span class="p">,</span> <span class="n">QUESTION_MARK</span><span class="p">)</span>
+                    <span class="n">EXCLAMATION_MARK</span><span class="p">,</span> <span class="n">QUESTION</span><span class="p">,</span> <span class="n">QUESTION_MARK</span><span class="p">,</span> <span class="n">URL</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="extract"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract">[docs]</a><span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">key_name</span><span class="p">,</span> <span class="n">extracted</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -584,6 +585,85 @@
                                       <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;question_marks&#39;</span><span class="p">]]</span>
     <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;question_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">QUESTION</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
                                 <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">summary</span></div>
+
+
+<div class="viewcode-block" id="extract_urls"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_urls">[docs]</a><span class="k">def</span> <span class="nf">extract_urls</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about URLs in ``text_list``</span>
+
+<span class="sd">    Get a summary of the number of URLs, their frequency, the top</span>
+<span class="sd">    ones, and more.</span>
+<span class="sd">    This does NOT validate URLs, www.a.b would count as a URL</span>
+
+<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :returns summary: A dictionary with various stats about URLs</span>
+
+<span class="sd">    &gt;&gt;&gt; posts = [&#39;one link http://example.com&#39;, &#39;two: http://a.com www.b.com&#39;,</span>
+<span class="sd">    ...          &#39;no links here&#39;,</span>
+<span class="sd">    ...          &#39;long url http://example.com/one/two/?1=one&amp;2=two&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; url_summary = extract_urls(posts)</span>
+<span class="sd">    &gt;&gt;&gt; url_summary.keys()</span>
+<span class="sd">    dict_keys([&#39;urls&#39;, &#39;urls_flat&#39;, &#39;url_counts&#39;, &#39;url_freq&#39;,</span>
+<span class="sd">    &#39;top_urls&#39;, &#39;overview&#39;, &#39;top_domains&#39;, &#39;top_tlds&#39;])</span>
+
+<span class="sd">    &gt;&gt;&gt; url_summary[&#39;urls&#39;]</span>
+<span class="sd">    [[&#39;http://example.com&#39;],</span>
+<span class="sd">     [&#39;http://a.com&#39;, &#39;http://www.b.com&#39;],</span>
+<span class="sd">     [],</span>
+<span class="sd">     [&#39;http://example.com/one/two/?1=one&amp;2=two&#39;]]</span>
+
+<span class="sd">    A simple extract of urls from each of the posts. An empty list if</span>
+<span class="sd">    none exist</span>
+
+<span class="sd">    &gt;&gt;&gt; url_summary[&#39;urls_flat&#39;]</span>
+<span class="sd">    [&#39;http://example.com&#39;, &#39;http://a.com&#39;, &#39;http://www.b.com&#39;,</span>
+<span class="sd">     &#39;http://example.com/one/two/?1=one&amp;2=two&#39;]</span>
+
+<span class="sd">    All urls in one flat list.</span>
+
+<span class="sd">    &gt;&gt;&gt; url_summary[&#39;url_counts&#39;]</span>
+<span class="sd">    [1, 2, 0, 1]</span>
+
+<span class="sd">    The count of urls per post.</span>
+
+<span class="sd">    &gt;&gt;&gt; url_summary[&#39;url_freq&#39;]</span>
+<span class="sd">    [(0, 1), (1, 2), (2, 1)]</span>
+
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. urls</span>
+<span class="sd">    (number_of_urls, count)</span>
+
+<span class="sd">    &gt;&gt;&gt; url_summary[&#39;top_urls&#39;]</span>
+<span class="sd">    [(&#39;http://example.com&#39;, 1), (&#39;http://a.com&#39;, 1), (&#39;http://www.b.com&#39;, 1),</span>
+<span class="sd">     (&#39;http://example.com/one/two/?1=one&amp;2=two&#39;, 1)]</span>
+
+<span class="sd">    &gt;&gt;&gt; url_summary[&#39;top_domains&#39;]</span>
+<span class="sd">    [(&#39;example.com&#39;, 2), (&#39;a.com&#39;, 1), (&#39;www.b.com&#39;, 1)]</span>
+
+<span class="sd">    &gt;&gt;&gt; url_summary[&#39;top_tlds&#39;]</span>
+<span class="sd">    [(&#39;com&#39;, 4)]</span>
+
+<span class="sd">    &gt;&gt;&gt; url_summary[&#39;overview&#39;]</span>
+<span class="sd">    {&#39;num_posts&#39;: 4,</span>
+<span class="sd">     &#39;num_urls&#39;: 4,</span>
+<span class="sd">     &#39;urls_per_post&#39;: 1.0,</span>
+<span class="sd">     &#39;unique_urls&#39;: 4}</span>
+<span class="sd">     &quot;&quot;&quot;</span>
+    <span class="n">extracted</span> <span class="o">=</span> <span class="p">[</span><span class="n">URL</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">urllist</span> <span class="ow">in</span> <span class="n">extracted</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">urllist</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;www&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">url</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;ftp&#39;</span><span class="p">):</span>
+                <span class="n">urllist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;http://&#39;</span> <span class="o">+</span> <span class="n">url</span>
+    <span class="n">domains</span> <span class="o">=</span> <span class="p">[[</span><span class="n">urlparse</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">.</span><span class="n">netloc</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">extracted</span><span class="p">]</span>
+    <span class="n">domains_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">domains</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+    <span class="n">top_domains</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">domains_flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                         <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tlds</span> <span class="o">=</span> <span class="p">[[</span><span class="n">d</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dom</span><span class="p">]</span> <span class="k">for</span> <span class="n">dom</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">]</span>
+    <span class="n">tlds_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">tlds</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+    <span class="n">top_tlds</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">tlds_flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                      <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">URL</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="n">extracted</span><span class="p">)</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;top_domains&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_domains</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;top_tlds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_tlds</span>
     <span class="k">return</span> <span class="n">summary</span></div>
 
 

@@ -817,6 +817,81 @@ you would see that it is not related to rain for example.</p>
 </div>
 </dd></dl>
 
+<dl class="function">
+<dt id="advertools.extract.extract_urls">
+<code class="descclassname">advertools.extract.</code><code class="descname">extract_urls</code><span class="sig-paren">(</span><em>text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_urls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_urls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about URLs in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of URLs, their frequency, the top
+ones, and more.
+This does NOT validate URLs, www.a.b would count as a URL</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text_list</strong> – A list of text strings.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns summary:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">A dictionary with various stats about URLs</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;one link http://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;two: http://a.com www.b.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="s1">&#39;no links here&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="s1">&#39;long url http://example.com/one/two/?1=one&amp;2=two&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span> <span class="o">=</span> <span class="n">extract_urls</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;urls&#39;, &#39;urls_flat&#39;, &#39;url_counts&#39;, &#39;url_freq&#39;,</span>
+<span class="go">&#39;top_urls&#39;, &#39;overview&#39;, &#39;top_domains&#39;, &#39;top_tlds&#39;])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;urls&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;http://example.com&#39;],</span>
+<span class="go"> [&#39;http://a.com&#39;, &#39;http://www.b.com&#39;],</span>
+<span class="go"> [],</span>
+<span class="go"> [&#39;http://example.com/one/two/?1=one&amp;2=two&#39;]]</span>
+</pre></div>
+</div>
+<p>A simple extract of urls from each of the posts. An empty list if
+none exist</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;urls_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;http://example.com&#39;, &#39;http://a.com&#39;, &#39;http://www.b.com&#39;,</span>
+<span class="go"> &#39;http://example.com/one/two/?1=one&amp;2=two&#39;]</span>
+</pre></div>
+</div>
+<p>All urls in one flat list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;url_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 2, 0, 1]</span>
+</pre></div>
+</div>
+<p>The count of urls per post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;url_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 2), (2, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. urls
+(number_of_urls, count)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;top_urls&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;http://example.com&#39;, 1), (&#39;http://a.com&#39;, 1), (&#39;http://www.b.com&#39;, 1),</span>
+<span class="go"> (&#39;http://example.com/one/two/?1=one&amp;2=two&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;top_domains&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;example.com&#39;, 2), (&#39;a.com&#39;, 1), (&#39;www.b.com&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;top_tlds&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;com&#39;, 4)]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go"> &#39;num_urls&#39;: 4,</span>
+<span class="go"> &#39;urls_per_post&#39;: 1.0,</span>
+<span class="go"> &#39;unique_urls&#39;: 4}</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </div>
 <div class="section" id="module-advertools.kw_generate">
 <span id="advertools-kw-generate-module"></span><h2>advertools.kw_generate module<a class="headerlink" href="#module-advertools.kw_generate" title="Permalink to this headline">¶</a></h2>
@@ -1034,7 +1109,8 @@ matters, default False</li>
 Each one is available in two formats
 - REGEX_RAW: raw string only, for sharing, and combining with other regexes
 - REGEX: compiled, readable, annotated version
-Based on Unicode database v11.0.0</p>
+Based on Unicode database v11.0.0
+URL regex from Regular Expressions Cookbook 2nd Ed. O’Reilly</p>
 </div>
 <div class="section" id="module-advertools.serp">
 <span id="advertools-serp-module"></span><h2>advertools.serp module<a class="headerlink" href="#module-advertools.serp" title="Permalink to this headline">¶</a></h2>
@@ -2547,10 +2623,12 @@ Cursoring for more information.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>url</strong> – a valid URL, required</li>
-<li><strong>utm_source</strong> – the referrer of the traffic (e.g. facebook, twitter), required</li>
+<li><strong>utm_source</strong> – the referrer of the traffic (e.g. facebook, twitter)</li>
 <li><strong>utm_medium</strong> – marketing medium (e.g. banner, email)</li>
-<li><strong>utm_campaign</strong> – the name of the campaign (e.g. summer_promo, 20pct_off)</li>
-<li><strong>utm_content</strong> – ad name / differentiator (e.g. 728x90, mpu, square_banner)</li>
+<li><strong>utm_campaign</strong> – the name of the campaign
+(e.g. summer_promo, 20pct_off)</li>
+<li><strong>utm_content</strong> – ad name / differentiator
+(e.g. 728x90, mpu, square_banner)</li>
 <li><strong>utm_term</strong> – search terms bid on (only relevant for search campaigns)</li>
 </ul>
 </td>
@@ -2564,8 +2642,9 @@ Cursoring for more information.</li>
 <span class="go">&#39;mysite.com?utm_source=the+source&#39;</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_utm_ga</span><span class="p">(</span><span class="s1">&#39;mysite.com&#39;</span><span class="p">,</span> <span class="n">utm_source</span><span class="o">=</span><span class="s1">&#39;the source&#39;</span><span class="p">,</span> <span class="n">utm_medium</span><span class="o">=</span><span class="s1">&#39;THE MEDIUM!!&#39;</span><span class="p">,</span>
-<span class="go">               utm_campaign=&#39;campaign*name&amp;^%&#39;,utm_content=&#39;728x90&#39;)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_utm_ga</span><span class="p">(</span><span class="s1">&#39;mysite.com&#39;</span><span class="p">,</span> <span class="n">utm_source</span><span class="o">=</span><span class="s1">&#39;the source&#39;</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">utm_medium</span><span class="o">=</span><span class="s1">&#39;THE MEDIUM!!&#39;</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">utm_campaign</span><span class="o">=</span><span class="s1">&#39;campaign*name&amp;^%&#39;</span><span class="p">,</span><span class="n">utm_content</span><span class="o">=</span><span class="s1">&#39;728x90&#39;</span><span class="p">)</span>
 <span class="go">&#39;mysite.com?utm_content=728x90&amp;utm_campaign=campaign%2Aname%26%5E%25&amp;utm_medium=THE+MEDIUM%21%21&amp;utm_source=the+source&#39;</span>
 </pre></div>
 </div>

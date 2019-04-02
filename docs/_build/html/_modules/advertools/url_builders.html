@@ -41,18 +41,21 @@
     <span class="sd">&quot;&quot;&quot;Generate a URL with UTM codes for your campaigns.</span>
 
 <span class="sd">    :param url: a valid URL, required</span>
-<span class="sd">    :param utm_source: the referrer of the traffic (e.g. facebook, twitter), required</span>
+<span class="sd">    :param utm_source: the referrer of the traffic (e.g. facebook, twitter)</span>
 <span class="sd">    :param utm_medium: marketing medium (e.g. banner, email)</span>
-<span class="sd">    :param utm_campaign: the name of the campaign (e.g. summer_promo, 20pct_off)</span>
-<span class="sd">    :param utm_content: ad name / differentiator (e.g. 728x90, mpu, square_banner)</span>
+<span class="sd">    :param utm_campaign: the name of the campaign</span>
+<span class="sd">        (e.g. summer_promo, 20pct_off)</span>
+<span class="sd">    :param utm_content: ad name / differentiator</span>
+<span class="sd">        (e.g. 728x90, mpu, square_banner)</span>
 <span class="sd">    :param utm_term: search terms bid on (only relevant for search campaigns)</span>
 <span class="sd">    :return: URL-encoded string for the campaign</span>
 
 <span class="sd">    &gt;&gt;&gt; url_utm_ga(&#39;mysite.com&#39;, utm_source=&#39;the source&#39;)</span>
 <span class="sd">    &#39;mysite.com?utm_source=the+source&#39;</span>
 
-<span class="sd">    &gt;&gt;&gt; url_utm_ga(&#39;mysite.com&#39;, utm_source=&#39;the source&#39;, utm_medium=&#39;THE MEDIUM!!&#39;,</span>
-<span class="sd">                   utm_campaign=&#39;campaign*name&amp;^%&#39;,utm_content=&#39;728x90&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; url_utm_ga(&#39;mysite.com&#39;, utm_source=&#39;the source&#39;,</span>
+<span class="sd">    ...            utm_medium=&#39;THE MEDIUM!!&#39;,</span>
+<span class="sd">    ...            utm_campaign=&#39;campaign*name&amp;^%&#39;,utm_content=&#39;728x90&#39;)</span>
 <span class="sd">    &#39;mysite.com?utm_content=728x90&amp;utm_campaign=campaign%2Aname%26%5E%25&amp;utm_medium=THE+MEDIUM%21%21&amp;utm_source=the+source&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">url</span> <span class="o">+=</span> <span class="s1">&#39;?&#39;</span>
