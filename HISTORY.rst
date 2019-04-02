@@ -7,6 +7,7 @@ Unreleased
 
 * Added
     - New function ``extract_exclamations`` very similar to ``extract_questions``
+    - New function ``extract_urls``, also counts top domains and top TLDs
 
 0.7.2 (2019-03-29)
 ------------------
