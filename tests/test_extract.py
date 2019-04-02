@@ -2,7 +2,7 @@
 from advertools.extract import (extract, extract_currency, extract_emoji,
                                 extract_exclamations, extract_hashtags,
                                 extract_intense_words, extract_mentions,
-                                extract_questions, extract_words)
+                                extract_questions, extract_words, extract_urls)
 
 mention_posts = ['hello @name', 'email@domain.com', '@oneword',
                  'hi @nam-e and @name', '@first @last', 'an @under_score',
@@ -83,6 +83,14 @@ exclamation_test_keys = ['exclamation_marks', 'exclamation_marks_flat',
                          'exclamation_mark_counts', 'exclamation_mark_freq',
                          'top_exclamation_marks', 'overview',
                          'exclamation_mark_names', 'exclamation_text']
+
+url_posts = ['one https://www.a.com', 'two www.a.com www.b.com',
+             'nothing', 'long https://example.com/one?a=b#nothing']
+
+url_summary = extract_urls(url_posts)
+
+url_test_keys = ['urls', 'urls_flat', 'url_counts', 'url_freq',
+                 'top_urls', 'overview', 'top_domains', 'top_tlds']
 
 
 def test_mention_result_has_correct_keys():
@@ -503,9 +511,52 @@ def test_correct_exclamation_text_extracted():
                                                        ['لا تذهب!']]
 
 
-def test_correct_exclamation_overview():
-    exclamation_overview = exclamation_summary['overview']
-    assert exclamation_overview['num_posts'] == 5
-    assert exclamation_overview['num_exclamation_marks'] == 6
-    assert exclamation_overview['exclamation_marks_per_post'] == 6/5
-    assert exclamation_overview['unique_exclamation_marks'] == 2
+def test_correct_url_overview():
+    url_overview = url_summary['overview']
+    assert url_overview['num_posts'] == 4
+    assert url_overview['num_urls'] == 4
+    assert url_overview['urls_per_post'] == 4/4
+    assert url_overview['unique_urls'] == 4
+
+
+def test_url_result_has_correct_keys():
+    assert set(url_summary.keys()) == set(url_test_keys)
+
+
+def test_correct_url_marks_extracted():
+    assert url_summary['urls'] == [['https://www.a.com'],
+                                   ['http://www.a.com', 'http://www.b.com'],
+                                   [],
+                                   ['https://example.com/one?a=b#nothing']]
+
+
+def test_correct_flat_url_marks():
+    assert url_summary['urls_flat'] == ['https://www.a.com',
+                                        'http://www.a.com',
+                                        'http://www.b.com',
+                                        'https://example.com/one?a=b#nothing']
+
+
+def test_correct_url_counts():
+    assert url_summary['url_counts'] == [1, 2, 0, 1]
+
+
+def test_correct_url_freq():
+    assert url_summary['url_freq'] == [(0, 1), (1, 2), (2, 1)]
+
+
+def test_correct_top_url_marks():
+    long_url = 'https://example.com/one?a=b#nothing'
+    assert set(url_summary['top_urls']) == {('http://www.a.com', 1),
+                                            ('http://www.b.com', 1),
+                                            (long_url, 1),
+                                            ('https://www.a.com', 1)}
+
+
+def test_correct_top_domains_extracted():
+    assert url_summary['top_domains'] == [('www.a.com', 2), ('www.b.com', 1),
+                                          ('example.com', 1)]
+
+
+def test_correct_top_tlds_extracted():
+    assert url_summary['top_tlds'] == [('com', 4)]
