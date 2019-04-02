@@ -2,16 +2,17 @@
 __all__ = ['extract', 'extract_currency', 'extract_emoji',
            'extract_exclamations', 'extract_hashtags',
            'extract_intense_words', 'extract_mentions',
-           'extract_questions', 'extract_words'
+           'extract_questions', 'extract_words', 'extract_urls'
            ]
 
 import re
 from unicodedata import name
 from collections import Counter
+from urllib.parse import urlparse
 from .emoji_dict import emoji_dict
 from .emoji_dict import emoji_regexp as EMOJI
 from .regex import (MENTION, HASHTAG, CURRENCY, CURRENCY_RAW, EXCLAMATION,
-                    EXCLAMATION_MARK, QUESTION, QUESTION_MARK)
+                    EXCLAMATION_MARK, QUESTION, QUESTION_MARK, URL)
 
 
 def extract(text_list, regex, key_name, extracted=None, **kwargs):
@@ -549,6 +550,85 @@ def extract_questions(text_list):
                                       summary['question_marks']]
     summary['question_text'] = [QUESTION.findall(text)
                                 for text in text_list]
+    return summary
+
+
+def extract_urls(text_list):
+    """Return a summary dictionary about URLs in ``text_list``
+
+    Get a summary of the number of URLs, their frequency, the top
+    ones, and more.
+    This does NOT validate URLs, www.a.b would count as a URL
+
+    :param text_list: A list of text strings.
+    :returns summary: A dictionary with various stats about URLs
+
+    >>> posts = ['one link http://example.com', 'two: http://a.com www.b.com',
+    ...          'no links here',
+    ...          'long url http://example.com/one/two/?1=one&2=two']
+    >>> url_summary = extract_urls(posts)
+    >>> url_summary.keys()
+    dict_keys(['urls', 'urls_flat', 'url_counts', 'url_freq',
+    'top_urls', 'overview', 'top_domains', 'top_tlds'])
+
+    >>> url_summary['urls']
+    [['http://example.com'],
+     ['http://a.com', 'http://www.b.com'],
+     [],
+     ['http://example.com/one/two/?1=one&2=two']]
+
+    A simple extract of urls from each of the posts. An empty list if
+    none exist
+
+    >>> url_summary['urls_flat']
+    ['http://example.com', 'http://a.com', 'http://www.b.com',
+     'http://example.com/one/two/?1=one&2=two']
+
+    All urls in one flat list.
+
+    >>> url_summary['url_counts']
+    [1, 2, 0, 1]
+
+    The count of urls per post.
+
+    >>> url_summary['url_freq']
+    [(0, 1), (1, 2), (2, 1)]
+
+    Shows how many posts had 0, 1, 2, 3, etc. urls
+    (number_of_urls, count)
+
+    >>> url_summary['top_urls']
+    [('http://example.com', 1), ('http://a.com', 1), ('http://www.b.com', 1),
+     ('http://example.com/one/two/?1=one&2=two', 1)]
+
+    >>> url_summary['top_domains']
+    [('example.com', 2), ('a.com', 1), ('www.b.com', 1)]
+
+    >>> url_summary['top_tlds']
+    [('com', 4)]
+
+    >>> url_summary['overview']
+    {'num_posts': 4,
+     'num_urls': 4,
+     'urls_per_post': 1.0,
+     'unique_urls': 4}
+     """
+    extracted = [URL.findall(x) for x in text_list]
+    for urllist in extracted:
+        for i, url in enumerate(urllist):
+            if url.lower().startswith('www') or url.lower().startswith('ftp'):
+                urllist[i] = 'http://' + url
+    domains = [[urlparse(u).netloc for u in e] for e in extracted]
+    domains_flat = [item for sublist in domains for item in sublist]
+    top_domains = sorted(Counter(domains_flat).items(),
+                         key=lambda x: x[1], reverse=True)
+    tlds = [[d.split('.')[-1] for d in dom] for dom in domains]
+    tlds_flat = [item for sublist in tlds for item in sublist]
+    top_tlds = sorted(Counter(tlds_flat).items(),
+                      key=lambda x: x[1], reverse=True)
+    summary = extract(text_list, URL, 'url', extracted)
+    summary['top_domains'] = top_domains
+    summary['top_tlds'] = top_tlds
     return summary
 
 
