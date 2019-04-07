@@ -48,10 +48,10 @@ def kw_generate(products, words, max_len=3,
     59  SEM_Campaign   Toyota  +second hand +buy +toyota          Broad  Second Hand;Buy
     """
     match_types = [x.title() for x in match_types]
-    POSSIBLE_MATCH_TYPES = ['Exact', 'Phrase', 'Broad', 'Modified']
-    if not set(match_types).issubset(POSSIBLE_MATCH_TYPES):
+    possible_match_types = ['Exact', 'Phrase', 'Broad', 'Modified']
+    if not set(match_types).issubset(possible_match_types):
         raise ValueError('please make sure match types are any of '
-                         + str(POSSIBLE_MATCH_TYPES))
+                         + str(possible_match_types))
 
     if max_len < 2:
         raise ValueError('please make sure max_len is >= 2')
