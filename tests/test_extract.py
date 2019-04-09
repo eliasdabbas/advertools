@@ -1,3 +1,4 @@
+import pytest
 
 from advertools.extract import (extract, extract_currency, extract_emoji,
                                 extract_exclamations, extract_hashtags,
@@ -20,11 +21,14 @@ hashtag_posts = ['hello #name', 'email#domain.com', '#oneword',
                  '#one.#two three', 'number #123text', '#_before #after_']
 
 hashtag_summary = extract_hashtags(hashtag_posts)
+
 hashtag_test_keys = ['hashtags', 'hashtags_flat', 'hashtag_counts',
                      'hashtag_freq', 'top_hashtags', 'overview']
 
 emoji_posts = ['one smiley 😀', 'one smiley 😀 one wink 😉', 'no emoji']
+
 emoji_summary = extract_emoji(emoji_posts)
+
 emoji_test_keys = ['emoji', 'emoji_text', 'emoji_flat', 'emoji_flat_text',
                    'emoji_counts', 'emoji_freq', 'top_emoji', 'top_emoji_text',
                    'overview']
@@ -35,10 +39,11 @@ word_posts = ['today it is raining', 'i like rain and raining',
               'none of the words', '@rain, #snow rain']
 
 word_summary_full = extract_words(word_posts, ['rain', 'snow'], True)
+
 word_summary_not_full = extract_words(word_posts, ['rain', 'snow'], False)
+
 word_test_keys = ['words', 'words_flat', 'word_counts',
                   'word_freq', 'top_words', 'overview']
-
 
 currency_posts = ['$5.0 beginning', 'mid £5.0 price', 'end of str €',
                   'more $ than £ one', 'other symbols ₣ ₤ ₥ ₦ ₧',
@@ -51,7 +56,6 @@ currency_test_keys = ['currency_symbols', 'currency_symbols_flat',
                       'top_currency_symbols', 'overview',
                       'currency_symbol_names', 'surrounding_text']
 
-
 intense_word_posts = ['i looooove this', 'goooood mooorning',
                       'normal text', 'in thhhhhhe middle',
                       'innnnnn the beginning', 'at the end!!!!!!']
@@ -62,7 +66,6 @@ intense_word_test_keys = ['intense_words', 'intense_words_flat',
                           'intense_word_counts', 'intense_word_freq',
                           'top_intense_words', 'overview']
 
-
 question_posts = ['how are you?', 'no question', 'no! what about you?',
                   'Hola, ¿cómo estás?', 'Πώς είσαι;']
 
@@ -72,7 +75,6 @@ question_test_keys = ['question_marks', 'question_marks_flat',
                       'question_mark_counts', 'question_mark_freq',
                       'top_question_marks', 'overview',
                       'question_mark_names', 'question_text']
-
 
 exclamation_posts = ['how dare you!', 'no exclamation', 'no! do not do this!',
                      '¡Hola!  ¿cómo estás?', 'مرحبا. لا تذهب!']
@@ -92,112 +94,227 @@ url_summary = extract_urls(url_posts)
 url_test_keys = ['urls', 'urls_flat', 'url_counts', 'url_freq',
                  'top_urls', 'overview', 'top_domains', 'top_tlds']
 
-
-def test_mention_result_has_correct_keys():
-    assert set(mention_summary.keys()) == set(mention_test_keys)
-
-
-def test_correct_mentions_extracted():
-    assert mention_summary['mentions'] == [['@name'], [], ['@oneword'],
-                                           ['@nam', '@name'],
-                                           ['@first', '@last'],
-                                           ['@under_score'], ['@dot'], [],
-                                           ['＠sign'], ['@one', '@two'],
-                                           ['@123text'],
-                                           ['@_before', '@after_']]
-
-
-def test_correct_flat_mentions():
-    assert mention_summary['mentions_flat'] == ['@name', '@oneword', '@nam',
-                                                '@name', '@first', '@last',
-                                                '@under_score', '@dot',
-                                                '＠sign', '@one', '@two',
-                                                '@123text', '@_before',
-                                                '@after_']
+test_ids = [
+    'currency',
+    'emoji',
+    'exclamation',
+    'hashtag',
+    'intense',
+    'mention',
+    'question',
+    'word_full',
+    'word_not_full',
+    'url',
+]
 
 
-def test_correct_mention_counts():
-    assert mention_summary['mention_counts'] == [1, 0, 1, 2, 2, 1, 1, 0,
-                                                 1, 2, 1, 2]
+summaries_keys = [
+    (list(currency_summary.keys()), currency_test_keys),
+    (list(emoji_summary.keys()), emoji_test_keys),
+    (list(exclamation_summary.keys()), exclamation_test_keys),
+    (list(hashtag_summary.keys()), hashtag_test_keys),
+    (list(intense_word_summary.keys()), intense_word_test_keys),
+    (list(mention_summary.keys()), mention_test_keys),
+    (list(question_summary.keys()), question_test_keys),
+    (list(word_summary_full.keys()), word_test_keys),
+    (list(word_summary_not_full.keys()), word_test_keys),
+    (list(url_summary.keys()), url_test_keys),
+]
 
 
-def test_correct_mention_freq():
-    assert mention_summary['mention_freq'] == [(0, 2), (1, 6), (2, 4)]
+@pytest.mark.parametrize('summary_key, test_key',
+                         zip([x[0] for x in summaries_keys],
+                             [x[1] for x in summaries_keys]),
+                         ids=test_ids)
+def test_has_correct_keys(summary_key, test_key):
+    assert set(summary_key) == set(test_key)
 
 
-def test_correct_top_mentions():
-    assert set(mention_summary['top_mentions']) == {('@name', 2),
-                                                    ('@oneword', 1),
-                                                    ('@nam', 1), ('@first', 1),
-                                                    ('@last', 1),
-                                                    ('@under_score', 1),
-                                                    ('@dot', 1), ('＠sign', 1),
-                                                    ('@one', 1), ('@two', 1),
-                                                    ('@123text', 1),
-                                                    ('@_before', 1),
-                                                    ('@after_', 1)}
+summaries = {
+    'currency': currency_summary,
+    'emoji': emoji_summary,
+    'exclamation': exclamation_summary,
+    'hashtag': hashtag_summary,
+    'intense': intense_word_summary,
+    'mention': mention_summary,
+    'question': question_summary,
+    'word_full': word_summary_full,
+    'word_not_full': word_summary_not_full,
+    'url': url_summary,
+}
 
 
-def test_correct_mention_overview():
-    mention_overview = mention_summary['overview']
-    assert mention_overview['num_posts'] == 12
-    assert mention_overview['num_mentions'] == 14
-    assert mention_overview['mentions_per_post'] == 14/12
-    assert mention_overview['unique_mentions'] == 13
+summary_counts = {k: [d[key] for key in d if 'count' in key][0]
+                  for k, d in summaries.items()}
+test_counts = {
+    'currency': [1, 1, 1, 2, 5, 0],
+    'emoji': [1, 2, 0],
+    'exclamation': [1, 0, 2, 2, 1],
+    'hashtag': [1, 0, 1, 2, 2, 1, 1, 1, 1, 2, 1, 2],
+    'intense': [1, 2, 0, 1, 1, 1],
+    'mention': [1, 0, 1, 2, 2, 1, 1, 0, 1, 2, 1, 2],
+    'question': [1, 0, 1, 2, 1],
+    'word_full': [0, 1, 0, 0, 1, 2, 0, 3],
+    'word_not_full': [1, 2, 1, 2, 2, 2, 0, 3],
+    'url': [1, 2, 0, 1]
+}
 
 
-def test_hashtag_result_has_correct_keys():
-    assert set(hashtag_summary.keys()) == set(hashtag_test_keys)
+@pytest.mark.parametrize('summary_count, test_count',
+                         zip(sorted(summary_counts.items()),
+                             sorted(test_counts.items())),
+                         ids=test_ids)
+def test_has_correct_counts(summary_count, test_count):
+    assert summary_count == summary_count
 
 
-def test_correct_hashtags_extracted():
-    assert hashtag_summary['hashtags'] == [['#name'], [], ['#oneword'],
-                                           ['#nam', '#name'],
-                                           ['#first', '#last'],
-                                           ['#under_score'], ['#dot'],
-                                           ['#مرحبا'], ['＃sign'],
-                                           ['#one', '#two'], ['#123text'],
-                                           ['#_before', '#after_']]
+summary_freqs = {k: [d[key] for key in d if 'freq' in key][0]
+                 for k, d in summaries.items()}
+
+test_freqs = {
+    'currency': [(0, 1), (1, 3), (2, 1), (5, 1)],
+    'emoji': [(0, 1), (1, 1), (2, 1)],
+    'exclamation': [(0, 1), (1, 2), (2, 2)],
+    'hashtag': [(0, 1), (1, 7), (2, 4)],
+    'intense': [(0, 1), (1, 4), (2, 1)],
+    'mention': [(0, 2), (1, 6), (2, 4)],
+    'question': [(0, 1), (1, 3), (2, 1)],
+    'word_full': [(0, 4), (1, 2), (2, 1), (3, 1)],
+    'word_not_full': [(0, 1), (1, 2), (2, 4), (3, 1)],
+    'url': [(0, 1), (1, 2), (2, 1)],
+}
 
 
-def test_correct_flat_hashtags():
-    assert hashtag_summary['hashtags_flat'] == ['#name', '#oneword', '#nam',
-                                                '#name', '#first', '#last',
-                                                '#under_score', '#dot',
-                                                '#مرحبا', '＃sign', '#one',
-                                                '#two', '#123text', '#_before',
-                                                '#after_']
+@pytest.mark.parametrize('summary_freq, test_freq',
+                         zip(sorted(summary_freqs.items()),
+                             sorted(test_freqs.items())),
+                         ids=test_ids)
+def test_has_correct_freq(summary_freq, test_freq):
+    assert summary_freq == summary_freq
 
 
-def test_correct_hashtag_counts():
-    assert hashtag_summary['hashtag_counts'] == [1, 0, 1, 2, 2, 1,
-                                                 1, 1, 1, 2, 1, 2]
+summary_flats = {k: [d[key] for key in d if 'flat' in key
+                     and 'emoji_flat_text' not in key][0]
+                 for k, d in summaries.items()}
+test_flats = {
+    'currency': ['$', '£', '€', '$', '£', '₣', '₤', '₥', '₦', '₧'],
+    'emoji': ['😀', '😀', '😉'],
+    'exclamation': ['!', '!', '!', '¡', '!', '!'],
+    'hashtag': ['#name', '#oneword', '#nam', '#name', '#first', '#last',
+                '#under_score', '#dot', '#مرحبا', '＃sign', '#one',
+                '#two', '#123text', '#_before', '#after_'],
+    'intense': ['looooove', 'goooood', 'mooorning', 'thhhhhhe',
+                'innnnnn', 'end!!!!!!'],
+    'mention': ['@name', '@oneword', '@nam', '@name', '@first',
+                '@last', '@under_score', '@dot', '＠sign', '@one',
+                '@two', '@123text', '@_before', '@after_'],
+    'question': ['?', '?', '¿', '?', ';'],
+    'word_full': ['rain', 'snow', 'rain', 'snow', 'rain', 'snow', 'rain'],
+    'word_not_full': ['raining', 'rain', 'raining', 'snowing',
+                      'snowing', 'raining', 'training', 'snow',
+                      'rain', 'snow', '@rain,', '#snow', 'rain'],
+    'url': ['https://www.a.com', 'http://www.a.com',
+            'http://www.b.com', 'https://example.com/one?a=b#nothing']
+}
 
 
-def test_correct_hashtag_freq():
-    assert hashtag_summary['hashtag_freq'] == [(0, 1), (1, 7), (2, 4)]
+@pytest.mark.parametrize('summary_flat, test_flat',
+                         zip(sorted(summary_flats.items()),
+                             sorted(test_flats.items())),
+                         ids=test_ids)
+def test_has_correct_flat(summary_flat, test_flat):
+    assert summary_flat == test_flat
 
 
-def test_correct_top_hashtags():
-    assert set(hashtag_summary['top_hashtags']) == {('#name', 2),
-                                                    ('#oneword', 1),
-                                                    ('#nam', 1), ('#first', 1),
-                                                    ('#last', 1),
-                                                    ('#under_score', 1),
-                                                    ('#dot', 1), ('＃sign', 1),
-                                                    ('#one', 1), ('#two', 1),
-                                                    ('#123text', 1),
-                                                    ('#مرحبا', 1),
-                                                    ('#_before', 1),
-                                                    ('#after_', 1)}
+summary_tops = {k: [d[key] for key in d if 'top' in key]
+                for k, d in summaries.items()}
+
+summary_tops = {k: d[0] if len(d) == 1 else d
+                for k, d in summary_tops.items()}
+
+test_tops = {
+    'currency': [('$', 2), ('£', 2), ('€', 1), ('₣', 1), ('₤', 1),
+                 ('₥', 1), ('₦', 1), ('₧', 1)],
+    'emoji': [[('😀', 2), ('😉', 1)],
+              [('grinning face', 2), ('winking face', 1)]],
+    'exclamation': [('!', 5), ('¡', 1)],
+    'hashtag': [('#name', 2), ('#oneword', 1), ('#nam', 1),
+                ('#first', 1), ('#last', 1), ('#under_score', 1),
+                ('#dot', 1), ('#مرحبا', 1), ('＃sign', 1), ('#one', 1),
+                ('#two', 1), ('#123text', 1), ('#_before', 1),
+                ('#after_', 1)],
+    'intense': [('looooove', 1), ('goooood', 1), ('mooorning', 1),
+                ('thhhhhhe', 1), ('innnnnn', 1), ('end!!!!!!', 1)],
+    'mention': [('@name', 2), ('@oneword', 1), ('@nam', 1), ('@first', 1),
+                ('@last', 1), ('@under_score', 1), ('@dot', 1),
+                ('＠sign', 1), ('@one', 1), ('@two', 1), ('@123text', 1),
+                ('@_before', 1), ('@after_', 1)],
+    'question': [('?', 3), ('¿', 1), (';', 1)],
+    'word_full': [('rain', 4), ('snow', 3)],
+    'word_not_full': [('raining', 3), ('rain', 3), ('snowing', 2),
+                      ('snow', 2), ('training', 1), ('@rain,', 1),
+                      ('#snow', 1)],
+    'url': [[('https://www.a.com', 1), ('http://www.a.com', 1),
+             ('http://www.b.com', 1),
+             ('https://example.com/one?a=b#nothing', 1)],
+            [('www.a.com', 2), ('www.b.com', 1), ('example.com', 1)],
+            [('com', 4)]]
+}
 
 
-def test_correct_hashtag_overview():
-    hashtag_overview = hashtag_summary['overview']
-    assert hashtag_overview['num_posts'] == 12
-    assert hashtag_overview['num_hashtags'] == 15
-    assert hashtag_overview['hashtags_per_post'] == 15/12
-    assert hashtag_overview['unique_hashtags'] == 14
+def make_hashable(iterable):
+    """Some sub-elements are lists and need to be converted sorted tuples."""
+    return tuple(tuple(sorted(x)) if isinstance(x, list)else
+                 x for x in iterable)
+
+
+@pytest.mark.parametrize('summary_top, test_top',
+                         zip(sorted(summary_tops.items()),
+                             sorted(test_tops.items())),
+                         ids=test_ids)
+def test_has_correct_top(summary_top, test_top):
+    assert (set(make_hashable(summary_top[1])) ==
+            set(make_hashable(test_top[1])))
+
+
+summary_overviews = {k: [d[key] for key in d if 'overview' in key][0]
+                     for k, d in summaries.items()}
+
+test_overviews = {
+    'currency': [6, 10, 10/6, 8],
+    'emoji': [3, 3, 1.0, 2],
+    'exclamation': [5, 6, 1.2, 2],
+    'hashtag': [12, 15, 1.25, 14],
+    'intense': [6, 6, 1.0, 6],
+    'mention': [12, 14, 14/12, 13],
+    'question': [5, 5, 1.0, 3],
+    'word_full': [8, 7, 7/8, 2],
+    'word_not_full': [8, 13, 13/8, 7],
+    'url': [4, 4, 1.0, 4],
+}
+
+
+def dict2overview_list(d):
+    """Convert an overview dict to a list based on its keys."""
+    result = [0, 0, 0, 0]
+    for key in d:
+        if 'num_posts' in key:
+            result[0] = d[key]
+        if 'num_' in key and 'post' not in key:
+            result[1] = d[key]
+        if 'per' in key:
+            result[2] = d[key]
+        if 'unique' in key:
+            result[3] = d[key]
+    return result
+
+
+@pytest.mark.parametrize('summary_overview, test_overview',
+                         zip(sorted(summary_overviews.items()),
+                             sorted(test_overviews.items())),
+                         ids=test_ids)
+def test_has_correct_overview(summary_overview, test_overview):
+    assert dict2overview_list(summary_overview[1]) == test_overview[1]
 
 
 def test_extract_puts_str_in_list():
@@ -205,358 +322,6 @@ def test_extract_puts_str_in_list():
     assert result['hashtags'] == ['#one #two #three'.split()]
 
 
-def test_emoji_result_has_correct_keys():
-    assert set(emoji_summary.keys()) == set(emoji_test_keys)
-
-
-def test_correct_emoji_extracted():
-    assert emoji_summary['emoji'] == [['😀'], ['😀', '😉'], []]
-
-
-def test_correct_flat_emoji():
-    assert emoji_summary['emoji_flat'] == ['😀', '😀', '😉']
-
-
-def test_correct_emoji_counts():
-    assert emoji_summary['emoji_counts'] == [1, 2, 0]
-
-
-def test_correct_emoji_freq():
-    assert emoji_summary['emoji_freq'] == [(0, 1), (1, 1), (2, 1)]
-
-
-def test_correct_top_emoji():
-    assert emoji_summary['top_emoji'] == [('😀', 2), ('😉', 1)]
-
-
-def test_correct_emoji_overview():
-    emoji_overview = emoji_summary['overview']
-    assert emoji_overview['num_posts'] == 3
-    assert emoji_overview['num_emoji'] == 3
-    assert emoji_overview['emoji_per_post'] == 1.0
-    assert emoji_overview['unique_emoji'] == 2
-
-
-def test_word_result_has_correct_keys():
-    assert set(word_summary_full.keys()) == set(word_test_keys)
-    assert set(word_summary_not_full.keys()) == set(word_test_keys)
-
-
-def test_correct_words_extracted():
-    assert word_summary_full['words'] == [[], ['rain'], [], [], ['snow'],
-                                          ['rain', 'snow'], [],
-                                          ['rain', 'snow', 'rain']]
-    assert word_summary_not_full['words'] == [['raining'], ['rain', 'raining'],
-                                              ['snowing'],
-                                              ['snowing', 'raining'],
-                                              ['training', 'snow'],
-                                              ['rain', 'snow'], [],
-                                              ['@rain,', '#snow', 'rain']]
-
-
-def test_correct_flat_words():
-    assert word_summary_full['words_flat'] == ['rain', 'snow', 'rain', 'snow',
-                                               'rain', 'snow', 'rain']
-    assert word_summary_not_full['words_flat'] == ['raining', 'rain',
-                                                   'raining', 'snowing',
-                                                   'snowing', 'raining',
-                                                   'training', 'snow', 'rain',
-                                                   'snow', '@rain,', '#snow',
-                                                   'rain']
-
-
-def test_correct_word_counts():
-    assert word_summary_full['word_counts'] == [0, 1, 0, 0, 1, 2, 0, 3]
-    assert word_summary_not_full['word_counts'] == [1, 2, 1, 2, 2, 2, 0, 3]
-
-
-def test_correct_word_freq():
-    assert word_summary_full['word_freq'] == [(0, 4), (1, 2), (2, 1), (3, 1)]
-    assert word_summary_not_full['word_freq'] == [(0, 1), (1, 2),
-                                                  (2, 4), (3, 1)]
-
-
-def test_correct_top_words():
-    assert set(word_summary_full['top_words']) == {('rain', 4), ('snow', 3)}
-    assert set(word_summary_not_full['top_words']) == {('rain', 3),
-                                                       ('raining', 3),
-                                                       ('snow', 2),
-                                                       ('snowing', 2),
-                                                       ('#snow', 1),
-                                                       ('@rain,', 1),
-                                                       ('training', 1)}
-
-
-def test_correct_word_overview():
-    word_overview_full = word_summary_full['overview']
-    assert word_overview_full['num_posts'] == 8
-    assert word_overview_full['num_words'] == 7
-    assert word_overview_full['words_per_post'] == 7/8
-    assert word_overview_full['unique_words'] == 2
-
-    word_overview_not_full = word_summary_not_full['overview']
-    assert word_overview_not_full['num_posts'] == 8
-    assert word_overview_not_full['num_words'] == 13
-    assert word_overview_not_full['words_per_post'] == 13 / 8
-    assert word_overview_not_full['unique_words'] == 7
-
-
 def test_extract_words_puts_str_in_list():
     word_summary_str = extract_words(word_posts, 'rain',  True)
     assert word_summary_str['top_words'][0][0] == 'rain'
-
-
-def test_extract_changes_str_to_compiled_regex():
-    result = extract(['text', 'list'], 'list', 'key')
-    assert result['top_keys'][0][0] == 'list'
-
-
-def test_currency_result_has_correct_keys():
-    assert set(currency_summary.keys()) == set(currency_test_keys)
-
-
-def test_correct_currencies_extracted():
-    assert currency_summary['currency_symbols'] == [['$'], ['£'], ['€'],
-                                                    ['$', '£'],
-                                                    ['₣', '₤', '₥', '₦', '₧'],
-                                                    []]
-
-
-def test_correct_flat_currencies():
-    assert currency_summary['currency_symbols_flat'] == ['$', '£', '€', '$',
-                                                         '£', '₣', '₤', '₥',
-                                                         '₦', '₧']
-
-
-def test_correct_currency_counts():
-    assert currency_summary['currency_symbol_counts'] == [1, 1, 1, 2, 5, 0]
-
-
-def test_correct_currency_freq():
-    assert currency_summary['currency_symbol_freq'] == [(0, 1), (1, 3),
-                                                        (2, 1), (5, 1)]
-
-
-def test_correct_top_currencies():
-    assert set(currency_summary['top_currency_symbols']) == {('$', 2),
-                                                             ('£', 2),
-                                                             ('€', 1),
-                                                             ('₣', 1),
-                                                             ('₤', 1),
-                                                             ('₥', 1),
-                                                             ('₦', 1),
-                                                             ('₧', 1)}
-
-
-def test_correct_currency_names():
-    assert currency_summary['currency_symbol_names'] == [['dollar sign'],
-                                                         ['pound sign'],
-                                                         ['euro sign'],
-                                                         ['dollar sign',
-                                                          'pound sign'],
-                                                         ['french franc sign',
-                                                          'lira sign',
-                                                          'mill sign',
-                                                          'naira sign',
-                                                          'peseta sign'],
-                                                         []]
-
-
-currency_posts = ['$5.0 beginning', 'mid £5.0 price', 'end of str €',
-                  'more $ than £ one', 'other symbols ₣ ₤ ₥ ₦ ₧',
-                  'no symbols']
-
-
-def test_correct_currency_surrounding_text():
-    assert currency_summary['surrounding_text'] == [['$5.0 beginning'],
-                                                    ['mid £5.0 price'],
-                                                    ['end of str €'],
-                                                    ['more $ than £ one'],
-                                                    ['other symbols '
-                                                     '₣ ₤ ₥ ₦ ₧'],
-                                                    []]
-
-
-def test_correct_currency_overview():
-    currency_overview = currency_summary['overview']
-    assert currency_overview['num_posts'] == 6
-    assert currency_overview['num_currency_symbols'] == 10
-    assert currency_overview['currency_symbols_per_post'] == 10/6
-    assert currency_overview['unique_currency_symbols'] == 8
-
-
-def test_intense_word_result_has_correct_keys():
-    assert set(intense_word_summary.keys()) == set(intense_word_test_keys)
-
-
-def test_correct_intense_words_extracted():
-    assert intense_word_summary['intense_words'] == [['looooove'],
-                                                     ['goooood', 'mooorning'],
-                                                     [], ['thhhhhhe'],
-                                                     ['innnnnn'],
-                                                     ['end!!!!!!']]
-
-
-def test_correct_flat_intense_words():
-    assert intense_word_summary['intense_words_flat'] == ['looooove',
-                                                          'goooood',
-                                                          'mooorning',
-                                                          'thhhhhhe',
-                                                          'innnnnn',
-                                                          'end!!!!!!']
-
-
-def test_correct_intense_word_counts():
-    assert intense_word_summary['intense_word_counts'] == [1, 2, 0, 1, 1, 1]
-
-
-def test_correct_intense_word_freq():
-    assert intense_word_summary['intense_word_freq'] == [(0, 1), (1, 4),
-                                                         (2, 1)]
-
-
-def test_correct_top_intense_words():
-    assert set(intense_word_summary['top_intense_words']) == {('looooove', 1),
-                                                              ('goooood', 1),
-                                                              ('mooorning', 1),
-                                                              ('thhhhhhe', 1),
-                                                              ('innnnnn', 1),
-                                                              ('end!!!!!!', 1)}
-
-
-def test_correct_intense_word_overview():
-    intense_word_overview = intense_word_summary['overview']
-    assert intense_word_overview['num_posts'] == 6
-    assert intense_word_overview['num_intense_words'] == 6
-    assert intense_word_overview['intense_words_per_post'] == 1/1
-    assert intense_word_overview['unique_intense_words'] == 6
-
-
-def test_question_result_has_correct_keys():
-    assert set(question_summary.keys()) == set(question_test_keys)
-
-
-def test_correct_question_marks_extracted():
-    assert question_summary['question_marks'] == [['?'], [], ['?'],
-                                                  ['¿', '?'], [';']]
-
-
-def test_correct_flat_question_marks():
-    assert question_summary['question_marks_flat'] == ['?', '?', '¿', '?', ';']
-
-
-def test_correct_question_counts():
-    assert question_summary['question_mark_counts'] == [1, 0, 1, 2, 1]
-
-
-def test_correct_question_freq():
-    assert question_summary['question_mark_freq'] == [(0, 1), (1, 3), (2, 1)]
-
-
-def test_correct_top_question_marks():
-    assert set(question_summary['top_question_marks']) == {('¿', 1), ('?', 3),
-                                                           (';', 1)}
-
-
-def test_correct_question_text_extracted():
-    assert question_summary['question_text'] == [['how are you?'],
-                                                 [],
-                                                 ['what about you?'],
-                                                 ['¿cómo estás?'],
-                                                 ['Πώς είσαι;']]
-
-
-def test_correct_question_overview():
-    question_overview = question_summary['overview']
-    assert question_overview['num_posts'] == 5
-    assert question_overview['num_question_marks'] == 5
-    assert question_overview['question_marks_per_post'] == 1/1
-    assert question_overview['unique_question_marks'] == 3
-
-
-def test_exclamation_result_has_correct_keys():
-    assert set(exclamation_summary.keys()) == set(exclamation_test_keys)
-
-
-def test_correct_exclamation_marks_extracted():
-    assert exclamation_summary['exclamation_marks'] == [['!'], [], ['!', '!'],
-                                                        ['¡', '!'], ['!']]
-
-
-def test_correct_flat_exclamation_marks():
-    assert exclamation_summary['exclamation_marks_flat'] == ['!', '!', '!',
-                                                             '¡', '!', '!', ]
-
-
-def test_correct_exclamation_counts():
-    assert exclamation_summary['exclamation_mark_counts'] == [1, 0, 2, 2, 1]
-
-
-def test_correct_exclamation_freq():
-    assert exclamation_summary['exclamation_mark_freq'] == [(0, 1), (1, 2),
-                                                            (2, 2)]
-
-
-def test_correct_top_exclamation_marks():
-    assert set(exclamation_summary['top_exclamation_marks']) == {('!', 5),
-                                                                 ('¡', 1)}
-
-
-def test_correct_exclamation_text_extracted():
-    assert exclamation_summary['exclamation_text'] == [['how dare you!'],
-                                                       [],
-                                                       ['no!',
-                                                        'do not do this!'],
-                                                       ['¡Hola!'],
-                                                       ['لا تذهب!']]
-
-
-def test_correct_url_overview():
-    url_overview = url_summary['overview']
-    assert url_overview['num_posts'] == 4
-    assert url_overview['num_urls'] == 4
-    assert url_overview['urls_per_post'] == 4/4
-    assert url_overview['unique_urls'] == 4
-
-
-def test_url_result_has_correct_keys():
-    assert set(url_summary.keys()) == set(url_test_keys)
-
-
-def test_correct_url_marks_extracted():
-    assert url_summary['urls'] == [['https://www.a.com'],
-                                   ['http://www.a.com', 'http://www.b.com'],
-                                   [],
-                                   ['https://example.com/one?a=b#nothing']]
-
-
-def test_correct_flat_url_marks():
-    assert url_summary['urls_flat'] == ['https://www.a.com',
-                                        'http://www.a.com',
-                                        'http://www.b.com',
-                                        'https://example.com/one?a=b#nothing']
-
-
-def test_correct_url_counts():
-    assert url_summary['url_counts'] == [1, 2, 0, 1]
-
-
-def test_correct_url_freq():
-    assert url_summary['url_freq'] == [(0, 1), (1, 2), (2, 1)]
-
-
-def test_correct_top_url_marks():
-    long_url = 'https://example.com/one?a=b#nothing'
-    assert set(url_summary['top_urls']) == {('http://www.a.com', 1),
-                                            ('http://www.b.com', 1),
-                                            (long_url, 1),
-                                            ('https://www.a.com', 1)}
-
-
-def test_correct_top_domains_extracted():
-    assert url_summary['top_domains'] == [('www.a.com', 2), ('www.b.com', 1),
-                                          ('example.com', 1)]
-
-
-def test_correct_top_tlds_extracted():
-    assert url_summary['top_tlds'] == [('com', 4)]
