@@ -2,12 +2,14 @@
 History
 =======
 
-Unreleased
-----------
+0.7.3 (2019-04-17)
+------------------
 
 * Added
     - New function ``extract_exclamations`` very similar to ``extract_questions``
     - New function ``extract_urls``, also counts top domains and top TLDs
+    - New keys to ``extract_emoji``; ``top_emoji_categories`` & ``top_emoji_sub_categories``
+    - Groups and sub-groups to emoji db
 
 0.7.2 (2019-03-29)
 ------------------
