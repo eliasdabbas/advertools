@@ -20,10 +20,10 @@ advertools.ad\_from\_string module
     :undoc-members:
     :show-inheritance:
 
-advertools.emoji\_dict module
------------------------------
+advertools.emoji module
+-----------------------
 
-.. automodule:: advertools.emoji_dict
+.. automodule:: advertools.emoji
     :members:
     :undoc-members:
     :show-inheritance:

@@ -83,10 +83,10 @@
 <span class="sd">    59  SEM_Campaign   Toyota  +second hand +buy +toyota          Broad  Second Hand;Buy</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">match_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">match_types</span><span class="p">]</span>
-    <span class="n">POSSIBLE_MATCH_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Exact&#39;</span><span class="p">,</span> <span class="s1">&#39;Phrase&#39;</span><span class="p">,</span> <span class="s1">&#39;Broad&#39;</span><span class="p">,</span> <span class="s1">&#39;Modified&#39;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">match_types</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">POSSIBLE_MATCH_TYPES</span><span class="p">):</span>
+    <span class="n">possible_match_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Exact&#39;</span><span class="p">,</span> <span class="s1">&#39;Phrase&#39;</span><span class="p">,</span> <span class="s1">&#39;Broad&#39;</span><span class="p">,</span> <span class="s1">&#39;Modified&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">match_types</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">possible_match_types</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;please make sure match types are any of &#39;</span>
-                         <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">POSSIBLE_MATCH_TYPES</span><span class="p">))</span>
+                         <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">possible_match_types</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">max_len</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;please make sure max_len is &gt;= 2&#39;</span><span class="p">)</span>

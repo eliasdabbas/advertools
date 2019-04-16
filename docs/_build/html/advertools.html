@@ -149,14 +149,50 @@ Setting it as False would leave the input string as is</li>
 </dd></dl>
 
 </div>
-<div class="section" id="module-advertools.emoji_dict">
-<span id="advertools-emoji-dict-module"></span><h2>advertools.emoji_dict module<a class="headerlink" href="#module-advertools.emoji_dict" title="Permalink to this headline">¶</a></h2>
-<p>Copyright (c) 2014-2015, Taehoon Kim and Kevin Wurster
-All rights reserved.</p>
-<p>Emoji dictionary and regular expression for easy extraction and manipulation
-of emojis in text.
-Imported from the Python emoji package <a class="reference external" href="https://github.com/carpedm20/emoji">https://github.com/carpedm20/emoji</a></p>
-<p>Last update: Sep 14, 2018</p>
+<div class="section" id="module-advertools.emoji">
+<span id="advertools-emoji-module"></span><h2>advertools.emoji module<a class="headerlink" href="#module-advertools.emoji" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="advertools.emoji.EmojiEntry">
+<em class="property">class </em><code class="descclassname">advertools.emoji.</code><code class="descname">EmojiEntry</code><span class="sig-paren">(</span><em>codepoint</em>, <em>status</em>, <em>emoji</em>, <em>name</em>, <em>group</em>, <em>sub_group</em><span class="sig-paren">)</span><a class="headerlink" href="#advertools.emoji.EmojiEntry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="attribute">
+<dt id="advertools.emoji.EmojiEntry.codepoint">
+<code class="descname">codepoint</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.codepoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="advertools.emoji.EmojiEntry.emoji">
+<code class="descname">emoji</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.emoji" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="advertools.emoji.EmojiEntry.group">
+<code class="descname">group</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="advertools.emoji.EmojiEntry.name">
+<code class="descname">name</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="advertools.emoji.EmojiEntry.status">
+<code class="descname">status</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="advertools.emoji.EmojiEntry.sub_group">
+<code class="descname">sub_group</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.sub_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-advertools.extract">
 <span id="advertools-extract-module"></span><h2>advertools.extract module<a class="headerlink" href="#module-advertools.extract" title="Permalink to this headline">¶</a></h2>
@@ -295,14 +331,14 @@ ones, and more.</p>
 </tbody>
 </table>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I am grinning 😀&#39;</span><span class="p">,</span><span class="s1">&#39;A grinning cat 😺&#39;</span><span class="p">,</span>
-<span class="go">             &#39;hello! 😀😀😀 💛💛&#39;, &#39;Just text&#39;]</span>
+<span class="gp">... </span>         <span class="s1">&#39;hello! 😀😀😀 💛💛&#39;</span><span class="p">,</span> <span class="s1">&#39;Just text&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span> <span class="o">=</span> <span class="n">extract_emoji</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 <span class="go">dict_keys([&#39;emoji&#39;, &#39;emoji_text&#39;, &#39;emoji_flat&#39;, &#39;emoji_flat_text&#39;,</span>
-<span class="go">           &#39;emoji_counts&#39;, &#39;emoji_freq&#39;, &#39;top_emoji&#39;,</span>
-<span class="go">           &#39;top_emoji_text&#39;, &#39;overview&#39;])</span>
+<span class="go">&#39;emoji_counts&#39;, &#39;emoji_freq&#39;, &#39;top_emoji&#39;, &#39;top_emoji_text&#39;,</span>
+<span class="go">&#39;top_emoji_groups&#39;, &#39;top_emoji_sub_groups&#39;, &#39;overview&#39;])</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji&#39;</span><span class="p">]</span>
@@ -310,11 +346,8 @@ ones, and more.</p>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_text&#39;</span><span class="p">]</span>
-<span class="go">[[&#39;grinning face&#39;],</span>
-<span class="go"> [&#39;grinning cat face&#39;],</span>
-<span class="go"> [&#39;grinning face&#39;, &#39;grinning face&#39;, &#39;grinning face&#39;,</span>
-<span class="go">  &#39;yellow heart&#39;, &#39;yellow heart&#39;],</span>
-<span class="go"> []]</span>
+<span class="go">[[&#39;grinning face&#39;], [&#39;grinning cat&#39;], [&#39;grinning face&#39;, &#39;grinning face&#39;,</span>
+<span class="go">  &#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;], []]</span>
 </pre></div>
 </div>
 <p>A simple extract of emoji from each of the posts. An empty
@@ -324,8 +357,8 @@ list if none exist</p>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_flat_text&#39;</span><span class="p">]</span>
-<span class="go">[&#39;grinning face&#39;, &#39;grinning cat face&#39;, &#39;grinning face&#39;, &#39;grinning face&#39;,</span>
-<span class="go"> &#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;]</span>
+<span class="go">[&#39;grinning face&#39;, &#39;grinning cat&#39;, &#39;grinning face&#39;, &#39;grinning face&#39;,</span>
+<span class="go">&#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;]</span>
 </pre></div>
 </div>
 <p>All emoji in one flat list.</p>
@@ -346,7 +379,15 @@ list if none exist</p>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_text&#39;</span><span class="p">]</span>
 <span class="go">[(&#39;grinning face&#39;, 4), (&#39;yellow heart&#39;, 2),</span>
-<span class="go"> (&#39;grinning cat face&#39;, 1)]</span>
+<span class="go"> (&#39;grinning cat&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_groups&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;Smileys &amp; Emotion&#39;, 7)]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_sub_groups&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;face-smiling&#39;, 4), (&#39;emotion&#39;, 2), (&#39;cat-face&#39;, 1)]</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
