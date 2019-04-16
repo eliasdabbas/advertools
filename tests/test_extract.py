@@ -31,7 +31,7 @@ emoji_summary = extract_emoji(emoji_posts)
 
 emoji_test_keys = ['emoji', 'emoji_text', 'emoji_flat', 'emoji_flat_text',
                    'emoji_counts', 'emoji_freq', 'top_emoji', 'top_emoji_text',
-                   'overview']
+                   'top_emoji_groups', 'top_emoji_sub_groups', 'overview']
 
 word_posts = ['today it is raining', 'i like rain and raining',
               'today it is snowing', 'now snowing and raining',
@@ -236,7 +236,9 @@ test_tops = {
     'currency': [('$', 2), ('£', 2), ('€', 1), ('₣', 1), ('₤', 1),
                  ('₥', 1), ('₦', 1), ('₧', 1)],
     'emoji': [[('😀', 2), ('😉', 1)],
-              [('grinning face', 2), ('winking face', 1)]],
+              [('grinning face', 2), ('winking face', 1)],
+              [('Smileys & Emotion', 3)],
+              [('face-smiling', 3)]],
     'exclamation': [('!', 5), ('¡', 1)],
     'hashtag': [('#name', 2), ('#oneword', 1), ('#nam', 1),
                 ('#first', 1), ('#last', 1), ('#under_score', 1),
