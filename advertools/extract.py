@@ -9,8 +9,7 @@ import re
 from unicodedata import name
 from collections import Counter
 from urllib.parse import urlparse
-from .emoji_dict import emoji_dict
-from .emoji_dict import emoji_regexp as EMOJI
+from .emoji import EMOJI, EMOJI_ENTRIES
 from .regex import (MENTION, HASHTAG, CURRENCY, CURRENCY_RAW, EXCLAMATION,
                     EXCLAMATION_MARK, QUESTION, QUESTION_MARK, URL)
 
@@ -149,23 +148,21 @@ def extract_emoji(text_list):
     :returns summary: A dictionary with various stats about emoji
 
     >>> posts = ['I am grinning 😀','A grinning cat 😺',
-                 'hello! 😀😀😀 💛💛', 'Just text']
+    ...          'hello! 😀😀😀 💛💛', 'Just text']
 
     >>> emoji_summary = extract_emoji(posts)
     >>> emoji_summary.keys()
     dict_keys(['emoji', 'emoji_text', 'emoji_flat', 'emoji_flat_text',
-               'emoji_counts', 'emoji_freq', 'top_emoji',
-               'top_emoji_text', 'overview'])
+    'emoji_counts', 'emoji_freq', 'top_emoji', 'top_emoji_text',
+    'top_emoji_groups', 'top_emoji_sub_groups', 'overview'])
+
 
     >>> emoji_summary['emoji']
     [['😀'], ['😺'], ['😀', '😀', '😀', '💛', '💛'], []]
 
     >>> emoji_summary['emoji_text']
-    [['grinning face'],
-     ['grinning cat face'],
-     ['grinning face', 'grinning face', 'grinning face',
-      'yellow heart', 'yellow heart'],
-     []]
+    [['grinning face'], ['grinning cat'], ['grinning face', 'grinning face',
+      'grinning face', 'yellow heart', 'yellow heart'], []]
 
     A simple extract of emoji from each of the posts. An empty
     list if none exist
@@ -174,9 +171,8 @@ def extract_emoji(text_list):
     ['😀', '😺', '😀', '😀', '😀', '💛', '💛']
 
     >>> emoji_summary['emoji_flat_text']
-    ['grinning face', 'grinning cat face', 'grinning face', 'grinning face',
-     'grinning face', 'yellow heart', 'yellow heart']
-
+    ['grinning face', 'grinning cat', 'grinning face', 'grinning face',
+    'grinning face', 'yellow heart', 'yellow heart']
 
     All emoji in one flat list.
 
@@ -196,7 +192,13 @@ def extract_emoji(text_list):
 
     >>> emoji_summary['top_emoji_text']
     [('grinning face', 4), ('yellow heart', 2),
-     ('grinning cat face', 1)]
+     ('grinning cat', 1)]
+
+    >>> emoji_summary['top_emoji_groups']
+    [('Smileys & Emotion', 7)]
+
+    >>> emoji_summary['top_emoji_sub_groups']
+    [('face-smiling', 4), ('emotion', 2), ('cat-face', 1)]
 
     >>> emoji_summary['overview']
     {'num_posts': 4,
@@ -206,12 +208,12 @@ def extract_emoji(text_list):
     """
     emoji = [re.findall(EMOJI, text.lower()) for text in text_list]
     emoji_flat = [item for sublist in emoji for item in sublist]
-    emoji_flat_text = [emoji_dict[em].strip(':').replace('_', ' ')
-                       for em in emoji_flat]
+    emoji_flat_text = [EMOJI_ENTRIES[em].name for em in emoji_flat]
+    emoji_groups = [EMOJI_ENTRIES[em].group for em in emoji_flat]
+    emoji_sub_groups = [EMOJI_ENTRIES[em].sub_group for em in emoji_flat]
     summary = {
         'emoji': emoji,
-        'emoji_text': [[emoji_dict[em].strip(':').replace('_', ' ')
-                        for em in em_list]
+        'emoji_text': [[EMOJI_ENTRIES[em].name for em in em_list]
                        for em_list in emoji],
         'emoji_flat': emoji_flat,
         'emoji_flat_text': emoji_flat_text,
@@ -224,6 +226,12 @@ def extract_emoji(text_list):
         'top_emoji_text': sorted(Counter(emoji_flat_text).items(),
                                  key=lambda x: x[1],
                                  reverse=True),
+        'top_emoji_groups': sorted(Counter(emoji_groups).items(),
+                                   key=lambda x: x[1],
+                                   reverse=True),
+        'top_emoji_sub_groups': sorted(Counter(emoji_sub_groups).items(),
+                                       key=lambda x: x[1],
+                                       reverse=True),
         'overview': {
             'num_posts': len(text_list),
             'num_emoji': len(emoji_flat),
