@@ -2,6 +2,12 @@
 History
 =======
 
+Unreleased
+----------
+
+* Changed
+    - ``serp_goog`` with expanded ``pagemap`` and metadata
+
 0.7.3 (2019-04-17)
 ------------------
 
