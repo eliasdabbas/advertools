@@ -700,6 +700,37 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
                     specified_cols)
     non_ordered = result_df.columns.difference(set(ordered_cols))
     final_df = result_df[ordered_cols + list(non_ordered)]
+    if 'pagemap' in final_df:
+        pagemap_df = pd.DataFrame()
+        for p in final_df['pagemap']:
+            try:
+                temp_pagemap_df = json_normalize(p)
+                pagemap_df = pagemap_df.append(temp_pagemap_df, sort=False)
+            except Exception as e:
+                temp_pagemap_df = pd.DataFrame({'delete_me': None},
+                                                index=range(1))
+                pagemap_df = pagemap_df.append(temp_pagemap_df, sort=False)
+        pagemap_df = pagemap_df.reset_index(drop=True)
+        if 'delete_me' in pagemap_df:
+            del pagemap_df['delete_me']
+        final_df = pd.concat([final_df, pagemap_df], axis=1)
+
+        if 'metatags' in pagemap_df:
+            metatag_df = pd.DataFrame()
+            for m in pagemap_df['metatags']:
+                try:
+                    temp_metatags_df = json_normalize(m)
+                    metatag_df = metatag_df.append(temp_metatags_df,
+                                                   sort=False)
+                except Exception as e:
+                    temp_metatags_df = pd.DataFrame({'delete_me': None},
+                                                    index=range(1))
+                    metatag_df = metatag_df.append(temp_metatags_df,
+                                                   sort=False)
+            metatag_df = metatag_df.reset_index(drop=True)
+            if 'delete_me' in metatag_df:
+                del metatag_df['delete_me']
+            final_df = pd.concat([final_df, metatag_df], axis=1)
     return final_df
 
 
