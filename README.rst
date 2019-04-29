@@ -11,6 +11,9 @@
 .. image:: http://pepy.tech/badge/advertools
         :target: http://pepy.tech/project/advertools 
 
+.. image:: https://img.shields.io/lgtm/grade/python/g/eliasdabbas/advertools.svg
+        :target: https://lgtm.com/projects/g/eliasdabbas/advertools/context:python
+
 | 🎉 **Enhanced:** Text Analysis for Online Marketers
 | Part 1: SEMrush article on two `text analysis techniques`_ with examples.
 | Part 2: `Kaggle notebook`_ expanding on the concepts with new functions as well enhancements to existing functions.
