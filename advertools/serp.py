@@ -713,6 +713,9 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
         pagemap_df = pagemap_df.reset_index(drop=True)
         if 'delete_me' in pagemap_df:
             del pagemap_df['delete_me']
+        for col in pagemap_df:
+            if col in final_df:
+                pagemap_df = pagemap_df.rename(columns={col: 'pagemap_' + col})
         final_df = pd.concat([final_df, pagemap_df], axis=1)
 
         if 'metatags' in pagemap_df:
@@ -730,6 +733,10 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
             metatag_df = metatag_df.reset_index(drop=True)
             if 'delete_me' in metatag_df:
                 del metatag_df['delete_me']
+            for col in metatag_df:
+                if col in final_df:
+                    metatag_df = metatag_df.rename(columns={col: 'metatag_' + col})
+
             final_df = pd.concat([final_df, metatag_df], axis=1)
     return final_df
 
