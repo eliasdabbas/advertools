@@ -648,7 +648,7 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
                   cx='YOUR_CX', key='YOUR_KEY')
     """
     params = locals()
-    supplied_params = {k: v for k, v in params.items() if params[k]}
+    supplied_params = {k: v for k, v in params.items() if params[k] is not None}
 
     for p in supplied_params:
         if isinstance(supplied_params[p], (str, int)):
@@ -681,12 +681,19 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
         if int(search_info['totalResults']) == 0:
             df = pd.DataFrame(columns=specified_cols, index=range(1))
             df['searchTerms'] = request_metadata['searchTerms']
+            # These keys don't appear in the response so they have to be
+            # added manually
+            for missing in ['lr', 'num', 'start', 'c2coff']:
+                if missing in params_list[i]:
+                    df[missing] = params_list[i][missing]
         else:
             df = pd.DataFrame(resp.json()['items'])
             df['cseName'] = resp.json()['context']['title']
             start_idx = request_metadata['startIndex']
             df['rank'] = range(start_idx, start_idx + len(df))
-
+            for missing in ['lr', 'num', 'start', 'c2coff']:
+                if missing in params_list[i]:
+                    df[missing] = params_list[i][missing]
         meta_columns = {**request_metadata, **search_info}
         df = df.assign(**meta_columns)
         df['queryTime'] = datetime.datetime.now(tz=datetime.timezone.utc)
