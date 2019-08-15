@@ -81,6 +81,16 @@ def test_serp_raises_error_on_wrong_key():
         serp_goog(q='test credit cart', cx=goog_cse_cx, key='wrong key')
 
 
+def test_serp_goog_restult_df_contains_all_provided_params():
+    keys_vals_to_test = {k: list(SERP_GOOG_VALID_VALS[k])[0] for k in SERP_GOOG_VALID_VALS}
+    for key, val in keys_vals_to_test.items():
+        result = serp_goog(cx=goog_cse_cx, key=goog_cse_key, q='fashion', **{key: val})
+        assert key in result.columns
+        if key == 'filter':
+            val = str(val)
+        assert result[key].iloc[0] == val
+
+
 # YouTube search tests:
 def test_serp_youtube_raises_error_on_invalid_args():
     with pytest.raises(ValueError):
