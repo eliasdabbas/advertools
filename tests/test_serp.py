@@ -85,11 +85,11 @@ def test_serp_goog_restult_df_contains_all_provided_params():
     keys_vals_to_test = {k: list(SERP_GOOG_VALID_VALS[k])[0] for k in SERP_GOOG_VALID_VALS}
     for key, val in keys_vals_to_test.items():
         result = serp_goog(cx=goog_cse_cx, key=goog_cse_key, q='fashion', **{key: val})
+        if key == 'searchType':
+            continue
         assert key in result.columns
         if key == 'filter':
             val = str(val)
-        if key == 'searchType':
-            continue
         assert result[key].iloc[0] == val
 
 
