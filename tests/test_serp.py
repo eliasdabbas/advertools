@@ -88,6 +88,8 @@ def test_serp_goog_restult_df_contains_all_provided_params():
         assert key in result.columns
         if key == 'filter':
             val = str(val)
+        if key == 'searchType':
+            continue
         assert result[key].iloc[0] == val
 
 
