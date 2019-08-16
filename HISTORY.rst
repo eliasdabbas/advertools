@@ -8,6 +8,9 @@ Unreleased
 * Changed
     - ``serp_goog`` with expanded ``pagemap`` and metadata
 
+* Fixed
+    - ``serp_goog`` errors, some parameters not appearing in result df
+
 0.7.3 (2019-04-17)
 ------------------
 
