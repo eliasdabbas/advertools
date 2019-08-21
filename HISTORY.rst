@@ -5,6 +5,9 @@ History
 Unreleased
 ----------
 
+* Added
+    - ``extract_numbers`` new function
+
 * Changed
     - ``serp_goog`` with expanded ``pagemap`` and metadata
 
