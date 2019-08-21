@@ -1,9 +1,17 @@
 import pytest
 
-from advertools.extract import (extract, extract_currency, extract_emoji,
-                                extract_exclamations, extract_hashtags,
-                                extract_intense_words, extract_mentions,
-                                extract_questions, extract_words, extract_urls)
+from advertools.extract import * # (extract, extract_currency, extract_emoji,
+#                                 extract_exclamations, extract_hashtags,
+#                                 extract_intense_words, extract_mentions,
+#                                 extract_questions, extract_words, extract_urls)
+
+number_posts = ['before123,000', '123after', 'comma 123,456', 'dot 123.234.3',
+                'skip 123-', 'nothing', 'two 123 456,789']
+
+number_summary = extract_numbers(number_posts)
+
+number_test_keys = ['numbers', 'numbers_flat', 'number_counts',
+                     'number_freq', 'top_numbers', 'overview']
 
 mention_posts = ['hello @name', 'email@domain.com', '@oneword',
                  'hi @nam-e and @name', '@first @last', 'an @under_score',
@@ -101,6 +109,7 @@ test_ids = [
     'hashtag',
     'intense',
     'mention',
+    'number',
     'question',
     'word_full',
     'word_not_full',
@@ -115,6 +124,7 @@ summaries_keys = [
     (list(hashtag_summary.keys()), hashtag_test_keys),
     (list(intense_word_summary.keys()), intense_word_test_keys),
     (list(mention_summary.keys()), mention_test_keys),
+    (list(number_summary.keys()), number_test_keys),
     (list(question_summary.keys()), question_test_keys),
     (list(word_summary_full.keys()), word_test_keys),
     (list(word_summary_not_full.keys()), word_test_keys),
@@ -137,6 +147,7 @@ summaries = {
     'hashtag': hashtag_summary,
     'intense': intense_word_summary,
     'mention': mention_summary,
+    'number': number_summary,
     'question': question_summary,
     'word_full': word_summary_full,
     'word_not_full': word_summary_not_full,
@@ -153,6 +164,7 @@ test_counts = {
     'hashtag': [1, 0, 1, 2, 2, 1, 1, 1, 1, 2, 1, 2],
     'intense': [1, 2, 0, 1, 1, 1],
     'mention': [1, 0, 1, 2, 2, 1, 1, 0, 1, 2, 1, 2],
+    'number': [1, 1, 1, 1, 10, 2],
     'question': [1, 0, 1, 2, 1],
     'word_full': [0, 1, 0, 0, 1, 2, 0, 3],
     'word_not_full': [1, 2, 1, 2, 2, 2, 0, 3],
@@ -178,6 +190,7 @@ test_freqs = {
     'hashtag': [(0, 1), (1, 7), (2, 4)],
     'intense': [(0, 1), (1, 4), (2, 1)],
     'mention': [(0, 2), (1, 6), (2, 4)],
+    'number': [(0, 1), (1, 5), (2, 1)],
     'question': [(0, 1), (1, 3), (2, 1)],
     'word_full': [(0, 4), (1, 2), (2, 1), (3, 1)],
     'word_not_full': [(0, 1), (1, 2), (2, 4), (3, 1)],
@@ -208,6 +221,8 @@ test_flats = {
     'mention': ['@name', '@oneword', '@nam', '@name', '@first',
                 '@last', '@under_score', '@dot', '＠sign', '@one',
                 '@two', '@123text', '@_before', '@after_'],
+    'number': ['123,000', '123', '123,456', '123.234.3', '123',
+               '123', '456,789'],
     'question': ['?', '?', '¿', '?', ';'],
     'word_full': ['rain', 'snow', 'rain', 'snow', 'rain', 'snow', 'rain'],
     'word_not_full': ['raining', 'rain', 'raining', 'snowing',
@@ -251,6 +266,8 @@ test_tops = {
                 ('@last', 1), ('@under_score', 1), ('@dot', 1),
                 ('＠sign', 1), ('@one', 1), ('@two', 1), ('@123text', 1),
                 ('@_before', 1), ('@after_', 1)],
+    'number': [('123', 3), ('123,000', 1), ('123,456', 1), ('123.234.3', 1),
+               ('456,789', 1)],
     'question': [('?', 3), ('¿', 1), (';', 1)],
     'word_full': [('rain', 4), ('snow', 3)],
     'word_not_full': [('raining', 3), ('rain', 3), ('snowing', 2),
@@ -289,6 +306,7 @@ test_overviews = {
     'hashtag': [12, 15, 1.25, 14],
     'intense': [6, 6, 1.0, 6],
     'mention': [12, 14, 14/12, 13],
+    'number': [7, 7, 7/7, 5],
     'question': [5, 5, 1.0, 3],
     'word_full': [8, 7, 7/8, 2],
     'word_not_full': [8, 13, 13/8, 7],
@@ -327,3 +345,8 @@ def test_extract_puts_str_in_list():
 def test_extract_words_puts_str_in_list():
     word_summary_str = extract_words(word_posts, 'rain',  True)
     assert word_summary_str['top_words'][0][0] == 'rain'
+
+
+def test_extract_numbers_works_without_separators():
+    result = extract_numbers('123,456 hello ', number_separators=None)
+    assert result['numbers'] == [['123', '456']]

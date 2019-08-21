@@ -1,7 +1,7 @@
 
 __all__ = ['extract', 'extract_currency', 'extract_emoji',
            'extract_exclamations', 'extract_hashtags',
-           'extract_intense_words', 'extract_mentions',
+           'extract_intense_words', 'extract_mentions', 'extract_numbers',
            'extract_questions', 'extract_words', 'extract_urls'
            ]
 
@@ -452,6 +452,66 @@ def extract_mentions(text_list):
      'unique_mentions': 2}
     """
     return extract(text_list, MENTION, 'mention')
+
+
+def extract_numbers(text_list, number_separators=('.', ',', '-')):
+    """Return a summary dictionary about numbers in ``text_list``, separated
+    by any of ``number_separators``
+
+    Get a summary of the number of numbers, their frequency, the top
+    ones, and more. Typically, numbers would contain separators to make them
+    easier to read, so these are included by default, which you can modify.
+
+    :param text_list: A list of text strings.
+    :param number_separators: A list of separators that you want to be
+    included as part of the extracted numbers
+    :returns summary: A dictionary with various stats about the numbers
+
+    >>> posts = ['text before 123', '123,456 text after', 'phone 333-444-555',
+    'multiple 123,456 and 123.456.789']
+    >>> number_summary = extract_numbers(posts)
+    >>> number_summary.keys()
+    dict_keys(['numbers', 'numbers_flat', 'number_counts', 'number_freq',
+    'top_numbers', 'overview'])
+
+
+    >>> number_summary['numbers']
+    [['123'], ['123,456'], ['333-444-555'], ['123,456', '123.456.789']]
+
+    A simple extract of number from each of the posts. An empty list if
+    none exist
+
+    >>> number_summary['numbers_flat']
+    ['123', '123,456', '333-444-555', '123,456', '123.456.789']
+
+    All numbers in one flat list.
+
+    >>> number_summary['number_counts']
+    [1, 1, 1, 2]
+
+    The count of numbers per post.
+
+    >>> number_summary['number_freq']
+    [(1, 3), (2, 1)]
+
+    Shows how many posts had 0, 1, 2, 3, etc. numbers
+    (number_of_numbers, count)
+
+    >>> number_summary['top_numbers']
+    [('123,456', 2), ('123', 1), ('333-444-555', 1), ('123.456.789', 1)]
+
+    >>> number_summary['overview']
+    {'num_posts': 4,
+     'num_numbers': 5,
+     'numbers_per_post': 1.25,
+     'unique_numbers': 4}
+    """
+    if not number_separators:
+        regex = r'\d+'
+    else:
+        separators = '[' + ''.join(number_separators) + ']'
+        regex = r'(?:(?:\d+' + separators + '?)+)?' + r'\d+'
+    return extract(text_list, regex=regex, key_name='number')
 
 
 def extract_questions(text_list):
