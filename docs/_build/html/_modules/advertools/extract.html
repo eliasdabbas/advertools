@@ -36,7 +36,7 @@
 <span></span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;extract&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_currency&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_emoji&#39;</span><span class="p">,</span>
            <span class="s1">&#39;extract_exclamations&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_hashtags&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;extract_intense_words&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_mentions&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;extract_intense_words&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_mentions&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_numbers&#39;</span><span class="p">,</span>
            <span class="s1">&#39;extract_questions&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_words&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_urls&#39;</span>
            <span class="p">]</span>
 
@@ -487,6 +487,66 @@
 <span class="sd">     &#39;unique_mentions&#39;: 2}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">MENTION</span><span class="p">,</span> <span class="s1">&#39;mention&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extract_numbers"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_numbers">[docs]</a><span class="k">def</span> <span class="nf">extract_numbers</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">number_separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about numbers in ``text_list``, separated</span>
+<span class="sd">    by any of ``number_separators``</span>
+
+<span class="sd">    Get a summary of the number of numbers, their frequency, the top</span>
+<span class="sd">    ones, and more. Typically, numbers would contain separators to make them</span>
+<span class="sd">    easier to read, so these are included by default, which you can modify.</span>
+
+<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :param number_separators: A list of separators that you want</span>
+<span class="sd">        to be included as part of the extracted numbers.</span>
+<span class="sd">    :returns summary: A dictionary with various stats about the numbers</span>
+
+<span class="sd">    &gt;&gt;&gt; posts = [&#39;text before 123&#39;, &#39;123,456 text after&#39;, &#39;phone 333-444-555&#39;,</span>
+<span class="sd">    &#39;multiple 123,456 and 123.456.789&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; number_summary = extract_numbers(posts)</span>
+<span class="sd">    &gt;&gt;&gt; number_summary.keys()</span>
+<span class="sd">    dict_keys([&#39;numbers&#39;, &#39;numbers_flat&#39;, &#39;number_counts&#39;, &#39;number_freq&#39;,</span>
+<span class="sd">    &#39;top_numbers&#39;, &#39;overview&#39;])</span>
+
+
+<span class="sd">    &gt;&gt;&gt; number_summary[&#39;numbers&#39;]</span>
+<span class="sd">    [[&#39;123&#39;], [&#39;123,456&#39;], [&#39;333-444-555&#39;], [&#39;123,456&#39;, &#39;123.456.789&#39;]]</span>
+
+<span class="sd">    A simple extract of number from each of the posts. An empty list if</span>
+<span class="sd">    none exist</span>
+
+<span class="sd">    &gt;&gt;&gt; number_summary[&#39;numbers_flat&#39;]</span>
+<span class="sd">    [&#39;123&#39;, &#39;123,456&#39;, &#39;333-444-555&#39;, &#39;123,456&#39;, &#39;123.456.789&#39;]</span>
+
+<span class="sd">    All numbers in one flat list.</span>
+
+<span class="sd">    &gt;&gt;&gt; number_summary[&#39;number_counts&#39;]</span>
+<span class="sd">    [1, 1, 1, 2]</span>
+
+<span class="sd">    The count of numbers per post.</span>
+
+<span class="sd">    &gt;&gt;&gt; number_summary[&#39;number_freq&#39;]</span>
+<span class="sd">    [(1, 3), (2, 1)]</span>
+
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. numbers</span>
+<span class="sd">    (number_of_numbers, count)</span>
+
+<span class="sd">    &gt;&gt;&gt; number_summary[&#39;top_numbers&#39;]</span>
+<span class="sd">    [(&#39;123,456&#39;, 2), (&#39;123&#39;, 1), (&#39;333-444-555&#39;, 1), (&#39;123.456.789&#39;, 1)]</span>
+
+<span class="sd">    &gt;&gt;&gt; number_summary[&#39;overview&#39;]</span>
+<span class="sd">    {&#39;num_posts&#39;: 4,</span>
+<span class="sd">     &#39;num_numbers&#39;: 5,</span>
+<span class="sd">     &#39;numbers_per_post&#39;: 1.25,</span>
+<span class="sd">     &#39;unique_numbers&#39;: 4}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">number_separators</span><span class="p">:</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\d+&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">separators</span> <span class="o">=</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">number_separators</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;(?:(?:\d+&#39;</span> <span class="o">+</span> <span class="n">separators</span> <span class="o">+</span> <span class="s1">&#39;?)+)?&#39;</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\d+&#39;</span>
+    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="n">regex</span><span class="p">,</span> <span class="n">key_name</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="extract_questions"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_questions">[docs]</a><span class="k">def</span> <span class="nf">extract_questions</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>

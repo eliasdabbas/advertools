@@ -463,8 +463,8 @@ def extract_numbers(text_list, number_separators=('.', ',', '-')):
     easier to read, so these are included by default, which you can modify.
 
     :param text_list: A list of text strings.
-    :param number_separators: A list of separators that you want to be
-    included as part of the extracted numbers
+    :param number_separators: A list of separators that you want
+        to be included as part of the extracted numbers.
     :returns summary: A dictionary with various stats about the numbers
 
     >>> posts = ['text before 123', '123,456 text after', 'phone 333-444-555',
