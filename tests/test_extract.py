@@ -350,3 +350,8 @@ def test_extract_words_puts_str_in_list():
 def test_extract_numbers_works_without_separators():
     result = extract_numbers('123,456 hello ', number_separators=None)
     assert result['numbers'] == [['123', '456']]
+
+
+def test_extract_numbers_handles_dash_in_the_middle_of_seps():
+    result = extract_numbers('123,456-789', number_separators=('.', '-', ','))
+    assert result['numbers'] == [['123,456-789']]

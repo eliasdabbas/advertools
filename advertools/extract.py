@@ -509,6 +509,9 @@ def extract_numbers(text_list, number_separators=('.', ',', '-')):
     if not number_separators:
         regex = r'\d+'
     else:
+        if '-' in number_separators:
+            number_separators = ([s for s in number_separators if s != '-']
+                                 + ['-'])
         separators = '[' + ''.join(number_separators) + ']'
         regex = r'(?:(?:\d+' + separators + '?)+)?' + r'\d+'
     return extract(text_list, regex=regex, key_name='number')
