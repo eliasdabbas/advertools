@@ -7,12 +7,14 @@ Unreleased
 
 * Added
     - ``extract_numbers`` new function
+    - ``emoji_search`` new function
 
 * Changed
     - ``serp_goog`` with expanded ``pagemap`` and metadata
 
 * Fixed
     - ``serp_goog`` errors, some parameters not appearing in result df
+    - ``extract_numbers`` issue when providing dash as a separator in the middle
 
 0.7.3 (2019-04-17)
 ------------------
