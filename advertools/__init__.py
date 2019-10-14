@@ -7,6 +7,7 @@ __version__ = '0.7.4'
 
 from advertools.ad_create import ad_create
 from advertools.ad_from_string import ad_from_string
+from advertools.emoji import emoji_search
 from advertools.extract import *
 from advertools.kw_generate import *
 from advertools.regex import *

@@ -193,6 +193,26 @@ Setting it as False would leave the input string as is</li>
 
 </dd></dl>
 
+<dl class="function">
+<dt id="advertools.emoji.emoji_search">
+<code class="descclassname">advertools.emoji.</code><code class="descname">emoji_search</code><span class="sig-paren">(</span><em>regex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/emoji.html#emoji_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.emoji.emoji_search" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Return a DataFrame of all emoji entries where any description contains</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">regex</span></code>.</dd>
+</dl>
+<p>“description” can be the name of the emoji, its group, or sub-group.
+:param regex: regular expression (case insensitive)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;dog&#39;</span><span class="p">)</span>
+<span class="go">          codepoint           status emoji          name             group      sub_group</span>
+<span class="go">0             1F436  fully-qualified     🐶     dog face  Animals &amp; Nature  animal-mammal</span>
+<span class="go">1             1F415  fully-qualified     🐕          dog  Animals &amp; Nature  animal-mammal</span>
+<span class="go">2             1F9AE  fully-qualified     🦮    guide dog  Animals &amp; Nature  animal-mammal</span>
+<span class="go">3  1F415 200D 1F9BA  fully-qualified   🐕‍🦺  service dog  Animals &amp; Nature  animal-mammal</span>
+<span class="go">4             1F32D  fully-qualified     🌭     hot dog      Food &amp; Drink  food-prepared</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </div>
 <div class="section" id="module-advertools.extract">
 <span id="advertools-extract-module"></span><h2>advertools.extract module<a class="headerlink" href="#module-advertools.extract" title="Permalink to this headline">¶</a></h2>
