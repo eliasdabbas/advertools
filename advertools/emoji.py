@@ -3841,6 +3841,8 @@ EMOJI_RAW = r'\U0001F469\U0000200D\U00002764\U0000FE0F\U0000200D\U0001F48B\U0000
 
 EMOJI = re.compile(EMOJI_RAW)
 
+emoji_df = pd.DataFrame(EMOJI_ENTRIES.values())
+
 
 def emoji_search(regex):
     """Return a DataFrame of all emoji entries where any description contains
@@ -3857,10 +3859,9 @@ def emoji_search(regex):
     3  1F415 200D 1F9BA  fully-qualified    🐕‍🦺  service dog  Animals & Nature  animal-mammal
     4             1F32D  fully-qualified     🌭     hot dog      Food & Drink  food-prepared
     """
-    df = pd.DataFrame(EMOJI_ENTRIES.values())
-    result_index = (df
+    result_index = (emoji_df
                     .select_dtypes('object')
                     .apply(lambda series: series.astype(str)
                            .str.contains(regex, case=False))
                     .apply(lambda row: any(row), axis=1))
-    return df[result_index].reset_index(drop=True)
+    return emoji_df[result_index].reset_index(drop=True)

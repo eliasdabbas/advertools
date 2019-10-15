@@ -8,6 +8,7 @@ Unreleased
 * Added
     - ``extract_numbers`` new function
     - ``emoji_search`` new function
+    - ``emoji_df`` new variable containing all emoji as a DataFrame
 
 * Changed
     - ``serp_goog`` with expanded ``pagemap`` and metadata
