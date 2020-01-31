@@ -84,4 +84,4 @@ def _combine_requests(params, base_url, count, max_allowed):
             if iteration_list != [None]:
                 if responses[-1]['totalResults'].values[-1] < sum(iteration_list[:i + 1]):
                     break
-    return pd.concat(responses, ignore_index=True).drop(columns=['param_key', 'param_base_url'])
+    return pd.concat(responses, ignore_index=True, sort=False).drop(columns=['param_key'])
