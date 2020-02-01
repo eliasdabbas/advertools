@@ -13,7 +13,6 @@ Welcome to advertools's documentation!
    readme
 
 
-
 Indices and tables
 ==================
 
