@@ -195,23 +195,6 @@ def video_categories_list(key, part, id=None, regionCode=None, hl=None):
     return _combine_requests(args, base_url, count=None, max_allowed=None)
 
 
-def video_abuse_report_reasons_list(key, part, hl=None):
-    """Retrieve a list of reasons that can be used to report abusive videos.
-            *Required parameters:*
-    :param key: string  Your Google API key.
-    :param part: string  The part parameter specifies the videoCategory
-        resource parts that the API response will include. Supported values are
-        id and snippet. The snippet part has a quota cost of 2 units.
-            *Optional parameters:*
-    :param hl: string  The hl parameter specifies the language that should be
-        used for text values in the API response. The default value is en_US.
-    """
-    args = locals()
-
-    base_url = 'https://www.googleapis.com/youtube/v3/videoAbuseReportReasons'
-    return _combine_requests(args, base_url, count=None, max_allowed=None)
-
-
 def search(key, part, forContentOwner=None, forDeveloper=None,
            forMine=None, relatedToVideoId=None, channelId=None,
            channelType=None, eventType=None, location=None,
