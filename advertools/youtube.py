@@ -1,5 +1,12 @@
-from .yt_helpers import _combine_requests
+from ._yt_helpers import _combine_requests
 
+__all__ = [
+    'activities_list', 'captions_list', 'channel_sections_list',
+    'channels_list', 'comment_threads_list', 'comments_list',
+    'guide_categories_list', 'i18n_languages_list', 'i18n_regions_list',
+    'playlist_items_list', 'playlists_list', 'search', 'subscriptions_list',
+    'video_abuse_report_reasons_list', 'video_categories_list', 'videos_list',
+]
 
 def activities_list(key, part, channelId=None, home=None, mine=None,
                     maxResults=None, pageToken=None, publishedAfter=None,
@@ -7,7 +14,7 @@ def activities_list(key, part, channelId=None, home=None, mine=None,
     """Returns a list of channel activity events that match the request
     criteria. For example, you can retrieve events associated with a particular
     channel or with the user's own channel.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies a comma-separated list of
         one or more activity resource properties that the API response will
@@ -19,7 +26,7 @@ def activities_list(key, part, channelId=None, home=None, mine=None,
         also contain all of those nested properties.The following list contains
         the part names that you can include in the parameter value and the
         quota cost for each part: contentDetails: 2 id: 0 snippet: 2
-    Filters (specify exactly one of the following parameters)
+            *Filters (specify exactly one of the following parameters):*
     :param channelId: string  The channelId parameter specifies a unique
         YouTube channel ID. The API will then return a list of that channel's
         activities.
@@ -30,7 +37,7 @@ def activities_list(key, part, channelId=None, home=None, mine=None,
     :param mine: boolean  This parameter can only be used in a properly
         authorized request. Set this parameter's value to true to retrieve a
         feed of the authenticated user's activities.
-    Optional parameters
+            *Optional parameters:*
     :param maxResults: unsigned integer  The maxResults parameter specifies the
         maximum number of items that should be returned in the result set.
     :param pageToken: string  The pageToken parameter identifies a specific
@@ -56,7 +63,7 @@ def activities_list(key, part, channelId=None, home=None, mine=None,
         information to generate the activity feed.
     """
     args = locals()
-    part_params = {'id', 'snippet', 'contentDetails'}
+    part_params = {'contentDetails', 'id', 'snippet'}
     if not set(part.split(",")).issubset(part_params):
         raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
     if sum([bool(p) for p in [channelId, home, mine]]) != 1:
@@ -66,109 +73,12 @@ def activities_list(key, part, channelId=None, home=None, mine=None,
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
 
 
-def subscriptions_list(key, part, channelId=None, id=None, mine=None,
-                       myRecentSubscribers=None, mySubscribers=None,
-                       forChannelId=None, maxResults=None,
-                       onBehalfOfContentOwner=None,
-                       onBehalfOfContentOwnerChannel=None, order=None,
-                       pageToken=None):
-    """Returns subscription resources that match the API request criteria.
-    Required parameters::
-    :param key: string  Your Google API key.
-    :param part: string  The part parameter specifies a comma-separated list of
-        one or more subscription resource properties that the API response will
-        include.If the parameter identifies a property that contains child
-        properties, the child properties will be included in the response. For
-        example, in a subscription resource, the snippet property contains
-        other properties, such as a display title for the subscription. If you
-        set part=snippet, the API response will also contain all of those
-        nested properties.The following list contains the part names that you
-        can include in the parameter value and the quota cost for each part:
-        contentDetails: 2 id: 0 snippet: 2 subscriberSnippet: 2
-    Filters (specify exactly one of the following parameters)
-    :param channelId: string  The channelId parameter specifies a YouTube
-        channel ID. The API will only return that channel's subscriptions.
-    :param id: string  The id parameter specifies a comma-separated list of the
-        YouTube subscription ID(s) for the resource(s) that are being
-        retrieved. In a subscription resource, the id property specifies the
-        YouTube subscription ID.
-    :param mine: boolean  This parameter can only be used in a properly
-        authorized request. Set this parameter's value to true to retrieve a
-        feed of the authenticated user's subscriptions.
-    :param myRecentSubscribers: boolean  This parameter can only be used in a
-        properly authorized request. Set this parameter's value to true to
-        retrieve a feed of the subscribers of the authenticated user in reverse
-        chronological order (newest first).Note that this parameter only
-        supports retrieval of the most recent 1000 subscribers to the
-        authenticated user's channel. To retrieve a complete list of
-        subscribers, use the mySubscribers parameter. That parameter, which
-        does not return subscribers in a particular order, does not limit the
-        number of subscribers that can be retrieved.
-    :param mySubscribers: boolean  This parameter can only be used in a
-        properly authorized request. Set this parameter's value to true to
-        retrieve a feed of the subscribers of the authenticated user in no
-        particular order.
-    Optional parameters
-    :param forChannelId: string  The forChannelId parameter specifies a comma-
-        separated list of channel IDs. The API response will then only contain
-        subscriptions matching those channels.
-    :param maxResults: unsigned integer  The maxResults parameter specifies the
-        maximum number of items that should be returned in the result set.
-    :param onBehalfOfContentOwner: string  Note: This parameter is intended
-        exclusively for YouTube content partners.The onBehalfOfContentOwner
-        parameter indicates that the request's authorization credentials
-        identify a YouTube CMS user who is acting on behalf of the content
-        owner specified in the parameter value. This parameter is intended for
-        YouTube content partners that own and manage many different YouTube
-        channels. It allows content owners to authenticate once and get access
-        to all their video and channel data, without having to provide
-        authentication credentials for each individual channel. The CMS account
-        that the user authenticates with must be linked to the specified
-        YouTube content owner.
-    :param onBehalfOfContentOwnerChannel: string  This parameter can only be
-        used in a properly authorized request. Note: This parameter is intended
-        exclusively for YouTube content partners.The
-        onBehalfOfContentOwnerChannel parameter specifies the YouTube channel
-        ID of the channel to which a video is being added. This parameter is
-        required when a request specifies a value for the
-        onBehalfOfContentOwner parameter, and it can only be used in
-        conjunction with that parameter. In addition, the request must be
-        authorized using a CMS account that is linked to the content owner that
-        the onBehalfOfContentOwner parameter specifies. Finally, the channel
-        that the onBehalfOfContentOwnerChannel parameter value specifies must
-        be linked to the content owner that the onBehalfOfContentOwner
-        parameter specifies.This parameter is intended for YouTube content
-        partners that own and manage many different YouTube channels. It allows
-        content owners to authenticate once and perform actions on behalf of
-        the channel specified in the parameter value, without having to provide
-        authentication credentials for each separate channel.
-    :param order: string  The order parameter specifies the method that will be
-        used to sort resources in the API response. The default value is
-        SUBSCRIPTION_ORDER_RELEVANCE.Acceptable values are: alphabetical – Sort
-        alphabetically. relevance – Sort by relevance. unread – Sort by order
-        of activity.
-    :param pageToken: string  The pageToken parameter identifies a specific
-        page in the result set that should be returned. In an API response, the
-        nextPageToken and prevPageToken properties identify other pages that
-        could be retrieved.
-    """
-    args = locals()
-    part_params = {'subscriberSnippet', 'contentDetails', 'id', 'snippet'}
-    if not set(part.split(",")).issubset(part_params):
-        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
-    if sum([bool(p) for p in [channelId, id, mine, myRecentSubscribers, mySubscribers]]) != 1:
-        raise ValueError("make sure you specify exactly one of ['channelId', 'id', 'mine', 'myRecentSubscribers', 'mySubscribers']")
-
-    base_url = 'https://www.googleapis.com/youtube/v3/subscriptions'
-    return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
-
-
 def videos_list(key, part, chart=None, id=None, myRating=None, hl=None,
                 maxHeight=None, maxResults=None, maxWidth=None,
                 onBehalfOfContentOwner=None, pageToken=None, regionCode=None,
                 videoCategoryId=None):
     """Returns a list of videos that match the API request parameters.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies a comma-separated list of
         one or more video resource properties that the API response will
@@ -182,7 +92,7 @@ def videos_list(key, part, chart=None, id=None, myRating=None, hl=None,
         contentDetails: 2 fileDetails: 1 id: 0 liveStreamingDetails: 2
         localizations: 2 player: 0 processingDetails: 1 recordingDetails: 2
         snippet: 2 statistics: 2 status: 2 suggestions: 1 topicDetails: 2
-    Filters (specify exactly one of the following parameters)
+            *Filters (specify exactly one of the following parameters):*
     :param chart: string  The chart parameter identifies the chart that you
         want to retrieve.Acceptable values are: mostPopular – Return the most
         popular videos for the specified content region and video category.
@@ -195,7 +105,7 @@ def videos_list(key, part, chart=None, id=None, myRating=None, hl=None,
         authenticated user.Acceptable values are: dislike – Returns only videos
         disliked by the authenticated user. like – Returns only video liked by
         the authenticated user.
-    Optional parameters
+            *Optional parameters:*
     :param hl: string  The hl parameter instructs the API to retrieve localized
         resource metadata for a specific application language that the YouTube
         website supports. The parameter value must be a language code included
@@ -249,7 +159,7 @@ def videos_list(key, part, chart=None, id=None, myRating=None, hl=None,
         default value is 0.
     """
     args = locals()
-    part_params = {'liveStreamingDetails', 'status', 'player', 'processingDetails', 'suggestions', 'recordingDetails', 'contentDetails', 'statistics', 'id', 'topicDetails', 'fileDetails', 'localizations', 'snippet'}
+    part_params = {'contentDetails', 'id', 'processingDetails', 'fileDetails', 'snippet', 'localizations', 'suggestions', 'statistics', 'liveStreamingDetails', 'player', 'status', 'recordingDetails', 'topicDetails'}
     if not set(part.split(",")).issubset(part_params):
         raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
     if sum([bool(p) for p in [chart, id, myRating]]) != 1:
@@ -261,19 +171,19 @@ def videos_list(key, part, chart=None, id=None, myRating=None, hl=None,
 
 def video_categories_list(key, part, id=None, regionCode=None, hl=None):
     """Returns a list of categories that can be associated with YouTube videos.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies the videoCategory
         resource properties that the API response will include. Set the
         parameter value to snippet. The snippet part has a quota cost of 2
         units.
-    Filters (specify exactly one of the following parameters)
+            *Filters (specify exactly one of the following parameters):*
     :param id: string  The id parameter specifies a comma-separated list of
         video category IDs for the resources that you are retrieving.
     :param regionCode: string  The regionCode parameter instructs the API to
         return the list of video categories available in the specified country.
         The parameter value is an ISO 3166-1 alpha-2 country code.
-    Optional parameters
+            *Optional parameters:*
     :param hl: string  The hl parameter specifies the language that should be
         used for text values in the API response. The default value is en_US.
     """
@@ -287,12 +197,12 @@ def video_categories_list(key, part, id=None, regionCode=None, hl=None):
 
 def video_abuse_report_reasons_list(key, part, hl=None):
     """Retrieve a list of reasons that can be used to report abusive videos.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies the videoCategory
         resource parts that the API response will include. Supported values are
         id and snippet. The snippet part has a quota cost of 2 units.
-    Optional parameters
+            *Optional parameters:*
     :param hl: string  The hl parameter specifies the language that should be
         used for text values in the API response. The default value is en_US.
     """
@@ -302,47 +212,27 @@ def video_abuse_report_reasons_list(key, part, hl=None):
     return _combine_requests(args, base_url, count=None, max_allowed=None)
 
 
-def search_list(key, part, forContentOwner=None, forDeveloper=None,
-                forMine=None, relatedToVideoId=None, channelId=None,
-                channelType=None, eventType=None, location=None,
-                locationRadius=None, maxResults=None,
-                onBehalfOfContentOwner=None, order=None, pageToken=None,
-                publishedAfter=None, publishedBefore=None, q=None,
-                regionCode=None, relevanceLanguage=None, safeSearch=None,
-                topicId=None, Topics=None, #Music topics=None, /m/04rlf=None,
-                # /m/02mscn=None, /m/0ggq0m=None, /m/01lyv=None, /m/02lkt=None,
-                # /m/0glt670=None, /m/05rwpb=None, /m/03_d0=None, /m/028sqc=None,
-                # /m/0g293=None, /m/064t9=None, /m/06cqb=None, /m/06j6l=None,
-                # /m/06by7=None, /m/0gywn=None, Gaming topics=None,
-                # /m/0bzvm2=None, /m/025zzc=None, /m/02ntfj=None, /m/0b1vjn=None,
-                # /m/02hygl=None, /m/04q1x3q=None, /m/01sjng=None,
-                # /m/0403l3g=None, /m/021bp2=None, /m/022dc6=None,
-                # /m/03hf_rm=None, Sports topics=None, /m/06ntj=None,
-                # /m/0jm_=None, /m/018jz=None, /m/018w8=None, /m/01cgz=None,
-                # /m/09xp_=None, /m/02vx4=None, /m/037hz=None, /m/03tmr=None,
-                # /m/01h7lh=None, /m/0410tth=None, /m/07bs0=None, /m/07_53=None,
-                # Entertainment topics=None, /m/02jjt=None, /m/09kqc=None,
-                # /m/02vxn=None, /m/05qjc=None, /m/066wd=None, /m/0f2f9=None,
-                # Lifestyle topics=None, /m/019_rr=None, /m/032tl=None,
-                # /m/027x7n=None, /m/02wbm=None, /m/03glg=None, /m/068hy=None,
-                # /m/041xxh=None, /m/07c1v=None, /m/07bxq=None, /m/07yv9=None,
-                # Society topics=None, /m/098wr=None, /m/09s1f=None,
-                # /m/0kt51=None, /m/01h6rj=None, /m/05qt0=None, /m/06bvp=None,
-                # Other topics=None, /m/01k8wb=None,
-                # type=None,
-                videoCaption=None, videoCategoryId=None, videoDefinition=None,
-                videoDimension=None, videoDuration=None, videoEmbeddable=None,
-                videoLicense=None, videoSyndicated=None, videoType=None):
+def search(key, part, forContentOwner=None, forDeveloper=None,
+           forMine=None, relatedToVideoId=None, channelId=None,
+           channelType=None, eventType=None, location=None,
+           locationRadius=None, maxResults=None,
+           onBehalfOfContentOwner=None, order=None, pageToken=None,
+           publishedAfter=None, publishedBefore=None, q=None,
+           regionCode=None, relevanceLanguage=None, safeSearch=None,
+           topicId=None, type=None, videoCaption=None,
+           videoCategoryId=None, videoDefinition=None,
+           videoDimension=None, videoDuration=None, videoEmbeddable=None,
+           videoLicense=None, videoSyndicated=None, videoType=None):
     """Returns a collection of search results that match the query parameters
     specified in the API request. By default, a search result set identifies
     matching  video ,  channel , and  playlist  resources, but you can also
     configure queries to only retrieve a specific type of resource.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies a comma-separated list of
         one or more search resource properties that the API response will
         include. Set the parameter value to snippet.
-    Filters (specify 0 or 1 of the following parameters)
+            *Filters (specify 0 or 1 of the following parameters):*
     :param forContentOwner: boolean  This parameter can only be used in a
         properly authorized request, and it is intended exclusively for YouTube
         content partners.The forContentOwner parameter restricts the search to
@@ -384,7 +274,7 @@ def search_list(key, part, forContentOwner=None, forDeveloper=None,
         other supported parameters are part, maxResults, pageToken, regionCode,
         relevanceLanguage, safeSearch, type (which must be set to video), and
         fields.
-    Optional parameters
+            *Optional parameters:*
     :param channelId: string  The channelId parameter indicates that the API
         response should only contain resources created by the channel. Note:
         Search results are constrained to a maximum of 500 videos if your
@@ -521,76 +411,6 @@ def search_list(key, part, forContentOwner=None, forDeveloper=None,
         topic)  /m/09s1f  Business  /m/0kt51  Health  /m/01h6rj  Military
         /m/05qt0  Politics  /m/06bvp  Religion  Other topics  /m/01k8wb
         Knowledge
-    :param Topics: Topics
-    :param Music topics: Music topics
-    :param /m/04rlf: Music (parent topic)
-    :param /m/02mscn: Christian music
-    :param /m/0ggq0m: Classical music
-    :param /m/01lyv: Country
-    :param /m/02lkt: Electronic music
-    :param /m/0glt670: Hip hop music
-    :param /m/05rwpb: Independent music
-    :param /m/03_d0: Jazz
-    :param /m/028sqc: Music of Asia
-    :param /m/0g293: Music of Latin America
-    :param /m/064t9: Pop music
-    :param /m/06cqb: Reggae
-    :param /m/06j6l: Rhythm and blues
-    :param /m/06by7: Rock music
-    :param /m/0gywn: Soul music
-    :param Gaming topics: Gaming topics
-    :param /m/0bzvm2: Gaming (parent topic)
-    :param /m/025zzc: Action game
-    :param /m/02ntfj: Action-adventure game
-    :param /m/0b1vjn: Casual game
-    :param /m/02hygl: Music video game
-    :param /m/04q1x3q: Puzzle video game
-    :param /m/01sjng: Racing video game
-    :param /m/0403l3g: Role-playing video game
-    :param /m/021bp2: Simulation video game
-    :param /m/022dc6: Sports game
-    :param /m/03hf_rm: Strategy video game
-    :param Sports topics: Sports topics
-    :param /m/06ntj: Sports (parent topic)
-    :param /m/0jm_: American football
-    :param /m/018jz: Baseball
-    :param /m/018w8: Basketball
-    :param /m/01cgz: Boxing
-    :param /m/09xp_: Cricket
-    :param /m/02vx4: Football
-    :param /m/037hz: Golf
-    :param /m/03tmr: Ice hockey
-    :param /m/01h7lh: Mixed martial arts
-    :param /m/0410tth: Motorsport
-    :param /m/07bs0: Tennis
-    :param /m/07_53: Volleyball
-    :param Entertainment topics: Entertainment topics
-    :param /m/02jjt: Entertainment (parent topic)
-    :param /m/09kqc: Humor
-    :param /m/02vxn: Movies
-    :param /m/05qjc: Performing arts
-    :param /m/066wd: Professional wrestling
-    :param /m/0f2f9: TV shows
-    :param Lifestyle topics: Lifestyle topics
-    :param /m/019_rr: Lifestyle (parent topic)
-    :param /m/032tl: Fashion
-    :param /m/027x7n: Fitness
-    :param /m/02wbm: Food
-    :param /m/03glg: Hobby
-    :param /m/068hy: Pets
-    :param /m/041xxh: Physical attractiveness [Beauty]
-    :param /m/07c1v: Technology
-    :param /m/07bxq: Tourism
-    :param /m/07yv9: Vehicles
-    :param Society topics: Society topics
-    :param /m/098wr: Society (parent topic)
-    :param /m/09s1f: Business
-    :param /m/0kt51: Health
-    :param /m/01h6rj: Military
-    :param /m/05qt0: Politics
-    :param /m/06bvp: Religion
-    :param Other topics: Other topics
-    :param /m/01k8wb: Knowledge
     :param type: string  The type parameter restricts a search query to only
         retrieve a particular type of resource. The value is a comma-separated
         list of resource types. The default value is
@@ -662,13 +482,127 @@ def search_list(key, part, forContentOwner=None, forDeveloper=None,
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
 
 
+def subscriptions_list(key, part, channelId=None, id=None, mine=None,
+                       myRecentSubscribers=None, mySubscribers=None,
+                       forChannelId=None, maxResults=None,
+                       onBehalfOfContentOwner=None,
+                       onBehalfOfContentOwnerChannel=None, order=None,
+                       pageToken=None):
+    """Returns subscription resources that match the API request criteria.
+            *Required parameters:*
+    :param key: string  Your Google API key.
+    :param part: string  The part parameter specifies a comma-separated list of
+        one or more subscription resource properties that the API response will
+        include.If the parameter identifies a property that contains child
+        properties, the child properties will be included in the response. For
+        example, in a subscription resource, the snippet property contains
+        other properties, such as a display title for the subscription. If you
+        set part=snippet, the API response will also contain all of those
+        nested properties.The following list contains the part names that you
+        can include in the parameter value and the quota cost for each part:
+        contentDetails: 2 id: 0 snippet: 2 subscriberSnippet: 2
+            *Filters (specify exactly one of the following parameters):*
+    :param channelId: string  The channelId parameter specifies a YouTube
+        channel ID. The API will only return that channel's subscriptions.
+    :param id: string  The id parameter specifies a comma-separated list of the
+        YouTube subscription ID(s) for the resource(s) that are being
+        retrieved. In a subscription resource, the id property specifies the
+        YouTube subscription ID.
+    :param mine: boolean  This parameter can only be used in a properly
+        authorized request. Set this parameter's value to true to retrieve a
+        feed of the authenticated user's subscriptions.
+    :param myRecentSubscribers: boolean  This parameter can only be used in a
+        properly authorized request. Set this parameter's value to true to
+        retrieve a feed of the subscribers of the authenticated user in reverse
+        chronological order (newest first).Note that this parameter only
+        supports retrieval of the most recent 1000 subscribers to the
+        authenticated user's channel. To retrieve a complete list of
+        subscribers, use the mySubscribers parameter. That parameter, which
+        does not return subscribers in a particular order, does not limit the
+        number of subscribers that can be retrieved.
+    :param mySubscribers: boolean  This parameter can only be used in a
+        properly authorized request. Set this parameter's value to true to
+        retrieve a feed of the subscribers of the authenticated user in no
+        particular order.
+            *Optional parameters:*
+    :param forChannelId: string  The forChannelId parameter specifies a comma-
+        separated list of channel IDs. The API response will then only contain
+        subscriptions matching those channels.
+    :param maxResults: unsigned integer  The maxResults parameter specifies the
+        maximum number of items that should be returned in the result set.
+    :param onBehalfOfContentOwner: string  Note: This parameter is intended
+        exclusively for YouTube content partners.The onBehalfOfContentOwner
+        parameter indicates that the request's authorization credentials
+        identify a YouTube CMS user who is acting on behalf of the content
+        owner specified in the parameter value. This parameter is intended for
+        YouTube content partners that own and manage many different YouTube
+        channels. It allows content owners to authenticate once and get access
+        to all their video and channel data, without having to provide
+        authentication credentials for each individual channel. The CMS account
+        that the user authenticates with must be linked to the specified
+        YouTube content owner.
+    :param onBehalfOfContentOwnerChannel: string  This parameter can only be
+        used in a properly authorized request. Note: This parameter is intended
+        exclusively for YouTube content partners.The
+        onBehalfOfContentOwnerChannel parameter specifies the YouTube channel
+        ID of the channel to which a video is being added. This parameter is
+        required when a request specifies a value for the
+        onBehalfOfContentOwner parameter, and it can only be used in
+        conjunction with that parameter. In addition, the request must be
+        authorized using a CMS account that is linked to the content owner that
+        the onBehalfOfContentOwner parameter specifies. Finally, the channel
+        that the onBehalfOfContentOwnerChannel parameter value specifies must
+        be linked to the content owner that the onBehalfOfContentOwner
+        parameter specifies.This parameter is intended for YouTube content
+        partners that own and manage many different YouTube channels. It allows
+        content owners to authenticate once and perform actions on behalf of
+        the channel specified in the parameter value, without having to provide
+        authentication credentials for each separate channel.
+    :param order: string  The order parameter specifies the method that will be
+        used to sort resources in the API response. The default value is
+        SUBSCRIPTION_ORDER_RELEVANCE.Acceptable values are: alphabetical – Sort
+        alphabetically. relevance – Sort by relevance. unread – Sort by order
+        of activity.
+    :param pageToken: string  The pageToken parameter identifies a specific
+        page in the result set that should be returned. In an API response, the
+        nextPageToken and prevPageToken properties identify other pages that
+        could be retrieved.
+    """
+    args = locals()
+    part_params = {'contentDetails', 'id', 'subscriberSnippet', 'snippet'}
+    if not set(part.split(",")).issubset(part_params):
+        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
+    if sum([bool(p) for p in [channelId, id, mine, myRecentSubscribers, mySubscribers]]) != 1:
+        raise ValueError("make sure you specify exactly one of ['channelId', 'id', 'mine', 'myRecentSubscribers', 'mySubscribers']")
+
+    base_url = 'https://www.googleapis.com/youtube/v3/subscriptions'
+    return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
+
+
+def i18n_regions_list(key, part, hl=None):
+    """Returns a list of content regions that the YouTube website supports.
+            *Required parameters:*
+    :param key: string  Your Google API key.
+    :param part: string  The part parameter specifies the i18nRegion resource
+        properties that the API response will include. Set the parameter value
+        to snippet. The snippet part has a quota cost of 1 unit.
+            *Optional parameters:*
+    :param hl: string  The hl parameter specifies the language that should be
+        used for text values in the API response. The default value is en_US.
+    """
+    args = locals()
+
+    base_url = 'https://www.googleapis.com/youtube/v3/i18nRegions'
+    return _combine_requests(args, base_url, count=None, max_allowed=None)
+
+
 def playlists_list(key, part, channelId=None, id=None, mine=None, hl=None,
                    maxResults=None, onBehalfOfContentOwner=None,
                    onBehalfOfContentOwnerChannel=None, pageToken=None):
     """Returns a collection of playlists that match the API request parameters.
     For example, you can retrieve all playlists that the authenticated user
     owns, or you can retrieve one or more playlists by their unique IDs.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies a comma-separated list of
         one or more playlist resource properties that the API response will
@@ -680,7 +614,7 @@ def playlists_list(key, part, channelId=None, id=None, mine=None, hl=None,
         those properties.The following list contains the part names that you
         can include in the parameter value and the quota cost for each part:
         contentDetails: 2 id: 0 localizations: 2 player: 0 snippet: 2 status: 2
-    Filters (specify exactly one of the following parameters)
+            *Filters (specify exactly one of the following parameters):*
     :param channelId: string  This value indicates that the API should only
         return the specified channel's playlists.
     :param id: string  The id parameter specifies a comma-separated list of the
@@ -690,7 +624,7 @@ def playlists_list(key, part, channelId=None, id=None, mine=None, hl=None,
     :param mine: boolean  This parameter can only be used in a properly
         authorized request. Set this parameter's value to true to instruct the
         API to only return playlists owned by the authenticated user.
-    Optional parameters
+            *Optional parameters:*
     :param hl: string  The hl parameter instructs the API to retrieve localized
         resource metadata for a specific application language that the YouTube
         website supports. The parameter value must be a language code included
@@ -736,7 +670,7 @@ def playlists_list(key, part, channelId=None, id=None, mine=None, hl=None,
         could be retrieved.
     """
     args = locals()
-    part_params = {'status', 'player', 'contentDetails', 'id', 'localizations', 'snippet'}
+    part_params = {'contentDetails', 'id', 'snippet', 'localizations', 'player', 'status'}
     if not set(part.split(",")).issubset(part_params):
         raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
     if sum([bool(p) for p in [channelId, id, mine]]) != 1:
@@ -746,13 +680,31 @@ def playlists_list(key, part, channelId=None, id=None, mine=None, hl=None,
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
 
 
+def i18n_languages_list(key, part, hl=None):
+    """Returns a list of application languages that the YouTube website
+    supports.
+            *Required parameters:*
+    :param key: string  Your Google API key.
+    :param part: string  The part parameter specifies the i18nLanguage resource
+        properties that the API response will include. Set the parameter value
+        to snippet. The snippet part has a quota cost of 1 unit.
+            *Optional parameters:*
+    :param hl: string  The hl parameter specifies the language that should be
+        used for text values in the API response. The default value is en_US.
+    """
+    args = locals()
+
+    base_url = 'https://www.googleapis.com/youtube/v3/i18nLanguages'
+    return _combine_requests(args, base_url, count=None, max_allowed=None)
+
+
 def playlist_items_list(key, part, id=None, playlistId=None, maxResults=None,
                         onBehalfOfContentOwner=None, pageToken=None,
                         videoId=None):
     """Returns a collection of playlist items that match the API request
     parameters. You can retrieve all of the playlist items in a specified
     playlist or retrieve one or more playlist items by their unique IDs.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies a comma-separated list of
         one or more playlistItem resource properties that the API response will
@@ -765,7 +717,7 @@ def playlist_items_list(key, part, id=None, playlistId=None, maxResults=None,
         contains the part names that you can include in the parameter value and
         the quota cost for each part: contentDetails: 2 id: 0 snippet: 2
         status: 2
-    Filters (specify exactly one of the following parameters)
+            *Filters (specify exactly one of the following parameters):*
     :param id: string  The id parameter specifies a comma-separated list of one
         or more unique playlist item IDs.
     :param playlistId: string  The playlistId parameter specifies the unique ID
@@ -773,7 +725,7 @@ def playlist_items_list(key, part, id=None, playlistId=None, maxResults=None,
         that even though this is an optional parameter, every request to
         retrieve playlist items must specify a value for either the id
         parameter or the playlistId parameter.
-    Optional parameters
+            *Optional parameters:*
     :param maxResults: unsigned integer  The maxResults parameter specifies the
         maximum number of items that should be returned in the result set.
     :param onBehalfOfContentOwner: string  This parameter can only be used in a
@@ -796,7 +748,7 @@ def playlist_items_list(key, part, id=None, playlistId=None, maxResults=None,
         should return only the playlist items that contain the specified video.
     """
     args = locals()
-    part_params = {'status', 'contentDetails', 'id', 'snippet'}
+    part_params = {'contentDetails', 'id', 'snippet', 'status'}
     if not set(part.split(",")).issubset(part_params):
         raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
     if sum([bool(p) for p in [id, playlistId]]) != 1:
@@ -806,51 +758,16 @@ def playlist_items_list(key, part, id=None, playlistId=None, maxResults=None,
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
 
 
-def i18n_regions_list(key, part, hl=None):
-    """Returns a list of content regions that the YouTube website supports.
-    Required parameters::
-    :param key: string  Your Google API key.
-    :param part: string  The part parameter specifies the i18nRegion resource
-        properties that the API response will include. Set the parameter value
-        to snippet. The snippet part has a quota cost of 1 unit.
-    Optional parameters
-    :param hl: string  The hl parameter specifies the language that should be
-        used for text values in the API response. The default value is en_US.
-    """
-    args = locals()
-
-    base_url = 'https://www.googleapis.com/youtube/v3/i18nRegions'
-    return _combine_requests(args, base_url, count=None, max_allowed=None)
-
-
-def i18n_languages_list(key, part, hl=None):
-    """Returns a list of application languages that the YouTube website
-    supports.
-    Required parameters::
-    :param key: string  Your Google API key.
-    :param part: string  The part parameter specifies the i18nLanguage resource
-        properties that the API response will include. Set the parameter value
-        to snippet. The snippet part has a quota cost of 1 unit.
-    Optional parameters
-    :param hl: string  The hl parameter specifies the language that should be
-        used for text values in the API response. The default value is en_US.
-    """
-    args = locals()
-
-    base_url = 'https://www.googleapis.com/youtube/v3/i18nLanguages'
-    return _combine_requests(args, base_url, count=None, max_allowed=None)
-
-
 def guide_categories_list(key, part, id=None, regionCode=None, hl=None):
     """Returns a list of categories that can be associated with YouTube
     channels.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies the guideCategory
         resource properties that the API response will include. Set the
         parameter value to snippet. The snippet part has a quota cost of 2
         units.
-    Filters (specify exactly one of the following parameters)
+            *Filters (specify exactly one of the following parameters):*
     :param id: string  The id parameter specifies a comma-separated list of the
         YouTube channel category ID(s) for the resource(s) that are being
         retrieved. In a guideCategory resource, the id property specifies the
@@ -858,7 +775,7 @@ def guide_categories_list(key, part, id=None, regionCode=None, hl=None):
     :param regionCode: string  The regionCode parameter instructs the API to
         return the list of guide categories available in the specified country.
         The parameter value is an ISO 3166-1 alpha-2 country code.
-    Optional parameters
+            *Optional parameters:*
     :param hl: string  The hl parameter specifies the language that will be
         used for text values in the API response. The default value is en-US.
     """
@@ -875,14 +792,14 @@ def comment_threads_list(key, part, allThreadsRelatedToChannelId=None,
                          maxResults=None, moderationStatus=None, order=None,
                          pageToken=None, searchTerms=None, textFormat=None):
     """Returns a list of comment threads that match the API request parameters.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies a comma-separated list of
         one or more commentThread resource properties that the API response
         will include.The following list contains the part names that you can
         include in the parameter value and the quota cost for each part: id: 0
         replies: 2 snippet: 2
-    Filters (specify exactly one of the following parameters)
+            *Filters (specify exactly one of the following parameters):*
     :param allThreadsRelatedToChannelId: string  The
         allThreadsRelatedToChannelId parameter instructs the API to return all
         comment threads associated with the specified channel. The response can
@@ -895,7 +812,7 @@ def comment_threads_list(key, part, allThreadsRelatedToChannelId=None,
         comment thread IDs for the resources that should be retrieved.
     :param videoId: string  The videoId parameter instructs the API to return
         comment threads associated with the specified video ID.
-    Optional parameters
+            *Optional parameters:*
     :param maxResults: unsigned integer  The maxResults parameter specifies the
         maximum number of items that should be returned in the result set.
     :param moderationStatus: string  This parameter can only be used in a
@@ -947,14 +864,14 @@ def comment_threads_list(key, part, allThreadsRelatedToChannelId=None,
 def comments_list(key, part, id=None, parentId=None, maxResults=None,
                   pageToken=None, textFormat=None):
     """Returns a list of comments that match the API request parameters.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies a comma-separated list of
         one or more comment resource properties that the API response will
         include.The following list contains the part names that you can include
         in the parameter value and the quota cost for each part: id: 0 snippet:
         1
-    Filters (specify exactly one of the following parameters)
+            *Filters (specify exactly one of the following parameters):*
     :param id: string  The id parameter specifies a comma-separated list of
         comment IDs for the resources that are being retrieved. In a comment
         resource, the id property specifies the comment's ID.
@@ -962,7 +879,7 @@ def comments_list(key, part, id=None, parentId=None, maxResults=None,
         comment for which replies should be retrieved. Note: YouTube currently
         supports replies only for top-level comments. However, replies to
         replies may be supported in the future.
-    Optional parameters
+            *Optional parameters:*
     :param maxResults: unsigned integer  The maxResults parameter specifies the
         maximum number of items that should be returned in the result set.
     :param pageToken: string  The pageToken parameter identifies a specific
@@ -990,7 +907,7 @@ def comments_list(key, part, id=None, parentId=None, maxResults=None,
 def channel_sections_list(key, part, channelId=None, id=None, mine=None,
                           hl=None, onBehalfOfContentOwner=None):
     """Returns a list of   resources that match the API request criteria.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies a comma-separated list of
         one or more channelSection resource properties that the API response
@@ -1002,7 +919,7 @@ def channel_sections_list(key, part, channelId=None, id=None, mine=None,
         properties.The following list contains the part names that you can
         include in the parameter value and the quota cost for each part:
         contentDetails: 2 id: 0 localizations: 2 snippet: 2 targeting: 2
-    Filters (specify exactly one of the following parameters)
+            *Filters (specify exactly one of the following parameters):*
     :param channelId: string  The channelId parameter specifies a YouTube
         channel ID. If a request specifies a value for this parameter, the API
         will only return the specified channel's sections.
@@ -1014,7 +931,7 @@ def channel_sections_list(key, part, channelId=None, id=None, mine=None,
         authorized request. Set this parameter's value to true to retrieve a
         feed of the channel sections associated with the authenticated user's
         YouTube channel.
-    Optional parameters
+            *Optional parameters:*
     :param hl: string  The hl parameter instructs the API to retrieve localized
         resource metadata for a specific application language that the YouTube
         website supports. The parameter value must be a language code included
@@ -1037,7 +954,7 @@ def channel_sections_list(key, part, channelId=None, id=None, mine=None,
         YouTube content owner.
     """
     args = locals()
-    part_params = {'contentDetails', 'id', 'localizations', 'targeting', 'snippet'}
+    part_params = {'contentDetails', 'id', 'snippet', 'localizations', 'targeting'}
     if not set(part.split(",")).issubset(part_params):
         raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
     if sum([bool(p) for p in [channelId, id, mine]]) != 1:
@@ -1053,7 +970,7 @@ def channels_list(key, part, categoryId=None, forUsername=None, id=None,
                   pageToken=None):
     """Returns a collection of zero or more   resources that match the request
     criteria.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies a comma-separated list of
         one or more channel resource properties that the API response will
@@ -1067,7 +984,7 @@ def channels_list(key, part, categoryId=None, forUsername=None, id=None,
         auditDetails: 4 brandingSettings: 2 contentDetails: 2
         contentOwnerDetails: 2 id: 0 invideoPromotion: 2 (deprecated)
         localizations: 2 snippet: 2 statistics: 2 status: 2 topicDetails: 2
-    Filters (specify exactly one of the following parameters)
+            *Filters (specify exactly one of the following parameters):*
     :param categoryId: string  The categoryId parameter specifies a YouTube
         guide category, thereby requesting YouTube channels associated with
         that category.
@@ -1091,7 +1008,7 @@ def channels_list(key, part, categoryId=None, forUsername=None, id=None,
         parameter can only be used in a properly authorized request. Use the
         subscriptions.list method and its mySubscribers parameter to retrieve a
         list of subscribers to the authenticated user's channel.
-    Optional parameters
+            *Optional parameters:*
     :param hl: string  The hl parameter instructs the API to retrieve localized
         resource metadata for a specific application language that the YouTube
         website supports. The parameter value must be a language code included
@@ -1120,7 +1037,7 @@ def channels_list(key, part, categoryId=None, forUsername=None, id=None,
         could be retrieved.
     """
     args = locals()
-    part_params = {'status', 'contentOwnerDetails', 'contentDetails', 'auditDetails', '(deprecated) localizations', 'statistics', 'id', 'topicDetails', 'invideoPromotion', 'brandingSettings', 'snippet'}
+    part_params = {'contentDetails', 'id', '(deprecated) localizations', 'snippet', 'auditDetails', 'statistics', 'status', 'invideoPromotion', 'brandingSettings', 'contentOwnerDetails', 'topicDetails'}
     if not set(part.split(",")).issubset(part_params):
         raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
     if sum([bool(p) for p in [categoryId, forUsername, id, managedByMe, mine, mySubscribers]]) != 1:
@@ -1135,7 +1052,7 @@ def captions_list(key, part, videoId, id=None, onBehalfOfContentOwner=None):
     video. Note that the API response does not contain the actual captions and
     that the  captions.download  method provides the ability to retrieve a
     caption track.
-    Required parameters::
+            *Required parameters:*
     :param key: string  Your Google API key.
     :param part: string  The part parameter specifies the caption resource
         parts that the API response will include.The list below contains the
@@ -1143,7 +1060,7 @@ def captions_list(key, part, videoId, id=None, onBehalfOfContentOwner=None):
         cost for each part: id: 0 snippet: 1
     :param videoId: string  The videoId parameter specifies the YouTube video
         ID of the video for which the API should return caption tracks.
-    Optional parameters
+            *Optional parameters:*
     :param id: string  The id parameter specifies a comma-separated list of IDs
         that identify the caption resources that should be retrieved. Each ID
         must identify a caption track associated with the specified video.
