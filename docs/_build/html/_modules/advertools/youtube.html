@@ -1,0 +1,1179 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>advertools.youtube &#8212; advertools 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for advertools.youtube</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">._yt_helpers</span> <span class="k">import</span> <span class="n">_combine_requests</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;activities_list&#39;</span><span class="p">,</span> <span class="s1">&#39;captions_list&#39;</span><span class="p">,</span> <span class="s1">&#39;channel_sections_list&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;channels_list&#39;</span><span class="p">,</span> <span class="s1">&#39;comment_threads_list&#39;</span><span class="p">,</span> <span class="s1">&#39;comments_list&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;guide_categories_list&#39;</span><span class="p">,</span> <span class="s1">&#39;i18n_languages_list&#39;</span><span class="p">,</span> <span class="s1">&#39;i18n_regions_list&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;playlist_items_list&#39;</span><span class="p">,</span> <span class="s1">&#39;playlists_list&#39;</span><span class="p">,</span> <span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="s1">&#39;subscriptions_list&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;video_abuse_report_reasons_list&#39;</span><span class="p">,</span> <span class="s1">&#39;video_categories_list&#39;</span><span class="p">,</span> <span class="s1">&#39;videos_list&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<div class="viewcode-block" id="activities_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.activities_list">[docs]</a><span class="k">def</span> <span class="nf">activities_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">publishedAfter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">publishedBefore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of channel activity events that match the request</span>
+<span class="sd">    criteria. For example, you can retrieve events associated with a particular</span>
+<span class="sd">    channel or with the user&#39;s own channel.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies a comma-separated list of</span>
+<span class="sd">        one or more activity resource properties that the API response will</span>
+<span class="sd">        include.If the parameter identifies a property that contains child</span>
+<span class="sd">        properties, the child properties will be included in the response. For</span>
+<span class="sd">        example, in an activity resource, the snippet property contains other</span>
+<span class="sd">        properties that identify the type of activity, a display title for the</span>
+<span class="sd">        activity, and so forth. If you set part=snippet, the API response will</span>
+<span class="sd">        also contain all of those nested properties.The following list contains</span>
+<span class="sd">        the part names that you can include in the parameter value and the</span>
+<span class="sd">        quota cost for each part: contentDetails: 2 id: 0 snippet: 2</span>
+<span class="sd">            *Filters (specify exactly one of the following parameters):*</span>
+<span class="sd">    :param channelId: string  The channelId parameter specifies a unique</span>
+<span class="sd">        YouTube channel ID. The API will then return a list of that channel&#39;s</span>
+<span class="sd">        activities.</span>
+<span class="sd">    :param home: boolean  Note: This parameter has been deprecated.For requests</span>
+<span class="sd">        that set this parameter, the API response contains items similar to</span>
+<span class="sd">        those that a logged-out user would see on the YouTube home page. Note</span>
+<span class="sd">        that this parameter can only be used in a properly authorized request.</span>
+<span class="sd">    :param mine: boolean  This parameter can only be used in a properly</span>
+<span class="sd">        authorized request. Set this parameter&#39;s value to true to retrieve a</span>
+<span class="sd">        feed of the authenticated user&#39;s activities.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param maxResults: unsigned integer  The maxResults parameter specifies the</span>
+<span class="sd">        maximum number of items that should be returned in the result set.</span>
+<span class="sd">    :param pageToken: string  The pageToken parameter identifies a specific</span>
+<span class="sd">        page in the result set that should be returned. In an API response, the</span>
+<span class="sd">        nextPageToken and prevPageToken properties identify other pages that</span>
+<span class="sd">        could be retrieved.</span>
+<span class="sd">    :param publishedAfter: datetime  The publishedAfter parameter specifies the</span>
+<span class="sd">        earliest date and time that an activity could have occurred for that</span>
+<span class="sd">        activity to be included in the API response. If the parameter value</span>
+<span class="sd">        specifies a day, but not a time, then any activities that occurred that</span>
+<span class="sd">        day will be included in the result set. The value is specified in ISO</span>
+<span class="sd">        8601 (YYYY-MM-DDThh:mm:ss.sZ) format.</span>
+<span class="sd">    :param publishedBefore: datetime  The publishedBefore parameter specifies</span>
+<span class="sd">        the date and time before which an activity must have occurred for that</span>
+<span class="sd">        activity to be included in the API response. If the parameter value</span>
+<span class="sd">        specifies a day, but not a time, then any activities that occurred that</span>
+<span class="sd">        day will be excluded from the result set. The value is specified in ISO</span>
+<span class="sd">        8601 (YYYY-MM-DDThh:mm:ss.sZ) format.</span>
+<span class="sd">    :param regionCode: string  The regionCode parameter instructs the API to</span>
+<span class="sd">        return results for the specified country. The parameter value is an ISO</span>
+<span class="sd">        3166-1 alpha-2 country code. YouTube uses this value when the</span>
+<span class="sd">        authorized user&#39;s previous activity on YouTube does not provide enough</span>
+<span class="sd">        information to generate the activity feed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">channelId</span><span class="p">,</span> <span class="n">home</span><span class="p">,</span> <span class="n">mine</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;channelId&#39;, &#39;home&#39;, &#39;mine&#39;]&quot;</span><span class="p">)</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/activities&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="videos_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.videos_list">[docs]</a><span class="k">def</span> <span class="nf">videos_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">chart</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">myRating</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">maxHeight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxWidth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">videoCategoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of videos that match the API request parameters.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies a comma-separated list of</span>
+<span class="sd">        one or more video resource properties that the API response will</span>
+<span class="sd">        include.If the parameter identifies a property that contains child</span>
+<span class="sd">        properties, the child properties will be included in the response. For</span>
+<span class="sd">        example, in a video resource, the snippet property contains the</span>
+<span class="sd">        channelId, title, description, tags, and categoryId properties. As</span>
+<span class="sd">        such, if you set part=snippet, the API response will contain all of</span>
+<span class="sd">        those properties.The following list contains the part names that you</span>
+<span class="sd">        can include in the parameter value and the quota cost for each part:</span>
+<span class="sd">        contentDetails: 2 fileDetails: 1 id: 0 liveStreamingDetails: 2</span>
+<span class="sd">        localizations: 2 player: 0 processingDetails: 1 recordingDetails: 2</span>
+<span class="sd">        snippet: 2 statistics: 2 status: 2 suggestions: 1 topicDetails: 2</span>
+<span class="sd">            *Filters (specify exactly one of the following parameters):*</span>
+<span class="sd">    :param chart: string  The chart parameter identifies the chart that you</span>
+<span class="sd">        want to retrieve.Acceptable values are: mostPopular – Return the most</span>
+<span class="sd">        popular videos for the specified content region and video category.</span>
+<span class="sd">    :param id: string  The id parameter specifies a comma-separated list of the</span>
+<span class="sd">        YouTube video ID(s) for the resource(s) that are being retrieved. In a</span>
+<span class="sd">        video resource, the id property specifies the video&#39;s ID.</span>
+<span class="sd">    :param myRating: string  This parameter can only be used in a properly</span>
+<span class="sd">        authorized request. Set this parameter&#39;s value to like or dislike to</span>
+<span class="sd">        instruct the API to only return videos liked or disliked by the</span>
+<span class="sd">        authenticated user.Acceptable values are: dislike – Returns only videos</span>
+<span class="sd">        disliked by the authenticated user. like – Returns only video liked by</span>
+<span class="sd">        the authenticated user.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param hl: string  The hl parameter instructs the API to retrieve localized</span>
+<span class="sd">        resource metadata for a specific application language that the YouTube</span>
+<span class="sd">        website supports. The parameter value must be a language code included</span>
+<span class="sd">        in the list returned by the i18nLanguages.list method.If localized</span>
+<span class="sd">        resource details are available in that language, the resource&#39;s</span>
+<span class="sd">        snippet.localized object will contain the localized values. However, if</span>
+<span class="sd">        localized details are not available, the snippet.localized object will</span>
+<span class="sd">        contain resource details in the resource&#39;s default language.</span>
+<span class="sd">    :param maxHeight: unsigned integer  The maxHeight parameter specifies the</span>
+<span class="sd">        maximum height of the embedded player returned in the player.embedHtml</span>
+<span class="sd">        property. You can use this parameter to specify that instead of the</span>
+<span class="sd">        default dimensions, the embed code should use a height appropriate for</span>
+<span class="sd">        your application layout. If the maxWidth parameter is also provided,</span>
+<span class="sd">        the player may be shorter than the maxHeight in order to not violate</span>
+<span class="sd">        the maximum width. Acceptable values are 72 to 8192, inclusive.</span>
+<span class="sd">    :param maxResults: unsigned integer  The maxResults parameter specifies the</span>
+<span class="sd">        maximum number of items that should be returned in the result set.</span>
+<span class="sd">    :param maxWidth: unsigned integer  The maxWidth parameter specifies the</span>
+<span class="sd">        maximum width of the embedded player returned in the player.embedHtml</span>
+<span class="sd">        property. You can use this parameter to specify that instead of the</span>
+<span class="sd">        default dimensions, the embed code should use a width appropriate for</span>
+<span class="sd">        your application layout.If the maxHeight parameter is also provided,</span>
+<span class="sd">        the player may be narrower than maxWidth in order to not violate the</span>
+<span class="sd">        maximum height. Acceptable values are 72 to 8192, inclusive.</span>
+<span class="sd">    :param onBehalfOfContentOwner: string  This parameter can only be used in a</span>
+<span class="sd">        properly authorized request. Note: This parameter is intended</span>
+<span class="sd">        exclusively for YouTube content partners.The onBehalfOfContentOwner</span>
+<span class="sd">        parameter indicates that the request&#39;s authorization credentials</span>
+<span class="sd">        identify a YouTube CMS user who is acting on behalf of the content</span>
+<span class="sd">        owner specified in the parameter value. This parameter is intended for</span>
+<span class="sd">        YouTube content partners that own and manage many different YouTube</span>
+<span class="sd">        channels. It allows content owners to authenticate once and get access</span>
+<span class="sd">        to all their video and channel data, without having to provide</span>
+<span class="sd">        authentication credentials for each individual channel. The CMS account</span>
+<span class="sd">        that the user authenticates with must be linked to the specified</span>
+<span class="sd">        YouTube content owner.</span>
+<span class="sd">    :param pageToken: string  The pageToken parameter identifies a specific</span>
+<span class="sd">        page in the result set that should be returned. In an API response, the</span>
+<span class="sd">        nextPageToken and prevPageToken properties identify other pages that</span>
+<span class="sd">        could be retrieved.Note: This parameter is supported for use in</span>
+<span class="sd">        conjunction with the myRating parameter, but it is not supported for</span>
+<span class="sd">        use in conjunction with the id parameter.</span>
+<span class="sd">    :param regionCode: string  The regionCode parameter instructs the API to</span>
+<span class="sd">        select a video chart available in the specified region. This parameter</span>
+<span class="sd">        can only be used in conjunction with the chart parameter. The parameter</span>
+<span class="sd">        value is an ISO 3166-1 alpha-2 country code.</span>
+<span class="sd">    :param videoCategoryId: string  The videoCategoryId parameter identifies</span>
+<span class="sd">        the video category for which the chart should be retrieved. This</span>
+<span class="sd">        parameter can only be used in conjunction with the chart parameter. By</span>
+<span class="sd">        default, charts are not restricted to a particular category. The</span>
+<span class="sd">        default value is 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;processingDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;fileDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;localizations&#39;</span><span class="p">,</span> <span class="s1">&#39;suggestions&#39;</span><span class="p">,</span> <span class="s1">&#39;statistics&#39;</span><span class="p">,</span> <span class="s1">&#39;liveStreamingDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;player&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;recordingDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;topicDetails&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">chart</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">myRating</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;chart&#39;, &#39;id&#39;, &#39;myRating&#39;]&quot;</span><span class="p">)</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/videos&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="video_categories_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.video_categories_list">[docs]</a><span class="k">def</span> <span class="nf">video_categories_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of categories that can be associated with YouTube videos.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies the videoCategory</span>
+<span class="sd">        resource properties that the API response will include. Set the</span>
+<span class="sd">        parameter value to snippet. The snippet part has a quota cost of 2</span>
+<span class="sd">        units.</span>
+<span class="sd">            *Filters (specify exactly one of the following parameters):*</span>
+<span class="sd">    :param id: string  The id parameter specifies a comma-separated list of</span>
+<span class="sd">        video category IDs for the resources that you are retrieving.</span>
+<span class="sd">    :param regionCode: string  The regionCode parameter instructs the API to</span>
+<span class="sd">        return the list of video categories available in the specified country.</span>
+<span class="sd">        The parameter value is an ISO 3166-1 alpha-2 country code.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param hl: string  The hl parameter specifies the language that should be</span>
+<span class="sd">        used for text values in the API response. The default value is en_US.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">id</span><span class="p">,</span> <span class="n">regionCode</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;id&#39;, &#39;regionCode&#39;]&quot;</span><span class="p">)</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/videoCategories&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="video_abuse_report_reasons_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.video_abuse_report_reasons_list">[docs]</a><span class="k">def</span> <span class="nf">video_abuse_report_reasons_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Retrieve a list of reasons that can be used to report abusive videos.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies the videoCategory</span>
+<span class="sd">        resource parts that the API response will include. Supported values are</span>
+<span class="sd">        id and snippet. The snippet part has a quota cost of 2 units.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param hl: string  The hl parameter specifies the language that should be</span>
+<span class="sd">        used for text values in the API response. The default value is en_US.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/videoAbuseReportReasons&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="search"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.search">[docs]</a><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">forContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forDeveloper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">forMine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relatedToVideoId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">channelType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eventType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">locationRadius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">publishedAfter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">publishedBefore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relevanceLanguage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">safeSearch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">topicId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoCaption</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">videoCategoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDefinition</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">videoDimension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDuration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoEmbeddable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">videoLicense</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoSyndicated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoType</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a collection of search results that match the query parameters</span>
+<span class="sd">    specified in the API request. By default, a search result set identifies</span>
+<span class="sd">    matching  video ,  channel , and  playlist  resources, but you can also</span>
+<span class="sd">    configure queries to only retrieve a specific type of resource.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies a comma-separated list of</span>
+<span class="sd">        one or more search resource properties that the API response will</span>
+<span class="sd">        include. Set the parameter value to snippet.</span>
+<span class="sd">            *Filters (specify 0 or 1 of the following parameters):*</span>
+<span class="sd">    :param forContentOwner: boolean  This parameter can only be used in a</span>
+<span class="sd">        properly authorized request, and it is intended exclusively for YouTube</span>
+<span class="sd">        content partners.The forContentOwner parameter restricts the search to</span>
+<span class="sd">        only retrieve videos owned by the content owner identified by the</span>
+<span class="sd">        onBehalfOfContentOwner parameter. If forContentOwner is set to true,</span>
+<span class="sd">        the request must also meet these requirements:The</span>
+<span class="sd">        onBehalfOfContentOwner parameter is required.The user authorizing the</span>
+<span class="sd">        request must be using an account linked to the specified content</span>
+<span class="sd">        owner.The type parameter value must be set to video.None of the</span>
+<span class="sd">        following other parameters can be set: videoDefinition, videoDimension,</span>
+<span class="sd">        videoDuration, videoLicense, videoEmbeddable, videoSyndicated,</span>
+<span class="sd">        videoType.</span>
+<span class="sd">    :param forDeveloper: boolean  This parameter can only be used in a properly</span>
+<span class="sd">        authorized request. The forDeveloper parameter restricts the search to</span>
+<span class="sd">        only retrieve videos uploaded via the developer&#39;s application or</span>
+<span class="sd">        website. The API server uses the request&#39;s authorization credentials to</span>
+<span class="sd">        identify the developer. The forDeveloper parameter can be used in</span>
+<span class="sd">        conjunction with optional search parameters like the q parameter.For</span>
+<span class="sd">        this feature, each uploaded video is automatically tagged with the</span>
+<span class="sd">        project number that is associated with the developer&#39;s application in</span>
+<span class="sd">        the Google Developers Console.When a search request subsequently sets</span>
+<span class="sd">        the forDeveloper parameter to true, the API server uses the request&#39;s</span>
+<span class="sd">        authorization credentials to identify the developer. Therefore, a</span>
+<span class="sd">        developer can restrict results to videos uploaded through the</span>
+<span class="sd">        developer&#39;s own app or website but not to videos uploaded through other</span>
+<span class="sd">        apps or sites.</span>
+<span class="sd">    :param forMine: boolean  This parameter can only be used in a properly</span>
+<span class="sd">        authorized request. The forMine parameter restricts the search to only</span>
+<span class="sd">        retrieve videos owned by the authenticated user. If you set this</span>
+<span class="sd">        parameter to true, then the type parameter&#39;s value must also be set to</span>
+<span class="sd">        video. In addition, none of the following other parameters can be set</span>
+<span class="sd">        in the same request: videoDefinition, videoDimension, videoDuration,</span>
+<span class="sd">        videoLicense, videoEmbeddable, videoSyndicated, videoType.</span>
+<span class="sd">    :param relatedToVideoId: string  The relatedToVideoId parameter retrieves a</span>
+<span class="sd">        list of videos that are related to the video that the parameter value</span>
+<span class="sd">        identifies. The parameter value must be set to a YouTube video ID and,</span>
+<span class="sd">        if you are using this parameter, the type parameter must be set to</span>
+<span class="sd">        video.Note that if the relatedToVideoId parameter is set, the only</span>
+<span class="sd">        other supported parameters are part, maxResults, pageToken, regionCode,</span>
+<span class="sd">        relevanceLanguage, safeSearch, type (which must be set to video), and</span>
+<span class="sd">        fields.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param channelId: string  The channelId parameter indicates that the API</span>
+<span class="sd">        response should only contain resources created by the channel. Note:</span>
+<span class="sd">        Search results are constrained to a maximum of 500 videos if your</span>
+<span class="sd">        request specifies a value for the channelId parameter and sets the type</span>
+<span class="sd">        parameter value to video, but it does not also set one of the</span>
+<span class="sd">        forContentOwner, forDeveloper, or forMine filters.</span>
+<span class="sd">    :param channelType: string  The channelType parameter lets you restrict a</span>
+<span class="sd">        search to a particular type of channel.Acceptable values are: any –</span>
+<span class="sd">        Return all channels. show – Only retrieve shows.</span>
+<span class="sd">    :param eventType: string  The eventType parameter restricts a search to</span>
+<span class="sd">        broadcast events. If you specify a value for this parameter, you must</span>
+<span class="sd">        also set the type parameter&#39;s value to video.Acceptable values are:</span>
+<span class="sd">        completed – Only include completed broadcasts. live – Only include</span>
+<span class="sd">        active broadcasts. upcoming – Only include upcoming broadcasts.</span>
+<span class="sd">    :param location: string  The location parameter, in conjunction with the</span>
+<span class="sd">        locationRadius parameter, defines a circular geographic area and also</span>
+<span class="sd">        restricts a search to videos that specify, in their metadata, a</span>
+<span class="sd">        geographic location that falls within that area. The parameter value is</span>
+<span class="sd">        a string that specifies latitude/longitude coordinates e.g.</span>
+<span class="sd">        (37.42307,-122.08427).The location parameter value identifies the point</span>
+<span class="sd">        at the center of the area.The locationRadius parameter specifies the</span>
+<span class="sd">        maximum distance that the location associated with a video can be from</span>
+<span class="sd">        that point for the video to still be included in the search results.The</span>
+<span class="sd">        API returns an error if your request specifies a value for the location</span>
+<span class="sd">        parameter but does not also specify a value for the locationRadius</span>
+<span class="sd">        parameter.</span>
+<span class="sd">    :param locationRadius: string  The locationRadius parameter, in conjunction</span>
+<span class="sd">        with the location parameter, defines a circular geographic area.The</span>
+<span class="sd">        parameter value must be a floating point number followed by a</span>
+<span class="sd">        measurement unit. Valid measurement units are m, km, ft, and mi. For</span>
+<span class="sd">        example, valid parameter values include 1500m, 5km, 10000ft, and</span>
+<span class="sd">        0.75mi. The API does not support locationRadius parameter values larger</span>
+<span class="sd">        than 1000 kilometers.Note: See the definition of the location parameter</span>
+<span class="sd">        for more information.</span>
+<span class="sd">    :param maxResults: unsigned integer  The maxResults parameter specifies the</span>
+<span class="sd">        maximum number of items that should be returned in the result set.</span>
+<span class="sd">    :param onBehalfOfContentOwner: string  This parameter can only be used in a</span>
+<span class="sd">        properly authorized request. Note: This parameter is intended</span>
+<span class="sd">        exclusively for YouTube content partners.The onBehalfOfContentOwner</span>
+<span class="sd">        parameter indicates that the request&#39;s authorization credentials</span>
+<span class="sd">        identify a YouTube CMS user who is acting on behalf of the content</span>
+<span class="sd">        owner specified in the parameter value. This parameter is intended for</span>
+<span class="sd">        YouTube content partners that own and manage many different YouTube</span>
+<span class="sd">        channels. It allows content owners to authenticate once and get access</span>
+<span class="sd">        to all their video and channel data, without having to provide</span>
+<span class="sd">        authentication credentials for each individual channel. The CMS account</span>
+<span class="sd">        that the user authenticates with must be linked to the specified</span>
+<span class="sd">        YouTube content owner.</span>
+<span class="sd">    :param order: string  The order parameter specifies the method that will be</span>
+<span class="sd">        used to order resources in the API response. The default value is</span>
+<span class="sd">        relevance.Acceptable values are: date – Resources are sorted in reverse</span>
+<span class="sd">        chronological order based on the date they were created. rating –</span>
+<span class="sd">        Resources are sorted from highest to lowest rating. relevance –</span>
+<span class="sd">        Resources are sorted based on their relevance to the search query. This</span>
+<span class="sd">        is the default value for this parameter. title – Resources are sorted</span>
+<span class="sd">        alphabetically by title. videoCount – Channels are sorted in descending</span>
+<span class="sd">        order of their number of uploaded videos. viewCount – Resources are</span>
+<span class="sd">        sorted from highest to lowest number of views. For live broadcasts,</span>
+<span class="sd">        videos are sorted by number of concurrent viewers while the broadcasts</span>
+<span class="sd">        are ongoing.</span>
+<span class="sd">    :param pageToken: string  The pageToken parameter identifies a specific</span>
+<span class="sd">        page in the result set that should be returned. In an API response, the</span>
+<span class="sd">        nextPageToken and prevPageToken properties identify other pages that</span>
+<span class="sd">        could be retrieved.</span>
+<span class="sd">    :param publishedAfter: datetime  The publishedAfter parameter indicates</span>
+<span class="sd">        that the API response should only contain resources created at or after</span>
+<span class="sd">        the specified time. The value is an RFC 3339 formatted date-time value</span>
+<span class="sd">        (1970-01-01T00:00:00Z).</span>
+<span class="sd">    :param publishedBefore: datetime  The publishedBefore parameter indicates</span>
+<span class="sd">        that the API response should only contain resources created before or</span>
+<span class="sd">        at the specified time. The value is an RFC 3339 formatted date-time</span>
+<span class="sd">        value (1970-01-01T00:00:00Z).</span>
+<span class="sd">    :param q: string  The q parameter specifies the query term to search</span>
+<span class="sd">        for.Your request can also use the Boolean NOT (-) and OR (|) operators</span>
+<span class="sd">        to exclude videos or to find videos that are associated with one of</span>
+<span class="sd">        several search terms. For example, to search for videos matching either</span>
+<span class="sd">        &quot;boating&quot; or &quot;sailing&quot;, set the q parameter value to boating|sailing.</span>
+<span class="sd">        Similarly, to search for videos matching either &quot;boating&quot; or &quot;sailing&quot;</span>
+<span class="sd">        but not &quot;fishing&quot;, set the q parameter value to boating|sailing</span>
+<span class="sd">        -fishing. Note that the pipe character must be URL-escaped when it is</span>
+<span class="sd">        sent in your API request. The URL-escaped value for the pipe character</span>
+<span class="sd">        is %7C.</span>
+<span class="sd">    :param regionCode: string  The regionCode parameter instructs the API to</span>
+<span class="sd">        return search results for videos that can be viewed in the specified</span>
+<span class="sd">        country. The parameter value is an ISO 3166-1 alpha-2 country code.</span>
+<span class="sd">    :param relevanceLanguage: string  The relevanceLanguage parameter instructs</span>
+<span class="sd">        the API to return search results that are most relevant to the</span>
+<span class="sd">        specified language. The parameter value is typically an ISO 639-1 two-</span>
+<span class="sd">        letter language code. However, you should use the values zh-Hans for</span>
+<span class="sd">        simplified Chinese and zh-Hant for traditional Chinese. Please note</span>
+<span class="sd">        that results in other languages will still be returned if they are</span>
+<span class="sd">        highly relevant to the search query term.</span>
+<span class="sd">    :param safeSearch: string  The safeSearch parameter indicates whether the</span>
+<span class="sd">        search results should include restricted content as well as standard</span>
+<span class="sd">        content.Acceptable values are: moderate – YouTube will filter some</span>
+<span class="sd">        content from search results and, at the least, will filter content that</span>
+<span class="sd">        is restricted in your locale. Based on their content, search results</span>
+<span class="sd">        could be removed from search results or demoted in search results. This</span>
+<span class="sd">        is the default parameter value. none – YouTube will not filter the</span>
+<span class="sd">        search result set. strict – YouTube will try to exclude all restricted</span>
+<span class="sd">        content from the search result set. Based on their content, search</span>
+<span class="sd">        results could be removed from search results or demoted in search</span>
+<span class="sd">        results.</span>
+<span class="sd">    :param topicId: string  The topicId parameter indicates that the API</span>
+<span class="sd">        response should only contain resources associated with the specified</span>
+<span class="sd">        topic. The value identifies a Freebase topic ID.Important: Due to the</span>
+<span class="sd">        deprecation of Freebase and the Freebase API, the topicId parameter</span>
+<span class="sd">        started working differently as of February 27, 2017. At that time,</span>
+<span class="sd">        YouTube started supporting a small set of curated topic IDs, and you</span>
+<span class="sd">        can only use that smaller set of IDs as values for this parameter.  See</span>
+<span class="sd">        topic IDs supported as of February 15, 2017  Topics  Music topics</span>
+<span class="sd">        /m/04rlf  Music (parent topic)  /m/02mscn  Christian music  /m/0ggq0m</span>
+<span class="sd">        Classical music  /m/01lyv  Country  /m/02lkt  Electronic music</span>
+<span class="sd">        /m/0glt670  Hip hop music  /m/05rwpb  Independent music  /m/03_d0  Jazz</span>
+<span class="sd">        /m/028sqc  Music of Asia  /m/0g293  Music of Latin America  /m/064t9</span>
+<span class="sd">        Pop music  /m/06cqb  Reggae  /m/06j6l  Rhythm and blues  /m/06by7  Rock</span>
+<span class="sd">        music  /m/0gywn  Soul music  Gaming topics  /m/0bzvm2  Gaming (parent</span>
+<span class="sd">        topic)  /m/025zzc  Action game  /m/02ntfj  Action-adventure game</span>
+<span class="sd">        /m/0b1vjn  Casual game  /m/02hygl  Music video game  /m/04q1x3q  Puzzle</span>
+<span class="sd">        video game  /m/01sjng  Racing video game  /m/0403l3g  Role-playing</span>
+<span class="sd">        video game  /m/021bp2  Simulation video game  /m/022dc6  Sports game</span>
+<span class="sd">        /m/03hf_rm  Strategy video game  Sports topics  /m/06ntj  Sports</span>
+<span class="sd">        (parent topic)  /m/0jm_  American football  /m/018jz  Baseball</span>
+<span class="sd">        /m/018w8  Basketball  /m/01cgz  Boxing  /m/09xp_  Cricket  /m/02vx4</span>
+<span class="sd">        Football  /m/037hz  Golf  /m/03tmr  Ice hockey  /m/01h7lh  Mixed</span>
+<span class="sd">        martial arts  /m/0410tth  Motorsport  /m/07bs0  Tennis  /m/07_53</span>
+<span class="sd">        Volleyball  Entertainment topics  /m/02jjt  Entertainment (parent</span>
+<span class="sd">        topic)  /m/09kqc  Humor  /m/02vxn  Movies  /m/05qjc  Performing arts</span>
+<span class="sd">        /m/066wd  Professional wrestling  /m/0f2f9  TV shows  Lifestyle topics</span>
+<span class="sd">        /m/019_rr  Lifestyle (parent topic)  /m/032tl  Fashion  /m/027x7n</span>
+<span class="sd">        Fitness  /m/02wbm  Food  /m/03glg  Hobby  /m/068hy  Pets  /m/041xxh</span>
+<span class="sd">        Physical attractiveness [Beauty]  /m/07c1v  Technology  /m/07bxq</span>
+<span class="sd">        Tourism  /m/07yv9  Vehicles  Society topics  /m/098wr  Society (parent</span>
+<span class="sd">        topic)  /m/09s1f  Business  /m/0kt51  Health  /m/01h6rj  Military</span>
+<span class="sd">        /m/05qt0  Politics  /m/06bvp  Religion  Other topics  /m/01k8wb</span>
+<span class="sd">        Knowledge</span>
+<span class="sd">    :param type: string  The type parameter restricts a search query to only</span>
+<span class="sd">        retrieve a particular type of resource. The value is a comma-separated</span>
+<span class="sd">        list of resource types. The default value is</span>
+<span class="sd">        video,channel,playlist.Acceptable values are: channelplaylistvideo</span>
+<span class="sd">    :param videoCaption: string  The videoCaption parameter indicates whether</span>
+<span class="sd">        the API should filter video search results based on whether they have</span>
+<span class="sd">        captions. If you specify a value for this parameter, you must also set</span>
+<span class="sd">        the type parameter&#39;s value to video.Acceptable values are: any – Do not</span>
+<span class="sd">        filter results based on caption availability. closedCaption – Only</span>
+<span class="sd">        include videos that have captions. none – Only include videos that do</span>
+<span class="sd">        not have captions.</span>
+<span class="sd">    :param videoCategoryId: string  The videoCategoryId parameter filters video</span>
+<span class="sd">        search results based on their category. If you specify a value for this</span>
+<span class="sd">        parameter, you must also set the type parameter&#39;s value to video.</span>
+<span class="sd">    :param videoDefinition: string  The videoDefinition parameter lets you</span>
+<span class="sd">        restrict a search to only include either high definition (HD) or</span>
+<span class="sd">        standard definition (SD) videos. HD videos are available for playback</span>
+<span class="sd">        in at least 720p, though higher resolutions, like 1080p, might also be</span>
+<span class="sd">        available. If you specify a value for this parameter, you must also set</span>
+<span class="sd">        the type parameter&#39;s value to video.Acceptable values are: any – Return</span>
+<span class="sd">        all videos, regardless of their resolution. high – Only retrieve HD</span>
+<span class="sd">        videos. standard – Only retrieve videos in standard definition.</span>
+<span class="sd">    :param videoDimension: string  The videoDimension parameter lets you</span>
+<span class="sd">        restrict a search to only retrieve 2D or 3D videos. If you specify a</span>
+<span class="sd">        value for this parameter, you must also set the type parameter&#39;s value</span>
+<span class="sd">        to video.Acceptable values are: 2d – Restrict search results to exclude</span>
+<span class="sd">        3D videos. 3d – Restrict search results to only include 3D videos. any</span>
+<span class="sd">        – Include both 3D and non-3D videos in returned results. This is the</span>
+<span class="sd">        default value.</span>
+<span class="sd">    :param videoDuration: string  The videoDuration parameter filters video</span>
+<span class="sd">        search results based on their duration. If you specify a value for this</span>
+<span class="sd">        parameter, you must also set the type parameter&#39;s value to</span>
+<span class="sd">        video.Acceptable values are: any – Do not filter video search results</span>
+<span class="sd">        based on their duration. This is the default value. long – Only include</span>
+<span class="sd">        videos longer than 20 minutes. medium – Only include videos that are</span>
+<span class="sd">        between four and 20 minutes long (inclusive). short – Only include</span>
+<span class="sd">        videos that are less than four minutes long.</span>
+<span class="sd">    :param videoEmbeddable: string  The videoEmbeddable parameter lets you to</span>
+<span class="sd">        restrict a search to only videos that can be embedded into a webpage.</span>
+<span class="sd">        If you specify a value for this parameter, you must also set the type</span>
+<span class="sd">        parameter&#39;s value to video.Acceptable values are: any – Return all</span>
+<span class="sd">        videos, embeddable or not. true – Only retrieve embeddable videos.</span>
+<span class="sd">    :param videoLicense: string  The videoLicense parameter filters search</span>
+<span class="sd">        results to only include videos with a particular license. YouTube lets</span>
+<span class="sd">        video uploaders choose to attach either the Creative Commons license or</span>
+<span class="sd">        the standard YouTube license to each of their videos. If you specify a</span>
+<span class="sd">        value for this parameter, you must also set the type parameter&#39;s value</span>
+<span class="sd">        to video.Acceptable values are: any – Return all videos, regardless of</span>
+<span class="sd">        which license they have, that match the query parameters.</span>
+<span class="sd">        creativeCommon – Only return videos that have a Creative Commons</span>
+<span class="sd">        license. Users can reuse videos with this license in other videos that</span>
+<span class="sd">        they create. Learn more. youtube – Only return videos that have the</span>
+<span class="sd">        standard YouTube license.</span>
+<span class="sd">    :param videoSyndicated: string  The videoSyndicated parameter lets you to</span>
+<span class="sd">        restrict a search to only videos that can be played outside</span>
+<span class="sd">        youtube.com. If you specify a value for this parameter, you must also</span>
+<span class="sd">        set the type parameter&#39;s value to video.Acceptable values are: any –</span>
+<span class="sd">        Return all videos, syndicated or not. true – Only retrieve syndicated</span>
+<span class="sd">        videos.</span>
+<span class="sd">    :param videoType: string  The videoType parameter lets you restrict a</span>
+<span class="sd">        search to a particular type of videos. If you specify a value for this</span>
+<span class="sd">        parameter, you must also set the type parameter&#39;s value to</span>
+<span class="sd">        video.Acceptable values are: any – Return all videos. episode – Only</span>
+<span class="sd">        retrieve episodes of shows. movie – Only retrieve movies.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/search&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="subscriptions_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.subscriptions_list">[docs]</a><span class="k">def</span> <span class="nf">subscriptions_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">myRecentSubscribers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mySubscribers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">forChannelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">onBehalfOfContentOwnerChannel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns subscription resources that match the API request criteria.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies a comma-separated list of</span>
+<span class="sd">        one or more subscription resource properties that the API response will</span>
+<span class="sd">        include.If the parameter identifies a property that contains child</span>
+<span class="sd">        properties, the child properties will be included in the response. For</span>
+<span class="sd">        example, in a subscription resource, the snippet property contains</span>
+<span class="sd">        other properties, such as a display title for the subscription. If you</span>
+<span class="sd">        set part=snippet, the API response will also contain all of those</span>
+<span class="sd">        nested properties.The following list contains the part names that you</span>
+<span class="sd">        can include in the parameter value and the quota cost for each part:</span>
+<span class="sd">        contentDetails: 2 id: 0 snippet: 2 subscriberSnippet: 2</span>
+<span class="sd">            *Filters (specify exactly one of the following parameters):*</span>
+<span class="sd">    :param channelId: string  The channelId parameter specifies a YouTube</span>
+<span class="sd">        channel ID. The API will only return that channel&#39;s subscriptions.</span>
+<span class="sd">    :param id: string  The id parameter specifies a comma-separated list of the</span>
+<span class="sd">        YouTube subscription ID(s) for the resource(s) that are being</span>
+<span class="sd">        retrieved. In a subscription resource, the id property specifies the</span>
+<span class="sd">        YouTube subscription ID.</span>
+<span class="sd">    :param mine: boolean  This parameter can only be used in a properly</span>
+<span class="sd">        authorized request. Set this parameter&#39;s value to true to retrieve a</span>
+<span class="sd">        feed of the authenticated user&#39;s subscriptions.</span>
+<span class="sd">    :param myRecentSubscribers: boolean  This parameter can only be used in a</span>
+<span class="sd">        properly authorized request. Set this parameter&#39;s value to true to</span>
+<span class="sd">        retrieve a feed of the subscribers of the authenticated user in reverse</span>
+<span class="sd">        chronological order (newest first).Note that this parameter only</span>
+<span class="sd">        supports retrieval of the most recent 1000 subscribers to the</span>
+<span class="sd">        authenticated user&#39;s channel. To retrieve a complete list of</span>
+<span class="sd">        subscribers, use the mySubscribers parameter. That parameter, which</span>
+<span class="sd">        does not return subscribers in a particular order, does not limit the</span>
+<span class="sd">        number of subscribers that can be retrieved.</span>
+<span class="sd">    :param mySubscribers: boolean  This parameter can only be used in a</span>
+<span class="sd">        properly authorized request. Set this parameter&#39;s value to true to</span>
+<span class="sd">        retrieve a feed of the subscribers of the authenticated user in no</span>
+<span class="sd">        particular order.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param forChannelId: string  The forChannelId parameter specifies a comma-</span>
+<span class="sd">        separated list of channel IDs. The API response will then only contain</span>
+<span class="sd">        subscriptions matching those channels.</span>
+<span class="sd">    :param maxResults: unsigned integer  The maxResults parameter specifies the</span>
+<span class="sd">        maximum number of items that should be returned in the result set.</span>
+<span class="sd">    :param onBehalfOfContentOwner: string  Note: This parameter is intended</span>
+<span class="sd">        exclusively for YouTube content partners.The onBehalfOfContentOwner</span>
+<span class="sd">        parameter indicates that the request&#39;s authorization credentials</span>
+<span class="sd">        identify a YouTube CMS user who is acting on behalf of the content</span>
+<span class="sd">        owner specified in the parameter value. This parameter is intended for</span>
+<span class="sd">        YouTube content partners that own and manage many different YouTube</span>
+<span class="sd">        channels. It allows content owners to authenticate once and get access</span>
+<span class="sd">        to all their video and channel data, without having to provide</span>
+<span class="sd">        authentication credentials for each individual channel. The CMS account</span>
+<span class="sd">        that the user authenticates with must be linked to the specified</span>
+<span class="sd">        YouTube content owner.</span>
+<span class="sd">    :param onBehalfOfContentOwnerChannel: string  This parameter can only be</span>
+<span class="sd">        used in a properly authorized request. Note: This parameter is intended</span>
+<span class="sd">        exclusively for YouTube content partners.The</span>
+<span class="sd">        onBehalfOfContentOwnerChannel parameter specifies the YouTube channel</span>
+<span class="sd">        ID of the channel to which a video is being added. This parameter is</span>
+<span class="sd">        required when a request specifies a value for the</span>
+<span class="sd">        onBehalfOfContentOwner parameter, and it can only be used in</span>
+<span class="sd">        conjunction with that parameter. In addition, the request must be</span>
+<span class="sd">        authorized using a CMS account that is linked to the content owner that</span>
+<span class="sd">        the onBehalfOfContentOwner parameter specifies. Finally, the channel</span>
+<span class="sd">        that the onBehalfOfContentOwnerChannel parameter value specifies must</span>
+<span class="sd">        be linked to the content owner that the onBehalfOfContentOwner</span>
+<span class="sd">        parameter specifies.This parameter is intended for YouTube content</span>
+<span class="sd">        partners that own and manage many different YouTube channels. It allows</span>
+<span class="sd">        content owners to authenticate once and perform actions on behalf of</span>
+<span class="sd">        the channel specified in the parameter value, without having to provide</span>
+<span class="sd">        authentication credentials for each separate channel.</span>
+<span class="sd">    :param order: string  The order parameter specifies the method that will be</span>
+<span class="sd">        used to sort resources in the API response. The default value is</span>
+<span class="sd">        SUBSCRIPTION_ORDER_RELEVANCE.Acceptable values are: alphabetical – Sort</span>
+<span class="sd">        alphabetically. relevance – Sort by relevance. unread – Sort by order</span>
+<span class="sd">        of activity.</span>
+<span class="sd">    :param pageToken: string  The pageToken parameter identifies a specific</span>
+<span class="sd">        page in the result set that should be returned. In an API response, the</span>
+<span class="sd">        nextPageToken and prevPageToken properties identify other pages that</span>
+<span class="sd">        could be retrieved.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;subscriberSnippet&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">channelId</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">mine</span><span class="p">,</span> <span class="n">myRecentSubscribers</span><span class="p">,</span> <span class="n">mySubscribers</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;channelId&#39;, &#39;id&#39;, &#39;mine&#39;, &#39;myRecentSubscribers&#39;, &#39;mySubscribers&#39;]&quot;</span><span class="p">)</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/subscriptions&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="i18n_regions_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.i18n_regions_list">[docs]</a><span class="k">def</span> <span class="nf">i18n_regions_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of content regions that the YouTube website supports.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies the i18nRegion resource</span>
+<span class="sd">        properties that the API response will include. Set the parameter value</span>
+<span class="sd">        to snippet. The snippet part has a quota cost of 1 unit.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param hl: string  The hl parameter specifies the language that should be</span>
+<span class="sd">        used for text values in the API response. The default value is en_US.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/i18nRegions&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="playlists_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.playlists_list">[docs]</a><span class="k">def</span> <span class="nf">playlists_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">onBehalfOfContentOwnerChannel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a collection of playlists that match the API request parameters.</span>
+<span class="sd">    For example, you can retrieve all playlists that the authenticated user</span>
+<span class="sd">    owns, or you can retrieve one or more playlists by their unique IDs.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies a comma-separated list of</span>
+<span class="sd">        one or more playlist resource properties that the API response will</span>
+<span class="sd">        include.If the parameter identifies a property that contains child</span>
+<span class="sd">        properties, the child properties will be included in the response. For</span>
+<span class="sd">        example, in a playlist resource, the snippet property contains</span>
+<span class="sd">        properties like author, title, description, tags, and timeCreated. As</span>
+<span class="sd">        such, if you set part=snippet, the API response will contain all of</span>
+<span class="sd">        those properties.The following list contains the part names that you</span>
+<span class="sd">        can include in the parameter value and the quota cost for each part:</span>
+<span class="sd">        contentDetails: 2 id: 0 localizations: 2 player: 0 snippet: 2 status: 2</span>
+<span class="sd">            *Filters (specify exactly one of the following parameters):*</span>
+<span class="sd">    :param channelId: string  This value indicates that the API should only</span>
+<span class="sd">        return the specified channel&#39;s playlists.</span>
+<span class="sd">    :param id: string  The id parameter specifies a comma-separated list of the</span>
+<span class="sd">        YouTube playlist ID(s) for the resource(s) that are being retrieved. In</span>
+<span class="sd">        a playlist resource, the id property specifies the playlist&#39;s YouTube</span>
+<span class="sd">        playlist ID.</span>
+<span class="sd">    :param mine: boolean  This parameter can only be used in a properly</span>
+<span class="sd">        authorized request. Set this parameter&#39;s value to true to instruct the</span>
+<span class="sd">        API to only return playlists owned by the authenticated user.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param hl: string  The hl parameter instructs the API to retrieve localized</span>
+<span class="sd">        resource metadata for a specific application language that the YouTube</span>
+<span class="sd">        website supports. The parameter value must be a language code included</span>
+<span class="sd">        in the list returned by the i18nLanguages.list method.If localized</span>
+<span class="sd">        resource details are available in that language, the resource&#39;s</span>
+<span class="sd">        snippet.localized object will contain the localized values. However, if</span>
+<span class="sd">        localized details are not available, the snippet.localized object will</span>
+<span class="sd">        contain resource details in the resource&#39;s default language.</span>
+<span class="sd">    :param maxResults: unsigned integer  The maxResults parameter specifies the</span>
+<span class="sd">        maximum number of items that should be returned in the result set.</span>
+<span class="sd">    :param onBehalfOfContentOwner: string  This parameter can only be used in a</span>
+<span class="sd">        properly authorized request. Note: This parameter is intended</span>
+<span class="sd">        exclusively for YouTube content partners.The onBehalfOfContentOwner</span>
+<span class="sd">        parameter indicates that the request&#39;s authorization credentials</span>
+<span class="sd">        identify a YouTube CMS user who is acting on behalf of the content</span>
+<span class="sd">        owner specified in the parameter value. This parameter is intended for</span>
+<span class="sd">        YouTube content partners that own and manage many different YouTube</span>
+<span class="sd">        channels. It allows content owners to authenticate once and get access</span>
+<span class="sd">        to all their video and channel data, without having to provide</span>
+<span class="sd">        authentication credentials for each individual channel. The CMS account</span>
+<span class="sd">        that the user authenticates with must be linked to the specified</span>
+<span class="sd">        YouTube content owner.</span>
+<span class="sd">    :param onBehalfOfContentOwnerChannel: string  This parameter can only be</span>
+<span class="sd">        used in a properly authorized request. Note: This parameter is intended</span>
+<span class="sd">        exclusively for YouTube content partners.The</span>
+<span class="sd">        onBehalfOfContentOwnerChannel parameter specifies the YouTube channel</span>
+<span class="sd">        ID of the channel to which a video is being added. This parameter is</span>
+<span class="sd">        required when a request specifies a value for the</span>
+<span class="sd">        onBehalfOfContentOwner parameter, and it can only be used in</span>
+<span class="sd">        conjunction with that parameter. In addition, the request must be</span>
+<span class="sd">        authorized using a CMS account that is linked to the content owner that</span>
+<span class="sd">        the onBehalfOfContentOwner parameter specifies. Finally, the channel</span>
+<span class="sd">        that the onBehalfOfContentOwnerChannel parameter value specifies must</span>
+<span class="sd">        be linked to the content owner that the onBehalfOfContentOwner</span>
+<span class="sd">        parameter specifies.This parameter is intended for YouTube content</span>
+<span class="sd">        partners that own and manage many different YouTube channels. It allows</span>
+<span class="sd">        content owners to authenticate once and perform actions on behalf of</span>
+<span class="sd">        the channel specified in the parameter value, without having to provide</span>
+<span class="sd">        authentication credentials for each separate channel.</span>
+<span class="sd">    :param pageToken: string  The pageToken parameter identifies a specific</span>
+<span class="sd">        page in the result set that should be returned. In an API response, the</span>
+<span class="sd">        nextPageToken and prevPageToken properties identify other pages that</span>
+<span class="sd">        could be retrieved.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;localizations&#39;</span><span class="p">,</span> <span class="s1">&#39;player&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">channelId</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">mine</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;channelId&#39;, &#39;id&#39;, &#39;mine&#39;]&quot;</span><span class="p">)</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/playlists&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="i18n_languages_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.i18n_languages_list">[docs]</a><span class="k">def</span> <span class="nf">i18n_languages_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of application languages that the YouTube website</span>
+<span class="sd">    supports.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies the i18nLanguage resource</span>
+<span class="sd">        properties that the API response will include. Set the parameter value</span>
+<span class="sd">        to snippet. The snippet part has a quota cost of 1 unit.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param hl: string  The hl parameter specifies the language that should be</span>
+<span class="sd">        used for text values in the API response. The default value is en_US.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/i18nLanguages&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="playlist_items_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.playlist_items_list">[docs]</a><span class="k">def</span> <span class="nf">playlist_items_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">playlistId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">videoId</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a collection of playlist items that match the API request</span>
+<span class="sd">    parameters. You can retrieve all of the playlist items in a specified</span>
+<span class="sd">    playlist or retrieve one or more playlist items by their unique IDs.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies a comma-separated list of</span>
+<span class="sd">        one or more playlistItem resource properties that the API response will</span>
+<span class="sd">        include.If the parameter identifies a property that contains child</span>
+<span class="sd">        properties, the child properties will be included in the response. For</span>
+<span class="sd">        example, in a playlistItem resource, the snippet property contains</span>
+<span class="sd">        numerous fields, including the title, description, position, and</span>
+<span class="sd">        resourceId properties. As such, if you set part=snippet, the API</span>
+<span class="sd">        response will contain all of those properties.The following list</span>
+<span class="sd">        contains the part names that you can include in the parameter value and</span>
+<span class="sd">        the quota cost for each part: contentDetails: 2 id: 0 snippet: 2</span>
+<span class="sd">        status: 2</span>
+<span class="sd">            *Filters (specify exactly one of the following parameters):*</span>
+<span class="sd">    :param id: string  The id parameter specifies a comma-separated list of one</span>
+<span class="sd">        or more unique playlist item IDs.</span>
+<span class="sd">    :param playlistId: string  The playlistId parameter specifies the unique ID</span>
+<span class="sd">        of the playlist for which you want to retrieve playlist items. Note</span>
+<span class="sd">        that even though this is an optional parameter, every request to</span>
+<span class="sd">        retrieve playlist items must specify a value for either the id</span>
+<span class="sd">        parameter or the playlistId parameter.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param maxResults: unsigned integer  The maxResults parameter specifies the</span>
+<span class="sd">        maximum number of items that should be returned in the result set.</span>
+<span class="sd">    :param onBehalfOfContentOwner: string  This parameter can only be used in a</span>
+<span class="sd">        properly authorized request. Note: This parameter is intended</span>
+<span class="sd">        exclusively for YouTube content partners.The onBehalfOfContentOwner</span>
+<span class="sd">        parameter indicates that the request&#39;s authorization credentials</span>
+<span class="sd">        identify a YouTube CMS user who is acting on behalf of the content</span>
+<span class="sd">        owner specified in the parameter value. This parameter is intended for</span>
+<span class="sd">        YouTube content partners that own and manage many different YouTube</span>
+<span class="sd">        channels. It allows content owners to authenticate once and get access</span>
+<span class="sd">        to all their video and channel data, without having to provide</span>
+<span class="sd">        authentication credentials for each individual channel. The CMS account</span>
+<span class="sd">        that the user authenticates with must be linked to the specified</span>
+<span class="sd">        YouTube content owner.</span>
+<span class="sd">    :param pageToken: string  The pageToken parameter identifies a specific</span>
+<span class="sd">        page in the result set that should be returned. In an API response, the</span>
+<span class="sd">        nextPageToken and prevPageToken properties identify other pages that</span>
+<span class="sd">        could be retrieved.</span>
+<span class="sd">    :param videoId: string  The videoId parameter specifies that the request</span>
+<span class="sd">        should return only the playlist items that contain the specified video.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">id</span><span class="p">,</span> <span class="n">playlistId</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;id&#39;, &#39;playlistId&#39;]&quot;</span><span class="p">)</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/playlistItems&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="guide_categories_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.guide_categories_list">[docs]</a><span class="k">def</span> <span class="nf">guide_categories_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of categories that can be associated with YouTube</span>
+<span class="sd">    channels.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies the guideCategory</span>
+<span class="sd">        resource properties that the API response will include. Set the</span>
+<span class="sd">        parameter value to snippet. The snippet part has a quota cost of 2</span>
+<span class="sd">        units.</span>
+<span class="sd">            *Filters (specify exactly one of the following parameters):*</span>
+<span class="sd">    :param id: string  The id parameter specifies a comma-separated list of the</span>
+<span class="sd">        YouTube channel category ID(s) for the resource(s) that are being</span>
+<span class="sd">        retrieved. In a guideCategory resource, the id property specifies the</span>
+<span class="sd">        YouTube channel category ID.</span>
+<span class="sd">    :param regionCode: string  The regionCode parameter instructs the API to</span>
+<span class="sd">        return the list of guide categories available in the specified country.</span>
+<span class="sd">        The parameter value is an ISO 3166-1 alpha-2 country code.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param hl: string  The hl parameter specifies the language that will be</span>
+<span class="sd">        used for text values in the API response. The default value is en-US.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">id</span><span class="p">,</span> <span class="n">regionCode</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;id&#39;, &#39;regionCode&#39;]&quot;</span><span class="p">)</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/guideCategories&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="comment_threads_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.comment_threads_list">[docs]</a><span class="k">def</span> <span class="nf">comment_threads_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">allThreadsRelatedToChannelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">moderationStatus</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">searchTerms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">textFormat</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of comment threads that match the API request parameters.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies a comma-separated list of</span>
+<span class="sd">        one or more commentThread resource properties that the API response</span>
+<span class="sd">        will include.The following list contains the part names that you can</span>
+<span class="sd">        include in the parameter value and the quota cost for each part: id: 0</span>
+<span class="sd">        replies: 2 snippet: 2</span>
+<span class="sd">            *Filters (specify exactly one of the following parameters):*</span>
+<span class="sd">    :param allThreadsRelatedToChannelId: string  The</span>
+<span class="sd">        allThreadsRelatedToChannelId parameter instructs the API to return all</span>
+<span class="sd">        comment threads associated with the specified channel. The response can</span>
+<span class="sd">        include comments about the channel or about the channel&#39;s videos.</span>
+<span class="sd">    :param channelId: string  The channelId parameter instructs the API to</span>
+<span class="sd">        return comment threads containing comments about the specified channel.</span>
+<span class="sd">        (The response will not include comments left on videos that the channel</span>
+<span class="sd">        uploaded.)</span>
+<span class="sd">    :param id: string  The id parameter specifies a comma-separated list of</span>
+<span class="sd">        comment thread IDs for the resources that should be retrieved.</span>
+<span class="sd">    :param videoId: string  The videoId parameter instructs the API to return</span>
+<span class="sd">        comment threads associated with the specified video ID.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param maxResults: unsigned integer  The maxResults parameter specifies the</span>
+<span class="sd">        maximum number of items that should be returned in the result set.</span>
+<span class="sd">    :param moderationStatus: string  This parameter can only be used in a</span>
+<span class="sd">        properly authorized request. Set this parameter to limit the returned</span>
+<span class="sd">        comment threads to a particular moderation state.Note: This parameter</span>
+<span class="sd">        is not supported for use in conjunction with the id parameter. The</span>
+<span class="sd">        default value is published.Acceptable values are: heldForReview –</span>
+<span class="sd">        Retrieve comment threads that are awaiting review by a moderator. A</span>
+<span class="sd">        comment thread can be included in the response if the top-level comment</span>
+<span class="sd">        or at least one of the replies to that comment are awaiting review.</span>
+<span class="sd">        likelySpam – Retrieve comment threads classified as likely to be spam.</span>
+<span class="sd">        A comment thread can be included in the response if the top-level</span>
+<span class="sd">        comment or at least one of the replies to that comment is considered</span>
+<span class="sd">        likely to be spam. published – Retrieve threads of published comments.</span>
+<span class="sd">        This is the default value. A comment thread can be included in the</span>
+<span class="sd">        response if its top-level comment has been published.</span>
+<span class="sd">    :param order: string  The order parameter specifies the order in which the</span>
+<span class="sd">        API response should list comment threads. Valid values are: time -</span>
+<span class="sd">        Comment threads are ordered by time. This is the default</span>
+<span class="sd">        behavior.relevance - Comment threads are ordered by relevance.Note:</span>
+<span class="sd">        This parameter is not supported for use in conjunction with the id</span>
+<span class="sd">        parameter.</span>
+<span class="sd">    :param pageToken: string  The pageToken parameter identifies a specific</span>
+<span class="sd">        page in the result set that should be returned. In an API response, the</span>
+<span class="sd">        nextPageToken property identifies the next page of the result that can</span>
+<span class="sd">        be retrieved.Note: This parameter is not supported for use in</span>
+<span class="sd">        conjunction with the id parameter.</span>
+<span class="sd">    :param searchTerms: string  The searchTerms parameter instructs the API to</span>
+<span class="sd">        limit the API response to only contain comments that contain the</span>
+<span class="sd">        specified search terms.Note: This parameter is not supported for use in</span>
+<span class="sd">        conjunction with the id parameter.</span>
+<span class="sd">    :param textFormat: string  Set this parameter&#39;s value to html or plainText</span>
+<span class="sd">        to instruct the API to return the comments left by users in html</span>
+<span class="sd">        formatted or in plain text. The default value is html.Acceptable values</span>
+<span class="sd">        are: html – Returns the comments in HTML format. This is the default</span>
+<span class="sd">        value. plainText – Returns the comments in plain text format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;replies&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">allThreadsRelatedToChannelId</span><span class="p">,</span> <span class="n">channelId</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">videoId</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;allThreadsRelatedToChannelId&#39;, &#39;channelId&#39;, &#39;id&#39;, &#39;videoId&#39;]&quot;</span><span class="p">)</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/commentThreads&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="comments_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.comments_list">[docs]</a><span class="k">def</span> <span class="nf">comments_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parentId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">textFormat</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of comments that match the API request parameters.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies a comma-separated list of</span>
+<span class="sd">        one or more comment resource properties that the API response will</span>
+<span class="sd">        include.The following list contains the part names that you can include</span>
+<span class="sd">        in the parameter value and the quota cost for each part: id: 0 snippet:</span>
+<span class="sd">        1</span>
+<span class="sd">            *Filters (specify exactly one of the following parameters):*</span>
+<span class="sd">    :param id: string  The id parameter specifies a comma-separated list of</span>
+<span class="sd">        comment IDs for the resources that are being retrieved. In a comment</span>
+<span class="sd">        resource, the id property specifies the comment&#39;s ID.</span>
+<span class="sd">    :param parentId: string  The parentId parameter specifies the ID of the</span>
+<span class="sd">        comment for which replies should be retrieved. Note: YouTube currently</span>
+<span class="sd">        supports replies only for top-level comments. However, replies to</span>
+<span class="sd">        replies may be supported in the future.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param maxResults: unsigned integer  The maxResults parameter specifies the</span>
+<span class="sd">        maximum number of items that should be returned in the result set.</span>
+<span class="sd">    :param pageToken: string  The pageToken parameter identifies a specific</span>
+<span class="sd">        page in the result set that should be returned. In an API response, the</span>
+<span class="sd">        nextPageToken property identifies the next page of the result that can</span>
+<span class="sd">        be retrieved.Note: This parameter is not supported for use in</span>
+<span class="sd">        conjunction with the id parameter.</span>
+<span class="sd">    :param textFormat: string  This parameter indicates whether the API should</span>
+<span class="sd">        return comments formatted as HTML or as plain text. The default value</span>
+<span class="sd">        is html.Acceptable values are: html – Returns the comments in HTML</span>
+<span class="sd">        format. This is the default value. plainText – Returns the comments in</span>
+<span class="sd">        plain text format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">id</span><span class="p">,</span> <span class="n">parentId</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;id&#39;, &#39;parentId&#39;]&quot;</span><span class="p">)</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/comments&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="channel_sections_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.channel_sections_list">[docs]</a><span class="k">def</span> <span class="nf">channel_sections_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of   resources that match the API request criteria.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies a comma-separated list of</span>
+<span class="sd">        one or more channelSection resource properties that the API response</span>
+<span class="sd">        will include.If the parameter identifies a property that contains child</span>
+<span class="sd">        properties, the child properties will be included in the response. For</span>
+<span class="sd">        example, in a channelSection resource, the snippet property contains</span>
+<span class="sd">        other properties, such as a display title for the section. If you set</span>
+<span class="sd">        part=snippet, the API response will also contain all of those nested</span>
+<span class="sd">        properties.The following list contains the part names that you can</span>
+<span class="sd">        include in the parameter value and the quota cost for each part:</span>
+<span class="sd">        contentDetails: 2 id: 0 localizations: 2 snippet: 2 targeting: 2</span>
+<span class="sd">            *Filters (specify exactly one of the following parameters):*</span>
+<span class="sd">    :param channelId: string  The channelId parameter specifies a YouTube</span>
+<span class="sd">        channel ID. If a request specifies a value for this parameter, the API</span>
+<span class="sd">        will only return the specified channel&#39;s sections.</span>
+<span class="sd">    :param id: string  The id parameter specifies a comma-separated list of IDs</span>
+<span class="sd">        that uniquely identify the channelSection resources that are being</span>
+<span class="sd">        retrieved. In a channelSection resource, the id property specifies the</span>
+<span class="sd">        section&#39;s ID.</span>
+<span class="sd">    :param mine: boolean  This parameter can only be used in a properly</span>
+<span class="sd">        authorized request. Set this parameter&#39;s value to true to retrieve a</span>
+<span class="sd">        feed of the channel sections associated with the authenticated user&#39;s</span>
+<span class="sd">        YouTube channel.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param hl: string  The hl parameter instructs the API to retrieve localized</span>
+<span class="sd">        resource metadata for a specific application language that the YouTube</span>
+<span class="sd">        website supports. The parameter value must be a language code included</span>
+<span class="sd">        in the list returned by the i18nLanguages.list method.If localized</span>
+<span class="sd">        resource details are available in that language, the resource&#39;s</span>
+<span class="sd">        snippet.localized object will contain the localized values. However, if</span>
+<span class="sd">        localized details are not available, the snippet.localized object will</span>
+<span class="sd">        contain resource details in the resource&#39;s default language.</span>
+<span class="sd">    :param onBehalfOfContentOwner: string  This parameter can only be used in a</span>
+<span class="sd">        properly authorized request. Note: This parameter is intended</span>
+<span class="sd">        exclusively for YouTube content partners.The onBehalfOfContentOwner</span>
+<span class="sd">        parameter indicates that the request&#39;s authorization credentials</span>
+<span class="sd">        identify a YouTube CMS user who is acting on behalf of the content</span>
+<span class="sd">        owner specified in the parameter value. This parameter is intended for</span>
+<span class="sd">        YouTube content partners that own and manage many different YouTube</span>
+<span class="sd">        channels. It allows content owners to authenticate once and get access</span>
+<span class="sd">        to all their video and channel data, without having to provide</span>
+<span class="sd">        authentication credentials for each individual channel. The CMS account</span>
+<span class="sd">        that the user authenticates with must be linked to the specified</span>
+<span class="sd">        YouTube content owner.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;localizations&#39;</span><span class="p">,</span> <span class="s1">&#39;targeting&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">channelId</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">mine</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;channelId&#39;, &#39;id&#39;, &#39;mine&#39;]&quot;</span><span class="p">)</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/channelSections&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="channels_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.channels_list">[docs]</a><span class="k">def</span> <span class="nf">channels_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">categoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forUsername</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">managedByMe</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mySubscribers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a collection of zero or more   resources that match the request</span>
+<span class="sd">    criteria.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies a comma-separated list of</span>
+<span class="sd">        one or more channel resource properties that the API response will</span>
+<span class="sd">        include.If the parameter identifies a property that contains child</span>
+<span class="sd">        properties, the child properties will be included in the response. For</span>
+<span class="sd">        example, in a channel resource, the contentDetails property contains</span>
+<span class="sd">        other properties, such as the uploads properties. As such, if you set</span>
+<span class="sd">        part=contentDetails, the API response will also contain all of those</span>
+<span class="sd">        nested properties.The following list contains the part names that you</span>
+<span class="sd">        can include in the parameter value and the quota cost for each part:</span>
+<span class="sd">        auditDetails: 4 brandingSettings: 2 contentDetails: 2</span>
+<span class="sd">        contentOwnerDetails: 2 id: 0 invideoPromotion: 2 (deprecated)</span>
+<span class="sd">        localizations: 2 snippet: 2 statistics: 2 status: 2 topicDetails: 2</span>
+<span class="sd">            *Filters (specify exactly one of the following parameters):*</span>
+<span class="sd">    :param categoryId: string  The categoryId parameter specifies a YouTube</span>
+<span class="sd">        guide category, thereby requesting YouTube channels associated with</span>
+<span class="sd">        that category.</span>
+<span class="sd">    :param forUsername: string  The forUsername parameter specifies a YouTube</span>
+<span class="sd">        username, thereby requesting the channel associated with that username.</span>
+<span class="sd">    :param id: string  The id parameter specifies a comma-separated list of the</span>
+<span class="sd">        YouTube channel ID(s) for the resource(s) that are being retrieved. In</span>
+<span class="sd">        a channel resource, the id property specifies the channel&#39;s YouTube</span>
+<span class="sd">        channel ID.</span>
+<span class="sd">    :param managedByMe: boolean  This parameter can only be used in a properly</span>
+<span class="sd">        authorized request. Note: This parameter is intended exclusively for</span>
+<span class="sd">        YouTube content partners.Set this parameter&#39;s value to true to instruct</span>
+<span class="sd">        the API to only return channels managed by the content owner that the</span>
+<span class="sd">        onBehalfOfContentOwner parameter specifies. The user must be</span>
+<span class="sd">        authenticated as a CMS account linked to the specified content owner</span>
+<span class="sd">        and onBehalfOfContentOwner must be provided.</span>
+<span class="sd">    :param mine: boolean  This parameter can only be used in a properly</span>
+<span class="sd">        authorized request. Set this parameter&#39;s value to true to instruct the</span>
+<span class="sd">        API to only return channels owned by the authenticated user.</span>
+<span class="sd">    :param mySubscribers: boolean  This parameter has been deprecated. This</span>
+<span class="sd">        parameter can only be used in a properly authorized request. Use the</span>
+<span class="sd">        subscriptions.list method and its mySubscribers parameter to retrieve a</span>
+<span class="sd">        list of subscribers to the authenticated user&#39;s channel.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param hl: string  The hl parameter instructs the API to retrieve localized</span>
+<span class="sd">        resource metadata for a specific application language that the YouTube</span>
+<span class="sd">        website supports. The parameter value must be a language code included</span>
+<span class="sd">        in the list returned by the i18nLanguages.list method.If localized</span>
+<span class="sd">        resource details are available in that language, the resource&#39;s</span>
+<span class="sd">        snippet.localized object will contain the localized values. However, if</span>
+<span class="sd">        localized details are not available, the snippet.localized object will</span>
+<span class="sd">        contain resource details in the resource&#39;s default language.</span>
+<span class="sd">    :param maxResults: unsigned integer  The maxResults parameter specifies the</span>
+<span class="sd">        maximum number of items that should be returned in the result set.</span>
+<span class="sd">    :param onBehalfOfContentOwner: string  This parameter can only be used in a</span>
+<span class="sd">        properly authorized request. Note: This parameter is intended</span>
+<span class="sd">        exclusively for YouTube content partners.The onBehalfOfContentOwner</span>
+<span class="sd">        parameter indicates that the request&#39;s authorization credentials</span>
+<span class="sd">        identify a YouTube CMS user who is acting on behalf of the content</span>
+<span class="sd">        owner specified in the parameter value. This parameter is intended for</span>
+<span class="sd">        YouTube content partners that own and manage many different YouTube</span>
+<span class="sd">        channels. It allows content owners to authenticate once and get access</span>
+<span class="sd">        to all their video and channel data, without having to provide</span>
+<span class="sd">        authentication credentials for each individual channel. The CMS account</span>
+<span class="sd">        that the user authenticates with must be linked to the specified</span>
+<span class="sd">        YouTube content owner.</span>
+<span class="sd">    :param pageToken: string  The pageToken parameter identifies a specific</span>
+<span class="sd">        page in the result set that should be returned. In an API response, the</span>
+<span class="sd">        nextPageToken and prevPageToken properties identify other pages that</span>
+<span class="sd">        could be retrieved.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;(deprecated) localizations&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;auditDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;statistics&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;invideoPromotion&#39;</span><span class="p">,</span> <span class="s1">&#39;brandingSettings&#39;</span><span class="p">,</span> <span class="s1">&#39;contentOwnerDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;topicDetails&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">categoryId</span><span class="p">,</span> <span class="n">forUsername</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">managedByMe</span><span class="p">,</span> <span class="n">mine</span><span class="p">,</span> <span class="n">mySubscribers</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;categoryId&#39;, &#39;forUsername&#39;, &#39;id&#39;, &#39;managedByMe&#39;, &#39;mine&#39;, &#39;mySubscribers&#39;]&quot;</span><span class="p">)</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/channels&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="captions_list"><a class="viewcode-back" href="../../advertools.html#advertools.youtube.captions_list">[docs]</a><span class="k">def</span> <span class="nf">captions_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">videoId</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of caption tracks that are associated with a specified</span>
+<span class="sd">    video. Note that the API response does not contain the actual captions and</span>
+<span class="sd">    that the  captions.download  method provides the ability to retrieve a</span>
+<span class="sd">    caption track.</span>
+<span class="sd">            *Required parameters:*</span>
+<span class="sd">    :param key: string  Your Google API key.</span>
+<span class="sd">    :param part: string  The part parameter specifies the caption resource</span>
+<span class="sd">        parts that the API response will include.The list below contains the</span>
+<span class="sd">        part names that you can include in the parameter value and the quota</span>
+<span class="sd">        cost for each part: id: 0 snippet: 1</span>
+<span class="sd">    :param videoId: string  The videoId parameter specifies the YouTube video</span>
+<span class="sd">        ID of the video for which the API should return caption tracks.</span>
+<span class="sd">            *Optional parameters:*</span>
+<span class="sd">    :param id: string  The id parameter specifies a comma-separated list of IDs</span>
+<span class="sd">        that identify the caption resources that should be retrieved. Each ID</span>
+<span class="sd">        must identify a caption track associated with the specified video.</span>
+<span class="sd">    :param onBehalfOfContentOwner: string  This parameter can only be used in a</span>
+<span class="sd">        properly authorized request. Note: This parameter is intended</span>
+<span class="sd">        exclusively for YouTube content partners.The onBehalfOfContentOwner</span>
+<span class="sd">        parameter indicates that the request&#39;s authorization credentials</span>
+<span class="sd">        identify a YouTube CMS user who is acting on behalf of the content</span>
+<span class="sd">        owner specified in the parameter value. This parameter is intended for</span>
+<span class="sd">        YouTube content partners that own and manage many different YouTube</span>
+<span class="sd">        channels. It allows content owners to authenticate once and get access</span>
+<span class="sd">        to all their video and channel data, without having to provide</span>
+<span class="sd">        authentication credentials for each individual channel. The actual CMS</span>
+<span class="sd">        account that the user authenticates with must be linked to the</span>
+<span class="sd">        specified YouTube content owner.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/captions&#39;</span>
+    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">advertools</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">advertools: create, scale, and manage online campaigns</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Elias Dabbas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

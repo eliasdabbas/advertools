@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>advertools: create, scale, and manage online campaigns &#8212; advertools 0.2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -68,14 +66,14 @@ how to use <a class="reference external" href="https://www.datacamp.com/communit
 <div class="section" id="main-uses">
 <h2>Main Uses:<a class="headerlink" href="#main-uses" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><strong>Generate keywords:</strong> starting from a list of products, and a list
+<li><p><strong>Generate keywords:</strong> starting from a list of products, and a list
 of words that might make sense together, you can generate a full
 table of many possible combinations and permutations of relevant
 keywords for that product.
 The output is a ready-to-upload table to get you started with
-keywords.</li>
+keywords.</p></li>
 </ul>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="kn">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">kw_generate</span><span class="p">(</span><span class="n">products</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;toyota&#39;</span><span class="p">],</span>
 <span class="go">                    words=[&#39;buy&#39;, &#39;price&#39;],</span>
 <span class="go">                    match_types=[&#39;Exact&#39;]).head()</span>
@@ -88,36 +86,36 @@ keywords.</li>
 </pre></div>
 </div>
 <ul class="simple">
-<li><strong>Create ads:</strong> Two main ways to create text ads, one is from scratch
-(bottom-up) and the other is top down (given a set of product names).</li>
+<li><p><strong>Create ads:</strong> Two main ways to create text ads, one is from scratch
+(bottom-up) and the other is top down (given a set of product names).</p></li>
 </ul>
 <ol class="arabic simple">
-<li>From scratch: This is the traditional way of writing ads. You have
+<li><p>From scratch: This is the traditional way of writing ads. You have
 a template text, and you want to insert the product name dynamically
 in a certain location. You also want to make sure you are within the
-character limits. For more details, I have a <a class="reference external" href="https://nbviewer.jupyter.org/github/eliasdabbas/ad_create/blob/master/ad_create.ipynb">tutorial on how to create multiple text ads from scratch</a>.</li>
+character limits. For more details, I have a <a class="reference external" href="https://nbviewer.jupyter.org/github/eliasdabbas/ad_create/blob/master/ad_create.ipynb">tutorial on how to create multiple text ads from scratch</a>.</p></li>
 </ol>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;Let</span><span class="se">\&#39;</span><span class="s1">s count </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;Let</span><span class="se">\&#39;</span><span class="s1">s count {}&#39;</span><span class="p">,</span>
 <span class="go">              replacements=[&#39;one&#39;, &#39;two&#39;, &#39;three&#39;],</span>
 <span class="go">              fallback=&#39;one&#39;, # in case the total length is greater than max_len</span>
 <span class="go">              max_len=20)</span>
 <span class="go">[&quot;Let&#39;s count one&quot;, &quot;Let&#39;s count two&quot;, &quot;Let&#39;s count three&quot;]</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s1">&#39;My favorite car is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Toyota&#39;</span><span class="p">,</span> <span class="s1">&#39;BMW&#39;</span><span class="p">,</span> <span class="s1">&#39;Mercedes&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamborghini&#39;</span><span class="p">],</span> <span class="s1">&#39;great&#39;</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s1">&#39;My favorite car is {}&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Toyota&#39;</span><span class="p">,</span> <span class="s1">&#39;BMW&#39;</span><span class="p">,</span> <span class="s1">&#39;Mercedes&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamborghini&#39;</span><span class="p">],</span> <span class="s1">&#39;great&#39;</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
 <span class="go">[&#39;My favorite car is Toyota&#39;, &#39;My favorite car is BMW&#39;, &#39;My favorite car is Mercedes&#39;,</span>
 <span class="go">&#39;My favorite car is great&#39;] # &#39;Lamborghini&#39; was too long, and so was replace by &#39;great&#39;</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>Top-down approach: Sometimes you need to start with a given a list of
+<li><p>Top-down approach: Sometimes you need to start with a given a list of
 product names, which you can easily split them into the relevant ad
 slots, taking into consideration the length restrictions imposed by
 the ad platform.
 Imagine having the following list of products, and you want to split
 each into slots of 30, 30, and 80 characters (based on the AdWords
-template):</li>
+template):</p></li>
 </ol>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span>
 <span class="go">    &#39;Samsung Galaxy S8+ Dual Sim 64GB 4G LTE Orchid Gray&#39;,</span>
 <span class="go">    &#39;Samsung Galaxy J1 Ace Dual Sim 4GB 3G Wifi White&#39;,</span>
 <span class="go">    &#39;Samsung Galaxy Note 8 Dual SIM 64GB 6GB RAM 4G LTE Midnight Black&#39;,</span>
@@ -138,20 +136,20 @@ slots allowed.</div>
 for.</div>
 </div>
 <ul class="simple">
-<li><strong>Analyze word frequency:</strong> Calculate the absolute and weighted
+<li><p><strong>Analyze word frequency:</strong> Calculate the absolute and weighted
 frequency of words in a collection of documents to uncover hidden
 trends in the data. This is basically answering the question, ‘What
 did we write about vs. what was actually read?’
-Here is a tutorial on DataCamp on <a class="reference external" href="https://www.datacamp.com/community/tutorials/absolute-weighted-word-frequency">measuring absolute vs weighted frequency of words</a>.</li>
-<li><dl class="first docutils">
-<dt><strong>Extract important elements from social media posts:</strong> Get the more informative</dt>
-<dd>elements of social media posts (hashtags, mentions, emoji). You also
+Here is a tutorial on DataCamp on <a class="reference external" href="https://www.datacamp.com/community/tutorials/absolute-weighted-word-frequency">measuring absolute vs weighted frequency of words</a>.</p></li>
+<li><dl class="simple">
+<dt><strong>Extract important elements from social media posts:</strong> Get the more informative</dt><dd><p>elements of social media posts (hashtags, mentions, emoji). You also
 get some basic statistics about them.
-Check out a more detailed tutorial on Kaggle, on how to <a class="reference external" href="http://bit.ly/2wTWvBI">extract entities from social media posts</a> using these functions.</dd>
+Check out a more detailed tutorial on Kaggle, on how to <a class="reference external" href="http://bit.ly/2wTWvBI">extract entities from social media posts</a> using these functions.</p>
+</dd>
 </dl>
 </li>
 </ul>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;i like #blue&#39;</span><span class="p">,</span> <span class="s1">&#39;i like #green and #blue&#39;</span><span class="p">,</span> <span class="s1">&#39;i like all&#39;</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;i like #blue&#39;</span><span class="p">,</span> <span class="s1">&#39;i like #green and #blue&#39;</span><span class="p">,</span> <span class="s1">&#39;i like all&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">extract_hashtags</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 <span class="go">dict_keys([&#39;hashtags&#39;, &#39;hashtags_flat&#39;, &#39;hashtag_counts&#39;, &#39;hashtag_freq&#39;,</span>
@@ -178,7 +176,7 @@ changes.</div>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">advertools</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install advertools
 </pre></div>
 </div>
 </div>
@@ -232,13 +230,11 @@ changes.</div>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -251,7 +247,7 @@ changes.</div>
       &copy;2018, Elias Dabbas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |
