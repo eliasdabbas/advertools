@@ -2,15 +2,17 @@
 History
 =======
 
-Unreleased
-----------
+0.8.0 (2020-02-02)
+------------------
 
 * Added
+    - New module ``youtube`` connecting to all GET requests in API
     - ``extract_numbers`` new function
     - ``emoji_search`` new function
     - ``emoji_df`` new variable containing all emoji as a DataFrame
 
 * Changed
+    - Emoji database updated to v13.0
     - ``serp_goog`` with expanded ``pagemap`` and metadata
 
 * Fixed
