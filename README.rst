@@ -14,9 +14,8 @@
 .. image:: https://img.shields.io/lgtm/grade/python/g/eliasdabbas/advertools.svg
         :target: https://lgtm.com/projects/g/eliasdabbas/advertools/context:python
 
-| 🎉 **Enhanced:** Text Analysis for Online Marketers
-| Part 1: SEMrush article on two `text analysis techniques`_ with examples.
-| Part 2: `Kaggle notebook`_ expanding on the concepts with new functions as well enhancements to existing functions.
+| 🎉 **New:** YouTube Data API client
+| Tutorial on how to `get YouTube data and recipes for analysis and visualization`_.
 
 advertools: create, scale, and manage online campaigns
 ======================================================
@@ -176,8 +175,7 @@ Function names mostly start with the object you are working on:
 .. _measuring absolute vs weighted frequency of words: https://www.datacamp.com/community/tutorials/absolute-weighted-word-frequency
 
 
-.. _text analysis techniques: http://bit.ly/2WZ4ZUd
-.. _Kaggle notebook: http://bit.ly/2WwJusU
+.. _get YouTube data and recipes for analysis and visualization: https://www.kaggle.com/eliasdabbas/youtube-data-api
 .. _Python for creating a Search Engine Marketing campaign: https://www.datacamp.com/community/tutorials/sem-data-science
 .. _project to practice those skills in an agency / case study setting: https://www.datacamp.com/projects/400
 .. _generate keyword combinations easily: https://www.dashboardom.com/advertools
