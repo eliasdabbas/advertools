@@ -169,6 +169,7 @@ Function names mostly start with the object you are working on:
 | ``url_``: URL tracking and generation
 | ``extract_``: for extracting entities from social media posts (mentions, hashtags, emoji, etc.)
 | ``twitter``: a module for querying the Twitter API and getting results in a pandas DataFrame
+| ``youtube``: a module for querying the YouTube Data API and getting results in a pandas DataFrame
 | ``serp_``: get search engine results pages in a DataFrame, currently available: Google and YouTube
 
     
