@@ -49,7 +49,7 @@ def _json_to_df(json_resp, params):
     df = df.assign(**{'param_' + key: val for key, val in params.items()})
     if 'delete_me' in df:
         df = df.drop(columns=['delete_me'])
-    df['query_time'] = pd.Timestamp.now(tz='UTC')
+    df['queryTime'] = pd.Timestamp.now(tz='UTC')
     return df
 
 

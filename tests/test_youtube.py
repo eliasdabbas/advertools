@@ -10,89 +10,89 @@ youtube_key = os.environ.get('GOOG_CSE_KEY')
 def test_activities_list():
     result = yt.activities_list(key=youtube_key, part='snippet',
                                 channelId='UCv002AUCZaPNwiADqwchijg')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_captions_list():
     result = yt.captions_list(key=youtube_key, part='snippet',
                               videoId='kJQP7kiw5Fk')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_channel_sections_list():
     result = yt.channel_sections_list(key=youtube_key, part='snippet',
                                       channelId='UCv002AUCZaPNwiADqwchijg')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_channels_list():
     result = yt.channels_list(key=youtube_key, part='snippet,statistics',
                               forUsername='youtube')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_comment_threads_list():
     result = yt.comment_threads_list(key=youtube_key,
                                      part='id,replies,snippet',
                                      videoId='PscrVidwxMg')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_comments_list():
     result = yt.comments_list(key=youtube_key, part='snippet',
                               id='UgxKMCc9z4iE7LNW2Hh4AaABAg')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_guide_categories_list():
     result = yt.guide_categories_list(key=youtube_key, part='snippet',
                                       regionCode='tr', hl='tr')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_i18n_languages_list():
     result = yt.i18n_languages_list(key=youtube_key, part='snippet')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_i18n_regions_list():
     result = yt.i18n_regions_list(key=youtube_key, part='snippet')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_playlist_items_list():
     result = yt.playlist_items_list(key=youtube_key, part='snippet',
                                     playlistId='PLW0Gy9pTgVntoeYT50HfV144rzuJcrmMg')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_playlists_list():
     result = yt.playlists_list(key=youtube_key, part='snippet',
                                channelId='UCv002AUCZaPNwiADqwchijg')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_search():
     result = yt.search(key=youtube_key, part='snippet', q='test bitcoin')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_subscriptions_list():
     result = yt.subscriptions_list(key=youtube_key, part='snippet',
                                    channelId='UCv002AUCZaPNwiADqwchijg')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_video_categories_list():
     result = yt.video_categories_list(key=youtube_key, part='snippet',
                                       regionCode='de')
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 def test_videos_list():
     result = yt.videos_list(key=youtube_key, part='snippet',
                             chart='mostPopular', regionCode='GB', maxResults=9)
-    assert {'query_time', 'param_part'}.issubset(result.columns)
+    assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 # Test raising errors:
 

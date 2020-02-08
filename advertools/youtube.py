@@ -5,7 +5,7 @@ __all__ = [
     'channels_list', 'comment_threads_list', 'comments_list',
     'guide_categories_list', 'i18n_languages_list', 'i18n_regions_list',
     'playlist_items_list', 'playlists_list', 'search', 'subscriptions_list',
-    'video_abuse_report_reasons_list', 'video_categories_list', 'videos_list',
+    'video_categories_list', 'videos_list',
 ]
 
 def activities_list(key, part, channelId=None, home=None, mine=None,
