@@ -2,6 +2,13 @@
 History
 =======
 
+0.8.1 (2020-02-08)
+------------------
+
+* Changed
+    - Column ``query_time`` is now named ``queryTime`` in youtube module for consistency with ``serp_`` functions
+    - Handle json_normalize import from pandas based on pandas version
+
 0.8.0 (2020-02-02)
 ------------------
 
