@@ -9,7 +9,11 @@ import logging
 from itertools import product
 
 import pandas as pd
-from pandas.io.json import json_normalize
+if int(pd.__version__[0]) >= 1:
+    from pandas import json_normalize
+else:
+    from pandas.io.json import json_normalize
+
 import requests
 
 SERP_GOOG_LOG_FMT = ('%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d '
