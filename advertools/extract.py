@@ -1,4 +1,67 @@
+"""Extract structured entities from text lists.
+Structured entities are pattern matches and not inferred entities.
+Some example are hashtags, emoji, mentions, questions, and so on. This is
+in contrast to entity extraction which are inferred from the context of the
+sentence (people, companies, brands and so on).
 
+All functions start with ``extract_`` and have a descriptive name for the type
+of entity that they extract.
+
+There is also a generic ``extract`` fucntion which powers all others, and it
+can be used for any other pattern not included. It takes a regular expression,
+and returns a similar dictionary to the other functions.
+
+Extract Functions
+-----------------
+
+=============================   ====================================================================
+:func:`extract`                 A generic function that takes a regex to extract any pattern you want
+:func:`extract_currency`        Currency symbols together with surrounding text for context. This does not include currency abbreviations (USD, EUR, JPY, etc.), only symbols ($, £, €, etc).
+:func:`extract_emoji`           All the emoji database, together with textual names, groups and sub-groups.
+:func:`extract_exclamations`    Sentences that end with an excalamation mark!
+:func:`extract_hashtags`        Extract hashtags with descriptive statistics.
+:func:`extract_intense_words`   Words that contain three or more repeated characters to express an intense feeling (positive or negative), "I looooooovvvvee this thing".
+:func:`extract_mentions`        User mentions in social media posts. Also useful for network analysis.
+:func:`extract_numbers`         Any numbers that are included the text list. Included a modifiable list of separators to use (",", ".", "-", etc.).
+:func:`extract_questions`       Questions included in the text list.
+:func:`extract_urls`            URls in the text list.
+:func:`extract_words`           Any arbitrary words that you want extracted. Works in two modes, either the word should fully match the pattern, or as part of a longer word, ("rest" can be matched from "restaurant" or not).
+=============================   ====================================================================
+
+All functions return a dictionary with the entities extracted, along with
+helpful statistics. Since the entities have different meanings, most of them
+return additional keys depending on the context.
+
+The recommended way of using:
+
+>>> import advertools as adv
+>>> text_list = ['This is the first #text.', 'Second #sentence is here.',
+... 'Hello, how are you?', 'This #sentence is the last #sentence']
+>>> hashtag_summary = adv.extract_hashtags(text_list)
+>>> hashtag_summary.keys()
+dict_keys(['hashtags', 'hashtags_flat', 'hashtag_counts', 'hashtag_freq',
+           'top_hashtags', 'overview'])
+
+Now you can start exploring:
+
+>>> hashtag_summary['overview']
+{'num_posts': 4,
+ 'num_hashtags': 4,
+ 'hashtags_per_post': 1.0,
+ 'unique_hashtags': 2}
+
+>>> hashtag_summary['hashtags']
+[['#text'], ['#sentence'], [], ['#sentence', '#sentence']]
+>>> hashtag_summary['hashtags_flat']
+['#text', '#sentence', '#sentence', '#sentence']
+>>> hashtag_summary['hashtag_counts']
+[1, 1, 0, 2]
+>>> hashtag_summary['hashtag_freq']
+[(0, 1), (1, 2), (2, 1)]
+>>> hashtag_summary['top_hashtags']
+[('#sentence', 3), ('#text', 1)]
+
+"""
 __all__ = ['extract', 'extract_currency', 'extract_emoji',
            'extract_exclamations', 'extract_hashtags',
            'extract_intense_words', 'extract_mentions', 'extract_numbers',

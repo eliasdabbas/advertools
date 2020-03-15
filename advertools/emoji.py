@@ -1,3 +1,14 @@
+"""An emoji is worth a thousand words!
+Regular expressions and helper functionality to aid in extracting and finding
+emoji from text.
+
+=======================   ====================================================================
+:class:`EMOJI_ENTRIES`    A dictionary of the full emoji list together with unicode code points, textual name, group, and sub-group. Based on v13.0 https://unicode.org/Public/emoji/13.0/emoji-test.txt
+:class:`emoji_df`         The same dictionary as a pandas DataFrame
+:func:`emoji_search`      A function for searching across names, groups, and sub-groups to find emoji based on your keywords of choice.
+:class:`EMOJI_RAW`        A regular expression to extract the full list. See here on how it was developed: https://www.kaggle.com/eliasdabbas/how-to-create-a-python-regex-to-extract-emoji
+=======================   ====================================================================
+"""
 import re
 from collections import namedtuple
 
@@ -4184,12 +4195,30 @@ def emoji_search(regex):
     :param regex: regular expression (case insensitive)
 
     >>> emoji_search('dog')
-              codepoint           status emoji          name             group      sub_group
-    0             1F436  fully-qualified     🐶     dog face  Animals & Nature  animal-mammal
-    1             1F415  fully-qualified     🐕          dog  Animals & Nature  animal-mammal
-    2             1F9AE  fully-qualified      🦮    guide dog  Animals & Nature  animal-mammal
-    3  1F415 200D 1F9BA  fully-qualified    🐕‍🦺  service dog  Animals & Nature  animal-mammal
-    4             1F32D  fully-qualified     🌭     hot dog      Food & Drink  food-prepared
+              codepoint           status  emoji          name             group      sub_group
+    0             1F436  fully-qualified     🐶      dog face  Animals & Nature   animal-mammal
+    1             1F415  fully-qualified     🐕           dog  Animals & Nature   animal-mammal
+    2             1F9AE  fully-qualified     🦮     guide dog  Animals & Nature   animal-mammal
+    3  1F415 200D 1F9BA  fully-qualified   🐕‍🦺   service dog  Animals & Nature    animal-mammal
+    4             1F32D  fully-qualified     🌭       hot dog      Food & Drink    food-prepared
+
+    >>> blue = adv.emoji_search('blue')
+      codepoint           status emoji                name               group     sub_group
+    0     1F499  fully-qualified     💙          blue heart  Smileys & Emotion       emotion
+    1     1FAD0  fully-qualified     🫐         blueberries       Food & Drink    food-fruit
+    2     1F4D8  fully-qualified     📘           blue book            Objects    book-paper
+    3     1F535  fully-qualified     🔵         blue circle            Symbols     geometric
+    4     1F7E6  fully-qualified     🟦         blue square            Symbols     geometric
+    5     1F537  fully-qualified     🔷  large blue diamond            Symbols     geometric
+    6     1F539  fully-qualified     🔹  small blue diamond            Symbols     geometric
+
+
+
+
+
+
+
+
     """
     result_index = (emoji_df
                     .select_dtypes('object')

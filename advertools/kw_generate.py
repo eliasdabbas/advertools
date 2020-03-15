@@ -1,4 +1,77 @@
+"""
+A big part of setting up SEM campaigns consists of generating keywords, and
+properly mapping them to landing pages and ads, as well as putting them in the
+right campaign and ad group structure.
 
+Keyword research is the part of this task that takes the most time. It is
+very tedious, yet extremely important.
+
+The shift here is that we are going to be *generating* keywords as opposed to
+researching them.
+
+What is a keyword anyway?
+
+It is basically a phrase that contains two things:
+
+:Product: This is the thing that you are selling. It is simply the name of it.
+          "barcelona", "guitar", "rio de janeiro", "accounting".
+          The product on its own is not enough for us to understand what the
+          user is looking for. "barcelona trips" and "barcelona football club"
+          are completely different "keywords" for example.
+
+:Word: To give meaning to the product, it has to come with a word. The word
+       can be a verb like "buy" or "purchase", and it can also be another noun,
+       but with a clear intent expressed; "price" and "offers" for example
+       clearly show purchase intent.
+
+So, to *generate* keywords we need phrases that contain both, the product and
+the descriptive word(s).
+It is very easy to get the products as you know what you sell.
+The next thing you need to come up with are the words that work within your
+strategy.
+The most import idea here is that once you determine that you sell courses for
+example, there aren't really that many words that can describe that intent;
+course, courses, tutorial, certification, learn, learning, education, etc.
+How many can you come up with? How many exist in any language? Fifteen, twenty?
+Once you have those are basically done.
+
+Depending on what service you provide and what segment of the market you target
+it shouldn't be difficult to come up with ideas for words (not keywords yet).
+You might have an e-commerce site, but want to mainly focus on cheap and
+discounted products. Or maybe you have luxury items, and want to exclude words
+that signify price sensitivity.
+
+Let's say you have a job site and you know that you provide jobs for
+engineering, graphic design, and marketing.
+The words are easy to come up with; "job", "jobs", "careers", "vacancies",
+"full time", "part time", "work", and so on.
+
+Now what we can do is use the `kw_generate` function to come up with all
+possible combinations (order doesn't matter) and/or permutations (order
+matters) and get a ready-to-use table to upload and start running the campaign.
+
+>>> products = ['enginering', 'graphic design', 'marketing']
+>>> words = ['jobs', 'careers', 'vacancies', 'full time', 'part time']
+>>> adv.kw_generate(products, words)
+         Campaign    Ad Group                             Keyword    Criterion Type               Labels
+0    SEM_Campaign  Enginering                     enginering jobs             Exact                 Jobs
+1    SEM_Campaign  Enginering                     enginering jobs            Phrase                 Jobs
+2    SEM_Campaign  Enginering                   +enginering +jobs             Broad                 Jobs
+3    SEM_Campaign  Enginering                  enginering careers             Exact              Careers
+4    SEM_Campaign  Enginering                  enginering careers            Phrase              Careers
+..            ...         ...                                 ...              ...                  ...
+625  SEM_Campaign   Marketing       part time vacancies marketing            Phrase   Part Time;Vacancies
+626  SEM_Campaign   Marketing   +part +time +vacancies +marketing             Broad   Part Time;Vacancies
+627  SEM_Campaign   Marketing       part time full time marketing             Exact   Part Time;Full Time
+628  SEM_Campaign   Marketing       part time full time marketing            Phrase   Part Time;Full Time
+629  SEM_Campaign   Marketing  +part +time +full +time +marketing             Broad   Part Time;Full Time
+[630 rows x 5 columns]
+
+And we're done!
+
+Check the `kw_generate` function for more options and details.
+
+"""
 __all__ = ['kw_broad', 'kw_exact', 'kw_generate', 'kw_modified',
            'kw_neg_broad', 'kw_neg_exact', 'kw_neg_phrase',
            'kw_phrase']
