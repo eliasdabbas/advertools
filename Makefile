@@ -68,7 +68,7 @@ coverage: ## check code coverage quickly with the default Python
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/advertools.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -e -o docs/ advertools
+	sphinx-apidoc --separate --output-dir docs/ advertools
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
