@@ -16,17 +16,18 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
+import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
 
 project = 'advertools'
-copyright = '2018, Elias Dabbas'
+copyright = '2020, Elias Dabbas'
 author = 'Elias Dabbas'
 
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '0.2.0'
+release = '0.8.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -43,6 +44,7 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
+    'sphinx_rtd_theme',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -82,7 +84,7 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

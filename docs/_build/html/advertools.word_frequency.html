@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>advertools.word_frequency module &mdash; advertools 0.8.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="advertools.word_tokenize module" href="advertools.word_tokenize.html" />
+    <link rel="prev" title="advertools.stopwords module" href="advertools.stopwords.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Cretae Text Ads From Description Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>advertools.word_frequency module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/advertools.word_frequency.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-advertools.word_frequency">
+<span id="advertools-word-frequency-module"></span><h1>advertools.word_frequency module<a class="headerlink" href="#module-advertools.word_frequency" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="advertools.word_frequency.word_frequency">
+<code class="sig-prename descclassname">advertools.word_frequency.</code><code class="sig-name descname">word_frequency</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">num_list=None</em>, <em class="sig-param">phrase_len=1</em>, <em class="sig-param">regex=None</em>, <em class="sig-param">rm_words={'a'</em>, <em class="sig-param">'about'</em>, <em class="sig-param">'above'</em>, <em class="sig-param">'across'</em>, <em class="sig-param">'after'</em>, <em class="sig-param">'afterwards'</em>, <em class="sig-param">'again'</em>, <em class="sig-param">'against'</em>, <em class="sig-param">'all'</em>, <em class="sig-param">'almost'</em>, <em class="sig-param">'alone'</em>, <em class="sig-param">'along'</em>, <em class="sig-param">'already'</em>, <em class="sig-param">'also'</em>, <em class="sig-param">'although'</em>, <em class="sig-param">'always'</em>, <em class="sig-param">'am'</em>, <em class="sig-param">'among'</em>, <em class="sig-param">'amongst'</em>, <em class="sig-param">'amount'</em>, <em class="sig-param">'an'</em>, <em class="sig-param">'and'</em>, <em class="sig-param">'another'</em>, <em class="sig-param">'any'</em>, <em class="sig-param">'anyhow'</em>, <em class="sig-param">'anyone'</em>, <em class="sig-param">'anything'</em>, <em class="sig-param">'anyway'</em>, <em class="sig-param">'anywhere'</em>, <em class="sig-param">'are'</em>, <em class="sig-param">'around'</em>, <em class="sig-param">'as'</em>, <em class="sig-param">'at'</em>, <em class="sig-param">'back'</em>, <em class="sig-param">'be'</em>, <em class="sig-param">'became'</em>, <em class="sig-param">'because'</em>, <em class="sig-param">'become'</em>, <em class="sig-param">'becomes'</em>, <em class="sig-param">'becoming'</em>, <em class="sig-param">'been'</em>, <em class="sig-param">'before'</em>, <em class="sig-param">'beforehand'</em>, <em class="sig-param">'behind'</em>, <em class="sig-param">'being'</em>, <em class="sig-param">'below'</em>, <em class="sig-param">'beside'</em>, <em class="sig-param">'besides'</em>, <em class="sig-param">'between'</em>, <em class="sig-param">'beyond'</em>, <em class="sig-param">'both'</em>, <em class="sig-param">'bottom'</em>, <em class="sig-param">'but'</em>, <em class="sig-param">'by'</em>, <em class="sig-param">'ca'</em>, <em class="sig-param">'call'</em>, <em class="sig-param">'can'</em>, <em class="sig-param">'cannot'</em>, <em class="sig-param">'could'</em>, <em class="sig-param">'did'</em>, <em class="sig-param">'do'</em>, <em class="sig-param">'does'</em>, <em class="sig-param">'doing'</em>, <em class="sig-param">'done'</em>, <em class="sig-param">'down'</em>, <em class="sig-param">'due'</em>, <em class="sig-param">'during'</em>, <em class="sig-param">'each'</em>, <em class="sig-param">'eight'</em>, <em class="sig-param">'either'</em>, <em class="sig-param">'eleven'</em>, <em class="sig-param">'else'</em>, <em class="sig-param">'elsewhere'</em>, <em class="sig-param">'empty'</em>, <em class="sig-param">'enough'</em>, <em class="sig-param">'even'</em>, <em class="sig-param">'ever'</em>, <em class="sig-param">'every'</em>, <em class="sig-param">'everyone'</em>, <em class="sig-param">'everything'</em>, <em class="sig-param">'everywhere'</em>, <em class="sig-param">'except'</em>, <em class="sig-param">'few'</em>, <em class="sig-param">'fifteen'</em>, <em class="sig-param">'fifty'</em>, <em class="sig-param">'first'</em>, <em class="sig-param">'five'</em>, <em class="sig-param">'for'</em>, <em class="sig-param">'former'</em>, <em class="sig-param">'formerly'</em>, <em class="sig-param">'forty'</em>, <em class="sig-param">'four'</em>, <em class="sig-param">'from'</em>, <em class="sig-param">'front'</em>, <em class="sig-param">'full'</em>, <em class="sig-param">'further'</em>, <em class="sig-param">'get'</em>, <em class="sig-param">'give'</em>, <em class="sig-param">'go'</em>, <em class="sig-param">'had'</em>, <em class="sig-param">'has'</em>, <em class="sig-param">'have'</em>, <em class="sig-param">'he'</em>, <em class="sig-param">'hence'</em>, <em class="sig-param">'her'</em>, <em class="sig-param">'here'</em>, <em class="sig-param">'hereafter'</em>, <em class="sig-param">'hereby'</em>, <em class="sig-param">'herein'</em>, <em class="sig-param">'hereupon'</em>, <em class="sig-param">'hers'</em>, <em class="sig-param">'herself'</em>, <em class="sig-param">'him'</em>, <em class="sig-param">'himself'</em>, <em class="sig-param">'his'</em>, <em class="sig-param">'how'</em>, <em class="sig-param">'however'</em>, <em class="sig-param">'hundred'</em>, <em class="sig-param">'i'</em>, <em class="sig-param">'if'</em>, <em class="sig-param">'in'</em>, <em class="sig-param">'indeed'</em>, <em class="sig-param">'into'</em>, <em class="sig-param">'is'</em>, <em class="sig-param">'it'</em>, <em class="sig-param">'its'</em>, <em class="sig-param">'itself'</em>, <em class="sig-param">'just'</em>, <em class="sig-param">'keep'</em>, <em class="sig-param">'last'</em>, <em class="sig-param">'latter'</em>, <em class="sig-param">'latterly'</em>, <em class="sig-param">'least'</em>, <em class="sig-param">'less'</em>, <em class="sig-param">'made'</em>, <em class="sig-param">'make'</em>, <em class="sig-param">'many'</em>, <em class="sig-param">'may'</em>, <em class="sig-param">'me'</em>, <em class="sig-param">'meanwhile'</em>, <em class="sig-param">'might'</em>, <em class="sig-param">'mine'</em>, <em class="sig-param">'more'</em>, <em class="sig-param">'moreover'</em>, <em class="sig-param">'most'</em>, <em class="sig-param">'mostly'</em>, <em class="sig-param">'move'</em>, <em class="sig-param">'much'</em>, <em class="sig-param">'must'</em>, <em class="sig-param">'my'</em>, <em class="sig-param">'myself'</em>, <em class="sig-param">'name'</em>, <em class="sig-param">'namely'</em>, <em class="sig-param">'neither'</em>, <em class="sig-param">'never'</em>, <em class="sig-param">'nevertheless'</em>, <em class="sig-param">'next'</em>, <em class="sig-param">'nine'</em>, <em class="sig-param">'no'</em>, <em class="sig-param">'nobody'</em>, <em class="sig-param">'none'</em>, <em class="sig-param">'noone'</em>, <em class="sig-param">'nor'</em>, <em class="sig-param">'not'</em>, <em class="sig-param">'nothing'</em>, <em class="sig-param">'now'</em>, <em class="sig-param">'nowhere'</em>, <em class="sig-param">'of'</em>, <em class="sig-param">'off'</em>, <em class="sig-param">'often'</em>, <em class="sig-param">'on'</em>, <em class="sig-param">'once'</em>, <em class="sig-param">'one'</em>, <em class="sig-param">'only'</em>, <em class="sig-param">'onto'</em>, <em class="sig-param">'or'</em>, <em class="sig-param">'other'</em>, <em class="sig-param">'others'</em>, <em class="sig-param">'otherwise'</em>, <em class="sig-param">'our'</em>, <em class="sig-param">'ours'</em>, <em class="sig-param">'ourselves'</em>, <em class="sig-param">'out'</em>, <em class="sig-param">'over'</em>, <em class="sig-param">'own'</em>, <em class="sig-param">'part'</em>, <em class="sig-param">'per'</em>, <em class="sig-param">'perhaps'</em>, <em class="sig-param">'please'</em>, <em class="sig-param">'put'</em>, <em class="sig-param">'quite'</em>, <em class="sig-param">'rather'</em>, <em class="sig-param">'re'</em>, <em class="sig-param">'really'</em>, <em class="sig-param">'regarding'</em>, <em class="sig-param">'same'</em>, <em class="sig-param">'say'</em>, <em class="sig-param">'see'</em>, <em class="sig-param">'seem'</em>, <em class="sig-param">'seemed'</em>, <em class="sig-param">'seeming'</em>, <em class="sig-param">'seems'</em>, <em class="sig-param">'serious'</em>, <em class="sig-param">'several'</em>, <em class="sig-param">'she'</em>, <em class="sig-param">'should'</em>, <em class="sig-param">'show'</em>, <em class="sig-param">'side'</em>, <em class="sig-param">'since'</em>, <em class="sig-param">'six'</em>, <em class="sig-param">'sixty'</em>, <em class="sig-param">'so'</em>, <em class="sig-param">'some'</em>, <em class="sig-param">'somehow'</em>, <em class="sig-param">'someone'</em>, <em class="sig-param">'something'</em>, <em class="sig-param">'sometime'</em>, <em class="sig-param">'sometimes'</em>, <em class="sig-param">'somewhere'</em>, <em class="sig-param">'still'</em>, <em class="sig-param">'such'</em>, <em class="sig-param">'take'</em>, <em class="sig-param">'ten'</em>, <em class="sig-param">'than'</em>, <em class="sig-param">'that'</em>, <em class="sig-param">'the'</em>, <em class="sig-param">'their'</em>, <em class="sig-param">'them'</em>, <em class="sig-param">'themselves'</em>, <em class="sig-param">'then'</em>, <em class="sig-param">'thence'</em>, <em class="sig-param">'there'</em>, <em class="sig-param">'thereafter'</em>, <em class="sig-param">'thereby'</em>, <em class="sig-param">'therefore'</em>, <em class="sig-param">'therein'</em>, <em class="sig-param">'thereupon'</em>, <em class="sig-param">'these'</em>, <em class="sig-param">'they'</em>, <em class="sig-param">'third'</em>, <em class="sig-param">'this'</em>, <em class="sig-param">'those'</em>, <em class="sig-param">'though'</em>, <em class="sig-param">'three'</em>, <em class="sig-param">'through'</em>, <em class="sig-param">'throughout'</em>, <em class="sig-param">'thru'</em>, <em class="sig-param">'thus'</em>, <em class="sig-param">'to'</em>, <em class="sig-param">'together'</em>, <em class="sig-param">'too'</em>, <em class="sig-param">'top'</em>, <em class="sig-param">'toward'</em>, <em class="sig-param">'towards'</em>, <em class="sig-param">'twelve'</em>, <em class="sig-param">'twenty'</em>, <em class="sig-param">'two'</em>, <em class="sig-param">'under'</em>, <em class="sig-param">'unless'</em>, <em class="sig-param">'until'</em>, <em class="sig-param">'up'</em>, <em class="sig-param">'upon'</em>, <em class="sig-param">'us'</em>, <em class="sig-param">'used'</em>, <em class="sig-param">'using'</em>, <em class="sig-param">'various'</em>, <em class="sig-param">'very'</em>, <em class="sig-param">'via'</em>, <em class="sig-param">'was'</em>, <em class="sig-param">'we'</em>, <em class="sig-param">'well'</em>, <em class="sig-param">'were'</em>, <em class="sig-param">'what'</em>, <em class="sig-param">'whatever'</em>, <em class="sig-param">'when'</em>, <em class="sig-param">'whence'</em>, <em class="sig-param">'whenever'</em>, <em class="sig-param">'where'</em>, <em class="sig-param">'whereafter'</em>, <em class="sig-param">'whereas'</em>, <em class="sig-param">'whereby'</em>, <em class="sig-param">'wherein'</em>, <em class="sig-param">'whereupon'</em>, <em class="sig-param">'wherever'</em>, <em class="sig-param">'whether'</em>, <em class="sig-param">'which'</em>, <em class="sig-param">'while'</em>, <em class="sig-param">'whither'</em>, <em class="sig-param">'who'</em>, <em class="sig-param">'whoever'</em>, <em class="sig-param">'whole'</em>, <em class="sig-param">'whom'</em>, <em class="sig-param">'whose'</em>, <em class="sig-param">'why'</em>, <em class="sig-param">'will'</em>, <em class="sig-param">'with'</em>, <em class="sig-param">'within'</em>, <em class="sig-param">'without'</em>, <em class="sig-param">'would'</em>, <em class="sig-param">'yet'</em>, <em class="sig-param">'you'</em>, <em class="sig-param">'your'</em>, <em class="sig-param">'yours'</em>, <em class="sig-param">'yourself'</em>, <em class="sig-param">'yourselves'}</em>, <em class="sig-param">extra_info=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the absolute as well as the weighted frequency of words
+in <code class="docutils literal notranslate"><span class="pre">text_list</span></code> (based on <code class="docutils literal notranslate"><span class="pre">num_list</span></code>).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_list</strong> – iterable of strings.
+Typically short phrases, but could be any list of full blown documents.
+Usually, you would use this to analyze tweets, book titles, URLs, etc.</p></li>
+<li><p><strong>num_list</strong> – iterable of numbers.
+A list of numbers with the same length as <code class="docutils literal notranslate"><span class="pre">text_list</span></code>, describing a
+certain attribute of these ‘documents’; views, retweets, sales, etc.</p></li>
+<li><p><strong>regex</strong> – string.
+The regex used to split words. Doesn’t need changing in most cases.</p></li>
+<li><p><strong>phrase_len</strong> – integer, the length in words of each token the
+text is split into, defaults to 1.</p></li>
+<li><p><strong>rm_words</strong> – iterable of strings.
+Words to remove from the list ‘stop-words’. The default uses
+<code class="docutils literal notranslate"><span class="pre">spacy</span></code>’s list of English stopwords. To get all available languages
+run <code class="docutils literal notranslate"><span class="pre">adv.stopwords.keys()</span></code></p></li>
+<li><p><strong>extra_info</strong> – boolean.
+Whether or not to give additional columns about the frequencies</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns abs_wtd_df</dt>
+<dd class="field-even"><p>absolute and weighted DataFrame.
+pandas.DataFrame with several metrics calculated. The most important
+are <code class="docutils literal notranslate"><span class="pre">abs_freq</span></code> and <code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code>. These show the difference between
+the number of occurrences of each word together with their respective
+weighted occurrences (frequency vs. weighted frequency). Other metrics
+are also provided. The columns are as follows:</p>
+<dl class="simple">
+<dt>word: Word.</dt><dd><p>Words in the document list each on its own row. The length of
+these words is determined by <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code>, essentially
+phrases if containing more than one word each.</p>
+</dd>
+<dt>abs_freq: Absolute frequency.</dt><dd><p>The number of occurrences of each word in all the documents.</p>
+</dd>
+<dt>wtd_freq: Weighted frequency.</dt><dd><p>Every occurrence of <code class="docutils literal notranslate"><span class="pre">word</span></code> multiplied by its respective value in
+<code class="docutils literal notranslate"><span class="pre">num_list</span></code> provided by the function call.</p>
+</dd>
+<dt>rel_value: Relative value.</dt><dd><p><code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code> divided by <code class="docutils literal notranslate"><span class="pre">abs_freq</span></code>, showing the value per
+occurrence of <code class="docutils literal notranslate"><span class="pre">word</span></code></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">extra_info</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>abs_perc: Absolute frequency percentage.</dt><dd><p><code class="docutils literal notranslate"><span class="pre">abs_freq</span></code> divided by the sum of all occurrences of words.</p>
+</dd>
+<dt>abs_perc_cum: Cumulative absolute percentage.</dt><dd><p>Cumulative sum of <code class="docutils literal notranslate"><span class="pre">abs_perc</span></code> to see how many words form x% of
+the occurrences.</p>
+</dd>
+<dt>wtd_freq_perc: <code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code> divided by the total weighted frequencies</dt><dd><p>of all words.</p>
+</dd>
+<dt>wtd_freq_perc_cum: Cumulative weighted frequncy percentage.</dt><dd><p>Cumulative sum of <code class="docutils literal notranslate"><span class="pre">wtd_freq_perc</span></code> to see how many words form x%
+of the weighted occurrences.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;apple orange&#39;</span><span class="p">,</span> <span class="s1">&#39;apple orange banana&#39;</span><span class="p">,</span>
+<span class="gp">... </span>             <span class="s1">&#39;apple kiwi&#39;</span><span class="p">,</span> <span class="s1">&#39;kiwi mango&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">)</span>
+<span class="go">     word  abs_freq  wtd_freq  rel_value</span>
+<span class="go">0    kiwi         2       500      250.0</span>
+<span class="go">1   mango         1       400      400.0</span>
+<span class="go">2   apple         3       300      100.0</span>
+<span class="go">3  orange         2       200      100.0</span>
+<span class="go">4  banana         1       100      100.0</span>
+</pre></div>
+</div>
+<p>“kiwi” occurred twice (abs_freq), one of these phrases has a score of 100,
+and the other 400, so the wtd_freq is the sum (100 + 400 = 500)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">)</span>  <span class="c1"># num_list values default to 1 each</span>
+<span class="go">     word  abs_freq  wtd_freq  rel_value</span>
+<span class="go">0   apple         3         3        1.0</span>
+<span class="go">1  orange         2         2        1.0</span>
+<span class="go">2    kiwi         2         2        1.0</span>
+<span class="go">3  banana         1         1        1.0</span>
+<span class="go">4   mango         1         1        1.0</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text_list2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;my favorite color is blue&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;my favorite color is green&#39;</span><span class="p">,</span> <span class="s1">&#39;the best color is green&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;i love the color black&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Setting <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code> to 2, “words” become two-word phrases instead:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list2</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rm_words</span><span class="o">=</span><span class="p">[])</span>
+<span class="go">              word  abs_freq  wtd_freq  rel_value</span>
+<span class="go">0         color is         3         3        1.0</span>
+<span class="go">1      my favorite         2         2        1.0</span>
+<span class="go">2   favorite color         2         2        1.0</span>
+<span class="go">3         is green         2         2        1.0</span>
+<span class="go">4          is blue         1         1        1.0</span>
+<span class="go">5         the best         1         1        1.0</span>
+<span class="go">6       best color         1         1        1.0</span>
+<span class="go">7           i love         1         1        1.0</span>
+<span class="go">8         love the         1         1        1.0</span>
+<span class="go">9        the color         1         1        1.0</span>
+<span class="go">10     color black         1         1        1.0</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">,</span> <span class="n">extra_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">     word  abs_freq  abs_perc  abs_perc_cum  wtd_freq  wtd_freq_perc  wtd_freq_perc_cum  rel_value</span>
+<span class="go">0    kiwi         2  0.222222      0.222222       500       0.333333           0.333333      250.0</span>
+<span class="go">1   mango         1  0.111111      0.333333       400       0.266667           0.600000      400.0</span>
+<span class="go">2   apple         3  0.333333      0.666667       300       0.200000           0.800000      100.0</span>
+<span class="go">3  orange         2  0.222222      0.888889       200       0.133333           0.933333      100.0</span>
+<span class="go">4  banana         1  0.111111      1.000000       100       0.066667           1.000000      100.0</span>
+</pre></div>
+</div>
+<p>This is the same result as above but giving the full DataFrame including
+all columns.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advertools.word_tokenize.html" class="btn btn-neutral float-right" title="advertools.word_tokenize module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="advertools.stopwords.html" class="btn btn-neutral float-left" title="advertools.stopwords module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Elias Dabbas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

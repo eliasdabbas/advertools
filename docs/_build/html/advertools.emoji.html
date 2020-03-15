@@ -1,0 +1,310 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>advertools.emoji module &mdash; advertools 0.8.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="advertools.extract module" href="advertools.extract.html" />
+    <link rel="prev" title="advertools.ad_from_string module" href="advertools.ad_from_string.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Cretae Text Ads From Description Text</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>advertools.emoji module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/advertools.emoji.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-advertools.emoji">
+<span id="advertools-emoji-module"></span><h1>advertools.emoji module<a class="headerlink" href="#module-advertools.emoji" title="Permalink to this headline">¶</a></h1>
+<p>An emoji is worth a thousand words!
+Regular expressions and helper functionality to aid in extracting and finding
+emoji from text.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 88%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">EMOJI_ENTRIES</span></code></p></td>
+<td><p>A dictionary of the full emoji list together with unicode code points, textual name, group, and sub-group. Based on v13.0 <a class="reference external" href="https://unicode.org/Public/emoji/13.0/emoji-test.txt">https://unicode.org/Public/emoji/13.0/emoji-test.txt</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">emoji_df</span></code></p></td>
+<td><p>The same dictionary as a pandas DataFrame</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#advertools.emoji.emoji_search" title="advertools.emoji.emoji_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">emoji_search()</span></code></a></p></td>
+<td><p>A function for searching across names, groups, and sub-groups to find emoji based on your keywords of choice.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">EMOJI_RAW</span></code></p></td>
+<td><p>A regular expression to extract the full list. See here on how it was developed: <a class="reference external" href="https://www.kaggle.com/eliasdabbas/how-to-create-a-python-regex-to-extract-emoji">https://www.kaggle.com/eliasdabbas/how-to-create-a-python-regex-to-extract-emoji</a></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="advertools.emoji.EmojiEntry">
+<em class="property">class </em><code class="sig-prename descclassname">advertools.emoji.</code><code class="sig-name descname">EmojiEntry</code><span class="sig-paren">(</span><em class="sig-param">codepoint</em>, <em class="sig-param">status</em>, <em class="sig-param">emoji</em>, <em class="sig-param">name</em>, <em class="sig-param">group</em>, <em class="sig-param">sub_group</em><span class="sig-paren">)</span><a class="headerlink" href="#advertools.emoji.EmojiEntry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="method">
+<dt id="advertools.emoji.EmojiEntry.codepoint">
+<em class="property">property </em><code class="sig-name descname">codepoint</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.codepoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="advertools.emoji.EmojiEntry.emoji">
+<em class="property">property </em><code class="sig-name descname">emoji</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.emoji" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="advertools.emoji.EmojiEntry.group">
+<em class="property">property </em><code class="sig-name descname">group</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="advertools.emoji.EmojiEntry.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="advertools.emoji.EmojiEntry.status">
+<em class="property">property </em><code class="sig-name descname">status</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="advertools.emoji.EmojiEntry.sub_group">
+<em class="property">property </em><code class="sig-name descname">sub_group</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.sub_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.emoji.emoji_search">
+<code class="sig-prename descclassname">advertools.emoji.</code><code class="sig-name descname">emoji_search</code><span class="sig-paren">(</span><em class="sig-param">regex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/emoji.html#emoji_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.emoji.emoji_search" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Return a DataFrame of all emoji entries where any description contains</dt><dd><p><code class="docutils literal notranslate"><span class="pre">regex</span></code>.</p>
+</dd>
+</dl>
+<p>“description” can be the name of the emoji, its group, or sub-group.
+:param regex: regular expression (case insensitive)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;dog&#39;</span><span class="p">)</span>
+<span class="go">          codepoint           status  emoji          name             group      sub_group</span>
+<span class="go">0             1F436  fully-qualified     🐶      dog face  Animals &amp; Nature   animal-mammal</span>
+<span class="go">1             1F415  fully-qualified     🐕           dog  Animals &amp; Nature   animal-mammal</span>
+<span class="go">2             1F9AE  fully-qualified     🦮     guide dog  Animals &amp; Nature   animal-mammal</span>
+<span class="go">3  1F415 200D 1F9BA  fully-qualified   🐕‍🦺   service dog  Animals &amp; Nature    animal-mammal</span>
+<span class="go">4             1F32D  fully-qualified     🌭       hot dog      Food &amp; Drink    food-prepared</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blue</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="go">  codepoint           status emoji                name               group     sub_group</span>
+<span class="go">0     1F499  fully-qualified     💙          blue heart  Smileys &amp; Emotion       emotion</span>
+<span class="go">1     1FAD0  fully-qualified     🫐         blueberries       Food &amp; Drink    food-fruit</span>
+<span class="go">2     1F4D8  fully-qualified     📘           blue book            Objects    book-paper</span>
+<span class="go">3     1F535  fully-qualified     🔵         blue circle            Symbols     geometric</span>
+<span class="go">4     1F7E6  fully-qualified     🟦         blue square            Symbols     geometric</span>
+<span class="go">5     1F537  fully-qualified     🔷  large blue diamond            Symbols     geometric</span>
+<span class="go">6     1F539  fully-qualified     🔹  small blue diamond            Symbols     geometric</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advertools.extract.html" class="btn btn-neutral float-right" title="advertools.extract module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="advertools.ad_from_string.html" class="btn btn-neutral float-left" title="advertools.ad_from_string module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Elias Dabbas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

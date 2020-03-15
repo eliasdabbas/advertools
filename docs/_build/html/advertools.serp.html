@@ -1,0 +1,695 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>advertools.serp module &mdash; advertools 0.8.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="advertools.twitter module" href="advertools.twitter.html" />
+    <link rel="prev" title="advertools.word_tokenize module" href="advertools.word_tokenize.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Cretae Text Ads From Description Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>advertools.serp module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/advertools.serp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-advertools.serp">
+<span id="advertools-serp-module"></span><h1>advertools.serp module<a class="headerlink" href="#module-advertools.serp" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="advertools.serp.serp_goog">
+<code class="sig-prename descclassname">advertools.serp.</code><code class="sig-name descname">serp_goog</code><span class="sig-paren">(</span><em class="sig-param">q</em>, <em class="sig-param">cx</em>, <em class="sig-param">key</em>, <em class="sig-param">c2coff=None</em>, <em class="sig-param">cr=None</em>, <em class="sig-param">dateRestrict=None</em>, <em class="sig-param">exactTerms=None</em>, <em class="sig-param">excludeTerms=None</em>, <em class="sig-param">fileType=None</em>, <em class="sig-param">filter=None</em>, <em class="sig-param">gl=None</em>, <em class="sig-param">highRange=None</em>, <em class="sig-param">hl=None</em>, <em class="sig-param">hq=None</em>, <em class="sig-param">imgColorType=None</em>, <em class="sig-param">imgDominantColor=None</em>, <em class="sig-param">imgSize=None</em>, <em class="sig-param">imgType=None</em>, <em class="sig-param">linkSite=None</em>, <em class="sig-param">lowRange=None</em>, <em class="sig-param">lr=None</em>, <em class="sig-param">num=None</em>, <em class="sig-param">orTerms=None</em>, <em class="sig-param">relatedSite=None</em>, <em class="sig-param">rights=None</em>, <em class="sig-param">safe=None</em>, <em class="sig-param">searchType=None</em>, <em class="sig-param">siteSearch=None</em>, <em class="sig-param">siteSearchFilter=None</em>, <em class="sig-param">sort=None</em>, <em class="sig-param">start=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#serp_goog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.serp_goog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query Google and get search results in a DataFrame.</p>
+<dl class="simple">
+<dt>For each parameter, you can supply single or multiple values / arguments.</dt><dd><p>If you pass multiple arguments, all the possible combinations of
+arguments (the product) will be requested, and you will get one
+DataFrame combining all queries. See examples below.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>q</strong> – The search expression.</p></li>
+<li><p><strong>cx</strong> – The custom search engine ID to use for this
+request.</p></li>
+<li><p><strong>key</strong> – The API key of your custom search engine.</p></li>
+<li><p><strong>c2coff</strong> – Enables or disables Simplified and
+Traditional Chinese Search. The default value for this
+parameter is 0 (zero), meaning that the feature is enabled.
+Supported values are:1: Disabled0: Enabled (default)</p></li>
+<li><p><strong>cr</strong> – Restricts search results to documents
+originating in a particular country. You may use Boolean
+operators in the cr parameter’s value.Google Search
+determines the country of a document by analyzing:the top-
+level domain (TLD) of the document’s URLthe geographic
+location of the Web server’s IP addressSee the Country
+Parameter Values page for a list of valid values for this
+parameter.</p></li>
+<li><p><strong>dateRestrict</strong> – Restricts results to URLs based on
+date. Supported values include:d[number]: requests results
+from the specified number of past days.
+- w[number]: requests results from the specified number of past weeks.
+- m[number]: requests results from the specified number of past months.
+- y[number]: requests results from the specified number of past years.</p></li>
+<li><p><strong>exactTerms</strong> – Identifies a phrase that all
+documents in the search results must contain.</p></li>
+<li><p><strong>excludeTerms</strong> – Identifies a word or phrase that
+should not appear in any documents in the search results.</p></li>
+<li><p><strong>fileType</strong> – Restricts results to files of a
+specified extension. A list of file types indexable by
+Google can be found in Search Console Help Center.</p></li>
+<li><p><strong>filter</strong> – Controls turning on or off the duplicate
+content filter.See Automatic Filtering for more information
+about Google’s search results filters. Note that host
+crowding filtering applies only to multi-site searches.By
+default, Google applies filtering to all search results to
+improve the quality of those results.  Acceptable values
+are:  “0”: Turns off duplicate content filter.  “1”: Turns
+on duplicate content filter.</p></li>
+<li><p><strong>gl</strong> – Geolocation of end user. The gl parameter
+value is a two-letter country code. The gl parameter boosts
+search results whose country of origin matches the parameter
+value. See the Country Codes page for a list of valid
+values.Specifying a gl parameter value should lead to more
+relevant results. This is particularly true for
+international customers and, even more specifically, for
+customers in English- speaking countries other than the
+United States.</p></li>
+<li><p><strong>highRange</strong> – Specifies the ending value for a
+search range.Use lowRange and highRange to append an
+inclusive search range of lowRange…highRange to the query.</p></li>
+<li><p><strong>hl</strong> – Sets the user interface language. Explicitly
+setting this parameter improves the performance and the
+quality of your search results.See the Interface
+Languages section of Internationalizing Queries and Results
+Presentation for more information, and Supported Interface
+Languages for a list of supported languages.</p></li>
+<li><p><strong>hq</strong> – Appends the specified query terms to the
+query, as if they were combined with a logical AND operator.</p></li>
+<li><p><strong>imgColorType</strong> – Returns black and white, grayscale,
+or color images: mono, gray, and color.  Acceptable values
+are:  “color”: color  “gray”: gray  “mono”: mono</p></li>
+<li><p><strong>imgDominantColor</strong> – Returns images of a specific
+dominant color.  Acceptable values are:  “black”: black
+“blue”: blue  “brown”: brown  “gray”: gray  “green”: green
+“orange”: orange  “pink”: pink  “purple”: purple  “red”: red
+“teal”: teal  “white”: white  “yellow”: yellow</p></li>
+<li><p><strong>imgSize</strong> – Returns images of a specified size.
+Acceptable values are:  “huge”: huge  “icon”: icon  “large”:
+large  “medium”: medium  “small”: small  “xlarge”: xlarge
+“xxlarge”: xxlarge</p></li>
+<li><p><strong>imgType</strong> – Returns images of a type.  Acceptable
+values are:  “clipart”: clipart  “face”: face  “lineart”:
+lineart  “news”: news  “photo”: photo</p></li>
+<li><p><strong>linkSite</strong> – Specifies that all search results
+should contain a link to a particular URL</p></li>
+<li><p><strong>lowRange</strong> – Specifies the starting value for a
+search range. Use lowRange and highRange to append an
+inclusive search range of lowRange…highRange to the query.</p></li>
+<li><p><strong>lr</strong> – Restricts the search to documents written in
+a particular language (e.g., lr=lang_ja).  Acceptable values
+are:  “lang_ar”: Arabic  “lang_bg”: Bulgarian  “lang_ca”:
+Catalan  “lang_cs”: Czech  “lang_da”: Danish  “lang_de”:
+German  “lang_el”: Greek  “lang_en”: English  “lang_es”:
+Spanish  “lang_et”: Estonian  “lang_fi”: Finnish  “lang_fr”:
+French  “lang_hr”: Croatian  “lang_hu”: Hungarian
+“lang_id”: Indonesian  “lang_is”: Icelandic  “lang_it”:
+Italian  “lang_iw”: Hebrew  “lang_ja”: Japanese  “lang_ko”:
+Korean  “lang_lt”: Lithuanian  “lang_lv”: Latvian
+“lang_nl”: Dutch  “lang_no”: Norwegian  “lang_pl”: Polish
+“lang_pt”: Portuguese  “lang_ro”: Romanian  “lang_ru”:
+Russian  “lang_sk”: Slovak  “lang_sl”: Slovenian  “lang_sr”:
+Serbian  “lang_sv”: Swedish  “lang_tr”: Turkish  “lang_zh-
+CN”: Chinese (Simplified)  “lang_zh-TW”: Chinese
+(Traditional)</p></li>
+<li><p><strong>num</strong> – Number of search results to return.Valid
+values are integers between 1 and 10, inclusive.</p></li>
+<li><p><strong>orTerms</strong> – Provides additional search terms to
+check for in a document, where each document in the search
+results must contain at least one of the additional search
+terms.</p></li>
+<li><p><strong>relatedSite</strong> – Specifies that all search results
+should be pages that are related to the specified URL.</p></li>
+<li><p><strong>rights</strong> – Filters based on licensing. Supported
+values include: cc_publicdomain, cc_attribute,
+cc_sharealike, cc_noncommercial, cc_nonderived, and
+combinations of these.</p></li>
+<li><p><strong>safe</strong> – Search safety level.  Acceptable values
+are:  “active”: Enables SafeSearch filtering.  “off”:
+Disables SafeSearch filtering.  (default)</p></li>
+<li><p><strong>searchType</strong> – Specifies the search type: image. If
+unspecified, results are limited to webpages.  Acceptable
+values are:  “image”: custom image search.</p></li>
+<li><p><strong>siteSearch</strong> – Specifies all search results should
+be pages from a given site.</p></li>
+<li><p><strong>siteSearchFilter</strong> – Controls whether to include or
+exclude results from the site named in the siteSearch
+parameter.  Acceptable values are:  “e”: exclude  “i”:
+include</p></li>
+<li><p><strong>sort</strong> – The sort expression to apply to the
+results.</p></li>
+<li><p><strong>start</strong> – The index of the first result to
+return.Valid value are integers starting 1 (default) and the
+second result is 2 and so forth. For example &amp;start=11 gives
+the second page of results with the default “num” value of
+10 results per page.Note: No more than 100 results will ever
+be returned for any query with JSON API, even if more than
+100 documents match the query, so setting (start + num) to
+more than 100 will produce an error. Note that the maximum
+value for num is 10.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The following function call will produce two queries:
+“hotel” in the USA, and “hotel” in France</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">serp_goog</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="s1">&#39;hotel&#39;</span><span class="p">,</span> <span class="n">gl</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;us&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">],</span> <span class="n">cx</span><span class="o">=</span><span class="s1">&#39;YOUR_CX&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;YOUR_KEY&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The below function call will prouce four queries and make four requests:
+“fligts” in UK
+“fligts” in Australia
+“tickets” in UK
+“tickets” in Australia
+‘cr’ here refers to ‘country restrict’, which focuses on content
+originating from the specified country.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">serp_goog</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;flights&#39;</span><span class="p">,</span> <span class="s1">&#39;tickets&#39;</span><span class="p">],</span> <span class="n">cr</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;countryUK&#39;</span><span class="p">,</span> <span class="s1">&#39;countryAU&#39;</span><span class="p">],</span>
+<span class="go">              cx=&#39;YOUR_CX&#39;, key=&#39;YOUR_KEY&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.serp.serp_youtube">
+<code class="sig-prename descclassname">advertools.serp.</code><code class="sig-name descname">serp_youtube</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">q=None</em>, <em class="sig-param">channelId=None</em>, <em class="sig-param">channelType=None</em>, <em class="sig-param">eventType=None</em>, <em class="sig-param">forContentOwner=None</em>, <em class="sig-param">forDeveloper=None</em>, <em class="sig-param">forMine=None</em>, <em class="sig-param">location=None</em>, <em class="sig-param">locationRadius=None</em>, <em class="sig-param">maxResults=None</em>, <em class="sig-param">onBehalfOfContentOwner=None</em>, <em class="sig-param">order=None</em>, <em class="sig-param">pageToken=None</em>, <em class="sig-param">publishedAfter=None</em>, <em class="sig-param">publishedBefore=None</em>, <em class="sig-param">regionCode=None</em>, <em class="sig-param">relatedToVideoId=None</em>, <em class="sig-param">relevanceLanguage=None</em>, <em class="sig-param">safeSearch=None</em>, <em class="sig-param">topicId=None</em>, <em class="sig-param">type=None</em>, <em class="sig-param">videoCaption=None</em>, <em class="sig-param">videoCategoryId=None</em>, <em class="sig-param">videoDefinition=None</em>, <em class="sig-param">videoDimension=None</em>, <em class="sig-param">videoDuration=None</em>, <em class="sig-param">videoEmbeddable=None</em>, <em class="sig-param">videoLicense=None</em>, <em class="sig-param">videoSyndicated=None</em>, <em class="sig-param">videoType=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#serp_youtube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.serp_youtube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query the YouTube API and get search results in a DataFrame.
+For each parameter you can supply a single or multiple value(s).
+Looping and merging results is handled automatically in case of multiple
+values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>q</strong> – (string) The <code class="docutils literal notranslate"><span class="pre">q</span></code> parameter specifies the query term to
+search for. Your request can also use the Boolean NOT (-) and OR (|)
+operators to exclude videos or to find videos that are associated with
+one of several search terms. For example, to search for videos
+matching either “boating” or “sailing”, set the <code class="docutils literal notranslate"><span class="pre">q</span></code> parameter value
+to boating|sailing. Similarly, to search for videos matching either
+“boating” or “sailing” but not “fishing”, set the q parameter value to
+boating|sailing -fishing. Note that the pipe character must be URL-
+escaped when it is sent in your API request. The URL-escaped value for
+the pipe character is %7C.</p></li>
+<li><p><strong>channelId</strong> – (string) The <code class="docutils literal notranslate"><span class="pre">channelId</span></code> parameter
+indicates that the API response should only contain resources
+created by the channel. Note: Search results are constrained
+to a maximum of 500 videos if your request specifies a value
+for the <code class="docutils literal notranslate"><span class="pre">channelId</span></code> parameter and sets the <code class="docutils literal notranslate"><span class="pre">type</span></code> parameter value
+to video, but it does not also set one of the <code class="docutils literal notranslate"><span class="pre">forContentOwner</span></code>,
+<code class="docutils literal notranslate"><span class="pre">forDeveloper</span></code>, or <code class="docutils literal notranslate"><span class="pre">forMine</span></code> filters.</p></li>
+<li><p><strong>channelType</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">channelType</span></code> parameter
+lets you restrict a search to a particular type of
+channel. Acceptable values are:</p>
+<p>any – Return all channels.</p>
+<p>show – Only retrieve shows.</p>
+</p></li>
+<li><p><strong>eventType</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">eventType</span></code> parameter
+restricts a search to broadcast events. If you specify a value
+for this parameter, you must also set the type parameter’s
+value to video. Acceptable values are:</p>
+<p>completed – Only include completed broadcasts.</p>
+<p>live – Only include active broadcasts.</p>
+<p>upcoming – Only include upcoming broadcasts.</p>
+</p></li>
+<li><p><strong>forContentOwner</strong> – (boolean) This parameter can
+only be used in a properly authorized request, and it is
+intended exclusively for YouTube content partners. The
+<code class="docutils literal notranslate"><span class="pre">forContentOwner</span></code> parameter restricts the search to only
+retrieve videos owned by the content owner identified by
+the <code class="docutils literal notranslate"><span class="pre">onBehalfOfContentOwner</span></code> parameter. If <code class="docutils literal notranslate"><span class="pre">forContentOwner</span></code>
+is set to true, the request must also meet these
+requirements:The <code class="docutils literal notranslate"><span class="pre">onBehalfOfContentOwner</span></code> parameter is
+required.The user authorizing the request must be using
+an account linked to the specified content owner. The
+<code class="docutils literal notranslate"><span class="pre">type</span></code> parameter value must be set to video.None of the
+following other parameters can be set: <code class="docutils literal notranslate"><span class="pre">videoDefinition</span></code>,
+<code class="docutils literal notranslate"><span class="pre">videoDimension</span></code>, <code class="docutils literal notranslate"><span class="pre">videoDuration</span></code>, <code class="docutils literal notranslate"><span class="pre">videoLicense</span></code>,
+<code class="docutils literal notranslate"><span class="pre">videoEmbeddable</span></code>, <code class="docutils literal notranslate"><span class="pre">videoSyndicated</span></code>, <code class="docutils literal notranslate"><span class="pre">videoType</span></code>.</p></li>
+<li><p><strong>forDeveloper</strong> – (boolean) This parameter can only
+be used in a properly authorized request. The <code class="docutils literal notranslate"><span class="pre">forDeveloper</span></code>
+parameter restricts the search to only retrieve videos
+uploaded via the developer’s application or website. The
+API server uses the request’s authorization credentials to
+identify the developer. The <code class="docutils literal notranslate"><span class="pre">forDeveloper</span></code> parameter can be
+used in conjunction with optional search parameters like
+the <code class="docutils literal notranslate"><span class="pre">q</span></code> parameter. For this feature, each uploaded video is
+automatically tagged with the project number that is
+associated with the developer’s application in the Google
+Developers Console. When a search request subsequently sets
+the <code class="docutils literal notranslate"><span class="pre">forDeveloper</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">true</span></code> the API server uses the
+request’s authorization credentials to identify the
+developer. Therefore, a developer can restrict results to
+videos uploaded through the developer’s own app or website
+but not to videos uploaded through other apps or sites.</p></li>
+<li><p><strong>forMine</strong> – (boolean) This parameter can only be used in
+a properly authorized request. The <code class="docutils literal notranslate"><span class="pre">forMine</span></code> parameter restricts
+the search to only retrieve videos owned by the authenticated
+user. If you set this parameter to <code class="docutils literal notranslate"><span class="pre">true</span></code>, then the <code class="docutils literal notranslate"><span class="pre">type</span></code>
+parameter’s value must also be set to <code class="docutils literal notranslate"><span class="pre">video</span></code>. In addition, none
+of the following other parameters can be set in the same
+request: <code class="docutils literal notranslate"><span class="pre">videoDefinition</span></code>, <code class="docutils literal notranslate"><span class="pre">videoDimension</span></code>, <code class="docutils literal notranslate"><span class="pre">videoDuration</span></code>,
+<code class="docutils literal notranslate"><span class="pre">videoLicense</span></code>, <code class="docutils literal notranslate"><span class="pre">videoEmbeddable</span></code>, <code class="docutils literal notranslate"><span class="pre">videoSyndicated</span></code>,
+<code class="docutils literal notranslate"><span class="pre">videoType</span></code>.</p></li>
+<li><p><strong>relatedToVideoId</strong> – (string) The
+<code class="docutils literal notranslate"><span class="pre">relatedToVideoId</span></code> parameter retrieves a list of videos
+that are related to the video that the parameter <code class="docutils literal notranslate"><span class="pre">value</span></code>
+identifies. The parameter <code class="docutils literal notranslate"><span class="pre">value</span></code> must be set to a
+YouTube video ID and, if you are using this parameter,
+the <code class="docutils literal notranslate"><span class="pre">type</span></code> parameter must be set to video.Note that if
+the <code class="docutils literal notranslate"><span class="pre">relatedToVideoId</span></code> parameter is set, the only other
+supported parameters are <code class="docutils literal notranslate"><span class="pre">part</span></code>, <code class="docutils literal notranslate"><span class="pre">maxResults</span></code>, <code class="docutils literal notranslate"><span class="pre">pageToken</span></code>,
+<code class="docutils literal notranslate"><span class="pre">regionCode</span></code>, <code class="docutils literal notranslate"><span class="pre">relevanceLanguage</span></code>, <code class="docutils literal notranslate"><span class="pre">safeSearch</span></code>, <code class="docutils literal notranslate"><span class="pre">type</span></code> (which
+must be set to video), and <code class="docutils literal notranslate"><span class="pre">fields</span></code>.</p></li>
+<li><p><strong>location</strong> – (string) The <code class="docutils literal notranslate"><span class="pre">location</span></code> parameter, in
+conjunction with the <code class="docutils literal notranslate"><span class="pre">locationRadius</span></code> parameter, defines a
+circular geographic area and also restricts a search to videos
+that specify, in their metadata, a geographic location that
+falls within that area. The parameter value is a string that
+specifies latitude/longitude coordinates e.g.
+(37.42307,-122.08427).The location parameter value identifies
+the point at the center of the area. The <code class="docutils literal notranslate"><span class="pre">locationRadius</span></code>
+parameter specifies the maximum distance that the location
+associated with a video can be from that point for the video to
+still be included in the search results. The API returns an
+error if your request specifies a value for the <code class="docutils literal notranslate"><span class="pre">location</span></code>
+parameter but does not also specify a value for the
+<code class="docutils literal notranslate"><span class="pre">locationRadius</span></code> parameter.</p></li>
+<li><p><strong>locationRadius</strong> – (string) The <code class="docutils literal notranslate"><span class="pre">locationRadius</span></code>
+parameter, in conjunction with the <code class="docutils literal notranslate"><span class="pre">location</span></code> parameter,
+defines a circular geographic area. The parameter value
+must be a floating point number followed by a measurement
+unit. Valid measurement units are m, km, ft, and mi. For
+example, valid parameter values include 1500m, 5km,
+10000ft, and 0.75mi. The API does not support
+<code class="docutils literal notranslate"><span class="pre">locationRadius</span></code> parameter values larger than 1000
+kilometers. Note: See the definition of the <code class="docutils literal notranslate"><span class="pre">location</span></code>
+parameter for more information.</p></li>
+<li><p><strong>maxResults</strong> – (unsigned integer) The <code class="docutils literal notranslate"><span class="pre">maxResults</span></code>
+parameter specifies the maximum number of items that should
+be returned in the result set. Acceptable values are 0 to 50,
+inclusive. The default value is 5.</p></li>
+<li><p><strong>onBehalfOfContentOwner</strong> – (string) This
+parameter can only be used in a properly
+authorized request. Note: This parameter is
+intended exclusively for YouTube content
+partners.The <code class="docutils literal notranslate"><span class="pre">onBehalfOfContentOwner</span></code> parameter
+indicates that the request’s authorization
+credentials identify a YouTube CMS user who is
+acting on behalf of the content owner specified
+in the parameter value. This parameter is
+intended for YouTube content partners that own
+and manage many different YouTube channels. It
+allows content owners to authenticate once and
+get access to all their video and channel data,
+without having to provide authentication
+credentials for each individual channel. The CMS
+account that the user authenticates with must be
+linked to the specified YouTube content owner.</p></li>
+<li><p><strong>order</strong> – <p>(string) The order parameter specifies the
+method that will be used to order resources in the API response.
+The default value is relevance. Acceptable values are:</p>
+<p>date – Resources are sorted in reverse chronological order based on the
+date they were created.</p>
+<p>rating – Resources are sorted from highest to lowest rating.</p>
+<p>relevance – Resources are sorted based on their relevance to the search
+query. This is the default value for this parameter.</p>
+<p>title – Resources are sorted alphabetically by title.</p>
+<p>videoCount – Channels are sorted in descending order of their number of
+uploaded videos.</p>
+<p>viewCount – Resources sorted from highest to lowest number of views.
+For live broadcasts, videos are sorted by number of concurrent viewers
+while the broadcasts are ongoing.</p>
+</p></li>
+<li><p><strong>pageToken</strong> – (string) The <code class="docutils literal notranslate"><span class="pre">pageToken</span></code> parameter
+identifies a specific page in the result set that should be
+returned. In an API response, the <code class="docutils literal notranslate"><span class="pre">nextPageToken</span></code> and
+<code class="docutils literal notranslate"><span class="pre">prevPageToken</span></code> properties identify other pages that could be
+retrieved.</p></li>
+<li><p><strong>publishedAfter</strong> – (datetime) The <code class="docutils literal notranslate"><span class="pre">publishedAfter</span></code>
+parameter indicates that the API response should only
+contain resources created at or after the specified time.
+The value is an RFC 3339 formatted date-time value
+(1970-01-01T00:00:00Z).</p></li>
+<li><p><strong>publishedBefore</strong> – (datetime) The
+<code class="docutils literal notranslate"><span class="pre">publishedBefore</span></code> parameter indicates that the API
+response should only contain resources created before or
+at the specified time. The value is an RFC 3339
+formatted date-time value (1970-01-01T00:00:00Z).</p></li>
+<li><p><strong>regionCode</strong> – (string) The <code class="docutils literal notranslate"><span class="pre">regionCode</span></code> parameter
+instructs the API to return search results for videos that
+can be viewed in the specified country. The parameter value
+is an ISO 3166-1 alpha-2 country code.</p></li>
+<li><p><strong>relevanceLanguage</strong> – (string) The
+<code class="docutils literal notranslate"><span class="pre">relevanceLanguage</span></code> parameter instructs the API to
+return search results that are most relevant to the
+specified language. The parameter value is typically
+an ISO 639-1 two-letter language code. However, you
+should use the values zh-Hans for simplified Chinese
+and zh-Hant for traditional Chinese. Please note that
+results in other languages will still be returned if
+they are highly relevant to the search query term.</p></li>
+<li><p><strong>safeSearch</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">safeSearch</span></code> parameter
+indicates whether the search results should include
+restricted content as well as standard content. Acceptable
+values are:</p>
+<p>moderate – YouTube will filter some content from search results and,
+at the least, will filter content that is restricted in your locale.
+Based on their content, search results could be removed from search
+results or demoted in search results. This is the default parameter
+value.</p>
+<p>none – YouTube will not filter the search result set.</p>
+<p>strict – YouTube will try to exclude all restricted content from the
+search result set.</p>
+<p>Based on their content, search results
+could be removed from search results or demoted in search
+results.</p>
+</p></li>
+<li><p><strong>topicId</strong> – (string) The <code class="docutils literal notranslate"><span class="pre">topicId</span></code> parameter indicates
+that the API response should only contain resources associated
+with the specified topic. The value identifies a Freebase topic
+ID.</p></li>
+<li><p><strong>type</strong> – (string) The <code class="docutils literal notranslate"><span class="pre">type</span></code> parameter restricts a search
+query to only retrieve a particular type of resource. The value is
+a comma-separated list of resource types. The default value is
+video,channel,playlist. Acceptable values are: channel, playlist, and
+video</p></li>
+<li><p><strong>videoCaption</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">videoCaption</span></code>
+parameter indicates whether the API should filter video
+search results based on whether they have captions. If you
+specify a value for this parameter, you must also set the
+<code class="docutils literal notranslate"><span class="pre">type</span></code> parameter’s value to video. Acceptable values are:</p>
+<p>any – Do not filter results based on caption availability.</p>
+<p>closedCaption – Only include videos that have captions.</p>
+<p>none – Only include videos that do not have captions.</p>
+</p></li>
+<li><p><strong>videoCategoryId</strong> – (string) The <code class="docutils literal notranslate"><span class="pre">videoCategoryId</span></code>
+parameter filters video search results based on their
+category. If you specify a value for this parameter, you
+must also set the <code class="docutils literal notranslate"><span class="pre">type</span></code> parameter’s value to video.</p></li>
+<li><p><strong>videoDefinition</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">videoDefinition</span></code>
+parameter lets you restrict a search to only include
+either high definition (HD) or standard definition (SD)
+videos. HD videos are available for playback in at least
+720p, though higher resolutions, like 1080p, might also
+be available. If you specify a value for this parameter,
+you must also set the <code class="docutils literal notranslate"><span class="pre">type</span></code> parameter’s value to
+video. Acceptable values are:</p>
+<p>any – Return all videos, regardless of their resolution.</p>
+<p>high – Only retrieve HD videos.</p>
+<p>standard – Only retrieve videos in standard definition.</p>
+</p></li>
+<li><p><strong>videoDimension</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">videoDimension</span></code>
+parameter lets you restrict a search to only retrieve 2D
+or 3D videos. If you specify a value for this parameter,
+you must also set the <code class="docutils literal notranslate"><span class="pre">type</span></code> parameter’s value to
+video. Acceptable values are:</p>
+<p>2d – Restrict search results to exclude 3D videos.</p>
+<p>3d – Restrict search results to only include 3D videos.</p>
+<p>any – Include both 3D and non-3D videos in returned results.
+This is the default value.</p>
+</p></li>
+<li><p><strong>videoDuration</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">videoDuration</span></code>
+parameter filters video search results based on their
+duration. If you specify a value for this parameter, you
+must also set the <code class="docutils literal notranslate"><span class="pre">type</span></code> parameter’s value to
+video. Acceptable values are:</p>
+<p>any – Do not filter video search results based on their duration.
+This is the default value.</p>
+<p>long – Only include videos longer than 20 minutes.</p>
+<p>medium – Only include videos that are between four and 20 minutes
+long (inclusive).</p>
+<p>short – Only include videos that are less than four minutes long.</p>
+</p></li>
+<li><p><strong>videoEmbeddable</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">videoEmbeddable</span></code>
+parameter lets you to restrict a search to only videos
+that can be embedded into a webpage. If you specify a
+value for this parameter, you must also set the <code class="docutils literal notranslate"><span class="pre">type</span></code>
+parameter’s value to video. Acceptable values are:</p>
+<p>any – Return all videos, embeddable or not.</p>
+<p>true – Only retrieve embeddable videos.</p>
+</p></li>
+<li><p><strong>videoLicense</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">videoLicense</span></code>
+parameter filters search results to only include videos
+with a particular license. YouTube lets video uploaders
+choose to attach either the Creative Commons license or the
+standard YouTube license to each of their videos. If you
+specify a value for this parameter, you must also set the
+<code class="docutils literal notranslate"><span class="pre">type</span></code> parameter’s value to video. Acceptable values are:</p>
+<p>any – Return all videos, regardless of which license they have,
+that match the query parameters.</p>
+<p>creativeCommon – Only return videos that have a Creative Commons
+license.
+Users can reuse videos with this license in other videos that they
+create.</p>
+<p>youtube – Only return videos that have the standard YouTube license.</p>
+</p></li>
+<li><p><strong>videoSyndicated</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">videoSyndicated</span></code>
+parameter lets you to restrict a search to only videos
+that can be played outside youtube.com. If you specify a
+value for this parameter, you must also set the <code class="docutils literal notranslate"><span class="pre">type</span></code>
+parameter’s value to video. Acceptable values are:</p>
+<p>any – Return all videos, syndicated or not.</p>
+<p>true – Only retrieve syndicated videos.</p>
+</p></li>
+<li><p><strong>videoType</strong> – <p>(string) The <code class="docutils literal notranslate"><span class="pre">videoType</span></code> parameter lets
+you restrict a search to a particular type of videos. If you
+specify a value for this parameter, you must also set the <code class="docutils literal notranslate"><span class="pre">type</span></code>
+parameter’s value to video. Acceptable values are:</p>
+<p>any – Return all videos.</p>
+<p>episode – Only retrieve episodes of shows.</p>
+<p>movie – Only retrieve movies.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.serp.set_logging_level">
+<code class="sig-prename descclassname">advertools.serp.</code><code class="sig-name descname">set_logging_level</code><span class="sig-paren">(</span><em class="sig-param">level_or_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#set_logging_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.set_logging_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the logging level during the session.
+Acceptable values are [0, 10, 20, 30, 40, 50,
+‘NOTSET’, ‘DEBUG’, ‘INFO’, ‘WARNING’, ‘ERROR’,
+‘CRITICAL’]</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.serp.youtube_channel_details">
+<code class="sig-prename descclassname">advertools.serp.</code><code class="sig-name descname">youtube_channel_details</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">channel_ids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#youtube_channel_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.youtube_channel_details" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return details of channels for which the ids are given.
+Assumes <code class="docutils literal notranslate"><span class="pre">ids</span></code> is a comma-separated list of channel ids with
+no spaces.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.serp.youtube_video_details">
+<code class="sig-prename descclassname">advertools.serp.</code><code class="sig-name descname">youtube_video_details</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">vid_ids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#youtube_video_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.youtube_video_details" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return details of videos for which the ids are given.
+Assumes <code class="docutils literal notranslate"><span class="pre">ids</span></code> is a comma-separated list of video ids with
+no spaces.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advertools.twitter.html" class="btn btn-neutral float-right" title="advertools.twitter module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="advertools.word_tokenize.html" class="btn btn-neutral float-left" title="advertools.word_tokenize module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Elias Dabbas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

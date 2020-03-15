@@ -1,0 +1,1072 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>advertools.extract module &mdash; advertools 0.8.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="advertools.stopwords module" href="advertools.stopwords.html" />
+    <link rel="prev" title="advertools.emoji module" href="advertools.emoji.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Cretae Text Ads From Description Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Extract Structured Entities from Text</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#extract-functions">Extract Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>advertools.extract module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/advertools.extract.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-advertools.extract">
+<span id="advertools-extract-module"></span><h1>advertools.extract module<a class="headerlink" href="#module-advertools.extract" title="Permalink to this headline">¶</a></h1>
+<p>Extract structured entities from text lists.
+Structured entities are pattern matches and not inferred entities.
+Some example are hashtags, emoji, mentions, questions, and so on. This is
+in contrast to entity extraction which are inferred from the context of the
+sentence (people, companies, brands and so on).</p>
+<p>All functions start with <code class="docutils literal notranslate"><span class="pre">extract_</span></code> and have a descriptive name for the type
+of entity that they extract.</p>
+<p>There is also a generic <code class="docutils literal notranslate"><span class="pre">extract</span></code> fucntion which powers all others, and it
+can be used for any other pattern not included. It takes a regular expression,
+and returns a similar dictionary to the other functions.</p>
+<div class="section" id="extract-functions">
+<h2>Extract Functions<a class="headerlink" href="#extract-functions" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 87%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#advertools.extract.extract" title="advertools.extract.extract"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract()</span></code></a></p></td>
+<td><p>A generic function that takes a regex to extract any pattern you want</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#advertools.extract.extract_currency" title="advertools.extract.extract_currency"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_currency()</span></code></a></p></td>
+<td><p>Currency symbols together with surrounding text for context. This does not include currency abbreviations (USD, EUR, JPY, etc.), only symbols ($, £, €, etc).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#advertools.extract.extract_emoji" title="advertools.extract.extract_emoji"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_emoji()</span></code></a></p></td>
+<td><p>All the emoji database, together with textual names, groups and sub-groups.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#advertools.extract.extract_exclamations" title="advertools.extract.extract_exclamations"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_exclamations()</span></code></a></p></td>
+<td><p>Sentences that end with an excalamation mark!</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#advertools.extract.extract_hashtags" title="advertools.extract.extract_hashtags"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_hashtags()</span></code></a></p></td>
+<td><p>Extract hashtags with descriptive statistics.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#advertools.extract.extract_intense_words" title="advertools.extract.extract_intense_words"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_intense_words()</span></code></a></p></td>
+<td><p>Words that contain three or more repeated characters to express an intense feeling (positive or negative), “I looooooovvvvee this thing”.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#advertools.extract.extract_mentions" title="advertools.extract.extract_mentions"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_mentions()</span></code></a></p></td>
+<td><p>User mentions in social media posts. Also useful for network analysis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#advertools.extract.extract_numbers" title="advertools.extract.extract_numbers"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_numbers()</span></code></a></p></td>
+<td><p>Any numbers that are included the text list. Included a modifiable list of separators to use (“,”, “.”, “-“, etc.).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#advertools.extract.extract_questions" title="advertools.extract.extract_questions"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_questions()</span></code></a></p></td>
+<td><p>Questions included in the text list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#advertools.extract.extract_urls" title="advertools.extract.extract_urls"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_urls()</span></code></a></p></td>
+<td><p>URls in the text list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#advertools.extract.extract_words" title="advertools.extract.extract_words"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_words()</span></code></a></p></td>
+<td><p>Any arbitrary words that you want extracted. Works in two modes, either the word should fully match the pattern, or as part of a longer word, (“rest” can be matched from “restaurant” or not).</p></td>
+</tr>
+</tbody>
+</table>
+<p>All functions return a dictionary with the entities extracted, along with
+helpful statistics. Since the entities have different meanings, most of them
+return additional keys depending on the context.</p>
+<p>The recommended way of using:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;This is the first #text.&#39;</span><span class="p">,</span> <span class="s1">&#39;Second #sentence is here.&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;Hello, how are you?&#39;</span><span class="p">,</span> <span class="s1">&#39;This #sentence is the last #sentence&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">extract_hashtags</span><span class="p">(</span><span class="n">text_list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;hashtags&#39;, &#39;hashtags_flat&#39;, &#39;hashtag_counts&#39;, &#39;hashtag_freq&#39;,</span>
+<span class="go">           &#39;top_hashtags&#39;, &#39;overview&#39;])</span>
+</pre></div>
+</div>
+<p>Now you can start exploring:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go"> &#39;num_hashtags&#39;: 4,</span>
+<span class="go"> &#39;hashtags_per_post&#39;: 1.0,</span>
+<span class="go"> &#39;unique_hashtags&#39;: 2}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtags&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;#text&#39;], [&#39;#sentence&#39;], [], [&#39;#sentence&#39;, &#39;#sentence&#39;]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtags_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;#text&#39;, &#39;#sentence&#39;, &#39;#sentence&#39;, &#39;#sentence&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtag_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 0, 2]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtag_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 2), (2, 1)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;top_hashtags&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;#sentence&#39;, 3), (&#39;#text&#39;, 1)]</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="advertools.extract.extract">
+<code class="sig-prename descclassname">advertools.extract.</code><code class="sig-name descname">extract</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">regex</em>, <em class="sig-param">key_name</em>, <em class="sig-param">extracted=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about arbitrary matches in <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</p>
+<p>This function is used by other specialized functions to extract
+certain elements (hashtags, mentions, emojis, etc.).
+It can be used for other arbitrary elements/matches. You only need to
+provide your own regex.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_list</strong> – Any list of strings (social posts, page titles, etc.)</p></li>
+<li><p><strong>regex</strong> – The regex pattern to use for extraction.</p></li>
+<li><p><strong>key_name</strong> – The name of the object extracted in singular form
+(hashtag, mention, etc.)</p></li>
+<li><p><strong>extracted</strong> – List of lists, optional. If the regex is not
+straightforward, and matches need to be made with special code,
+provide the extracted words/matches as a list for each element
+of <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</p></li>
+<li><p><strong>kwargs</strong> – Other kwargs that might be needed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return summary</dt>
+<dd class="field-even"><p>A dictionary summarizing the extracted data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_currency">
+<code class="sig-prename descclassname">advertools.extract.</code><code class="sig-name descname">extract_currency</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">left_chars=20</em>, <em class="sig-param">right_chars=20</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_currency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_currency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about currency symbols in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of currency symbols, their frequency,
+the top ones, and more.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_list</strong> – A list of text strings.</p></li>
+<li><p><strong>left_chars</strong> – The number of characters to extract, to the
+left of the symbol when getting <code class="docutils literal notranslate"><span class="pre">surrounding_text</span></code></p></li>
+<li><p><strong>right_chars</strong> – The number of characters to extract, to the
+left of the symbol when getting <code class="docutils literal notranslate"><span class="pre">surrounding_text</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns summary</dt>
+<dd class="field-even"><p>A dictionary with various stats about currencies</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;today ₿1 is around $4k&#39;</span><span class="p">,</span> <span class="s1">&#39;and ₿ in £ &amp; €?&#39;</span><span class="p">,</span> <span class="s1">&#39;no idea&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span> <span class="o">=</span> <span class="n">extract_currency</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;currency_symbols&#39;, &#39;currency_symbols_flat&#39;,</span>
+<span class="go">&#39;currency_symbol_counts&#39;, &#39;currency_symbol_freq&#39;,</span>
+<span class="go">&#39;top_currency_symbols&#39;, &#39;overview&#39;, &#39;currency_symbol_names&#39;])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;currency_symbols&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;₿&#39;, &#39;$&#39;], [&#39;₿&#39;, &#39;£&#39;, &#39;€&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of currencies from each of the posts. An empty list if
+none exist</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;currency_symbols_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;₿&#39;, &#39;$&#39;, &#39;₿&#39;, &#39;£&#39;, &#39;€&#39;]</span>
+</pre></div>
+</div>
+<p>All currency symbols in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;currency_symbol_counts&#39;</span><span class="p">]</span>
+<span class="go">[2, 3, 0]</span>
+</pre></div>
+</div>
+<p>The count of currency symbols per post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;currency_symbol_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (2, 1), (3, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. currency symbols
+(number_of_symbols, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;top_currency_symbols&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;₿&#39;, 2), (&#39;$&#39;, 1), (&#39;£&#39;, 1), (&#39;€&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;currency_symbol_names&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;bitcoin sign&#39;, &#39;dollar sign&#39;], [&#39;bitcoin sign&#39;, &#39;pound sign&#39;,</span>
+<span class="go">&#39;euro sign&#39;], []]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;surrounding_text&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;today ₿1 is around $4k&#39;], [&#39;and ₿ in £ &amp; €?&#39;], []]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">extract_currency</span><span class="p">(</span><span class="n">posts</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)[</span><span class="s1">&#39;surrounding_text&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;oday ₿1 is &#39;, &#39;ound $4k&#39;], [&#39;and ₿ in £&#39;, &#39; &amp; €?&#39;], []]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">extract_currency</span><span class="p">(</span><span class="n">posts</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)[</span><span class="s1">&#39;surrounding_text&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;₿1 i&#39;, &#39;$4k&#39;], [&#39;₿ in&#39;, &#39;£ &amp; &#39;, &#39;€?&#39;], []]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">currency_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 3,</span>
+<span class="go">&#39;num_currency_symbols&#39;: 5,</span>
+<span class="go">&#39;currency_symbols_per_post&#39;: 1.6666666666666667,</span>
+<span class="go">&#39;unique_currency_symbols&#39;: 4}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_emoji">
+<code class="sig-prename descclassname">advertools.extract.</code><code class="sig-name descname">extract_emoji</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_emoji"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_emoji" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about emoji in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of emoji, their frequency, the top
+ones, and more.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_list</strong> – A list of text strings.</p>
+</dd>
+<dt class="field-even">Returns summary</dt>
+<dd class="field-even"><p>A dictionary with various stats about emoji</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I am grinning 😀&#39;</span><span class="p">,</span><span class="s1">&#39;A grinning cat 😺&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="s1">&#39;hello! 😀😀😀 💛💛&#39;</span><span class="p">,</span> <span class="s1">&#39;Just text&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span> <span class="o">=</span> <span class="n">extract_emoji</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;emoji&#39;, &#39;emoji_text&#39;, &#39;emoji_flat&#39;, &#39;emoji_flat_text&#39;,</span>
+<span class="go">&#39;emoji_counts&#39;, &#39;emoji_freq&#39;, &#39;top_emoji&#39;, &#39;top_emoji_text&#39;,</span>
+<span class="go">&#39;top_emoji_groups&#39;, &#39;top_emoji_sub_groups&#39;, &#39;overview&#39;])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;😀&#39;], [&#39;😺&#39;], [&#39;😀&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;💛&#39;, &#39;💛&#39;], []]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_text&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;grinning face&#39;], [&#39;grinning cat&#39;], [&#39;grinning face&#39;, &#39;grinning face&#39;,</span>
+<span class="go">  &#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of emoji from each of the posts. An empty
+list if none exist</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;😀&#39;, &#39;😺&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;💛&#39;, &#39;💛&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_flat_text&#39;</span><span class="p">]</span>
+<span class="go">[&#39;grinning face&#39;, &#39;grinning cat&#39;, &#39;grinning face&#39;, &#39;grinning face&#39;,</span>
+<span class="go">&#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;]</span>
+</pre></div>
+</div>
+<p>All emoji in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 5, 0]</span>
+</pre></div>
+</div>
+<p>The count of emoji per post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 2), (5, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. emoji
+(number_of_emoji, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;😀&#39;, 4), (&#39;💛&#39;, 2), (&#39;😺&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_text&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;grinning face&#39;, 4), (&#39;yellow heart&#39;, 2),</span>
+<span class="go"> (&#39;grinning cat&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_groups&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;Smileys &amp; Emotion&#39;, 7)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_sub_groups&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;face-smiling&#39;, 4), (&#39;emotion&#39;, 2), (&#39;cat-face&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go"> &#39;num_emoji&#39;: 7,</span>
+<span class="go"> &#39;emoji_per_post&#39;: 1.75,</span>
+<span class="go"> &#39;unique_emoji&#39;: 3}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_exclamations">
+<code class="sig-prename descclassname">advertools.extract.</code><code class="sig-name descname">extract_exclamations</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_exclamations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_exclamations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about exclamation (mark)s in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of exclamation marks, their frequency,
+the top ones, as well the exclamations written/said.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_list</strong> – A list of text strings.</p>
+</dd>
+<dt class="field-even">Returns summary</dt>
+<dd class="field-even"><p>A dictionary with various stats about exclamations</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Who are you!&#39;</span><span class="p">,</span> <span class="s1">&#39;What is this!&#39;</span><span class="p">,</span> <span class="s1">&#39;No exclamation here?&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span> <span class="o">=</span> <span class="n">extract_exclamations</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;exclamation_marks&#39;, &#39;exclamation_marks_flat&#39;,</span>
+<span class="go">&#39;exclamation_mark_counts&#39;, &#39;exclamation_mark_freq&#39;,</span>
+<span class="go">&#39;top_exclamation_marks&#39;, &#39;overview&#39;, &#39;exclamation_mark_names&#39;,</span>
+<span class="go">&#39;exclamation_text&#39;])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_marks&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;!&#39;], [&#39;!&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of exclamation marks from each of the posts. An empty
+list if none exist</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_marks_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;!&#39;, &#39;!&#39;]</span>
+</pre></div>
+</div>
+<p>All exclamation marks in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 0]</span>
+</pre></div>
+</div>
+<p>The count of exclamation marks per post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 2)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. exclamation marks
+(number_of_symbols, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;top_exclamation_marks&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;!&#39;, 2)]</span>
+</pre></div>
+</div>
+<p>Might be interesting if you have different types of exclamation marks</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_names&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;exclamation mark&#39;], [&#39;exclamation mark&#39;], []]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 3,</span>
+<span class="go">&#39;num_exclamation_marks&#39;: 2,</span>
+<span class="go">&#39;exclamation_marks_per_post&#39;: 0.6666666666666666,</span>
+<span class="go">&#39;unique_exclamation_marks&#39;: 1}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts2</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;don&#39;t go there!&quot;</span><span class="p">,</span> <span class="s1">&#39;مرحبا. لا تذهب!&#39;</span><span class="p">,</span> <span class="s1">&#39;¡Hola! ¿cómo estás?&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;a few different exclamation marks! make sure you see them!&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span> <span class="o">=</span> <span class="n">extract_exclamations</span><span class="p">(</span><span class="n">posts2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_marks&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;!&#39;], [&#39;!&#39;], [&#39;¡&#39;, &#39;!&#39;], [&#39;!&#39;, &#39;!&#39;]]</span>
+<span class="go"># might be displayed in opposite order due to RTL exclamation mark</span>
+<span class="go">A simple extract of exclamation marks from each of the posts.</span>
+<span class="go">An empty list if none exist</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_marks_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;!&#39;, &#39;!&#39;, &#39;¡&#39;, &#39;!&#39;, &#39;!&#39;, &#39;!&#39;]</span>
+</pre></div>
+</div>
+<p>All exclamation marks in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 2, 2]</span>
+</pre></div>
+</div>
+<p>The count of exclamation marks per post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_freq&#39;</span><span class="p">]</span>
+<span class="go">[(1, 2), (2, 2)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. exclamation marks
+(number_of_symbols, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;top_exclamation_marks&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;!&#39;, 5), (&#39;¡&#39;, 1)]</span>
+</pre></div>
+</div>
+<p>Might be interesting if you have different types of exclamation marks</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_names&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;exclamation mark&#39;], [&#39;exclamation mark&#39;],</span>
+<span class="go">[&#39;inverted exclamation mark&#39;, &#39;exclamation mark&#39;],</span>
+<span class="go">[&#39;exclamation mark&#39;, &#39;exclamation mark&#39;]]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exclamation_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go">&#39;num_exclamation_marks&#39;: 6,</span>
+<span class="go">&#39;exclamation_marks_per_post&#39;: 1.5,</span>
+<span class="go">&#39;unique_exclamation_marks&#39;: 4}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_hashtags">
+<code class="sig-prename descclassname">advertools.extract.</code><code class="sig-name descname">extract_hashtags</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_hashtags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_hashtags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about hashtags in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of hashtags, their frequency, the top
+ones, and more.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_list</strong> – A list of text strings.</p>
+</dd>
+<dt class="field-even">Returns summary</dt>
+<dd class="field-even"><p>A dictionary with various stats about hashtags</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;i like #blue&#39;</span><span class="p">,</span> <span class="s1">&#39;i like #green and #blue&#39;</span><span class="p">,</span> <span class="s1">&#39;i like all&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span> <span class="o">=</span> <span class="n">extract_hashtags</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;hashtags&#39;, &#39;hashtags_flat&#39;, &#39;hashtag_counts&#39;, &#39;hashtag_freq&#39;,</span>
+<span class="go">&#39;top_hashtags&#39;, &#39;overview&#39;])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtags&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;#blue&#39;], [&#39;#green&#39;, &#39;#blue&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of hashtags from each of the posts. An empty list if
+none exist</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtags_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;#blue&#39;, &#39;#green&#39;, &#39;#blue&#39;]</span>
+</pre></div>
+</div>
+<p>All hashtags in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtag_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 2, 0]</span>
+</pre></div>
+</div>
+<p>The count of hashtags per post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;hashtag_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 1), (2, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. hashtags
+(number_of_hashtags, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;top_hashtags&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;#blue&#39;, 2), (&#39;#green&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hashtag_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 3,</span>
+<span class="go"> &#39;num_hashtags&#39;: 3,</span>
+<span class="go"> &#39;hashtags_per_post&#39;: 1.0,</span>
+<span class="go"> &#39;unique_hashtags&#39;: 2}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_intense_words">
+<code class="sig-prename descclassname">advertools.extract.</code><code class="sig-name descname">extract_intense_words</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">min_reps=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_intense_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_intense_words" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_mentions">
+<code class="sig-prename descclassname">advertools.extract.</code><code class="sig-name descname">extract_mentions</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_mentions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_mentions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about mentions in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of mentions, their frequency, the top
+ones, and more.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_list</strong> – A list of text strings.</p>
+</dd>
+<dt class="field-even">Returns summary</dt>
+<dd class="field-even"><p>A dictionary with various stats about mentions</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hello @john and @jenny&#39;</span><span class="p">,</span> <span class="s1">&#39;hi there @john&#39;</span><span class="p">,</span> <span class="s1">&#39;good morning&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span> <span class="o">=</span> <span class="n">extract_mentions</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;mentions&#39;, &#39;mentions_flat&#39;, &#39;mention_counts&#39;, &#39;mention_freq&#39;,</span>
+<span class="go">&#39;top_mentions&#39;, &#39;overview&#39;])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;mentions&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;@john&#39;, &#39;@jenny&#39;], [&#39;@john&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of mentions from each of the posts. An empty list if
+none exist</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;mentions_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;@john&#39;, &#39;@jenny&#39;, &#39;@john&#39;]</span>
+</pre></div>
+</div>
+<p>All mentions in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;mention_counts&#39;</span><span class="p">]</span>
+<span class="go">[2, 1, 0]</span>
+</pre></div>
+</div>
+<p>The count of mentions per post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;mention_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 1), (2, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. mentions
+(number_of_mentions, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;top_mentions&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;@john&#39;, 2), (&#39;@jenny&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mention_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 3, # number of posts</span>
+<span class="go"> &#39;num_mentions&#39;: 3,</span>
+<span class="go"> &#39;mentions_per_post&#39;: 1.0,</span>
+<span class="go"> &#39;unique_mentions&#39;: 2}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_numbers">
+<code class="sig-prename descclassname">advertools.extract.</code><code class="sig-name descname">extract_numbers</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">number_separators=('.'</em>, <em class="sig-param">'</em>, <em class="sig-param">'</em>, <em class="sig-param">'-')</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_numbers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_numbers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about numbers in <code class="docutils literal notranslate"><span class="pre">text_list</span></code>, separated
+by any of <code class="docutils literal notranslate"><span class="pre">number_separators</span></code></p>
+<p>Get a summary of the number of numbers, their frequency, the top
+ones, and more. Typically, numbers would contain separators to make them
+easier to read, so these are included by default, which you can modify.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_list</strong> – A list of text strings.</p></li>
+<li><p><strong>number_separators</strong> – A list of separators that you want
+to be included as part of the extracted numbers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns summary</dt>
+<dd class="field-even"><p>A dictionary with various stats about the numbers</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;text before 123&#39;</span><span class="p">,</span> <span class="s1">&#39;123,456 text after&#39;</span><span class="p">,</span> <span class="s1">&#39;phone 333-444-555&#39;</span><span class="p">,</span>
+<span class="go">&#39;multiple 123,456 and 123.456.789&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">number_summary</span> <span class="o">=</span> <span class="n">extract_numbers</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">number_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;numbers&#39;, &#39;numbers_flat&#39;, &#39;number_counts&#39;, &#39;number_freq&#39;,</span>
+<span class="go">&#39;top_numbers&#39;, &#39;overview&#39;])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">number_summary</span><span class="p">[</span><span class="s1">&#39;numbers&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;123&#39;], [&#39;123,456&#39;], [&#39;333-444-555&#39;], [&#39;123,456&#39;, &#39;123.456.789&#39;]]</span>
+</pre></div>
+</div>
+<p>A simple extract of number from each of the posts. An empty list if
+none exist</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">number_summary</span><span class="p">[</span><span class="s1">&#39;numbers_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;123&#39;, &#39;123,456&#39;, &#39;333-444-555&#39;, &#39;123,456&#39;, &#39;123.456.789&#39;]</span>
+</pre></div>
+</div>
+<p>All numbers in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">number_summary</span><span class="p">[</span><span class="s1">&#39;number_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 1, 2]</span>
+</pre></div>
+</div>
+<p>The count of numbers per post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">number_summary</span><span class="p">[</span><span class="s1">&#39;number_freq&#39;</span><span class="p">]</span>
+<span class="go">[(1, 3), (2, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. numbers
+(number_of_numbers, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">number_summary</span><span class="p">[</span><span class="s1">&#39;top_numbers&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;123,456&#39;, 2), (&#39;123&#39;, 1), (&#39;333-444-555&#39;, 1), (&#39;123.456.789&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">number_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go"> &#39;num_numbers&#39;: 5,</span>
+<span class="go"> &#39;numbers_per_post&#39;: 1.25,</span>
+<span class="go"> &#39;unique_numbers&#39;: 4}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_questions">
+<code class="sig-prename descclassname">advertools.extract.</code><code class="sig-name descname">extract_questions</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_questions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_questions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about question(mark)s in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of question marks, their frequency,
+the top ones, as well the questions asked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_list</strong> – A list of text strings.</p>
+</dd>
+<dt class="field-even">Returns summary</dt>
+<dd class="field-even"><p>A dictionary with various stats about questions</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;How are you?&#39;</span><span class="p">,</span> <span class="s1">&#39;What is this?&#39;</span><span class="p">,</span> <span class="s1">&#39;No question Here!&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span> <span class="o">=</span> <span class="n">extract_questions</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;question_marks&#39;, &#39;question_marks_flat&#39;,</span>
+<span class="go">&#39;question_mark_counts&#39;, &#39;question_mark_freq&#39;, &#39;top_question_marks&#39;,</span>
+<span class="go">&#39;overview&#39;, &#39;question_mark_names&#39;, &#39;question_text&#39;])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_marks&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;?&#39;], [&#39;?&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of question marks from each of the posts. An empty
+list if none exist</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_marks_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;?&#39;, &#39;?&#39;]</span>
+</pre></div>
+</div>
+<p>All question marks in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 0]</span>
+</pre></div>
+</div>
+<p>The count of question marks per post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 2)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. question marks
+(number_of_symbols, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;top_question_marks&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;?&#39;, 2)]</span>
+</pre></div>
+</div>
+<p>Might be interesting if you have different types of question marks
+(Arabic, Spanish, Greek, Armenian, or other)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_names&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;question mark&#39;], [&#39;question mark&#39;], []]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 3,</span>
+<span class="go">&#39;num_question_marks&#39;: 2,</span>
+<span class="go">&#39;question_marks_per_post&#39;: 0.6666666666666666,</span>
+<span class="go">&#39;unique_question_marks&#39;: 1}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Πώς είσαι;&#39;</span><span class="p">,</span> <span class="s1">&#39;مرحباً. كيف حالك؟&#39;</span><span class="p">,</span> <span class="s1">&#39;Hola, ¿cómo estás?&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;Can you see the new questions? Did you notice the different marks?&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span> <span class="o">=</span> <span class="n">extract_questions</span><span class="p">(</span><span class="n">posts2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_marks&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;;&#39;], [&#39;؟&#39;], [&#39;¿&#39;, &#39;?&#39;], [&#39;?&#39;, &#39;?&#39;]]</span>
+<span class="go"># might be displayed in opposite order due to RTL question mark</span>
+<span class="go">A simple extract of question marks from each of the posts. An empty list if</span>
+<span class="go">none exist</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_marks_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;;&#39;, &#39;؟&#39;, &#39;¿&#39;, &#39;?&#39;, &#39;?&#39;, &#39;?&#39;]</span>
+</pre></div>
+</div>
+<p>All question marks in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 1, 2, 2]</span>
+</pre></div>
+</div>
+<p>The count of question marks per post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_freq&#39;</span><span class="p">]</span>
+<span class="go">[(1, 2), (2, 2)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. question marks
+(number_of_symbols, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;top_question_marks&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;?&#39;, 3), (&#39;;&#39;, 1), (&#39;؟&#39;, 1), (&#39;¿&#39;, 1)]</span>
+</pre></div>
+</div>
+<p>Might be interesting if you have different types of question marks
+(Arabic, Spanish, Greek, Armenian, or other)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;question_mark_names&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;greek question mark&#39;], [&#39;arabic question mark&#39;],</span>
+<span class="go">[&#39;inverted question mark&#39;, &#39;question mark&#39;],</span>
+<span class="go">[&#39;question mark&#39;, &#39;question mark&#39;]]</span>
+<span class="go"># correct order</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">question_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go">&#39;num_question_marks&#39;: 6,</span>
+<span class="go">&#39;question_marks_per_post&#39;: 1.5,</span>
+<span class="go">&#39;unique_question_marks&#39;: 4}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_words">
+<code class="sig-prename descclassname">advertools.extract.</code><code class="sig-name descname">extract_words</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">words_to_extract</em>, <em class="sig-param">entire_words_only=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about <code class="docutils literal notranslate"><span class="pre">words_to_extract</span></code> in <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</p>
+<p>Get a summary of the number of words, their frequency, the top
+ones, and more.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_list</strong> – A list of text strings.</p></li>
+<li><p><strong>words_to_extract</strong> – A list of words to extract from <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</p></li>
+<li><p><strong>entire_words_only</strong> – Whether or not to find only complete words
+(as specified by <code class="docutils literal notranslate"><span class="pre">words_to_find</span></code>) or find any any of the
+words as part of longer strings.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns summary</dt>
+<dd class="field-even"><p>A dictionary with various stats about the words</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;there is rain, it is raining&#39;</span><span class="p">,</span> <span class="s1">&#39;there is snow and rain&#39;</span><span class="p">,</span>
+<span class="go">             &#39;there is no rain, it is snowing&#39;, &#39;there is nothing&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span> <span class="o">=</span> <span class="n">extract_words</span><span class="p">(</span><span class="n">posts</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;rain&#39;</span><span class="p">,</span> <span class="s1">&#39;snow&#39;</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;words&#39;, &#39;words_flat&#39;, &#39;word_counts&#39;, &#39;word_freq&#39;,</span>
+<span class="go">&#39;top_words&#39;, &#39;overview&#39;])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go"> &#39;num_words&#39;: 4,</span>
+<span class="go"> &#39;words_per_post&#39;: 1,</span>
+<span class="go"> &#39;unique_words&#39;: 2}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;words&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;rain&#39;], [&#39;snow&#39;, &#39;rain&#39;], [&#39;rain&#39;], []]</span>
+</pre></div>
+</div>
+<p>A simple extract of mentions from each of the posts. An empty list if
+none exist</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;words_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;rain&#39;, &#39;snow&#39;, &#39;rain&#39;, &#39;rain&#39;]</span>
+</pre></div>
+</div>
+<p>All mentions in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;word_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 2, 1, 0]</span>
+</pre></div>
+</div>
+<p>The count of mentions for each post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;word_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1) (1, 2), (2, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. words
+(number_of_words, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;top_words&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;rain&#39;, 3), (&#39;snow&#39;, 1)]</span>
+</pre></div>
+</div>
+<p>Check the same posts extracting any occurrence of the specified words
+with <code class="docutils literal notranslate"><span class="pre">entire_words_only=False</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span> <span class="o">=</span> <span class="n">extract_words</span><span class="p">(</span><span class="n">posts</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;rain&#39;</span><span class="p">,</span> <span class="s1">&#39;snow&#39;</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4, # number of posts</span>
+<span class="go"> &#39;num_words&#39;: 6,</span>
+<span class="go"> &#39;words_per_post&#39;: 1.5,</span>
+<span class="go"> &#39;unique_words&#39;: 4}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;words&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;rain&#39;, &#39;raining&#39;], [&#39;snow&#39;, &#39;rain&#39;], [&#39;rain&#39;, &#39;snowing&#39;], []]</span>
+</pre></div>
+</div>
+<p>Note that the extracted words are the complete words so you can see
+where they occurred. In case “training” was mentioned,
+you would see that it is not related to rain for example.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;words_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;rain&#39;, &#39;raining&#39;, &#39;snow&#39;, &#39;rain&#39;, &#39;rain&#39;, &#39;snowing&#39;]</span>
+</pre></div>
+</div>
+<p>All mentions in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;word_counts&#39;</span><span class="p">]</span>
+<span class="go">[2, 2, 2, 0]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;word_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (2, 3)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. words
+(number_of_words, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_summary</span><span class="p">[</span><span class="s1">&#39;top_words&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;rain&#39;, 3), (&#39;raining&#39;, 1), (&#39;snow&#39;, 1), (&#39;snowing&#39;, 1)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.extract.extract_urls">
+<code class="sig-prename descclassname">advertools.extract.</code><code class="sig-name descname">extract_urls</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_urls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_urls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a summary dictionary about URLs in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
+<p>Get a summary of the number of URLs, their frequency, the top
+ones, and more.
+This does NOT validate URLs, www.a.b would count as a URL</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text_list</strong> – A list of text strings.</p>
+</dd>
+<dt class="field-even">Returns summary</dt>
+<dd class="field-even"><p>A dictionary with various stats about URLs</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;one link http://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;two: http://a.com www.b.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="s1">&#39;no links here&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="s1">&#39;long url http://example.com/one/two/?1=one&amp;2=two&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span> <span class="o">=</span> <span class="n">extract_urls</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;urls&#39;, &#39;urls_flat&#39;, &#39;url_counts&#39;, &#39;url_freq&#39;,</span>
+<span class="go">&#39;top_urls&#39;, &#39;overview&#39;, &#39;top_domains&#39;, &#39;top_tlds&#39;])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;urls&#39;</span><span class="p">]</span>
+<span class="go">[[&#39;http://example.com&#39;],</span>
+<span class="go"> [&#39;http://a.com&#39;, &#39;http://www.b.com&#39;],</span>
+<span class="go"> [],</span>
+<span class="go"> [&#39;http://example.com/one/two/?1=one&amp;2=two&#39;]]</span>
+</pre></div>
+</div>
+<p>A simple extract of urls from each of the posts. An empty list if
+none exist</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;urls_flat&#39;</span><span class="p">]</span>
+<span class="go">[&#39;http://example.com&#39;, &#39;http://a.com&#39;, &#39;http://www.b.com&#39;,</span>
+<span class="go"> &#39;http://example.com/one/two/?1=one&amp;2=two&#39;]</span>
+</pre></div>
+</div>
+<p>All urls in one flat list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;url_counts&#39;</span><span class="p">]</span>
+<span class="go">[1, 2, 0, 1]</span>
+</pre></div>
+</div>
+<p>The count of urls per post.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;url_freq&#39;</span><span class="p">]</span>
+<span class="go">[(0, 1), (1, 2), (2, 1)]</span>
+</pre></div>
+</div>
+<p>Shows how many posts had 0, 1, 2, 3, etc. urls
+(number_of_urls, count)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;top_urls&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;http://example.com&#39;, 1), (&#39;http://a.com&#39;, 1), (&#39;http://www.b.com&#39;, 1),</span>
+<span class="go"> (&#39;http://example.com/one/two/?1=one&amp;2=two&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;top_domains&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;example.com&#39;, 2), (&#39;a.com&#39;, 1), (&#39;www.b.com&#39;, 1)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;top_tlds&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;com&#39;, 4)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<span class="go">{&#39;num_posts&#39;: 4,</span>
+<span class="go"> &#39;num_urls&#39;: 4,</span>
+<span class="go"> &#39;urls_per_post&#39;: 1.0,</span>
+<span class="go"> &#39;unique_urls&#39;: 4}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advertools.stopwords.html" class="btn btn-neutral float-right" title="advertools.stopwords module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="advertools.emoji.html" class="btn btn-neutral float-left" title="advertools.emoji module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Elias Dabbas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

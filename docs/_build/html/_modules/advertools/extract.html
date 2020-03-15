@@ -1,37 +1,224 @@
 
+
 <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>advertools.extract &mdash; advertools 0.8.1 documentation</title>
+  
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta charset="utf-8" />
-    <title>advertools.extract &#8212; advertools 0.2.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
    
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
           
 
-          <div class="body" role="main">
+          
+            <a href="../../index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_from_string.html">Cretae Text Ads From Description Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>advertools.extract</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <h1>Source code for advertools.extract</h1><div class="highlight"><pre>
-<span></span>
+<span></span><span class="sd">&quot;&quot;&quot;Extract structured entities from text lists.</span>
+<span class="sd">Structured entities are pattern matches and not inferred entities.</span>
+<span class="sd">Some example are hashtags, emoji, mentions, questions, and so on. This is</span>
+<span class="sd">in contrast to entity extraction which are inferred from the context of the</span>
+<span class="sd">sentence (people, companies, brands and so on).</span>
+
+<span class="sd">All functions start with ``extract_`` and have a descriptive name for the type</span>
+<span class="sd">of entity that they extract.</span>
+
+<span class="sd">There is also a generic ``extract`` fucntion which powers all others, and it</span>
+<span class="sd">can be used for any other pattern not included. It takes a regular expression,</span>
+<span class="sd">and returns a similar dictionary to the other functions.</span>
+
+<span class="sd">Extract Functions</span>
+<span class="sd">-----------------</span>
+
+<span class="sd">=============================   ====================================================================</span>
+<span class="sd">:func:`extract`                 A generic function that takes a regex to extract any pattern you want</span>
+<span class="sd">:func:`extract_currency`        Currency symbols together with surrounding text for context. This does not include currency abbreviations (USD, EUR, JPY, etc.), only symbols ($, £, €, etc).</span>
+<span class="sd">:func:`extract_emoji`           All the emoji database, together with textual names, groups and sub-groups.</span>
+<span class="sd">:func:`extract_exclamations`    Sentences that end with an excalamation mark!</span>
+<span class="sd">:func:`extract_hashtags`        Extract hashtags with descriptive statistics.</span>
+<span class="sd">:func:`extract_intense_words`   Words that contain three or more repeated characters to express an intense feeling (positive or negative), &quot;I looooooovvvvee this thing&quot;.</span>
+<span class="sd">:func:`extract_mentions`        User mentions in social media posts. Also useful for network analysis.</span>
+<span class="sd">:func:`extract_numbers`         Any numbers that are included the text list. Included a modifiable list of separators to use (&quot;,&quot;, &quot;.&quot;, &quot;-&quot;, etc.).</span>
+<span class="sd">:func:`extract_questions`       Questions included in the text list.</span>
+<span class="sd">:func:`extract_urls`            URls in the text list.</span>
+<span class="sd">:func:`extract_words`           Any arbitrary words that you want extracted. Works in two modes, either the word should fully match the pattern, or as part of a longer word, (&quot;rest&quot; can be matched from &quot;restaurant&quot; or not).</span>
+<span class="sd">=============================   ====================================================================</span>
+
+<span class="sd">All functions return a dictionary with the entities extracted, along with</span>
+<span class="sd">helpful statistics. Since the entities have different meanings, most of them</span>
+<span class="sd">return additional keys depending on the context.</span>
+
+<span class="sd">The recommended way of using:</span>
+
+<span class="sd">&gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">&gt;&gt;&gt; text_list = [&#39;This is the first #text.&#39;, &#39;Second #sentence is here.&#39;,</span>
+<span class="sd">... &#39;Hello, how are you?&#39;, &#39;This #sentence is the last #sentence&#39;]</span>
+<span class="sd">&gt;&gt;&gt; hashtag_summary = adv.extract_hashtags(text_list)</span>
+<span class="sd">&gt;&gt;&gt; hashtag_summary.keys()</span>
+<span class="sd">dict_keys([&#39;hashtags&#39;, &#39;hashtags_flat&#39;, &#39;hashtag_counts&#39;, &#39;hashtag_freq&#39;,</span>
+<span class="sd">           &#39;top_hashtags&#39;, &#39;overview&#39;])</span>
+
+<span class="sd">Now you can start exploring:</span>
+
+<span class="sd">&gt;&gt;&gt; hashtag_summary[&#39;overview&#39;]</span>
+<span class="sd">{&#39;num_posts&#39;: 4,</span>
+<span class="sd"> &#39;num_hashtags&#39;: 4,</span>
+<span class="sd"> &#39;hashtags_per_post&#39;: 1.0,</span>
+<span class="sd"> &#39;unique_hashtags&#39;: 2}</span>
+
+<span class="sd">&gt;&gt;&gt; hashtag_summary[&#39;hashtags&#39;]</span>
+<span class="sd">[[&#39;#text&#39;], [&#39;#sentence&#39;], [], [&#39;#sentence&#39;, &#39;#sentence&#39;]]</span>
+<span class="sd">&gt;&gt;&gt; hashtag_summary[&#39;hashtags_flat&#39;]</span>
+<span class="sd">[&#39;#text&#39;, &#39;#sentence&#39;, &#39;#sentence&#39;, &#39;#sentence&#39;]</span>
+<span class="sd">&gt;&gt;&gt; hashtag_summary[&#39;hashtag_counts&#39;]</span>
+<span class="sd">[1, 1, 0, 2]</span>
+<span class="sd">&gt;&gt;&gt; hashtag_summary[&#39;hashtag_freq&#39;]</span>
+<span class="sd">[(0, 1), (1, 2), (2, 1)]</span>
+<span class="sd">&gt;&gt;&gt; hashtag_summary[&#39;top_hashtags&#39;]</span>
+<span class="sd">[(&#39;#sentence&#39;, 3), (&#39;#text&#39;, 1)]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;extract&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_currency&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_emoji&#39;</span><span class="p">,</span>
            <span class="s1">&#39;extract_exclamations&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_hashtags&#39;</span><span class="p">,</span>
            <span class="s1">&#39;extract_intense_words&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_mentions&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_numbers&#39;</span><span class="p">,</span>
@@ -47,7 +234,7 @@
                     <span class="n">EXCLAMATION_MARK</span><span class="p">,</span> <span class="n">QUESTION</span><span class="p">,</span> <span class="n">QUESTION_MARK</span><span class="p">,</span> <span class="n">URL</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="extract"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract">[docs]</a><span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">key_name</span><span class="p">,</span> <span class="n">extracted</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="extract"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract">[docs]</a><span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">key_name</span><span class="p">,</span> <span class="n">extracted</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a summary dictionary about arbitrary matches in ``text_list``.</span>
 
 <span class="sd">    This function is used by other specialized functions to extract</span>
@@ -95,7 +282,7 @@
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
-<div class="viewcode-block" id="extract_currency"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_currency">[docs]</a><span class="k">def</span> <span class="nf">extract_currency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">left_chars</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">right_chars</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+<div class="viewcode-block" id="extract_currency"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_currency">[docs]</a><span class="k">def</span> <span class="nf">extract_currency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">left_chars</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">right_chars</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a summary dictionary about currency symbols in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of currency symbols, their frequency,</span>
@@ -171,7 +358,7 @@
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
-<div class="viewcode-block" id="extract_emoji"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_emoji">[docs]</a><span class="k">def</span> <span class="nf">extract_emoji</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+<div class="viewcode-block" id="extract_emoji"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_emoji">[docs]</a><span class="k">def</span> <span class="nf">extract_emoji</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a summary dictionary about emoji in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of emoji, their frequency, the top</span>
@@ -276,7 +463,7 @@
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
-<div class="viewcode-block" id="extract_exclamations"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_exclamations">[docs]</a><span class="k">def</span> <span class="nf">extract_exclamations</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+<div class="viewcode-block" id="extract_exclamations"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_exclamations">[docs]</a><span class="k">def</span> <span class="nf">extract_exclamations</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a summary dictionary about exclamation (mark)s in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of exclamation marks, their frequency,</span>
@@ -381,7 +568,7 @@
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
-<div class="viewcode-block" id="extract_hashtags"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_hashtags">[docs]</a><span class="k">def</span> <span class="nf">extract_hashtags</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+<div class="viewcode-block" id="extract_hashtags"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_hashtags">[docs]</a><span class="k">def</span> <span class="nf">extract_hashtags</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a summary dictionary about hashtags in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of hashtags, their frequency, the top</span>
@@ -430,7 +617,7 @@
     <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">HASHTAG</span><span class="p">,</span> <span class="s1">&#39;hashtag&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="extract_intense_words"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_intense_words">[docs]</a><span class="k">def</span> <span class="nf">extract_intense_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">min_reps</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="extract_intense_words"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_intense_words">[docs]</a><span class="k">def</span> <span class="nf">extract_intense_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">min_reps</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\S*)(\S)(</span><span class="si">{}</span><span class="s1">\S*)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">min_reps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="sa">r</span><span class="s1">&#39;\2&#39;</span><span class="p">))</span>
     <span class="n">extracted</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)]</span>
                  <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
@@ -438,7 +625,7 @@
     <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="s1">&#39;intense_word&#39;</span><span class="p">,</span> <span class="n">extracted</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="extract_mentions"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_mentions">[docs]</a><span class="k">def</span> <span class="nf">extract_mentions</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+<div class="viewcode-block" id="extract_mentions"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_mentions">[docs]</a><span class="k">def</span> <span class="nf">extract_mentions</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a summary dictionary about mentions in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of mentions, their frequency, the top</span>
@@ -487,7 +674,7 @@
     <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">MENTION</span><span class="p">,</span> <span class="s1">&#39;mention&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="extract_numbers"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_numbers">[docs]</a><span class="k">def</span> <span class="nf">extract_numbers</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">number_separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)):</span>
+<div class="viewcode-block" id="extract_numbers"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_numbers">[docs]</a><span class="k">def</span> <span class="nf">extract_numbers</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">number_separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)):</span>
     <span class="sd">&quot;&quot;&quot;Return a summary dictionary about numbers in ``text_list``, separated</span>
 <span class="sd">    by any of ``number_separators``</span>
 
@@ -550,7 +737,7 @@
     <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="n">regex</span><span class="p">,</span> <span class="n">key_name</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="extract_questions"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_questions">[docs]</a><span class="k">def</span> <span class="nf">extract_questions</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+<div class="viewcode-block" id="extract_questions"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_questions">[docs]</a><span class="k">def</span> <span class="nf">extract_questions</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a summary dictionary about question(mark)s in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of question marks, their frequency,</span>
@@ -657,7 +844,7 @@
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
-<div class="viewcode-block" id="extract_urls"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_urls">[docs]</a><span class="k">def</span> <span class="nf">extract_urls</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+<div class="viewcode-block" id="extract_urls"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_urls">[docs]</a><span class="k">def</span> <span class="nf">extract_urls</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a summary dictionary about URLs in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of URLs, their frequency, the top</span>
@@ -736,7 +923,7 @@
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
-<div class="viewcode-block" id="extract_words"><a class="viewcode-back" href="../../advertools.html#advertools.extract.extract_words">[docs]</a><span class="k">def</span> <span class="nf">extract_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">words_to_extract</span><span class="p">,</span> <span class="n">entire_words_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="extract_words"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_words">[docs]</a><span class="k">def</span> <span class="nf">extract_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">words_to_extract</span><span class="p">,</span> <span class="n">entire_words_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a summary dictionary about ``words_to_extract`` in ``text_list``.</span>
 
 <span class="sd">    Get a summary of the number of words, their frequency, the top</span>
@@ -838,61 +1025,43 @@
     <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">word_regex</span><span class="p">,</span> <span class="s1">&#39;word&#39;</span><span class="p">)</span></div>
 </pre></div>
 
+           </div>
+           
           </div>
-          
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Elias Dabbas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../../index.html">advertools</a></h1>
+
+    </section>
+
+  </div>
+  
 
 
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
 
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../readme.html">advertools: create, scale, and manage online campaigns</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  <li><a href="../index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2018, Elias Dabbas.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
-      
-    </div>
-
+  
+  
     
+   
 
-    
-  </body>
+</body>
 </html>

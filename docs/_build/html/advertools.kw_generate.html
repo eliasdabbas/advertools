@@ -1,0 +1,461 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>advertools.kw_generate module &mdash; advertools 0.8.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="advertools.ad_create module" href="advertools.ad_create.html" />
+    <link rel="prev" title="advertools: create, scale, and manage online campaigns" href="readme.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Cretae Text Ads From Description Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>advertools.kw_generate module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/advertools.kw_generate.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-advertools.kw_generate">
+<span id="advertools-kw-generate-module"></span><h1>advertools.kw_generate module<a class="headerlink" href="#module-advertools.kw_generate" title="Permalink to this headline">¶</a></h1>
+<p>A big part of setting up SEM campaigns consists of generating keywords, and
+properly mapping them to landing pages and ads, as well as putting them in the
+right campaign and ad group structure.</p>
+<p>Keyword research is the part of this task that takes the most time. It is
+very tedious, yet extremely important.</p>
+<p>The shift here is that we are going to be <em>generating</em> keywords as opposed to
+researching them.</p>
+<p>What is a keyword anyway?</p>
+<p>It is basically a phrase that contains two things:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Product</dt>
+<dd class="field-odd"><p>This is the thing that you are selling. It is simply the name of it.
+“barcelona”, “guitar”, “rio de janeiro”, “accounting”.
+The product on its own is not enough for us to understand what the
+user is looking for. “barcelona trips” and “barcelona football club”
+are completely different “keywords” for example.</p>
+</dd>
+<dt class="field-even">Word</dt>
+<dd class="field-even"><p>To give meaning to the product, it has to come with a word. The word
+can be a verb like “buy” or “purchase”, and it can also be another noun,
+but with a clear intent expressed; “price” and “offers” for example
+clearly show purchase intent.</p>
+</dd>
+</dl>
+<p>So, to <em>generate</em> keywords we need phrases that contain both, the product and
+the descriptive word(s).
+It is very easy to get the products as you know what you sell.
+The next thing you need to come up with are the words that work within your
+strategy.
+The most import idea here is that once you determine that you sell courses for
+example, there aren’t really that many words that can describe that intent;
+course, courses, tutorial, certification, learn, learning, education, etc.
+How many can you come up with? How many exist in any language? Fifteen, twenty?
+Once you have those are basically done.</p>
+<p>Depending on what service you provide and what segment of the market you target
+it shouldn’t be difficult to come up with ideas for words (not keywords yet).
+You might have an e-commerce site, but want to mainly focus on cheap and
+discounted products. Or maybe you have luxury items, and want to exclude words
+that signify price sensitivity.</p>
+<p>Let’s say you have a job site and you know that you provide jobs for
+engineering, graphic design, and marketing.
+The words are easy to come up with; “job”, “jobs”, “careers”, “vacancies”,
+“full time”, “part time”, “work”, and so on.</p>
+<p>Now what we can do is use the <cite>kw_generate</cite> function to come up with all
+possible combinations (order doesn’t matter) and/or permutations (order
+matters) and get a ready-to-use table to upload and start running the campaign.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;enginering&#39;</span><span class="p">,</span> <span class="s1">&#39;graphic design&#39;</span><span class="p">,</span> <span class="s1">&#39;marketing&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;jobs&#39;</span><span class="p">,</span> <span class="s1">&#39;careers&#39;</span><span class="p">,</span> <span class="s1">&#39;vacancies&#39;</span><span class="p">,</span> <span class="s1">&#39;full time&#39;</span><span class="p">,</span> <span class="s1">&#39;part time&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">kw_generate</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">words</span><span class="p">)</span>
+<span class="go">         Campaign    Ad Group                             Keyword    Criterion Type               Labels</span>
+<span class="go">0    SEM_Campaign  Enginering                     enginering jobs             Exact                 Jobs</span>
+<span class="go">1    SEM_Campaign  Enginering                     enginering jobs            Phrase                 Jobs</span>
+<span class="go">2    SEM_Campaign  Enginering                   +enginering +jobs             Broad                 Jobs</span>
+<span class="go">3    SEM_Campaign  Enginering                  enginering careers             Exact              Careers</span>
+<span class="go">4    SEM_Campaign  Enginering                  enginering careers            Phrase              Careers</span>
+<span class="go">..            ...         ...                                 ...              ...                  ...</span>
+<span class="go">625  SEM_Campaign   Marketing       part time vacancies marketing            Phrase   Part Time;Vacancies</span>
+<span class="go">626  SEM_Campaign   Marketing   +part +time +vacancies +marketing             Broad   Part Time;Vacancies</span>
+<span class="go">627  SEM_Campaign   Marketing       part time full time marketing             Exact   Part Time;Full Time</span>
+<span class="go">628  SEM_Campaign   Marketing       part time full time marketing            Phrase   Part Time;Full Time</span>
+<span class="go">629  SEM_Campaign   Marketing  +part +time +full +time +marketing             Broad   Part Time;Full Time</span>
+<span class="go">[630 rows x 5 columns]</span>
+</pre></div>
+</div>
+<p>And we’re done!</p>
+<p>Check the <cite>kw_generate</cite> function for more options and details.</p>
+<dl class="function">
+<dt id="advertools.kw_generate.kw_broad">
+<code class="sig-prename descclassname">advertools.kw_generate.</code><code class="sig-name descname">kw_broad</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_broad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_broad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in broad match.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>words</strong> – list of strings</p>
+</dd>
+<dt class="field-even">Returns formatted</dt>
+<dd class="field-even"><p><cite>words</cite> in broad match type</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;[learn guitar]&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;guitar courses&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;+guitar +tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_broad</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_exact">
+<code class="sig-prename descclassname">advertools.kw_generate.</code><code class="sig-name descname">kw_exact</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_exact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_exact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in exact match.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>words</strong> – list of strings</p>
+</dd>
+<dt class="field-even">Returns formatted</dt>
+<dd class="field-even"><p><cite>words</cite> in exact match type</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_exact</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;[learn guitar]&#39;, &#39;[guitar courses]&#39;, &#39;[guitar tutor]&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_generate">
+<code class="sig-prename descclassname">advertools.kw_generate.</code><code class="sig-name descname">kw_generate</code><span class="sig-paren">(</span><em class="sig-param">products</em>, <em class="sig-param">words</em>, <em class="sig-param">max_len=3</em>, <em class="sig-param">match_types=('Exact'</em>, <em class="sig-param">'Phrase'</em>, <em class="sig-param">'Modified')</em>, <em class="sig-param">order_matters=True</em>, <em class="sig-param">campaign_name='SEM_Campaign'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a data frame of keywords using a list of products and relevant
+words.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>products</strong> – will be used as the names of the ad groups</p></li>
+<li><p><strong>words</strong> – related words that make it clear that the user is interested
+in <code class="docutils literal notranslate"><span class="pre">products</span></code></p></li>
+<li><p><strong>max_len</strong> – the maximum number of words to include in each permutation
+of product keywords</p></li>
+<li><p><strong>match_types</strong> – can be restricted or kept as is based on preference,
+possible values: ‘Exact’, ‘Phrase’, ‘Modified’, ‘Broad’</p></li>
+<li><p><strong>order_matters</strong> – whether or not the order of words in keywords
+matters, default False</p></li>
+<li><p><strong>campaign_name</strong> – name of campaign</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns keywords_df</dt>
+<dd class="field-even"><p>a pandas.DataFrame ready to upload</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bmw&#39;</span><span class="p">,</span> <span class="s1">&#39;toyota&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;buy&#39;</span><span class="p">,</span> <span class="s1">&#39;second hand&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">kw_generate</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">words</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="go">       Campaign Ad Group          Keyword Criterion Type       Labels</span>
+<span class="go">0  SEM_Campaign      Bmw          bmw buy          Exact          Buy</span>
+<span class="go">1  SEM_Campaign      Bmw          bmw buy         Phrase          Buy</span>
+<span class="go">2  SEM_Campaign      Bmw        +bmw +buy          Broad          Buy</span>
+<span class="go">3  SEM_Campaign      Bmw  bmw second hand          Exact  Second Hand</span>
+<span class="go">4  SEM_Campaign      Bmw  bmw second hand         Phrase  Second Hand</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kw_df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+<span class="go">        Campaign Ad Group                    Keyword Criterion Type           Labels</span>
+<span class="go">55  SEM_Campaign   Toyota     second hand toyota buy         Phrase  Second Hand;Buy</span>
+<span class="go">56  SEM_Campaign   Toyota  +second hand +toyota +buy          Broad  Second Hand;Buy</span>
+<span class="go">57  SEM_Campaign   Toyota     second hand buy toyota          Exact  Second Hand;Buy</span>
+<span class="go">58  SEM_Campaign   Toyota     second hand buy toyota         Phrase  Second Hand;Buy</span>
+<span class="go">59  SEM_Campaign   Toyota  +second hand +buy +toyota          Broad  Second Hand;Buy</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_modified">
+<code class="sig-prename descclassname">advertools.kw_generate.</code><code class="sig-name descname">kw_modified</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_modified"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_modified" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in modified broad match.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>words</strong> – list of strings</p>
+</dd>
+<dt class="field-even">Returns formatted</dt>
+<dd class="field-even"><p><cite>words</cite> in modified broad match type</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_modified</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;+learn +guitar&#39;, &#39;+guitar +courses&#39;, &#39;+guitar +tutor&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_neg_broad">
+<code class="sig-prename descclassname">advertools.kw_generate.</code><code class="sig-name descname">kw_neg_broad</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_broad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_broad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in negative broad match.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>words</strong> – list of strings</p>
+</dd>
+<dt class="field-even">Returns formatted</dt>
+<dd class="field-even"><p><cite>words</cite> in negative broad match type</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_neg_broad</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;-learn guitar&#39;, &#39;-guitar courses&#39;, &#39;-guitar tutor&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_neg_exact">
+<code class="sig-prename descclassname">advertools.kw_generate.</code><code class="sig-name descname">kw_neg_exact</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_exact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_exact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in negative exact match.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>words</strong> – list of strings</p>
+</dd>
+<dt class="field-even">Returns formatted</dt>
+<dd class="field-even"><p><cite>words</cite> in negative exact match type</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_neg_exact</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;-[learn guitar]&#39;, &#39;-[guitar courses]&#39;, &#39;-[guitar tutor]&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_neg_phrase">
+<code class="sig-prename descclassname">advertools.kw_generate.</code><code class="sig-name descname">kw_neg_phrase</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_phrase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_phrase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in negative phrase match.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>words</strong> – list of strings</p>
+</dd>
+<dt class="field-even">Returns formatted</dt>
+<dd class="field-even"><p><cite>words</cite> in negative phrase match type</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_neg_phrase</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;-&quot;learn guitar&quot;&#39;, &#39;-&quot;guitar courses&quot;&#39;, &#39;-&quot;guitar tutor&quot;&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="advertools.kw_generate.kw_phrase">
+<code class="sig-prename descclassname">advertools.kw_generate.</code><code class="sig-name descname">kw_phrase</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_phrase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_phrase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">words</span></code> in phrase match.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>words</strong> – list of strings</p>
+</dd>
+<dt class="field-even">Returns formatted</dt>
+<dd class="field-even"><p><cite>words</cite> in phrase match type</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;learn guitar&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar courses&#39;</span><span class="p">,</span> <span class="s1">&#39;guitar tutor&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kw_phrase</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<span class="go">[&#39;&quot;learn guitar&quot;&#39;, &#39;&quot;guitar courses&quot;&#39;, &#39;&quot;guitar tutor&quot;&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advertools.ad_create.html" class="btn btn-neutral float-right" title="advertools.ad_create module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="readme.html" class="btn btn-neutral float-left" title="advertools: create, scale, and manage online campaigns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Elias Dabbas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

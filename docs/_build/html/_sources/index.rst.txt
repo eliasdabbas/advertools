@@ -3,15 +3,35 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to advertools's documentation!
-======================================
+advertools
+==========
+Online marketing productivity and analysis tools
+------------------------------------------------
+
+Generate keywords for SEM campaigns, create text ads on a large scale, analyze
+multiple SERPs at once, gain insights from large social media posts, and get
+productive as an online marketer.
+
+If these are things you interested in, then this package might make your life
+a little easier.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-   readme
+   About advertools <readme>
+   Generate SEM Keywords <advertools.kw_generate>
+   Create Text Ads on a Large Scale <advertools.ad_create>
+   Cretae Text Ads From Description Text <advertools.ad_from_string>
+   Emoji Tools <advertools.emoji>
+   Extract Structured Entities from Text <advertools.extract>
+   Stop Words <advertools.stopwords>
+   Word Frequency (absolute and weighted) <advertools.word_frequency>
+   Word Tokenization (N-grams) <advertools.word_tokenize>
+   Analyze Search Engine Results (SERPs) <advertools.serp>
+   Twitter Data <advertools.twitter>
+   YouTube Data <advertools.youtube>
 
+   API Reference <modules>
 
 Indices and tables
 ==================
