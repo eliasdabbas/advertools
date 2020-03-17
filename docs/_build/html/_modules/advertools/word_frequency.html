@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>advertools.word_frequency &mdash; advertools 0.8.1 documentation</title>
+  <title>advertools.word_frequency &mdash;  Python</title>
   
 
   
@@ -56,6 +56,10 @@
 
           
             
+            
+              <div class="version">
+                0.8.1
+              </div>
             
           
 
@@ -201,12 +205,13 @@
 <span class="sd">media, as well as in pageviews report, e-commerce and most other datasets),</span>
 <span class="sd">then you get a completely different picture about your dataset.</span>
 
-<span class="sd">These two simple examples contain two posts, and a word each. This function</span>
-<span class="sd">can provide insight on hidden trends especially in large datasets, and when the</span>
-<span class="sd">sentences or phrases are also longer then a word or two each.</span>
+<span class="sd">These two simple examples contain two posts, and a word each. The</span>
+<span class="sd">:func:`word_frequency` function can provide insight on hidden trends especially</span>
+<span class="sd">in large datasets, and when the sentences or phrases are also longer then a</span>
+<span class="sd">word or two each.</span>
 
 <span class="sd">Let&#39;s take a look at how to use the :func:`word_frequency` function, and what</span>
-<span class="sd">the available options are.</span>
+<span class="sd">the available parameters and options are.</span>
 
 
 <span class="sd">.. glossary::</span>
@@ -215,7 +220,7 @@
 <span class="sd">        The list of phrases or documents that you want to analyze. Here are</span>
 <span class="sd">        some possible ideas that you might use this for:</span>
 
-<span class="sd">            * keywords whether in a PPC or SEO report</span>
+<span class="sd">            * keywords, whether in a PPC or SEO report</span>
 <span class="sd">            * page titles in an analytics report</span>
 <span class="sd">            * social media posts (tweets, Facebook posts, YouTube video titles</span>
 <span class="sd">              or descriptions etc.)</span>
@@ -239,16 +244,17 @@
 <span class="sd">        of length :attr:`phrase_len`.</span>
 <span class="sd">        But you may want to count the occurrences of certain patterns of text.</span>
 <span class="sd">        Check out the :ref:`regex &lt;regex&gt;` module for the available regular</span>
-<span class="sd">        expressions that might be interesting. Some of them are hashtags,</span>
-<span class="sd">        mentions, questions, emoji, currencies, and more.</span>
+<span class="sd">        expressions that might be interesting. Some of the pre-defined ones are</span>
+<span class="sd">        hashtags, mentions, questions, emoji, currencies, and more.</span>
 
 <span class="sd">    rm_words</span>
-<span class="sd">        A list of words to ignore and not count. Known as stop-words these are</span>
-<span class="sd">        the most frequently used words in a language, the most used, but don&#39;t</span>
-<span class="sd">        add much meaning to the content (a, and, of, the, if, etc.). By default</span>
-<span class="sd">        a set of English stopwords is provided (which you can check and</span>
-<span class="sd">        possibly may want to modify), or run ``adv.stopwords.keys()`` to get a</span>
-<span class="sd">        list of all the available stopwords in the available languages.</span>
+<span class="sd">        A list of words to remove and ignore from the count. Known as</span>
+<span class="sd">        stop-words these are the most frequently used words in a language,</span>
+<span class="sd">        the most used, but don&#39;t add much meaning to the content (a, and, of,</span>
+<span class="sd">        the, if, etc.). By default a set of English stopwords is provided</span>
+<span class="sd">        (which you can check and possibly may want to modify), or run</span>
+<span class="sd">        ``adv.stopwords.keys()`` to get a list of all the available stopwords</span>
+<span class="sd">        in the available languages.</span>
 <span class="sd">        In some cases (like page titles for example), you might get &quot;words&quot;</span>
 <span class="sd">        that need to be removed as well, like the pipe &quot;|&quot; character for</span>
 <span class="sd">        example.</span>
@@ -270,8 +276,7 @@
 <span class="sd">:attr:`abs_freq`           The number of occurrences of each word in all</span>
 <span class="sd">                           the documents.</span>
 <span class="sd">:attr:`wtd_freq`           Every occurrence of :attr:`word` multiplied by</span>
-<span class="sd">                           its respective value in :attr:`num_list`</span>
-<span class="sd">                           provided by the function call.</span>
+<span class="sd">                           its respective value in :attr:`num_list`.</span>
 <span class="sd">:attr:`rel_value`          :attr:`wtd_freq` divided by :attr:`abs_freq`,</span>
 <span class="sd">                           showing the value per occurrence of :attr:`word`</span>
 <span class="sd">:attr:`abs_perc`           Absolute frequency percentage.</span>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Create Ads on a Large Scale &mdash; advertools 0.8.1 documentation</title>
+  <title>Create Ads on a Large Scale &mdash;  Python</title>
   
 
   
@@ -58,6 +58,10 @@
 
           
             
+            
+              <div class="version">
+                0.8.1
+              </div>
             
           
 
@@ -180,9 +184,9 @@ For this you need to provide a <cite>fallback</cite> text in case the product na
 longer than <cite>max_len</cite>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Dubai&#39;</span><span class="p">,</span> <span class="s1">&#39;Tokyo&#39;</span><span class="p">,</span> <span class="s1">&#39;Singapore&#39;</span><span class="p">,</span> <span class="s1">&#39;Llanfairpwllgwyngyll&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;5-star Hotels in </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
-<span class="gp">... </span>            <span class="n">replacements</span><span class="o">=</span><span class="n">products</span><span class="p">,</span>
-<span class="gp">... </span>            <span class="n">max_len</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-<span class="gp">... </span>            <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;Great Cities&#39;</span><span class="p">)</span>
+<span class="gp">... </span>              <span class="n">replacements</span><span class="o">=</span><span class="n">products</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">max_len</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;Great Cities&#39;</span><span class="p">)</span>
 <span class="go">[&#39;5-star Hotels In Dubai&#39;,</span>
 <span class="go"> &#39;5-star Hotels In Tokyo&#39;,</span>
 <span class="go"> &#39;5-star Hotels In Singapore&#39;,</span>
@@ -191,7 +195,7 @@ longer than <cite>max_len</cite>.</p>
 </div>
 <dl class="function">
 <dt id="advertools.ad_create.ad_create">
-<code class="sig-prename descclassname">advertools.ad_create.</code><code class="sig-name descname">ad_create</code><span class="sig-paren">(</span><em class="sig-param">template</em>, <em class="sig-param">replacements</em>, <em class="sig-param">fallback</em>, <em class="sig-param">max_len=30</em>, <em class="sig-param">capitalize=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_create.html#ad_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_create.ad_create" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ad_create</code><span class="sig-paren">(</span><em class="sig-param">template</em>, <em class="sig-param">replacements</em>, <em class="sig-param">fallback</em>, <em class="sig-param">max_len=30</em>, <em class="sig-param">capitalize=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_create.html#ad_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_create.ad_create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Insert each of the replacement strings in its place within template.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

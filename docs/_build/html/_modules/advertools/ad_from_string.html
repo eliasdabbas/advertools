@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>advertools.ad_from_string &mdash; advertools 0.8.1 documentation</title>
+  <title>advertools.ad_from_string &mdash;  Python</title>
   
 
   
@@ -56,6 +56,10 @@
 
           
             
+            
+              <div class="version">
+                0.8.1
+              </div>
             
           
 
@@ -161,8 +165,116 @@
 <span class="sd">Create Ads Using Long Descriptive Text (top-down approach)</span>
 <span class="sd">==========================================================</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Many times you have long descriptive text about your products, especially on</span>
+<span class="sd">their respective landing pages. The allowed length of text ads has become</span>
+<span class="sd">considerably long on many platforms. On Google Ads for example, you have slots</span>
+<span class="sd">of 30, 30, 30, 90, and 90 characters, for a total of 270. That&#39;s more than</span>
+<span class="sd">enough space to talk about the main features of your product.</span>
 
+<span class="sd">The question is, how do you utilize that long description text that has all the</span>
+<span class="sd">details that you want, and make sure it fits correctly within the limits given</span>
+<span class="sd">by the platform you are using?</span>
+
+<span class="sd">The :func:`ad_from_string` function does exactly that. Given a long string, it</span>
+<span class="sd">divides it into slots of any given length that you specify, and if any text</span>
+<span class="sd">remains it will be appended to the end of the returned list.</span>
+
+<span class="sd">Another important benefit of this is that you can take those long descriptions</span>
+<span class="sd">(or write them) once, and then you can easily split them into different slots</span>
+<span class="sd">based on the ad format and the platform you are using.</span>
+
+<span class="sd">Here is a quick overview of the available parameters and options:</span>
+
+<span class="sd">.. gloassary::</span>
+
+<span class="sd">    s</span>
+<span class="sd">        The string that you want to split. This would typically be available</span>
+<span class="sd">        on the landing pages of each product.</span>
+
+<span class="sd">    slots</span>
+
+<span class="sd">        The lengths that you want to split into. Note that although the default</span>
+<span class="sd">        uses Google Ads&#39; text ad template, you can change it to any other</span>
+<span class="sd">        group of slots, with more or fewer slots of different lengths.</span>
+
+<span class="sd">    sep</span>
+
+<span class="sd">        The separator by which to split the text. The default is :attr:`None`</span>
+<span class="sd">        which splits the text by whitespace, but you can change it to something</span>
+<span class="sd">        else if needed. Sometimes you might want the text split by hyphens</span>
+<span class="sd">        (URLs for example) so you can split by that character.</span>
+
+<span class="sd">    capitalize</span>
+
+<span class="sd">        The default is :attr:`False` which leaves the capitalization of</span>
+<span class="sd">        :attr:`s` intact. If you set it to :attr:`True` then the first letter</span>
+<span class="sd">        of each word would be capitalized.</span>
+
+
+<span class="sd">**Example**</span>
+
+<span class="sd">Note that in any case, the returned list of characters is longer than the</span>
+<span class="sd">provided slots by one. So if you provide five slots, for example, the function</span>
+<span class="sd">will always return a list of length six.</span>
+
+<span class="sd">This is to ensure that the remainder of the text is not lost if it is longer,</span>
+<span class="sd">so you know what is missing. In case you have shorter text, you will still have</span>
+<span class="sd">one element more than the provided slots to ensure consistency.</span>
+
+<span class="sd">&gt;&gt;&gt; desc_text = &quot;Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping now.&quot;</span>
+<span class="sd">&gt;&gt;&gt; len(desc_text)</span>
+<span class="sd">130</span>
+
+<span class="sd">Now let&#39;s see how this same description can be utilized in different scenarios</span>
+
+<span class="sd">Google Text Ads</span>
+<span class="sd">^^^^^^^^^^^^^^^</span>
+
+<span class="sd">Since this is shorter than the default Google values, you will get extra empty</span>
+<span class="sd">slots (with an additional last one).</span>
+
+<span class="sd">&gt;&gt;&gt; ad_from_string(desc_text)  # default values (Google text ads)</span>
+<span class="sd">[&#39;Get the latest gadget online.&#39;,</span>
+<span class="sd"> &#39;The GX12 model comes with 13&#39;,</span>
+<span class="sd"> &#39;things that do a lot of good&#39;,</span>
+<span class="sd"> &#39;stuff for your health. Start shopping now.&#39;,</span>
+<span class="sd"> &#39;&#39;,</span>
+<span class="sd"> &#39;&#39;,</span>
+<span class="sd"> &#39;&#39;,</span>
+<span class="sd"> &#39;&#39;]</span>
+
+<span class="sd">Facebook Feed Ads</span>
+<span class="sd">^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">In this case, it is also shorter than the default value, so you get an extra</span>
+<span class="sd">space.</span>
+
+<span class="sd">&gt;&gt;&gt; ad_from_string(desc_text, [125, 25, 30])  # Facebook feed ads</span>
+<span class="sd">[&#39;Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping&#39;,</span>
+<span class="sd"> &#39;now.&#39;,</span>
+<span class="sd"> &#39;&#39;,</span>
+<span class="sd"> &#39;&#39;]</span>
+
+<span class="sd">Since it might not look good having just one word in the second slot, and an</span>
+<span class="sd">empty last one, you might want to change it as follows:</span>
+
+<span class="sd">&gt;&gt;&gt; ad_from_string(desc_text, [90, 25, 30])</span>
+<span class="sd">[&#39;Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good&#39;,</span>
+<span class="sd"> &#39;stuff for your health.&#39;,</span>
+<span class="sd"> &#39;Start shopping now.&#39;,</span>
+<span class="sd"> &#39;&#39;]</span>
+
+
+<span class="sd">Facebook Instant Article Ad</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">Here is a case where our text is longer than the provided limitations, so we</span>
+<span class="sd">end up having an extra space that is not used:</span>
+
+<span class="sd">&gt;&gt;&gt; ad_from_string(desc_text, [25, 30])  # Facebook instant article ad</span>
+<span class="sd">[&#39;Get the latest gadget&#39;,</span>
+<span class="sd"> &#39;online. The GX12 model comes&#39;,</span>
+<span class="sd"> &#39;with 13 things that do a lot of good stuff for your health. Start shopping now.&#39;]</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">string</span>
 
 

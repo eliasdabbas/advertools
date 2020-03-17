@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tokenize Words (N-grams) &mdash; advertools 0.8.1 documentation</title>
+  <title>Tokenize Words (N-grams) &mdash;  Python</title>
   
 
   
@@ -58,6 +58,10 @@
 
           
             
+            
+              <div class="version">
+                0.8.1
+              </div>
             
           
 
@@ -160,9 +164,12 @@
             
   <span class="target" id="module-advertools.word_tokenize"></span><div class="section" id="tokenize-words-n-grams">
 <span id="word-tokenize"></span><h1>Tokenize Words (N-grams)<a class="headerlink" href="#tokenize-words-n-grams" title="Permalink to this headline">¶</a></h1>
+<p>As word counting is an essential step in any text mining task, you first have
+to split the text into words.</p>
+<p>The <a class="reference internal" href="#advertools.word_tokenize.word_tokenize" title="advertools.word_tokenize.word_tokenize"><code class="xref py py-func docutils literal notranslate"><span class="pre">word_tokenize()</span></code></a></p>
 <dl class="function">
 <dt id="advertools.word_tokenize.word_tokenize">
-<code class="sig-prename descclassname">advertools.word_tokenize.</code><code class="sig-name descname">word_tokenize</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">phrase_len=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">word_tokenize</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">phrase_len=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split <code class="docutils literal notranslate"><span class="pre">text_list</span></code> into phrases of length <code class="docutils literal notranslate"><span class="pre">phrase_len</span></code> words each.</p>
 <p>A “word” is any string between white spaces (or beginning or
 end of string) with delimiters stripped from both sides.
@@ -176,7 +183,7 @@ Any delimiter contained within the string remains. See examples below.</p>
 </ul>
 </dd>
 <dt class="field-even">Return tokenized</dt>
-<dd class="field-even"><p>List of lists, split according to <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code>.</p>
+<dd class="field-even"><p>List of lists, split according to <code class="xref py py-attr docutils literal notranslate"><span class="pre">phrase_len</span></code>.</p>
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;split me into length-n-words&#39;</span><span class="p">,</span>
