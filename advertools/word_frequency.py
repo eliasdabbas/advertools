@@ -44,12 +44,13 @@ has a thousand followers, and other has a million (which is typical on social
 media, as well as in pageviews report, e-commerce and most other datasets),
 then you get a completely different picture about your dataset.
 
-These two simple examples contain two posts, and a word each. This function
-can provide insight on hidden trends especially in large datasets, and when the
-sentences or phrases are also longer then a word or two each.
+These two simple examples contain two posts, and a word each. The
+:func:`word_frequency` function can provide insight on hidden trends especially
+in large datasets, and when the sentences or phrases are also longer then a
+word or two each.
 
 Let's take a look at how to use the :func:`word_frequency` function, and what
-the available options are.
+the available parameters and options are.
 
 
 .. glossary::
@@ -58,7 +59,7 @@ the available options are.
         The list of phrases or documents that you want to analyze. Here are
         some possible ideas that you might use this for:
 
-            * keywords whether in a PPC or SEO report
+            * keywords, whether in a PPC or SEO report
             * page titles in an analytics report
             * social media posts (tweets, Facebook posts, YouTube video titles
               or descriptions etc.)
@@ -82,16 +83,17 @@ the available options are.
         of length :attr:`phrase_len`.
         But you may want to count the occurrences of certain patterns of text.
         Check out the :ref:`regex <regex>` module for the available regular
-        expressions that might be interesting. Some of them are hashtags,
-        mentions, questions, emoji, currencies, and more.
+        expressions that might be interesting. Some of the pre-defined ones are
+        hashtags, mentions, questions, emoji, currencies, and more.
 
     rm_words
-        A list of words to ignore and not count. Known as stop-words these are
-        the most frequently used words in a language, the most used, but don't
-        add much meaning to the content (a, and, of, the, if, etc.). By default
-        a set of English stopwords is provided (which you can check and
-        possibly may want to modify), or run ``adv.stopwords.keys()`` to get a
-        list of all the available stopwords in the available languages.
+        A list of words to remove and ignore from the count. Known as
+        stop-words these are the most frequently used words in a language,
+        the most used, but don't add much meaning to the content (a, and, of,
+        the, if, etc.). By default a set of English stopwords is provided
+        (which you can check and possibly may want to modify), or run
+        ``adv.stopwords.keys()`` to get a list of all the available stopwords
+        in the available languages.
         In some cases (like page titles for example), you might get "words"
         that need to be removed as well, like the pipe "|" character for
         example.
@@ -113,8 +115,7 @@ Below are all the columns of the returned DataFrame:
 :attr:`abs_freq`           The number of occurrences of each word in all
                            the documents.
 :attr:`wtd_freq`           Every occurrence of :attr:`word` multiplied by
-                           its respective value in :attr:`num_list`
-                           provided by the function call.
+                           its respective value in :attr:`num_list`.
 :attr:`rel_value`          :attr:`wtd_freq` divided by :attr:`abs_freq`,
                            showing the value per occurrence of :attr:`word`
 :attr:`abs_perc`           Absolute frequency percentage.
