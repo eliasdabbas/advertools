@@ -1,4 +1,10 @@
+"""
+.. _serp:
 
+Import Search Engine Results Pages (SERPs) for Google and YouTube
+=================================================================
+
+"""
 __all__ = ['SERP_GOOG_VALID_VALS', 'YOUTUBE_TOPIC_IDS',
            'YOUTUBE_VID_CATEGORY_IDS', 'serp_goog', 'serp_youtube',
            'set_logging_level', 'youtube_channel_details',

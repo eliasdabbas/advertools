@@ -1,4 +1,10 @@
-"""An emoji is worth a thousand words!
+"""
+.. _emoji:
+
+Emoji: Extract, Analyze, and Get Insights
+=========================================
+
+An emoji is worth a thousand words!
 Regular expressions and helper functionality to aid in extracting and finding
 emoji from text.
 
@@ -4189,10 +4195,11 @@ emoji_df = pd.DataFrame(EMOJI_ENTRIES.values())
 
 def emoji_search(regex):
     """Return a DataFrame of all emoji entries where any description contains
-     ``regex``.
+    :attr:`regex`.
 
     "description" can be the name of the emoji, its group, or sub-group.
-    :param regex: regular expression (case insensitive)
+
+    :param str regex: regular expression (case insensitive)
 
     >>> emoji_search('dog')
               codepoint           status  emoji          name             group      sub_group
@@ -4211,14 +4218,6 @@ def emoji_search(regex):
     4     1F7E6  fully-qualified     🟦         blue square            Symbols     geometric
     5     1F537  fully-qualified     🔷  large blue diamond            Symbols     geometric
     6     1F539  fully-qualified     🔹  small blue diamond            Symbols     geometric
-
-
-
-
-
-
-
-
     """
     result_index = (emoji_df
                     .select_dtypes('object')

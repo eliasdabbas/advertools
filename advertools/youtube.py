@@ -1,3 +1,10 @@
+"""
+.. _youtube:
+
+YouTube Data API
+================
+"""
+
 from ._yt_helpers import _combine_requests
 
 __all__ = [

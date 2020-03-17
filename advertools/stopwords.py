@@ -1,4 +1,10 @@
 """
+.. _stopwords:
+
+Stopwords in Several Languages
+==============================
+
+
 Stopwords by the spaCy package
 Copyright (C) 2016 ExplosionAI UG (haftungsbeschränkt), 2016 spaCy GmbH,
 2015 Matthew Honnibal
@@ -8,6 +14,7 @@ pages, keywords, etc.
 
 Each list is accessible as part of a dictionary `stopwords` which is a normal
 Python dictionary.
+
 
 >>> import advertools as adv
 >>> adv.stopwords['english'][:5]

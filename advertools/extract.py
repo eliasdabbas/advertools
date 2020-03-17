@@ -1,4 +1,9 @@
-"""Extract structured entities from text lists.
+"""
+.. _extract:
+
+Extract structured entities from text lists
+===========================================
+
 Structured entities are pattern matches and not inferred entities.
 Some example are hashtags, emoji, mentions, questions, and so on. This is
 in contrast to entity extraction which are inferred from the context of the
@@ -85,15 +90,15 @@ def extract(text_list, regex, key_name, extracted=None, **kwargs):
     It can be used for other arbitrary elements/matches. You only need to
     provide your own regex.
 
-    :param text_list: Any list of strings (social posts, page titles, etc.)
-    :param regex: The regex pattern to use for extraction.
-    :param key_name: The name of the object extracted in singular form
+    :param list text_list: Any list of strings (social posts, page titles, etc.)
+    :param str regex: The regex pattern to use for extraction.
+    :param str key_name: The name of the object extracted in singular form
         (hashtag, mention, etc.)
-    :param extracted: List of lists, optional. If the regex is not
+    :param list(list) extracted: List of lists, optional. If the regex is not
         straightforward, and matches need to be made with special code,
         provide the extracted words/matches as a list for each element
-        of ``text_list``.
-    :param kwargs: Other kwargs that might be needed.
+        of :attr:`text_list`.
+    :param mapping kwargs: Other kwargs that might be needed.
     :return summary: A dictionary summarizing the extracted data.
     """
     if isinstance(regex, str):
@@ -131,11 +136,11 @@ def extract_currency(text_list, left_chars=20, right_chars=20):
     Get a summary of the number of currency symbols, their frequency,
     the top ones, and more.
 
-    :param text_list: A list of text strings.
-    :param left_chars: The number of characters to extract, to the
-        left of the symbol when getting ``surrounding_text``
-    :param right_chars: The number of characters to extract, to the
-        left of the symbol when getting ``surrounding_text``
+    :param list text_list: A list of text strings.
+    :param int left_chars: The number of characters to extract, to the
+        left of the symbol when getting :attr:`surrounding_text`
+    :param int right_chars: The number of characters to extract, to the
+        left of the symbol when getting :attr:`surrounding_text`
     :returns summary: A dictionary with various stats about currencies
 
     >>> posts = ['today ₿1 is around $4k', 'and ₿ in £ & €?', 'no idea']
@@ -207,7 +212,7 @@ def extract_emoji(text_list):
     Get a summary of the number of emoji, their frequency, the top
     ones, and more.
 
-    :param text_list: A list of text strings.
+    :param list text_list: A list of text strings.
     :returns summary: A dictionary with various stats about emoji
 
     >>> posts = ['I am grinning 😀','A grinning cat 😺',
@@ -312,7 +317,7 @@ def extract_exclamations(text_list):
     Get a summary of the number of exclamation marks, their frequency,
     the top ones, as well the exclamations written/said.
 
-    :param text_list: A list of text strings.
+    :param list text_list: A list of text strings.
     :returns summary: A dictionary with various stats about exclamations
 
     >>> posts = ['Who are you!', 'What is this!', 'No exclamation here?']
@@ -412,12 +417,12 @@ def extract_exclamations(text_list):
 
 
 def extract_hashtags(text_list):
-    """Return a summary dictionary about hashtags in ``text_list``
+    """Return a summary dictionary about hashtags in :attr:`text_list`
 
     Get a summary of the number of hashtags, their frequency, the top
     ones, and more.
 
-    :param text_list: A list of text strings.
+    :param list text_list: A list of text strings.
     :returns summary: A dictionary with various stats about hashtags
 
     >>> posts = ['i like #blue', 'i like #green and #blue', 'i like all']
@@ -461,6 +466,18 @@ def extract_hashtags(text_list):
 
 
 def extract_intense_words(text_list, min_reps=3):
+    """Return a summary dictionary about intense words in :attr:`text_list`
+
+    Get all instances of usage of intense words (positive or negative), using
+    words that have :attr:`min_reps` or more repetitions of characters.
+    "I looooooveeee youuuuuuu", and "I haaatttteeee youuuuuu" are both intense.
+
+    :param list text_list: A text list from which to extract intense words
+    :param int min_reps: The number of times a character has to be repeated for
+                         the word to be considered intense.
+
+    :returns summary: A dictionary with various stats about intense words
+    """
     regex = re.compile(r'(\S*)(\S)({}\S*)'.format((min_reps - 1) * r'\2'))
     extracted = [[''.join(x) for x in regex.findall(text)]
                  for text in text_list]
@@ -474,7 +491,7 @@ def extract_mentions(text_list):
     Get a summary of the number of mentions, their frequency, the top
     ones, and more.
 
-    :param text_list: A list of text strings.
+    :param list text_list: A list of text strings.
     :returns summary: A dictionary with various stats about mentions
 
     >>> posts = ['hello @john and @jenny', 'hi there @john', 'good morning']
@@ -525,8 +542,8 @@ def extract_numbers(text_list, number_separators=('.', ',', '-')):
     ones, and more. Typically, numbers would contain separators to make them
     easier to read, so these are included by default, which you can modify.
 
-    :param text_list: A list of text strings.
-    :param number_separators: A list of separators that you want
+    :param list text_list: A list of text strings.
+    :param list(str) number_separators: A list of separators that you want
         to be included as part of the extracted numbers.
     :returns summary: A dictionary with various stats about the numbers
 
@@ -586,7 +603,7 @@ def extract_questions(text_list):
     Get a summary of the number of question marks, their frequency,
     the top ones, as well the questions asked.
 
-    :param text_list: A list of text strings.
+    :param list text_list: A list of text strings.
     :returns summary: A dictionary with various stats about questions
 
     >>> posts = ['How are you?', 'What is this?', 'No question Here!']
@@ -694,7 +711,7 @@ def extract_urls(text_list):
     ones, and more.
     This does NOT validate URLs, www.a.b would count as a URL
 
-    :param text_list: A list of text strings.
+    :param list text_list: A list of text strings.
     :returns summary: A dictionary with various stats about URLs
 
     >>> posts = ['one link http://example.com', 'two: http://a.com www.b.com',
@@ -767,16 +784,20 @@ def extract_urls(text_list):
 
 
 def extract_words(text_list, words_to_extract, entire_words_only=False):
-    """Return a summary dictionary about ``words_to_extract`` in ``text_list``.
+    """Return a summary dictionary about :attr:`words_to_extract` in
+    :attr:`text_list`.
 
     Get a summary of the number of words, their frequency, the top
     ones, and more.
 
-    :param text_list: A list of text strings.
-    :param words_to_extract: A list of words to extract from ``text_list``.
-    :param entire_words_only: Whether or not to find only complete words
-        (as specified by ``words_to_find``) or find any any of the
+    :param list text_list: A list of text strings.
+    :param list words_to_extract: A list of words to extract from
+                                  :attr:`text_list`.
+
+    :param bool entire_words_only: Whether or not to find only complete words
+        (as specified by :attr:`words_to_find`) or find any any of the
         words as part of longer strings.
+
     :returns summary: A dictionary with various stats about the words
 
     >>> posts = ['there is rain, it is raining', 'there is snow and rain',

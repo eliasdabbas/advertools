@@ -1,9 +1,18 @@
 """
+.. _regex:
+
+Regular Expressions for Extracting Structured Entities
+======================================================
+
 A collection of regular expressions for use in different contexts.
-Each one is available in two formats
-- REGEX_RAW: raw string only, for sharing, and combining with other regexes
-- REGEX: compiled, readable, annotated version
+Each one is available in two formats:
+
+* REGEX_RAW: (HASHTAG_RAW, MENTION_RAW, etc.) raw string only, for sharing
+             and combining with other regexes
+* REGEX: (HASHTAG, MENTION, etc.) compiled regex, readable, and annotated
+
 Based on Unicode database v11.0.0
+
 URL regex from Regular Expressions Cookbook 2nd Ed. O'Reilly
 """
 

@@ -1,4 +1,9 @@
 """
+.. _kw_generate:
+
+Generate Keywords for SEM Campaigns
+===================================
+
 A big part of setting up SEM campaigns consists of generating keywords, and
 properly mapping them to landing pages and ads, as well as putting them in the
 right campaign and ad group structure.
@@ -69,8 +74,10 @@ matters) and get a ready-to-use table to upload and start running the campaign.
 
 And we're done!
 
-Check the `kw_generate` function for more options and details.
-
+Check the :func:`kw_generate` function for more options and details.
+Once you have your keywords done, you can start creating ads using either the
+:ref:`ad_create <ad_create>` function (bottom-up approach) or the
+:ref:`ad_from_string <ad_from_string>` function (top-down approach).
 """
 __all__ = ['kw_broad', 'kw_exact', 'kw_generate', 'kw_modified',
            'kw_neg_broad', 'kw_neg_exact', 'kw_neg_phrase',
@@ -88,16 +95,16 @@ def kw_generate(products, words, max_len=3,
     """Generate a data frame of keywords using a list of products and relevant
     words.
 
-    :param products: will be used as the names of the ad groups
-    :param words: related words that make it clear that the user is interested
-        in ``products``
-    :param max_len: the maximum number of words to include in each permutation
-        of product keywords
-    :param match_types: can be restricted or kept as is based on preference,
-        possible values: 'Exact', 'Phrase', 'Modified', 'Broad'
-    :param order_matters: whether or not the order of words in keywords
-        matters, default False
-    :param campaign_name: name of campaign
+    :param list products: will be used as the names of the ad groups
+    :param list words: related words that make it clear that the user is
+                       interested in :attr:`products`
+    :param int max_len: the maximum number of words to include in each
+                        permutation of final keywords
+    :param list match_types: one or more of ('Exact', 'Phrase', 'Modified',
+                             'Broad')
+    :param bool order_matters: whether or not the order of words in keywords
+                               matters, default False
+    :param str campaign_name: name of campaign
     :returns keywords_df: a pandas.DataFrame ready to upload
 
     >>> import advertools as adv
@@ -151,10 +158,10 @@ def kw_generate(products, words, max_len=3,
 
 
 def kw_broad(words):
-    """Return ``words`` in broad match.
+    """Return :attr:`words` in broad match.
 
-    :param words: list of strings
-    :returns formatted: `words` in broad match type
+    :param list words: list of strings
+    :returns formatted: :attr:`words` in broad match type
 
     >>> keywords = ['[learn guitar]', '"guitar courses"', '+guitar +tutor']
     >>> kw_broad(keywords)
@@ -165,10 +172,10 @@ def kw_broad(words):
 
 
 def kw_exact(words):
-    """Return ``words`` in exact match.
+    """Return :attr:`words` in exact match.
 
-    :param words: list of strings
-    :returns formatted: `words` in exact match type
+    :param list words: list of strings
+    :returns formatted: :attr:`words` in exact match type
 
     >>> keywords = ['learn guitar', 'guitar courses', 'guitar tutor']
     >>> kw_exact(keywords)
@@ -178,10 +185,10 @@ def kw_exact(words):
 
 
 def kw_phrase(words):
-    """Return ``words`` in phrase match.
+    """Return :attr:`words` in phrase match.
 
-    :param words: list of strings
-    :returns formatted: `words` in phrase match type
+    :param list words: list of strings
+    :returns formatted: :attr:`words` in phrase match type
 
     >>> keywords = ['learn guitar', 'guitar courses', 'guitar tutor']
     >>> kw_phrase(keywords)
@@ -191,10 +198,10 @@ def kw_phrase(words):
 
 
 def kw_modified(words):
-    """Return ``words`` in modified broad match.
+    """Return :attr:`words` in modified broad match.
 
-    :param words: list of strings
-    :returns formatted: `words` in modified broad match type
+    :param list words: list of strings
+    :returns formatted: :attr:`words` in modified broad match type
 
     >>> keywords = ['learn guitar', 'guitar courses', 'guitar tutor']
     >>> kw_modified(keywords)
@@ -204,10 +211,10 @@ def kw_modified(words):
 
 
 def kw_neg_broad(words):
-    """Return ``words`` in negative broad match.
+    """Return :attr:`words` in negative broad match.
 
-    :param words: list of strings
-    :returns formatted: `words` in negative broad match type
+    :param list words: list of strings
+    :returns formatted: :attr:`words` in negative broad match type
 
     >>> keywords = ['learn guitar', 'guitar courses', 'guitar tutor']
     >>> kw_neg_broad(keywords)
@@ -217,10 +224,10 @@ def kw_neg_broad(words):
 
 
 def kw_neg_phrase(words):
-    """Return ``words`` in negative phrase match.
+    """Return :attr:`words` in negative phrase match.
 
-    :param words: list of strings
-    :returns formatted: `words` in negative phrase match type
+    :param list words: list of strings
+    :returns formatted: :attr:`words` in negative phrase match type
 
     >>> keywords = ['learn guitar', 'guitar courses', 'guitar tutor']
     >>> kw_neg_phrase(keywords)
@@ -230,10 +237,10 @@ def kw_neg_phrase(words):
 
 
 def kw_neg_exact(words):
-    """Return ``words`` in negative exact match.
+    """Return :attr:`words` in negative exact match.
 
-    :param words: list of strings
-    :returns formatted: `words` in negative exact match type
+    :param list words: list of strings
+    :returns formatted: :attr:`words` in negative exact match type
 
     >>> keywords = ['learn guitar', 'guitar courses', 'guitar tutor']
     >>> kw_neg_exact(keywords)

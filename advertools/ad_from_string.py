@@ -1,21 +1,30 @@
+"""
+.. _ad_from_string:
+
+Create Ads Using Long Descriptive Text (top-down approach)
+==========================================================
+
+"""
+
 import string
 
 
 def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None,
                    capitalize=False):
-    """Convert string ``s`` to an ad by splitting it into groups of words.
+    """Convert string :attr:`s` to an ad by splitting it into groups of words.
     Each group would have a length of at most the allowed length for that slot.
 
-    If the total length of ``s`` exceeds the total allowed length, all
+    If the total length of :attr:`s` exceeds the total allowed length, all
     remaining characters would be grouped in the last element of the
     returned list.
 
-    :param s: a string of characters, with no restrictions on length
-    :param slots: an iterable of integers for the maximum lengths for
+    :param str s: a string of characters, with no restrictions on length
+    :param list slots: an iterable of integers for the maximum lengths for
         each slot
-    :param sep: by which character to split ``s``
-    :param capitalize: whether or not to capitalize each word after grouping
-        Setting it as False would leave the input string as is
+    :param str sep: character(s) by which to split :attr:`s`
+    :param bool capitalize: whether or not to capitalize each word after
+                            grouping. Setting it as False would not change the
+                            capitalization of the input string
     :returns text_ad: a list of strings
 
     >>> ad_from_string('this is a short ad')

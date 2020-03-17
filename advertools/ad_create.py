@@ -1,15 +1,53 @@
+"""
+.. _ad_create:
+
+Create Ads on a Large Scale
+===========================
+
+When creating large-scale campaigns, you also need to create ads on a large
+scale. For products in a similar category you typically want to use the same
+ads, but only replace the product name, "Get the latest <product> now", and
+replace `product` as many times as you have ads.
+
+>>> products = ['Dubai', 'Tokyo', 'Singapore']
+>>> adv.ad_create(template='5-star Hotels in {}',
+...               replacements=products,
+...               max_len=30,
+...               fallback='Great Cities')
+['5-star Hotels In Dubai',
+ '5-star Hotels In Tokyo',
+ '5-star Hotels In Singapore']
+
+An important thing to to watch out for, is long product names. Since text ads
+have limits on each slot, you need to make sure you don't exceed that limit.
+For this you need to provide a `fallback` text in case the product name is
+longer than `max_len`.
+
+>>> products = ['Dubai', 'Tokyo', 'Singapore', 'Llanfairpwllgwyngyll']
+>>> adv.ad_create(template='5-star Hotels in {}',
+...             replacements=products,
+...             max_len=30,
+...             fallback='Great Cities')
+['5-star Hotels In Dubai',
+ '5-star Hotels In Tokyo',
+ '5-star Hotels In Singapore',
+ '5-star Hotels In Great Cities']
+
+"""
 import string
 
 
 def ad_create(template, replacements, fallback, max_len=30, capitalize=True):
     """Insert each of the replacement strings in its place within template.
 
-    :param template: a string format template, using braces
-    :param replacements: replacements string to be inserted in template
-    :param fallback: the string to insert in template in case the replacement
-        is too long
-    :param max_len: the maximum allowed length of the full string
-    :param capitalize: whether or not to capitalize words in the result
+    :param str template: a string format template, using braces e.g. "Get the
+                         latest {} today."
+    :param list replacements: replacement strings to be inserted in
+                              :attr:`template`
+    :param str fallback: the string to insert in :attr:`template` in case
+                         :attr:`replacement` is longer than :attr:`max_len`
+    :param int max_len: the maximum allowed length of the full string
+    :param bool capitalize: whether or not to capitalize words in the result
     :returns formatted: list of strings
 
     >>> ad_create("Let\'s count {}", ['one', 'two', 'three'], 'one', 20)

@@ -1,3 +1,9 @@
+"""
+.. _word_tokenize:
+
+Tokenize Words (N-grams)
+========================
+"""
 from .regex import WORD_DELIM
 
 

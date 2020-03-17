@@ -1,3 +1,10 @@
+"""
+.. _twitter:
+
+Twitter Data API
+================
+"""
+
 import logging
 from functools import wraps
 
