@@ -4,8 +4,116 @@
 Create Ads Using Long Descriptive Text (top-down approach)
 ==========================================================
 
-"""
+Many times you have long descriptive text about your products, especially on
+their respective landing pages. The allowed length of text ads has become
+considerably long on many platforms. On Google Ads for example, you have slots
+of 30, 30, 30, 90, and 90 characters, for a total of 270. That's more than
+enough space to talk about the main features of your product.
 
+The question is, how do you utilize that long description text that has all the
+details that you want, and make sure it fits correctly within the limits given
+by the platform you are using?
+
+The :func:`ad_from_string` function does exactly that. Given a long string, it
+divides it into slots of any given length that you specify, and if any text
+remains it will be appended to the end of the returned list.
+
+Another important benefit of this is that you can take those long descriptions
+(or write them) once, and then you can easily split them into different slots
+based on the ad format and the platform you are using.
+
+Here is a quick overview of the available parameters and options:
+
+.. gloassary::
+
+    s
+        The string that you want to split. This would typically be available
+        on the landing pages of each product.
+
+    slots
+
+        The lengths that you want to split into. Note that although the default
+        uses Google Ads' text ad template, you can change it to any other
+        group of slots, with more or fewer slots of different lengths.
+
+    sep
+
+        The separator by which to split the text. The default is :attr:`None`
+        which splits the text by whitespace, but you can change it to something
+        else if needed. Sometimes you might want the text split by hyphens
+        (URLs for example) so you can split by that character.
+
+    capitalize
+
+        The default is :attr:`False` which leaves the capitalization of
+        :attr:`s` intact. If you set it to :attr:`True` then the first letter
+        of each word would be capitalized.
+
+
+**Example**
+
+Note that in any case, the returned list of characters is longer than the
+provided slots by one. So if you provide five slots, for example, the function
+will always return a list of length six.
+
+This is to ensure that the remainder of the text is not lost if it is longer,
+so you know what is missing. In case you have shorter text, you will still have
+one element more than the provided slots to ensure consistency.
+
+>>> desc_text = "Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping now."
+>>> len(desc_text)
+130
+
+Now let's see how this same description can be utilized in different scenarios
+
+Google Text Ads
+^^^^^^^^^^^^^^^
+
+Since this is shorter than the default Google values, you will get extra empty
+slots (with an additional last one).
+
+>>> ad_from_string(desc_text)  # default values (Google text ads)
+['Get the latest gadget online.',
+ 'The GX12 model comes with 13',
+ 'things that do a lot of good',
+ 'stuff for your health. Start shopping now.',
+ '',
+ '',
+ '',
+ '']
+
+Facebook Feed Ads
+^^^^^^^^^^^^^^^^^
+
+In this case, it is also shorter than the default value, so you get an extra
+space.
+
+>>> ad_from_string(desc_text, [125, 25, 30])  # Facebook feed ads
+['Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping',
+ 'now.',
+ '',
+ '']
+
+Since it might not look good having just one word in the second slot, and an
+empty last one, you might want to change it as follows:
+
+>>> ad_from_string(desc_text, [90, 25, 30])
+['Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good',
+ 'stuff for your health.',
+ 'Start shopping now.',
+ '']
+
+
+Facebook Instant Article Ad
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Here is a case where our text is longer than the provided limitations, so we
+end up having an extra space that is not used:
+
+>>> ad_from_string(desc_text, [25, 30])  # Facebook instant article ad
+['Get the latest gadget',
+ 'online. The GX12 model comes',
+ 'with 13 things that do a lot of good stuff for your health. Start shopping now.']
+"""
 import string
 
 
