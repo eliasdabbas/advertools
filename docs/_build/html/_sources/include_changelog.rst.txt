@@ -1,4 +1,4 @@
 
 .. include:: modules.rst
 
-.. include:: ../CHANGELOG.rst
+.. include:: ../HISTORY.rst
