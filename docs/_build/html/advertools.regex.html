@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>advertools.regex module &mdash; advertools 0.8.1 documentation</title>
+  <title>Regular Expressions for Extracting Structured Entities &mdash; advertools 0.8.1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="advertools.url_builders module" href="advertools.url_builders.html" />
+    <link rel="next" title="URL Builders" href="advertools.url_builders.html" />
     <link rel="prev" title="advertools package" href="advertools.html" /> 
 </head>
 
@@ -80,7 +80,7 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
@@ -88,34 +88,12 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="advertools.html">advertools package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="advertools.html#submodules">Submodules</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="advertools.ad_create.html">advertools.ad_create module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.ad_from_string.html">advertools.ad_from_string module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.emoji.html">advertools.emoji module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.extract.html">advertools.extract module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.kw_generate.html">advertools.kw_generate module</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">advertools.regex module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.serp.html">advertools.serp module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.stopwords.html">advertools.stopwords module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.twitter.html">advertools.twitter module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.url_builders.html">advertools.url_builders module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.word_frequency.html">advertools.word_frequency module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.word_tokenize.html">advertools.word_tokenize module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.youtube.html">advertools.youtube module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="advertools.html#module-advertools">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
             
@@ -161,11 +139,11 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">advertools</a> &raquo;</li>
+          <li><a href="include_changelog.html">advertools</a> &raquo;</li>
         
           <li><a href="advertools.html">advertools package</a> &raquo;</li>
         
-      <li>advertools.regex module</li>
+      <li>Regular Expressions for Extracting Structured Entities</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -184,14 +162,20 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-advertools.regex">
-<span id="advertools-regex-module"></span><h1>advertools.regex module<a class="headerlink" href="#module-advertools.regex" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-advertools.regex"></span><div class="section" id="regular-expressions-for-extracting-structured-entities">
+<span id="regex"></span><h1>Regular Expressions for Extracting Structured Entities<a class="headerlink" href="#regular-expressions-for-extracting-structured-entities" title="Permalink to this headline">¶</a></h1>
 <p>A collection of regular expressions for use in different contexts.
-Each one is available in two formats
-- REGEX_RAW: raw string only, for sharing, and combining with other regexes
-- REGEX: compiled, readable, annotated version
-Based on Unicode database v11.0.0
-URL regex from Regular Expressions Cookbook 2nd Ed. O’Reilly</p>
+Each one is available in two formats:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>REGEX_RAW: (HASHTAG_RAW, MENTION_RAW, etc.) raw string only, for sharing</dt><dd><p>and combining with other regexes</p>
+</dd>
+</dl>
+</li>
+<li><p>REGEX: (HASHTAG, MENTION, etc.) compiled regex, readable, and annotated</p></li>
+</ul>
+<p>Based on Unicode database v11.0.0</p>
+<p>URL regex from Regular Expressions Cookbook 2nd Ed. O’Reilly</p>
 </div>
 
 
@@ -202,7 +186,7 @@ URL regex from Regular Expressions Cookbook 2nd Ed. O’Reilly</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advertools.url_builders.html" class="btn btn-neutral float-right" title="advertools.url_builders module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="advertools.url_builders.html" class="btn btn-neutral float-right" title="URL Builders" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="advertools.html" class="btn btn-neutral float-left" title="advertools package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

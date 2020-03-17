@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>advertools.ad_from_string module &mdash; advertools 0.8.1 documentation</title>
+  <title>Create Ads Using Long Descriptive Text (top-down approach) &mdash; advertools 0.8.1 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="advertools.emoji module" href="advertools.emoji.html" />
-    <link rel="prev" title="advertools.ad_create module" href="advertools.ad_create.html" /> 
+    <link rel="next" title="Emoji: Extract, Analyze, and Get Insights" href="advertools.emoji.html" />
+    <link rel="prev" title="Create Ads on a Large Scale" href="advertools.ad_create.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,12 +88,12 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
             
@@ -139,7 +139,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>advertools.ad_from_string module</li>
+      <li>Create Ads Using Long Descriptive Text (top-down approach)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -158,25 +158,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-advertools.ad_from_string">
-<span id="advertools-ad-from-string-module"></span><h1>advertools.ad_from_string module<a class="headerlink" href="#module-advertools.ad_from_string" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-advertools.ad_from_string"></span><div class="section" id="create-ads-using-long-descriptive-text-top-down-approach">
+<span id="ad-from-string"></span><h1>Create Ads Using Long Descriptive Text (top-down approach)<a class="headerlink" href="#create-ads-using-long-descriptive-text-top-down-approach" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="advertools.ad_from_string.ad_from_string">
 <code class="sig-prename descclassname">advertools.ad_from_string.</code><code class="sig-name descname">ad_from_string</code><span class="sig-paren">(</span><em class="sig-param">s</em>, <em class="sig-param">slots=(30</em>, <em class="sig-param">30</em>, <em class="sig-param">30</em>, <em class="sig-param">90</em>, <em class="sig-param">90</em>, <em class="sig-param">15</em>, <em class="sig-param">15)</em>, <em class="sig-param">sep=None</em>, <em class="sig-param">capitalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert string <code class="docutils literal notranslate"><span class="pre">s</span></code> to an ad by splitting it into groups of words.
+<dd><p>Convert string <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> to an ad by splitting it into groups of words.
 Each group would have a length of at most the allowed length for that slot.</p>
-<p>If the total length of <code class="docutils literal notranslate"><span class="pre">s</span></code> exceeds the total allowed length, all
+<p>If the total length of <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> exceeds the total allowed length, all
 remaining characters would be grouped in the last element of the
 returned list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> – a string of characters, with no restrictions on length</p></li>
-<li><p><strong>slots</strong> – an iterable of integers for the maximum lengths for
+<li><p><strong>s</strong> (<em>str</em>) – a string of characters, with no restrictions on length</p></li>
+<li><p><strong>slots</strong> (<em>list</em>) – an iterable of integers for the maximum lengths for
 each slot</p></li>
-<li><p><strong>sep</strong> – by which character to split <code class="docutils literal notranslate"><span class="pre">s</span></code></p></li>
-<li><p><strong>capitalize</strong> – whether or not to capitalize each word after grouping
-Setting it as False would leave the input string as is</p></li>
+<li><p><strong>sep</strong> (<em>str</em>) – character(s) by which to split <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code></p></li>
+<li><p><strong>capitalize</strong> (<em>bool</em>) – whether or not to capitalize each word after
+grouping. Setting it as False would not change the
+capitalization of the input string</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns text_ad</dt>
@@ -219,10 +220,10 @@ Setting it as False would leave the input string as is</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advertools.emoji.html" class="btn btn-neutral float-right" title="advertools.emoji module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="advertools.emoji.html" class="btn btn-neutral float-right" title="Emoji: Extract, Analyze, and Get Insights" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="advertools.ad_create.html" class="btn btn-neutral float-left" title="advertools.ad_create module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="advertools.ad_create.html" class="btn btn-neutral float-left" title="Create Ads on a Large Scale" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

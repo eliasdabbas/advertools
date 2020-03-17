@@ -86,12 +86,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
             
@@ -155,21 +155,28 @@
            <div itemprop="articleBody">
             
   <h1>Source code for advertools.url_builders</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">urllib</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. _url_builders:</span>
+
+<span class="sd">URL Builders</span>
+<span class="sd">============</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">urllib</span>
 
 
 <div class="viewcode-block" id="url_utm_ga"><a class="viewcode-back" href="../../advertools.url_builders.html#advertools.url_builders.url_utm_ga">[docs]</a><span class="k">def</span> <span class="nf">url_utm_ga</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">utm_source</span><span class="p">,</span> <span class="n">utm_medium</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">utm_campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                <span class="n">utm_content</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">utm_term</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate a URL with UTM codes for your campaigns.</span>
 
-<span class="sd">    :param url: a valid URL, required</span>
-<span class="sd">    :param utm_source: the referrer of the traffic (e.g. facebook, twitter)</span>
-<span class="sd">    :param utm_medium: marketing medium (e.g. banner, email)</span>
-<span class="sd">    :param utm_campaign: the name of the campaign</span>
+<span class="sd">    :param str url: a valid URL, required</span>
+<span class="sd">    :param str utm_source: the referrer of the traffic (e.g. facebook, twitter)</span>
+<span class="sd">    :param str utm_medium: marketing medium (e.g. banner, email)</span>
+<span class="sd">    :param str utm_campaign: the name of the campaign</span>
 <span class="sd">        (e.g. summer_promo, 20pct_off)</span>
-<span class="sd">    :param utm_content: ad name / differentiator</span>
+<span class="sd">    :param str utm_content: ad name / differentiator</span>
 <span class="sd">        (e.g. 728x90, mpu, square_banner)</span>
-<span class="sd">    :param utm_term: search terms bid on (only relevant for search campaigns)</span>
+<span class="sd">    :param str utm_term: search terms bid on (only relevant for search campaigns)</span>
 <span class="sd">    :return: URL-encoded string for the campaign</span>
 
 <span class="sd">    &gt;&gt;&gt; url_utm_ga(&#39;mysite.com&#39;, utm_source=&#39;the source&#39;)</span>

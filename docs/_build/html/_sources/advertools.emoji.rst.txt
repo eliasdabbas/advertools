@@ -1,7 +1,5 @@
-advertools.emoji module
-=======================
 
 .. automodule:: advertools.emoji
-   :members:
+   :members: emoji_df, emoji_search
    :undoc-members:
    :show-inheritance:

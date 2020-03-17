@@ -86,12 +86,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
             
@@ -156,6 +156,11 @@
             
   <h1>Source code for advertools.kw_generate</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. _kw_generate:</span>
+
+<span class="sd">Generate Keywords for SEM Campaigns</span>
+<span class="sd">===================================</span>
+
 <span class="sd">A big part of setting up SEM campaigns consists of generating keywords, and</span>
 <span class="sd">properly mapping them to landing pages and ads, as well as putting them in the</span>
 <span class="sd">right campaign and ad group structure.</span>
@@ -226,8 +231,10 @@
 
 <span class="sd">And we&#39;re done!</span>
 
-<span class="sd">Check the `kw_generate` function for more options and details.</span>
-
+<span class="sd">Check the :func:`kw_generate` function for more options and details.</span>
+<span class="sd">Once you have your keywords done, you can start creating ads using either the</span>
+<span class="sd">:ref:`ad_create &lt;ad_create&gt;` function (bottom-up approach) or the</span>
+<span class="sd">:ref:`ad_from_string &lt;ad_from_string&gt;` function (top-down approach).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;kw_broad&#39;</span><span class="p">,</span> <span class="s1">&#39;kw_exact&#39;</span><span class="p">,</span> <span class="s1">&#39;kw_generate&#39;</span><span class="p">,</span> <span class="s1">&#39;kw_modified&#39;</span><span class="p">,</span>
            <span class="s1">&#39;kw_neg_broad&#39;</span><span class="p">,</span> <span class="s1">&#39;kw_neg_exact&#39;</span><span class="p">,</span> <span class="s1">&#39;kw_neg_phrase&#39;</span><span class="p">,</span>
@@ -245,16 +252,16 @@
     <span class="sd">&quot;&quot;&quot;Generate a data frame of keywords using a list of products and relevant</span>
 <span class="sd">    words.</span>
 
-<span class="sd">    :param products: will be used as the names of the ad groups</span>
-<span class="sd">    :param words: related words that make it clear that the user is interested</span>
-<span class="sd">        in ``products``</span>
-<span class="sd">    :param max_len: the maximum number of words to include in each permutation</span>
-<span class="sd">        of product keywords</span>
-<span class="sd">    :param match_types: can be restricted or kept as is based on preference,</span>
-<span class="sd">        possible values: &#39;Exact&#39;, &#39;Phrase&#39;, &#39;Modified&#39;, &#39;Broad&#39;</span>
-<span class="sd">    :param order_matters: whether or not the order of words in keywords</span>
-<span class="sd">        matters, default False</span>
-<span class="sd">    :param campaign_name: name of campaign</span>
+<span class="sd">    :param list products: will be used as the names of the ad groups</span>
+<span class="sd">    :param list words: related words that make it clear that the user is</span>
+<span class="sd">                       interested in :attr:`products`</span>
+<span class="sd">    :param int max_len: the maximum number of words to include in each</span>
+<span class="sd">                        permutation of final keywords</span>
+<span class="sd">    :param list match_types: one or more of (&#39;Exact&#39;, &#39;Phrase&#39;, &#39;Modified&#39;,</span>
+<span class="sd">                             &#39;Broad&#39;)</span>
+<span class="sd">    :param bool order_matters: whether or not the order of words in keywords</span>
+<span class="sd">                               matters, default False</span>
+<span class="sd">    :param str campaign_name: name of campaign</span>
 <span class="sd">    :returns keywords_df: a pandas.DataFrame ready to upload</span>
 
 <span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
@@ -308,10 +315,10 @@
 
 
 <div class="viewcode-block" id="kw_broad"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_broad">[docs]</a><span class="k">def</span> <span class="nf">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return ``words`` in broad match.</span>
+    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in broad match.</span>
 
-<span class="sd">    :param words: list of strings</span>
-<span class="sd">    :returns formatted: `words` in broad match type</span>
+<span class="sd">    :param list words: list of strings</span>
+<span class="sd">    :returns formatted: :attr:`words` in broad match type</span>
 
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;[learn guitar]&#39;, &#39;&quot;guitar courses&quot;&#39;, &#39;+guitar +tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_broad(keywords)</span>
@@ -322,10 +329,10 @@
 
 
 <div class="viewcode-block" id="kw_exact"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_exact">[docs]</a><span class="k">def</span> <span class="nf">kw_exact</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return ``words`` in exact match.</span>
+    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in exact match.</span>
 
-<span class="sd">    :param words: list of strings</span>
-<span class="sd">    :returns formatted: `words` in exact match type</span>
+<span class="sd">    :param list words: list of strings</span>
+<span class="sd">    :returns formatted: :attr:`words` in exact match type</span>
 
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_exact(keywords)</span>
@@ -335,10 +342,10 @@
 
 
 <div class="viewcode-block" id="kw_phrase"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_phrase">[docs]</a><span class="k">def</span> <span class="nf">kw_phrase</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return ``words`` in phrase match.</span>
+    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in phrase match.</span>
 
-<span class="sd">    :param words: list of strings</span>
-<span class="sd">    :returns formatted: `words` in phrase match type</span>
+<span class="sd">    :param list words: list of strings</span>
+<span class="sd">    :returns formatted: :attr:`words` in phrase match type</span>
 
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_phrase(keywords)</span>
@@ -348,10 +355,10 @@
 
 
 <div class="viewcode-block" id="kw_modified"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_modified">[docs]</a><span class="k">def</span> <span class="nf">kw_modified</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return ``words`` in modified broad match.</span>
+    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in modified broad match.</span>
 
-<span class="sd">    :param words: list of strings</span>
-<span class="sd">    :returns formatted: `words` in modified broad match type</span>
+<span class="sd">    :param list words: list of strings</span>
+<span class="sd">    :returns formatted: :attr:`words` in modified broad match type</span>
 
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_modified(keywords)</span>
@@ -361,10 +368,10 @@
 
 
 <div class="viewcode-block" id="kw_neg_broad"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_neg_broad">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_broad</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return ``words`` in negative broad match.</span>
+    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in negative broad match.</span>
 
-<span class="sd">    :param words: list of strings</span>
-<span class="sd">    :returns formatted: `words` in negative broad match type</span>
+<span class="sd">    :param list words: list of strings</span>
+<span class="sd">    :returns formatted: :attr:`words` in negative broad match type</span>
 
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_neg_broad(keywords)</span>
@@ -374,10 +381,10 @@
 
 
 <div class="viewcode-block" id="kw_neg_phrase"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_neg_phrase">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_phrase</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return ``words`` in negative phrase match.</span>
+    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in negative phrase match.</span>
 
-<span class="sd">    :param words: list of strings</span>
-<span class="sd">    :returns formatted: `words` in negative phrase match type</span>
+<span class="sd">    :param list words: list of strings</span>
+<span class="sd">    :returns formatted: :attr:`words` in negative phrase match type</span>
 
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_neg_phrase(keywords)</span>
@@ -387,10 +394,10 @@
 
 
 <div class="viewcode-block" id="kw_neg_exact"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_neg_exact">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_exact</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return ``words`` in negative exact match.</span>
+    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in negative exact match.</span>
 
-<span class="sd">    :param words: list of strings</span>
-<span class="sd">    :returns formatted: `words` in negative exact match type</span>
+<span class="sd">    :param list words: list of strings</span>
+<span class="sd">    :returns formatted: :attr:`words` in negative exact match type</span>
 
 <span class="sd">    &gt;&gt;&gt; keywords = [&#39;learn guitar&#39;, &#39;guitar courses&#39;, &#39;guitar tutor&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; kw_neg_exact(keywords)</span>

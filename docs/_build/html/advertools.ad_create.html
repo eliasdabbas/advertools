@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>advertools.ad_create module &mdash; advertools 0.8.1 documentation</title>
+  <title>Create Ads on a Large Scale &mdash; advertools 0.8.1 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="advertools.ad_from_string module" href="advertools.ad_from_string.html" />
-    <link rel="prev" title="advertools.kw_generate module" href="advertools.kw_generate.html" /> 
+    <link rel="next" title="Create Ads Using Long Descriptive Text (top-down approach)" href="advertools.ad_from_string.html" />
+    <link rel="prev" title="Generate Keywords for SEM Campaigns" href="advertools.kw_generate.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,12 +88,12 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
             
@@ -139,7 +139,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>advertools.ad_create module</li>
+      <li>Create Ads on a Large Scale</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -158,8 +158,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-advertools.ad_create">
-<span id="advertools-ad-create-module"></span><h1>advertools.ad_create module<a class="headerlink" href="#module-advertools.ad_create" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-advertools.ad_create"></span><div class="section" id="create-ads-on-a-large-scale">
+<span id="ad-create"></span><h1>Create Ads on a Large Scale<a class="headerlink" href="#create-ads-on-a-large-scale" title="Permalink to this headline">¶</a></h1>
+<p>When creating large-scale campaigns, you also need to create ads on a large
+scale. For products in a similar category you typically want to use the same
+ads, but only replace the product name, “Get the latest &lt;product&gt; now”, and
+replace <cite>product</cite> as many times as you have ads.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Dubai&#39;</span><span class="p">,</span> <span class="s1">&#39;Tokyo&#39;</span><span class="p">,</span> <span class="s1">&#39;Singapore&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;5-star Hotels in </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">replacements</span><span class="o">=</span><span class="n">products</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">max_len</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;Great Cities&#39;</span><span class="p">)</span>
+<span class="go">[&#39;5-star Hotels In Dubai&#39;,</span>
+<span class="go"> &#39;5-star Hotels In Tokyo&#39;,</span>
+<span class="go"> &#39;5-star Hotels In Singapore&#39;]</span>
+</pre></div>
+</div>
+<p>An important thing to to watch out for, is long product names. Since text ads
+have limits on each slot, you need to make sure you don’t exceed that limit.
+For this you need to provide a <cite>fallback</cite> text in case the product name is
+longer than <cite>max_len</cite>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Dubai&#39;</span><span class="p">,</span> <span class="s1">&#39;Tokyo&#39;</span><span class="p">,</span> <span class="s1">&#39;Singapore&#39;</span><span class="p">,</span> <span class="s1">&#39;Llanfairpwllgwyngyll&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;5-star Hotels in </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">replacements</span><span class="o">=</span><span class="n">products</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">max_len</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;Great Cities&#39;</span><span class="p">)</span>
+<span class="go">[&#39;5-star Hotels In Dubai&#39;,</span>
+<span class="go"> &#39;5-star Hotels In Tokyo&#39;,</span>
+<span class="go"> &#39;5-star Hotels In Singapore&#39;,</span>
+<span class="go"> &#39;5-star Hotels In Great Cities&#39;]</span>
+</pre></div>
+</div>
 <dl class="function">
 <dt id="advertools.ad_create.ad_create">
 <code class="sig-prename descclassname">advertools.ad_create.</code><code class="sig-name descname">ad_create</code><span class="sig-paren">(</span><em class="sig-param">template</em>, <em class="sig-param">replacements</em>, <em class="sig-param">fallback</em>, <em class="sig-param">max_len=30</em>, <em class="sig-param">capitalize=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_create.html#ad_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_create.ad_create" title="Permalink to this definition">¶</a></dt>
@@ -167,12 +196,14 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>template</strong> – a string format template, using braces</p></li>
-<li><p><strong>replacements</strong> – replacements string to be inserted in template</p></li>
-<li><p><strong>fallback</strong> – the string to insert in template in case the replacement
-is too long</p></li>
-<li><p><strong>max_len</strong> – the maximum allowed length of the full string</p></li>
-<li><p><strong>capitalize</strong> – whether or not to capitalize words in the result</p></li>
+<li><p><strong>template</strong> (<em>str</em>) – a string format template, using braces e.g. “Get the
+latest {} today.”</p></li>
+<li><p><strong>replacements</strong> (<em>list</em>) – replacement strings to be inserted in
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">template</span></code></p></li>
+<li><p><strong>fallback</strong> (<em>str</em>) – the string to insert in <code class="xref py py-attr docutils literal notranslate"><span class="pre">template</span></code> in case
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">replacement</span></code> is longer than <code class="xref py py-attr docutils literal notranslate"><span class="pre">max_len</span></code></p></li>
+<li><p><strong>max_len</strong> (<em>int</em>) – the maximum allowed length of the full string</p></li>
+<li><p><strong>capitalize</strong> (<em>bool</em>) – whether or not to capitalize words in the result</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns formatted</dt>
@@ -217,10 +248,10 @@ ValueError: template + fallback should be &lt;= 20 chars
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advertools.ad_from_string.html" class="btn btn-neutral float-right" title="advertools.ad_from_string module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="advertools.ad_from_string.html" class="btn btn-neutral float-right" title="Create Ads Using Long Descriptive Text (top-down approach)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="advertools.kw_generate.html" class="btn btn-neutral float-left" title="advertools.kw_generate module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="advertools.kw_generate.html" class="btn btn-neutral float-left" title="Generate Keywords for SEM Campaigns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

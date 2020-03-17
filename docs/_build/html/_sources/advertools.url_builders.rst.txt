@@ -1,5 +1,3 @@
-advertools.url\_builders module
-===============================
 
 .. automodule:: advertools.url_builders
    :members:

@@ -86,12 +86,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
             
@@ -155,7 +155,13 @@
            <div itemprop="articleBody">
             
   <h1>Source code for advertools.emoji</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;An emoji is worth a thousand words!</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. _emoji:</span>
+
+<span class="sd">Emoji: Extract, Analyze, and Get Insights</span>
+<span class="sd">=========================================</span>
+
+<span class="sd">An emoji is worth a thousand words!</span>
 <span class="sd">Regular expressions and helper functionality to aid in extracting and finding</span>
 <span class="sd">emoji from text.</span>
 
@@ -4346,10 +4352,11 @@
 
 <div class="viewcode-block" id="emoji_search"><a class="viewcode-back" href="../../advertools.emoji.html#advertools.emoji.emoji_search">[docs]</a><span class="k">def</span> <span class="nf">emoji_search</span><span class="p">(</span><span class="n">regex</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a DataFrame of all emoji entries where any description contains</span>
-<span class="sd">     ``regex``.</span>
+<span class="sd">    :attr:`regex`.</span>
 
 <span class="sd">    &quot;description&quot; can be the name of the emoji, its group, or sub-group.</span>
-<span class="sd">    :param regex: regular expression (case insensitive)</span>
+
+<span class="sd">    :param str regex: regular expression (case insensitive)</span>
 
 <span class="sd">    &gt;&gt;&gt; emoji_search(&#39;dog&#39;)</span>
 <span class="sd">              codepoint           status  emoji          name             group      sub_group</span>
@@ -4368,14 +4375,6 @@
 <span class="sd">    4     1F7E6  fully-qualified     🟦         blue square            Symbols     geometric</span>
 <span class="sd">    5     1F537  fully-qualified     🔷  large blue diamond            Symbols     geometric</span>
 <span class="sd">    6     1F539  fully-qualified     🔹  small blue diamond            Symbols     geometric</span>
-
-
-
-
-
-
-
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">result_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">emoji_df</span>
                     <span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>

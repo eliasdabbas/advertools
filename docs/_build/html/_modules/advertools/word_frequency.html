@@ -86,12 +86,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
             
@@ -155,7 +155,133 @@
            <div itemprop="articleBody">
             
   <h1>Source code for advertools.word_frequency</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. _word_frequency:</span>
+
+<span class="sd">Text Analysis</span>
+<span class="sd">#############</span>
+
+<span class="sd">Absolute and Weighted Word Count</span>
+<span class="sd">================================</span>
+
+<span class="sd">When analyzing a corpus of documents (I&#39;ll simply call it a text list), one of</span>
+<span class="sd">the main tasks to accomplish to start text mining is to first count the words.</span>
+<span class="sd">While there are many text mining techniques and approaches, the</span>
+<span class="sd">:func:`word_frequency` function works mainly by counting words in a text list.</span>
+<span class="sd">A &quot;word&quot; is defined as a sequence of characters split by whitespace(s), and</span>
+<span class="sd">stripped of non-word characters (commas, dots, quotation marks, etc.).</span>
+<span class="sd">A &quot;word&quot; is actually a phrase consisting of one word, but you have the option</span>
+<span class="sd">of getting phrases that have two words, or more. This can be done simply</span>
+<span class="sd">by providing a value for the :attr:`phrase_len` parameter.</span>
+
+<span class="sd">Absolute vs Weighted Frequency</span>
+<span class="sd">------------------------------</span>
+
+<span class="sd">In social media reports, analytics, keyword reports, url and page reports, we</span>
+<span class="sd">get more information than simply the text. We get numbers describing those</span>
+<span class="sd">posts or page titles, or product names, or whatever the text list might</span>
+<span class="sd">contain. Numbers can be pageviews, shares, likes, retweets, sales, bounces,</span>
+<span class="sd">sales, etc. Since we have numbers to quantify those phrases, we can improve our</span>
+<span class="sd">counting by taking into consideration the number list that comes with the text</span>
+<span class="sd">list.</span>
+
+<span class="sd">For example, if you have an e-commerce site that has two products, let&#39;s say</span>
+<span class="sd">you have bags and shoes, then your products are split 50:50 between bags and</span>
+<span class="sd">shoes.</span>
+<span class="sd">But what if you learn that shoes generate 80% of your sales?</span>
+<span class="sd">Although shoes form half your products, they generate 80% of your revenue. So</span>
+<span class="sd">the *weighted count* of your products is 80:20.</span>
+
+<span class="sd">Let&#39;s say two people post two different posts on a social media platform. One</span>
+<span class="sd">of them says, &quot;It&#39;s raining&quot;, and the other says, &quot;It&#39;s snowing&quot;. As in the</span>
+<span class="sd">above example, the content is split 50:50 between &quot;raining&quot; and &quot;snowing&quot;, but</span>
+<span class="sd">we get a much more informative picture if we get the number of followers of</span>
+<span class="sd">each of those accounts (or the number of shares, likes, etc.). If one of them</span>
+<span class="sd">has a thousand followers, and other has a million (which is typical on social</span>
+<span class="sd">media, as well as in pageviews report, e-commerce and most other datasets),</span>
+<span class="sd">then you get a completely different picture about your dataset.</span>
+
+<span class="sd">These two simple examples contain two posts, and a word each. This function</span>
+<span class="sd">can provide insight on hidden trends especially in large datasets, and when the</span>
+<span class="sd">sentences or phrases are also longer then a word or two each.</span>
+
+<span class="sd">Let&#39;s take a look at how to use the :func:`word_frequency` function, and what</span>
+<span class="sd">the available options are.</span>
+
+
+<span class="sd">.. glossary::</span>
+
+<span class="sd">    text_list</span>
+<span class="sd">        The list of phrases or documents that you want to analyze. Here are</span>
+<span class="sd">        some possible ideas that you might use this for:</span>
+
+<span class="sd">            * keywords whether in a PPC or SEO report</span>
+<span class="sd">            * page titles in an analytics report</span>
+<span class="sd">            * social media posts (tweets, Facebook posts, YouTube video titles</span>
+<span class="sd">              or descriptions etc.)</span>
+<span class="sd">            * e-commerce reports (where the text would be the product names)</span>
+
+<span class="sd">    num_list</span>
+<span class="sd">        Ideally, if you have more than one column describing :attr:`text_list`</span>
+<span class="sd">        you should experiment with different options. Try weighting the words</span>
+<span class="sd">        by pageviews, then try by bounce rate and see if you get different</span>
+<span class="sd">        interesting findings.</span>
+<span class="sd">        With e-commerce reports, you can see which word appears the most, and</span>
+<span class="sd">        which word is associated with more revenue.</span>
+
+<span class="sd">    phrase_len</span>
+<span class="sd">        You should also experiment with different lengths of phrases. In many</span>
+<span class="sd">        cases, one-word phrases might not be as meaningful as two-words or</span>
+<span class="sd">        three.</span>
+
+<span class="sd">    regex</span>
+<span class="sd">        The default is to simply split words by whitespace, and provide phrases</span>
+<span class="sd">        of length :attr:`phrase_len`.</span>
+<span class="sd">        But you may want to count the occurrences of certain patterns of text.</span>
+<span class="sd">        Check out the :ref:`regex &lt;regex&gt;` module for the available regular</span>
+<span class="sd">        expressions that might be interesting. Some of them are hashtags,</span>
+<span class="sd">        mentions, questions, emoji, currencies, and more.</span>
+
+<span class="sd">    rm_words</span>
+<span class="sd">        A list of words to ignore and not count. Known as stop-words these are</span>
+<span class="sd">        the most frequently used words in a language, the most used, but don&#39;t</span>
+<span class="sd">        add much meaning to the content (a, and, of, the, if, etc.). By default</span>
+<span class="sd">        a set of English stopwords is provided (which you can check and</span>
+<span class="sd">        possibly may want to modify), or run ``adv.stopwords.keys()`` to get a</span>
+<span class="sd">        list of all the available stopwords in the available languages.</span>
+<span class="sd">        In some cases (like page titles for example), you might get &quot;words&quot;</span>
+<span class="sd">        that need to be removed as well, like the pipe &quot;|&quot; character for</span>
+<span class="sd">        example.</span>
+
+<span class="sd">    extra_info</span>
+<span class="sd">        The returned DataFrame contains the default columns</span>
+<span class="sd">        ``[word, abs_freq, wtd_freq, rel_value]``. You can get extra</span>
+<span class="sd">        columns for percentages and cumulative percentages that add perspective</span>
+<span class="sd">        to the other columns. Set this parameter to :attr:`True` if you want</span>
+<span class="sd">        that.</span>
+
+<span class="sd">Below are all the columns of the returned DataFrame:</span>
+
+<span class="sd">=========================  ================================================</span>
+<span class="sd">:attr:`word`               Words in the document list each on its own row.</span>
+<span class="sd">                           The length of these words is determined by</span>
+<span class="sd">                           :attr:`phrase_len`, essentially phrases if</span>
+<span class="sd">                           containing more than one word each.</span>
+<span class="sd">:attr:`abs_freq`           The number of occurrences of each word in all</span>
+<span class="sd">                           the documents.</span>
+<span class="sd">:attr:`wtd_freq`           Every occurrence of :attr:`word` multiplied by</span>
+<span class="sd">                           its respective value in :attr:`num_list`</span>
+<span class="sd">                           provided by the function call.</span>
+<span class="sd">:attr:`rel_value`          :attr:`wtd_freq` divided by :attr:`abs_freq`,</span>
+<span class="sd">                           showing the value per occurrence of :attr:`word`</span>
+<span class="sd">:attr:`abs_perc`           Absolute frequency percentage.</span>
+<span class="sd">:attr:`abs_perc_cum`       Cumulative absolute percentage.</span>
+<span class="sd">:attr:`wtd_freq_perc`      Weighted frequency percentage.</span>
+<span class="sd">:attr:`wtd_freq_perc_cum`  Cumulative weighted frequency percentage.</span>
+<span class="sd">=========================  ================================================</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
 
 <span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
@@ -167,56 +293,24 @@
 <div class="viewcode-block" id="word_frequency"><a class="viewcode-back" href="../../advertools.word_frequency.html#advertools.word_frequency.word_frequency">[docs]</a><span class="k">def</span> <span class="nf">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phrase_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">rm_words</span><span class="o">=</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">],</span> <span class="n">extra_info</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Count the absolute as well as the weighted frequency of words</span>
-<span class="sd">    in ``text_list`` (based on ``num_list``).</span>
+<span class="sd">    in :attr:`text_list` (based on :attr:`num_list`).</span>
 
-<span class="sd">    :param text_list: iterable of strings.</span>
-<span class="sd">        Typically short phrases, but could be any list of full blown documents.</span>
-<span class="sd">        Usually, you would use this to analyze tweets, book titles, URLs, etc.</span>
-<span class="sd">    :param num_list: iterable of numbers.</span>
-<span class="sd">        A list of numbers with the same length as ``text_list``, describing a</span>
-<span class="sd">        certain attribute of these &#39;documents&#39;; views, retweets, sales, etc.</span>
-<span class="sd">    :param regex: string.</span>
-<span class="sd">        The regex used to split words. Doesn&#39;t need changing in most cases.</span>
-<span class="sd">    :param phrase_len: integer, the length in words of each token the</span>
+<span class="sd">    :param list text_list: Typically short phrases, but could be any list of</span>
+<span class="sd">                           full blown documents. Usually, you would use this</span>
+<span class="sd">                           to analyze tweets, book titles, URLs, etc.</span>
+<span class="sd">    :param list num_list: A list of numbers with the same length as</span>
+<span class="sd">                          :attr:`text_list`, describing a certain attribute of</span>
+<span class="sd">                          these &#39;documents&#39;; views, retweets, sales, etc.</span>
+<span class="sd">    :param str regex: The regex used to split words. Doesn&#39;t need changing</span>
+<span class="sd">                      in most cases.</span>
+<span class="sd">    :param int phrase_len: the length in words of each token the</span>
 <span class="sd">        text is split into, defaults to 1.</span>
-<span class="sd">    :param rm_words: iterable of strings.</span>
-<span class="sd">        Words to remove from the list &#39;stop-words&#39;. The default uses</span>
-<span class="sd">        ``spacy``&#39;s list of English stopwords. To get all available languages</span>
-<span class="sd">        run ``adv.stopwords.keys()``</span>
-<span class="sd">    :param extra_info: boolean.</span>
-<span class="sd">        Whether or not to give additional columns about the frequencies</span>
+<span class="sd">    :param set rm_words: Words to remove from the list a.k.a &#39;stop-words&#39;.</span>
+<span class="sd">                         The default uses. To get all available languages</span>
+<span class="sd">                         run ``adv.stopwords.keys()``</span>
+<span class="sd">    :param bool extra_info: Whether or not to give additional metrics about</span>
+<span class="sd">                            the frequencies</span>
 <span class="sd">    :returns abs_wtd_df: absolute and weighted DataFrame.</span>
-<span class="sd">        pandas.DataFrame with several metrics calculated. The most important</span>
-<span class="sd">        are ``abs_freq`` and ``wtd_freq``. These show the difference between</span>
-<span class="sd">        the number of occurrences of each word together with their respective</span>
-<span class="sd">        weighted occurrences (frequency vs. weighted frequency). Other metrics</span>
-<span class="sd">        are also provided. The columns are as follows:</span>
-
-<span class="sd">        word: Word.</span>
-<span class="sd">            Words in the document list each on its own row. The length of</span>
-<span class="sd">            these words is determined by ``token_word_len``, essentially</span>
-<span class="sd">            phrases if containing more than one word each.</span>
-<span class="sd">        abs_freq: Absolute frequency.</span>
-<span class="sd">            The number of occurrences of each word in all the documents.</span>
-<span class="sd">        wtd_freq: Weighted frequency.</span>
-<span class="sd">            Every occurrence of ``word`` multiplied by its respective value in</span>
-<span class="sd">            ``num_list`` provided by the function call.</span>
-<span class="sd">        rel_value: Relative value.</span>
-<span class="sd">            ``wtd_freq`` divided by ``abs_freq``, showing the value per</span>
-<span class="sd">            occurrence of ``word``</span>
-
-<span class="sd">        :extra_info:</span>
-
-<span class="sd">        abs_perc: Absolute frequency percentage.</span>
-<span class="sd">            ``abs_freq`` divided by the sum of all occurrences of words.</span>
-<span class="sd">        abs_perc_cum: Cumulative absolute percentage.</span>
-<span class="sd">            Cumulative sum of ``abs_perc`` to see how many words form x% of</span>
-<span class="sd">            the occurrences.</span>
-<span class="sd">        wtd_freq_perc: ``wtd_freq`` divided by the total weighted frequencies</span>
-<span class="sd">            of all words.</span>
-<span class="sd">        wtd_freq_perc_cum: Cumulative weighted frequncy percentage.</span>
-<span class="sd">            Cumulative sum of ``wtd_freq_perc`` to see how many words form x%</span>
-<span class="sd">            of the weighted occurrences.</span>
 
 <span class="sd">    &gt;&gt;&gt; text_list = [&#39;apple orange&#39;, &#39;apple orange banana&#39;,</span>
 <span class="sd">    ...              &#39;apple kiwi&#39;, &#39;kiwi mango&#39;]</span>
@@ -230,8 +324,13 @@
 <span class="sd">    3  orange         2       200      100.0</span>
 <span class="sd">    4  banana         1       100      100.0</span>
 
-<span class="sd">    &quot;kiwi&quot; occurred twice (abs_freq), one of these phrases has a score of 100,</span>
-<span class="sd">    and the other 400, so the wtd_freq is the sum (100 + 400 = 500)</span>
+<span class="sd">    Although &quot;kiwi&quot; occurred twice :attr:`abs_freq`, and &quot;apple&quot; occurred three</span>
+<span class="sd">    times, the phrases in which &quot;kiwi&quot; appear have a total score of 500,</span>
+<span class="sd">    so it beats &quot;apple&quot; on :attr:`wtd_freq` even though &quot;apple&quot; wins on</span>
+<span class="sd">    :attr:`abs_freq`. You can sort by any of the columns of course.</span>
+<span class="sd">    :attr:`rel_value` shows the value per occurrence of each word, as you can</span>
+<span class="sd">    see, it is simply obtained by dividing :attr:`wtd_freq` by</span>
+<span class="sd">    :attr:`abs_freq`.</span>
 
 <span class="sd">    &gt;&gt;&gt; adv.word_frequency(text_list)  # num_list values default to 1 each</span>
 <span class="sd">         word  abs_freq  wtd_freq  rel_value</span>
@@ -245,9 +344,11 @@
 <span class="sd">    ... &#39;my favorite color is green&#39;, &#39;the best color is green&#39;,</span>
 <span class="sd">    ... &#39;i love the color black&#39;]</span>
 
-<span class="sd">    Setting ``token_word_len`` to 2, &quot;words&quot; become two-word phrases instead:</span>
+<span class="sd">    Setting :attr:`phrase_len` to 2, &quot;words&quot; become two-word phrases instead.</span>
+<span class="sd">    Note that we are setting :attr:`rm_words` to the empty list so we can keep</span>
+<span class="sd">    the stopwords and see if that makes sense:</span>
 
-<span class="sd">    &gt;&gt;&gt; word_frequency(text_list2, token_word_len=2, rm_words=[])</span>
+<span class="sd">    &gt;&gt;&gt; word_frequency(text_list2, phrase_len=2, rm_words=[])</span>
 <span class="sd">                  word  abs_freq  wtd_freq  rel_value</span>
 <span class="sd">    0         color is         3         3        1.0</span>
 <span class="sd">    1      my favorite         2         2        1.0</span>
@@ -261,6 +362,9 @@
 <span class="sd">    9        the color         1         1        1.0</span>
 <span class="sd">    10     color black         1         1        1.0</span>
 
+<span class="sd">    The same result as above showing all possible columns by setting</span>
+<span class="sd">    :attr:`extra_info` to :attr:`True`:</span>
+
 <span class="sd">    &gt;&gt;&gt; adv.word_frequency(text_list, num_list, extra_info=True)</span>
 <span class="sd">         word  abs_freq  abs_perc  abs_perc_cum  wtd_freq  wtd_freq_perc  wtd_freq_perc_cum  rel_value</span>
 <span class="sd">    0    kiwi         2  0.222222      0.222222       500       0.333333           0.333333      250.0</span>
@@ -268,12 +372,9 @@
 <span class="sd">    2   apple         3  0.333333      0.666667       300       0.200000           0.800000      100.0</span>
 <span class="sd">    3  orange         2  0.222222      0.888889       200       0.133333           0.933333      100.0</span>
 <span class="sd">    4  banana         1  0.111111      1.000000       100       0.066667           1.000000      100.0</span>
-
-<span class="sd">    This is the same result as above but giving the full DataFrame including</span>
-<span class="sd">    all columns.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">num_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">))]</span>
+        <span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">))]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
         <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">))</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>

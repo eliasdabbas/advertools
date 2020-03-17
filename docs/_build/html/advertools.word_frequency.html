@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>advertools.word_frequency module &mdash; advertools 0.8.1 documentation</title>
+  <title>Text Analysis &mdash; advertools 0.8.1 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="advertools.word_tokenize module" href="advertools.word_tokenize.html" />
-    <link rel="prev" title="advertools.stopwords module" href="advertools.stopwords.html" /> 
+    <link rel="next" title="Tokenize Words (N-grams)" href="advertools.word_tokenize.html" />
+    <link rel="prev" title="Stopwords in Several Languages" href="advertools.stopwords.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,12 +88,12 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
             
@@ -139,7 +139,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>advertools.word_frequency module</li>
+      <li>Text Analysis</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -158,71 +158,162 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-advertools.word_frequency">
-<span id="advertools-word-frequency-module"></span><h1>advertools.word_frequency module<a class="headerlink" href="#module-advertools.word_frequency" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-advertools.word_frequency"></span><div class="section" id="text-analysis">
+<span id="word-frequency"></span><h1>Text Analysis<a class="headerlink" href="#text-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="absolute-and-weighted-word-count">
+<h2>Absolute and Weighted Word Count<a class="headerlink" href="#absolute-and-weighted-word-count" title="Permalink to this headline">¶</a></h2>
+<p>When analyzing a corpus of documents (I’ll simply call it a text list), one of
+the main tasks to accomplish to start text mining is to first count the words.
+While there are many text mining techniques and approaches, the
+<a class="reference internal" href="#advertools.word_frequency.word_frequency" title="advertools.word_frequency.word_frequency"><code class="xref py py-func docutils literal notranslate"><span class="pre">word_frequency()</span></code></a> function works mainly by counting words in a text list.
+A “word” is defined as a sequence of characters split by whitespace(s), and
+stripped of non-word characters (commas, dots, quotation marks, etc.).
+A “word” is actually a phrase consisting of one word, but you have the option
+of getting phrases that have two words, or more. This can be done simply
+by providing a value for the <code class="xref py py-attr docutils literal notranslate"><span class="pre">phrase_len</span></code> parameter.</p>
+<div class="section" id="absolute-vs-weighted-frequency">
+<h3>Absolute vs Weighted Frequency<a class="headerlink" href="#absolute-vs-weighted-frequency" title="Permalink to this headline">¶</a></h3>
+<p>In social media reports, analytics, keyword reports, url and page reports, we
+get more information than simply the text. We get numbers describing those
+posts or page titles, or product names, or whatever the text list might
+contain. Numbers can be pageviews, shares, likes, retweets, sales, bounces,
+sales, etc. Since we have numbers to quantify those phrases, we can improve our
+counting by taking into consideration the number list that comes with the text
+list.</p>
+<p>For example, if you have an e-commerce site that has two products, let’s say
+you have bags and shoes, then your products are split 50:50 between bags and
+shoes.
+But what if you learn that shoes generate 80% of your sales?
+Although shoes form half your products, they generate 80% of your revenue. So
+the <em>weighted count</em> of your products is 80:20.</p>
+<p>Let’s say two people post two different posts on a social media platform. One
+of them says, “It’s raining”, and the other says, “It’s snowing”. As in the
+above example, the content is split 50:50 between “raining” and “snowing”, but
+we get a much more informative picture if we get the number of followers of
+each of those accounts (or the number of shares, likes, etc.). If one of them
+has a thousand followers, and other has a million (which is typical on social
+media, as well as in pageviews report, e-commerce and most other datasets),
+then you get a completely different picture about your dataset.</p>
+<p>These two simple examples contain two posts, and a word each. This function
+can provide insight on hidden trends especially in large datasets, and when the
+sentences or phrases are also longer then a word or two each.</p>
+<p>Let’s take a look at how to use the <a class="reference internal" href="#advertools.word_frequency.word_frequency" title="advertools.word_frequency.word_frequency"><code class="xref py py-func docutils literal notranslate"><span class="pre">word_frequency()</span></code></a> function, and what
+the available options are.</p>
+<dl class="glossary">
+<dt id="term-text-list">text_list</dt><dd><p>The list of phrases or documents that you want to analyze. Here are
+some possible ideas that you might use this for:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>keywords whether in a PPC or SEO report</p></li>
+<li><p>page titles in an analytics report</p></li>
+<li><p>social media posts (tweets, Facebook posts, YouTube video titles
+or descriptions etc.)</p></li>
+<li><p>e-commerce reports (where the text would be the product names)</p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt id="term-num-list">num_list</dt><dd><p>Ideally, if you have more than one column describing <code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code>
+you should experiment with different options. Try weighting the words
+by pageviews, then try by bounce rate and see if you get different
+interesting findings.
+With e-commerce reports, you can see which word appears the most, and
+which word is associated with more revenue.</p>
+</dd>
+<dt id="term-phrase-len">phrase_len</dt><dd><p>You should also experiment with different lengths of phrases. In many
+cases, one-word phrases might not be as meaningful as two-words or
+three.</p>
+</dd>
+<dt id="term-regex">regex</dt><dd><p>The default is to simply split words by whitespace, and provide phrases
+of length <code class="xref py py-attr docutils literal notranslate"><span class="pre">phrase_len</span></code>.
+But you may want to count the occurrences of certain patterns of text.
+Check out the <a class="reference internal" href="advertools.regex.html#regex"><span class="std std-ref">regex</span></a> module for the available regular
+expressions that might be interesting. Some of them are hashtags,
+mentions, questions, emoji, currencies, and more.</p>
+</dd>
+<dt id="term-rm-words">rm_words</dt><dd><p>A list of words to ignore and not count. Known as stop-words these are
+the most frequently used words in a language, the most used, but don’t
+add much meaning to the content (a, and, of, the, if, etc.). By default
+a set of English stopwords is provided (which you can check and
+possibly may want to modify), or run <code class="docutils literal notranslate"><span class="pre">adv.stopwords.keys()</span></code> to get a
+list of all the available stopwords in the available languages.
+In some cases (like page titles for example), you might get “words”
+that need to be removed as well, like the pipe “|” character for
+example.</p>
+</dd>
+<dt id="term-extra-info">extra_info</dt><dd><p>The returned DataFrame contains the default columns
+<code class="docutils literal notranslate"><span class="pre">[word,</span> <span class="pre">abs_freq,</span> <span class="pre">wtd_freq,</span> <span class="pre">rel_value]</span></code>. You can get extra
+columns for percentages and cumulative percentages that add perspective
+to the other columns. Set this parameter to <code class="xref py py-attr docutils literal notranslate"><span class="pre">True</span></code> if you want
+that.</p>
+</dd>
+</dl>
+<p>Below are all the columns of the returned DataFrame:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 66%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">word</span></code></p></td>
+<td><p>Words in the document list each on its own row.
+The length of these words is determined by
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">phrase_len</span></code>, essentially phrases if
+containing more than one word each.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_freq</span></code></p></td>
+<td><p>The number of occurrences of each word in all
+the documents.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">wtd_freq</span></code></p></td>
+<td><p>Every occurrence of <code class="xref py py-attr docutils literal notranslate"><span class="pre">word</span></code> multiplied by
+its respective value in <code class="xref py py-attr docutils literal notranslate"><span class="pre">num_list</span></code>
+provided by the function call.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">rel_value</span></code></p></td>
+<td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">wtd_freq</span></code> divided by <code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_freq</span></code>,
+showing the value per occurrence of <code class="xref py py-attr docutils literal notranslate"><span class="pre">word</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_perc</span></code></p></td>
+<td><p>Absolute frequency percentage.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_perc_cum</span></code></p></td>
+<td><p>Cumulative absolute percentage.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">wtd_freq_perc</span></code></p></td>
+<td><p>Weighted frequency percentage.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">wtd_freq_perc_cum</span></code></p></td>
+<td><p>Cumulative weighted frequency percentage.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="function">
 <dt id="advertools.word_frequency.word_frequency">
 <code class="sig-prename descclassname">advertools.word_frequency.</code><code class="sig-name descname">word_frequency</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">num_list=None</em>, <em class="sig-param">phrase_len=1</em>, <em class="sig-param">regex=None</em>, <em class="sig-param">rm_words={'a'</em>, <em class="sig-param">'about'</em>, <em class="sig-param">'above'</em>, <em class="sig-param">'across'</em>, <em class="sig-param">'after'</em>, <em class="sig-param">'afterwards'</em>, <em class="sig-param">'again'</em>, <em class="sig-param">'against'</em>, <em class="sig-param">'all'</em>, <em class="sig-param">'almost'</em>, <em class="sig-param">'alone'</em>, <em class="sig-param">'along'</em>, <em class="sig-param">'already'</em>, <em class="sig-param">'also'</em>, <em class="sig-param">'although'</em>, <em class="sig-param">'always'</em>, <em class="sig-param">'am'</em>, <em class="sig-param">'among'</em>, <em class="sig-param">'amongst'</em>, <em class="sig-param">'amount'</em>, <em class="sig-param">'an'</em>, <em class="sig-param">'and'</em>, <em class="sig-param">'another'</em>, <em class="sig-param">'any'</em>, <em class="sig-param">'anyhow'</em>, <em class="sig-param">'anyone'</em>, <em class="sig-param">'anything'</em>, <em class="sig-param">'anyway'</em>, <em class="sig-param">'anywhere'</em>, <em class="sig-param">'are'</em>, <em class="sig-param">'around'</em>, <em class="sig-param">'as'</em>, <em class="sig-param">'at'</em>, <em class="sig-param">'back'</em>, <em class="sig-param">'be'</em>, <em class="sig-param">'became'</em>, <em class="sig-param">'because'</em>, <em class="sig-param">'become'</em>, <em class="sig-param">'becomes'</em>, <em class="sig-param">'becoming'</em>, <em class="sig-param">'been'</em>, <em class="sig-param">'before'</em>, <em class="sig-param">'beforehand'</em>, <em class="sig-param">'behind'</em>, <em class="sig-param">'being'</em>, <em class="sig-param">'below'</em>, <em class="sig-param">'beside'</em>, <em class="sig-param">'besides'</em>, <em class="sig-param">'between'</em>, <em class="sig-param">'beyond'</em>, <em class="sig-param">'both'</em>, <em class="sig-param">'bottom'</em>, <em class="sig-param">'but'</em>, <em class="sig-param">'by'</em>, <em class="sig-param">'ca'</em>, <em class="sig-param">'call'</em>, <em class="sig-param">'can'</em>, <em class="sig-param">'cannot'</em>, <em class="sig-param">'could'</em>, <em class="sig-param">'did'</em>, <em class="sig-param">'do'</em>, <em class="sig-param">'does'</em>, <em class="sig-param">'doing'</em>, <em class="sig-param">'done'</em>, <em class="sig-param">'down'</em>, <em class="sig-param">'due'</em>, <em class="sig-param">'during'</em>, <em class="sig-param">'each'</em>, <em class="sig-param">'eight'</em>, <em class="sig-param">'either'</em>, <em class="sig-param">'eleven'</em>, <em class="sig-param">'else'</em>, <em class="sig-param">'elsewhere'</em>, <em class="sig-param">'empty'</em>, <em class="sig-param">'enough'</em>, <em class="sig-param">'even'</em>, <em class="sig-param">'ever'</em>, <em class="sig-param">'every'</em>, <em class="sig-param">'everyone'</em>, <em class="sig-param">'everything'</em>, <em class="sig-param">'everywhere'</em>, <em class="sig-param">'except'</em>, <em class="sig-param">'few'</em>, <em class="sig-param">'fifteen'</em>, <em class="sig-param">'fifty'</em>, <em class="sig-param">'first'</em>, <em class="sig-param">'five'</em>, <em class="sig-param">'for'</em>, <em class="sig-param">'former'</em>, <em class="sig-param">'formerly'</em>, <em class="sig-param">'forty'</em>, <em class="sig-param">'four'</em>, <em class="sig-param">'from'</em>, <em class="sig-param">'front'</em>, <em class="sig-param">'full'</em>, <em class="sig-param">'further'</em>, <em class="sig-param">'get'</em>, <em class="sig-param">'give'</em>, <em class="sig-param">'go'</em>, <em class="sig-param">'had'</em>, <em class="sig-param">'has'</em>, <em class="sig-param">'have'</em>, <em class="sig-param">'he'</em>, <em class="sig-param">'hence'</em>, <em class="sig-param">'her'</em>, <em class="sig-param">'here'</em>, <em class="sig-param">'hereafter'</em>, <em class="sig-param">'hereby'</em>, <em class="sig-param">'herein'</em>, <em class="sig-param">'hereupon'</em>, <em class="sig-param">'hers'</em>, <em class="sig-param">'herself'</em>, <em class="sig-param">'him'</em>, <em class="sig-param">'himself'</em>, <em class="sig-param">'his'</em>, <em class="sig-param">'how'</em>, <em class="sig-param">'however'</em>, <em class="sig-param">'hundred'</em>, <em class="sig-param">'i'</em>, <em class="sig-param">'if'</em>, <em class="sig-param">'in'</em>, <em class="sig-param">'indeed'</em>, <em class="sig-param">'into'</em>, <em class="sig-param">'is'</em>, <em class="sig-param">'it'</em>, <em class="sig-param">'its'</em>, <em class="sig-param">'itself'</em>, <em class="sig-param">'just'</em>, <em class="sig-param">'keep'</em>, <em class="sig-param">'last'</em>, <em class="sig-param">'latter'</em>, <em class="sig-param">'latterly'</em>, <em class="sig-param">'least'</em>, <em class="sig-param">'less'</em>, <em class="sig-param">'made'</em>, <em class="sig-param">'make'</em>, <em class="sig-param">'many'</em>, <em class="sig-param">'may'</em>, <em class="sig-param">'me'</em>, <em class="sig-param">'meanwhile'</em>, <em class="sig-param">'might'</em>, <em class="sig-param">'mine'</em>, <em class="sig-param">'more'</em>, <em class="sig-param">'moreover'</em>, <em class="sig-param">'most'</em>, <em class="sig-param">'mostly'</em>, <em class="sig-param">'move'</em>, <em class="sig-param">'much'</em>, <em class="sig-param">'must'</em>, <em class="sig-param">'my'</em>, <em class="sig-param">'myself'</em>, <em class="sig-param">'name'</em>, <em class="sig-param">'namely'</em>, <em class="sig-param">'neither'</em>, <em class="sig-param">'never'</em>, <em class="sig-param">'nevertheless'</em>, <em class="sig-param">'next'</em>, <em class="sig-param">'nine'</em>, <em class="sig-param">'no'</em>, <em class="sig-param">'nobody'</em>, <em class="sig-param">'none'</em>, <em class="sig-param">'noone'</em>, <em class="sig-param">'nor'</em>, <em class="sig-param">'not'</em>, <em class="sig-param">'nothing'</em>, <em class="sig-param">'now'</em>, <em class="sig-param">'nowhere'</em>, <em class="sig-param">'of'</em>, <em class="sig-param">'off'</em>, <em class="sig-param">'often'</em>, <em class="sig-param">'on'</em>, <em class="sig-param">'once'</em>, <em class="sig-param">'one'</em>, <em class="sig-param">'only'</em>, <em class="sig-param">'onto'</em>, <em class="sig-param">'or'</em>, <em class="sig-param">'other'</em>, <em class="sig-param">'others'</em>, <em class="sig-param">'otherwise'</em>, <em class="sig-param">'our'</em>, <em class="sig-param">'ours'</em>, <em class="sig-param">'ourselves'</em>, <em class="sig-param">'out'</em>, <em class="sig-param">'over'</em>, <em class="sig-param">'own'</em>, <em class="sig-param">'part'</em>, <em class="sig-param">'per'</em>, <em class="sig-param">'perhaps'</em>, <em class="sig-param">'please'</em>, <em class="sig-param">'put'</em>, <em class="sig-param">'quite'</em>, <em class="sig-param">'rather'</em>, <em class="sig-param">'re'</em>, <em class="sig-param">'really'</em>, <em class="sig-param">'regarding'</em>, <em class="sig-param">'same'</em>, <em class="sig-param">'say'</em>, <em class="sig-param">'see'</em>, <em class="sig-param">'seem'</em>, <em class="sig-param">'seemed'</em>, <em class="sig-param">'seeming'</em>, <em class="sig-param">'seems'</em>, <em class="sig-param">'serious'</em>, <em class="sig-param">'several'</em>, <em class="sig-param">'she'</em>, <em class="sig-param">'should'</em>, <em class="sig-param">'show'</em>, <em class="sig-param">'side'</em>, <em class="sig-param">'since'</em>, <em class="sig-param">'six'</em>, <em class="sig-param">'sixty'</em>, <em class="sig-param">'so'</em>, <em class="sig-param">'some'</em>, <em class="sig-param">'somehow'</em>, <em class="sig-param">'someone'</em>, <em class="sig-param">'something'</em>, <em class="sig-param">'sometime'</em>, <em class="sig-param">'sometimes'</em>, <em class="sig-param">'somewhere'</em>, <em class="sig-param">'still'</em>, <em class="sig-param">'such'</em>, <em class="sig-param">'take'</em>, <em class="sig-param">'ten'</em>, <em class="sig-param">'than'</em>, <em class="sig-param">'that'</em>, <em class="sig-param">'the'</em>, <em class="sig-param">'their'</em>, <em class="sig-param">'them'</em>, <em class="sig-param">'themselves'</em>, <em class="sig-param">'then'</em>, <em class="sig-param">'thence'</em>, <em class="sig-param">'there'</em>, <em class="sig-param">'thereafter'</em>, <em class="sig-param">'thereby'</em>, <em class="sig-param">'therefore'</em>, <em class="sig-param">'therein'</em>, <em class="sig-param">'thereupon'</em>, <em class="sig-param">'these'</em>, <em class="sig-param">'they'</em>, <em class="sig-param">'third'</em>, <em class="sig-param">'this'</em>, <em class="sig-param">'those'</em>, <em class="sig-param">'though'</em>, <em class="sig-param">'three'</em>, <em class="sig-param">'through'</em>, <em class="sig-param">'throughout'</em>, <em class="sig-param">'thru'</em>, <em class="sig-param">'thus'</em>, <em class="sig-param">'to'</em>, <em class="sig-param">'together'</em>, <em class="sig-param">'too'</em>, <em class="sig-param">'top'</em>, <em class="sig-param">'toward'</em>, <em class="sig-param">'towards'</em>, <em class="sig-param">'twelve'</em>, <em class="sig-param">'twenty'</em>, <em class="sig-param">'two'</em>, <em class="sig-param">'under'</em>, <em class="sig-param">'unless'</em>, <em class="sig-param">'until'</em>, <em class="sig-param">'up'</em>, <em class="sig-param">'upon'</em>, <em class="sig-param">'us'</em>, <em class="sig-param">'used'</em>, <em class="sig-param">'using'</em>, <em class="sig-param">'various'</em>, <em class="sig-param">'very'</em>, <em class="sig-param">'via'</em>, <em class="sig-param">'was'</em>, <em class="sig-param">'we'</em>, <em class="sig-param">'well'</em>, <em class="sig-param">'were'</em>, <em class="sig-param">'what'</em>, <em class="sig-param">'whatever'</em>, <em class="sig-param">'when'</em>, <em class="sig-param">'whence'</em>, <em class="sig-param">'whenever'</em>, <em class="sig-param">'where'</em>, <em class="sig-param">'whereafter'</em>, <em class="sig-param">'whereas'</em>, <em class="sig-param">'whereby'</em>, <em class="sig-param">'wherein'</em>, <em class="sig-param">'whereupon'</em>, <em class="sig-param">'wherever'</em>, <em class="sig-param">'whether'</em>, <em class="sig-param">'which'</em>, <em class="sig-param">'while'</em>, <em class="sig-param">'whither'</em>, <em class="sig-param">'who'</em>, <em class="sig-param">'whoever'</em>, <em class="sig-param">'whole'</em>, <em class="sig-param">'whom'</em>, <em class="sig-param">'whose'</em>, <em class="sig-param">'why'</em>, <em class="sig-param">'will'</em>, <em class="sig-param">'with'</em>, <em class="sig-param">'within'</em>, <em class="sig-param">'without'</em>, <em class="sig-param">'would'</em>, <em class="sig-param">'yet'</em>, <em class="sig-param">'you'</em>, <em class="sig-param">'your'</em>, <em class="sig-param">'yours'</em>, <em class="sig-param">'yourself'</em>, <em class="sig-param">'yourselves'}</em>, <em class="sig-param">extra_info=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Count the absolute as well as the weighted frequency of words
-in <code class="docutils literal notranslate"><span class="pre">text_list</span></code> (based on <code class="docutils literal notranslate"><span class="pre">num_list</span></code>).</p>
-<dl class="field-list">
+in <code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code> (based on <code class="xref py py-attr docutils literal notranslate"><span class="pre">num_list</span></code>).</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text_list</strong> – iterable of strings.
-Typically short phrases, but could be any list of full blown documents.
-Usually, you would use this to analyze tweets, book titles, URLs, etc.</p></li>
-<li><p><strong>num_list</strong> – iterable of numbers.
-A list of numbers with the same length as <code class="docutils literal notranslate"><span class="pre">text_list</span></code>, describing a
-certain attribute of these ‘documents’; views, retweets, sales, etc.</p></li>
-<li><p><strong>regex</strong> – string.
-The regex used to split words. Doesn’t need changing in most cases.</p></li>
-<li><p><strong>phrase_len</strong> – integer, the length in words of each token the
+<li><p><strong>text_list</strong> (<em>list</em>) – Typically short phrases, but could be any list of
+full blown documents. Usually, you would use this
+to analyze tweets, book titles, URLs, etc.</p></li>
+<li><p><strong>num_list</strong> (<em>list</em>) – A list of numbers with the same length as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code>, describing a certain attribute of
+these ‘documents’; views, retweets, sales, etc.</p></li>
+<li><p><strong>regex</strong> (<em>str</em>) – The regex used to split words. Doesn’t need changing
+in most cases.</p></li>
+<li><p><strong>phrase_len</strong> (<em>int</em>) – the length in words of each token the
 text is split into, defaults to 1.</p></li>
-<li><p><strong>rm_words</strong> – iterable of strings.
-Words to remove from the list ‘stop-words’. The default uses
-<code class="docutils literal notranslate"><span class="pre">spacy</span></code>’s list of English stopwords. To get all available languages
+<li><p><strong>rm_words</strong> (<em>set</em>) – Words to remove from the list a.k.a ‘stop-words’.
+The default uses. To get all available languages
 run <code class="docutils literal notranslate"><span class="pre">adv.stopwords.keys()</span></code></p></li>
-<li><p><strong>extra_info</strong> – boolean.
-Whether or not to give additional columns about the frequencies</p></li>
+<li><p><strong>extra_info</strong> (<em>bool</em>) – Whether or not to give additional metrics about
+the frequencies</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns abs_wtd_df</dt>
-<dd class="field-even"><p>absolute and weighted DataFrame.
-pandas.DataFrame with several metrics calculated. The most important
-are <code class="docutils literal notranslate"><span class="pre">abs_freq</span></code> and <code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code>. These show the difference between
-the number of occurrences of each word together with their respective
-weighted occurrences (frequency vs. weighted frequency). Other metrics
-are also provided. The columns are as follows:</p>
-<dl class="simple">
-<dt>word: Word.</dt><dd><p>Words in the document list each on its own row. The length of
-these words is determined by <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code>, essentially
-phrases if containing more than one word each.</p>
-</dd>
-<dt>abs_freq: Absolute frequency.</dt><dd><p>The number of occurrences of each word in all the documents.</p>
-</dd>
-<dt>wtd_freq: Weighted frequency.</dt><dd><p>Every occurrence of <code class="docutils literal notranslate"><span class="pre">word</span></code> multiplied by its respective value in
-<code class="docutils literal notranslate"><span class="pre">num_list</span></code> provided by the function call.</p>
-</dd>
-<dt>rel_value: Relative value.</dt><dd><p><code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code> divided by <code class="docutils literal notranslate"><span class="pre">abs_freq</span></code>, showing the value per
-occurrence of <code class="docutils literal notranslate"><span class="pre">word</span></code></p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">extra_info</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<dl class="simple">
-<dt>abs_perc: Absolute frequency percentage.</dt><dd><p><code class="docutils literal notranslate"><span class="pre">abs_freq</span></code> divided by the sum of all occurrences of words.</p>
-</dd>
-<dt>abs_perc_cum: Cumulative absolute percentage.</dt><dd><p>Cumulative sum of <code class="docutils literal notranslate"><span class="pre">abs_perc</span></code> to see how many words form x% of
-the occurrences.</p>
-</dd>
-<dt>wtd_freq_perc: <code class="docutils literal notranslate"><span class="pre">wtd_freq</span></code> divided by the total weighted frequencies</dt><dd><p>of all words.</p>
-</dd>
-<dt>wtd_freq_perc_cum: Cumulative weighted frequncy percentage.</dt><dd><p>Cumulative sum of <code class="docutils literal notranslate"><span class="pre">wtd_freq_perc</span></code> to see how many words form x%
-of the weighted occurrences.</p>
-</dd>
-</dl>
+<dd class="field-even"><p>absolute and weighted DataFrame.</p>
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;apple orange&#39;</span><span class="p">,</span> <span class="s1">&#39;apple orange banana&#39;</span><span class="p">,</span>
@@ -239,8 +330,13 @@ of the weighted occurrences.</p>
 <span class="go">4  banana         1       100      100.0</span>
 </pre></div>
 </div>
-<p>“kiwi” occurred twice (abs_freq), one of these phrases has a score of 100,
-and the other 400, so the wtd_freq is the sum (100 + 400 = 500)</p>
+<p>Although “kiwi” occurred twice <code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_freq</span></code>, and “apple” occurred three
+times, the phrases in which “kiwi” appear have a total score of 500,
+so it beats “apple” on <code class="xref py py-attr docutils literal notranslate"><span class="pre">wtd_freq</span></code> even though “apple” wins on
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_freq</span></code>. You can sort by any of the columns of course.
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">rel_value</span></code> shows the value per occurrence of each word, as you can
+see, it is simply obtained by dividing <code class="xref py py-attr docutils literal notranslate"><span class="pre">wtd_freq</span></code> by
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_freq</span></code>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">)</span>  <span class="c1"># num_list values default to 1 each</span>
 <span class="go">     word  abs_freq  wtd_freq  rel_value</span>
 <span class="go">0   apple         3         3        1.0</span>
@@ -255,8 +351,10 @@ and the other 400, so the wtd_freq is the sum (100 + 400 = 500)</p>
 <span class="gp">... </span><span class="s1">&#39;i love the color black&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Setting <code class="docutils literal notranslate"><span class="pre">token_word_len</span></code> to 2, “words” become two-word phrases instead:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list2</span><span class="p">,</span> <span class="n">token_word_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rm_words</span><span class="o">=</span><span class="p">[])</span>
+<p>Setting <code class="xref py py-attr docutils literal notranslate"><span class="pre">phrase_len</span></code> to 2, “words” become two-word phrases instead.
+Note that we are setting <code class="xref py py-attr docutils literal notranslate"><span class="pre">rm_words</span></code> to the empty list so we can keep
+the stopwords and see if that makes sense:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list2</span><span class="p">,</span> <span class="n">phrase_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rm_words</span><span class="o">=</span><span class="p">[])</span>
 <span class="go">              word  abs_freq  wtd_freq  rel_value</span>
 <span class="go">0         color is         3         3        1.0</span>
 <span class="go">1      my favorite         2         2        1.0</span>
@@ -271,6 +369,8 @@ and the other 400, so the wtd_freq is the sum (100 + 400 = 500)</p>
 <span class="go">10     color black         1         1        1.0</span>
 </pre></div>
 </div>
+<p>The same result as above showing all possible columns by setting
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">extra_info</span></code> to <code class="xref py py-attr docutils literal notranslate"><span class="pre">True</span></code>:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="p">,</span> <span class="n">extra_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">     word  abs_freq  abs_perc  abs_perc_cum  wtd_freq  wtd_freq_perc  wtd_freq_perc_cum  rel_value</span>
 <span class="go">0    kiwi         2  0.222222      0.222222       500       0.333333           0.333333      250.0</span>
@@ -280,10 +380,10 @@ and the other 400, so the wtd_freq is the sum (100 + 400 = 500)</p>
 <span class="go">4  banana         1  0.111111      1.000000       100       0.066667           1.000000      100.0</span>
 </pre></div>
 </div>
-<p>This is the same result as above but giving the full DataFrame including
-all columns.</p>
 </dd></dl>
 
+</div>
+</div>
 </div>
 
 
@@ -294,10 +394,10 @@ all columns.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advertools.word_tokenize.html" class="btn btn-neutral float-right" title="advertools.word_tokenize module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="advertools.word_tokenize.html" class="btn btn-neutral float-right" title="Tokenize Words (N-grams)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="advertools.stopwords.html" class="btn btn-neutral float-left" title="advertools.stopwords module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="advertools.stopwords.html" class="btn btn-neutral float-left" title="Stopwords in Several Languages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

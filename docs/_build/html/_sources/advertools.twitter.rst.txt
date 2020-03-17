@@ -1,5 +1,3 @@
-advertools.twitter module
-=========================
 
 .. automodule:: advertools.twitter
    :members:

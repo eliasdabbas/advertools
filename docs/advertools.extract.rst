@@ -1,5 +1,3 @@
-advertools.extract module
-=========================
 
 .. automodule:: advertools.extract
    :members:

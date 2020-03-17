@@ -1,5 +1,3 @@
-advertools.youtube module
-=========================
 
 .. automodule:: advertools.youtube
    :members:

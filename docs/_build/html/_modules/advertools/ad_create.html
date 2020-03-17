@@ -86,12 +86,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
             
@@ -155,18 +155,56 @@
            <div itemprop="articleBody">
             
   <h1>Source code for advertools.ad_create</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">string</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. _ad_create:</span>
+
+<span class="sd">Create Ads on a Large Scale</span>
+<span class="sd">===========================</span>
+
+<span class="sd">When creating large-scale campaigns, you also need to create ads on a large</span>
+<span class="sd">scale. For products in a similar category you typically want to use the same</span>
+<span class="sd">ads, but only replace the product name, &quot;Get the latest &lt;product&gt; now&quot;, and</span>
+<span class="sd">replace `product` as many times as you have ads.</span>
+
+<span class="sd">&gt;&gt;&gt; products = [&#39;Dubai&#39;, &#39;Tokyo&#39;, &#39;Singapore&#39;]</span>
+<span class="sd">&gt;&gt;&gt; adv.ad_create(template=&#39;5-star Hotels in {}&#39;,</span>
+<span class="sd">...               replacements=products,</span>
+<span class="sd">...               max_len=30,</span>
+<span class="sd">...               fallback=&#39;Great Cities&#39;)</span>
+<span class="sd">[&#39;5-star Hotels In Dubai&#39;,</span>
+<span class="sd"> &#39;5-star Hotels In Tokyo&#39;,</span>
+<span class="sd"> &#39;5-star Hotels In Singapore&#39;]</span>
+
+<span class="sd">An important thing to to watch out for, is long product names. Since text ads</span>
+<span class="sd">have limits on each slot, you need to make sure you don&#39;t exceed that limit.</span>
+<span class="sd">For this you need to provide a `fallback` text in case the product name is</span>
+<span class="sd">longer than `max_len`.</span>
+
+<span class="sd">&gt;&gt;&gt; products = [&#39;Dubai&#39;, &#39;Tokyo&#39;, &#39;Singapore&#39;, &#39;Llanfairpwllgwyngyll&#39;]</span>
+<span class="sd">&gt;&gt;&gt; adv.ad_create(template=&#39;5-star Hotels in {}&#39;,</span>
+<span class="sd">...             replacements=products,</span>
+<span class="sd">...             max_len=30,</span>
+<span class="sd">...             fallback=&#39;Great Cities&#39;)</span>
+<span class="sd">[&#39;5-star Hotels In Dubai&#39;,</span>
+<span class="sd"> &#39;5-star Hotels In Tokyo&#39;,</span>
+<span class="sd"> &#39;5-star Hotels In Singapore&#39;,</span>
+<span class="sd"> &#39;5-star Hotels In Great Cities&#39;]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">string</span>
 
 
 <div class="viewcode-block" id="ad_create"><a class="viewcode-back" href="../../advertools.ad_create.html#advertools.ad_create.ad_create">[docs]</a><span class="k">def</span> <span class="nf">ad_create</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">replacements</span><span class="p">,</span> <span class="n">fallback</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">capitalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Insert each of the replacement strings in its place within template.</span>
 
-<span class="sd">    :param template: a string format template, using braces</span>
-<span class="sd">    :param replacements: replacements string to be inserted in template</span>
-<span class="sd">    :param fallback: the string to insert in template in case the replacement</span>
-<span class="sd">        is too long</span>
-<span class="sd">    :param max_len: the maximum allowed length of the full string</span>
-<span class="sd">    :param capitalize: whether or not to capitalize words in the result</span>
+<span class="sd">    :param str template: a string format template, using braces e.g. &quot;Get the</span>
+<span class="sd">                         latest {} today.&quot;</span>
+<span class="sd">    :param list replacements: replacement strings to be inserted in</span>
+<span class="sd">                              :attr:`template`</span>
+<span class="sd">    :param str fallback: the string to insert in :attr:`template` in case</span>
+<span class="sd">                         :attr:`replacement` is longer than :attr:`max_len`</span>
+<span class="sd">    :param int max_len: the maximum allowed length of the full string</span>
+<span class="sd">    :param bool capitalize: whether or not to capitalize words in the result</span>
 <span class="sd">    :returns formatted: list of strings</span>
 
 <span class="sd">    &gt;&gt;&gt; ad_create(&quot;Let\&#39;s count {}&quot;, [&#39;one&#39;, &#39;two&#39;, &#39;three&#39;], &#39;one&#39;, 20)</span>

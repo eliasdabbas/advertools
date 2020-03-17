@@ -86,12 +86,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
             
@@ -155,7 +155,12 @@
            <div itemprop="articleBody">
             
   <h1>Source code for advertools.extract</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Extract structured entities from text lists.</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. _extract:</span>
+
+<span class="sd">Extract structured entities from text lists</span>
+<span class="sd">===========================================</span>
+
 <span class="sd">Structured entities are pattern matches and not inferred entities.</span>
 <span class="sd">Some example are hashtags, emoji, mentions, questions, and so on. This is</span>
 <span class="sd">in contrast to entity extraction which are inferred from the context of the</span>
@@ -242,15 +247,15 @@
 <span class="sd">    It can be used for other arbitrary elements/matches. You only need to</span>
 <span class="sd">    provide your own regex.</span>
 
-<span class="sd">    :param text_list: Any list of strings (social posts, page titles, etc.)</span>
-<span class="sd">    :param regex: The regex pattern to use for extraction.</span>
-<span class="sd">    :param key_name: The name of the object extracted in singular form</span>
+<span class="sd">    :param list text_list: Any list of strings (social posts, page titles, etc.)</span>
+<span class="sd">    :param str regex: The regex pattern to use for extraction.</span>
+<span class="sd">    :param str key_name: The name of the object extracted in singular form</span>
 <span class="sd">        (hashtag, mention, etc.)</span>
-<span class="sd">    :param extracted: List of lists, optional. If the regex is not</span>
+<span class="sd">    :param list(list) extracted: List of lists, optional. If the regex is not</span>
 <span class="sd">        straightforward, and matches need to be made with special code,</span>
 <span class="sd">        provide the extracted words/matches as a list for each element</span>
-<span class="sd">        of ``text_list``.</span>
-<span class="sd">    :param kwargs: Other kwargs that might be needed.</span>
+<span class="sd">        of :attr:`text_list`.</span>
+<span class="sd">    :param mapping kwargs: Other kwargs that might be needed.</span>
 <span class="sd">    :return summary: A dictionary summarizing the extracted data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -288,11 +293,11 @@
 <span class="sd">    Get a summary of the number of currency symbols, their frequency,</span>
 <span class="sd">    the top ones, and more.</span>
 
-<span class="sd">    :param text_list: A list of text strings.</span>
-<span class="sd">    :param left_chars: The number of characters to extract, to the</span>
-<span class="sd">        left of the symbol when getting ``surrounding_text``</span>
-<span class="sd">    :param right_chars: The number of characters to extract, to the</span>
-<span class="sd">        left of the symbol when getting ``surrounding_text``</span>
+<span class="sd">    :param list text_list: A list of text strings.</span>
+<span class="sd">    :param int left_chars: The number of characters to extract, to the</span>
+<span class="sd">        left of the symbol when getting :attr:`surrounding_text`</span>
+<span class="sd">    :param int right_chars: The number of characters to extract, to the</span>
+<span class="sd">        left of the symbol when getting :attr:`surrounding_text`</span>
 <span class="sd">    :returns summary: A dictionary with various stats about currencies</span>
 
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;today ₿1 is around $4k&#39;, &#39;and ₿ in £ &amp; €?&#39;, &#39;no idea&#39;]</span>
@@ -364,7 +369,7 @@
 <span class="sd">    Get a summary of the number of emoji, their frequency, the top</span>
 <span class="sd">    ones, and more.</span>
 
-<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :param list text_list: A list of text strings.</span>
 <span class="sd">    :returns summary: A dictionary with various stats about emoji</span>
 
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;I am grinning 😀&#39;,&#39;A grinning cat 😺&#39;,</span>
@@ -469,7 +474,7 @@
 <span class="sd">    Get a summary of the number of exclamation marks, their frequency,</span>
 <span class="sd">    the top ones, as well the exclamations written/said.</span>
 
-<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :param list text_list: A list of text strings.</span>
 <span class="sd">    :returns summary: A dictionary with various stats about exclamations</span>
 
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;Who are you!&#39;, &#39;What is this!&#39;, &#39;No exclamation here?&#39;]</span>
@@ -569,12 +574,12 @@
 
 
 <div class="viewcode-block" id="extract_hashtags"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_hashtags">[docs]</a><span class="k">def</span> <span class="nf">extract_hashtags</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about hashtags in ``text_list``</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about hashtags in :attr:`text_list`</span>
 
 <span class="sd">    Get a summary of the number of hashtags, their frequency, the top</span>
 <span class="sd">    ones, and more.</span>
 
-<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :param list text_list: A list of text strings.</span>
 <span class="sd">    :returns summary: A dictionary with various stats about hashtags</span>
 
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;i like #blue&#39;, &#39;i like #green and #blue&#39;, &#39;i like all&#39;]</span>
@@ -618,6 +623,18 @@
 
 
 <div class="viewcode-block" id="extract_intense_words"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_intense_words">[docs]</a><span class="k">def</span> <span class="nf">extract_intense_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">min_reps</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about intense words in :attr:`text_list`</span>
+
+<span class="sd">    Get all instances of usage of intense words (positive or negative), using</span>
+<span class="sd">    words that have :attr:`min_reps` or more repetitions of characters.</span>
+<span class="sd">    &quot;I looooooveeee youuuuuuu&quot;, and &quot;I haaatttteeee youuuuuu&quot; are both intense.</span>
+
+<span class="sd">    :param list text_list: A text list from which to extract intense words</span>
+<span class="sd">    :param int min_reps: The number of times a character has to be repeated for</span>
+<span class="sd">                         the word to be considered intense.</span>
+
+<span class="sd">    :returns summary: A dictionary with various stats about intense words</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\S*)(\S)(</span><span class="si">{}</span><span class="s1">\S*)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">min_reps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="sa">r</span><span class="s1">&#39;\2&#39;</span><span class="p">))</span>
     <span class="n">extracted</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)]</span>
                  <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
@@ -631,7 +648,7 @@
 <span class="sd">    Get a summary of the number of mentions, their frequency, the top</span>
 <span class="sd">    ones, and more.</span>
 
-<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :param list text_list: A list of text strings.</span>
 <span class="sd">    :returns summary: A dictionary with various stats about mentions</span>
 
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;hello @john and @jenny&#39;, &#39;hi there @john&#39;, &#39;good morning&#39;]</span>
@@ -682,8 +699,8 @@
 <span class="sd">    ones, and more. Typically, numbers would contain separators to make them</span>
 <span class="sd">    easier to read, so these are included by default, which you can modify.</span>
 
-<span class="sd">    :param text_list: A list of text strings.</span>
-<span class="sd">    :param number_separators: A list of separators that you want</span>
+<span class="sd">    :param list text_list: A list of text strings.</span>
+<span class="sd">    :param list(str) number_separators: A list of separators that you want</span>
 <span class="sd">        to be included as part of the extracted numbers.</span>
 <span class="sd">    :returns summary: A dictionary with various stats about the numbers</span>
 
@@ -743,7 +760,7 @@
 <span class="sd">    Get a summary of the number of question marks, their frequency,</span>
 <span class="sd">    the top ones, as well the questions asked.</span>
 
-<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :param list text_list: A list of text strings.</span>
 <span class="sd">    :returns summary: A dictionary with various stats about questions</span>
 
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;How are you?&#39;, &#39;What is this?&#39;, &#39;No question Here!&#39;]</span>
@@ -851,7 +868,7 @@
 <span class="sd">    ones, and more.</span>
 <span class="sd">    This does NOT validate URLs, www.a.b would count as a URL</span>
 
-<span class="sd">    :param text_list: A list of text strings.</span>
+<span class="sd">    :param list text_list: A list of text strings.</span>
 <span class="sd">    :returns summary: A dictionary with various stats about URLs</span>
 
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;one link http://example.com&#39;, &#39;two: http://a.com www.b.com&#39;,</span>
@@ -924,16 +941,20 @@
 
 
 <div class="viewcode-block" id="extract_words"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_words">[docs]</a><span class="k">def</span> <span class="nf">extract_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">words_to_extract</span><span class="p">,</span> <span class="n">entire_words_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about ``words_to_extract`` in ``text_list``.</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about :attr:`words_to_extract` in</span>
+<span class="sd">    :attr:`text_list`.</span>
 
 <span class="sd">    Get a summary of the number of words, their frequency, the top</span>
 <span class="sd">    ones, and more.</span>
 
-<span class="sd">    :param text_list: A list of text strings.</span>
-<span class="sd">    :param words_to_extract: A list of words to extract from ``text_list``.</span>
-<span class="sd">    :param entire_words_only: Whether or not to find only complete words</span>
-<span class="sd">        (as specified by ``words_to_find``) or find any any of the</span>
+<span class="sd">    :param list text_list: A list of text strings.</span>
+<span class="sd">    :param list words_to_extract: A list of words to extract from</span>
+<span class="sd">                                  :attr:`text_list`.</span>
+
+<span class="sd">    :param bool entire_words_only: Whether or not to find only complete words</span>
+<span class="sd">        (as specified by :attr:`words_to_find`) or find any any of the</span>
 <span class="sd">        words as part of longer strings.</span>
+
 <span class="sd">    :returns summary: A dictionary with various stats about the words</span>
 
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;there is rain, it is raining&#39;, &#39;there is snow and rain&#39;,</span>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>advertools.emoji module &mdash; advertools 0.8.1 documentation</title>
+  <title>Emoji: Extract, Analyze, and Get Insights &mdash; advertools 0.8.1 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="advertools.extract module" href="advertools.extract.html" />
-    <link rel="prev" title="advertools.ad_from_string module" href="advertools.ad_from_string.html" /> 
+    <link rel="next" title="Extract structured entities from text lists" href="advertools.extract.html" />
+    <link rel="prev" title="Create Ads Using Long Descriptive Text (top-down approach)" href="advertools.ad_from_string.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,12 +88,12 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Word Frequency (absolute and weighted)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
             
@@ -139,7 +139,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>advertools.emoji module</li>
+      <li>Emoji: Extract, Analyze, and Get Insights</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -158,8 +158,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-advertools.emoji">
-<span id="advertools-emoji-module"></span><h1>advertools.emoji module<a class="headerlink" href="#module-advertools.emoji" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-advertools.emoji"></span><div class="section" id="emoji-extract-analyze-and-get-insights">
+<span id="emoji"></span><h1>Emoji: Extract, Analyze, and Get Insights<a class="headerlink" href="#emoji-extract-analyze-and-get-insights" title="Permalink to this headline">¶</a></h1>
 <p>An emoji is worth a thousand words!
 Regular expressions and helper functionality to aid in extracting and finding
 emoji from text.</p>
@@ -183,57 +183,17 @@ emoji from text.</p>
 </tr>
 </tbody>
 </table>
-<dl class="class">
-<dt id="advertools.emoji.EmojiEntry">
-<em class="property">class </em><code class="sig-prename descclassname">advertools.emoji.</code><code class="sig-name descname">EmojiEntry</code><span class="sig-paren">(</span><em class="sig-param">codepoint</em>, <em class="sig-param">status</em>, <em class="sig-param">emoji</em>, <em class="sig-param">name</em>, <em class="sig-param">group</em>, <em class="sig-param">sub_group</em><span class="sig-paren">)</span><a class="headerlink" href="#advertools.emoji.EmojiEntry" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
-<dl class="method">
-<dt id="advertools.emoji.EmojiEntry.codepoint">
-<em class="property">property </em><code class="sig-name descname">codepoint</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.codepoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 0</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="advertools.emoji.EmojiEntry.emoji">
-<em class="property">property </em><code class="sig-name descname">emoji</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.emoji" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 2</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="advertools.emoji.EmojiEntry.group">
-<em class="property">property </em><code class="sig-name descname">group</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 4</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="advertools.emoji.EmojiEntry.name">
-<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 3</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="advertools.emoji.EmojiEntry.status">
-<em class="property">property </em><code class="sig-name descname">status</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.status" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 1</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="advertools.emoji.EmojiEntry.sub_group">
-<em class="property">property </em><code class="sig-name descname">sub_group</code><a class="headerlink" href="#advertools.emoji.EmojiEntry.sub_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 5</p>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="function">
 <dt id="advertools.emoji.emoji_search">
 <code class="sig-prename descclassname">advertools.emoji.</code><code class="sig-name descname">emoji_search</code><span class="sig-paren">(</span><em class="sig-param">regex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/emoji.html#emoji_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.emoji.emoji_search" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Return a DataFrame of all emoji entries where any description contains</dt><dd><p><code class="docutils literal notranslate"><span class="pre">regex</span></code>.</p>
+<dd><p>Return a DataFrame of all emoji entries where any description contains
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">regex</span></code>.</p>
+<p>“description” can be the name of the emoji, its group, or sub-group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>regex</strong> (<em>str</em>) – regular expression (case insensitive)</p>
 </dd>
 </dl>
-<p>“description” can be the name of the emoji, its group, or sub-group.
-:param regex: regular expression (case insensitive)</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;dog&#39;</span><span class="p">)</span>
 <span class="go">          codepoint           status  emoji          name             group      sub_group</span>
 <span class="go">0             1F436  fully-qualified     🐶      dog face  Animals &amp; Nature   animal-mammal</span>
@@ -266,10 +226,10 @@ emoji from text.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advertools.extract.html" class="btn btn-neutral float-right" title="advertools.extract module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="advertools.extract.html" class="btn btn-neutral float-right" title="Extract structured entities from text lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="advertools.ad_from_string.html" class="btn btn-neutral float-left" title="advertools.ad_from_string module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="advertools.ad_from_string.html" class="btn btn-neutral float-left" title="Create Ads Using Long Descriptive Text (top-down approach)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

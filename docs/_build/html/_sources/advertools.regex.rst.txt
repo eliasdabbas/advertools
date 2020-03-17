@@ -1,5 +1,3 @@
-advertools.regex module
-=======================
 
 .. automodule:: advertools.regex
    :members:

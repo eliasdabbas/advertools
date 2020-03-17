@@ -12,11 +12,12 @@ Generate keywords for SEM campaigns, create text ads on a large scale, analyze
 multiple SERPs at once, gain insights from large social media posts, and get
 productive as an online marketer.
 
-If these are things you interested in, then this package might make your life
-a little easier.
+If these are things you are interested in, then this package might make your
+life a little easier.
 
 .. toctree::
    :maxdepth: 2
+   :titlesonly:
 
    About advertools <readme>
    Generate SEM Keywords <advertools.kw_generate>
@@ -25,13 +26,13 @@ a little easier.
    Emoji Tools <advertools.emoji>
    Extract Structured Entities from Text <advertools.extract>
    Stop Words <advertools.stopwords>
-   Word Frequency (absolute and weighted) <advertools.word_frequency>
+   Text Analysis (absolute & weighted word frequency) <advertools.word_frequency>
    Word Tokenization (N-grams) <advertools.word_tokenize>
    Analyze Search Engine Results (SERPs) <advertools.serp>
    Twitter Data <advertools.twitter>
    YouTube Data <advertools.youtube>
 
-   API Reference <modules>
+   Index & Change Log <include_changelog>
 
 Indices and tables
 ==================
