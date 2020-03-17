@@ -3,6 +3,11 @@
 
 Tokenize Words (N-grams)
 ========================
+
+As word counting is an essential step in any text mining task, you first have
+to split the text into words.
+
+The :func:`word_tokenize`
 """
 from .regex import WORD_DELIM
 
@@ -17,7 +22,7 @@ def word_tokenize(text_list, phrase_len=2):
 
     :param text_list: List of strings.
     :param phrase_len: Length of word tokens, defaults to 2.
-    :return tokenized: List of lists, split according to ``token_word_len``.
+    :return tokenized: List of lists, split according to :attr:`phrase_len`.
 
     >>> t = ['split me into length-n-words',
     ... 'commas, (parentheses) get removed!',
