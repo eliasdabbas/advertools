@@ -25,9 +25,9 @@ longer than `max_len`.
 
 >>> products = ['Dubai', 'Tokyo', 'Singapore', 'Llanfairpwllgwyngyll']
 >>> adv.ad_create(template='5-star Hotels in {}',
-...             replacements=products,
-...             max_len=30,
-...             fallback='Great Cities')
+...               replacements=products,
+...               max_len=30,
+...               fallback='Great Cities')
 ['5-star Hotels In Dubai',
  '5-star Hotels In Tokyo',
  '5-star Hotels In Singapore',
