@@ -17,6 +17,7 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 
 import sphinx_rtd_theme
+from advertools import __version__ as adv_version
 
 # -- Project information -----------------------------------------------------
 
@@ -25,9 +26,10 @@ copyright = '2020, Elias Dabbas'
 author = 'Elias Dabbas'
 
 # The short X.Y version
-version = ''
+version = adv_version
+
 # The full version, including alpha/beta/rc tags
-release = '0.8.1'
+release = adv_version
 
 
 # -- General configuration ---------------------------------------------------
@@ -85,6 +87,8 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
+add_module_names = False
+html_title = ' Python'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
