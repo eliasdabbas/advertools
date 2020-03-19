@@ -1,3 +1,23 @@
+"""
+Python SEO Crawler / Spider
+===========================
+
+Running your own crawls, and extracting the data that you want from web pages
+is crucial in understanding how you are performing in terms of content and how
+it might be viewed by search engines.
+
+The :func:`crawl` function provides and crawler that is customized for SEO
+uses, although it is highly configurable. The crawler uses
+`Scrapy <https://scrapy.org/>`_ so you get all the power that it provides in
+terms of performance, speed, as well as flexibility and customization.
+
+The simplest way to use the function is to simply provide a list of one or more
+sitemap URLs. You can alternatively provide a link to a sitemap index URL, and
+the crawlwer will go through all of the sitemaps.
+
+
+
+"""
 import datetime
 import json
 import subprocess
@@ -17,9 +37,8 @@ class SEOSitemapSpider(SitemapSpider):
         'USER_AGENT': user_agent,
         'ROBOTSTXT_OBEY': True,
         'HTTPERROR_ALLOW_ALL': True,
-        'CLOSESPIDER_PAGECOUNT': 20,
-        'DOWNLOAD_DELAY': 3,
-        'BOT_NAME': 'adverbot'
+        'CLOSESPIDER_PAGECOUNT': 5,
+        'BOT_NAME': 'bot'
     }
 
     def __init__(self, sitemap_urls, *args, **kwargs):
@@ -43,7 +62,7 @@ class SEOSitemapSpider(SitemapSpider):
             img_src='@@'.join([im.attrib.get('src') or '' for im in response.css('img')]),
             img_alt='@@'.join([im.attrib.get('alt') or '' for im in response.css('img')]),
             page_depth=response.meta['depth'],
-            crawl_time=datetime.datetime.utcnow(),
+            crawl_time= datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
         )
 
 
