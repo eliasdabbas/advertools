@@ -3,6 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. meta::
+   :name: google-site-verification
+   :content: GcN6XL_hWV3BP2Y9FNLjmTXxysS7QxJs804KoF15n_c
+
 advertools
 ==========
 Online marketing productivity and analysis tools
