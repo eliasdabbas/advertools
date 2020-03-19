@@ -168,7 +168,16 @@
 <span class="sd">As word counting is an essential step in any text mining task, you first have</span>
 <span class="sd">to split the text into words.</span>
 
-<span class="sd">The :func:`word_tokenize`</span>
+<span class="sd">The :func:`word_tokenize` function achieves that by splitting the text by</span>
+<span class="sd">whitespace. Another important thing it does after splitting is to trim the</span>
+<span class="sd">words of any non-word characters (commas, dots, exclamation marks, etc.).</span>
+
+<span class="sd">You also have the option of specifying the length of the words that you want.</span>
+<span class="sd">The default is 2, which can be set through the :attr:`phrase_len` parameter.</span>
+
+<span class="sd">This function is mainly a helper function for</span>
+<span class="sd">:ref:`word_frequency &lt;word_frequency&gt;` to help with counting words and/or</span>
+<span class="sd">phrases.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">.regex</span> <span class="k">import</span> <span class="n">WORD_DELIM</span>
 
