@@ -15,13 +15,58 @@ pages, keywords, etc.
 Each list is accessible as part of a dictionary `stopwords` which is a normal
 Python dictionary.
 
+Available Languages:
+^^^^^^^^^^^^^^^^^^^^
+
+* Arabic
+* Azerbaijani
+* Bengali
+* Catalan
+* Chinese
+* Croatian
+* Danish
+* Dutch
+* English
+* Finnish
+* French
+* German
+* Greek
+* Hebrew
+* Hindi
+* Hungarian
+* Indonesian
+* Irish
+* Italian
+* Japanese
+* Kazakh
+* Nepali
+* Norwegian
+* Persian
+* Polish
+* Portuguese
+* Romanian
+* Russian
+* Sinhala
+* Spanish
+* Swedish
+* Tagalog
+* Tamil
+* Tatar
+* Telugu
+* Thai
+* Turkish
+* Ukrainian
+* Urdu
+* Vietnamese
 
 >>> import advertools as adv
->>> adv.stopwords['english'][:5]
+>>> sorted(adv.stopwords['english'])[:5]
 ["a", "about", "above", "across", "after"]
 
->>> adv.stopwords['german'][:5]
+>>> sorted(adv.stopwords['german'])[:5]
 ["a", "ab", "aber", "ach", "acht"]
+
+To get a list of all available languages, run
 
 >>> adv.stopwords.keys()
 dict_keys(['arabic', 'azerbaijani', 'bengali', 'catalan', 'chinese',
