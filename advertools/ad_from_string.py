@@ -24,7 +24,7 @@ based on the ad format and the platform you are using.
 
 Here is a quick overview of the available parameters and options:
 
-.. gloassary::
+.. glossary::
 
     s
         The string that you want to split. This would typically be available
