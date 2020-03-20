@@ -4,8 +4,7 @@
    contain the root `toctree` directive.
 
 .. meta::
-   :name: google-site-verification
-   :content: GcN6XL_hWV3BP2Y9FNLjmTXxysS7QxJs804KoF15n_c
+   :google-site-verification: GcN6XL_hWV3BP2Y9FNLjmTXxysS7QxJs804KoF15n_c
 
 advertools
 ==========
