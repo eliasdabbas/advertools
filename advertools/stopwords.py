@@ -4,15 +4,10 @@
 Stopwords in Several Languages
 ==============================
 
+List of stopwords by the spaCy [#spaCy]_ package, useful in text mining,
+analyzing content of social media posts, tweets, web pages, keywords, etc.
 
-Stopwords by the spaCy package
-Copyright (C) 2016 ExplosionAI UG (haftungsbeschränkt), 2016 spaCy GmbH,
-2015 Matthew Honnibal
-
-List of stopwords useful in text mining, analyzing content of tweets, web
-pages, keywords, etc.
-
-Each list is accessible as part of a dictionary `stopwords` which is a normal
+Each list is accessible as part of a dictionary ``stopwords`` which is a normal
 Python dictionary.
 
 Available Languages:
@@ -76,6 +71,12 @@ dict_keys(['arabic', 'azerbaijani', 'bengali', 'catalan', 'chinese',
 'persian', 'polish', 'portuguese', 'romanian', 'russian', 'sinhala',
 'spanish', 'swedish', 'tagalog', 'tamil', 'tatar', 'telugu', 'thai',
 'turkish', 'ukrainian', 'urdu', 'vietnamese'])
+
+.. rubric:: Footnotes
+
+.. [#spaCy] Copyright (C) 2016 ExplosionAI UG (haftungsbeschränkt), 2016 spaCy GmbH,
+   2015 Matthew Honnibal
+
 """
 
 stopwords = dict(
