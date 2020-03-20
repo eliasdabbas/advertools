@@ -88,13 +88,14 @@
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Cretae Text Ads From Description Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
@@ -164,22 +165,64 @@
             
   <span class="target" id="module-advertools.stopwords"></span><div class="section" id="stopwords-in-several-languages">
 <span id="stopwords"></span><h1>Stopwords in Several Languages<a class="headerlink" href="#stopwords-in-several-languages" title="Permalink to this headline">¶</a></h1>
-<p>Stopwords by the spaCy package
-Copyright (C) 2016 ExplosionAI UG (haftungsbeschränkt), 2016 spaCy GmbH,
-2015 Matthew Honnibal</p>
-<p>List of stopwords useful in text mining, analyzing content of tweets, web
-pages, keywords, etc.</p>
-<p>Each list is accessible as part of a dictionary <cite>stopwords</cite> which is a normal
+<p>List of stopwords by the spaCy <a class="footnote-reference brackets" href="#spacy" id="id1">1</a> package, useful in text mining,
+analyzing content of social media posts, tweets, web pages, keywords, etc.</p>
+<p>Each list is accessible as part of a dictionary <code class="docutils literal notranslate"><span class="pre">stopwords</span></code> which is a normal
 Python dictionary.</p>
+<div class="section" id="available-languages">
+<h2>Available Languages:<a class="headerlink" href="#available-languages" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Arabic</p></li>
+<li><p>Azerbaijani</p></li>
+<li><p>Bengali</p></li>
+<li><p>Catalan</p></li>
+<li><p>Chinese</p></li>
+<li><p>Croatian</p></li>
+<li><p>Danish</p></li>
+<li><p>Dutch</p></li>
+<li><p>English</p></li>
+<li><p>Finnish</p></li>
+<li><p>French</p></li>
+<li><p>German</p></li>
+<li><p>Greek</p></li>
+<li><p>Hebrew</p></li>
+<li><p>Hindi</p></li>
+<li><p>Hungarian</p></li>
+<li><p>Indonesian</p></li>
+<li><p>Irish</p></li>
+<li><p>Italian</p></li>
+<li><p>Japanese</p></li>
+<li><p>Kazakh</p></li>
+<li><p>Nepali</p></li>
+<li><p>Norwegian</p></li>
+<li><p>Persian</p></li>
+<li><p>Polish</p></li>
+<li><p>Portuguese</p></li>
+<li><p>Romanian</p></li>
+<li><p>Russian</p></li>
+<li><p>Sinhala</p></li>
+<li><p>Spanish</p></li>
+<li><p>Swedish</p></li>
+<li><p>Tagalog</p></li>
+<li><p>Tamil</p></li>
+<li><p>Tatar</p></li>
+<li><p>Telugu</p></li>
+<li><p>Thai</p></li>
+<li><p>Turkish</p></li>
+<li><p>Ukrainian</p></li>
+<li><p>Urdu</p></li>
+<li><p>Vietnamese</p></li>
+</ul>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">])[:</span><span class="mi">5</span><span class="p">]</span>
 <span class="go">[&quot;a&quot;, &quot;about&quot;, &quot;above&quot;, &quot;across&quot;, &quot;after&quot;]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;german&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;german&#39;</span><span class="p">])[:</span><span class="mi">5</span><span class="p">]</span>
 <span class="go">[&quot;a&quot;, &quot;ab&quot;, &quot;aber&quot;, &quot;ach&quot;, &quot;acht&quot;]</span>
 </pre></div>
 </div>
+<p>To get a list of all available languages, run</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 <span class="go">dict_keys([&#39;arabic&#39;, &#39;azerbaijani&#39;, &#39;bengali&#39;, &#39;catalan&#39;, &#39;chinese&#39;,</span>
 <span class="go">&#39;croatian&#39;, &#39;danish&#39;, &#39;dutch&#39;, &#39;english&#39;, &#39;finnish&#39;, &#39;french&#39;,</span>
@@ -189,6 +232,14 @@ Python dictionary.</p>
 <span class="go">&#39;spanish&#39;, &#39;swedish&#39;, &#39;tagalog&#39;, &#39;tamil&#39;, &#39;tatar&#39;, &#39;telugu&#39;, &#39;thai&#39;,</span>
 <span class="go">&#39;turkish&#39;, &#39;ukrainian&#39;, &#39;urdu&#39;, &#39;vietnamese&#39;])</span>
 </pre></div>
+</div>
+<p class="rubric">Footnotes</p>
+<dl class="footnote brackets">
+<dt class="label" id="spacy"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Copyright (C) 2016 ExplosionAI UG (haftungsbeschränkt), 2016 spaCy GmbH,
+2015 Matthew Honnibal</p>
+</dd>
+</dl>
 </div>
 </div>
 

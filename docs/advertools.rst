@@ -13,6 +13,7 @@ Submodules
    advertools.kw_generate
    advertools.regex
    advertools.serp
+   advertools.spider
    advertools.stopwords
    advertools.twitter
    advertools.url_builders

@@ -22,7 +22,7 @@ life a little easier.
    About advertools <readme>
    Generate SEM Keywords <advertools.kw_generate>
    Create Text Ads on a Large Scale <advertools.ad_create>
-   Cretae Text Ads From Description Text <advertools.ad_from_string>
+   Create Text Ads From Description Text <advertools.ad_from_string>
    Emoji Tools <advertools.emoji>
    Extract Structured Entities from Text <advertools.extract>
    Stop Words <advertools.stopwords>

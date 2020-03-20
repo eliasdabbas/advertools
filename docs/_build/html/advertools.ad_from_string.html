@@ -88,13 +88,14 @@
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Cretae Text Ads From Description Text</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Create Text Ads From Description Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
@@ -179,6 +180,24 @@ remains it will be appended to the end of the returned list.</p>
 (or write them) once, and then you can easily split them into different slots
 based on the ad format and the platform you are using.</p>
 <p>Here is a quick overview of the available parameters and options:</p>
+<dl class="glossary simple">
+<dt id="term-s">s</dt><dd><p>The string that you want to split. This would typically be available
+on the landing pages of each product.</p>
+</dd>
+<dt id="term-slots">slots</dt><dd><p>The lengths that you want to split into. Note that although the default
+uses Google Ads’ text ad template, you can change it to any other
+group of slots, with more or fewer slots of different lengths.</p>
+</dd>
+<dt id="term-sep">sep</dt><dd><p>The separator by which to split the text. The default is <code class="xref py py-attr docutils literal notranslate"><span class="pre">None</span></code>
+which splits the text by whitespace, but you can change it to something
+else if needed. Sometimes you might want the text split by hyphens
+(URLs for example) so you can split by that character.</p>
+</dd>
+<dt id="term-capitalize">capitalize</dt><dd><p>The default is <code class="xref py py-attr docutils literal notranslate"><span class="pre">False</span></code> which leaves the capitalization of
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> intact. If you set it to <code class="xref py py-attr docutils literal notranslate"><span class="pre">True</span></code> then the first letter
+of each word would be capitalized.</p>
+</dd>
+</dl>
 <p><strong>Example</strong></p>
 <p>Note that in any case, the returned list of characters is longer than the
 provided slots by one. So if you provide five slots, for example, the function

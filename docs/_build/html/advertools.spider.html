@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Python SEO Crawler / Spider &mdash;  Python</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Twitter Data API" href="advertools.twitter.html" />
+    <link rel="prev" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" href="advertools.serp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Python SEO Crawler / Spider</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/advertools.spider.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-advertools.spider"></span><div class="section" id="python-seo-crawler-spider">
+<h1>Python SEO Crawler / Spider<a class="headerlink" href="#python-seo-crawler-spider" title="Permalink to this headline">¶</a></h1>
+<p>Running your own crawls, and extracting the data that you want from web pages
+is crucial in understanding how you are performing in terms of content and how
+it might be viewed by search engines.</p>
+<p>The <a class="reference internal" href="#advertools.spider.crawl" title="advertools.spider.crawl"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawl()</span></code></a> function provides a crawler that is customized for SEO
+uses, although it is highly configurable. The crawler uses
+<a class="reference external" href="https://scrapy.org/">Scrapy</a> so you get all the power that it provides in
+terms of performance, speed, as well as flexibility and customization.</p>
+<p>The simplest way to use the function is to simply provide a list of one or more
+sitemap URLs. You can alternatively provide a link to a sitemap index URL, and
+the crawler will go through all of the sitemaps.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;https://example.com/sitemap.xml&#39;</span><span class="p">],</span> <span class="s1">&#39;my_output_file.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>OR</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;https://example.com/sitemap-index.xml&#39;</span><span class="p">],</span> <span class="s1">&#39;my_output_file.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That’s it!</p>
+<p>What this does:</p>
+<ul class="simple">
+<li><p>Check the site’s robots.txt file and get the crawl rules, together with any
+sitemaps if available</p></li>
+<li><p>Go to the specified sitemap (or sitemap index)</p></li>
+<li><p>Go through all the URLs in the sitemap(s)</p></li>
+<li><p>For each URL extract the most important SEO elements</p></li>
+<li><p>Save them to <code class="docutils literal notranslate"><span class="pre">output_file</span></code></p></li>
+<li><p>The column headers of the output file (if you specify csv) would be the names
+of the elements</p></li>
+</ul>
+<p>Supported file extensions:</p>
+<ul class="simple">
+<li><p>csv</p></li>
+<li><p>json</p></li>
+<li><p>jl</p></li>
+<li><p>xml</p></li>
+<li><p>marshal</p></li>
+<li><p>pickle</p></li>
+</ul>
+<div class="section" id="extracted-on-page-seo-elements">
+<h2>Extracted On-Page SEO Elements<a class="headerlink" href="#extracted-on-page-seo-elements" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 81%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>url</p></td>
+<td><p>The URL requested</p></td>
+</tr>
+<tr class="row-even"><td><p>title</p></td>
+<td><p>The &lt;title&gt; tag(s)</p></td>
+</tr>
+<tr class="row-odd"><td><p>meta_desc</p></td>
+<td><p>Meta description</p></td>
+</tr>
+<tr class="row-even"><td><p>h1</p></td>
+<td><p>&lt;h1&gt; tag(s)</p></td>
+</tr>
+<tr class="row-odd"><td><p>h2</p></td>
+<td><p>&lt;h2&gt; tag(s)</p></td>
+</tr>
+<tr class="row-even"><td><p>h3</p></td>
+<td><p>&lt;h3&gt; tag(s)</p></td>
+</tr>
+<tr class="row-odd"><td><p>body_text</p></td>
+<td><p>The text in the &lt;p&gt; tags</p></td>
+</tr>
+<tr class="row-even"><td><p>size</p></td>
+<td><p>The page size in bytes</p></td>
+</tr>
+<tr class="row-odd"><td><p>load_time</p></td>
+<td><p>The load time of the HTML (does NOT include images or videos)</p></td>
+</tr>
+<tr class="row-even"><td><p>status</p></td>
+<td><p>Response status (200, 301, 302, 404, etc)</p></td>
+</tr>
+<tr class="row-odd"><td><p>links_href</p></td>
+<td><p>The links in the page <code class="docutils literal notranslate"><span class="pre">href</span></code> attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>links_text</p></td>
+<td><p>The link titles (empty string if not available)</p></td>
+</tr>
+<tr class="row-odd"><td><p>img_src</p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">src</span></code> attribute of images</p></td>
+</tr>
+<tr class="row-even"><td><p>img_alt</p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">alt</span></code> attribute if available or an empty string</p></td>
+</tr>
+<tr class="row-odd"><td><p>page_depth</p></td>
+<td><p>The depth of the crawled page</p></td>
+</tr>
+<tr class="row-even"><td><p>crawl_time</p></td>
+<td><p>Date and time in of the crawl time</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All elements that may appear multiple times in a page (like header tags, or
+images, for example), the elements will be joined with two &#64; signs <code class="docutils literal notranslate"><span class="pre">&#64;&#64;</span></code>.
+Once you open the file, you simply have to split by <code class="docutils literal notranslate"><span class="pre">&#64;&#64;</span></code> to get a list of
+the elements.</p>
+</div>
+</div>
+<div class="section" id="more-crawling-options">
+<h2>More Crawling Options<a class="headerlink" href="#more-crawling-options" title="Permalink to this headline">¶</a></h2>
+<p>Providing links to sitemaps is the simplest and most straightforward way of
+crawling, but there are other ways that you might want to explore.</p>
+<p>Sometimes you might have a fixed set of URLs that you want to scrape and
+analyze SEO performance. Let’s you just ran <a class="reference internal" href="advertools.serp.html#serp"><span class="std std-ref">serp_goog</span></a> and
+got a bunch of top-ranking pages that you would like to analyze, and see how
+that relates to their SERP ranking.</p>
+<p>You simply provide a <code class="docutils literal notranslate"><span class="pre">url_list</span></code> and again specify the <code class="docutils literal notranslate"><span class="pre">output_file</span></code>.
+This will</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">,</span> <span class="n">url_list</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="p">,</span> <span class="n">follow_links</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">output_file</span><span class="p">,</span> <span class="n">custom_settings</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="advertools.spider.crawl">
+<code class="sig-name descname">crawl</code><span class="sig-paren">(</span><em class="sig-param">sitemap_urls</em>, <em class="sig-param">output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.spider.crawl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crawl a website’s URLs based on the given <code class="xref py py-attr docutils literal notranslate"><span class="pre">sitemap_urls</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sitemap_urls</strong> (<em>list</em>) – A list of one or more XML sitemap URLs.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – The path to the output of the crawl. Supported
+formats (‘csv’, ‘json’, ‘jsonlines’, ‘jl’, ‘xml’,
+‘marshal’, ‘pickle’)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advertools.twitter.html" class="btn btn-neutral float-right" title="Twitter Data API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="advertools.serp.html" class="btn btn-neutral float-left" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Elias Dabbas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

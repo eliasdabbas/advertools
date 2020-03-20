@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>advertools.spider &mdash;  Python</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>advertools.spider</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for advertools.spider</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Python SEO Crawler / Spider</span>
+<span class="sd">===========================</span>
+
+<span class="sd">Running your own crawls, and extracting the data that you want from web pages</span>
+<span class="sd">is crucial in understanding how you are performing in terms of content and how</span>
+<span class="sd">it might be viewed by search engines.</span>
+
+<span class="sd">The :func:`crawl` function provides a crawler that is customized for SEO</span>
+<span class="sd">uses, although it is highly configurable. The crawler uses</span>
+<span class="sd">`Scrapy &lt;https://scrapy.org/&gt;`_ so you get all the power that it provides in</span>
+<span class="sd">terms of performance, speed, as well as flexibility and customization.</span>
+
+<span class="sd">The simplest way to use the function is to simply provide a list of one or more</span>
+<span class="sd">sitemap URLs. You can alternatively provide a link to a sitemap index URL, and</span>
+<span class="sd">the crawler will go through all of the sitemaps.</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">   &gt;&gt;&gt; crawl([&#39;https://example.com/sitemap.xml&#39;], &#39;my_output_file.csv&#39;)</span>
+
+<span class="sd">OR</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">   &gt;&gt;&gt; crawl([&#39;https://example.com/sitemap-index.xml&#39;], &#39;my_output_file.csv&#39;)</span>
+
+<span class="sd">That&#39;s it!</span>
+
+<span class="sd">What this does:</span>
+
+<span class="sd">* Check the site&#39;s robots.txt file and get the crawl rules, together with any</span>
+<span class="sd">  sitemaps if available</span>
+<span class="sd">* Go to the specified sitemap (or sitemap index)</span>
+<span class="sd">* Go through all the URLs in the sitemap(s)</span>
+<span class="sd">* For each URL extract the most important SEO elements</span>
+<span class="sd">* Save them to ``output_file``</span>
+<span class="sd">* The column headers of the output file (if you specify csv) would be the names</span>
+<span class="sd">  of the elements</span>
+
+<span class="sd">Supported file extensions:</span>
+
+<span class="sd">* csv</span>
+<span class="sd">* json</span>
+<span class="sd">* jl</span>
+<span class="sd">* xml</span>
+<span class="sd">* marshal</span>
+<span class="sd">* pickle</span>
+
+
+<span class="sd">Extracted On-Page SEO Elements</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">==============    =============================================================</span>
+<span class="sd">url               The URL requested</span>
+<span class="sd">title             The &lt;title&gt; tag(s)</span>
+<span class="sd">meta_desc         Meta description</span>
+<span class="sd">h1                &lt;h1&gt; tag(s)</span>
+<span class="sd">h2                &lt;h2&gt; tag(s)</span>
+<span class="sd">h3                &lt;h3&gt; tag(s)</span>
+<span class="sd">body_text         The text in the &lt;p&gt; tags</span>
+<span class="sd">size              The page size in bytes</span>
+<span class="sd">load_time         The load time of the HTML (does NOT include images or videos)</span>
+<span class="sd">status            Response status (200, 301, 302, 404, etc)</span>
+<span class="sd">links_href        The links in the page ``href`` attribute</span>
+<span class="sd">links_text        The link titles (empty string if not available)</span>
+<span class="sd">img_src           The ``src`` attribute of images</span>
+<span class="sd">img_alt           The ``alt`` attribute if available or an empty string</span>
+<span class="sd">page_depth        The depth of the crawled page</span>
+<span class="sd">crawl_time        Date and time in of the crawl time</span>
+<span class="sd">==============    =============================================================</span>
+
+<span class="sd">.. note::</span>
+
+<span class="sd">    All elements that may appear multiple times in a page (like header tags, or</span>
+<span class="sd">    images, for example), the elements will be joined with two @ signs ``@@``.</span>
+<span class="sd">    Once you open the file, you simply have to split by ``@@`` to get a list of</span>
+<span class="sd">    the elements.</span>
+
+<span class="sd">More Crawling Options</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">Providing links to sitemaps is the simplest and most straightforward way of</span>
+<span class="sd">crawling, but there are other ways that you might want to explore.</span>
+
+<span class="sd">Sometimes you might have a fixed set of URLs that you want to scrape and</span>
+<span class="sd">analyze SEO performance. Let&#39;s you just ran :ref:`serp_goog &lt;serp&gt;` and</span>
+<span class="sd">got a bunch of top-ranking pages that you would like to analyze, and see how</span>
+<span class="sd">that relates to their SERP ranking.</span>
+
+<span class="sd">You simply provide a ``url_list`` and again specify the ``output_file``.</span>
+<span class="sd">This will</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">    &gt;&gt;&gt; crawl(url_list, output_file)</span>
+
+
+
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">    &gt;&gt;&gt; crawl(sitemap_urls, url_list, allowed_domains, follow_links,</span>
+<span class="sd">    ...       output_file, custom_settings)</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+
+<span class="kn">from</span> <span class="nn">scrapy.spiders</span> <span class="k">import</span> <span class="n">SitemapSpider</span>
+<span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+
+<span class="n">spider_path</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/spider.py&#39;</span>
+
+<span class="n">user_agent</span> <span class="o">=</span> <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36&#39;</span><span class="p">,</span>
+
+
+<span class="k">class</span> <span class="nc">SEOSitemapSpider</span><span class="p">(</span><span class="n">SitemapSpider</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;seo_sitemap_spider&#39;</span>
+    <span class="n">custom_settings</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;USER_AGENT&#39;</span><span class="p">:</span> <span class="n">user_agent</span><span class="p">,</span>
+        <span class="s1">&#39;ROBOTSTXT_OBEY&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;HTTPERROR_ALLOW_ALL&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;CLOSESPIDER_PAGECOUNT&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="s1">&#39;BOT_NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;bot&#39;</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sitemap_urls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sitemap_urls</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;title::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
+            <span class="n">meta_desc</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;//meta[@name=&#39;description&#39;]/@content&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+            <span class="n">h1</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h1::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
+            <span class="n">h2</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h2::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
+            <span class="n">h3</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h3::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
+            <span class="n">body_text</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;p::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
+            <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">),</span>
+            <span class="n">load_time</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;download_latency&#39;</span><span class="p">],</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
+            <span class="n">links_href</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">link</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)]),</span>
+            <span class="n">links_text</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">link</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)]),</span>
+            <span class="n">img_src</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">im</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">)]),</span>
+            <span class="n">img_alt</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">im</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alt&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">)]),</span>
+            <span class="n">page_depth</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">],</span>
+            <span class="n">crawl_time</span><span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">),</span>
+        <span class="p">)</span>
+
+
+<div class="viewcode-block" id="crawl"><a class="viewcode-back" href="../../advertools.spider.html#advertools.spider.crawl">[docs]</a><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Crawl a website&#39;s URLs based on the given :attr:`sitemap_urls`</span>
+
+<span class="sd">    :param list sitemap_urls: A list of one or more XML sitemap URLs.</span>
+<span class="sd">    :param str output_file: The path to the output of the crawl. Supported</span>
+<span class="sd">                            formats (&#39;csv&#39;, &#39;json&#39;, &#39;jsonlines&#39;, &#39;jl&#39;, &#39;xml&#39;,</span>
+<span class="sd">                            &#39;marshal&#39;, &#39;pickle&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">sitemap_urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">sitemap_urls</span><span class="p">]</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;scrapy&#39;</span><span class="p">,</span> <span class="s1">&#39;runspider&#39;</span><span class="p">,</span> <span class="n">spider_path</span><span class="p">,</span>
+               <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;sitemap_urls=&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">),</span>
+               <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">output_file</span><span class="p">]</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Elias Dabbas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
