@@ -165,26 +165,33 @@
 <span class="sd">===========================</span>
 
 <span class="sd">Running your own crawls, and extracting the data that you want from web pages</span>
-<span class="sd">is crucial in understanding how you are performing in terms of content and how</span>
-<span class="sd">it might be viewed by search engines.</span>
+<span class="sd">is crucial in understanding how you and/or your competitors are performing in</span>
+<span class="sd">terms of content and how it might be viewed by search engines.</span>
 
-<span class="sd">The :func:`crawl` function provides a crawler that is customized for SEO</span>
-<span class="sd">uses, although it is highly configurable. The crawler uses</span>
+<span class="sd">The :func:`crawl` function provides a crawler that is customized for SEO and</span>
+<span class="sd">content analysis usage, and is highly configurable. The crawler uses</span>
 <span class="sd">`Scrapy &lt;https://scrapy.org/&gt;`_ so you get all the power that it provides in</span>
 <span class="sd">terms of performance, speed, as well as flexibility and customization.</span>
 
-<span class="sd">The simplest way to use the function is to simply provide a list of one or more</span>
+<span class="sd">There are two main approaches to crawl:</span>
+
+<span class="sd">1. **Discovery:** You know the website to crawl, so you provide a ``url_list``</span>
+<span class="sd">   or the website&#39;s sitemap(s), and you want the crawler to go through the</span>
+<span class="sd">   whole website(s) by following all available links.</span>
+
+<span class="sd">2. **Pre-determined:** You have a known set of URLs that you want to crawl and</span>
+<span class="sd">   analyze, without following links or discovering new URLs.</span>
+
+<span class="sd">Discovery</span>
+<span class="sd">^^^^^^^^^</span>
+
+<span class="sd">The simplest way to use the function is to provide a list of one or more</span>
 <span class="sd">sitemap URLs. You can alternatively provide a link to a sitemap index URL, and</span>
 <span class="sd">the crawler will go through all of the sitemaps.</span>
 
 <span class="sd">.. code-block:: python</span>
 
-<span class="sd">   &gt;&gt;&gt; crawl([&#39;https://example.com/sitemap.xml&#39;], &#39;my_output_file.csv&#39;)</span>
-
-<span class="sd">OR</span>
-
-<span class="sd">.. code-block:: python</span>
-
+<span class="sd">   &gt;&gt;&gt; crawl([&#39;https://example.com/sitemap.xml&#39;], &#39;my_output_file.csv&#39;)  # OR</span>
 <span class="sd">   &gt;&gt;&gt; crawl([&#39;https://example.com/sitemap-index.xml&#39;], &#39;my_output_file.csv&#39;)</span>
 
 <span class="sd">That&#39;s it!</span>
@@ -196,7 +203,7 @@
 <span class="sd">* Go to the specified sitemap (or sitemap index)</span>
 <span class="sd">* Go through all the URLs in the sitemap(s)</span>
 <span class="sd">* For each URL extract the most important SEO elements</span>
-<span class="sd">* Save them to ``output_file``</span>
+<span class="sd">* Save them to ``output_file`` in the specified format</span>
 <span class="sd">* The column headers of the output file (if you specify csv) would be the names</span>
 <span class="sd">  of the elements</span>
 
@@ -212,14 +219,18 @@
 
 <span class="sd">Extracted On-Page SEO Elements</span>
 <span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">The names of these elements become the headers (column names) of the</span>
+<span class="sd">``output_file``.</span>
 
+<span class="sd">==============    =============================================================</span>
+<span class="sd">Element           Remarks</span>
 <span class="sd">==============    =============================================================</span>
 <span class="sd">url               The URL requested</span>
 <span class="sd">title             The &lt;title&gt; tag(s)</span>
 <span class="sd">meta_desc         Meta description</span>
-<span class="sd">h1                &lt;h1&gt; tag(s)</span>
-<span class="sd">h2                &lt;h2&gt; tag(s)</span>
-<span class="sd">h3                &lt;h3&gt; tag(s)</span>
+<span class="sd">h1                `&lt;h1&gt;` tag(s)</span>
+<span class="sd">h2                `&lt;h2&gt;` tag(s)</span>
+<span class="sd">h3                `&lt;h3&gt;` tag(s)</span>
 <span class="sd">body_text         The text in the &lt;p&gt; tags</span>
 <span class="sd">size              The page size in bytes</span>
 <span class="sd">load_time         The load time of the HTML (does NOT include images or videos)</span>
@@ -235,35 +246,64 @@
 <span class="sd">.. note::</span>
 
 <span class="sd">    All elements that may appear multiple times in a page (like header tags, or</span>
-<span class="sd">    images, for example), the elements will be joined with two @ signs ``@@``.</span>
-<span class="sd">    Once you open the file, you simply have to split by ``@@`` to get a list of</span>
-<span class="sd">    the elements.</span>
+<span class="sd">    images, for example), will be joined with two @ signs ``@@``. For example,</span>
+<span class="sd">    **&quot;first H2 tag@@second H2 tag@@third tag&quot;** and so on.</span>
+<span class="sd">    Once you open the file, you simply have to split by `@@` to get the</span>
+<span class="sd">    elements as a list.</span>
 
-<span class="sd">More Crawling Options</span>
-<span class="sd">^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">Here is a sample file:</span>
 
-<span class="sd">Providing links to sitemaps is the simplest and most straightforward way of</span>
-<span class="sd">crawling, but there are other ways that you might want to explore.</span>
+<span class="sd">.. code-block:: python</span>
+<span class="sd">   :linenos:</span>
 
-<span class="sd">Sometimes you might have a fixed set of URLs that you want to scrape and</span>
-<span class="sd">analyze SEO performance. Let&#39;s you just ran :ref:`serp_goog &lt;serp&gt;` and</span>
-<span class="sd">got a bunch of top-ranking pages that you would like to analyze, and see how</span>
-<span class="sd">that relates to their SERP ranking.</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; site_crawl = pd.read_csv(&#39;path/to/file.csv&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; site_crawl.head()</span>
+<span class="sd">                                                    url                                              title                                          meta_desc                                                 h1                                                 h2                                                 h3                                          body_text    size  load_time  status                                         links_href                                         links_text                                            img_src                                            img_alt  page_depth           crawl_time</span>
+<span class="sd">    0  https://www.wsj.com/articles/u-s-extends-indiv...  U.S. Extends Individual Tax Filing Deadline fr...  The U.S. will extend the individual tax filing...       U.S. Extends Individual Tax Filing Deadl...  Tax preparers and lawmakers in both parties ur...                                                NaN  March 20, 2020 WASHINGTON—The U.S. extended t...  599133   0.828943     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...  https://m.wsj.net/video/20200320/032020virusne...  [https://m.wsj.net/video/20200320/032020virusn...           1  2020-03-20 23:58:13</span>
+<span class="sd">    1  https://www.wsj.com/livecoverage/coronavirus-p...  States Hold Primary Elections in Coronavirus O...  Three states held the first primary elections,...  States Hold Primary Elections in Coronavirus O...  Three states held the first primary elections,...  Biden Wins Florida, Illinois and Arizona@@Main...  March 20, 2020 Joe Biden won all three primar...  495898   0.818214     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...            https://images.wsj.net/im-165947/social                                                NaN           1  2020-03-20 23:58:14</span>
+<span class="sd">    2       https://www.wsj.com/livecoverage/coronavirus  Coronavirus Updates: Dow, Stocks Waver; Califo...  As the coronavirus pandemic roils markets and ...  Coronavirus Updates: Stocks Drop as More State...  As the coronavirus pandemic roils markets and ...  What to Know Now@@Business-Development Compani...  March 20, 2020 , which raise money from inves...  523662   0.826189     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...                                                NaN                                                NaN           1  2020-03-20 23:58:14</span>
+<span class="sd">    3  https://www.wsj.com/articles/ford-marriott-ama...  Ford, Marriott, Amazon.com: Stocks That Define...  Here are seven major companies whose shares mo...       Ford, Marriott, Amazon.com: Stocks That ...  Here are seven major companies whose shares mo...                                                NaN  March 20, 2020  Ford Motor Co.  Detroit’s au...  600647   0.846521     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...  https://m.wsj.net/video/20200320/032020virusne...  [https://m.wsj.net/video/20200320/032020virusn...           1  2020-03-20 23:58:14</span>
+<span class="sd">    4  https://www.wsj.com/articles/airbnb-racks-up-h...  Airbnb Racks Up Hundreds of Millions in Losses...  Airbnb is considering raising capital from new...       Airbn</span>
+
+<span class="sd">Pre-Determined Crawling Approach</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">Sometimes you might have a fixed set of URLs for which you want to scrape and</span>
+<span class="sd">analyze SEO or content performance. Let&#39;s say you just ran</span>
+<span class="sd">:ref:`serp_goog &lt;serp&gt;` and got a bunch of top-ranking pages that you would</span>
+<span class="sd">like to analyze, and see how that relates to their SERP ranking.</span>
 
 <span class="sd">You simply provide a ``url_list`` and again specify the ``output_file``.</span>
-<span class="sd">This will</span>
+<span class="sd">This will only crawl the specified URLs, and will not follow any links.</span>
+
+<span class="sd">Other than crawling SERP results landing pages, this might be useful for</span>
+<span class="sd">monitoring certain pages that change all the time.</span>
+
+<span class="sd">Again running the function is as simple as providing a list of URLs, as well as</span>
+<span class="sd">a filepath where you want the result saved.</span>
 
 <span class="sd">.. code-block:: python</span>
 
 <span class="sd">    &gt;&gt;&gt; crawl(url_list, output_file)</span>
 
-
+<span class="sd">The difference between the two approaches, is the simple parameter</span>
+<span class="sd">``follow_links``. If you specify this as ``False`` (the default), the crawler</span>
+<span class="sd">will only go through the provided URLs (or sitemaps). Otherwise, it will</span>
+<span class="sd">discover pages by following links on pages that it crawls.</span>
+<span class="sd">So how do you make sure that the crawler doesn&#39;t lose control and try to crawl</span>
+<span class="sd">the whole web?</span>
+<span class="sd">The ``allowed_domains`` parameter ensures that you specify which domains you</span>
+<span class="sd">want to limit your crawler to.</span>
+<span class="sd">This is an optional parameter. If you don&#39;t specify its value, then it will</span>
+<span class="sd">default to only the domains in the ``url_list`` and/or the ``sitemap_urls``.</span>
 
 
 <span class="sd">.. code-block:: python</span>
 
-<span class="sd">    &gt;&gt;&gt; crawl(sitemap_urls, url_list, allowed_domains, follow_links,</span>
-<span class="sd">    ...       output_file, custom_settings)</span>
+<span class="sd">    &gt;&gt;&gt; crawl(sitemap_urls, url_list, output_file, allowed_domains,</span>
+<span class="sd">    ...       follow_links, custom_settings)</span>
+
 
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -286,7 +326,7 @@
         <span class="s1">&#39;USER_AGENT&#39;</span><span class="p">:</span> <span class="n">user_agent</span><span class="p">,</span>
         <span class="s1">&#39;ROBOTSTXT_OBEY&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="s1">&#39;HTTPERROR_ALLOW_ALL&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="s1">&#39;CLOSESPIDER_PAGECOUNT&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="c1"># &#39;CLOSESPIDER_PAGECOUNT&#39;: 5,</span>
         <span class="s1">&#39;BOT_NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;bot&#39;</span>
     <span class="p">}</span>
 
@@ -315,14 +355,27 @@
         <span class="p">)</span>
 
 
-<div class="viewcode-block" id="crawl"><a class="viewcode-back" href="../../advertools.spider.html#advertools.spider.crawl">[docs]</a><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
+<div class="viewcode-block" id="crawl"><a class="viewcode-back" href="../../advertools.spider.html#advertools.spider.crawl">[docs]</a><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">url_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+          <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">custom_settings</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crawl a website&#39;s URLs based on the given :attr:`sitemap_urls`</span>
 
 <span class="sd">    :param list sitemap_urls: A list of one or more XML sitemap URLs.</span>
+<span class="sd">    :param list url_list: A list of URLs to crawl. If ``follow_links`` is True,</span>
+<span class="sd">                          the crawler will start with these URLs and follow all</span>
+<span class="sd">                          links recursively.</span>
+<span class="sd">    :param list allowed_domains: (optional) A list of the allowed domains to</span>
+<span class="sd">                                 crawl. This ensures that the crawler does not</span>
+<span class="sd">                                 attempt to crawl the whole web. If not</span>
+<span class="sd">                                 specified, it defaults to the domains of the</span>
+<span class="sd">                                 URLs provided in ``sitemap_urls`` and/or</span>
+<span class="sd">                                 ``url_list``.</span>
+<span class="sd">    :param bool follow_links: Defaults to False. Whether or not to follow links</span>
+<span class="sd">                              on crawled pages.</span>
 <span class="sd">    :param str output_file: The path to the output of the crawl. Supported</span>
 <span class="sd">                            formats (&#39;csv&#39;, &#39;json&#39;, &#39;jsonlines&#39;, &#39;jl&#39;, &#39;xml&#39;,</span>
 <span class="sd">                            &#39;marshal&#39;, &#39;pickle&#39;)</span>
+<span class="sd">    :param dict custom_settings: An optional dictionary of settings to override.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">sitemap_urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">sitemap_urls</span><span class="p">]</span>

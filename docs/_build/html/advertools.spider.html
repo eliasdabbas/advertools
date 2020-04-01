@@ -166,20 +166,27 @@
   <span class="target" id="module-advertools.spider"></span><div class="section" id="python-seo-crawler-spider">
 <h1>Python SEO Crawler / Spider<a class="headerlink" href="#python-seo-crawler-spider" title="Permalink to this headline">¶</a></h1>
 <p>Running your own crawls, and extracting the data that you want from web pages
-is crucial in understanding how you are performing in terms of content and how
-it might be viewed by search engines.</p>
-<p>The <a class="reference internal" href="#advertools.spider.crawl" title="advertools.spider.crawl"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawl()</span></code></a> function provides a crawler that is customized for SEO
-uses, although it is highly configurable. The crawler uses
+is crucial in understanding how you and/or your competitors are performing in
+terms of content and how it might be viewed by search engines.</p>
+<p>The <a class="reference internal" href="#advertools.spider.crawl" title="advertools.spider.crawl"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawl()</span></code></a> function provides a crawler that is customized for SEO and
+content analysis usage, and is highly configurable. The crawler uses
 <a class="reference external" href="https://scrapy.org/">Scrapy</a> so you get all the power that it provides in
 terms of performance, speed, as well as flexibility and customization.</p>
-<p>The simplest way to use the function is to simply provide a list of one or more
+<p>There are two main approaches to crawl:</p>
+<ol class="arabic simple">
+<li><p><strong>Discovery:</strong> You know the website to crawl, so you provide a <code class="docutils literal notranslate"><span class="pre">url_list</span></code>
+or the website’s sitemap(s), and you want the crawler to go through the
+whole website(s) by following all available links.</p></li>
+<li><p><strong>Pre-determined:</strong> You have a known set of URLs that you want to crawl and
+analyze, without following links or discovering new URLs.</p></li>
+</ol>
+<div class="section" id="discovery">
+<h2>Discovery<a class="headerlink" href="#discovery" title="Permalink to this headline">¶</a></h2>
+<p>The simplest way to use the function is to provide a list of one or more
 sitemap URLs. You can alternatively provide a link to a sitemap index URL, and
 the crawler will go through all of the sitemaps.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;https://example.com/sitemap.xml&#39;</span><span class="p">],</span> <span class="s1">&#39;my_output_file.csv&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>OR</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;https://example.com/sitemap-index.xml&#39;</span><span class="p">],</span> <span class="s1">&#39;my_output_file.csv&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;https://example.com/sitemap.xml&#39;</span><span class="p">],</span> <span class="s1">&#39;my_output_file.csv&#39;</span><span class="p">)</span>  <span class="c1"># OR</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;https://example.com/sitemap-index.xml&#39;</span><span class="p">],</span> <span class="s1">&#39;my_output_file.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>That’s it!</p>
@@ -190,7 +197,7 @@ sitemaps if available</p></li>
 <li><p>Go to the specified sitemap (or sitemap index)</p></li>
 <li><p>Go through all the URLs in the sitemap(s)</p></li>
 <li><p>For each URL extract the most important SEO elements</p></li>
-<li><p>Save them to <code class="docutils literal notranslate"><span class="pre">output_file</span></code></p></li>
+<li><p>Save them to <code class="docutils literal notranslate"><span class="pre">output_file</span></code> in the specified format</p></li>
 <li><p>The column headers of the output file (if you specify csv) would be the names
 of the elements</p></li>
 </ul>
@@ -203,60 +210,68 @@ of the elements</p></li>
 <li><p>marshal</p></li>
 <li><p>pickle</p></li>
 </ul>
+</div>
 <div class="section" id="extracted-on-page-seo-elements">
 <h2>Extracted On-Page SEO Elements<a class="headerlink" href="#extracted-on-page-seo-elements" title="Permalink to this headline">¶</a></h2>
+<p>The names of these elements become the headers (column names) of the
+<code class="docutils literal notranslate"><span class="pre">output_file</span></code>.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 19%" />
 <col style="width: 81%" />
 </colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Element</p></th>
+<th class="head"><p>Remarks</p></th>
+</tr>
+</thead>
 <tbody>
-<tr class="row-odd"><td><p>url</p></td>
+<tr class="row-even"><td><p>url</p></td>
 <td><p>The URL requested</p></td>
 </tr>
-<tr class="row-even"><td><p>title</p></td>
+<tr class="row-odd"><td><p>title</p></td>
 <td><p>The &lt;title&gt; tag(s)</p></td>
 </tr>
-<tr class="row-odd"><td><p>meta_desc</p></td>
+<tr class="row-even"><td><p>meta_desc</p></td>
 <td><p>Meta description</p></td>
 </tr>
-<tr class="row-even"><td><p>h1</p></td>
-<td><p>&lt;h1&gt; tag(s)</p></td>
+<tr class="row-odd"><td><p>h1</p></td>
+<td><p><cite>&lt;h1&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-odd"><td><p>h2</p></td>
-<td><p>&lt;h2&gt; tag(s)</p></td>
+<tr class="row-even"><td><p>h2</p></td>
+<td><p><cite>&lt;h2&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-even"><td><p>h3</p></td>
-<td><p>&lt;h3&gt; tag(s)</p></td>
+<tr class="row-odd"><td><p>h3</p></td>
+<td><p><cite>&lt;h3&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-odd"><td><p>body_text</p></td>
+<tr class="row-even"><td><p>body_text</p></td>
 <td><p>The text in the &lt;p&gt; tags</p></td>
 </tr>
-<tr class="row-even"><td><p>size</p></td>
+<tr class="row-odd"><td><p>size</p></td>
 <td><p>The page size in bytes</p></td>
 </tr>
-<tr class="row-odd"><td><p>load_time</p></td>
+<tr class="row-even"><td><p>load_time</p></td>
 <td><p>The load time of the HTML (does NOT include images or videos)</p></td>
 </tr>
-<tr class="row-even"><td><p>status</p></td>
+<tr class="row-odd"><td><p>status</p></td>
 <td><p>Response status (200, 301, 302, 404, etc)</p></td>
 </tr>
-<tr class="row-odd"><td><p>links_href</p></td>
+<tr class="row-even"><td><p>links_href</p></td>
 <td><p>The links in the page <code class="docutils literal notranslate"><span class="pre">href</span></code> attribute</p></td>
 </tr>
-<tr class="row-even"><td><p>links_text</p></td>
+<tr class="row-odd"><td><p>links_text</p></td>
 <td><p>The link titles (empty string if not available)</p></td>
 </tr>
-<tr class="row-odd"><td><p>img_src</p></td>
+<tr class="row-even"><td><p>img_src</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">src</span></code> attribute of images</p></td>
 </tr>
-<tr class="row-even"><td><p>img_alt</p></td>
+<tr class="row-odd"><td><p>img_alt</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">alt</span></code> attribute if available or an empty string</p></td>
 </tr>
-<tr class="row-odd"><td><p>page_depth</p></td>
+<tr class="row-even"><td><p>page_depth</p></td>
 <td><p>The depth of the crawled page</p></td>
 </tr>
-<tr class="row-even"><td><p>crawl_time</p></td>
+<tr class="row-odd"><td><p>crawl_time</p></td>
 <td><p>Date and time in of the crawl time</p></td>
 </tr>
 </tbody>
@@ -264,39 +279,84 @@ of the elements</p></li>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>All elements that may appear multiple times in a page (like header tags, or
-images, for example), the elements will be joined with two &#64; signs <code class="docutils literal notranslate"><span class="pre">&#64;&#64;</span></code>.
-Once you open the file, you simply have to split by <code class="docutils literal notranslate"><span class="pre">&#64;&#64;</span></code> to get a list of
-the elements.</p>
+images, for example), will be joined with two &#64; signs <code class="docutils literal notranslate"><span class="pre">&#64;&#64;</span></code>. For example,
+<strong>“first H2 tag&#64;&#64;second H2 tag&#64;&#64;third tag”</strong> and so on.
+Once you open the file, you simply have to split by <cite>&#64;&#64;</cite> to get the
+elements as a list.</p>
 </div>
+<p>Here is a sample file:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span> &gt;&gt;&gt; import pandas as pd
+ &gt;&gt;&gt; site_crawl = pd.read_csv(&#39;path/to/file.csv&#39;)
+ &gt;&gt;&gt; site_crawl.head()
+                                                 url                                              title                                          meta_desc                                                 h1                                                 h2                                                 h3                                          body_text    size  load_time  status                                         links_href                                         links_text                                            img_src                                            img_alt  page_depth           crawl_time
+ 0  https://www.wsj.com/articles/u-s-extends-indiv...  U.S. Extends Individual Tax Filing Deadline fr...  The U.S. will extend the individual tax filing...       U.S. Extends Individual Tax Filing Deadl...  Tax preparers and lawmakers in both parties ur...                                                NaN  March 20, 2020 WASHINGTON—The U.S. extended t...  599133   0.828943     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...  https://m.wsj.net/video/20200320/032020virusne...  [https://m.wsj.net/video/20200320/032020virusn...           1  2020-03-20 23:58:13
+ 1  https://www.wsj.com/livecoverage/coronavirus-p...  States Hold Primary Elections in Coronavirus O...  Three states held the first primary elections,...  States Hold Primary Elections in Coronavirus O...  Three states held the first primary elections,...  Biden Wins Florida, Illinois and Arizona@@Main...  March 20, 2020 Joe Biden won all three primar...  495898   0.818214     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...            https://images.wsj.net/im-165947/social                                                NaN           1  2020-03-20 23:58:14
+ 2       https://www.wsj.com/livecoverage/coronavirus  Coronavirus Updates: Dow, Stocks Waver; Califo...  As the coronavirus pandemic roils markets and ...  Coronavirus Updates: Stocks Drop as More State...  As the coronavirus pandemic roils markets and ...  What to Know Now@@Business-Development Compani...  March 20, 2020 , which raise money from inves...  523662   0.826189     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...                                                NaN                                                NaN           1  2020-03-20 23:58:14
+ 3  https://www.wsj.com/articles/ford-marriott-ama...  Ford, Marriott, Amazon.com: Stocks That Define...  Here are seven major companies whose shares mo...       Ford, Marriott, Amazon.com: Stocks That ...  Here are seven major companies whose shares mo...                                                NaN  March 20, 2020  Ford Motor Co.  Detroit’s au...  600647   0.846521     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...  https://m.wsj.net/video/20200320/032020virusne...  [https://m.wsj.net/video/20200320/032020virusn...           1  2020-03-20 23:58:14
+ 4  https://www.wsj.com/articles/airbnb-racks-up-h...  Airbnb Racks Up Hundreds of Millions in Losses...  Airbnb is considering raising capital from new...       Airbn
+</pre></div>
+</td></tr></table></div>
 </div>
-<div class="section" id="more-crawling-options">
-<h2>More Crawling Options<a class="headerlink" href="#more-crawling-options" title="Permalink to this headline">¶</a></h2>
-<p>Providing links to sitemaps is the simplest and most straightforward way of
-crawling, but there are other ways that you might want to explore.</p>
-<p>Sometimes you might have a fixed set of URLs that you want to scrape and
-analyze SEO performance. Let’s you just ran <a class="reference internal" href="advertools.serp.html#serp"><span class="std std-ref">serp_goog</span></a> and
-got a bunch of top-ranking pages that you would like to analyze, and see how
-that relates to their SERP ranking.</p>
+<div class="section" id="pre-determined-crawling-approach">
+<h2>Pre-Determined Crawling Approach<a class="headerlink" href="#pre-determined-crawling-approach" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes you might have a fixed set of URLs for which you want to scrape and
+analyze SEO or content performance. Let’s say you just ran
+<a class="reference internal" href="advertools.serp.html#serp"><span class="std std-ref">serp_goog</span></a> and got a bunch of top-ranking pages that you would
+like to analyze, and see how that relates to their SERP ranking.</p>
 <p>You simply provide a <code class="docutils literal notranslate"><span class="pre">url_list</span></code> and again specify the <code class="docutils literal notranslate"><span class="pre">output_file</span></code>.
-This will</p>
+This will only crawl the specified URLs, and will not follow any links.</p>
+<p>Other than crawling SERP results landing pages, this might be useful for
+monitoring certain pages that change all the time.</p>
+<p>Again running the function is as simple as providing a list of URLs, as well as
+a filepath where you want the result saved.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">,</span> <span class="n">url_list</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="p">,</span> <span class="n">follow_links</span><span class="p">,</span>
-<span class="gp">... </span>      <span class="n">output_file</span><span class="p">,</span> <span class="n">custom_settings</span><span class="p">)</span>
+<p>The difference between the two approaches, is the simple parameter
+<code class="docutils literal notranslate"><span class="pre">follow_links</span></code>. If you specify this as <code class="docutils literal notranslate"><span class="pre">False</span></code> (the default), the crawler
+will only go through the provided URLs (or sitemaps). Otherwise, it will
+discover pages by following links on pages that it crawls.
+So how do you make sure that the crawler doesn’t lose control and try to crawl
+the whole web?
+The <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code> parameter ensures that you specify which domains you
+want to limit your crawler to.
+This is an optional parameter. If you don’t specify its value, then it will
+default to only the domains in the <code class="docutils literal notranslate"><span class="pre">url_list</span></code> and/or the <code class="docutils literal notranslate"><span class="pre">sitemap_urls</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">,</span> <span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">follow_links</span><span class="p">,</span> <span class="n">custom_settings</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="function">
 <dt id="advertools.spider.crawl">
-<code class="sig-name descname">crawl</code><span class="sig-paren">(</span><em class="sig-param">sitemap_urls</em>, <em class="sig-param">output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.spider.crawl" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">crawl</code><span class="sig-paren">(</span><em class="sig-param">sitemap_urls=None</em>, <em class="sig-param">url_list=None</em>, <em class="sig-param">allowed_domains=None</em>, <em class="sig-param">follow_links=False</em>, <em class="sig-param">output_file=None</em>, <em class="sig-param">custom_settings=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.spider.crawl" title="Permalink to this definition">¶</a></dt>
 <dd><p>Crawl a website’s URLs based on the given <code class="xref py py-attr docutils literal notranslate"><span class="pre">sitemap_urls</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sitemap_urls</strong> (<em>list</em>) – A list of one or more XML sitemap URLs.</p></li>
+<li><p><strong>url_list</strong> (<em>list</em>) – A list of URLs to crawl. If <code class="docutils literal notranslate"><span class="pre">follow_links</span></code> is True,
+the crawler will start with these URLs and follow all
+links recursively.</p></li>
+<li><p><strong>allowed_domains</strong> (<em>list</em>) – (optional) A list of the allowed domains to
+crawl. This ensures that the crawler does not
+attempt to crawl the whole web. If not
+specified, it defaults to the domains of the
+URLs provided in <code class="docutils literal notranslate"><span class="pre">sitemap_urls</span></code> and/or
+<code class="docutils literal notranslate"><span class="pre">url_list</span></code>.</p></li>
+<li><p><strong>follow_links</strong> (<em>bool</em>) – Defaults to False. Whether or not to follow links
+on crawled pages.</p></li>
 <li><p><strong>output_file</strong> (<em>str</em>) – The path to the output of the crawl. Supported
 formats (‘csv’, ‘json’, ‘jsonlines’, ‘jl’, ‘xml’,
 ‘marshal’, ‘pickle’)</p></li>
+<li><p><strong>custom_settings</strong> (<em>dict</em>) – An optional dictionary of settings to override.</p></li>
 </ul>
 </dd>
 </dl>
