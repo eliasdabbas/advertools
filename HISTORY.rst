@@ -2,6 +2,13 @@
 Change Log - advertools
 =======================
 
+0.9.0 (2020-04-03)
+------------------
+
+* Added
+    - New function ``sitemap_to_df`` imports an XML sitemap into a
+      ``DataFrame``
+
 0.8.1 (2020-02-08)
 ------------------
 
