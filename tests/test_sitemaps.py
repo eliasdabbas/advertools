@@ -2,7 +2,7 @@ from advertools.sitemaps import sitemap_to_df
 import pandas as pd
 import pytest
 
-tests_dir = 'https://github.com/eliasdabbas/advertools/tree/master/tests/'
+tests_dir = 'https://raw.githubusercontent.com/eliasdabbas/advertools/master/tests/'
 
 sitemap_url = tests_dir + 'sitemap.xml'
 sitemap_gz_url = tests_dir + 'sitemap.xml.gz'
