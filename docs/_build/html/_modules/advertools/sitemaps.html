@@ -1,0 +1,467 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>advertools.sitemaps &mdash;  Python</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_from_string.html">Cretae Text Ads From Description Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>advertools.sitemaps</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for advertools.sitemaps</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Download, Parse, and Analyze XML Sitemaps</span>
+<span class="sd">=========================================</span>
+
+<span class="sd">One of the fastest and easiest ways to get insights on a website&#39;s content is</span>
+<span class="sd">to simply download its XML sitemap(s).</span>
+
+<span class="sd">It basically contains a log of their publishing activity, and if they have rich</span>
+<span class="sd">URLs then you can do some good analysis on their content across time as well.</span>
+
+<span class="sd">The :func:`sitemap_to_df` is very simple to use, and only requires the URL of a</span>
+<span class="sd">sitemap, or a sitemap index. It goes through the sitemap(s) and returns a</span>
+<span class="sd">DataFrame containing the tags and their information.</span>
+
+<span class="sd">Let&#39;s go through a quick example of what can be done with sitemaps. We can</span>
+<span class="sd">start by getting one of the BBC&#39;s sitemaps.</span>
+
+<span class="sd">&gt;&gt;&gt; bbc_sitemap = sitemap_to_df(&#39;https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml&#39;)</span>
+<span class="sd">&gt;&gt;&gt; bbc_sitemap</span>
+<span class="sd">                                                     loc                    lastmod                                            sitemap</span>
+<span class="sd">0      https://www.bbc.com/arabic/middleeast/2009/06/...  2009-06-20 14:10:48+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...</span>
+<span class="sd">1      https://www.bbc.com/arabic/middleeast/2009/06/...  2009-06-20 21:07:43+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...</span>
+<span class="sd">2      https://www.bbc.com/arabic/business/2009/06/09...  2009-06-22 12:41:48+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...</span>
+<span class="sd">3      https://www.bbc.com/arabic/multimedia/2009/06/...  2009-06-24 15:27:24+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...</span>
+<span class="sd">4      https://www.bbc.com/arabic/business/2009/06/09...  2009-06-18 15:32:54+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...</span>
+<span class="sd">                                                  ...                        ...                                                ...</span>
+<span class="sd">49994  https://www.bbc.com/vietnamese/world/2009/09/0...  2009-09-02 11:46:23+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...</span>
+<span class="sd">49995  https://www.bbc.com/vietnamese/world/2009/09/0...  2009-09-04 11:20:42+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...</span>
+<span class="sd">49996  https://www.bbc.com/vietnamese/world/2009/09/0...  2009-09-02 02:40:41+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...</span>
+<span class="sd">49997  https://www.bbc.com/vietnamese/football/2009/0...  2009-09-02 03:09:06+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...</span>
+<span class="sd">49998  https://www.bbc.com/vietnamese/world/2009/09/0...  2009-09-05 04:38:11+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...</span>
+<span class="sd">[49999 rows x 3 columns]</span>
+
+<span class="sd">&gt;&gt;&gt; bbc_sitemap.dtypes</span>
+<span class="sd">loc                     object</span>
+<span class="sd">lastmod    datetime64[ns, UTC]</span>
+<span class="sd">sitemap                 object</span>
+<span class="sd">dtype: object</span>
+
+<span class="sd">Since ``lastmod`` is a ``datetime`` object, we can easily use it for various</span>
+<span class="sd">time-related operations.</span>
+<span class="sd">Here we look at how many articles have been published (last modified) per year.</span>
+
+<span class="sd">&gt;&gt;&gt; bbc_sitemap.set_index(&#39;lastmod&#39;).resample(&#39;A&#39;)[&#39;loc&#39;].count()</span>
+<span class="sd">lastmod</span>
+<span class="sd">2008-12-31 00:00:00+00:00     2261</span>
+<span class="sd">2009-12-31 00:00:00+00:00    47223</span>
+<span class="sd">2010-12-31 00:00:00+00:00        0</span>
+<span class="sd">2011-12-31 00:00:00+00:00        0</span>
+<span class="sd">2012-12-31 00:00:00+00:00        0</span>
+<span class="sd">2013-12-31 00:00:00+00:00        0</span>
+<span class="sd">2014-12-31 00:00:00+00:00        0</span>
+<span class="sd">2015-12-31 00:00:00+00:00        0</span>
+<span class="sd">2016-12-31 00:00:00+00:00        0</span>
+<span class="sd">2017-12-31 00:00:00+00:00        0</span>
+<span class="sd">2018-12-31 00:00:00+00:00        0</span>
+<span class="sd">2019-12-31 00:00:00+00:00      483</span>
+<span class="sd">2020-12-31 00:00:00+00:00       32</span>
+<span class="sd">Freq: A-DEC, Name: loc, dtype: int64</span>
+
+<span class="sd">As the majority are in 2009 with a few in other years, it seems these were</span>
+<span class="sd">later updated, but we would have to check to verify (in this special case BBC&#39;s</span>
+<span class="sd">URLs contain date information, which can be compared to ``lastmod`` to check if</span>
+<span class="sd">there is a difference between them).</span>
+
+<span class="sd">We can take a look at a sample of the URLs to get the URL template that they</span>
+<span class="sd">use.</span>
+
+<span class="sd">&gt;&gt;&gt; bbc_sitemap[&#39;loc&#39;].sample(10).tolist()</span>
+<span class="sd">[&#39;https://www.bbc.com/russian/rolling_news/2009/06/090628_rn_pakistani_soldiries_ambush&#39;,</span>
+<span class="sd"> &#39;https://www.bbc.com/urdu/pakistan/2009/04/090421_mqm_speaks_rza&#39;,</span>
+<span class="sd"> &#39;https://www.bbc.com/arabic/middleeast/2009/07/090723_ae_silwan_tc2&#39;,</span>
+<span class="sd"> &#39;https://www.bbc.com/portuguese/noticias/2009/07/090729_iraquerefenbritsfn&#39;,</span>
+<span class="sd"> &#39;https://www.bbc.com/portuguese/noticias/2009/06/090623_egitomilitaresfn&#39;,</span>
+<span class="sd"> &#39;https://www.bbc.com/portuguese/noticias/2009/03/090302_gazaconferenciaml&#39;,</span>
+<span class="sd"> &#39;https://www.bbc.com/portuguese/noticias/2009/07/090715_hillary_iran_cq&#39;,</span>
+<span class="sd"> &#39;https://www.bbc.com/vietnamese/culture/2009/04/090409_machienhuu_revisiting&#39;,</span>
+<span class="sd"> &#39;https://www.bbc.com/portuguese/noticias/2009/05/090524_paquistaoupdateg&#39;,</span>
+<span class="sd"> &#39;https://www.bbc.com/arabic/worldnews/2009/06/090629_om_pakistan_report_tc2&#39;]</span>
+
+<span class="sd">It seems the pattern is</span>
+
+<span class="sd">    **https://www.bbc.com/{language}/{topic}/{YYYY}/{MM}/{YYMMDD_article_title}**</span>
+
+<span class="sd">This is quite a rich structure, full of useful information. We can easily count</span>
+<span class="sd">how many articles they have by language, by splitting by &quot;/&quot; and getting the</span>
+<span class="sd">elements at index three, and counting them.</span>
+
+<span class="sd">&gt;&gt;&gt; bbc_sitemap[&#39;loc&#39;].str.split(&#39;/&#39;).str[3].value_counts()</span>
+<span class="sd">russian       14022</span>
+<span class="sd">persian       10968</span>
+<span class="sd">portuguese     5403</span>
+<span class="sd">urdu           5068</span>
+<span class="sd">mundo          5065</span>
+<span class="sd">vietnamese     3561</span>
+<span class="sd">arabic         2984</span>
+<span class="sd">hindi          1677</span>
+<span class="sd">turkce          706</span>
+<span class="sd">ukchina         545</span>
+<span class="sd">Name: loc, dtype: int64</span>
+
+<span class="sd">We can also get a subset of articles written in a certain language, and see how</span>
+<span class="sd">many articles they publish per month, week, year, etc.</span>
+
+<span class="sd">&gt;&gt;&gt; (bbc_sitemap[bbc_sitemap[&#39;loc&#39;]</span>
+<span class="sd">...  .str.contains(&#39;/russian/&#39;)]</span>
+<span class="sd">...  .set_index(&#39;lastmod&#39;)</span>
+<span class="sd">...  .resample(&#39;M&#39;)[&#39;loc&#39;].count())</span>
+<span class="sd">lastmod</span>
+<span class="sd">2009-04-30 00:00:00+00:00    1506</span>
+<span class="sd">2009-05-31 00:00:00+00:00    2910</span>
+<span class="sd">2009-06-30 00:00:00+00:00    3021</span>
+<span class="sd">2009-07-31 00:00:00+00:00    3250</span>
+<span class="sd">2009-08-31 00:00:00+00:00    2769</span>
+<span class="sd">                             ...</span>
+<span class="sd">2019-09-30 00:00:00+00:00       8</span>
+<span class="sd">2019-10-31 00:00:00+00:00      17</span>
+<span class="sd">2019-11-30 00:00:00+00:00      11</span>
+<span class="sd">2019-12-31 00:00:00+00:00      24</span>
+<span class="sd">2020-01-31 00:00:00+00:00       6</span>
+<span class="sd">Freq: M, Name: loc, Length: 130, dtype: int64</span>
+
+<span class="sd">The fifth element after splitting URLs is the topic or category of the article.</span>
+<span class="sd">We can do the same and count the values.</span>
+
+<span class="sd">&gt;&gt;&gt; bbc_sitemap[&#39;loc&#39;].str.split(&#39;/&#39;).str[4].value_counts()[:30]</span>
+<span class="sd">rolling_news          9044</span>
+<span class="sd">world                 5050</span>
+<span class="sd">noticias              4224</span>
+<span class="sd">iran                  3682</span>
+<span class="sd">pakistan              2103</span>
+<span class="sd">afghanistan           1959</span>
+<span class="sd">multimedia            1657</span>
+<span class="sd">internacional         1555</span>
+<span class="sd">sport                 1350</span>
+<span class="sd">international         1293</span>
+<span class="sd">india                 1285</span>
+<span class="sd">america_latina        1274</span>
+<span class="sd">business              1204</span>
+<span class="sd">cultura_sociedad       913</span>
+<span class="sd">middleeast             874</span>
+<span class="sd">worldnews              872</span>
+<span class="sd">russia                 841</span>
+<span class="sd">radio                  769</span>
+<span class="sd">science                755</span>
+<span class="sd">football               674</span>
+<span class="sd">arts                   664</span>
+<span class="sd">ciencia_tecnologia     627</span>
+<span class="sd">entertainment          621</span>
+<span class="sd">simp                   545</span>
+<span class="sd">vietnam                539</span>
+<span class="sd">economia               484</span>
+<span class="sd">haberler               424</span>
+<span class="sd">interactivity          411</span>
+<span class="sd">help                   354</span>
+<span class="sd">ciencia                308</span>
+<span class="sd">Name: loc, dtype: int64</span>
+
+<span class="sd">Finally, we can take the last element after splitting, which contains the slugs</span>
+<span class="sd">of the articles, replace underscores with spaces, split, concatenate all, put</span>
+<span class="sd">in a ``pd.Series`` and count the values. This way we see how many times each</span>
+<span class="sd">word occurred in an article.</span>
+
+<span class="sd">&gt;&gt;&gt; (pd.Series(</span>
+<span class="sd">...     bbc_sitemap[&#39;loc&#39;]</span>
+<span class="sd">...     .str.split(&#39;/&#39;)</span>
+<span class="sd">...     .str[-1]</span>
+<span class="sd">...     .str.replace(&#39;_&#39;, &#39; &#39;)</span>
+<span class="sd">...     .str.cat(sep=&#39; &#39;)</span>
+<span class="sd">...     .split()</span>
+<span class="sd">...    )</span>
+<span class="sd">...     .value_counts()[:15])</span>
+<span class="sd">rn        8808</span>
+<span class="sd">tc2       3153</span>
+<span class="sd">iran      1534</span>
+<span class="sd">video      973</span>
+<span class="sd">obama      882</span>
+<span class="sd">us         862</span>
+<span class="sd">china      815</span>
+<span class="sd">ir88       727</span>
+<span class="sd">russia     683</span>
+<span class="sd">si         640</span>
+<span class="sd">np         638</span>
+<span class="sd">afghan     632</span>
+<span class="sd">ka         565</span>
+<span class="sd">an         556</span>
+<span class="sd">iraq       554</span>
+<span class="sd">dtype: int64</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">gzip</span> <span class="k">import</span> <span class="n">GzipFile</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">xml.etree</span> <span class="k">import</span> <span class="n">ElementTree</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="k">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="sitemap_to_df"><a class="viewcode-back" href="../../advertools.sitemaps.html#advertools.sitemaps.sitemap_to_df">[docs]</a><span class="k">def</span> <span class="nf">sitemap_to_df</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieve all URLs and other available tags of a sitemap and put them in a</span>
+<span class="sd">    DataFrame.</span>
+
+<span class="sd">    You can also pass the URL of a sitemap index file.</span>
+
+<span class="sd">    :param url sitemap_url: The URL of a sitemap, either a regular sitemap or a</span>
+<span class="sd">                            sitemap index. In the case of a sitemap index, the</span>
+<span class="sd">                            function will go through all the sub sitemaps and</span>
+<span class="sd">                            retrieve all the included URLs in one DataFrame.</span>
+<span class="sd">    :return sitemap_df: A pandas DataFrame containing all URLs, as well as</span>
+<span class="sd">                        other tags if available (``lastmod``, ``changefreq``,</span>
+<span class="sd">                        ``priority``, ``alternate``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sitemap_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;xml.gz&#39;</span><span class="p">):</span>
+        <span class="n">xml_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">,</span>
+                                   <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Accept-Encoding&#39;</span><span class="p">:</span> <span class="s1">&#39;gzip&#39;</span><span class="p">}))</span>
+        <span class="n">xml_text</span> <span class="o">=</span> <span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">xml_text</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">xml_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">)</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_text</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;sitemapindex&#39;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;xml&#39;</span><span class="p">,</span> <span class="s1">&#39;gz&#39;</span><span class="p">]:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Getting &#39;</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                        <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
+                                                       <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                        <span class="n">error_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">sitemap</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
+                                                <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+                        <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error_df</span><span class="p">,</span>
+                                                       <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Getting &#39;</span> <span class="o">+</span> <span class="n">sitemap_url</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
+                <span class="n">tag</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">tag</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;}&#39;</span> <span class="ow">in</span> <span class="n">tag</span> <span class="k">else</span> <span class="n">tag</span>
+
+                <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;link&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s1">&#39;href&#39;</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                        <span class="n">d</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;alternate&#39;</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">d</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">if</span> <span class="s1">&#39;alternate&#39;</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="s1">&#39;alternate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;alternate&#39;</span><span class="p">])</span>
+            <span class="n">elem_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem_df</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;sitemap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sitemap_url</span><span class="p">]</span> <span class="k">if</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="n">sitemap_url</span>
+    <span class="k">if</span> <span class="s1">&#39;lastmod&#39;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
+        <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">],</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;priority&#39;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
+        <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sitemap_df</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Elias Dabbas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

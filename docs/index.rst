@@ -28,6 +28,7 @@ life a little easier.
    Cretae Text Ads From Description Text <advertools.ad_from_string>
    Emoji Tools <advertools.emoji>
    Extract Structured Entities from Text <advertools.extract>
+   XML Sitemaps <advertools.sitemaps>
    Stop Words <advertools.stopwords>
    Text Analysis (absolute & weighted word frequency) <advertools.word_frequency>
    Word Tokenization (N-grams) <advertools.word_tokenize>
