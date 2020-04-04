@@ -14,6 +14,8 @@
 .. image:: https://img.shields.io/lgtm/grade/python/g/eliasdabbas/advertools.svg
         :target: https://lgtm.com/projects/g/eliasdabbas/advertools/context:python
 
+| 🎉 **New:** Function for retrieving XML sitemaps into DataFrames
+| Check out the documentation for ideas `on analyzing website content with sitemaps`_.
 | 🎉 **New:** YouTube Data API client
 | Tutorial on how to `get YouTube data and recipes for analysis and visualization`_.
 
@@ -177,6 +179,7 @@ Function names mostly start with the object you are working on:
 
 
 .. _get YouTube data and recipes for analysis and visualization: https://www.kaggle.com/eliasdabbas/youtube-data-api
+.. _on analyzing website content with sitemaps: https://advertools.readthedocs.io/en/master/advertools.sitemaps.html
 .. _Python for creating a Search Engine Marketing campaign: https://www.datacamp.com/community/tutorials/sem-data-science
 .. _project to practice those skills in an agency / case study setting: https://www.datacamp.com/projects/400
 .. _generate keyword combinations easily: https://www.dashboardom.com/advertools
