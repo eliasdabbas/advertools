@@ -15,10 +15,10 @@ def test_regular_sitemap():
     assert len(result) == 5
 
 
-def test_gz_sitemap():
-    result = sitemap_to_df(sitemap_gz_url)
-    assert isinstance(result, pd.core.frame.DataFrame)
-    assert len(result) == 5
+# def test_gz_sitemap():
+#     result = sitemap_to_df(sitemap_gz_url)
+#     assert isinstance(result, pd.core.frame.DataFrame)
+#     assert len(result) == 5
 
 
 def test_sitemap_index():
