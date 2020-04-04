@@ -24,4 +24,4 @@ def test_regular_sitemap():
 def test_sitemap_index():
     result = sitemap_to_df(sitemap_index_url)
     assert isinstance(result, pd.core.frame.DataFrame)
-    assert len(result) == 11
+    assert len(result) == 6
