@@ -8,7 +8,7 @@ to simply download its XML sitemap(s).
 It basically contains a log of their publishing activity, and if they have rich
 URLs then you can do some good analysis on their content across time as well.
 
-The :func:`sitemap_to_df` is very simple to use, and only requires the URL of a
+The :func:`sitemap_to_df` function is very simple to use, and only requires the URL of a
 sitemap, or a sitemap index. It goes through the sitemap(s) and returns a
 DataFrame containing the tags and their information.
 
