@@ -13,46 +13,46 @@ Change Log - advertools
 ------------------
 
 * Changed
-    - Column :attr:`query_time` is now named :attr:`queryTime` in the :ref:`youtube <youtube>` module for consistency with :ref:`serp_ <serp>` functions
+    - Column `query_time` is now named `queryTime` in the `youtube` functions
     - Handle json_normalize import from pandas based on pandas version
 
 0.8.0 (2020-02-02)
 ------------------
 
 * Added
-    - New module :ref:`youtube <youtube>` connecting to all GET requests in API
-    - :ref:`extract_numbers <extract>` new function
-    - :ref:`emoji_search <emoji>` new function
-    - :ref:`emoji_df <emoji>` new variable containing all emoji as a DataFrame
+    - New module `youtube` connecting to all GET requests in API
+    - `extract_numbers` new function
+    - `emoji_search` new function
+    - `emoji_df` new variable containing all emoji as a DataFrame
 
 * Changed
     - Emoji database updated to v13.0
-    - :ref:`serp_goog <serp>` with expanded :attr:`pagemap` and metadata
+    - `serp_goog` with expanded `pagemap` and metadata
 
 * Fixed
-    - :ref:`serp_goog <serp>` errors, some parameters not appearing in result
+    - `serp_goog` errors, some parameters not appearing in result
       df
-    - :ref:`extract_numbers <extract>` issue when providing dash as a separator
+    - `extract_numbers` issue when providing dash as a separator
       in the middle
 
 0.7.3 (2019-04-17)
 ------------------
 
 * Added
-    - New function :ref:`extract_exclamations <extract>` very similar to
-      :ref:`extract_questions <extract>`
-    - New function :ref:`extract_urls <extract>`, also counts top domains and
+    - New function `extract_exclamations` very similar to
+      `extract_questions`
+    - New function `extract_urls`, also counts top domains and
       top TLDs
-    - New keys to :ref:`extract_emoji <extract>`; :attr:`top_emoji_categories`
-      & :attr:`top_emoji_sub_categories`
-    - Groups and sub-groups to :ref:`emoji db <emoji>`
+    - New keys to `extract_emoji`; `top_emoji_categories`
+      & `top_emoji_sub_categories`
+    - Groups and sub-groups to `emoji db`
 
 0.7.2 (2019-03-29)
 ------------------
 
 * Changed
-    - :ref:`Emoji regex <emoji>` updated
-    - Simpler extraction of Spanish :ref:`questions <extract>`
+    - `Emoji regex` updated
+    - Simpler extraction of Spanish `questions`
 
 0.7.1 (2019-03-26)
 ------------------
@@ -64,21 +64,21 @@ Change Log - advertools
 ------------------
 
 * Added
-    - New :ref:`extract_ <extract>` functions:
+    - New `extract_` functions:
 
-      * Generic :ref:`extract <extract>` used by all others, and takes
+      * Generic `extract` used by all others, and takes
         arbitrary regex to extract text.
-      * :ref:`extract_questions <extract>` to get question mark statistics, as
+      * `extract_questions` to get question mark statistics, as
         well as the text of questions asked.
-      * :ref:`extract_currency <extract>` shows text that has currency symbols in it, as
+      * `extract_currency` shows text that has currency symbols in it, as
         well as surrounding text.
-      * :ref:`extract_intense_words <extract>` gets statistics about, and extract words with
+      * `extract_intense_words` gets statistics about, and extract words with
         any character repeated three or more times, indicating an intense
         feeling (+ve or -ve).
 
-    - New function :ref:`word_tokenize <word_tokenize>`:
+    - New function `word_tokenize`:
       
-      * Used by :ref:`word_frequency <word_frequency>` to get tokens of
+      * Used by `word_frequency` to get tokens of
         1,2,3-word phrases (or more).
       * Split a list of text into tokens of a specified number of words each.
 
@@ -93,35 +93,35 @@ Change Log - advertools
       Thai, Ukrainian, Urdu, Vietnamese
 
 * Changed
-    - :ref:`word_frequency <word_frequency>` takes new parameters:
-        * :attr:`regex` defaults to words, but can be changed to anything '\S+'
+    - `word_frequency` takes new parameters:
+        * `regex` defaults to words, but can be changed to anything '\S+'
           to split words and keep punctuation for example.
 
-        * :attr:`sep` not longer used as an option, the above :ref:`regex` can
+        * `sep` not longer used as an option, the above `regex` can
           be used instead
 
-        * :attr:`num_list` now optional, and defaults to counts of 1 each if not
-          provided. Useful for counting :attr:`abs_freq` only if data not
+        * `num_list` now optional, and defaults to counts of 1 each if not
+          provided. Useful for counting `abs_freq` only if data not
           available.
 
-        * :attr:`phrase_len` the number of words in each split token. Defaults
+        * `phrase_len` the number of words in each split token. Defaults
           to 1 and can be set to 2 or higher. This helps in analyzing phrases
           as opposed to words.
 
-    - Parameters supplied to :ref:`serp_goog <serp>` appear at the beginning
+    - Parameters supplied to `serp_goog` appear at the beginning
       of the result df
-    - :ref:`serp_youtube <serp>` now contains :attr:`nextPageToken` to make
+    - `serp_youtube` now contains `nextPageToken` to make
       paginating requests easier
 
 0.6.0 (2019-02-11)
 ------------------
 
 * New function
-    - :ref:`extract_words <extract>` to extract an arbitrary set of words
+    - `extract_words` to extract an arbitrary set of words
 * Minor updates
-    - :ref:`ad_from_string <ad_from_string>` slots argument reflects new text
+    - `ad_from_string` slots argument reflects new text
       ad lenghts
-    - :attr:`hashtag` regex improved
+    - `hashtag` regex improved
 
 0.5.3 (2019-01-31)
 ------------------
@@ -133,7 +133,7 @@ Change Log - advertools
 ------------------
 
 * Fix minor bugs
-    - Properly handle requests for >50 items (:ref:`serp_youtube <serp>`)
+    - Properly handle requests for >50 items (`serp_youtube`)
     - Rewrite test for _dict_product
     - Fix issue with string printing error msg
 
@@ -147,11 +147,11 @@ Change Log - advertools
 0.5.0 (2018-11-04)
 ------------------
 
-* New function :ref:`serp_youtube <serp>`
+* New function `serp_youtube`
     - Query YouTube API for videos, channels, or playlists
     - Multiple queries (product of parameters) in one function call
     - Reponse looping and merging handled, one DataFrame 
-* :ref:`serp_goog <serp>` return Google's original error messages
+* `serp_goog` return Google's original error messages
 * twitter responses with entities, get the entities extracted, each in a
   separate column
 
@@ -159,7 +159,7 @@ Change Log - advertools
 0.4.1 (2018-10-13)
 ------------------
 
-* New function :ref:`serp_goog <serp>` (based on Google CSE)
+* New function `serp_goog` (based on Google CSE)
     - Query Google search and get the result in a DataFrame
     - Make multiple queries / requests in one function call
     - All responses merged in one DataFrame
