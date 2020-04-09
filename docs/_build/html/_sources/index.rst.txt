@@ -6,6 +6,11 @@
 .. meta::
    :google-site-verification: GcN6XL_hWV3BP2Y9FNLjmTXxysS7QxJs804KoF15n_c
 
+.. meta::
+    :description lang=en:
+        Get productive as an online marketer with a Python package that helps
+        in automating many of the important tasks.
+
 advertools
 ==========
 Online marketing productivity and analysis tools
@@ -25,7 +30,7 @@ life a little easier.
    About advertools <readme>
    Generate SEM Keywords <advertools.kw_generate>
    Create Text Ads on a Large Scale <advertools.ad_create>
-   Cretae Text Ads From Description Text <advertools.ad_from_string>
+   Create Text Ads From Description Text <advertools.ad_from_string>
    Emoji Tools <advertools.emoji>
    Extract Structured Entities from Text <advertools.extract>
    XML Sitemaps <advertools.sitemaps>
