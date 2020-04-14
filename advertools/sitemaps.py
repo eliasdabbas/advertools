@@ -186,6 +186,10 @@ ka         565
 an         556
 iraq       554
 dtype: int64
+
+This was a quick overview and data preparation for a sample sitemap. Once you
+are familiar with the sitemap's structure, you can more easily start analyzing
+the content.
 """
 from gzip import GzipFile
 import logging
