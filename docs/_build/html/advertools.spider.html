@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
@@ -165,10 +166,8 @@
             
   <span class="target" id="module-advertools.spider"></span><div class="section" id="python-seo-crawler-spider">
 <h1>Python SEO Crawler / Spider<a class="headerlink" href="#python-seo-crawler-spider" title="Permalink to this headline">¶</a></h1>
-<p>Running your own crawls, and extracting the data that you want from web pages
-is crucial in understanding how you and/or your competitors are performing in
-terms of content and how it might be viewed by search engines.</p>
-<p>The <a class="reference internal" href="#advertools.spider.crawl" title="advertools.spider.crawl"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawl()</span></code></a> function provides a crawler that is customized for SEO and
+<p>A straightforward crawler to analyze SEO and content of pages and websites.</p>
+<p>This is provided by the <a class="reference internal" href="#advertools.spider.crawl" title="advertools.spider.crawl"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawl()</span></code></a> function which is customized for SEO and
 content analysis usage, and is highly configurable. The crawler uses
 <a class="reference external" href="https://scrapy.org/">Scrapy</a> so you get all the power that it provides in
 terms of performance, speed, as well as flexibility and customization.</p>
@@ -254,7 +253,7 @@ of the elements</p></li>
 <td><p>The load time of the HTML (does NOT include images or videos)</p></td>
 </tr>
 <tr class="row-odd"><td><p>status</p></td>
-<td><p>Response status (200, 301, 302, 404, etc)</p></td>
+<td><p>Response status (200, 301, 302, 404, etc.)</p></td>
 </tr>
 <tr class="row-even"><td><p>links_href</p></td>
 <td><p>The links in the page <code class="docutils literal notranslate"><span class="pre">href</span></code> attribute</p></td>
@@ -272,38 +271,30 @@ of the elements</p></li>
 <td><p>The depth of the crawled page</p></td>
 </tr>
 <tr class="row-odd"><td><p>crawl_time</p></td>
-<td><p>Date and time in of the crawl time</p></td>
+<td><p>Date and time of the crawl</p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>All elements that may appear multiple times in a page (like header tags, or
-images, for example), will be joined with two &#64; signs <code class="docutils literal notranslate"><span class="pre">&#64;&#64;</span></code>. For example,
+images, for example), will be joined with two &#64; signs <cite>&#64;&#64;</cite>. For example,
 <strong>“first H2 tag&#64;&#64;second H2 tag&#64;&#64;third tag”</strong> and so on.
 Once you open the file, you simply have to split by <cite>&#64;&#64;</cite> to get the
 elements as a list.</p>
 </div>
 <p>Here is a sample file:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9</pre></div></td><td class="code"><div class="highlight"><pre><span></span> &gt;&gt;&gt; import pandas as pd
- &gt;&gt;&gt; site_crawl = pd.read_csv(&#39;path/to/file.csv&#39;)
- &gt;&gt;&gt; site_crawl.head()
-                                                 url                                              title                                          meta_desc                                                 h1                                                 h2                                                 h3                                          body_text    size  load_time  status                                         links_href                                         links_text                                            img_src                                            img_alt  page_depth           crawl_time
- 0  https://www.wsj.com/articles/u-s-extends-indiv...  U.S. Extends Individual Tax Filing Deadline fr...  The U.S. will extend the individual tax filing...       U.S. Extends Individual Tax Filing Deadl...  Tax preparers and lawmakers in both parties ur...                                                NaN  March 20, 2020 WASHINGTON—The U.S. extended t...  599133   0.828943     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...  https://m.wsj.net/video/20200320/032020virusne...  [https://m.wsj.net/video/20200320/032020virusn...           1  2020-03-20 23:58:13
- 1  https://www.wsj.com/livecoverage/coronavirus-p...  States Hold Primary Elections in Coronavirus O...  Three states held the first primary elections,...  States Hold Primary Elections in Coronavirus O...  Three states held the first primary elections,...  Biden Wins Florida, Illinois and Arizona@@Main...  March 20, 2020 Joe Biden won all three primar...  495898   0.818214     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...            https://images.wsj.net/im-165947/social                                                NaN           1  2020-03-20 23:58:14
- 2       https://www.wsj.com/livecoverage/coronavirus  Coronavirus Updates: Dow, Stocks Waver; Califo...  As the coronavirus pandemic roils markets and ...  Coronavirus Updates: Stocks Drop as More State...  As the coronavirus pandemic roils markets and ...  What to Know Now@@Business-Development Compani...  March 20, 2020 , which raise money from inves...  523662   0.826189     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...                                                NaN                                                NaN           1  2020-03-20 23:58:14
- 3  https://www.wsj.com/articles/ford-marriott-ama...  Ford, Marriott, Amazon.com: Stocks That Define...  Here are seven major companies whose shares mo...       Ford, Marriott, Amazon.com: Stocks That ...  Here are seven major companies whose shares mo...                                                NaN  March 20, 2020  Ford Motor Co.  Detroit’s au...  600647   0.846521     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...  https://m.wsj.net/video/20200320/032020virusne...  [https://m.wsj.net/video/20200320/032020virusn...           1  2020-03-20 23:58:14
- 4  https://www.wsj.com/articles/airbnb-racks-up-h...  Airbnb Racks Up Hundreds of Millions in Losses...  Airbnb is considering raising capital from new...       Airbn
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">site_crawl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;path/to/file.csv&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">site_crawl</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="go">                                                url                                              title                                          meta_desc                                                 h1                                                 h2                                                 h3                                          body_text    size  load_time  status                                         links_href                                         links_text                                            img_src                                            img_alt  page_depth           crawl_time</span>
+<span class="go">0  https://www.wsj.com/articles/u-s-extends-indiv...  U.S. Extends Individual Tax Filing Deadline fr...  The U.S. will extend the individual tax filing...       U.S. Extends Individual Tax Filing Deadl...  Tax preparers and lawmakers in both parties ur...                                                NaN  March 20, 2020 WASHINGTON—The U.S. extended t...  599133   0.828943     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...  https://m.wsj.net/video/20200320/032020virusne...  [https://m.wsj.net/video/20200320/032020virusn...           1  2020-03-20 23:58:13</span>
+<span class="go">1  https://www.wsj.com/livecoverage/coronavirus-p...  States Hold Primary Elections in Coronavirus O...  Three states held the first primary elections,...  States Hold Primary Elections in Coronavirus O...  Three states held the first primary elections,...  Biden Wins Florida, Illinois and Arizona@@Main...  March 20, 2020 Joe Biden won all three primar...  495898   0.818214     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...            https://images.wsj.net/im-165947/social                                                NaN           1  2020-03-20 23:58:14</span>
+<span class="go">2       https://www.wsj.com/livecoverage/coronavirus  Coronavirus Updates: Dow, Stocks Waver; Califo...  As the coronavirus pandemic roils markets and ...  Coronavirus Updates: Stocks Drop as More State...  As the coronavirus pandemic roils markets and ...  What to Know Now@@Business-Development Compani...  March 20, 2020 , which raise money from inves...  523662   0.826189     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...                                                NaN                                                NaN           1  2020-03-20 23:58:14</span>
+<span class="go">3  https://www.wsj.com/articles/ford-marriott-ama...  Ford, Marriott, Amazon.com: Stocks That Define...  Here are seven major companies whose shares mo...       Ford, Marriott, Amazon.com: Stocks That ...  Here are seven major companies whose shares mo...                                                NaN  March 20, 2020  Ford Motor Co.  Detroit’s au...  600647   0.846521     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...  https://m.wsj.net/video/20200320/032020virusne...  [https://m.wsj.net/video/20200320/032020virusn...           1  2020-03-20 23:58:14</span>
+<span class="go">4  https://www.wsj.com/articles/airbnb-racks-up-h...  Airbnb Racks Up Hundreds of Millions in Losses...  Airbnb is considering raising capital from new...       Airbn</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 </div>
 <div class="section" id="pre-determined-crawling-approach">
 <h2>Pre-Determined Crawling Approach<a class="headerlink" href="#pre-determined-crawling-approach" title="Permalink to this headline">¶</a></h2>
@@ -311,8 +302,9 @@ elements as a list.</p>
 analyze SEO or content performance. Let’s say you just ran
 <a class="reference internal" href="advertools.serp.html#serp"><span class="std std-ref">serp_goog</span></a> and got a bunch of top-ranking pages that you would
 like to analyze, and see how that relates to their SERP ranking.</p>
-<p>You simply provide a <code class="docutils literal notranslate"><span class="pre">url_list</span></code> and again specify the <code class="docutils literal notranslate"><span class="pre">output_file</span></code>.
-This will only crawl the specified URLs, and will not follow any links.</p>
+<p>You simply provide the <code class="docutils literal notranslate"><span class="pre">url_list</span></code> parameter and again specify the
+<code class="docutils literal notranslate"><span class="pre">output_file</span></code>. This will only crawl the specified URLs, and will not follow
+any links.</p>
 <p>Other than crawling SERP results landing pages, this might be useful for
 monitoring certain pages that change all the time.</p>
 <p>Again running the function is as simple as providing a list of URLs, as well as
@@ -324,11 +316,11 @@ a filepath where you want the result saved.</p>
 <code class="docutils literal notranslate"><span class="pre">follow_links</span></code>. If you specify this as <code class="docutils literal notranslate"><span class="pre">False</span></code> (the default), the crawler
 will only go through the provided URLs (or sitemaps). Otherwise, it will
 discover pages by following links on pages that it crawls.
-So how do you make sure that the crawler doesn’t lose control and try to crawl
-the whole web?
+So how do you make sure that the crawler doesn’t try to crawl the whole web
+when <code class="docutils literal notranslate"><span class="pre">follow_links</span></code> is <cite>True</cite>?
 The <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code> parameter ensures that you specify which domains you
 want to limit your crawler to.
-This is an optional parameter. If you don’t specify its value, then it will
+This is an optional parameter. If you don’t specify it, then it will
 default to only the domains in the <code class="docutils literal notranslate"><span class="pre">url_list</span></code> and/or the <code class="docutils literal notranslate"><span class="pre">sitemap_urls</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">,</span> <span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="p">,</span>
 <span class="gp">... </span>      <span class="n">follow_links</span><span class="p">,</span> <span class="n">custom_settings</span><span class="p">)</span>
@@ -341,10 +333,11 @@ default to only the domains in the <code class="docutils literal notranslate"><s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sitemap_urls</strong> (<em>list</em>) – A list of one or more XML sitemap URLs.</p></li>
+<li><p><strong>sitemap_urls</strong> (<em>list</em>) – A list of one or more XML sitemap (or sitemap
+index) URLs.</p></li>
 <li><p><strong>url_list</strong> (<em>list</em>) – A list of URLs to crawl. If <code class="docutils literal notranslate"><span class="pre">follow_links</span></code> is True,
 the crawler will start with these URLs and follow all
-links recursively.</p></li>
+links on pages recursively.</p></li>
 <li><p><strong>allowed_domains</strong> (<em>list</em>) – (optional) A list of the allowed domains to
 crawl. This ensures that the crawler does not
 attempt to crawl the whole web. If not
@@ -354,9 +347,10 @@ URLs provided in <code class="docutils literal notranslate"><span class="pre">si
 <li><p><strong>follow_links</strong> (<em>bool</em>) – Defaults to False. Whether or not to follow links
 on crawled pages.</p></li>
 <li><p><strong>output_file</strong> (<em>str</em>) – The path to the output of the crawl. Supported
-formats (‘csv’, ‘json’, ‘jsonlines’, ‘jl’, ‘xml’,
-‘marshal’, ‘pickle’)</p></li>
-<li><p><strong>custom_settings</strong> (<em>dict</em>) – An optional dictionary of settings to override.</p></li>
+formats ‘csv’, ‘json’, ‘jsonlines’, ‘jl’, ‘xml’,
+‘marshal’, ‘pickle’.</p></li>
+<li><p><strong>custom_settings</strong> (<em>dict</em>) – An optional dictionary of settings to
+override.</p></li>
 </ul>
 </dd>
 </dl>

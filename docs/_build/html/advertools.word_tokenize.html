@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Word Tokenization (N-grams)</a></li>
@@ -167,7 +168,14 @@
 <span id="word-tokenize"></span><h1>Tokenize Words (N-grams)<a class="headerlink" href="#tokenize-words-n-grams" title="Permalink to this headline">¶</a></h1>
 <p>As word counting is an essential step in any text mining task, you first have
 to split the text into words.</p>
-<p>The <a class="reference internal" href="#advertools.word_tokenize.word_tokenize" title="advertools.word_tokenize.word_tokenize"><code class="xref py py-func docutils literal notranslate"><span class="pre">word_tokenize()</span></code></a></p>
+<p>The <a class="reference internal" href="#advertools.word_tokenize.word_tokenize" title="advertools.word_tokenize.word_tokenize"><code class="xref py py-func docutils literal notranslate"><span class="pre">word_tokenize()</span></code></a> function achieves that by splitting the text by
+whitespace. Another important thing it does after splitting is to trim the
+words of any non-word characters (commas, dots, exclamation marks, etc.).</p>
+<p>You also have the option of specifying the length of the words that you want.
+The default is 2, which can be set through the <code class="xref py py-attr docutils literal notranslate"><span class="pre">phrase_len</span></code> parameter.</p>
+<p>This function is mainly a helper function for
+<a class="reference internal" href="advertools.word_frequency.html#word-frequency"><span class="std std-ref">word_frequency</span></a> to help with counting words and/or
+phrases.</p>
 <dl class="function">
 <dt id="advertools.word_tokenize.word_tokenize">
 <code class="sig-name descname">word_tokenize</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">phrase_len=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>

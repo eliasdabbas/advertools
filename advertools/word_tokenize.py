@@ -7,7 +7,16 @@ Tokenize Words (N-grams)
 As word counting is an essential step in any text mining task, you first have
 to split the text into words.
 
-The :func:`word_tokenize`
+The :func:`word_tokenize` function achieves that by splitting the text by
+whitespace. Another important thing it does after splitting is to trim the
+words of any non-word characters (commas, dots, exclamation marks, etc.).
+
+You also have the option of specifying the length of the words that you want.
+The default is 2, which can be set through the :attr:`phrase_len` parameter.
+
+This function is mainly a helper function for
+:ref:`word_frequency <word_frequency>` to help with counting words and/or
+phrases.
 """
 from .regex import WORD_DELIM
 

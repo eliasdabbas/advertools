@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
@@ -164,11 +165,9 @@
 <span class="sd">Python SEO Crawler / Spider</span>
 <span class="sd">===========================</span>
 
-<span class="sd">Running your own crawls, and extracting the data that you want from web pages</span>
-<span class="sd">is crucial in understanding how you and/or your competitors are performing in</span>
-<span class="sd">terms of content and how it might be viewed by search engines.</span>
+<span class="sd">A straightforward crawler to analyze SEO and content of pages and websites.</span>
 
-<span class="sd">The :func:`crawl` function provides a crawler that is customized for SEO and</span>
+<span class="sd">This is provided by the :func:`crawl` function which is customized for SEO and</span>
 <span class="sd">content analysis usage, and is highly configurable. The crawler uses</span>
 <span class="sd">`Scrapy &lt;https://scrapy.org/&gt;`_ so you get all the power that it provides in</span>
 <span class="sd">terms of performance, speed, as well as flexibility and customization.</span>
@@ -234,19 +233,19 @@
 <span class="sd">body_text         The text in the &lt;p&gt; tags</span>
 <span class="sd">size              The page size in bytes</span>
 <span class="sd">load_time         The load time of the HTML (does NOT include images or videos)</span>
-<span class="sd">status            Response status (200, 301, 302, 404, etc)</span>
+<span class="sd">status            Response status (200, 301, 302, 404, etc.)</span>
 <span class="sd">links_href        The links in the page ``href`` attribute</span>
 <span class="sd">links_text        The link titles (empty string if not available)</span>
 <span class="sd">img_src           The ``src`` attribute of images</span>
 <span class="sd">img_alt           The ``alt`` attribute if available or an empty string</span>
 <span class="sd">page_depth        The depth of the crawled page</span>
-<span class="sd">crawl_time        Date and time in of the crawl time</span>
+<span class="sd">crawl_time        Date and time of the crawl</span>
 <span class="sd">==============    =============================================================</span>
 
 <span class="sd">.. note::</span>
 
 <span class="sd">    All elements that may appear multiple times in a page (like header tags, or</span>
-<span class="sd">    images, for example), will be joined with two @ signs ``@@``. For example,</span>
+<span class="sd">    images, for example), will be joined with two @ signs `@@`. For example,</span>
 <span class="sd">    **&quot;first H2 tag@@second H2 tag@@third tag&quot;** and so on.</span>
 <span class="sd">    Once you open the file, you simply have to split by `@@` to get the</span>
 <span class="sd">    elements as a list.</span>
@@ -254,7 +253,6 @@
 <span class="sd">Here is a sample file:</span>
 
 <span class="sd">.. code-block:: python</span>
-<span class="sd">   :linenos:</span>
 
 <span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
 <span class="sd">    &gt;&gt;&gt; site_crawl = pd.read_csv(&#39;path/to/file.csv&#39;)</span>
@@ -274,8 +272,9 @@
 <span class="sd">:ref:`serp_goog &lt;serp&gt;` and got a bunch of top-ranking pages that you would</span>
 <span class="sd">like to analyze, and see how that relates to their SERP ranking.</span>
 
-<span class="sd">You simply provide a ``url_list`` and again specify the ``output_file``.</span>
-<span class="sd">This will only crawl the specified URLs, and will not follow any links.</span>
+<span class="sd">You simply provide the ``url_list`` parameter and again specify the</span>
+<span class="sd">``output_file``. This will only crawl the specified URLs, and will not follow</span>
+<span class="sd">any links.</span>
 
 <span class="sd">Other than crawling SERP results landing pages, this might be useful for</span>
 <span class="sd">monitoring certain pages that change all the time.</span>
@@ -291,11 +290,11 @@
 <span class="sd">``follow_links``. If you specify this as ``False`` (the default), the crawler</span>
 <span class="sd">will only go through the provided URLs (or sitemaps). Otherwise, it will</span>
 <span class="sd">discover pages by following links on pages that it crawls.</span>
-<span class="sd">So how do you make sure that the crawler doesn&#39;t lose control and try to crawl</span>
-<span class="sd">the whole web?</span>
+<span class="sd">So how do you make sure that the crawler doesn&#39;t try to crawl the whole web</span>
+<span class="sd">when ``follow_links`` is `True`?</span>
 <span class="sd">The ``allowed_domains`` parameter ensures that you specify which domains you</span>
 <span class="sd">want to limit your crawler to.</span>
-<span class="sd">This is an optional parameter. If you don&#39;t specify its value, then it will</span>
+<span class="sd">This is an optional parameter. If you don&#39;t specify it, then it will</span>
 <span class="sd">default to only the domains in the ``url_list`` and/or the ``sitemap_urls``.</span>
 
 
@@ -311,8 +310,9 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
 
-<span class="kn">from</span> <span class="nn">scrapy.spiders</span> <span class="k">import</span> <span class="n">SitemapSpider</span>
+<span class="kn">from</span> <span class="nn">scrapy.spiders</span> <span class="k">import</span> <span class="n">Spider</span><span class="p">,</span> <span class="n">SitemapSpider</span>
 <span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 
 <span class="n">spider_path</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/spider.py&#39;</span>
@@ -320,7 +320,7 @@
 <span class="n">user_agent</span> <span class="o">=</span> <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36&#39;</span><span class="p">,</span>
 
 
-<span class="k">class</span> <span class="nc">SEOSitemapSpider</span><span class="p">(</span><span class="n">SitemapSpider</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SEOSitemapSpider</span><span class="p">(</span><span class="n">SitemapSpider</span><span class="p">,</span> <span class="n">Spider</span><span class="p">):</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;seo_sitemap_spider&#39;</span>
     <span class="n">custom_settings</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;USER_AGENT&#39;</span><span class="p">:</span> <span class="n">user_agent</span><span class="p">,</span>
@@ -330,9 +330,13 @@
         <span class="s1">&#39;BOT_NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;bot&#39;</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sitemap_urls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sitemap_urls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">url_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sitemap_urls</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_urls</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">url_list</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allowed_domains</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">allowed_domains</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">follow_links</span> <span class="o">=</span> <span class="n">follow_links</span>
 
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
         <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span>
@@ -353,6 +357,14 @@
             <span class="n">page_depth</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">],</span>
             <span class="n">crawl_time</span><span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">),</span>
         <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">follow_links</span><span class="p">:</span>
+            <span class="n">next_pages</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;a::attr(href)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">next_pages</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">next_pages</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;##################&#39;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;##################&#39;</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="n">response</span><span class="o">.</span><span class="n">follow</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="crawl"><a class="viewcode-back" href="../../advertools.spider.html#advertools.spider.crawl">[docs]</a><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">url_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -360,10 +372,11 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crawl a website&#39;s URLs based on the given :attr:`sitemap_urls`</span>
 
-<span class="sd">    :param list sitemap_urls: A list of one or more XML sitemap URLs.</span>
+<span class="sd">    :param list sitemap_urls: A list of one or more XML sitemap (or sitemap</span>
+<span class="sd">                              index) URLs.</span>
 <span class="sd">    :param list url_list: A list of URLs to crawl. If ``follow_links`` is True,</span>
 <span class="sd">                          the crawler will start with these URLs and follow all</span>
-<span class="sd">                          links recursively.</span>
+<span class="sd">                          links on pages recursively.</span>
 <span class="sd">    :param list allowed_domains: (optional) A list of the allowed domains to</span>
 <span class="sd">                                 crawl. This ensures that the crawler does not</span>
 <span class="sd">                                 attempt to crawl the whole web. If not</span>
@@ -373,15 +386,31 @@
 <span class="sd">    :param bool follow_links: Defaults to False. Whether or not to follow links</span>
 <span class="sd">                              on crawled pages.</span>
 <span class="sd">    :param str output_file: The path to the output of the crawl. Supported</span>
-<span class="sd">                            formats (&#39;csv&#39;, &#39;json&#39;, &#39;jsonlines&#39;, &#39;jl&#39;, &#39;xml&#39;,</span>
-<span class="sd">                            &#39;marshal&#39;, &#39;pickle&#39;)</span>
-<span class="sd">    :param dict custom_settings: An optional dictionary of settings to override.</span>
+<span class="sd">                            formats &#39;csv&#39;, &#39;json&#39;, &#39;jsonlines&#39;, &#39;jl&#39;, &#39;xml&#39;,</span>
+<span class="sd">                            &#39;marshal&#39;, &#39;pickle&#39;.</span>
+<span class="sd">    :param dict custom_settings: An optional dictionary of settings to</span>
+<span class="sd">                                 override.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">sitemap_urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">sitemap_urls</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">sitemap_urls</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">sitemap_urls</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">)]</span>  <span class="c1"># call str() in case it was None</span>
+    <span class="k">if</span> <span class="n">url_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">url_list</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">allowed_domains</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">allowed_domains</span> <span class="o">=</span> <span class="p">[</span><span class="n">allowed_domains</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">allowed_domains</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sitemap_domains</span> <span class="o">=</span> <span class="p">{</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">netloc</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">sitemap_urls</span><span class="p">}</span>
+        <span class="n">url_list_domains</span> <span class="o">=</span> <span class="p">{</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">netloc</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">url_list</span><span class="p">}</span>
+        <span class="n">allowed_domains</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sitemap_domains</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">url_list_domains</span><span class="p">)</span>
+
     <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;scrapy&#39;</span><span class="p">,</span> <span class="s1">&#39;runspider&#39;</span><span class="p">,</span> <span class="n">spider_path</span><span class="p">,</span>
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;sitemap_urls=&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">),</span>
+               <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;url_list=&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">url_list</span><span class="p">),</span>
+               <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;allowed_domains=&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">allowed_domains</span><span class="p">),</span>
+               <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;follow_links=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">follow_links</span><span class="p">),</span>
                <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">output_file</span><span class="p">]</span>
+    <span class="c1"># return command</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
     <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
 </pre></div>
 
