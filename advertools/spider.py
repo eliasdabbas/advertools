@@ -148,17 +148,23 @@ import json
 import subprocess
 
 from urllib.parse import urlparse
+from itertools import zip_longest
 
 from scrapy.spiders import Spider, SitemapSpider
+from scrapy import Request
 import advertools as adv
+from advertools.sitemaps import sitemap_to_df
+import pandas as pd
 
 spider_path = adv.__path__[0] + '/spider.py'
 
 user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
 
 
-class SEOSitemapSpider(SitemapSpider, Spider):
+class SEOSitemapSpider(Spider):
     name = 'seo_sitemap_spider'
+    # follow_links = False
+    lastmods = []
     custom_settings = {
         'USER_AGENT': user_agent,
         'ROBOTSTXT_OBEY': True,
@@ -167,17 +173,31 @@ class SEOSitemapSpider(SitemapSpider, Spider):
         'BOT_NAME': 'bot'
     }
 
-    def __init__(self, sitemap_urls=None, url_list=None, allowed_domains=None,
+    def __init__(self, url_list=None, allowed_domains=None, lastmods=None,
                  follow_links=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.sitemap_urls = json.loads(json.dumps(sitemap_urls.split(',')))
         self.start_urls = json.loads(json.dumps(url_list.split(',')))
         self.allowed_domains = json.loads(json.dumps(allowed_domains.split(',')))
-        self.follow_links = follow_links
+        self.lastmods = json.loads(json.dumps(lastmods.split(',')))
+        self.follow_links = eval(json.loads(json.dumps(follow_links)))
+        print('#' * 80)
+        print(follow_links, type(follow_links))
+        print(self.follow_links, type(self.follow_links))
+        print('START URLS:', len(self.start_urls))
+        print('LASTMODS:', len(self.lastmods))
+        print('#' * 80)
 
-    def parse(self, response):
+    def start_requests(self):
+        for url, lastmod in zip_longest(self.start_urls, self.lastmods):
+            yield Request(url, callback=self.parse,
+                          cb_kwargs={'url': url,
+                                     'lastmod': lastmod})
+
+    def parse(self, response, url=None, lastmod=None):
         yield dict(
-            url=response.url,
+            url=url,
+            url_redirected_to=response.url,
+            lastmod=lastmod,
             title='@@'.join(response.css('title::text').getall()),
             meta_desc=response.xpath("//meta[@name='description']/@content").get(),
             h1='@@'.join(response.css('h1::text').getall()),
@@ -198,10 +218,8 @@ class SEOSitemapSpider(SitemapSpider, Spider):
             next_pages = response.css('a::attr(href)').getall()
             if next_pages:
                 for page in next_pages:
-                    print('##################')
-                    print(page)
-                    print('##################')
-                    yield response.follow(page, callback=self.parse)
+                    yield Request(response.urljoin(page), callback=self.parse)
+                    # yield response.follow(page, callback=self.parse)
 
 
 def crawl(sitemap_urls=None, url_list=None, allowed_domains=None,
@@ -230,8 +248,10 @@ def crawl(sitemap_urls=None, url_list=None, allowed_domains=None,
     """
     if sitemap_urls is None or isinstance(sitemap_urls, str):
         sitemap_urls = [str(sitemap_urls)]  # call str() in case it was None
-    if url_list is None or isinstance(url_list, str):
-        url_list = [str(url_list)]
+    if isinstance(url_list, str):
+        url_list = [url_list]
+    if url_list is None:
+        url_list = []
     if isinstance(allowed_domains, str):
         allowed_domains = [allowed_domains]
 
@@ -239,10 +259,18 @@ def crawl(sitemap_urls=None, url_list=None, allowed_domains=None,
         sitemap_domains = {urlparse(url).netloc for url in sitemap_urls}
         url_list_domains = {urlparse(url).netloc for url in url_list}
         allowed_domains = list(sitemap_domains) + list(url_list_domains)
+    lastmods = []
+    if sitemap_urls[0] != 'None':
+        sitemap_df = pd.concat([sitemap_to_df(sitemap)
+                                for sitemap in sitemap_urls],
+                               ignore_index=True)
+        url_list = sitemap_df['loc'].tolist() + url_list
+        if 'lastmod' in sitemap_df:
+            lastmods = sitemap_df['lastmod'].astype(str).tolist()
 
     command = ['scrapy', 'runspider', spider_path,
-               '-a', 'sitemap_urls=' + ','.join(sitemap_urls),
                '-a', 'url_list=' + ','.join(url_list),
+               '-a', 'lastmods=' + ','.join(lastmods),
                '-a', 'allowed_domains=' + ','.join(allowed_domains),
                '-a', 'follow_links=' + str(follow_links),
                '-o', output_file]
