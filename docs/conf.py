@@ -81,6 +81,9 @@ exclude_patterns = [
 pygments_style = 'sphinx'
 
 
+html_extra_path = [
+    'sitemap_testing'
+]
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
