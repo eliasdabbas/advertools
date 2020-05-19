@@ -4,24 +4,64 @@
 Stopwords in Several Languages
 ==============================
 
+List of stopwords by the spaCy [#spaCy]_ package, useful in text mining,
+analyzing content of social media posts, tweets, web pages, keywords, etc.
 
-Stopwords by the spaCy package
-Copyright (C) 2016 ExplosionAI UG (haftungsbeschränkt), 2016 spaCy GmbH,
-2015 Matthew Honnibal
-
-List of stopwords useful in text mining, analyzing content of tweets, web
-pages, keywords, etc.
-
-Each list is accessible as part of a dictionary `stopwords` which is a normal
+Each list is accessible as part of a dictionary ``stopwords`` which is a normal
 Python dictionary.
 
+Available Languages:
+^^^^^^^^^^^^^^^^^^^^
+
+* Arabic
+* Azerbaijani
+* Bengali
+* Catalan
+* Chinese
+* Croatian
+* Danish
+* Dutch
+* English
+* Finnish
+* French
+* German
+* Greek
+* Hebrew
+* Hindi
+* Hungarian
+* Indonesian
+* Irish
+* Italian
+* Japanese
+* Kazakh
+* Nepali
+* Norwegian
+* Persian
+* Polish
+* Portuguese
+* Romanian
+* Russian
+* Sinhala
+* Spanish
+* Swedish
+* Tagalog
+* Tamil
+* Tatar
+* Telugu
+* Thai
+* Turkish
+* Ukrainian
+* Urdu
+* Vietnamese
 
 >>> import advertools as adv
->>> adv.stopwords['english'][:5]
+>>> sorted(adv.stopwords['english'])[:5]
 ["a", "about", "above", "across", "after"]
 
->>> adv.stopwords['german'][:5]
+>>> sorted(adv.stopwords['german'])[:5]
 ["a", "ab", "aber", "ach", "acht"]
+
+To get a list of all available languages, run
 
 >>> adv.stopwords.keys()
 dict_keys(['arabic', 'azerbaijani', 'bengali', 'catalan', 'chinese',
@@ -31,6 +71,12 @@ dict_keys(['arabic', 'azerbaijani', 'bengali', 'catalan', 'chinese',
 'persian', 'polish', 'portuguese', 'romanian', 'russian', 'sinhala',
 'spanish', 'swedish', 'tagalog', 'tamil', 'tatar', 'telugu', 'thai',
 'turkish', 'ukrainian', 'urdu', 'vietnamese'])
+
+.. rubric:: Footnotes
+
+.. [#spaCy] Copyright (C) 2016 ExplosionAI UG (haftungsbeschränkt), 2016 spaCy GmbH,
+   2015 Matthew Honnibal
+
 """
 
 stopwords = dict(
