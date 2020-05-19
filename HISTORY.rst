@@ -2,6 +2,21 @@
 Change Log - advertools
 =======================
 
+0.9.1 (2020-05-19)
+------------------
+
+* Added
+    - Ability to specify robots.txt file for ``sitemap_to_df``
+    - Ability to retreive any kind of sitemap (news, video, or images)
+    - Errors column to the returnd DataFrame if any errors occur
+    - A new ``sitemap_downloaded`` column showing datetime of getting the
+      sitemap
+
+* Fixed
+    - Logging issue causing ``sitemap_to_df`` to log the same action twice
+    - Issue preventing URLs not ending with xml or gz from being retreived
+    - Correct sitemap URL showing in the ``sitemap`` column
+
 0.9.0 (2020-04-03)
 ------------------
 
