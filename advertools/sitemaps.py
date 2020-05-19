@@ -5,15 +5,24 @@ Download, Parse, and Analyze XML Sitemaps
 One of the fastest and easiest ways to get insights on a website's content is
 to simply download its XML sitemap(s).
 
-It basically contains a log of their publishing activity, and if they have rich
+Sitemaps are also important SEO tools as they reveal a lot of information about
+the website, and help search engines in indexing those pages. You might want to
+run an SEO audit and check if the URLs in the sitemap properly correspond to
+the actual URLs of the site, so this would be an easy way to get them.
+
+Sitemaps basically contain a log of publishing activity, and if they have rich
 URLs then you can do some good analysis on their content across time as well.
 
-The :func:`sitemap_to_df` function is very simple to use, and only requires the URL of a
-sitemap, or a sitemap index. It goes through the sitemap(s) and returns a
-DataFrame containing the tags and their information.
+The :func:`sitemap_to_df` function is very simple to use, and only requires the
+URL of a sitemap, a sitemap index, or even a robots.txt file. It goes through
+the sitemap(s) and returns a DataFrame containing the tags and their
+information.
 
 Let's go through a quick example of what can be done with sitemaps. We can
 start by getting one of the BBC's sitemaps.
+
+Regular XML Sitemaps
+--------------------
 
 >>> bbc_sitemap = sitemap_to_df('https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml')
 >>> bbc_sitemap
@@ -187,9 +196,48 @@ an         556
 iraq       554
 dtype: int64
 
+
 This was a quick overview and data preparation for a sample sitemap. Once you
 are familiar with the sitemap's structure, you can more easily start analyzing
 the content.
+
+News Sitemaps
+-------------
+
+>>> nyt_news = sitemap_to_df('https://www.nytimes.com/sitemaps/new/news.xml.gz')
+>>> nyt_news
+                                                   loc                    lastmod    publication_name publication_language news_publication_date                                          news_title                                      news_keywords                                          image_loc                                           sitemap                sitemap_downloaded
+0    https://www.nytimes.com/2020/05/19/sports/hors...  2020-05-19 15:49:28+00:00  The New York Times                en-US  2020-05-19T15:49:28Z   Belmont Stakes to Run June 20 as First Leg of ...  Triple Crown (Horse Racing), Horse Racing, Bel...  https://static01.nyt.com/images/2020/05/19/spo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
+1    https://www.nytimes.com/2020/05/19/us/coronavi...  2020-05-19 15:49:10+00:00  The New York Times                en-US  2020-05-19T09:21:33Z                   Coronavirus Live News and Updates                            Coronavirus (2019-nCoV)  https://static01.nyt.com/images/2020/05/19/wor...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
+2    https://www.nytimes.com/interactive/2020/obitu...  2020-05-19 15:48:46+00:00  The New York Times                en-US  2020-04-16T22:28:14Z                                    Those We’ve Lost                                Deaths (Obituaries)                                                NaN  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
+3    https://www.nytimes.com/2020/05/19/nyregion/co...  2020-05-19 15:48:06+00:00  The New York Times                en-US  2020-05-19T11:24:24Z   Number of N.Y.C. Students Slated for Summer Sc...  Coronavirus (2019-nCoV), New York State, New Y...  https://static01.nyt.com/images/2020/05/19/nyr...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
+4    https://www.nytimes.com/2020/05/19/books/coron...  2020-05-19 15:46:10+00:00  The New York Times                en-US  2020-05-19T15:46:10Z           Coronavirus Shutdowns Weigh on Book Sales  Books and Literature, Book Trade and Publishin...  https://static01.nyt.com/images/2020/05/19/boo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
+..                                                 ...                        ...                 ...                  ...                   ...                                                 ...                                                ...                                                ...                                               ...                               ...
+502  https://www.nytimes.com/2020/05/14/books/revie...  2020-05-17 16:17:52+00:00  The New York Times                   en  2020-05-14T09:00:03Z   The Title of Emma Straub’s New Novel Is Mockin...  Books and Literature, Straub, Emma, All Adults...  https://static01.nyt.com/images/2020/04/21/boo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
+503  https://www.nytimes.com/2020/05/17/opinion/nur...  2020-05-17 16:08:29+00:00  The New York Times                en-US  2020-05-17T15:00:07Z   Coronavirus Is Hitting Nursing Homes Hard. How...  Nursing Homes, Coronavirus (2019-nCoV), Elderl...  https://static01.nyt.com/images/2020/05/17/opi...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
+504  https://www.nytimes.com/2020/05/17/business/co...  2020-05-17 16:00:08+00:00  The New York Times                en-US  2020-05-17T16:00:08Z   Autoworkers Are Returning as Carmakers Gradual...  Automobiles, Shutdowns (Institutional), Labor ...  https://static01.nyt.com/images/2020/05/18/bus...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
+505  https://www.nytimes.com/2020/05/17/opinion/let...  2020-05-17 16:00:05+00:00  The New York Times                en-US  2020-05-17T16:00:05Z              Fathers, Sons, Forgiveness and Regrets                  Children and Childhood, Parenting  https://static01.nyt.com/images/2020/05/10/opi...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
+506  https://www.nytimes.com/2020/05/17/opinion/let...  2020-05-17 16:00:05+00:00  The New York Times                en-US  2020-05-17T16:00:05Z                                To the Class of 2020          Coronavirus (2019-nCoV), Education (K-12)  https://static01.nyt.com/images/2020/04/16/wor...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
+[507 rows x 13 columns]
+
+Video Sitemaps
+--------------
+
+>>> wired_video = sitemap_to_df('https://www.wired.com/video/sitemap.xml')
+>>> wired_video
+                                                    loc                                video_thumbnail_loc                                          video_title                                    video_description                                    video_content_loc video_duration       video_publication_date video_expiration_date                                   sitemap               sitemap_downloaded
+0     https://www.wired.com/video/watch/autocomplete...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    WIRED Autocomplete Interviews - Lele Pons Answ...    Lele Pons takes the WIRED Autocomplete Intervi...    http://dp8hsntg6do36.cloudfront.net/5db75425bc...            478    2019-10-29T16:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
+1     https://www.wired.com/video/watch/professor-ex...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Laser Expert Explains One Concept in 5 Levels ...    Donna Strickland, PhD, professor at the Univer...    http://dp8hsntg6do36.cloudfront.net/5da6107834...           1476    2019-10-28T17:18:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
+2     https://www.wired.com/video/watch/6-levels-of-...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...           6 Levels of Knife Making: Easy to Complex     Knife maker Chelsea Miller explains knife maki...    http://dp8hsntg6do36.cloudfront.net/5db32c4a34...            963    2019-10-25T19:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
+3     https://www.wired.com/video/watch/mycologist-e...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Mycologist Explains How a Slime Mold Can Solve...    Physarum polycephalum is a single-celled, brai...    http://dp8hsntg6do36.cloudfront.net/5db31cfabc...            606    2019-10-25T16:27:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
+4     https://www.wired.com/video/watch/almost-impos...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Why It's Almost Impossible to Do a Quintuple C...    Tricking is a sport with roots in martial arts...    http://dp8hsntg6do36.cloudfront.net/5db2005238...            644    2019-10-24T20:34:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
+...                                                 ...                                                ...                                                  ...                                                  ...                                                  ...            ...                          ...                   ...                                       ...                              ...
+2338  https://www.wired.com/video/watch/how-to-make-...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                            How To Make Wired Origami    Robert Lang explains how to fold the Wired iss...    http://dp8hsntg6do36.cloudfront.net/5171b3cbc2...            150    2008-09-23T00:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
+2339  https://www.wired.com/video/watch/clover-coffe...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                                Clover Coffee Machine    Wired.com takes a look at the 'Clover', an $11...    http://dp8hsntg6do36.cloudfront.net/5171b42ec2...            147    2008-09-23T00:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
+2340  https://www.wired.com/video/watch/original-war...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                            Original WarGames Trailer                            Original WarGames Trailer    http://dp8hsntg6do36.cloudfront.net/5171b427c2...            140    2008-07-21T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
+2341  https://www.wired.com/video/watch/rock-band-tr...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                                    Rock Band Trailer                                    Rock Band Trailer    http://dp8hsntg6do36.cloudfront.net/5171b431c2...             70    2007-09-14T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
+2342  https://www.wired.com/video/watch/arrival-full...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                             ‘Arrival’ — Full Trailer    Louise Banks (Amy Adams) must learn to communi...    http://dp8hsntg6do36.cloudfront.net/57b344f4fd...            145    2003-10-22T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
+[2343 rows x 11 columns]
 """
 from gzip import GzipFile
 import logging
@@ -201,21 +249,60 @@ import pandas as pd
 logging.basicConfig(level=logging.INFO)
 
 
+def _sitemaps_from_robotstxt(robots_url):
+    sitemaps = []
+    robots_page = urlopen(robots_url)
+    for line in robots_page.readlines():
+        if line.decode().lower().startswith('sitemap:'):
+            sitemaps.append(line.decode().split()[-1])
+    return sitemaps
+
+
+def _parse_sitemap(root):
+    d = dict()
+    for node in root:
+        for n in node:
+            if 'loc' in n.tag:
+                d[n.text] = {}
+
+    def parse_xml_node(node, node_url, prefix=''):
+        nonlocal d
+        keys = []
+        for element in node:
+            if element.text:
+                tag = element.tag.split('}')[-1]
+                d[node_url][prefix + tag] = element.text
+                keys.append(tag)
+                prefix = prefix if tag in keys else ''
+            if list(element):
+                parse_xml_node(element, node_url, prefix=element.tag.split('}')[-1] + '_')
+    for node in root:
+        node_url = [n.text for n in node if 'loc' in n.tag][0]
+        parse_xml_node(node, node_url=node_url)
+    return pd.DataFrame(d.values())
+
+
 def sitemap_to_df(sitemap_url):
     """
-    Retrieve all URLs and other available tags of a sitemap and put them in a
-    DataFrame.
+    Retrieve all URLs and other available tags of a sitemap(s) and put them in
+    a DataFrame.
 
-    You can also pass the URL of a sitemap index file.
+    You can also pass the URL of a sitemap index, or a link to a robots.txt
+    file.
 
-    :param url sitemap_url: The URL of a sitemap, either a regular sitemap or a
-                            sitemap index. In the case of a sitemap index, the
+    :param url sitemap_url: The URL of a sitemap, either a regular sitemap, a
+                            sitemap index, or a link to a robots.txt file.
+                            In the case of a sitemap index or robots.txt, the
                             function will go through all the sub sitemaps and
                             retrieve all the included URLs in one DataFrame.
     :return sitemap_df: A pandas DataFrame containing all URLs, as well as
                         other tags if available (``lastmod``, ``changefreq``,
-                        ``priority``, ``alternate``).
+                        ``priority``, ``alternate``, or others found in news,
+                        video, or image sitemaps).
     """
+    if sitemap_url.endswith('robots.txt'):
+        return pd.concat([sitemap_to_df(sitemap)
+                          for sitemap in _sitemaps_from_robotstxt(sitemap_url)])
     if sitemap_url.endswith('xml.gz'):
         xml_text = urlopen(Request(sitemap_url,
                                    headers={'Accept-Encoding': 'gzip'}))
@@ -230,38 +317,26 @@ def sitemap_to_df(sitemap_url):
     if root.tag.split('}')[-1] == 'sitemapindex':
         for elem in root:
             for el in elem:
-                if el.text.split('.')[-1] in ['xml', 'gz']:
+                if 'loc' in el.tag:
                     try:
-                        logging.info(msg='Getting ' + el.text)
                         sitemap_df = sitemap_df.append(sitemap_to_df(el.text),
                                                        ignore_index=True)
                     except Exception as e:
                         logging.warning(msg=str(e) + el.text)
                         error_df = pd.DataFrame(dict(sitemap=el.text),
                                                 index=range(1))
+                        error_df['errors'] = str(e)
                         sitemap_df = sitemap_df.append(error_df,
                                                        ignore_index=True)
 
     else:
         logging.info(msg='Getting ' + sitemap_url)
-        for elem in root:
-            d = {}
-            for el in elem:
-                tag = el.tag
-                name = tag.split('}', 1)[1] if '}' in tag else tag
-
-                if name == 'link':
-                    if 'href' in el.attrib:
-                        d.setdefault('alternate', []).append(el.get('href'))
-                else:
-                    d[name] = el.text.strip() if el.text else ''
-            if 'alternate' in d:
-                d['alternate'] = ', '.join(d['alternate'])
-            elem_df = pd.DataFrame(d, index=range(1))
-            sitemap_df = sitemap_df.append(elem_df, ignore_index=True)
-    sitemap_df['sitemap'] = [sitemap_url] if sitemap_df.empty else sitemap_url
+        elem_df = _parse_sitemap(root)
+        sitemap_df = sitemap_df.append(elem_df, ignore_index=True)
+        sitemap_df['sitemap'] = [sitemap_url] if sitemap_df.empty else sitemap_url
     if 'lastmod' in sitemap_df:
         sitemap_df['lastmod'] = pd.to_datetime(sitemap_df['lastmod'], utc=True)
     if 'priority' in sitemap_df:
         sitemap_df['priority'] = sitemap_df['priority'].astype(float)
+    sitemap_df['sitemap_downloaded'] = pd.Timestamp.now(tz='UTC')
     return sitemap_df
