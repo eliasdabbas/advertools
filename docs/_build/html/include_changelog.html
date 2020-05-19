@@ -187,8 +187,16 @@
 <li class="toctree-l3"><a class="reference internal" href="advertools.kw_generate.html">Generate Keywords for SEM Campaigns</a></li>
 <li class="toctree-l3"><a class="reference internal" href="advertools.regex.html">Regular Expressions for Extracting Structured Entities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="advertools.serp.html">Import Search Engine Results Pages (SERPs) for Google and YouTube</a></li>
-<li class="toctree-l3"><a class="reference internal" href="advertools.sitemaps.html">Download, Parse, and Analyze XML Sitemaps</a></li>
-<li class="toctree-l3"><a class="reference internal" href="advertools.stopwords.html">Stopwords in Several Languages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advertools.sitemaps.html">Download, Parse, and Analyze XML Sitemaps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="advertools.sitemaps.html#regular-xml-sitemaps">Regular XML Sitemaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advertools.sitemaps.html#news-sitemaps">News Sitemaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advertools.sitemaps.html#video-sitemaps">Video Sitemaps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="advertools.stopwords.html">Stopwords in Several Languages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="advertools.stopwords.html#available-languages">Available Languages:</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
 <li class="toctree-l3"><a class="reference internal" href="advertools.url_builders.html">URL Builders</a></li>
 <li class="toctree-l3"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis</a><ul>
@@ -207,7 +215,32 @@
 <div class="section" id="change-log-advertools">
 <h2>Change Log - advertools<a class="headerlink" href="#change-log-advertools" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3>0.9.0 (2020-04-03)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>0.9.1 (2020-05-19)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Added</dt><dd><ul>
+<li><p>Ability to specify robots.txt file for <code class="docutils literal notranslate"><span class="pre">sitemap_to_df</span></code></p></li>
+<li><p>Ability to retreive any kind of sitemap (news, video, or images)</p></li>
+<li><p>Errors column to the returnd DataFrame if any errors occur</p></li>
+<li><p>A new <code class="docutils literal notranslate"><span class="pre">sitemap_downloaded</span></code> column showing datetime of getting the
+sitemap</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Fixed</dt><dd><ul>
+<li><p>Logging issue causing <code class="docutils literal notranslate"><span class="pre">sitemap_to_df</span></code> to log the same action twice</p></li>
+<li><p>Issue preventing URLs not ending with xml or gz from being retreived</p></li>
+<li><p>Correct sitemap URL showing in the <code class="docutils literal notranslate"><span class="pre">sitemap</span></code> column</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>0.9.0 (2020-04-03)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Added</dt><dd><ul>
@@ -219,8 +252,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h3>0.8.1 (2020-02-08)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>0.8.1 (2020-02-08)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Changed</dt><dd><ul>
@@ -232,8 +265,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>0.8.0 (2020-02-02)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>0.8.0 (2020-02-02)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Added</dt><dd><ul>
@@ -265,8 +298,8 @@ in the middle</p></li>
 </li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>0.7.3 (2019-04-17)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>0.7.3 (2019-04-17)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Added</dt><dd><ul>
@@ -283,8 +316,8 @@ top TLDs</p></li>
 </li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h3>0.7.2 (2019-03-29)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>0.7.2 (2019-03-29)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Changed</dt><dd><ul>
@@ -296,8 +329,8 @@ top TLDs</p></li>
 </li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>0.7.1 (2019-03-26)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>0.7.1 (2019-03-26)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Fixed</dt><dd><ul>
@@ -308,8 +341,8 @@ top TLDs</p></li>
 </li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>0.7.0 (2019-03-26)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>0.7.0 (2019-03-26)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><dl>
 <dt>Added</dt><dd><ul>
@@ -373,8 +406,8 @@ paginating requests easier</p></li>
 </li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>0.6.0 (2019-02-11)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>0.6.0 (2019-02-11)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>New function</dt><dd><ul>
@@ -394,8 +427,8 @@ ad lenghts</p></li>
 </li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h3>0.5.3 (2019-01-31)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>0.5.3 (2019-01-31)<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Fix minor bugs</dt><dd><ul>
@@ -406,8 +439,8 @@ ad lenghts</p></li>
 </li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>0.5.2 (2018-12-01)<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>0.5.2 (2018-12-01)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Fix minor bugs</dt><dd><ul>
@@ -420,8 +453,8 @@ ad lenghts</p></li>
 </li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h3>0.5.1 (2018-11-06)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>0.5.1 (2018-11-06)<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Fix minor bugs</dt><dd><ul>
@@ -433,8 +466,8 @@ ad lenghts</p></li>
 </li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>0.5.0 (2018-11-04)<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>0.5.0 (2018-11-04)<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>New function <cite>serp_youtube</cite></dt><dd><ul>
@@ -450,8 +483,8 @@ ad lenghts</p></li>
 separate column</p></li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3>0.4.1 (2018-10-13)<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>0.4.1 (2018-10-13)<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>New function <cite>serp_goog</cite> (based on Google CSE)</dt><dd><ul>
@@ -465,8 +498,8 @@ separate column</p></li>
 <li><p>twitter.get_place_trends results are ranked by town and country</p></li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h3>0.4.0 (2018-10-08)<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>0.4.0 (2018-10-08)<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt>New Twitter module based on twython</dt><dd><ul>
@@ -480,8 +513,8 @@ separate column</p></li>
 <li><p>Tested on Python 3.7</p></li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h3>0.3.0 (2018-08-14)<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>0.3.0 (2018-08-14)<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Search engine marketing cheat sheet.</p></li>
 <li><dl class="simple">
@@ -496,15 +529,15 @@ separate column</p></li>
 <li><p>Tests and bug fixes</p></li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h3>0.2.0 (2018-07-06)<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>0.2.0 (2018-07-06)<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>New set of kw_&lt;match-type&gt; functions.</p></li>
 <li><p>Full testing and coverage.</p></li>
 </ul>
 </div>
-<div class="section" id="id17">
-<h3>0.1.0 (2018-07-02)<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>0.1.0 (2018-07-02)<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>First release on PyPI.</p></li>
 <li><dl class="simple">

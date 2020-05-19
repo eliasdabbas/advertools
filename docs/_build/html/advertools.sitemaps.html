@@ -168,13 +168,20 @@
 <h1>Download, Parse, and Analyze XML Sitemaps<a class="headerlink" href="#download-parse-and-analyze-xml-sitemaps" title="Permalink to this headline">¶</a></h1>
 <p>One of the fastest and easiest ways to get insights on a website’s content is
 to simply download its XML sitemap(s).</p>
-<p>It basically contains a log of their publishing activity, and if they have rich
+<p>Sitemaps are also important SEO tools as they reveal a lot of information about
+the website, and help search engines in indexing those pages. You might want to
+run an SEO audit and check if the URLs in the sitemap properly correspond to
+the actual URLs of the site, so this would be an easy way to get them.</p>
+<p>Sitemaps basically contain a log of publishing activity, and if they have rich
 URLs then you can do some good analysis on their content across time as well.</p>
-<p>The <a class="reference internal" href="#advertools.sitemaps.sitemap_to_df" title="advertools.sitemaps.sitemap_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">sitemap_to_df()</span></code></a> function is very simple to use, and only requires the URL of a
-sitemap, or a sitemap index. It goes through the sitemap(s) and returns a
-DataFrame containing the tags and their information.</p>
+<p>The <a class="reference internal" href="#advertools.sitemaps.sitemap_to_df" title="advertools.sitemaps.sitemap_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">sitemap_to_df()</span></code></a> function is very simple to use, and only requires the
+URL of a sitemap, a sitemap index, or even a robots.txt file. It goes through
+the sitemap(s) and returns a DataFrame containing the tags and their
+information.</p>
 <p>Let’s go through a quick example of what can be done with sitemaps. We can
 start by getting one of the BBC’s sitemaps.</p>
+<div class="section" id="regular-xml-sitemaps">
+<h2>Regular XML Sitemaps<a class="headerlink" href="#regular-xml-sitemaps" title="Permalink to this headline">¶</a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span> <span class="o">=</span> <span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span>
 <span class="go">                                                     loc                    lastmod                                            sitemap</span>
@@ -351,27 +358,71 @@ word occurred in an article.</p>
 <p>This was a quick overview and data preparation for a sample sitemap. Once you
 are familiar with the sitemap’s structure, you can more easily start analyzing
 the content.</p>
+</div>
+<div class="section" id="news-sitemaps">
+<h2>News Sitemaps<a class="headerlink" href="#news-sitemaps" title="Permalink to this headline">¶</a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nyt_news</span> <span class="o">=</span> <span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.nytimes.com/sitemaps/new/news.xml.gz&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nyt_news</span>
+<span class="go">                                                   loc                    lastmod    publication_name publication_language news_publication_date                                          news_title                                      news_keywords                                          image_loc                                           sitemap                sitemap_downloaded</span>
+<span class="go">0    https://www.nytimes.com/2020/05/19/sports/hors...  2020-05-19 15:49:28+00:00  The New York Times                en-US  2020-05-19T15:49:28Z   Belmont Stakes to Run June 20 as First Leg of ...  Triple Crown (Horse Racing), Horse Racing, Bel...  https://static01.nyt.com/images/2020/05/19/spo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="go">1    https://www.nytimes.com/2020/05/19/us/coronavi...  2020-05-19 15:49:10+00:00  The New York Times                en-US  2020-05-19T09:21:33Z                   Coronavirus Live News and Updates                            Coronavirus (2019-nCoV)  https://static01.nyt.com/images/2020/05/19/wor...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="go">2    https://www.nytimes.com/interactive/2020/obitu...  2020-05-19 15:48:46+00:00  The New York Times                en-US  2020-04-16T22:28:14Z                                    Those We’ve Lost                                Deaths (Obituaries)                                                NaN  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="go">3    https://www.nytimes.com/2020/05/19/nyregion/co...  2020-05-19 15:48:06+00:00  The New York Times                en-US  2020-05-19T11:24:24Z   Number of N.Y.C. Students Slated for Summer Sc...  Coronavirus (2019-nCoV), New York State, New Y...  https://static01.nyt.com/images/2020/05/19/nyr...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="go">4    https://www.nytimes.com/2020/05/19/books/coron...  2020-05-19 15:46:10+00:00  The New York Times                en-US  2020-05-19T15:46:10Z           Coronavirus Shutdowns Weigh on Book Sales  Books and Literature, Book Trade and Publishin...  https://static01.nyt.com/images/2020/05/19/boo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="go">..                                                 ...                        ...                 ...                  ...                   ...                                                 ...                                                ...                                                ...                                               ...                               ...</span>
+<span class="go">502  https://www.nytimes.com/2020/05/14/books/revie...  2020-05-17 16:17:52+00:00  The New York Times                   en  2020-05-14T09:00:03Z   The Title of Emma Straub’s New Novel Is Mockin...  Books and Literature, Straub, Emma, All Adults...  https://static01.nyt.com/images/2020/04/21/boo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="go">503  https://www.nytimes.com/2020/05/17/opinion/nur...  2020-05-17 16:08:29+00:00  The New York Times                en-US  2020-05-17T15:00:07Z   Coronavirus Is Hitting Nursing Homes Hard. How...  Nursing Homes, Coronavirus (2019-nCoV), Elderl...  https://static01.nyt.com/images/2020/05/17/opi...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="go">504  https://www.nytimes.com/2020/05/17/business/co...  2020-05-17 16:00:08+00:00  The New York Times                en-US  2020-05-17T16:00:08Z   Autoworkers Are Returning as Carmakers Gradual...  Automobiles, Shutdowns (Institutional), Labor ...  https://static01.nyt.com/images/2020/05/18/bus...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="go">505  https://www.nytimes.com/2020/05/17/opinion/let...  2020-05-17 16:00:05+00:00  The New York Times                en-US  2020-05-17T16:00:05Z              Fathers, Sons, Forgiveness and Regrets                  Children and Childhood, Parenting  https://static01.nyt.com/images/2020/05/10/opi...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="go">506  https://www.nytimes.com/2020/05/17/opinion/let...  2020-05-17 16:00:05+00:00  The New York Times                en-US  2020-05-17T16:00:05Z                                To the Class of 2020          Coronavirus (2019-nCoV), Education (K-12)  https://static01.nyt.com/images/2020/04/16/wor...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="go">[507 rows x 13 columns]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="video-sitemaps">
+<h2>Video Sitemaps<a class="headerlink" href="#video-sitemaps" title="Permalink to this headline">¶</a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wired_video</span> <span class="o">=</span> <span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.wired.com/video/sitemap.xml&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wired_video</span>
+<span class="go">                                                    loc                                video_thumbnail_loc                                          video_title                                    video_description                                    video_content_loc video_duration       video_publication_date video_expiration_date                                   sitemap               sitemap_downloaded</span>
+<span class="go">0     https://www.wired.com/video/watch/autocomplete...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    WIRED Autocomplete Interviews - Lele Pons Answ...    Lele Pons takes the WIRED Autocomplete Intervi...    http://dp8hsntg6do36.cloudfront.net/5db75425bc...            478    2019-10-29T16:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="go">1     https://www.wired.com/video/watch/professor-ex...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Laser Expert Explains One Concept in 5 Levels ...    Donna Strickland, PhD, professor at the Univer...    http://dp8hsntg6do36.cloudfront.net/5da6107834...           1476    2019-10-28T17:18:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="go">2     https://www.wired.com/video/watch/6-levels-of-...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...           6 Levels of Knife Making: Easy to Complex     Knife maker Chelsea Miller explains knife maki...    http://dp8hsntg6do36.cloudfront.net/5db32c4a34...            963    2019-10-25T19:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="go">3     https://www.wired.com/video/watch/mycologist-e...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Mycologist Explains How a Slime Mold Can Solve...    Physarum polycephalum is a single-celled, brai...    http://dp8hsntg6do36.cloudfront.net/5db31cfabc...            606    2019-10-25T16:27:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="go">4     https://www.wired.com/video/watch/almost-impos...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Why It&#39;s Almost Impossible to Do a Quintuple C...    Tricking is a sport with roots in martial arts...    http://dp8hsntg6do36.cloudfront.net/5db2005238...            644    2019-10-24T20:34:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="gp">... </span>                                                <span class="o">...</span>                                                <span class="o">...</span>                                                  <span class="o">...</span>                                                  <span class="o">...</span>                                                  <span class="o">...</span>            <span class="o">...</span>                          <span class="o">...</span>                   <span class="o">...</span>                                       <span class="o">...</span>                              <span class="o">...</span>
+<span class="go">2338  https://www.wired.com/video/watch/how-to-make-...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                            How To Make Wired Origami    Robert Lang explains how to fold the Wired iss...    http://dp8hsntg6do36.cloudfront.net/5171b3cbc2...            150    2008-09-23T00:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="go">2339  https://www.wired.com/video/watch/clover-coffe...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                                Clover Coffee Machine    Wired.com takes a look at the &#39;Clover&#39;, an $11...    http://dp8hsntg6do36.cloudfront.net/5171b42ec2...            147    2008-09-23T00:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="go">2340  https://www.wired.com/video/watch/original-war...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                            Original WarGames Trailer                            Original WarGames Trailer    http://dp8hsntg6do36.cloudfront.net/5171b427c2...            140    2008-07-21T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="go">2341  https://www.wired.com/video/watch/rock-band-tr...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                                    Rock Band Trailer                                    Rock Band Trailer    http://dp8hsntg6do36.cloudfront.net/5171b431c2...             70    2007-09-14T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="go">2342  https://www.wired.com/video/watch/arrival-full...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                             ‘Arrival’ — Full Trailer    Louise Banks (Amy Adams) must learn to communi...    http://dp8hsntg6do36.cloudfront.net/57b344f4fd...            145    2003-10-22T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="go">[2343 rows x 11 columns]</span>
+</pre></div>
+</div>
 <dl class="function">
 <dt id="advertools.sitemaps.sitemap_to_df">
 <code class="sig-name descname">sitemap_to_df</code><span class="sig-paren">(</span><em class="sig-param">sitemap_url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve all URLs and other available tags of a sitemap and put them in a
-DataFrame.</p>
-<p>You can also pass the URL of a sitemap index file.</p>
+<dd><p>Retrieve all URLs and other available tags of a sitemap(s) and put them in
+a DataFrame.</p>
+<p>You can also pass the URL of a sitemap index, or a link to a robots.txt
+file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>sitemap_url</strong> (<em>url</em>) – The URL of a sitemap, either a regular sitemap or a
-sitemap index. In the case of a sitemap index, the
+<dd class="field-odd"><p><strong>sitemap_url</strong> (<em>url</em>) – The URL of a sitemap, either a regular sitemap, a
+sitemap index, or a link to a robots.txt file.
+In the case of a sitemap index or robots.txt, the
 function will go through all the sub sitemaps and
 retrieve all the included URLs in one DataFrame.</p>
 </dd>
 <dt class="field-even">Return sitemap_df</dt>
 <dd class="field-even"><p>A pandas DataFrame containing all URLs, as well as
 other tags if available (<code class="docutils literal notranslate"><span class="pre">lastmod</span></code>, <code class="docutils literal notranslate"><span class="pre">changefreq</span></code>,
-<code class="docutils literal notranslate"><span class="pre">priority</span></code>, <code class="docutils literal notranslate"><span class="pre">alternate</span></code>).</p>
+<code class="docutils literal notranslate"><span class="pre">priority</span></code>, <code class="docutils literal notranslate"><span class="pre">alternate</span></code>, or others found in news,
+video, or image sitemaps).</p>
 </dd>
 </dl>
 </dd></dl>
 
+</div>
 </div>
 
 

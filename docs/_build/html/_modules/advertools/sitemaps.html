@@ -167,15 +167,24 @@
 <span class="sd">One of the fastest and easiest ways to get insights on a website&#39;s content is</span>
 <span class="sd">to simply download its XML sitemap(s).</span>
 
-<span class="sd">It basically contains a log of their publishing activity, and if they have rich</span>
+<span class="sd">Sitemaps are also important SEO tools as they reveal a lot of information about</span>
+<span class="sd">the website, and help search engines in indexing those pages. You might want to</span>
+<span class="sd">run an SEO audit and check if the URLs in the sitemap properly correspond to</span>
+<span class="sd">the actual URLs of the site, so this would be an easy way to get them.</span>
+
+<span class="sd">Sitemaps basically contain a log of publishing activity, and if they have rich</span>
 <span class="sd">URLs then you can do some good analysis on their content across time as well.</span>
 
-<span class="sd">The :func:`sitemap_to_df` function is very simple to use, and only requires the URL of a</span>
-<span class="sd">sitemap, or a sitemap index. It goes through the sitemap(s) and returns a</span>
-<span class="sd">DataFrame containing the tags and their information.</span>
+<span class="sd">The :func:`sitemap_to_df` function is very simple to use, and only requires the</span>
+<span class="sd">URL of a sitemap, a sitemap index, or even a robots.txt file. It goes through</span>
+<span class="sd">the sitemap(s) and returns a DataFrame containing the tags and their</span>
+<span class="sd">information.</span>
 
 <span class="sd">Let&#39;s go through a quick example of what can be done with sitemaps. We can</span>
 <span class="sd">start by getting one of the BBC&#39;s sitemaps.</span>
+
+<span class="sd">Regular XML Sitemaps</span>
+<span class="sd">--------------------</span>
 
 <span class="sd">&gt;&gt;&gt; bbc_sitemap = sitemap_to_df(&#39;https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml&#39;)</span>
 <span class="sd">&gt;&gt;&gt; bbc_sitemap</span>
@@ -349,9 +358,48 @@
 <span class="sd">iraq       554</span>
 <span class="sd">dtype: int64</span>
 
+
 <span class="sd">This was a quick overview and data preparation for a sample sitemap. Once you</span>
 <span class="sd">are familiar with the sitemap&#39;s structure, you can more easily start analyzing</span>
 <span class="sd">the content.</span>
+
+<span class="sd">News Sitemaps</span>
+<span class="sd">-------------</span>
+
+<span class="sd">&gt;&gt;&gt; nyt_news = sitemap_to_df(&#39;https://www.nytimes.com/sitemaps/new/news.xml.gz&#39;)</span>
+<span class="sd">&gt;&gt;&gt; nyt_news</span>
+<span class="sd">                                                   loc                    lastmod    publication_name publication_language news_publication_date                                          news_title                                      news_keywords                                          image_loc                                           sitemap                sitemap_downloaded</span>
+<span class="sd">0    https://www.nytimes.com/2020/05/19/sports/hors...  2020-05-19 15:49:28+00:00  The New York Times                en-US  2020-05-19T15:49:28Z   Belmont Stakes to Run June 20 as First Leg of ...  Triple Crown (Horse Racing), Horse Racing, Bel...  https://static01.nyt.com/images/2020/05/19/spo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="sd">1    https://www.nytimes.com/2020/05/19/us/coronavi...  2020-05-19 15:49:10+00:00  The New York Times                en-US  2020-05-19T09:21:33Z                   Coronavirus Live News and Updates                            Coronavirus (2019-nCoV)  https://static01.nyt.com/images/2020/05/19/wor...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="sd">2    https://www.nytimes.com/interactive/2020/obitu...  2020-05-19 15:48:46+00:00  The New York Times                en-US  2020-04-16T22:28:14Z                                    Those We’ve Lost                                Deaths (Obituaries)                                                NaN  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="sd">3    https://www.nytimes.com/2020/05/19/nyregion/co...  2020-05-19 15:48:06+00:00  The New York Times                en-US  2020-05-19T11:24:24Z   Number of N.Y.C. Students Slated for Summer Sc...  Coronavirus (2019-nCoV), New York State, New Y...  https://static01.nyt.com/images/2020/05/19/nyr...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="sd">4    https://www.nytimes.com/2020/05/19/books/coron...  2020-05-19 15:46:10+00:00  The New York Times                en-US  2020-05-19T15:46:10Z           Coronavirus Shutdowns Weigh on Book Sales  Books and Literature, Book Trade and Publishin...  https://static01.nyt.com/images/2020/05/19/boo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="sd">..                                                 ...                        ...                 ...                  ...                   ...                                                 ...                                                ...                                                ...                                               ...                               ...</span>
+<span class="sd">502  https://www.nytimes.com/2020/05/14/books/revie...  2020-05-17 16:17:52+00:00  The New York Times                   en  2020-05-14T09:00:03Z   The Title of Emma Straub’s New Novel Is Mockin...  Books and Literature, Straub, Emma, All Adults...  https://static01.nyt.com/images/2020/04/21/boo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="sd">503  https://www.nytimes.com/2020/05/17/opinion/nur...  2020-05-17 16:08:29+00:00  The New York Times                en-US  2020-05-17T15:00:07Z   Coronavirus Is Hitting Nursing Homes Hard. How...  Nursing Homes, Coronavirus (2019-nCoV), Elderl...  https://static01.nyt.com/images/2020/05/17/opi...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="sd">504  https://www.nytimes.com/2020/05/17/business/co...  2020-05-17 16:00:08+00:00  The New York Times                en-US  2020-05-17T16:00:08Z   Autoworkers Are Returning as Carmakers Gradual...  Automobiles, Shutdowns (Institutional), Labor ...  https://static01.nyt.com/images/2020/05/18/bus...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="sd">505  https://www.nytimes.com/2020/05/17/opinion/let...  2020-05-17 16:00:05+00:00  The New York Times                en-US  2020-05-17T16:00:05Z              Fathers, Sons, Forgiveness and Regrets                  Children and Childhood, Parenting  https://static01.nyt.com/images/2020/05/10/opi...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="sd">506  https://www.nytimes.com/2020/05/17/opinion/let...  2020-05-17 16:00:05+00:00  The New York Times                en-US  2020-05-17T16:00:05Z                                To the Class of 2020          Coronavirus (2019-nCoV), Education (K-12)  https://static01.nyt.com/images/2020/04/16/wor...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00</span>
+<span class="sd">[507 rows x 13 columns]</span>
+
+<span class="sd">Video Sitemaps</span>
+<span class="sd">--------------</span>
+
+<span class="sd">&gt;&gt;&gt; wired_video = sitemap_to_df(&#39;https://www.wired.com/video/sitemap.xml&#39;)</span>
+<span class="sd">&gt;&gt;&gt; wired_video</span>
+<span class="sd">                                                    loc                                video_thumbnail_loc                                          video_title                                    video_description                                    video_content_loc video_duration       video_publication_date video_expiration_date                                   sitemap               sitemap_downloaded</span>
+<span class="sd">0     https://www.wired.com/video/watch/autocomplete...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    WIRED Autocomplete Interviews - Lele Pons Answ...    Lele Pons takes the WIRED Autocomplete Intervi...    http://dp8hsntg6do36.cloudfront.net/5db75425bc...            478    2019-10-29T16:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="sd">1     https://www.wired.com/video/watch/professor-ex...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Laser Expert Explains One Concept in 5 Levels ...    Donna Strickland, PhD, professor at the Univer...    http://dp8hsntg6do36.cloudfront.net/5da6107834...           1476    2019-10-28T17:18:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="sd">2     https://www.wired.com/video/watch/6-levels-of-...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...           6 Levels of Knife Making: Easy to Complex     Knife maker Chelsea Miller explains knife maki...    http://dp8hsntg6do36.cloudfront.net/5db32c4a34...            963    2019-10-25T19:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="sd">3     https://www.wired.com/video/watch/mycologist-e...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Mycologist Explains How a Slime Mold Can Solve...    Physarum polycephalum is a single-celled, brai...    http://dp8hsntg6do36.cloudfront.net/5db31cfabc...            606    2019-10-25T16:27:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="sd">4     https://www.wired.com/video/watch/almost-impos...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Why It&#39;s Almost Impossible to Do a Quintuple C...    Tricking is a sport with roots in martial arts...    http://dp8hsntg6do36.cloudfront.net/5db2005238...            644    2019-10-24T20:34:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="sd">...                                                 ...                                                ...                                                  ...                                                  ...                                                  ...            ...                          ...                   ...                                       ...                              ...</span>
+<span class="sd">2338  https://www.wired.com/video/watch/how-to-make-...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                            How To Make Wired Origami    Robert Lang explains how to fold the Wired iss...    http://dp8hsntg6do36.cloudfront.net/5171b3cbc2...            150    2008-09-23T00:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="sd">2339  https://www.wired.com/video/watch/clover-coffe...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                                Clover Coffee Machine    Wired.com takes a look at the &#39;Clover&#39;, an $11...    http://dp8hsntg6do36.cloudfront.net/5171b42ec2...            147    2008-09-23T00:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="sd">2340  https://www.wired.com/video/watch/original-war...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                            Original WarGames Trailer                            Original WarGames Trailer    http://dp8hsntg6do36.cloudfront.net/5171b427c2...            140    2008-07-21T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="sd">2341  https://www.wired.com/video/watch/rock-band-tr...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                                    Rock Band Trailer                                    Rock Band Trailer    http://dp8hsntg6do36.cloudfront.net/5171b431c2...             70    2007-09-14T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="sd">2342  https://www.wired.com/video/watch/arrival-full...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                             ‘Arrival’ — Full Trailer    Louise Banks (Amy Adams) must learn to communi...    http://dp8hsntg6do36.cloudfront.net/57b344f4fd...            145    2003-10-22T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00</span>
+<span class="sd">[2343 rows x 11 columns]</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">gzip</span> <span class="k">import</span> <span class="n">GzipFile</span>
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -363,21 +411,60 @@
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
 
+<span class="k">def</span> <span class="nf">_sitemaps_from_robotstxt</span><span class="p">(</span><span class="n">robots_url</span><span class="p">):</span>
+    <span class="n">sitemaps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">robots_page</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">robots_url</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">robots_page</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;sitemap:&#39;</span><span class="p">):</span>
+            <span class="n">sitemaps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">sitemaps</span>
+
+
+<span class="k">def</span> <span class="nf">_parse_sitemap</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;loc&#39;</span> <span class="ow">in</span> <span class="n">n</span><span class="o">.</span><span class="n">tag</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">text</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">parse_xml_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node_url</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">d</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">node</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+                <span class="n">tag</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">node_url</span><span class="p">][</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">text</span>
+                <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+                <span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span> <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">element</span><span class="p">):</span>
+                <span class="n">parse_xml_node</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">node_url</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
+        <span class="n">node_url</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node</span> <span class="k">if</span> <span class="s1">&#39;loc&#39;</span> <span class="ow">in</span> <span class="n">n</span><span class="o">.</span><span class="n">tag</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">parse_xml_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node_url</span><span class="o">=</span><span class="n">node_url</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+
 <div class="viewcode-block" id="sitemap_to_df"><a class="viewcode-back" href="../../advertools.sitemaps.html#advertools.sitemaps.sitemap_to_df">[docs]</a><span class="k">def</span> <span class="nf">sitemap_to_df</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Retrieve all URLs and other available tags of a sitemap and put them in a</span>
-<span class="sd">    DataFrame.</span>
+<span class="sd">    Retrieve all URLs and other available tags of a sitemap(s) and put them in</span>
+<span class="sd">    a DataFrame.</span>
 
-<span class="sd">    You can also pass the URL of a sitemap index file.</span>
+<span class="sd">    You can also pass the URL of a sitemap index, or a link to a robots.txt</span>
+<span class="sd">    file.</span>
 
-<span class="sd">    :param url sitemap_url: The URL of a sitemap, either a regular sitemap or a</span>
-<span class="sd">                            sitemap index. In the case of a sitemap index, the</span>
+<span class="sd">    :param url sitemap_url: The URL of a sitemap, either a regular sitemap, a</span>
+<span class="sd">                            sitemap index, or a link to a robots.txt file.</span>
+<span class="sd">                            In the case of a sitemap index or robots.txt, the</span>
 <span class="sd">                            function will go through all the sub sitemaps and</span>
 <span class="sd">                            retrieve all the included URLs in one DataFrame.</span>
 <span class="sd">    :return sitemap_df: A pandas DataFrame containing all URLs, as well as</span>
 <span class="sd">                        other tags if available (``lastmod``, ``changefreq``,</span>
-<span class="sd">                        ``priority``, ``alternate``).</span>
+<span class="sd">                        ``priority``, ``alternate``, or others found in news,</span>
+<span class="sd">                        video, or image sitemaps).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sitemap_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;robots.txt&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="n">sitemap</span><span class="p">)</span>
+                          <span class="k">for</span> <span class="n">sitemap</span> <span class="ow">in</span> <span class="n">_sitemaps_from_robotstxt</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">)])</span>
     <span class="k">if</span> <span class="n">sitemap_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;xml.gz&#39;</span><span class="p">):</span>
         <span class="n">xml_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">,</span>
                                    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Accept-Encoding&#39;</span><span class="p">:</span> <span class="s1">&#39;gzip&#39;</span><span class="p">}))</span>
@@ -392,40 +479,28 @@
     <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;sitemapindex&#39;</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;xml&#39;</span><span class="p">,</span> <span class="s1">&#39;gz&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s1">&#39;loc&#39;</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">tag</span><span class="p">:</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Getting &#39;</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
                         <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
                                                        <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                         <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
                         <span class="n">error_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">sitemap</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
                                                 <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+                        <span class="n">error_df</span><span class="p">[</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
                         <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error_df</span><span class="p">,</span>
                                                        <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Getting &#39;</span> <span class="o">+</span> <span class="n">sitemap_url</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
-            <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
-                <span class="n">tag</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">tag</span>
-                <span class="n">name</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;}&#39;</span> <span class="ow">in</span> <span class="n">tag</span> <span class="k">else</span> <span class="n">tag</span>
-
-                <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;link&#39;</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="s1">&#39;href&#39;</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-                        <span class="n">d</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;alternate&#39;</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">))</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">d</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
-            <span class="k">if</span> <span class="s1">&#39;alternate&#39;</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
-                <span class="n">d</span><span class="p">[</span><span class="s1">&#39;alternate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;alternate&#39;</span><span class="p">])</span>
-            <span class="n">elem_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-            <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem_df</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;sitemap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sitemap_url</span><span class="p">]</span> <span class="k">if</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="n">sitemap_url</span>
+        <span class="n">elem_df</span> <span class="o">=</span> <span class="n">_parse_sitemap</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem_df</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;sitemap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sitemap_url</span><span class="p">]</span> <span class="k">if</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="n">sitemap_url</span>
     <span class="k">if</span> <span class="s1">&#39;lastmod&#39;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
         <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">],</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="s1">&#39;priority&#39;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
         <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;sitemap_downloaded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sitemap_df</span></div>
 </pre></div>
 
