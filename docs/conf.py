@@ -81,7 +81,7 @@ exclude_patterns = [
 pygments_style = 'sphinx'
 
 
-html_extra_path = [
+html_static_path = [
     'sitemap_testing',
     'sitemap_testing/image_sitemap.xml',
     'sitemap_testing/zipped_sitemap.xml.gz',
