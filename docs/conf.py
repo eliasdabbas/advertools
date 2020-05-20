@@ -82,7 +82,13 @@ pygments_style = 'sphinx'
 
 
 html_extra_path = [
-    'sitemap_testing'
+    'sitemap_testing',
+    'sitemap_testing/image_sitemap.xml',
+    'sitemap_testing/zipped_sitemap.xml.gz',
+    'sitemap_testing/video_sitemap.xml',
+    'sitemap_testing/regular_sitemap.xml',
+    'sitemap_testing/news_sitemap.xml',
+    'sitemap_testing/sitemap_index.xml',
 ]
 # -- Options for HTML output -------------------------------------------------
 
