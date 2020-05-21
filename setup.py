@@ -13,6 +13,7 @@ with open('HISTORY.rst') as history_file:
 requirements = [
 #    'Click>=6.0',
     'pandas',
+    'pyasn1',
     'scrapy',
     'twython',
 ]
