@@ -38,6 +38,7 @@ life a little easier.
    Text Analysis (absolute & weighted word frequency) <advertools.word_frequency>
    Word Tokenization (N-grams) <advertools.word_tokenize>
    Analyze Search Engine Results (SERPs) <advertools.serp>
+   SEO Spider / Crawler <advertools.spider>
    Twitter Data <advertools.twitter>
    YouTube Data <advertools.youtube>
 

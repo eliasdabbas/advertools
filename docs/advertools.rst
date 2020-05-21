@@ -14,6 +14,7 @@ Submodules
    advertools.regex
    advertools.serp
    advertools.sitemaps
+   advertools.spider
    advertools.stopwords
    advertools.twitter
    advertools.url_builders

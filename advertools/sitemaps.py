@@ -1,4 +1,6 @@
 """
+.. _sitemaps:
+
 Download, Parse, and Analyze XML Sitemaps
 =========================================
 
