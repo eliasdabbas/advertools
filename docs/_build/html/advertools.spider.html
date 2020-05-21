@@ -174,27 +174,23 @@ terms of performance, speed, as well as flexibility and customization.</p>
 <p>There are two main approaches to crawl:</p>
 <ol class="arabic simple">
 <li><p><strong>Discovery:</strong> You know the website to crawl, so you provide a <code class="docutils literal notranslate"><span class="pre">url_list</span></code>
-or the website’s sitemap(s), and you want the crawler to go through the
-whole website(s) by following all available links.</p></li>
+(one or more URLs), and you want the crawler to go through the whole
+website(s) by following all available links.</p></li>
 <li><p><strong>Pre-determined:</strong> You have a known set of URLs that you want to crawl and
 analyze, without following links or discovering new URLs.</p></li>
 </ol>
 <div class="section" id="discovery">
 <h2>Discovery<a class="headerlink" href="#discovery" title="Permalink to this headline">¶</a></h2>
-<p>The simplest way to use the function is to provide a list of one or more
-sitemap URLs. You can alternatively provide a link to a sitemap index URL, and
-the crawler will go through all of the sitemaps.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;https://example.com/sitemap.xml&#39;</span><span class="p">],</span> <span class="s1">&#39;my_output_file.csv&#39;</span><span class="p">)</span>  <span class="c1"># OR</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;https://example.com/sitemap-index.xml&#39;</span><span class="p">],</span> <span class="s1">&#39;my_output_file.csv&#39;</span><span class="p">)</span>
+<p>The simplest way to use the function is to provide a list of one or more URLs
+and the crawler will go through all of the reachable pages.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;my_output_file.csv&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>That’s it!</p>
 <p>What this does:</p>
 <ul class="simple">
-<li><p>Check the site’s robots.txt file and get the crawl rules, together with any
-sitemaps if available</p></li>
-<li><p>Go to the specified sitemap (or sitemap index)</p></li>
-<li><p>Go through all the URLs in the sitemap(s)</p></li>
+<li><p>Check the site’s robots.txt file and get the crawl rules</p></li>
+<li><p>Starting with the provided URL(s) go through all links and parse pages</p></li>
 <li><p>For each URL extract the most important SEO elements</p></li>
 <li><p>Save them to <code class="docutils literal notranslate"><span class="pre">output_file</span></code> in the specified format</p></li>
 <li><p>The column headers of the output file (if you specify csv) would be the names
@@ -216,8 +212,8 @@ of the elements</p></li>
 <code class="docutils literal notranslate"><span class="pre">output_file</span></code>.</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 19%" />
-<col style="width: 81%" />
+<col style="width: 22%" />
+<col style="width: 78%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Element</p></th>
@@ -228,134 +224,160 @@ of the elements</p></li>
 <tr class="row-even"><td><p>url</p></td>
 <td><p>The URL requested</p></td>
 </tr>
-<tr class="row-odd"><td><p>title</p></td>
+<tr class="row-odd"><td><p>url_redirected_to</p></td>
+<td><p>The actual URL that was parsed, usually but not always the
+same as <cite>url</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>title</p></td>
 <td><p>The &lt;title&gt; tag(s)</p></td>
 </tr>
-<tr class="row-even"><td><p>meta_desc</p></td>
+<tr class="row-odd"><td><p>meta_desc</p></td>
 <td><p>Meta description</p></td>
 </tr>
-<tr class="row-odd"><td><p>h1</p></td>
+<tr class="row-even"><td><p>h1</p></td>
 <td><p><cite>&lt;h1&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-even"><td><p>h2</p></td>
+<tr class="row-odd"><td><p>h2</p></td>
 <td><p><cite>&lt;h2&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-odd"><td><p>h3</p></td>
+<tr class="row-even"><td><p>h3</p></td>
 <td><p><cite>&lt;h3&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-even"><td><p>body_text</p></td>
+<tr class="row-odd"><td><p>body_text</p></td>
 <td><p>The text in the &lt;p&gt; tags</p></td>
 </tr>
-<tr class="row-odd"><td><p>size</p></td>
+<tr class="row-even"><td><p>size</p></td>
 <td><p>The page size in bytes</p></td>
 </tr>
-<tr class="row-even"><td><p>load_time</p></td>
-<td><p>The load time of the HTML (does NOT include images or videos)</p></td>
+<tr class="row-odd"><td><p>response_meta</p></td>
+<td><p>Several metadata for the response download_latency, timeout
+etc.</p></td>
 </tr>
-<tr class="row-odd"><td><p>status</p></td>
+<tr class="row-even"><td><p>status</p></td>
 <td><p>Response status (200, 301, 302, 404, etc.)</p></td>
 </tr>
-<tr class="row-even"><td><p>links_href</p></td>
+<tr class="row-odd"><td><p>links_href</p></td>
 <td><p>The links in the page <code class="docutils literal notranslate"><span class="pre">href</span></code> attribute</p></td>
 </tr>
-<tr class="row-odd"><td><p>links_text</p></td>
+<tr class="row-even"><td><p>links_text</p></td>
 <td><p>The link titles (empty string if not available)</p></td>
 </tr>
-<tr class="row-even"><td><p>img_src</p></td>
+<tr class="row-odd"><td><p>img_src</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">src</span></code> attribute of images</p></td>
 </tr>
-<tr class="row-odd"><td><p>img_alt</p></td>
+<tr class="row-even"><td><p>img_alt</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">alt</span></code> attribute if available or an empty string</p></td>
 </tr>
-<tr class="row-even"><td><p>page_depth</p></td>
+<tr class="row-odd"><td><p>page_depth</p></td>
 <td><p>The depth of the crawled page</p></td>
 </tr>
+<tr class="row-even"><td><p>ip_address</p></td>
+<td><p>IP address</p></td>
+</tr>
 <tr class="row-odd"><td><p>crawl_time</p></td>
-<td><p>Date and time of the crawl</p></td>
+<td><p>Date and time the page was crawled</p></td>
+</tr>
+<tr class="row-even"><td><p>resp_headers_*</p></td>
+<td><p>All available response headers (last modified, server, etc.)</p></td>
+</tr>
+<tr class="row-odd"><td><p>request_headers_*</p></td>
+<td><p>All available request headers (user-agent, encoding, etc.)</p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>All elements that may appear multiple times in a page (like header tags, or
-images, for example), will be joined with two &#64; signs <cite>&#64;&#64;</cite>. For example,
+<p>All elements that may appear multiple times on a page (like header tags, or
+images, for example), will be joined with two “&#64;” signs <cite>&#64;&#64;</cite>. For example,
 <strong>“first H2 tag&#64;&#64;second H2 tag&#64;&#64;third tag”</strong> and so on.
 Once you open the file, you simply have to split by <cite>&#64;&#64;</cite> to get the
 elements as a list.</p>
 </div>
-<p>Here is a sample file:</p>
+<p>Here is a sample file of a crawl of this site (output truncated for
+readability):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">site_crawl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;path/to/file.csv&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">site_crawl</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-<span class="go">                                                url                                              title                                          meta_desc                                                 h1                                                 h2                                                 h3                                          body_text    size  load_time  status                                         links_href                                         links_text                                            img_src                                            img_alt  page_depth           crawl_time</span>
-<span class="go">0  https://www.wsj.com/articles/u-s-extends-indiv...  U.S. Extends Individual Tax Filing Deadline fr...  The U.S. will extend the individual tax filing...       U.S. Extends Individual Tax Filing Deadl...  Tax preparers and lawmakers in both parties ur...                                                NaN  March 20, 2020 WASHINGTON—The U.S. extended t...  599133   0.828943     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...  https://m.wsj.net/video/20200320/032020virusne...  [https://m.wsj.net/video/20200320/032020virusn...           1  2020-03-20 23:58:13</span>
-<span class="go">1  https://www.wsj.com/livecoverage/coronavirus-p...  States Hold Primary Elections in Coronavirus O...  Three states held the first primary elections,...  States Hold Primary Elections in Coronavirus O...  Three states held the first primary elections,...  Biden Wins Florida, Illinois and Arizona@@Main...  March 20, 2020 Joe Biden won all three primar...  495898   0.818214     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...            https://images.wsj.net/im-165947/social                                                NaN           1  2020-03-20 23:58:14</span>
-<span class="go">2       https://www.wsj.com/livecoverage/coronavirus  Coronavirus Updates: Dow, Stocks Waver; Califo...  As the coronavirus pandemic roils markets and ...  Coronavirus Updates: Stocks Drop as More State...  As the coronavirus pandemic roils markets and ...  What to Know Now@@Business-Development Compani...  March 20, 2020 , which raise money from inves...  523662   0.826189     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...                                                NaN                                                NaN           1  2020-03-20 23:58:14</span>
-<span class="go">3  https://www.wsj.com/articles/ford-marriott-ama...  Ford, Marriott, Amazon.com: Stocks That Define...  Here are seven major companies whose shares mo...       Ford, Marriott, Amazon.com: Stocks That ...  Here are seven major companies whose shares mo...                                                NaN  March 20, 2020  Ford Motor Co.  Detroit’s au...  600647   0.846521     200  #main@@https://www.barrons.com@@http://bigchar...  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@...  https://m.wsj.net/video/20200320/032020virusne...  [https://m.wsj.net/video/20200320/032020virusn...           1  2020-03-20 23:58:14</span>
-<span class="go">4  https://www.wsj.com/articles/airbnb-racks-up-h...  Airbnb Racks Up Hundreds of Millions in Losses...  Airbnb is considering raising capital from new...       Airbn</span>
+<span class="go">                               url               url_redirected_to                           title                       meta_desc                              h1                              h2                              h3                        body_text  size  download_timeout              download_slot  download_latency  redirect_times  redirect_ttl                   redirect_urls redirect_reasons  depth  status                      links_href                      links_text                         img_src                         img_alt    ip_address           crawl_time              resp_headers_date resp_headers_content-type     resp_headers_last-modified resp_headers_vary    resp_headers_x-ms-request-id resp_headers_x-ms-version resp_headers_x-ms-lease-status resp_headers_x-ms-blob-type resp_headers_access-control-allow-origin   resp_headers_x-served resp_headers_x-backend resp_headers_x-rtd-project resp_headers_x-rtd-version         resp_headers_x-rtd-path  resp_headers_x-rtd-domain resp_headers_x-rtd-version-method resp_headers_x-rtd-project-method resp_headers_strict-transport-security resp_headers_cf-cache-status  resp_headers_age           resp_headers_expires resp_headers_cache-control          resp_headers_expect-ct resp_headers_server   resp_headers_cf-ray      resp_headers_cf-request-id          request_headers_accept request_headers_accept-language      request_headers_user-agent request_headers_accept-encoding          request_headers_cookie</span>
+<span class="go">0   https://advertools.readthedocs  https://advertools.readthedocs            advertools —  Python  Get productive as an online ma  advertools@@Indices and tables  Online marketing productivity                              NaN   Generate keywords for SEM camp   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN  https://advertools.readthedocs            [302]    NaN     NaN  #@@readme.html@@advertools.kw_  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:35  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  720a8581-501e-0043-01a2-2e77d2                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca7dbaa7e9e-BUD  02d86a3cea00007e9edb0cf2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="go">1   https://advertools.readthedocs  https://advertools.readthedocs            advertools —  Python                             NaN                      advertools         Change Log - advertools  0.9.1 (2020-05-19)@@0.9.0 (202   Ability to specify robots.txt    NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  index.html@@readme.html@@adver  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  4f7bea3b-701e-0039-3f44-2f1d9f                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007h                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9bcab7e9e-BUD  02d86a3e0e00007e9edb0d72000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="go">2   https://advertools.readthedocs  https://advertools.readthedocs            advertools —  Python  Get productive as an online ma  advertools@@Indices and tables  Online marketing productivity                              NaN   Generate keywords for SEM camp   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  #@@readme.html@@advertools.kw_  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  98b729fa-e01e-00bf-24c3-2e494d                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9bf26d423-BUD  02d86a3e150000d423322742000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="go">3   https://advertools.readthedocs  https://advertools.readthedocs    advertools package —  Python                             NaN              advertools package     Submodules@@Module contents                             NaN   Top-level package for advertoo   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  index.html@@readme.html@@adver  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:25 GMT   Accept-Encoding  7a28ef3b-801e-00c2-24c3-2ed585                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web000079                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9bddb7ec2-BUD  02d86a3e1300007ec2a808a2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="go">4   https://advertools.readthedocs  https://advertools.readthedocs   Python Module Index —  Python                             NaN             Python Module Index                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  index.html@@readme.html@@adver  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@               _static/minus.png                               -  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  75911c9e-201e-00e6-34c3-2e4ccb                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007g                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9b91fd437-BUD  02d86a3e140000d437b81532000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="go">66  https://advertools.readthedocs  https://advertools.readthedocs  advertools.url_builders —  Pyt                             NaN  Source code for advertools.url                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:38 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  d99f2368-c01e-006f-18c3-2ef5ef                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007a                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:38 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbbb8afd437-BUD  02d86a494f0000d437b828b2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="go">67  https://advertools.readthedocs  https://advertools.readthedocs  advertools.kw_generate —  Pyth                             NaN  Source code for advertools.kw_                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  85855c48-c01e-00ce-13c3-2e3b74                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007g                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd980bd423-BUD  02d86a4a7f0000d423323b42000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="go">68  https://advertools.readthedocs  https://advertools.readthedocs  advertools.ad_from_string —  P                             NaN  Source code for advertools.ad_                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  b0aef497-801e-004a-1647-2f6d5c                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007k                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd980cd423-BUD  02d86a4a7f0000d423209db2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="go">69  https://advertools.readthedocs  https://advertools.readthedocs  advertools.ad_create —  Python                             NaN  Source code for advertools.ad_                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  9dfdd38a-101e-00a1-7ec3-2e93a0                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd99847ec2-BUD  02d86a4a7f00007ec2a811f2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="go">70  https://advertools.readthedocs  https://advertools.readthedocs      advertools.emoji —  Python                             NaN  Source code for advertools.emo                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:40  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  2ad504a1-101e-000b-03c3-2e454f                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web000079                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd9fb97e9e-BUD  02d86a4a7f00007e9edb13a2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="pre-determined-crawling-approach">
 <h2>Pre-Determined Crawling Approach<a class="headerlink" href="#pre-determined-crawling-approach" title="Permalink to this headline">¶</a></h2>
 <p>Sometimes you might have a fixed set of URLs for which you want to scrape and
-analyze SEO or content performance. Let’s say you just ran
-<a class="reference internal" href="advertools.serp.html#serp"><span class="std std-ref">serp_goog</span></a> and got a bunch of top-ranking pages that you would
-like to analyze, and see how that relates to their SERP ranking.</p>
+analyze SEO or content performance. Some ideas:</p>
+<div class="section" id="serp-data">
+<h3>SERP Data<a class="headerlink" href="#serp-data" title="Permalink to this headline">¶</a></h3>
+<p>Let’s say you just ran <a class="reference internal" href="advertools.serp.html#serp"><span class="std std-ref">serp_goog</span></a> and got a bunch of top-ranking
+pages that you would like to analyze, and see how that relates to their SERP
+ranking.</p>
 <p>You simply provide the <code class="docutils literal notranslate"><span class="pre">url_list</span></code> parameter and again specify the
 <code class="docutils literal notranslate"><span class="pre">output_file</span></code>. This will only crawl the specified URLs, and will not follow
 any links.</p>
-<p>Other than crawling SERP results landing pages, this might be useful for
-monitoring certain pages that change all the time.</p>
+<p>Now you have the SERP DataFrame, as well as the crawl output file. All you have
+to do is to merge them by the URL columns, and end up with a richer dataset</p>
+</div>
+<div class="section" id="news-articles">
+<h3>News Articles<a class="headerlink" href="#news-articles" title="Permalink to this headline">¶</a></h3>
+<p>You want to follow the latest news of a certain publication, and you extract
+their latest news URLs from their news sitemap using
+<span class="xref std std-ref">sitemap_to_df</span> . You provide those URLs and crawl them only.</p>
+</div>
+<div class="section" id="google-analytics-google-search-console">
+<h3>Google Analytics / Google Search Console<a class="headerlink" href="#google-analytics-google-search-console" title="Permalink to this headline">¶</a></h3>
+<p>Since they provide reports for URLs, you can also combine them with the ones
+crawled and end up with a better perspective.</p>
+<p>Any tool that has data about a set of URLs can be used.</p>
 <p>Again running the function is as simple as providing a list of URLs, as well as
 a filepath where you want the result saved.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The difference between the two approaches, is the simple parameter
-<code class="docutils literal notranslate"><span class="pre">follow_links</span></code>. If you specify this as <code class="docutils literal notranslate"><span class="pre">False</span></code> (the default), the crawler
-will only go through the provided URLs (or sitemaps). Otherwise, it will
-discover pages by following links on pages that it crawls.
-So how do you make sure that the crawler doesn’t try to crawl the whole web
-when <code class="docutils literal notranslate"><span class="pre">follow_links</span></code> is <cite>True</cite>?
+<code class="docutils literal notranslate"><span class="pre">follow_links</span></code>. If you keep it as <code class="docutils literal notranslate"><span class="pre">False</span></code> (the default), the crawler
+will only go through the provided URLs. Otherwise, it will discover pages by
+following links on pages that it crawls. So how do you make sure that the
+crawler doesn’t try to crawl the whole web when <code class="docutils literal notranslate"><span class="pre">follow_links</span></code> is <cite>True</cite>?
 The <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code> parameter ensures that you specify which domains you
 want to limit your crawler to.
 This is an optional parameter. If you don’t specify it, then it will
-default to only the domains in the <code class="docutils literal notranslate"><span class="pre">url_list</span></code> and/or the <code class="docutils literal notranslate"><span class="pre">sitemap_urls</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="n">sitemap_urls</span><span class="p">,</span> <span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="p">,</span>
-<span class="gp">... </span>      <span class="n">follow_links</span><span class="p">,</span> <span class="n">custom_settings</span><span class="p">)</span>
-</pre></div>
-</div>
+default to only the domains in the <code class="docutils literal notranslate"><span class="pre">url_list</span></code>.</p>
 <dl class="function">
 <dt id="advertools.spider.crawl">
-<code class="sig-name descname">crawl</code><span class="sig-paren">(</span><em class="sig-param">sitemap_urls=None</em>, <em class="sig-param">url_list=None</em>, <em class="sig-param">allowed_domains=None</em>, <em class="sig-param">follow_links=False</em>, <em class="sig-param">output_file=None</em>, <em class="sig-param">custom_settings=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.spider.crawl" title="Permalink to this definition">¶</a></dt>
-<dd><p>Crawl a website’s URLs based on the given <code class="xref py py-attr docutils literal notranslate"><span class="pre">sitemap_urls</span></code></p>
+<code class="sig-name descname">crawl</code><span class="sig-paren">(</span><em class="sig-param">url_list</em>, <em class="sig-param">output_file</em>, <em class="sig-param">follow_links=False</em>, <em class="sig-param">allowed_domains=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.spider.crawl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crawl a website’s URLs based on the given <code class="xref py py-attr docutils literal notranslate"><span class="pre">url_list</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sitemap_urls</strong> (<em>list</em>) – A list of one or more XML sitemap (or sitemap
-index) URLs.</p></li>
-<li><p><strong>url_list</strong> (<em>list</em>) – A list of URLs to crawl. If <code class="docutils literal notranslate"><span class="pre">follow_links</span></code> is True,
-the crawler will start with these URLs and follow all
-links on pages recursively.</p></li>
+<li><p><strong>url_list</strong> (<em>url</em><em>,</em><em>list</em>) – One or more URLs to crawl. If <code class="docutils literal notranslate"><span class="pre">follow_links</span></code>
+is True, the crawler will start with these URLs and
+follow all links on pages recursively.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – The path to the output of the crawl. Supported
+formats: <cite>csv</cite>, <cite>json</cite>, <cite>jsonlines</cite>, <cite>jl</cite>, <cite>xml</cite>,
+<cite>marshal</cite>, <cite>pickle</cite>.</p></li>
+<li><p><strong>follow_links</strong> (<em>bool</em>) – Defaults to False. Whether or not to follow links
+on crawled pages.</p></li>
 <li><p><strong>allowed_domains</strong> (<em>list</em>) – (optional) A list of the allowed domains to
 crawl. This ensures that the crawler does not
 attempt to crawl the whole web. If not
 specified, it defaults to the domains of the
-URLs provided in <code class="docutils literal notranslate"><span class="pre">sitemap_urls</span></code> and/or
-<code class="docutils literal notranslate"><span class="pre">url_list</span></code>.</p></li>
-<li><p><strong>follow_links</strong> (<em>bool</em>) – Defaults to False. Whether or not to follow links
-on crawled pages.</p></li>
-<li><p><strong>output_file</strong> (<em>str</em>) – The path to the output of the crawl. Supported
-formats ‘csv’, ‘json’, ‘jsonlines’, ‘jl’, ‘xml’,
-‘marshal’, ‘pickle’.</p></li>
-<li><p><strong>custom_settings</strong> (<em>dict</em>) – An optional dictionary of settings to
-override.</p></li>
+URLs provided in <code class="docutils literal notranslate"><span class="pre">url_list</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
+</div>
 </div>
 </div>
 
