@@ -1,4 +1,4 @@
-from advertools.sitemaps import sitemap_to_df
+from advertools.sitemaps import sitemap_to_df, robotstxt_to_df
 import pandas as pd
 import pytest
 
@@ -25,3 +25,10 @@ def test_sitemap_index():
     result = sitemap_to_df(sitemap_index_url)
     assert isinstance(result, pd.core.frame.DataFrame)
     assert len(result) == 6
+
+
+def test_robotstxt():
+    result = robotstxt_to_df('https://www.google.com/robots.txt')
+    assert isinstance(result, pd.core.frame.DataFrame)
+    assert result.columns == ['directive', 'content', 'robotstxt_url',
+                              'file_downloaded']
