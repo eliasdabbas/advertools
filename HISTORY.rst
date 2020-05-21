@@ -2,6 +2,14 @@
 Change Log - advertools
 =======================
 
+0.10.0 (2020-05-21)
+-------------------
+
+* Added
+    - New function ``crawl`` for crawling and parsing websites
+    - New function ``robotstxt_to_df`` downloading robots.txt files into
+      DataFrames
+
 0.9.1 (2020-05-19)
 ------------------
 
