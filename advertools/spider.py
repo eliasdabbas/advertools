@@ -70,8 +70,10 @@ size              The page size in bytes
 response_meta     Several metadata for the response download_latency, timeout
                   etc.
 status            Response status (200, 301, 302, 404, etc.)
-links_href        The links in the page ``href`` attribute
-links_text        The link titles (empty string if not available)
+links_url         The URLs of the links on the page
+links_text        The link text (anchor text)
+links_fragment    The fragment part of the link (#fragment)
+links_nofollow    Boolean, whether or not the link is a nofllow link
 img_src           The ``src`` attribute of images
 img_alt           The ``alt`` attribute if available or an empty string
 page_depth        The depth of the crawled page
@@ -165,12 +167,17 @@ import subprocess
 from urllib.parse import urlparse
 
 from scrapy.spiders import Spider
+from scrapy.linkextractors import LinkExtractor
 from scrapy import Request
 import advertools as adv
 
 spider_path = adv.__path__[0] + '/spider.py'
 
 user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
+
+BODY_TEXT_SELECTOR = '//body//span//text() | //body//p//text() | //body//li//text()'
+
+le = LinkExtractor()
 
 
 class SEOSitemapSpider(Spider):
@@ -193,7 +200,8 @@ class SEOSitemapSpider(Spider):
         for url in self.start_urls:
             yield Request(url, callback=self.parse)
 
-    def parse(self, response, url=None):
+    def parse(self, response):
+        links = le.extract_links(response)
         yield dict(
             url=response.request.url,
             url_redirected_to=response.url,
@@ -202,12 +210,14 @@ class SEOSitemapSpider(Spider):
             h1='@@'.join(response.css('h1::text').getall()),
             h2='@@'.join(response.css('h2::text').getall()),
             h3='@@'.join(response.css('h3::text').getall()),
-            body_text='\n'.join(response.css('p::text').getall()),
+            body_text=' '.join(response.xpath(BODY_TEXT_SELECTOR).extract()),
             size=len(response.body),
             **response.meta,
             status=response.status,
-            links_href='@@'.join([link.attrib.get('href') or '' for link in response.css('a')]),
-            links_text='@@'.join([link.attrib.get('title') or '' for link in response.css('a')]),
+            links_url='@@'.join(link.url for link in links),
+            links_text='@@'.join(link.text for link in links),
+            links_fragment='@@'.join(link.fragment for link in links),
+            links_nofollow='@@'.join(str(link.nofollow) for link in links),
             img_src='@@'.join([im.attrib.get('src') or '' for im in response.css('img')]),
             img_alt='@@'.join([im.attrib.get('alt') or '' for im in response.css('img')]),
             ip_address=response.ip_address,
@@ -218,13 +228,10 @@ class SEOSitemapSpider(Spider):
                for k, v in response.request.headers.to_unicode_dict().items()},
         )
         if self.follow_links:
-            next_pages = response.css('a::attr(href)').getall()
+            next_pages = [link.url for link in links]
             if next_pages:
                 for page in next_pages:
-                    page = response.urljoin(page)
-                    yield Request(page,
-                                  callback=self.parse,
-                                  cb_kwargs={'url':  page})
+                    yield Request(page, callback=self.parse)
 
 
 def crawl(url_list, output_file, follow_links=False,
