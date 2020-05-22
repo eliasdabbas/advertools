@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.9.1
+                0.10.0
               </div>
             
           
@@ -233,8 +233,10 @@
 <span class="sd">response_meta     Several metadata for the response download_latency, timeout</span>
 <span class="sd">                  etc.</span>
 <span class="sd">status            Response status (200, 301, 302, 404, etc.)</span>
-<span class="sd">links_href        The links in the page ``href`` attribute</span>
-<span class="sd">links_text        The link titles (empty string if not available)</span>
+<span class="sd">links_url         The URLs of the links on the page</span>
+<span class="sd">links_text        The link text (anchor text)</span>
+<span class="sd">links_fragment    The fragment part of the link (#fragment)</span>
+<span class="sd">links_nofollow    Boolean, whether or not the link is a nofllow link</span>
 <span class="sd">img_src           The ``src`` attribute of images</span>
 <span class="sd">img_alt           The ``alt`` attribute if available or an empty string</span>
 <span class="sd">page_depth        The depth of the crawled page</span>
@@ -328,12 +330,17 @@
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
 
 <span class="kn">from</span> <span class="nn">scrapy.spiders</span> <span class="k">import</span> <span class="n">Spider</span>
+<span class="kn">from</span> <span class="nn">scrapy.linkextractors</span> <span class="k">import</span> <span class="n">LinkExtractor</span>
 <span class="kn">from</span> <span class="nn">scrapy</span> <span class="k">import</span> <span class="n">Request</span>
 <span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 
 <span class="n">spider_path</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/spider.py&#39;</span>
 
 <span class="n">user_agent</span> <span class="o">=</span> <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36&#39;</span><span class="p">,</span>
+
+<span class="n">BODY_TEXT_SELECTOR</span> <span class="o">=</span> <span class="s1">&#39;//body//span//text() | //body//p//text() | //body//li//text()&#39;</span>
+
+<span class="n">le</span> <span class="o">=</span> <span class="n">LinkExtractor</span><span class="p">()</span>
 
 
 <span class="k">class</span> <span class="nc">SEOSitemapSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
@@ -356,7 +363,8 @@
         <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_urls</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">extract_links</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
         <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="n">url</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
             <span class="n">url_redirected_to</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
@@ -365,12 +373,14 @@
             <span class="n">h1</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h1::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
             <span class="n">h2</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h2::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
             <span class="n">h3</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h3::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
-            <span class="n">body_text</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;p::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
+            <span class="n">body_text</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="n">BODY_TEXT_SELECTOR</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">()),</span>
             <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">),</span>
             <span class="o">**</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">,</span>
             <span class="n">status</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
-            <span class="n">links_href</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">link</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)]),</span>
-            <span class="n">links_text</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">link</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)]),</span>
+            <span class="n">links_url</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">url</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
+            <span class="n">links_text</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
+            <span class="n">links_fragment</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">fragment</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
+            <span class="n">links_nofollow</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">nofollow</span><span class="p">)</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
             <span class="n">img_src</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">im</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">)]),</span>
             <span class="n">img_alt</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">im</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alt&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">)]),</span>
             <span class="n">ip_address</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">ip_address</span><span class="p">,</span>
@@ -381,13 +391,10 @@
                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">to_unicode_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">follow_links</span><span class="p">:</span>
-            <span class="n">next_pages</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;a::attr(href)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
+            <span class="n">next_pages</span> <span class="o">=</span> <span class="p">[</span><span class="n">link</span><span class="o">.</span><span class="n">url</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">next_pages</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">next_pages</span><span class="p">:</span>
-                    <span class="n">page</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
-                    <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">page</span><span class="p">,</span>
-                                  <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">,</span>
-                                  <span class="n">cb_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span>  <span class="n">page</span><span class="p">})</span>
+                    <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="crawl"><a class="viewcode-back" href="../../advertools.spider.html#advertools.spider.crawl">[docs]</a><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
