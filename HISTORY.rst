@@ -2,6 +2,16 @@
 Change Log - advertools
 =======================
 
+0.10.1 (2020-05-23)
+-------------------
+
+* Changed
+    - Links are better handled, and new output columns are available:
+      ``links_url``, ``links_text``, ``links_fragment``, ``links_nofollow``
+    - ``body_text`` extraction is improved by containing <p>, <li>, and <span>
+      elements
+
+
 0.10.0 (2020-05-21)
 -------------------
 
