@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.10.0
+                0.10.1
               </div>
             
           
@@ -230,7 +230,7 @@
 <span class="sd">h3                `&lt;h3&gt;` tag(s)</span>
 <span class="sd">body_text         The text in the &lt;p&gt; tags</span>
 <span class="sd">size              The page size in bytes</span>
-<span class="sd">response_meta     Several metadata for the response download_latency, timeout</span>
+<span class="sd">resp_meta_*       Several metadata for the response download_latency, timeout</span>
 <span class="sd">                  etc.</span>
 <span class="sd">status            Response status (200, 301, 302, 404, etc.)</span>
 <span class="sd">links_url         The URLs of the links on the page</span>
@@ -302,7 +302,10 @@
 <span class="sd">Google Analytics / Google Search Console</span>
 <span class="sd">----------------------------------------</span>
 <span class="sd">Since they provide reports for URLs, you can also combine them with the ones</span>
-<span class="sd">crawled and end up with a better perspective.</span>
+<span class="sd">crawled and end up with a better perspective. You might be interested in</span>
+<span class="sd">knowing more about high bounce-rate pages, pages that convert well, pages that</span>
+<span class="sd">get less traffic than you think they should and so on. You can simply export</span>
+<span class="sd">those URLs and crawl them.</span>
 
 <span class="sd">Any tool that has data about a set of URLs can be used.</span>
 
@@ -322,6 +325,64 @@
 <span class="sd">want to limit your crawler to.</span>
 <span class="sd">This is an optional parameter. If you don&#39;t specify it, then it will</span>
 <span class="sd">default to only the domains in the ``url_list``.</span>
+
+<span class="sd">CSS and XPath Selectors</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">The above approaches are generic, and are useful for an exploratory SEO audit</span>
+<span class="sd">and the output is helpful for most cases.</span>
+
+<span class="sd">But what if you want to extract special elements that are not included in the</span>
+<span class="sd">default output? This is extremely important, as there are key elements on pages</span>
+<span class="sd">that you need to specially extract and analyze. Some examples might be tags,</span>
+<span class="sd">prices, social media shares, product price or availability, comments, and</span>
+<span class="sd">pretty much any element on a page that might be of interest to you.</span>
+
+<span class="sd">For this you can use two special arguments for CSS and/or XPath selectors. You</span>
+<span class="sd">simply provide a dictionary `{&#39;name_1&#39;: &#39;selector_1&#39;, &#39;name_2&#39;: &#39;selector_2&#39;}`</span>
+<span class="sd">where they keys become the column names, and the values (selectors) will be</span>
+<span class="sd">used to extract the required elements.</span>
+
+<span class="sd">I mostly rely on `SlectorGadget &lt;https://selectorgadget.com/&gt;`_ which is a</span>
+<span class="sd">really great tool for getting the CSS/XPath selecotrs of required elements.</span>
+<span class="sd">In some pages it can get really tricky to figure that out. Other resources for</span>
+<span class="sd">learning more about selectors:</span>
+
+<span class="sd">* `Scrapy&#39;s documentaion for selectors &lt;https://docs.scrapy.org/en/latest/topics/selectors.html&gt;`_</span>
+<span class="sd">* `CSS Selector Reference on W3C &lt;https://www.w3schools.com/cssref/css_selectors.asp&gt;`_</span>
+<span class="sd">* `XPath tutorial on W3C &lt;https://www.w3schools.com/xml/xpath_intro.asp&gt;`_</span>
+
+<span class="sd">Once you have determined the elements that you want to extract and figured out</span>
+<span class="sd">what their names are going to be, you simply pass them as arguments to</span>
+<span class="sd">``css_selectors`` and/or ``xpath_selectors`` as dictionaries, as decribed</span>
+<span class="sd">above.</span>
+
+<span class="sd">Let&#39;s say you want to extract the links in the sidebar of this page. By default</span>
+<span class="sd">you would get all the links from the page, but you want to put those in the</span>
+<span class="sd">sidebar in a separate column. It seems that the CSS selector for them is</span>
+<span class="sd">`.toctree-l1 .internal`, and the XPath equivalent is</span>
+<span class="sd">`//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]`.</span>
+<span class="sd">Note that this selects the *element* (the whole link object), which not</span>
+<span class="sd">typically what you might be interested in.</span>
+
+<span class="sd">So with CSS you need to append `::text` or `::attr(href)` if you want the text of</span>
+<span class="sd">the links or the `href` attribute respectively. Similarly with XPath, you will</span>
+<span class="sd">need to append `/text()` or `/@href` to the selector to get the same.</span>
+
+<span class="sd">&gt;&gt;&gt; crawl(&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;,</span>
+<span class="sd">... &#39;output_file.csv&#39;,</span>
+<span class="sd">... css_selectors={&#39;sidebar_links&#39;: &#39;.toctree-l1 .internal::text&#39;,</span>
+<span class="sd">... &#39;sidebar_links_url&#39;: &#39;.toctree-l1 .internal::attr(href)&#39;})</span>
+
+<span class="sd">Or, instead of ``css_selectors`` you can add a similar dictionary to the</span>
+<span class="sd">``xpath_selectors`` argument:</span>
+
+<span class="sd">&gt;&gt;&gt; crawl(&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;,</span>
+<span class="sd">... &#39;output_file.csv&#39;,</span>
+<span class="sd">... xpath_selectors={&#39;sidebar_links&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/text()&#39;,</span>
+<span class="sd">... &#39;sidebar_links_url&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/@href&#39;})</span>
+
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -336,7 +397,8 @@
 
 <span class="n">spider_path</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/spider.py&#39;</span>
 
-<span class="n">user_agent</span> <span class="o">=</span> <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36&#39;</span><span class="p">,</span>
+<span class="n">user_agent</span> <span class="o">=</span> <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 &#39;</span> \
+             <span class="s1">&#39;(KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36&#39;</span><span class="p">,</span>
 
 <span class="n">BODY_TEXT_SELECTOR</span> <span class="o">=</span> <span class="s1">&#39;//body//span//text() | //body//p//text() | //body//li//text()&#39;</span>
 
@@ -346,6 +408,8 @@
 <span class="k">class</span> <span class="nc">SEOSitemapSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;seo_sitemap_spider&#39;</span>
     <span class="n">follow_links</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">css_selectors</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">xpath_selectors</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">custom_settings</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;USER_AGENT&#39;</span><span class="p">:</span> <span class="n">user_agent</span><span class="p">,</span>
         <span class="s1">&#39;ROBOTSTXT_OBEY&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
@@ -353,11 +417,14 @@
     <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">css_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xpath_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_urls</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">url_list</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">allowed_domains</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">allowed_domains</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">follow_links</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">follow_links</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">css_selectors</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">css_selectors</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xpath_selectors</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">xpath_selectors</span><span class="p">)))</span>
 
     <span class="k">def</span> <span class="nf">start_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_urls</span><span class="p">:</span>
@@ -365,6 +432,18 @@
 
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
         <span class="n">links</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">extract_links</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">css_selectors</span><span class="p">:</span>
+            <span class="n">css_selectors</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">))</span><span class="o">.</span><span class="n">getall</span><span class="p">())</span>
+                             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">css_selectors</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">css_selectors</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xpath_selectors</span><span class="p">:</span>
+            <span class="n">xpath_selectors</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">))</span><span class="o">.</span><span class="n">getall</span><span class="p">())</span>
+                               <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xpath_selectors</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">xpath_selectors</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="n">url</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
             <span class="n">url_redirected_to</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
@@ -375,16 +454,21 @@
             <span class="n">h3</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h3::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
             <span class="n">body_text</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="n">BODY_TEXT_SELECTOR</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">()),</span>
             <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">),</span>
-            <span class="o">**</span><span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">css_selectors</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">xpath_selectors</span><span class="p">,</span>
+            <span class="o">**</span><span class="p">{</span><span class="s1">&#39;resp_meta_&#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+               <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
             <span class="n">status</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
             <span class="n">links_url</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">url</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
             <span class="n">links_text</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
             <span class="n">links_fragment</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">fragment</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
             <span class="n">links_nofollow</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">nofollow</span><span class="p">)</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
-            <span class="n">img_src</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">im</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">)]),</span>
-            <span class="n">img_alt</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">im</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alt&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">)]),</span>
+            <span class="n">img_src</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">im</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
+                               <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">)]),</span>
+            <span class="n">img_alt</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">im</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alt&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
+                               <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">)]),</span>
             <span class="n">ip_address</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">ip_address</span><span class="p">,</span>
-            <span class="n">crawl_time</span><span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">),</span>
+            <span class="n">crawl_time</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">),</span>
             <span class="o">**</span><span class="p">{</span><span class="s1">&#39;resp_headers_&#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">to_unicode_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
             <span class="o">**</span><span class="p">{</span><span class="s1">&#39;request_headers_&#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
@@ -397,8 +481,8 @@
                     <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="crawl"><a class="viewcode-back" href="../../advertools.spider.html#advertools.spider.crawl">[docs]</a><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-          <span class="n">allowed_domains</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="crawl"><a class="viewcode-back" href="../../advertools.spider.html#advertools.spider.crawl">[docs]</a><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">css_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+          <span class="n">xpath_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crawl a website&#39;s URLs based on the given :attr:`url_list`</span>
 
@@ -410,11 +494,43 @@
 <span class="sd">                            `marshal`, `pickle`.</span>
 <span class="sd">    :param bool follow_links: Defaults to False. Whether or not to follow links</span>
 <span class="sd">                              on crawled pages.</span>
+<span class="sd">    :param dict css_selectors: A dictionary mapping names to CSS selectors. The</span>
+<span class="sd">                               names will become column headers, and the</span>
+<span class="sd">                               selectors will be used to extract the required</span>
+<span class="sd">                               data/content.</span>
+<span class="sd">    :param dict xpath_selectors: A dictionary mapping names to XPath selectors.</span>
+<span class="sd">                                 The names will become column headers, and the</span>
+<span class="sd">                                 selectors will be used to extract the required</span>
+<span class="sd">                                 data/content.</span>
 <span class="sd">    :param list allowed_domains: (optional) A list of the allowed domains to</span>
 <span class="sd">                                 crawl. This ensures that the crawler does not</span>
 <span class="sd">                                 attempt to crawl the whole web. If not</span>
 <span class="sd">                                 specified, it defaults to the domains of the</span>
 <span class="sd">                                 URLs provided in ``url_list``.</span>
+<span class="sd">    :Examples:</span>
+
+<span class="sd">    Crawl a website and let the crawler discover as many pages as available</span>
+
+<span class="sd">    &gt;&gt;&gt; crawl(&#39;http://example.com&#39;, &#39;output_file.csv&#39;, follow_links=True)</span>
+
+<span class="sd">    Crawl a known set of pages (on a single or multiple sites) without</span>
+<span class="sd">    following links (just crawl the specified pages):</span>
+
+<span class="sd">    &gt;&gt;&gt; crawl([&#39;http://exmaple.com/product&#39;, &#39;http://exmaple.com/product2&#39;,</span>
+<span class="sd">    ... &#39;https://anotherexample.com&#39;, &#39;https://anotherexmaple.com/hello&#39;],</span>
+<span class="sd">    ... &#39;output_file.csv&#39;, follow_links=False)</span>
+
+<span class="sd">    Crawl a website, and in addition to standard SEO elements, also get the</span>
+<span class="sd">    required CSS selectors.</span>
+<span class="sd">    Here we will get three additional columns `price`, `author`, and</span>
+<span class="sd">    `author_url`. Note that you need to specify if you want the text attribute</span>
+<span class="sd">    or the `href` attribute if you are working with links (and all other</span>
+<span class="sd">    selectors).</span>
+
+<span class="sd">    &gt;&gt;&gt; crawl(&#39;http://example.com&#39;, &#39;output_file.csv&#39;,</span>
+<span class="sd">    ... css_selectors={&#39;price&#39;: &#39;.a-color-price::text&#39;,</span>
+<span class="sd">    ...                &#39;author&#39;: &#39;.contributorNameID::text&#39;,</span>
+<span class="sd">    ...                &#39;author_url&#39;: &#39;.contributorNameID::attr(href)&#39;})</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">url_list</span><span class="p">]</span>
@@ -428,6 +544,8 @@
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;url_list=&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">url_list</span><span class="p">),</span>
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;allowed_domains=&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">allowed_domains</span><span class="p">),</span>
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;follow_links=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">follow_links</span><span class="p">),</span>
+               <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;css_selectors=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">css_selectors</span><span class="p">),</span>
+               <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;xpath_selectors=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">xpath_selectors</span><span class="p">),</span>
                <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">output_file</span><span class="p">]</span>
     <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
 </pre></div>
