@@ -67,7 +67,7 @@ h2                `<h2>` tag(s)
 h3                `<h3>` tag(s)
 body_text         The text in the <p> tags
 size              The page size in bytes
-response_meta     Several metadata for the response download_latency, timeout
+resp_meta_*       Several metadata for the response download_latency, timeout
                   etc.
 status            Response status (200, 301, 302, 404, etc.)
 links_url         The URLs of the links on the page
@@ -173,7 +173,8 @@ import advertools as adv
 
 spider_path = adv.__path__[0] + '/spider.py'
 
-user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' \
+             '(KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
 
 BODY_TEXT_SELECTOR = '//body//span//text() | //body//p//text() | //body//li//text()'
 
@@ -183,6 +184,8 @@ le = LinkExtractor()
 class SEOSitemapSpider(Spider):
     name = 'seo_sitemap_spider'
     follow_links = False
+    css_selectors = {}
+    xpath_selectors = {}
     custom_settings = {
         'USER_AGENT': user_agent,
         'ROBOTSTXT_OBEY': True,
@@ -190,11 +193,14 @@ class SEOSitemapSpider(Spider):
     }
 
     def __init__(self, url_list=None, allowed_domains=None,
+                 css_selectors=None, xpath_selectors=None,
                  follow_links=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.start_urls = json.loads(json.dumps(url_list.split(',')))
         self.allowed_domains = json.loads(json.dumps(allowed_domains.split(',')))
         self.follow_links = eval(json.loads(json.dumps(follow_links)))
+        self.css_selectors = eval(json.loads(json.dumps(css_selectors)))
+        self.xpath_selectors = eval(json.loads(json.dumps(xpath_selectors)))
 
     def start_requests(self):
         for url in self.start_urls:
@@ -202,6 +208,18 @@ class SEOSitemapSpider(Spider):
 
     def parse(self, response):
         links = le.extract_links(response)
+        if self.css_selectors:
+            css_selectors = {key: '@@'.join(response.css('{}'.format(val)).getall())
+                             for key, val in self.css_selectors.items()}
+        else:
+            css_selectors = {}
+
+        if self.xpath_selectors:
+            xpath_selectors = {key: '@@'.join(response.xpath('{}'.format(val)).getall())
+                               for key, val in self.xpath_selectors.items()}
+        else:
+            xpath_selectors = {}
+
         yield dict(
             url=response.request.url,
             url_redirected_to=response.url,
@@ -212,16 +230,21 @@ class SEOSitemapSpider(Spider):
             h3='@@'.join(response.css('h3::text').getall()),
             body_text=' '.join(response.xpath(BODY_TEXT_SELECTOR).extract()),
             size=len(response.body),
-            **response.meta,
+            **css_selectors,
+            **xpath_selectors,
+            **{'resp_meta_' + k: v
+               for k, v in response.meta.items()},
             status=response.status,
             links_url='@@'.join(link.url for link in links),
             links_text='@@'.join(link.text for link in links),
             links_fragment='@@'.join(link.fragment for link in links),
             links_nofollow='@@'.join(str(link.nofollow) for link in links),
-            img_src='@@'.join([im.attrib.get('src') or '' for im in response.css('img')]),
-            img_alt='@@'.join([im.attrib.get('alt') or '' for im in response.css('img')]),
+            img_src='@@'.join([im.attrib.get('src') or ''
+                               for im in response.css('img')]),
+            img_alt='@@'.join([im.attrib.get('alt') or ''
+                               for im in response.css('img')]),
             ip_address=response.ip_address,
-            crawl_time= datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
+            crawl_time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
             **{'resp_headers_' + k: v
                for k, v in response.headers.to_unicode_dict().items()},
             **{'request_headers_' + k: v
@@ -234,8 +257,8 @@ class SEOSitemapSpider(Spider):
                     yield Request(page, callback=self.parse)
 
 
-def crawl(url_list, output_file, follow_links=False,
-          allowed_domains=None):
+def crawl(url_list, output_file, follow_links=False, css_selectors=None,
+          xpath_selectors=None, allowed_domains=None):
     """
     Crawl a website's URLs based on the given :attr:`url_list`
 
@@ -247,11 +270,43 @@ def crawl(url_list, output_file, follow_links=False,
                             `marshal`, `pickle`.
     :param bool follow_links: Defaults to False. Whether or not to follow links
                               on crawled pages.
+    :param dict css_selectors: A dictionary mapping names to CSS selectors. The
+                               names will become column headers, and the
+                               selectors will be used to extract the required
+                               data/content.
+    :param dict xpath_selectors: A dictionary mapping names to XPath selectors.
+                                 The names will become column headers, and the
+                                 selectors will be used to extract the required
+                                 data/content.
     :param list allowed_domains: (optional) A list of the allowed domains to
                                  crawl. This ensures that the crawler does not
                                  attempt to crawl the whole web. If not
                                  specified, it defaults to the domains of the
                                  URLs provided in ``url_list``.
+    :Examples:
+
+    Crawl a website and let the crawler discover as many pages as available
+
+    >>> crawl('http://example.com', 'output_file.csv', follow_links=True)
+
+    Crawl a known set of pages (on a single or multiple sites) without
+    following links (just crawl the specified pages):
+
+    >>> crawl(['http://exmaple.com/product', 'http://exmaple.com/product2',
+    ... 'https://anotherexample.com', 'https://anotherexmaple.com/hello'],
+    ... 'output_file.csv', follow_links=False)
+
+    Crawl a website, and in addition to standard SEO elements, also get the
+    required CSS selectors.
+    Here we will get three additional columns `price`, `author`, and
+    `author_url`. Note that you need to specify if you want the text attribute
+    or the `href` attribute if you are working with links (and all other
+    selectors).
+
+    >>> crawl('http://example.com', 'output_file.csv',
+    ... css_selectors={'price': '.a-color-price::text',
+    ...                'author': '.contributorNameID::text',
+    ...                'author_url': '.contributorNameID::attr(href)'})
     """
     if isinstance(url_list, str):
         url_list = [url_list]
@@ -265,5 +320,7 @@ def crawl(url_list, output_file, follow_links=False,
                '-a', 'url_list=' + ','.join(url_list),
                '-a', 'allowed_domains=' + ','.join(allowed_domains),
                '-a', 'follow_links=' + str(follow_links),
+               '-a', 'css_selectors=' + str(css_selectors),
+               '-a', 'xpath_selectors=' + str(xpath_selectors),
                '-o', output_file]
     subprocess.run(command)
