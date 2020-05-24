@@ -246,14 +246,17 @@ import logging
 from xml.etree import ElementTree
 from urllib.request import urlopen, Request
 
+from advertools import __version__ as version
 import pandas as pd
 
 logging.basicConfig(level=logging.INFO)
 
+headers = {'User-Agent': 'advertools-' + version}
+
 
 def _sitemaps_from_robotstxt(robots_url):
     sitemaps = []
-    robots_page = urlopen(robots_url)
+    robots_page = urlopen(Request(robots_url, headers=headers))
     for line in robots_page.readlines():
         if line.decode().lower().startswith('sitemap:'):
             sitemaps.append(line.decode().split()[-1])
@@ -307,10 +310,12 @@ def sitemap_to_df(sitemap_url):
                           for sitemap in _sitemaps_from_robotstxt(sitemap_url)])
     if sitemap_url.endswith('xml.gz'):
         xml_text = urlopen(Request(sitemap_url,
-                                   headers={'Accept-Encoding': 'gzip'}))
+                                   headers={'Accept-Encoding': 'gzip',
+                                            'User-Agent': 'advertools-' +
+                                                          version}))
         xml_text = GzipFile(fileobj=xml_text)
     else:
-        xml_text = urlopen(sitemap_url)
+        xml_text = urlopen(Request(sitemap_url, headers=headers))
     tree = ElementTree.parse(xml_text)
     root = tree.getroot()
 
@@ -352,7 +357,7 @@ def robotstxt_to_df(robotstxt_url):
                                      content, the URL and time of download
     """
     logging.info(msg='Getting: ' + robotstxt_url)
-    robots_open = urlopen(robotstxt_url)
+    robots_open = urlopen(Request(robotstxt_url, headers=headers))
     robots_text = robots_open.readlines()
 
     lines = []
