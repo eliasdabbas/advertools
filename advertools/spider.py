@@ -139,7 +139,10 @@ their latest news URLs from their news sitemap using
 Google Analytics / Google Search Console
 ----------------------------------------
 Since they provide reports for URLs, you can also combine them with the ones
-crawled and end up with a better perspective.
+crawled and end up with a better perspective. You might be interested in
+knowing more about high bounce-rate pages, pages that convert well, pages that
+get less traffic than you think they should and so on. You can simply export
+those URLs and crawl them.
 
 Any tool that has data about a set of URLs can be used.
 
@@ -159,6 +162,64 @@ The ``allowed_domains`` parameter ensures that you specify which domains you
 want to limit your crawler to.
 This is an optional parameter. If you don't specify it, then it will
 default to only the domains in the ``url_list``.
+
+CSS and XPath Selectors
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The above approaches are generic, and are useful for an exploratory SEO audit
+and the output is helpful for most cases.
+
+But what if you want to extract special elements that are not included in the
+default output? This is extremely important, as there are key elements on pages
+that you need to specially extract and analyze. Some examples might be tags,
+prices, social media shares, product price or availability, comments, and
+pretty much any element on a page that might be of interest to you.
+
+For this you can use two special arguments for CSS and/or XPath selectors. You
+simply provide a dictionary `{'name_1': 'selector_1', 'name_2': 'selector_2'}`
+where they keys become the column names, and the values (selectors) will be
+used to extract the required elements.
+
+I mostly rely on `SlectorGadget <https://selectorgadget.com/>`_ which is a
+really great tool for getting the CSS/XPath selecotrs of required elements.
+In some pages it can get really tricky to figure that out. Other resources for
+learning more about selectors:
+
+* `Scrapy's documentaion for selectors <https://docs.scrapy.org/en/latest/topics/selectors.html>`_
+* `CSS Selector Reference on W3C <https://www.w3schools.com/cssref/css_selectors.asp>`_
+* `XPath tutorial on W3C <https://www.w3schools.com/xml/xpath_intro.asp>`_
+
+Once you have determined the elements that you want to extract and figured out
+what their names are going to be, you simply pass them as arguments to
+``css_selectors`` and/or ``xpath_selectors`` as dictionaries, as decribed
+above.
+
+Let's say you want to extract the links in the sidebar of this page. By default
+you would get all the links from the page, but you want to put those in the
+sidebar in a separate column. It seems that the CSS selector for them is
+`.toctree-l1 .internal`, and the XPath equivalent is
+`//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]`.
+Note that this selects the *element* (the whole link object), which not
+typically what you might be interested in.
+
+So with CSS you need to append `::text` or `::attr(href)` if you want the text of
+the links or the `href` attribute respectively. Similarly with XPath, you will
+need to append `/text()` or `/@href` to the selector to get the same.
+
+>>> crawl('https://advertools.readthedocs.io/en/master/advertools.spider.html',
+... 'output_file.csv',
+... css_selectors={'sidebar_links': '.toctree-l1 .internal::text',
+... 'sidebar_links_url': '.toctree-l1 .internal::attr(href)'})
+
+Or, instead of ``css_selectors`` you can add a similar dictionary to the
+``xpath_selectors`` argument:
+
+>>> crawl('https://advertools.readthedocs.io/en/master/advertools.spider.html',
+... 'output_file.csv',
+... xpath_selectors={'sidebar_links': '//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]/text()',
+... 'sidebar_links_url': '//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]/@href'})
+
+
 """
 import datetime
 import json
