@@ -2,6 +2,13 @@
 Change Log - advertools
 =======================
 
+0.10.2 (2020-05-24)
+-------------------
+
+* Added
+    - User-Agent info to requests getting sitemaps and robotstxt files
+    - CSS/XPath selectors support for the crawl function
+
 0.10.1 (2020-05-23)
 -------------------
 
@@ -10,7 +17,6 @@ Change Log - advertools
       ``links_url``, ``links_text``, ``links_fragment``, ``links_nofollow``
     - ``body_text`` extraction is improved by containing <p>, <li>, and <span>
       elements
-
 
 0.10.0 (2020-05-21)
 -------------------
