@@ -207,18 +207,65 @@ the links or the `href` attribute respectively. Similarly with XPath, you will
 need to append `/text()` or `/@href` to the selector to get the same.
 
 >>> crawl('https://advertools.readthedocs.io/en/master/advertools.spider.html',
-... 'output_file.csv',
-... css_selectors={'sidebar_links': '.toctree-l1 .internal::text',
-... 'sidebar_links_url': '.toctree-l1 .internal::attr(href)'})
+...       'output_file.csv',
+...       css_selectors={'sidebar_links': '.toctree-l1 .internal::text',
+...                      'sidebar_links_url': '.toctree-l1 .internal::attr(href)'})
 
 Or, instead of ``css_selectors`` you can add a similar dictionary to the
 ``xpath_selectors`` argument:
 
 >>> crawl('https://advertools.readthedocs.io/en/master/advertools.spider.html',
-... 'output_file.csv',
-... xpath_selectors={'sidebar_links': '//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]/text()',
-... 'sidebar_links_url': '//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]/@href'})
+...       'output_file.csv',
+...       xpath_selectors={'sidebar_links': '//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]/text()',
+...                        'sidebar_links_url': '//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]/@href'})
 
+Spider Custom Settings and Additional Functionality
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In addition to what you can control regarding the items you can extract, you
+can also customize the behaviour of the spider and set rules for crawling so
+you can control it even further.
+
+This is provided by the ``custom_settings`` parameter. It is optional, and
+takes a dictionary of settings and their values. Scrapy provides a very large
+number of settings, and they are all available through this parameter
+(assuming some conditions for some of the settings).
+
+Here are some examples that you might find interesting:
+
+* `CONCURRENT_REQUESTS_PER_DOMAIN` Defaults to 8, and controls the number of
+  simultaneous requests to be performed for each domain. You might want to
+  lower this if you don't want to put too much pressure on the website's
+  server, and you probablhy don't want to get blocked!
+* `DEFAULT_REQUEST_HEADERS` You can change this if you need to.
+* `DEPTH_LIMIT` How deep your crawl will be allowed. The defaults has no limit.
+* `DOWNLOAD_DELAY` Similar to the first option. Controls the amount of time in
+  seconds for the crawler to wait between consecutive pages of the same website.
+  It can also take fractions of a second (0.4, 0.75, etc.)
+* `LOG_FILE` If you want to save your crawl logs to a file, you can provide a
+  path to it here.
+* `USER_AGENT` If you want to identify yourself differently while crawling.
+* `CLOSESPIDER_ERRORCOUNT`, `CLOSESPIDER_ITEMCOUNT`, `CLOSESPIDER_PAGECOUNT`,
+  `CLOSESPIDER_TIMEOUT` Stop crawling after that many errors, items, pages, or
+  seconds. These can be very useful to limit your crawling in certain cases.
+  I particularly like to use `CLOSESPIDER_PAGECOUNT` when exploring a new
+  website, and also to make sure that my selectors are working as expected. So
+  for your first few crawls you might set this to one hundred for example and
+  explore the crawled pages. Then when you are confident things are working
+  fine, you can remove this restriction. `CLOSESPIDER_ERRORCOUNT` can also be
+  very useful while exploring, just in case you get unexpected errors.
+
+**Usage**
+
+A very simply dictionary to be added to your function call:
+
+>>> crawl('http://exmaple.com', 'outpuf_file.csv',
+...       custom_settings={'CLOSESPIDER_PAGECOUNT': 100,
+...                        'CONCURRENT_REQUESTS_PER_DOMAIN': 1,
+...                        'USER_AGENT': 'custom-user-agent'})
+
+Please refer to the `spider settings documentation <https://docs.scrapy.org/en/latest/topics/settings.html>`_
+for full details.
 
 """
 import datetime
@@ -319,7 +366,7 @@ class SEOSitemapSpider(Spider):
 
 
 def crawl(url_list, output_file, follow_links=False, css_selectors=None,
-          xpath_selectors=None, allowed_domains=None):
+          xpath_selectors=None, custom_settings=None, allowed_domains=None):
     """
     Crawl a website's URLs based on the given :attr:`url_list`
 
@@ -339,6 +386,12 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
                                  The names will become column headers, and the
                                  selectors will be used to extract the required
                                  data/content.
+    :param dict custom_settings: A dictionary of optional custom settings that
+                                 you might want to add to the spider's
+                                 functionality. There are over 170 settings for
+                                 all kinds of options. Fore details please
+                                 refer to the `spider settings <https://docs.scrapy.org/en/latest/topics/settings.html>`_
+                                 documentation.
     :param list allowed_domains: (optional) A list of the allowed domains to
                                  crawl. This ensures that the crawler does not
                                  attempt to crawl the whole web. If not
@@ -354,8 +407,8 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
     following links (just crawl the specified pages):
 
     >>> crawl(['http://exmaple.com/product', 'http://exmaple.com/product2',
-    ... 'https://anotherexample.com', 'https://anotherexmaple.com/hello'],
-    ... 'output_file.csv', follow_links=False)
+    ...        'https://anotherexample.com', 'https://anotherexmaple.com/hello'],
+    ...        'output_file.csv', follow_links=False)
 
     Crawl a website, and in addition to standard SEO elements, also get the
     required CSS selectors.
@@ -365,9 +418,9 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
     selectors).
 
     >>> crawl('http://example.com', 'output_file.csv',
-    ... css_selectors={'price': '.a-color-price::text',
-    ...                'author': '.contributorNameID::text',
-    ...                'author_url': '.contributorNameID::attr(href)'})
+    ...       css_selectors={'price': '.a-color-price::text',
+    ...                      'author': '.contributorNameID::text',
+    ...                      'author_url': '.contributorNameID::attr(href)'})
     """
     if isinstance(url_list, str):
         url_list = [url_list]
@@ -376,6 +429,11 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
 
     if allowed_domains is None:
         allowed_domains = {urlparse(url).netloc for url in url_list}
+    settings_list = []
+    if custom_settings is not None:
+        for key, val in custom_settings.items():
+            setting = '='.join([key, str(val)])
+            settings_list.extend(['-s', setting])
 
     command = ['scrapy', 'runspider', spider_path,
                '-a', 'url_list=' + ','.join(url_list),
@@ -383,5 +441,5 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
                '-a', 'follow_links=' + str(follow_links),
                '-a', 'css_selectors=' + str(css_selectors),
                '-a', 'xpath_selectors=' + str(xpath_selectors),
-               '-o', output_file]
+               '-o', output_file] + settings_list
     subprocess.run(command)
