@@ -158,9 +158,8 @@ The difference between the two approaches, is the simple parameter
 will only go through the provided URLs. Otherwise, it will discover pages by
 following links on pages that it crawls. So how do you make sure that the
 crawler doesn't try to crawl the whole web when ``follow_links`` is `True`?
-The ``allowed_domains`` parameter ensures that you specify which domains you
-want to limit your crawler to.
-This is an optional parameter. If you don't specify it, then it will
+The ``allowed_domains`` parameter gives you the ability to control this,
+although it is and optional parameter. If you don't specify it, then it will
 default to only the domains in the ``url_list``.
 
 CSS and XPath Selectors
@@ -171,13 +170,13 @@ and the output is helpful for most cases.
 
 But what if you want to extract special elements that are not included in the
 default output? This is extremely important, as there are key elements on pages
-that you need to specially extract and analyze. Some examples might be tags,
+that you need to additionally extract and analyze. Some examples might be tags,
 prices, social media shares, product price or availability, comments, and
 pretty much any element on a page that might be of interest to you.
 
 For this you can use two special arguments for CSS and/or XPath selectors. You
 simply provide a dictionary `{'name_1': 'selector_1', 'name_2': 'selector_2'}`
-where they keys become the column names, and the values (selectors) will be
+where the keys become the column names, and the values (selectors) will be
 used to extract the required elements.
 
 I mostly rely on `SlectorGadget <https://selectorgadget.com/>`_ which is a
@@ -199,7 +198,7 @@ you would get all the links from the page, but you want to put those in the
 sidebar in a separate column. It seems that the CSS selector for them is
 `.toctree-l1 .internal`, and the XPath equivalent is
 `//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]`.
-Note that this selects the *element* (the whole link object), which not
+Note that this selects the *element* (the whole link object), which is not
 typically what you might be interested in.
 
 So with CSS you need to append `::text` or `::attr(href)` if you want the text of
@@ -211,7 +210,7 @@ need to append `/text()` or `/@href` to the selector to get the same.
 ...       css_selectors={'sidebar_links': '.toctree-l1 .internal::text',
 ...                      'sidebar_links_url': '.toctree-l1 .internal::attr(href)'})
 
-Or, instead of ``css_selectors`` you can add a similar dictionary to the
+Or, instead of ``css_selectors`` you can add a similar dictionary for the
 ``xpath_selectors`` argument:
 
 >>> crawl('https://advertools.readthedocs.io/en/master/advertools.spider.html',
@@ -236,9 +235,9 @@ Here are some examples that you might find interesting:
 * `CONCURRENT_REQUESTS_PER_DOMAIN` Defaults to 8, and controls the number of
   simultaneous requests to be performed for each domain. You might want to
   lower this if you don't want to put too much pressure on the website's
-  server, and you probablhy don't want to get blocked!
+  server, and you probably don't want to get blocked!
 * `DEFAULT_REQUEST_HEADERS` You can change this if you need to.
-* `DEPTH_LIMIT` How deep your crawl will be allowed. The defaults has no limit.
+* `DEPTH_LIMIT` How deep your crawl will be allowed. The default has no limit.
 * `DOWNLOAD_DELAY` Similar to the first option. Controls the amount of time in
   seconds for the crawler to wait between consecutive pages of the same website.
   It can also take fractions of a second (0.4, 0.75, etc.)
@@ -257,7 +256,7 @@ Here are some examples that you might find interesting:
 
 **Usage**
 
-A very simply dictionary to be added to your function call:
+A very simpl dictionary to be added to your function call:
 
 >>> crawl('http://exmaple.com', 'outpuf_file.csv',
 ...       custom_settings={'CLOSESPIDER_PAGECOUNT': 100,
@@ -265,7 +264,7 @@ A very simply dictionary to be added to your function call:
 ...                        'USER_AGENT': 'custom-user-agent'})
 
 Please refer to the `spider settings documentation <https://docs.scrapy.org/en/latest/topics/settings.html>`_
-for full details.
+for the full details.
 
 """
 import datetime
@@ -389,7 +388,7 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
     :param dict custom_settings: A dictionary of optional custom settings that
                                  you might want to add to the spider's
                                  functionality. There are over 170 settings for
-                                 all kinds of options. Fore details please
+                                 all kinds of options. For details please
                                  refer to the `spider settings <https://docs.scrapy.org/en/latest/topics/settings.html>`_
                                  documentation.
     :param list allowed_domains: (optional) A list of the allowed domains to

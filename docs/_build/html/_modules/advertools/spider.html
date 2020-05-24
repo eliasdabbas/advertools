@@ -321,9 +321,8 @@
 <span class="sd">will only go through the provided URLs. Otherwise, it will discover pages by</span>
 <span class="sd">following links on pages that it crawls. So how do you make sure that the</span>
 <span class="sd">crawler doesn&#39;t try to crawl the whole web when ``follow_links`` is `True`?</span>
-<span class="sd">The ``allowed_domains`` parameter ensures that you specify which domains you</span>
-<span class="sd">want to limit your crawler to.</span>
-<span class="sd">This is an optional parameter. If you don&#39;t specify it, then it will</span>
+<span class="sd">The ``allowed_domains`` parameter gives you the ability to control this,</span>
+<span class="sd">although it is and optional parameter. If you don&#39;t specify it, then it will</span>
 <span class="sd">default to only the domains in the ``url_list``.</span>
 
 <span class="sd">CSS and XPath Selectors</span>
@@ -334,13 +333,13 @@
 
 <span class="sd">But what if you want to extract special elements that are not included in the</span>
 <span class="sd">default output? This is extremely important, as there are key elements on pages</span>
-<span class="sd">that you need to specially extract and analyze. Some examples might be tags,</span>
+<span class="sd">that you need to additionally extract and analyze. Some examples might be tags,</span>
 <span class="sd">prices, social media shares, product price or availability, comments, and</span>
 <span class="sd">pretty much any element on a page that might be of interest to you.</span>
 
 <span class="sd">For this you can use two special arguments for CSS and/or XPath selectors. You</span>
 <span class="sd">simply provide a dictionary `{&#39;name_1&#39;: &#39;selector_1&#39;, &#39;name_2&#39;: &#39;selector_2&#39;}`</span>
-<span class="sd">where they keys become the column names, and the values (selectors) will be</span>
+<span class="sd">where the keys become the column names, and the values (selectors) will be</span>
 <span class="sd">used to extract the required elements.</span>
 
 <span class="sd">I mostly rely on `SlectorGadget &lt;https://selectorgadget.com/&gt;`_ which is a</span>
@@ -362,7 +361,7 @@
 <span class="sd">sidebar in a separate column. It seems that the CSS selector for them is</span>
 <span class="sd">`.toctree-l1 .internal`, and the XPath equivalent is</span>
 <span class="sd">`//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]`.</span>
-<span class="sd">Note that this selects the *element* (the whole link object), which not</span>
+<span class="sd">Note that this selects the *element* (the whole link object), which is not</span>
 <span class="sd">typically what you might be interested in.</span>
 
 <span class="sd">So with CSS you need to append `::text` or `::attr(href)` if you want the text of</span>
@@ -370,18 +369,65 @@
 <span class="sd">need to append `/text()` or `/@href` to the selector to get the same.</span>
 
 <span class="sd">&gt;&gt;&gt; crawl(&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;,</span>
-<span class="sd">... &#39;output_file.csv&#39;,</span>
-<span class="sd">... css_selectors={&#39;sidebar_links&#39;: &#39;.toctree-l1 .internal::text&#39;,</span>
-<span class="sd">... &#39;sidebar_links_url&#39;: &#39;.toctree-l1 .internal::attr(href)&#39;})</span>
+<span class="sd">...       &#39;output_file.csv&#39;,</span>
+<span class="sd">...       css_selectors={&#39;sidebar_links&#39;: &#39;.toctree-l1 .internal::text&#39;,</span>
+<span class="sd">...                      &#39;sidebar_links_url&#39;: &#39;.toctree-l1 .internal::attr(href)&#39;})</span>
 
-<span class="sd">Or, instead of ``css_selectors`` you can add a similar dictionary to the</span>
+<span class="sd">Or, instead of ``css_selectors`` you can add a similar dictionary for the</span>
 <span class="sd">``xpath_selectors`` argument:</span>
 
 <span class="sd">&gt;&gt;&gt; crawl(&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;,</span>
-<span class="sd">... &#39;output_file.csv&#39;,</span>
-<span class="sd">... xpath_selectors={&#39;sidebar_links&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/text()&#39;,</span>
-<span class="sd">... &#39;sidebar_links_url&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/@href&#39;})</span>
+<span class="sd">...       &#39;output_file.csv&#39;,</span>
+<span class="sd">...       xpath_selectors={&#39;sidebar_links&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/text()&#39;,</span>
+<span class="sd">...                        &#39;sidebar_links_url&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/@href&#39;})</span>
 
+<span class="sd">Spider Custom Settings and Additional Functionality</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">In addition to what you can control regarding the items you can extract, you</span>
+<span class="sd">can also customize the behaviour of the spider and set rules for crawling so</span>
+<span class="sd">you can control it even further.</span>
+
+<span class="sd">This is provided by the ``custom_settings`` parameter. It is optional, and</span>
+<span class="sd">takes a dictionary of settings and their values. Scrapy provides a very large</span>
+<span class="sd">number of settings, and they are all available through this parameter</span>
+<span class="sd">(assuming some conditions for some of the settings).</span>
+
+<span class="sd">Here are some examples that you might find interesting:</span>
+
+<span class="sd">* `CONCURRENT_REQUESTS_PER_DOMAIN` Defaults to 8, and controls the number of</span>
+<span class="sd">  simultaneous requests to be performed for each domain. You might want to</span>
+<span class="sd">  lower this if you don&#39;t want to put too much pressure on the website&#39;s</span>
+<span class="sd">  server, and you probably don&#39;t want to get blocked!</span>
+<span class="sd">* `DEFAULT_REQUEST_HEADERS` You can change this if you need to.</span>
+<span class="sd">* `DEPTH_LIMIT` How deep your crawl will be allowed. The default has no limit.</span>
+<span class="sd">* `DOWNLOAD_DELAY` Similar to the first option. Controls the amount of time in</span>
+<span class="sd">  seconds for the crawler to wait between consecutive pages of the same website.</span>
+<span class="sd">  It can also take fractions of a second (0.4, 0.75, etc.)</span>
+<span class="sd">* `LOG_FILE` If you want to save your crawl logs to a file, you can provide a</span>
+<span class="sd">  path to it here.</span>
+<span class="sd">* `USER_AGENT` If you want to identify yourself differently while crawling.</span>
+<span class="sd">* `CLOSESPIDER_ERRORCOUNT`, `CLOSESPIDER_ITEMCOUNT`, `CLOSESPIDER_PAGECOUNT`,</span>
+<span class="sd">  `CLOSESPIDER_TIMEOUT` Stop crawling after that many errors, items, pages, or</span>
+<span class="sd">  seconds. These can be very useful to limit your crawling in certain cases.</span>
+<span class="sd">  I particularly like to use `CLOSESPIDER_PAGECOUNT` when exploring a new</span>
+<span class="sd">  website, and also to make sure that my selectors are working as expected. So</span>
+<span class="sd">  for your first few crawls you might set this to one hundred for example and</span>
+<span class="sd">  explore the crawled pages. Then when you are confident things are working</span>
+<span class="sd">  fine, you can remove this restriction. `CLOSESPIDER_ERRORCOUNT` can also be</span>
+<span class="sd">  very useful while exploring, just in case you get unexpected errors.</span>
+
+<span class="sd">**Usage**</span>
+
+<span class="sd">A very simpl dictionary to be added to your function call:</span>
+
+<span class="sd">&gt;&gt;&gt; crawl(&#39;http://exmaple.com&#39;, &#39;outpuf_file.csv&#39;,</span>
+<span class="sd">...       custom_settings={&#39;CLOSESPIDER_PAGECOUNT&#39;: 100,</span>
+<span class="sd">...                        &#39;CONCURRENT_REQUESTS_PER_DOMAIN&#39;: 1,</span>
+<span class="sd">...                        &#39;USER_AGENT&#39;: &#39;custom-user-agent&#39;})</span>
+
+<span class="sd">Please refer to the `spider settings documentation &lt;https://docs.scrapy.org/en/latest/topics/settings.html&gt;`_</span>
+<span class="sd">for the full details.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
@@ -482,7 +528,7 @@
 
 
 <div class="viewcode-block" id="crawl"><a class="viewcode-back" href="../../advertools.spider.html#advertools.spider.crawl">[docs]</a><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">css_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-          <span class="n">xpath_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+          <span class="n">xpath_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">custom_settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crawl a website&#39;s URLs based on the given :attr:`url_list`</span>
 
@@ -502,6 +548,12 @@
 <span class="sd">                                 The names will become column headers, and the</span>
 <span class="sd">                                 selectors will be used to extract the required</span>
 <span class="sd">                                 data/content.</span>
+<span class="sd">    :param dict custom_settings: A dictionary of optional custom settings that</span>
+<span class="sd">                                 you might want to add to the spider&#39;s</span>
+<span class="sd">                                 functionality. There are over 170 settings for</span>
+<span class="sd">                                 all kinds of options. For details please</span>
+<span class="sd">                                 refer to the `spider settings &lt;https://docs.scrapy.org/en/latest/topics/settings.html&gt;`_</span>
+<span class="sd">                                 documentation.</span>
 <span class="sd">    :param list allowed_domains: (optional) A list of the allowed domains to</span>
 <span class="sd">                                 crawl. This ensures that the crawler does not</span>
 <span class="sd">                                 attempt to crawl the whole web. If not</span>
@@ -517,8 +569,8 @@
 <span class="sd">    following links (just crawl the specified pages):</span>
 
 <span class="sd">    &gt;&gt;&gt; crawl([&#39;http://exmaple.com/product&#39;, &#39;http://exmaple.com/product2&#39;,</span>
-<span class="sd">    ... &#39;https://anotherexample.com&#39;, &#39;https://anotherexmaple.com/hello&#39;],</span>
-<span class="sd">    ... &#39;output_file.csv&#39;, follow_links=False)</span>
+<span class="sd">    ...        &#39;https://anotherexample.com&#39;, &#39;https://anotherexmaple.com/hello&#39;],</span>
+<span class="sd">    ...        &#39;output_file.csv&#39;, follow_links=False)</span>
 
 <span class="sd">    Crawl a website, and in addition to standard SEO elements, also get the</span>
 <span class="sd">    required CSS selectors.</span>
@@ -528,9 +580,9 @@
 <span class="sd">    selectors).</span>
 
 <span class="sd">    &gt;&gt;&gt; crawl(&#39;http://example.com&#39;, &#39;output_file.csv&#39;,</span>
-<span class="sd">    ... css_selectors={&#39;price&#39;: &#39;.a-color-price::text&#39;,</span>
-<span class="sd">    ...                &#39;author&#39;: &#39;.contributorNameID::text&#39;,</span>
-<span class="sd">    ...                &#39;author_url&#39;: &#39;.contributorNameID::attr(href)&#39;})</span>
+<span class="sd">    ...       css_selectors={&#39;price&#39;: &#39;.a-color-price::text&#39;,</span>
+<span class="sd">    ...                      &#39;author&#39;: &#39;.contributorNameID::text&#39;,</span>
+<span class="sd">    ...                      &#39;author_url&#39;: &#39;.contributorNameID::attr(href)&#39;})</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">url_list</span><span class="p">]</span>
@@ -539,6 +591,11 @@
 
     <span class="k">if</span> <span class="n">allowed_domains</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">allowed_domains</span> <span class="o">=</span> <span class="p">{</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">netloc</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">url_list</span><span class="p">}</span>
+    <span class="n">settings_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">custom_settings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">custom_settings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">setting</span> <span class="o">=</span> <span class="s1">&#39;=&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)])</span>
+            <span class="n">settings_list</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="n">setting</span><span class="p">])</span>
 
     <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;scrapy&#39;</span><span class="p">,</span> <span class="s1">&#39;runspider&#39;</span><span class="p">,</span> <span class="n">spider_path</span><span class="p">,</span>
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;url_list=&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">url_list</span><span class="p">),</span>
@@ -546,7 +603,7 @@
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;follow_links=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">follow_links</span><span class="p">),</span>
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;css_selectors=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">css_selectors</span><span class="p">),</span>
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;xpath_selectors=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">xpath_selectors</span><span class="p">),</span>
-               <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">output_file</span><span class="p">]</span>
+               <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">output_file</span><span class="p">]</span> <span class="o">+</span> <span class="n">settings_list</span>
     <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
 </pre></div>
 

@@ -357,9 +357,8 @@ a filepath where you want the result saved.</p>
 will only go through the provided URLs. Otherwise, it will discover pages by
 following links on pages that it crawls. So how do you make sure that the
 crawler doesn’t try to crawl the whole web when <code class="docutils literal notranslate"><span class="pre">follow_links</span></code> is <cite>True</cite>?
-The <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code> parameter ensures that you specify which domains you
-want to limit your crawler to.
-This is an optional parameter. If you don’t specify it, then it will
+The <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code> parameter gives you the ability to control this,
+although it is and optional parameter. If you don’t specify it, then it will
 default to only the domains in the <code class="docutils literal notranslate"><span class="pre">url_list</span></code>.</p>
 </div>
 </div>
@@ -369,12 +368,12 @@ default to only the domains in the <code class="docutils literal notranslate"><s
 and the output is helpful for most cases.</p>
 <p>But what if you want to extract special elements that are not included in the
 default output? This is extremely important, as there are key elements on pages
-that you need to specially extract and analyze. Some examples might be tags,
+that you need to additionally extract and analyze. Some examples might be tags,
 prices, social media shares, product price or availability, comments, and
 pretty much any element on a page that might be of interest to you.</p>
 <p>For this you can use two special arguments for CSS and/or XPath selectors. You
 simply provide a dictionary <cite>{‘name_1’: ‘selector_1’, ‘name_2’: ‘selector_2’}</cite>
-where they keys become the column names, and the values (selectors) will be
+where the keys become the column names, and the values (selectors) will be
 used to extract the required elements.</p>
 <p>I mostly rely on <a class="reference external" href="https://selectorgadget.com/">SlectorGadget</a> which is a
 really great tool for getting the CSS/XPath selecotrs of required elements.
@@ -394,28 +393,72 @@ you would get all the links from the page, but you want to put those in the
 sidebar in a separate column. It seems that the CSS selector for them is
 <cite>.toctree-l1 .internal</cite>, and the XPath equivalent is
 <cite>//*[contains(concat( ” “, &#64;class, ” ” ), concat( ” “, “toctree-l1”, ” ” ))]//*[contains(concat( ” “, &#64;class, ” ” ), concat( ” “, “internal”, ” ” ))]</cite>.
-Note that this selects the <em>element</em> (the whole link object), which not
+Note that this selects the <em>element</em> (the whole link object), which is not
 typically what you might be interested in.</p>
 <p>So with CSS you need to append <cite>::text</cite> or <cite>::attr(href)</cite> if you want the text of
 the links or the <cite>href</cite> attribute respectively. Similarly with XPath, you will
 need to append <cite>/text()</cite> or <cite>/&#64;href</cite> to the selector to get the same.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span>
-<span class="gp">... </span><span class="n">css_selectors</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sidebar_links&#39;</span><span class="p">:</span> <span class="s1">&#39;.toctree-l1 .internal::text&#39;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s1">&#39;sidebar_links_url&#39;</span><span class="p">:</span> <span class="s1">&#39;.toctree-l1 .internal::attr(href)&#39;</span><span class="p">})</span>
+<span class="gp">... </span>      <span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">css_selectors</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sidebar_links&#39;</span><span class="p">:</span> <span class="s1">&#39;.toctree-l1 .internal::text&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                     <span class="s1">&#39;sidebar_links_url&#39;</span><span class="p">:</span> <span class="s1">&#39;.toctree-l1 .internal::attr(href)&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>Or, instead of <code class="docutils literal notranslate"><span class="pre">css_selectors</span></code> you can add a similar dictionary to the
+<p>Or, instead of <code class="docutils literal notranslate"><span class="pre">css_selectors</span></code> you can add a similar dictionary for the
 <code class="docutils literal notranslate"><span class="pre">xpath_selectors</span></code> argument:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span>
-<span class="gp">... </span><span class="n">xpath_selectors</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sidebar_links&#39;</span><span class="p">:</span> <span class="s1">&#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/text()&#39;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s1">&#39;sidebar_links_url&#39;</span><span class="p">:</span> <span class="s1">&#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/@href&#39;</span><span class="p">})</span>
+<span class="gp">... </span>      <span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">xpath_selectors</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sidebar_links&#39;</span><span class="p">:</span> <span class="s1">&#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/text()&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="s1">&#39;sidebar_links_url&#39;</span><span class="p">:</span> <span class="s1">&#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/@href&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="spider-custom-settings-and-additional-functionality">
+<h2>Spider Custom Settings and Additional Functionality<a class="headerlink" href="#spider-custom-settings-and-additional-functionality" title="Permalink to this headline">¶</a></h2>
+<p>In addition to what you can control regarding the items you can extract, you
+can also customize the behaviour of the spider and set rules for crawling so
+you can control it even further.</p>
+<p>This is provided by the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter. It is optional, and
+takes a dictionary of settings and their values. Scrapy provides a very large
+number of settings, and they are all available through this parameter
+(assuming some conditions for some of the settings).</p>
+<p>Here are some examples that you might find interesting:</p>
+<ul class="simple">
+<li><p><cite>CONCURRENT_REQUESTS_PER_DOMAIN</cite> Defaults to 8, and controls the number of
+simultaneous requests to be performed for each domain. You might want to
+lower this if you don’t want to put too much pressure on the website’s
+server, and you probably don’t want to get blocked!</p></li>
+<li><p><cite>DEFAULT_REQUEST_HEADERS</cite> You can change this if you need to.</p></li>
+<li><p><cite>DEPTH_LIMIT</cite> How deep your crawl will be allowed. The default has no limit.</p></li>
+<li><p><cite>DOWNLOAD_DELAY</cite> Similar to the first option. Controls the amount of time in
+seconds for the crawler to wait between consecutive pages of the same website.
+It can also take fractions of a second (0.4, 0.75, etc.)</p></li>
+<li><p><cite>LOG_FILE</cite> If you want to save your crawl logs to a file, you can provide a
+path to it here.</p></li>
+<li><p><cite>USER_AGENT</cite> If you want to identify yourself differently while crawling.</p></li>
+<li><p><cite>CLOSESPIDER_ERRORCOUNT</cite>, <cite>CLOSESPIDER_ITEMCOUNT</cite>, <cite>CLOSESPIDER_PAGECOUNT</cite>,
+<cite>CLOSESPIDER_TIMEOUT</cite> Stop crawling after that many errors, items, pages, or
+seconds. These can be very useful to limit your crawling in certain cases.
+I particularly like to use <cite>CLOSESPIDER_PAGECOUNT</cite> when exploring a new
+website, and also to make sure that my selectors are working as expected. So
+for your first few crawls you might set this to one hundred for example and
+explore the crawled pages. Then when you are confident things are working
+fine, you can remove this restriction. <cite>CLOSESPIDER_ERRORCOUNT</cite> can also be
+very useful while exploring, just in case you get unexpected errors.</p></li>
+</ul>
+<p><strong>Usage</strong></p>
+<p>A very simpl dictionary to be added to your function call:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://exmaple.com&#39;</span><span class="p">,</span> <span class="s1">&#39;outpuf_file.csv&#39;</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;CLOSESPIDER_PAGECOUNT&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="s1">&#39;CONCURRENT_REQUESTS_PER_DOMAIN&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="s1">&#39;USER_AGENT&#39;</span><span class="p">:</span> <span class="s1">&#39;custom-user-agent&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Please refer to the <a class="reference external" href="https://docs.scrapy.org/en/latest/topics/settings.html">spider settings documentation</a>
+for the full details.</p>
 <dl class="function">
 <dt id="advertools.spider.crawl">
-<code class="sig-name descname">crawl</code><span class="sig-paren">(</span><em class="sig-param">url_list</em>, <em class="sig-param">output_file</em>, <em class="sig-param">follow_links=False</em>, <em class="sig-param">css_selectors=None</em>, <em class="sig-param">xpath_selectors=None</em>, <em class="sig-param">allowed_domains=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.spider.crawl" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">crawl</code><span class="sig-paren">(</span><em class="sig-param">url_list</em>, <em class="sig-param">output_file</em>, <em class="sig-param">follow_links=False</em>, <em class="sig-param">css_selectors=None</em>, <em class="sig-param">xpath_selectors=None</em>, <em class="sig-param">custom_settings=None</em>, <em class="sig-param">allowed_domains=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.spider.crawl" title="Permalink to this definition">¶</a></dt>
 <dd><p>Crawl a website’s URLs based on the given <code class="xref py py-attr docutils literal notranslate"><span class="pre">url_list</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -436,6 +479,12 @@ data/content.</p></li>
 The names will become column headers, and the
 selectors will be used to extract the required
 data/content.</p></li>
+<li><p><strong>custom_settings</strong> (<em>dict</em>) – A dictionary of optional custom settings that
+you might want to add to the spider’s
+functionality. There are over 170 settings for
+all kinds of options. For details please
+refer to the <a class="reference external" href="https://docs.scrapy.org/en/latest/topics/settings.html">spider settings</a>
+documentation.</p></li>
 <li><p><strong>allowed_domains</strong> (<em>list</em>) – (optional) A list of the allowed domains to
 crawl. This ensures that the crawler does not
 attempt to crawl the whole web. If not
@@ -453,8 +502,8 @@ URLs provided in <code class="docutils literal notranslate"><span class="pre">ur
 <p>Crawl a known set of pages (on a single or multiple sites) without
 following links (just crawl the specified pages):</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;http://exmaple.com/product&#39;</span><span class="p">,</span> <span class="s1">&#39;http://exmaple.com/product2&#39;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s1">&#39;https://anotherexample.com&#39;</span><span class="p">,</span> <span class="s1">&#39;https://anotherexmaple.com/hello&#39;</span><span class="p">],</span>
-<span class="gp">... </span><span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">... </span>       <span class="s1">&#39;https://anotherexample.com&#39;</span><span class="p">,</span> <span class="s1">&#39;https://anotherexmaple.com/hello&#39;</span><span class="p">],</span>
+<span class="gp">... </span>       <span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Crawl a website, and in addition to standard SEO elements, also get the
@@ -464,9 +513,9 @@ Here we will get three additional columns <cite>price</cite>, <cite>author</cite
 or the <cite>href</cite> attribute if you are working with links (and all other
 selectors).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span>
-<span class="gp">... </span><span class="n">css_selectors</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;price&#39;</span><span class="p">:</span> <span class="s1">&#39;.a-color-price::text&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="s1">&#39;author&#39;</span><span class="p">:</span> <span class="s1">&#39;.contributorNameID::text&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="s1">&#39;author_url&#39;</span><span class="p">:</span> <span class="s1">&#39;.contributorNameID::attr(href)&#39;</span><span class="p">})</span>
+<span class="gp">... </span>      <span class="n">css_selectors</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;price&#39;</span><span class="p">:</span> <span class="s1">&#39;.a-color-price::text&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                     <span class="s1">&#39;author&#39;</span><span class="p">:</span> <span class="s1">&#39;.contributorNameID::text&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                     <span class="s1">&#39;author_url&#39;</span><span class="p">:</span> <span class="s1">&#39;.contributorNameID::attr(href)&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
 </dd></dl>
