@@ -2,12 +2,13 @@
 Change Log - advertools
 =======================
 
-0.10.2 (2020-05-24)
+0.10.2 (2020-05-25)
 -------------------
 
 * Added
     - User-Agent info to requests getting sitemaps and robotstxt files
     - CSS/XPath selectors support for the crawl function
+    - Support for custom spider settings with a new parameter ``custom_settings``
 
 0.10.1 (2020-05-23)
 -------------------
