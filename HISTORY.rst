@@ -10,6 +10,9 @@ Change Log - advertools
     - CSS/XPath selectors support for the crawl function
     - Support for custom spider settings with a new parameter ``custom_settings``
 
+* Fixed
+    - Update changed supported search operators and values for CSE
+
 0.10.1 (2020-05-23)
 -------------------
 
