@@ -133,7 +133,7 @@ SERP_GOOG_VALID_VALS = dict(
     },
 
     imgColorType={
-        'color', 'gray', 'mono'
+        'color', 'gray', 'mono', 'trans'
     },
 
     imgDominantColor={
@@ -165,8 +165,9 @@ SERP_GOOG_VALID_VALS = dict(
         'clipart',
         'face',
         'lineart',
-        'news',
+        'stock',
         'photo',
+        'animated'
     },
 
     lr={
@@ -531,6 +532,7 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
     :param dateRestrict: Restricts results to URLs based on
         date. Supported values include:d[number]: requests results
         from the specified number of past days.
+        - d[number]: requests results from the specified number of past days.
         - w[number]: requests results from the specified number of past weeks.
         - m[number]: requests results from the specified number of past months.
         - y[number]: requests results from the specified number of past years.
