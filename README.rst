@@ -14,13 +14,12 @@
 .. image:: https://img.shields.io/lgtm/grade/python/g/eliasdabbas/advertools.svg
         :target: https://lgtm.com/projects/g/eliasdabbas/advertools/context:python
 
-| 🎉 **New:** Function for retrieving XML sitemaps into DataFrames
-| Check out the documentation for ideas `on analyzing website content with sitemaps`_.
-| 🎉 **New:** YouTube Data API client
-| Tutorial on how to `get YouTube data and recipes for analysis and visualization`_.
+| 🎊 **New:** `SEO crawler <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
+| 🎉 **New:** ``sitemap_to_df`` Function for `downloading & parsing XML sitemaps <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html>`_ into DataFrames
 
-advertools: create, scale, and manage online campaigns
-======================================================
+
+``advertools``: productivity & analysis tools to scale your online marketing
+============================================================================
 
 | A digital marketer is a data scientist.
 | Your job is to manage, manipulate, visualize, communicate, understand,
@@ -31,128 +30,155 @@ sheets, you might be running large scale automated platforms with
 sophisticated algorithms, or somewhere in between. In any case your job
 is all about working with data.
 
-| As a data scientist you don’t spend most of your time producing cool visualizations or finding great insights. The majority of your time is spent wrangling with URLs, figuring out how to stitch together two tables, hoping that the dates, won’t break, without you knowing, or trying to generate the next 124,538 keywords for an upcoming campaign, by the end of the week!
+As a data scientist you don’t spend most of your time producing cool
+visualizations or finding great insights. The majority of your time is spent
+wrangling with URLs, figuring out how to stitch together two tables, hoping
+that the dates, won’t break, without you knowing, or trying to generate the
+next 124,538 keywords for an upcoming campaign, by the end of the week!
 
-| advertools is a Python package, that can hopefully make that part of your job a little easier.
-
-
-I have a tutorial on DataCamp that demonstrates a real-life example of
-how to use `Python for creating a Search Engine Marketing campaign`_. There is also a `project to practice those skills in an agency / case study setting`_.
-
-I also have an interactive tool based on this package, where you can
-`generate keyword combinations easily`_.
-
-.. image:: https://github.com/eliasdabbas/advertools/blob/master/app_screen_shot.png?raw=true
-   :width: 600 px
-   :align: center
+``advertools`` is a Python package that can hopefully make that part of your job a little easier.
 
 
-Main Uses:
-~~~~~~~~~~
+SEM Campaigns
+-------------
+The most important thing to achieve in SEM is a proper mapping between the
+three main elements of a search campaign
 
--  **Generate keywords:** starting from a list of products, and a list
-   of words that might make sense together, you can generate a full
-   table of many possible combinations and permutations of relevant
-   keywords for that product.
-   The output is a ready-to-upload table to get you started with
-   keywords.
+**Keywords** (the intention) -> **Ads** (your promise) -> **Landing Pages** (your delivery of the promise)
+Once you have this done, you can focus on management and analysis. More importantly,
+once you know that you can set this up in an easy way, you know you can focus
+on more strategic issues. In practical terms you need two main tables to get started:
 
-.. code:: python
+* Keywords: You can `generate keywords <https://advertools.readthedocs.io/en/master/advertools.kw_generate.html>`_ (note I didn't say research)  with the
+  `kw_generate` function.
 
-   >>> import advertools as adv
-   >>> adv.kw_generate(products=['toyota'],
-                       words=['buy', 'price'],
-                       match_types=['Exact']).head()
-   ...        Campaign Ad Group           Keyword Criterion Type
-       0  SEM_Campaign   toyota        toyota buy          Exact
-       1  SEM_Campaign   toyota      toyota price          Exact
-       2  SEM_Campaign   toyota        buy toyota          Exact
-       3  SEM_Campaign   toyota      price toyota          Exact
-       4  SEM_Campaign   toyota  toyota buy price          Exact
+* Ads: There are two approaches that you can use:
 
--  **Create ads:** Two main ways to create text ads, one is from scratch
-   (bottom-up) and the other is top down (given a set of product names).
+  * Bottom-up: You can create text ads for a large number of products by simple
+    replacement of product names, and providing a placeholder in case your text
+    is too long. Check out the `ad_create <https://advertools.readthedocs.io/en/master/advertools.ad_create.html>`_ function for more details.
+  * Top-down: Sometimes you have a long description text that you want to split
+    into headlines, descriptions and whatever slots you want to split them into.
+    `ad_from_string <https://advertools.readthedocs.io/en/master/advertools.ad_from_string.html>`_
+    helps you accomplish that.
 
-1. From scratch: This is the traditional way of writing ads. You have
-   a template text, and you want to insert the product name dynamically
-   in a certain location. You also want to make sure you are within the
-   character limits. For more details, I have a `tutorial on how to create multiple text ads from scratch`_.
+* Tutorials and additional resources
 
-.. code:: python
+  * `Setting a full SEM campaign <https://www.datacamp.com/community/tutorials/sem-data-science>`_ for DataCamp's website tutorial
+  * Project to practice `generating SEM keywords with Python <https://www.datacamp.com/projects/400>`_ on DataCamp
+  * `Setting up SEM campaigns on a large scale <https://www.semrush.com/blog/setting-up-search-engine-marketing-campaigns-on-large-scale/>`_ tutorial on SEMrush
+  * Visual `tool to generate keywords <https://www.dashboardom.com/advertools>`_ online based on the `kw_generate` function
 
-   >>> ad_create(template='Let\'s count {}',
-                 replacements=['one', 'two', 'three'],
-                 fallback='one', # in case the total length is greater than max_len
-                 max_len=20)
-   ["Let's count one", "Let's count two", "Let's count three"]
 
-   >>> ad_create('My favorite car is {}', ['Toyota', 'BMW', 'Mercedes', 'Lamborghini'], 'great', 28)
-   ['My favorite car is Toyota', 'My favorite car is BMW', 'My favorite car is Mercedes',
-   'My favorite car is great'] # 'Lamborghini' was too long, and so was replace by 'great'
+SEO
+---
+Probably the most comprehensive online marketing area that is both technical
+(crawling, indexing, rendering, redirects, etc.) and non-technical (content
+creation, link building, outreach, etc.). Here are some tools that can help
+with your SEO
 
-2. Top-down approach: Sometimes you need to start with a given a list of
-   product names, which you can easily split them into the relevant ad
-   slots, taking into consideration the length restrictions imposed by
-   the ad platform.
-   Imagine having the following list of products, and you want to split
-   each into slots of 30, 30, and 80 characters (based on the AdWords
-   template):
+* `SEO crawler: <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
+  A generic SEO crawler that can be customized, built with Scrapy, & with several
+  features:
 
-.. code:: python
+  * Standard SEO elements extracted by default (title, header tags, body text,
+    status code, reponse and request headers, etc.)
+  * CSS and XPath selectors: You probably have more specific needs in mind, so
+    you can easily pass any selectors to be extracted in addition to the
+    standard elements being extracted
+  * Custom settings: full access to Scrapy's settings, allowing you to better
+    control the crawling behavior (set custom headers, user agent, stop spider
+    after x pages, seconds, megabytes, save crawl logs, run jobs at intervals
+    where you can stop and resume your crawls, which is ideal for large crawls
+    or for continuous monitoring, and many more options)
+  * Following links: option to only crawl a set of specified pages or to follow
+    and discover all pages through links
 
-   >>> products = [
-       'Samsung Galaxy S8+ Dual Sim 64GB 4G LTE Orchid Gray',
-       'Samsung Galaxy J1 Ace Dual Sim 4GB 3G Wifi White',
-       'Samsung Galaxy Note 8 Dual SIM 64GB 6GB RAM 4G LTE Midnight Black',
-       'Samsung Galaxy Note 8 Dual SIM 64GB 6GB RAM 4G LTE Orchid Grey'
-   ]
-   >>> [adv.ad_from_string(p) for p in products]
-   ... [['Samsung Galaxy S8+ Dual Sim', '64gb 4g Lte Orchid Gray', '', '', '', ''],
-        ['Samsung Galaxy J1 Ace Dual Sim', '4gb 3g Wifi White', '', '', '', ''],
-        ['Samsung Galaxy Note 8 Dual Sim', '64gb 6gb Ram 4g Lte Midnight', 'Black', '', '', ''],
-        ['Samsung Galaxy Note 8 Dual Sim', '64gb 6gb Ram 4g Lte Orchid', 'Grey', '', '', '']]
+* `robots.txt downloader <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html#advertools.sitemaps.robotstxt_to_df>`_
+  A simple downloader of robots.txt files in a DataFrame format, so you can
+  keep track of changes across crawls if any, and check the rules, sitemaps,
+  etc.
+* `XML Sitemaps downloader / parser <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html>`_
+  An essential part of any SEO analysis is to check XML sitemaps. This is a
+  simple function with which you can download one or more sitemaps (by
+  providing the URL for a robots.txt file, a sitemap file, or a sitemap index
+* `SERP importer and parser for Google & YouTube <https://advertools.readthedocs.io/en/master/advertools.serp.html>`_
+  Connect to Google's API and get the search data you want. Multiple search
+  parameters supported, all in one function call, and all results returned in a
+  DataFrame
 
-| Each ad is split into the respective slots, making sure they contain
-  complete words, and that each slot has at most the specific number of
-  slots allowed.
-| This can save time when you have thousands of products to create ads
-  for.
+* Tutorials and additional resources
 
--  **Analyze word frequency:** Calculate the absolute and weighted
-   frequency of words in a collection of documents to uncover hidden
-   trends in the data. This is basically answering the question, ‘What
-   did we write about vs. what was actually read?’
-   Here is a tutorial on DataCamp on `measuring absolute vs weighted frequency of words`_.
+  * A visual tool built with the ``serp_goog`` function to get `SERP rankings on Google <https://www.dashboardom.com/google-serp>`_
+  * A tutorial on `analyzing SERPs on a large scale with Python <https://www.semrush.com/blog/analyzing-search-engine-results-pages/>`_ on SEMrush
+  * `SERP datasets on Kaggle <https://www.kaggle.com/eliasdabbas/datasets?search=engine>`_ for practicing on different industries and use cases
+  * `SERP notebooks on Kaggle <https://www.kaggle.com/eliasdabbas/notebooks?sortBy=voteCount&group=everyone&pageSize=20&userId=484496&tagIds=1220>`_
+    some examples on how you might tackle such data
+  * `Content Analysis with XML Sitemaps and Python <https://www.semrush.com/blog/content-analysis-xml-sitemaps-python/>`_
+  * XML dataset examples: `news sites <https://www.kaggle.com/eliasdabbas/news-sitemaps>`_, `Turkish news sites <https://www.kaggle.com/eliasdabbas/turk-haber-sitelerinin-site-haritalari>`_,
+    `Bloomberg news <https://www.kaggle.com/eliasdabbas/bloomberg-business-articles-urls>`_
 
--  **Extract important elements from social media posts:** Get the more informative
-    elements of social media posts (hashtags, mentions, emoji). You also 
-    get some basic statistics about them.  
-    Check out a more detailed tutorial on Kaggle, on how to `extract entities from social media posts`_ using these functions.
-    
-.. code:: python
 
-   >>> posts = ['i like #blue', 'i like #green and #blue', 'i like all']
-   >>> hashtag_summary = adv.extract_hashtags(posts)
-   >>> hashtag_summary.keys()
-   dict_keys(['hashtags', 'hashtags_flat', 'hashtag_counts', 'hashtag_freq',    
-              'top_hashtags', 'overview'])
-   
-   what are the hashtags?
-   >>> hashtag_summary['hashtags']
-   [['#blue'], ['#green', '#blue'], []]
+Text & Content Analysis (for SEO & Social Media)
+------------------------------------------------
 
-   >>> hashtag_summary['top_hashtags']
-   [('#blue', 2), ('#green', 1)]
+URLs, page titles, tweets, video descriptions, comments, hashtags are some
+exmaples of the types of text we deal with. ``advertools`` provides a few
+options for text analysis
 
-   How many were there per post? 
-   >>> hashtag_summary['hashtag_counts']
-   [1, 2, 0]
 
-And you can do the same for mentions and emoji (with the textual name of each emoji).
+* `Word frequency <https://advertools.readthedocs.io/en/master/advertools.word_frequency.html>`_
+  Counting words in a text list is one of the most basic and important tasks in
+  text mining. What is also important is counting those words by taking in
+  consideration their relative weights in the dataset. ``word_frequency`` does
+  just that.
+* `Emoji <https://advertools.readthedocs.io/en/master/advertools.emoji.html>`_
+  Produced with one click, extremely expressive, highgly diverse (3k+ emoji),
+  and very popular, it's important to capture what people are trying to communicate
+  with emoji. Extracting emoji, get their names, groups, and sub-groups is
+  possible. The full emoji database is also available for convenience, as well
+  as an ``emoji_search`` function in case you want some ideas for your next
+  social media or any kind of communication
+* `extract_ functions <https://advertools.readthedocs.io/en/master/advertools.extract.html>`_
+  The text that we deal with contains many elements and entities that have
+  their own special meaning and usage. There is a group of convenience
+  functions to help in extracting and getting basic statistics about structured
+  entities in text; emoji, hashtags, mentions, currency, numbers, URLs, questions
+  and more. You can also provide a special regex for your own needs.
+* `Stopwords <https://advertools.readthedocs.io/en/master/advertools.stopwords.html>`_
+  A list of stopwords in forty different languages to help in text analysis.
+* Tutorial on DataCamp for creating the ``word_frequency`` function and
+  explaining the importance of the difference between `absolute and weighted word frequency <https://www.datacamp.com/community/tutorials/absolute-weighted-word-frequency>`_
+* `Text Analysis for Online Marketers <https://www.semrush.com/blog/text-analysis-for-online-marketers/>`_
+  An introductory article on SEMrush
 
-| The package is still under heavy development, so expect a lot of
-  changes.
-| Feedback and suggestions are more than welcomed.
+Social Media
+------------
+
+In addition to the text analysis techniques provided, you can also connect to
+the Twitter and YouTube data APIs. The main benefits of using ``advertools``
+for this:
+
+* Handles pagination and request limits: typically every API has a limited
+  number of results that it returns. You have to handle pagination when you
+  need more than the limit per request, which you typically do. This is handled
+  by default
+* DataFrame results: APIs send you back data in a formats that need to be
+  parsed and cleaned so you can more easily start your analysis. This is also
+  handled automatically
+* Multiple requests: in YouTube's case you might want to request data for the
+  same query across several countries, languages, channels, etc. You can
+  specify them all in one request and get the product of all the requests in
+  one response
+
+* Tutorials and additional resources
+
+* A visual tool to `check what is trending on Twitter <https://www.dashboardom.com/trending-twitter>`_ for all available locations
+* A `Twitter data analysis dashboard <https://www.dashboardom.com/twitterdash>`_ with many options
+* How to use the `Twitter data API with Python <https://www.kaggle.com/eliasdabbas/twitter-in-a-dataframe>`_
+* `Extracting entities from social media posts <https://www.kaggle.com/eliasdabbas/extract-entities-from-social-media-posts>`_ tutorial on Kaggle
+* `Analyzing 131k tweets <https://www.kaggle.com/eliasdabbas/extract-entities-from-social-media-posts>`_ by European Football clubs tutorial on Kaggle
+* An overview of the `YouTube data API with Python <https://www.kaggle.com/eliasdabbas/youtube-data-api>`_
 
 Installation
 ~~~~~~~~~~~~
@@ -164,24 +190,15 @@ Installation
 Conventions
 ~~~~~~~~~~~
 
-Function names mostly start with the object you are working on:
+Function names mostly start with the object you are working on, so you can use
+autocomplete to discover other options:
 
 | ``kw_``: for keywords-related functions
 | ``ad_``: for ad-related functions
 | ``url_``: URL tracking and generation
 | ``extract_``: for extracting entities from social media posts (mentions, hashtags, emoji, etc.)
-| ``twitter``: a module for querying the Twitter API and getting results in a pandas DataFrame
-| ``youtube``: a module for querying the YouTube Data API and getting results in a pandas DataFrame
+| ``emoji_``: emoji related functions and objects
+| ``twitter``: a module for querying the Twitter API and getting results in a DataFrame
+| ``youtube``: a module for querying the YouTube Data API and getting results in a DataFrame
 | ``serp_``: get search engine results pages in a DataFrame, currently available: Google and YouTube
-
-    
-.. _measuring absolute vs weighted frequency of words: https://www.datacamp.com/community/tutorials/absolute-weighted-word-frequency
-
-
-.. _get YouTube data and recipes for analysis and visualization: https://www.kaggle.com/eliasdabbas/youtube-data-api
-.. _on analyzing website content with sitemaps: https://advertools.readthedocs.io/en/master/advertools.sitemaps.html
-.. _Python for creating a Search Engine Marketing campaign: https://www.datacamp.com/community/tutorials/sem-data-science
-.. _project to practice those skills in an agency / case study setting: https://www.datacamp.com/projects/400
-.. _generate keyword combinations easily: https://www.dashboardom.com/advertools
-.. _tutorial on how to create multiple text ads from scratch: https://nbviewer.jupyter.org/github/eliasdabbas/ad_create/blob/master/ad_create.ipynb
-.. _extract entities from social media posts: http://bit.ly/2wTWvBI
+| ``crawl``: a function you will probably use a lot if you do SEO
