@@ -12,6 +12,7 @@ from advertools.emoji import emoji_search, emoji_df
 from advertools.extract import *
 from advertools.kw_generate import *
 from advertools.regex import *
+from advertools.robotstxt import robotstxt_tester
 from advertools.sitemaps import robotstxt_to_df, sitemap_to_df
 from advertools.stopwords import stopwords
 from advertools.url_builders import url_utm_ga
