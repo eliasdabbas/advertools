@@ -307,7 +307,8 @@ def sitemap_to_df(sitemap_url):
     """
     if sitemap_url.endswith('robots.txt'):
         return pd.concat([sitemap_to_df(sitemap)
-                          for sitemap in _sitemaps_from_robotstxt(sitemap_url)])
+                          for sitemap in _sitemaps_from_robotstxt(sitemap_url)],
+                         ignore_index=True)
     if sitemap_url.endswith('xml.gz'):
         xml_text = urlopen(Request(sitemap_url,
                                    headers={'Accept-Encoding': 'gzip',
