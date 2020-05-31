@@ -1,7 +1,9 @@
 """
+.. _robotstxt:
 
-Robots.txt Tester on a Large Scale
-==================================
+🤖 Robots.txt Tester for Large Scale Testing
+============================================
+
 
 
 """
@@ -12,11 +14,21 @@ from itertools import product
 from protego import Protego
 import pandas as pd
 
+from advertools import __version__ as version
 
-headers = {'User-Agent': 'advertools-' + 'v0.10.2'}
+headers = {'User-Agent': 'advertools-' + version}
 
 
-def robotstxt_tester(robotstxt_url, urls, useragents=('*',)):
+def robotstxt_test(robotstxt_url, useragents, urls):
+    """Given a :attr:`robotstxt_url` check which of the :attr:`useragents` is
+    allowed to fetch which of the :attr:`urls`.
+
+    :param url robotstxt_url: The URL of robotx.txt file
+    :param str,list useragents: One or more user agents
+    :param str, list urls: One or more paths (relative) or URLs (absolute) to
+                           check
+    :return DataFrame:
+    """
     robots_open = urlopen(Request(robotstxt_url, headers=headers))
     robots_bytes = robots_open.readlines()
     robots_text = ''.join(line.decode() for line in robots_bytes)
@@ -25,16 +37,10 @@ def robotstxt_tester(robotstxt_url, urls, useragents=('*',)):
     df = pd.DataFrame()
     for path, agent in product(urls, useragents):
         d = dict()
-        d['robotstxt'] = robotstxt_url
-        d['url_path'] = path
         d['user_agent'] = agent
+        d['url_path'] = path
         d['can_fetch'] = rp.can_fetch(path, agent)
-        d['crawl_delay'] = rp.crawl_delay(agent)
-        request_rate = rp.request_rate(agent)
-        if request_rate is not None:
-            d['request_rate_requests'] =request_rate.requests
-            d['request_rate_seconds'] = request_rate.seconds
-            d['request_rate_start_time'] = request_rate.start_time
-            d['request_rate_end_time'] = request_rate.end_time
         df = df.append(pd.DataFrame(d, index=range(1)), ignore_index=True)
+    df.insert(0, 'robotstxt_url', robotstxt_url)
+    df = df.sort_values('user_agent').reset_index(drop=True)
     return df
