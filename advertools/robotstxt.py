@@ -217,6 +217,12 @@ def robotstxt_test(robotstxt_url, user_agents, urls):
                            check
     :return DataFrame:
     """
+    if not robotstxt_url.endswith('/robots.txt'):
+        raise ValueError('Please make sure you enter a valid robots.txt URL')
+    if isinstance(user_agents, str):
+        user_agents = [user_agents]
+    if isinstance(urls, str):
+        urls = [urls]
     robots_open = urlopen(Request(robotstxt_url, headers=headers))
     robots_bytes = robots_open.readlines()
     robots_text = ''.join(line.decode() for line in robots_bytes)
