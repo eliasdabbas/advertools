@@ -13,9 +13,21 @@ blocked for a certain user-agent by a certain robots.txt. Ideally, you would
 want to run the same check for all possible user-agents. Even more ideally, you
 want to be able to run the check for a large number of pages!
 
-The :func:`robotstxt_test` function runs a test for a given robots.txt file,
-checking which of the provided user-agents can fetch which of the provided
-URLs, paths, or patterns.
+To get the robots.txt file into an easily readable format, you can use the
+:func:`robotstxt_to_df` function to get any file in a DataFrame.
+
+>>> robotstxt_to_df('https://www.example.com/robots.txt')
+
+The returned DataFrame contains columns for directives, their content, the URL
+of the robots.txt file, as well as the date it was downloaded.
+Under the `directive` column you can see the main commands; Allow, Disallow,
+Sitemap, Crawl-delay, User-agent, and so on. The `content` column contains the
+details of each of those directives (the pattern to disallow, the sitemap URL,
+etc.
+
+As for testing, the :func:`robotstxt_test` function runs a test for a given
+robots.txt file, checking which of the provided user-agents can fetch which of
+the provided URLs, paths, or patterns.
 
 >>> robotstxt_test('https://www.example.com/robots.txt',
 ...                useragents=['Googlebot', 'baiduspider', 'Bingbot']
@@ -157,6 +169,7 @@ I'll leave to you to figure out why LinkedIn and Pinterest are not allowed to
 crawl the home page but Google and Apple are, because I have no clue!
 """
 
+import logging
 from urllib.request import Request, urlopen
 from itertools import product
 
@@ -166,6 +179,32 @@ import pandas as pd
 from advertools import __version__ as version
 
 headers = {'User-Agent': 'advertools-' + version}
+
+logging.basicConfig(level=logging.INFO)
+
+
+def robotstxt_to_df(robotstxt_url):
+    """Download the contents of ``robotstxt_url`` into a DataFrame
+
+    :param url robotstxt_url: The URL of the robots.txt file
+    :returns DataFrame robotstxt_df: A DataFrame containing directives, their
+                                     content, the URL and time of download
+    """
+    logging.info(msg='Getting: ' + robotstxt_url)
+    robots_open = urlopen(Request(robotstxt_url, headers=headers))
+    robots_text = robots_open.readlines()
+
+    lines = []
+    for line in robots_text:
+        if line and line.decode().startswith('#'):
+            lines.append(['comment', line.decode().replace('#', '').strip()])
+        if line and line.decode()[0].isupper():
+            split = line.decode().split(':', maxsplit=1)
+            lines.append([split[0], split[1].strip()])
+    df = pd.DataFrame(lines, columns=['directive', 'content'])
+    df['robotstxt_url'] = robotstxt_url
+    df['file_downloaded'] = pd.Timestamp.now(tz='UTC')
+    return df
 
 
 def robotstxt_test(robotstxt_url, user_agents, urls):
