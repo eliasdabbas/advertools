@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.10.1
+                0.10.2
               </div>
             
           
@@ -85,21 +85,43 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Text Analysis (absolute &amp; weighted word frequency)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#absolute-and-weighted-word-count">Absolute and Weighted Word Count</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#absolute-vs-weighted-frequency">Absolute vs Weighted Frequency</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
@@ -208,7 +230,7 @@ word or two each.</p>
 <p>Let’s take a look at how to use the <a class="reference internal" href="#advertools.word_frequency.word_frequency" title="advertools.word_frequency.word_frequency"><code class="xref py py-func docutils literal notranslate"><span class="pre">word_frequency()</span></code></a> function, and what
 the available parameters and options are.</p>
 <dl class="glossary">
-<dt id="term-text-list">text_list</dt><dd><p>The list of phrases or documents that you want to analyze. Here are
+<dt id="term-text_list">text_list</dt><dd><p>The list of phrases or documents that you want to analyze. Here are
 some possible ideas that you might use this for:</p>
 <blockquote>
 <div><ul class="simple">
@@ -220,14 +242,14 @@ or descriptions etc.)</p></li>
 </ul>
 </div></blockquote>
 </dd>
-<dt id="term-num-list">num_list</dt><dd><p>Ideally, if you have more than one column describing <code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code>
+<dt id="term-num_list">num_list</dt><dd><p>Ideally, if you have more than one column describing <code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code>
 you should experiment with different options. Try weighting the words
 by pageviews, then try by bounce rate and see if you get different
 interesting findings.
 With e-commerce reports, you can see which word appears the most, and
 which word is associated with more revenue.</p>
 </dd>
-<dt id="term-phrase-len">phrase_len</dt><dd><p>You should also experiment with different lengths of phrases. In many
+<dt id="term-phrase_len">phrase_len</dt><dd><p>You should also experiment with different lengths of phrases. In many
 cases, one-word phrases might not be as meaningful as two-words or
 three.</p>
 </dd>
@@ -238,7 +260,7 @@ Check out the <a class="reference internal" href="advertools.regex.html#regex"><
 expressions that might be interesting. Some of the pre-defined ones are
 hashtags, mentions, questions, emoji, currencies, and more.</p>
 </dd>
-<dt id="term-rm-words">rm_words</dt><dd><p>A list of words to remove and ignore from the count. Known as
+<dt id="term-rm_words">rm_words</dt><dd><p>A list of words to remove and ignore from the count. Known as
 stop-words these are the most frequently used words in a language,
 the most used, but don’t add much meaning to the content (a, and, of,
 the, if, etc.). By default a set of English stopwords is provided
@@ -249,7 +271,7 @@ In some cases (like page titles for example), you might get “words”
 that need to be removed as well, like the pipe “|” character for
 example.</p>
 </dd>
-<dt id="term-extra-info">extra_info</dt><dd><p>The returned DataFrame contains the default columns
+<dt id="term-extra_info">extra_info</dt><dd><p>The returned DataFrame contains the default columns
 <code class="docutils literal notranslate"><span class="pre">[word,</span> <span class="pre">abs_freq,</span> <span class="pre">wtd_freq,</span> <span class="pre">rel_value]</span></code>. You can get extra
 columns for percentages and cumulative percentages that add perspective
 to the other columns. Set this parameter to <code class="xref py py-attr docutils literal notranslate"><span class="pre">True</span></code> if you want
@@ -295,9 +317,9 @@ showing the value per occurrence of <code class="xref py py-attr docutils litera
 </tr>
 </tbody>
 </table>
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.word_frequency.word_frequency">
-<code class="sig-name descname">word_frequency</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">num_list=None</em>, <em class="sig-param">phrase_len=1</em>, <em class="sig-param">regex=None</em>, <em class="sig-param">rm_words={'a'</em>, <em class="sig-param">'about'</em>, <em class="sig-param">'above'</em>, <em class="sig-param">'across'</em>, <em class="sig-param">'after'</em>, <em class="sig-param">'afterwards'</em>, <em class="sig-param">'again'</em>, <em class="sig-param">'against'</em>, <em class="sig-param">'all'</em>, <em class="sig-param">'almost'</em>, <em class="sig-param">'alone'</em>, <em class="sig-param">'along'</em>, <em class="sig-param">'already'</em>, <em class="sig-param">'also'</em>, <em class="sig-param">'although'</em>, <em class="sig-param">'always'</em>, <em class="sig-param">'am'</em>, <em class="sig-param">'among'</em>, <em class="sig-param">'amongst'</em>, <em class="sig-param">'amount'</em>, <em class="sig-param">'an'</em>, <em class="sig-param">'and'</em>, <em class="sig-param">'another'</em>, <em class="sig-param">'any'</em>, <em class="sig-param">'anyhow'</em>, <em class="sig-param">'anyone'</em>, <em class="sig-param">'anything'</em>, <em class="sig-param">'anyway'</em>, <em class="sig-param">'anywhere'</em>, <em class="sig-param">'are'</em>, <em class="sig-param">'around'</em>, <em class="sig-param">'as'</em>, <em class="sig-param">'at'</em>, <em class="sig-param">'back'</em>, <em class="sig-param">'be'</em>, <em class="sig-param">'became'</em>, <em class="sig-param">'because'</em>, <em class="sig-param">'become'</em>, <em class="sig-param">'becomes'</em>, <em class="sig-param">'becoming'</em>, <em class="sig-param">'been'</em>, <em class="sig-param">'before'</em>, <em class="sig-param">'beforehand'</em>, <em class="sig-param">'behind'</em>, <em class="sig-param">'being'</em>, <em class="sig-param">'below'</em>, <em class="sig-param">'beside'</em>, <em class="sig-param">'besides'</em>, <em class="sig-param">'between'</em>, <em class="sig-param">'beyond'</em>, <em class="sig-param">'both'</em>, <em class="sig-param">'bottom'</em>, <em class="sig-param">'but'</em>, <em class="sig-param">'by'</em>, <em class="sig-param">'ca'</em>, <em class="sig-param">'call'</em>, <em class="sig-param">'can'</em>, <em class="sig-param">'cannot'</em>, <em class="sig-param">'could'</em>, <em class="sig-param">'did'</em>, <em class="sig-param">'do'</em>, <em class="sig-param">'does'</em>, <em class="sig-param">'doing'</em>, <em class="sig-param">'done'</em>, <em class="sig-param">'down'</em>, <em class="sig-param">'due'</em>, <em class="sig-param">'during'</em>, <em class="sig-param">'each'</em>, <em class="sig-param">'eight'</em>, <em class="sig-param">'either'</em>, <em class="sig-param">'eleven'</em>, <em class="sig-param">'else'</em>, <em class="sig-param">'elsewhere'</em>, <em class="sig-param">'empty'</em>, <em class="sig-param">'enough'</em>, <em class="sig-param">'even'</em>, <em class="sig-param">'ever'</em>, <em class="sig-param">'every'</em>, <em class="sig-param">'everyone'</em>, <em class="sig-param">'everything'</em>, <em class="sig-param">'everywhere'</em>, <em class="sig-param">'except'</em>, <em class="sig-param">'few'</em>, <em class="sig-param">'fifteen'</em>, <em class="sig-param">'fifty'</em>, <em class="sig-param">'first'</em>, <em class="sig-param">'five'</em>, <em class="sig-param">'for'</em>, <em class="sig-param">'former'</em>, <em class="sig-param">'formerly'</em>, <em class="sig-param">'forty'</em>, <em class="sig-param">'four'</em>, <em class="sig-param">'from'</em>, <em class="sig-param">'front'</em>, <em class="sig-param">'full'</em>, <em class="sig-param">'further'</em>, <em class="sig-param">'get'</em>, <em class="sig-param">'give'</em>, <em class="sig-param">'go'</em>, <em class="sig-param">'had'</em>, <em class="sig-param">'has'</em>, <em class="sig-param">'have'</em>, <em class="sig-param">'he'</em>, <em class="sig-param">'hence'</em>, <em class="sig-param">'her'</em>, <em class="sig-param">'here'</em>, <em class="sig-param">'hereafter'</em>, <em class="sig-param">'hereby'</em>, <em class="sig-param">'herein'</em>, <em class="sig-param">'hereupon'</em>, <em class="sig-param">'hers'</em>, <em class="sig-param">'herself'</em>, <em class="sig-param">'him'</em>, <em class="sig-param">'himself'</em>, <em class="sig-param">'his'</em>, <em class="sig-param">'how'</em>, <em class="sig-param">'however'</em>, <em class="sig-param">'hundred'</em>, <em class="sig-param">'i'</em>, <em class="sig-param">'if'</em>, <em class="sig-param">'in'</em>, <em class="sig-param">'indeed'</em>, <em class="sig-param">'into'</em>, <em class="sig-param">'is'</em>, <em class="sig-param">'it'</em>, <em class="sig-param">'its'</em>, <em class="sig-param">'itself'</em>, <em class="sig-param">'just'</em>, <em class="sig-param">'keep'</em>, <em class="sig-param">'last'</em>, <em class="sig-param">'latter'</em>, <em class="sig-param">'latterly'</em>, <em class="sig-param">'least'</em>, <em class="sig-param">'less'</em>, <em class="sig-param">'made'</em>, <em class="sig-param">'make'</em>, <em class="sig-param">'many'</em>, <em class="sig-param">'may'</em>, <em class="sig-param">'me'</em>, <em class="sig-param">'meanwhile'</em>, <em class="sig-param">'might'</em>, <em class="sig-param">'mine'</em>, <em class="sig-param">'more'</em>, <em class="sig-param">'moreover'</em>, <em class="sig-param">'most'</em>, <em class="sig-param">'mostly'</em>, <em class="sig-param">'move'</em>, <em class="sig-param">'much'</em>, <em class="sig-param">'must'</em>, <em class="sig-param">'my'</em>, <em class="sig-param">'myself'</em>, <em class="sig-param">'name'</em>, <em class="sig-param">'namely'</em>, <em class="sig-param">'neither'</em>, <em class="sig-param">'never'</em>, <em class="sig-param">'nevertheless'</em>, <em class="sig-param">'next'</em>, <em class="sig-param">'nine'</em>, <em class="sig-param">'no'</em>, <em class="sig-param">'nobody'</em>, <em class="sig-param">'none'</em>, <em class="sig-param">'noone'</em>, <em class="sig-param">'nor'</em>, <em class="sig-param">'not'</em>, <em class="sig-param">'nothing'</em>, <em class="sig-param">'now'</em>, <em class="sig-param">'nowhere'</em>, <em class="sig-param">'of'</em>, <em class="sig-param">'off'</em>, <em class="sig-param">'often'</em>, <em class="sig-param">'on'</em>, <em class="sig-param">'once'</em>, <em class="sig-param">'one'</em>, <em class="sig-param">'only'</em>, <em class="sig-param">'onto'</em>, <em class="sig-param">'or'</em>, <em class="sig-param">'other'</em>, <em class="sig-param">'others'</em>, <em class="sig-param">'otherwise'</em>, <em class="sig-param">'our'</em>, <em class="sig-param">'ours'</em>, <em class="sig-param">'ourselves'</em>, <em class="sig-param">'out'</em>, <em class="sig-param">'over'</em>, <em class="sig-param">'own'</em>, <em class="sig-param">'part'</em>, <em class="sig-param">'per'</em>, <em class="sig-param">'perhaps'</em>, <em class="sig-param">'please'</em>, <em class="sig-param">'put'</em>, <em class="sig-param">'quite'</em>, <em class="sig-param">'rather'</em>, <em class="sig-param">'re'</em>, <em class="sig-param">'really'</em>, <em class="sig-param">'regarding'</em>, <em class="sig-param">'same'</em>, <em class="sig-param">'say'</em>, <em class="sig-param">'see'</em>, <em class="sig-param">'seem'</em>, <em class="sig-param">'seemed'</em>, <em class="sig-param">'seeming'</em>, <em class="sig-param">'seems'</em>, <em class="sig-param">'serious'</em>, <em class="sig-param">'several'</em>, <em class="sig-param">'she'</em>, <em class="sig-param">'should'</em>, <em class="sig-param">'show'</em>, <em class="sig-param">'side'</em>, <em class="sig-param">'since'</em>, <em class="sig-param">'six'</em>, <em class="sig-param">'sixty'</em>, <em class="sig-param">'so'</em>, <em class="sig-param">'some'</em>, <em class="sig-param">'somehow'</em>, <em class="sig-param">'someone'</em>, <em class="sig-param">'something'</em>, <em class="sig-param">'sometime'</em>, <em class="sig-param">'sometimes'</em>, <em class="sig-param">'somewhere'</em>, <em class="sig-param">'still'</em>, <em class="sig-param">'such'</em>, <em class="sig-param">'take'</em>, <em class="sig-param">'ten'</em>, <em class="sig-param">'than'</em>, <em class="sig-param">'that'</em>, <em class="sig-param">'the'</em>, <em class="sig-param">'their'</em>, <em class="sig-param">'them'</em>, <em class="sig-param">'themselves'</em>, <em class="sig-param">'then'</em>, <em class="sig-param">'thence'</em>, <em class="sig-param">'there'</em>, <em class="sig-param">'thereafter'</em>, <em class="sig-param">'thereby'</em>, <em class="sig-param">'therefore'</em>, <em class="sig-param">'therein'</em>, <em class="sig-param">'thereupon'</em>, <em class="sig-param">'these'</em>, <em class="sig-param">'they'</em>, <em class="sig-param">'third'</em>, <em class="sig-param">'this'</em>, <em class="sig-param">'those'</em>, <em class="sig-param">'though'</em>, <em class="sig-param">'three'</em>, <em class="sig-param">'through'</em>, <em class="sig-param">'throughout'</em>, <em class="sig-param">'thru'</em>, <em class="sig-param">'thus'</em>, <em class="sig-param">'to'</em>, <em class="sig-param">'together'</em>, <em class="sig-param">'too'</em>, <em class="sig-param">'top'</em>, <em class="sig-param">'toward'</em>, <em class="sig-param">'towards'</em>, <em class="sig-param">'twelve'</em>, <em class="sig-param">'twenty'</em>, <em class="sig-param">'two'</em>, <em class="sig-param">'under'</em>, <em class="sig-param">'unless'</em>, <em class="sig-param">'until'</em>, <em class="sig-param">'up'</em>, <em class="sig-param">'upon'</em>, <em class="sig-param">'us'</em>, <em class="sig-param">'used'</em>, <em class="sig-param">'using'</em>, <em class="sig-param">'various'</em>, <em class="sig-param">'very'</em>, <em class="sig-param">'via'</em>, <em class="sig-param">'was'</em>, <em class="sig-param">'we'</em>, <em class="sig-param">'well'</em>, <em class="sig-param">'were'</em>, <em class="sig-param">'what'</em>, <em class="sig-param">'whatever'</em>, <em class="sig-param">'when'</em>, <em class="sig-param">'whence'</em>, <em class="sig-param">'whenever'</em>, <em class="sig-param">'where'</em>, <em class="sig-param">'whereafter'</em>, <em class="sig-param">'whereas'</em>, <em class="sig-param">'whereby'</em>, <em class="sig-param">'wherein'</em>, <em class="sig-param">'whereupon'</em>, <em class="sig-param">'wherever'</em>, <em class="sig-param">'whether'</em>, <em class="sig-param">'which'</em>, <em class="sig-param">'while'</em>, <em class="sig-param">'whither'</em>, <em class="sig-param">'who'</em>, <em class="sig-param">'whoever'</em>, <em class="sig-param">'whole'</em>, <em class="sig-param">'whom'</em>, <em class="sig-param">'whose'</em>, <em class="sig-param">'why'</em>, <em class="sig-param">'will'</em>, <em class="sig-param">'with'</em>, <em class="sig-param">'within'</em>, <em class="sig-param">'without'</em>, <em class="sig-param">'would'</em>, <em class="sig-param">'yet'</em>, <em class="sig-param">'you'</em>, <em class="sig-param">'your'</em>, <em class="sig-param">'yours'</em>, <em class="sig-param">'yourself'</em>, <em class="sig-param">'yourselves'}</em>, <em class="sig-param">extra_info=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">word_frequency</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em>, <em class="sig-param"><span class="n">num_list</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">phrase_len</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">regex</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rm_words</span><span class="o">=</span><span class="default_value">{'a', 'about', 'above', 'across', 'after', 'afterwards', 'again', 'against', 'all', 'almost', 'alone', 'along', 'already', 'also', 'although', 'always', 'am', 'among', 'amongst', 'amount', 'an', 'and', 'another', 'any', 'anyhow', 'anyone', 'anything', 'anyway', 'anywhere', 'are', 'around', 'as', 'at', 'back', 'be', 'became', 'because', 'become', 'becomes', 'becoming', 'been', 'before', 'beforehand', 'behind', 'being', 'below', 'beside', 'besides', 'between', 'beyond', 'both', 'bottom', 'but', 'by', 'ca', 'call', 'can', 'cannot', 'could', 'did', 'do', 'does', 'doing', 'done', 'down', 'due', 'during', 'each', 'eight', 'either', 'eleven', 'else', 'elsewhere', 'empty', 'enough', 'even', 'ever', 'every', 'everyone', 'everything', 'everywhere', 'except', 'few', 'fifteen', 'fifty', 'first', 'five', 'for', 'former', 'formerly', 'forty', 'four', 'from', 'front', 'full', 'further', 'get', 'give', 'go', 'had', 'has', 'have', 'he', 'hence', 'her', 'here', 'hereafter', 'hereby', 'herein', 'hereupon', 'hers', 'herself', 'him', 'himself', 'his', 'how', 'however', 'hundred', 'i', 'if', 'in', 'indeed', 'into', 'is', 'it', 'its', 'itself', 'just', 'keep', 'last', 'latter', 'latterly', 'least', 'less', 'made', 'make', 'many', 'may', 'me', 'meanwhile', 'might', 'mine', 'more', 'moreover', 'most', 'mostly', 'move', 'much', 'must', 'my', 'myself', 'name', 'namely', 'neither', 'never', 'nevertheless', 'next', 'nine', 'no', 'nobody', 'none', 'noone', 'nor', 'not', 'nothing', 'now', 'nowhere', 'of', 'off', 'often', 'on', 'once', 'one', 'only', 'onto', 'or', 'other', 'others', 'otherwise', 'our', 'ours', 'ourselves', 'out', 'over', 'own', 'part', 'per', 'perhaps', 'please', 'put', 'quite', 'rather', 're', 'really', 'regarding', 'same', 'say', 'see', 'seem', 'seemed', 'seeming', 'seems', 'serious', 'several', 'she', 'should', 'show', 'side', 'since', 'six', 'sixty', 'so', 'some', 'somehow', 'someone', 'something', 'sometime', 'sometimes', 'somewhere', 'still', 'such', 'take', 'ten', 'than', 'that', 'the', 'their', 'them', 'themselves', 'then', 'thence', 'there', 'thereafter', 'thereby', 'therefore', 'therein', 'thereupon', 'these', 'they', 'third', 'this', 'those', 'though', 'three', 'through', 'throughout', 'thru', 'thus', 'to', 'together', 'too', 'top', 'toward', 'towards', 'twelve', 'twenty', 'two', 'under', 'unless', 'until', 'up', 'upon', 'us', 'used', 'using', 'various', 'very', 'via', 'was', 'we', 'well', 'were', 'what', 'whatever', 'when', 'whence', 'whenever', 'where', 'whereafter', 'whereas', 'whereby', 'wherein', 'whereupon', 'wherever', 'whether', 'which', 'while', 'whither', 'who', 'whoever', 'whole', 'whom', 'whose', 'why', 'will', 'with', 'within', 'without', 'would', 'yet', 'you', 'your', 'yours', 'yourself', 'yourselves'}</span></em>, <em class="sig-param"><span class="n">extra_info</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_frequency.html#word_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_frequency.word_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Count the absolute as well as the weighted frequency of words
 in <code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code> (based on <code class="xref py py-attr docutils literal notranslate"><span class="pre">num_list</span></code>).</p>
 <dl class="field-list simple">

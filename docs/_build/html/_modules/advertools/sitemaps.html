@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.10.1
+                0.10.2
               </div>
             
           
@@ -84,19 +84,35 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
@@ -470,7 +486,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">sitemap_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;robots.txt&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="n">sitemap</span><span class="p">)</span>
-                          <span class="k">for</span> <span class="n">sitemap</span> <span class="ow">in</span> <span class="n">_sitemaps_from_robotstxt</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">)])</span>
+                          <span class="k">for</span> <span class="n">sitemap</span> <span class="ow">in</span> <span class="n">_sitemaps_from_robotstxt</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">)],</span>
+                         <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">sitemap_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;xml.gz&#39;</span><span class="p">):</span>
         <span class="n">xml_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">,</span>
                                    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Accept-Encoding&#39;</span><span class="p">:</span> <span class="s1">&#39;gzip&#39;</span><span class="p">,</span>
@@ -512,28 +529,7 @@
     <span class="k">return</span> <span class="n">sitemap_df</span></div>
 
 
-<div class="viewcode-block" id="robotstxt_to_df"><a class="viewcode-back" href="../../advertools.sitemaps.html#advertools.sitemaps.robotstxt_to_df">[docs]</a><span class="k">def</span> <span class="nf">robotstxt_to_df</span><span class="p">(</span><span class="n">robotstxt_url</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Download the contents of ``robotstxt_url`` into a DataFrame</span>
 
-<span class="sd">    :param url robotstxt_url: The URL of the robots.txt file</span>
-<span class="sd">    :returns DataFrame robotstxt_df: A DataFrame containing directives, their</span>
-<span class="sd">                                     content, the URL and time of download</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Getting: &#39;</span> <span class="o">+</span> <span class="n">robotstxt_url</span><span class="p">)</span>
-    <span class="n">robots_open</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">robotstxt_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">))</span>
-    <span class="n">robots_text</span> <span class="o">=</span> <span class="n">robots_open</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-
-    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">robots_text</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;comment&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()])</span>
-        <span class="k">if</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
-            <span class="n">split</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()])</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;directive&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">])</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;robotstxt_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">robotstxt_url</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;file_downloaded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">df</span></div>
 </pre></div>
 
            </div>

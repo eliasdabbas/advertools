@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Download, Parse, and Analyze XML Sitemaps" href="advertools.sitemaps.html" />
+    <link rel="next" title="Stopwords in Several Languages" href="advertools.stopwords.html" />
     <link rel="prev" title="Emoji: Extract, Analyze, and Get Insights" href="advertools.emoji.html" /> 
 </head>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.10.1
+                0.10.2
               </div>
             
           
@@ -85,21 +85,40 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Extract Structured Entities from Text</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Extract Structured Entities from Text</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#extract-functions">Extract Functions</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
@@ -252,9 +271,9 @@ return additional keys depending on the context.</p>
 <span class="go">[(&#39;#sentence&#39;, 3), (&#39;#text&#39;, 1)]</span>
 </pre></div>
 </div>
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.extract.extract">
-<code class="sig-name descname">extract</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">regex</em>, <em class="sig-param">key_name</em>, <em class="sig-param">extracted=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extract</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em>, <em class="sig-param"><span class="n">regex</span></em>, <em class="sig-param"><span class="n">key_name</span></em>, <em class="sig-param"><span class="n">extracted</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about arbitrary matches in <code class="docutils literal notranslate"><span class="pre">text_list</span></code>.</p>
 <p>This function is used by other specialized functions to extract
 certain elements (hashtags, mentions, emojis, etc.).
@@ -280,9 +299,9 @@ of <code class="xref py py-attr docutils literal notranslate"><span class="pre">
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.extract.extract_currency">
-<code class="sig-name descname">extract_currency</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">left_chars=20</em>, <em class="sig-param">right_chars=20</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_currency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_currency" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extract_currency</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em>, <em class="sig-param"><span class="n">left_chars</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">right_chars</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_currency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_currency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about currency symbols in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
 <p>Get a summary of the number of currency symbols, their frequency,
 the top ones, and more.</p>
@@ -360,9 +379,9 @@ none exist</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.extract.extract_emoji">
-<code class="sig-name descname">extract_emoji</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_emoji"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_emoji" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extract_emoji</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_emoji"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_emoji" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about emoji in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
 <p>Get a summary of the number of emoji, their frequency, the top
 ones, and more.</p>
@@ -443,9 +462,9 @@ list if none exist</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.extract.extract_exclamations">
-<code class="sig-name descname">extract_exclamations</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_exclamations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_exclamations" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extract_exclamations</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_exclamations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_exclamations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about exclamation (mark)s in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
 <p>Get a summary of the number of exclamation marks, their frequency,
 the top ones, as well the exclamations written/said.</p>
@@ -554,9 +573,9 @@ list if none exist</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.extract.extract_hashtags">
-<code class="sig-name descname">extract_hashtags</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_hashtags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_hashtags" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extract_hashtags</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_hashtags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_hashtags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about hashtags in <code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code></p>
 <p>Get a summary of the number of hashtags, their frequency, the top
 ones, and more.</p>
@@ -610,9 +629,9 @@ none exist</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.extract.extract_intense_words">
-<code class="sig-name descname">extract_intense_words</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">min_reps=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_intense_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_intense_words" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extract_intense_words</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em>, <em class="sig-param"><span class="n">min_reps</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_intense_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_intense_words" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about intense words in <code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code></p>
 <p>Get all instances of usage of intense words (positive or negative), using
 words that have <code class="xref py py-attr docutils literal notranslate"><span class="pre">min_reps</span></code> or more repetitions of characters.
@@ -631,9 +650,9 @@ the word to be considered intense.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.extract.extract_mentions">
-<code class="sig-name descname">extract_mentions</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_mentions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_mentions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extract_mentions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_mentions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_mentions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about mentions in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
 <p>Get a summary of the number of mentions, their frequency, the top
 ones, and more.</p>
@@ -687,9 +706,9 @@ none exist</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.extract.extract_numbers">
-<code class="sig-name descname">extract_numbers</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">number_separators=('.'</em>, <em class="sig-param">'</em>, <em class="sig-param">'</em>, <em class="sig-param">'-')</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_numbers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_numbers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extract_numbers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em>, <em class="sig-param"><span class="n">number_separators</span><span class="o">=</span><span class="default_value">'.', ',', '-'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_numbers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_numbers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about numbers in <code class="docutils literal notranslate"><span class="pre">text_list</span></code>, separated
 by any of <code class="docutils literal notranslate"><span class="pre">number_separators</span></code></p>
 <p>Get a summary of the number of numbers, their frequency, the top
@@ -750,9 +769,9 @@ none exist</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.extract.extract_questions">
-<code class="sig-name descname">extract_questions</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_questions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_questions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extract_questions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_questions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_questions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about question(mark)s in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
 <p>Get a summary of the number of question marks, their frequency,
 the top ones, as well the questions asked.</p>
@@ -863,9 +882,9 @@ list if none exist</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.extract.extract_words">
-<code class="sig-name descname">extract_words</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">words_to_extract</em>, <em class="sig-param">entire_words_only=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_words" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extract_words</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em>, <em class="sig-param"><span class="n">words_to_extract</span></em>, <em class="sig-param"><span class="n">entire_words_only</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_words" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about <code class="xref py py-attr docutils literal notranslate"><span class="pre">words_to_extract</span></code> in
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code>.</p>
 <p>Get a summary of the number of words, their frequency, the top
@@ -966,9 +985,9 @@ you would see that it is not related to rain for example.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.extract.extract_urls">
-<code class="sig-name descname">extract_urls</code><span class="sig-paren">(</span><em class="sig-param">text_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_urls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_urls" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extract_urls</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_urls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_urls" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about URLs in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
 <p>Get a summary of the number of URLs, their frequency, the top
 ones, and more.
@@ -1049,7 +1068,7 @@ none exist</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advertools.sitemaps.html" class="btn btn-neutral float-right" title="Download, Parse, and Analyze XML Sitemaps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="advertools.stopwords.html" class="btn btn-neutral float-right" title="Stopwords in Several Languages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="advertools.emoji.html" class="btn btn-neutral float-left" title="Emoji: Extract, Analyze, and Get Insights" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

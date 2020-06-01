@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Python SEO Crawler / Spider" href="advertools.spider.html" />
-    <link rel="prev" title="Tokenize Words (N-grams)" href="advertools.word_tokenize.html" /> 
+    <link rel="next" title="Emoji: Extract, Analyze, and Get Insights" href="advertools.emoji.html" />
+    <link rel="prev" title="Python SEO Crawler / Spider" href="advertools.spider.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.10.1
+                0.10.2
               </div>
             
           
@@ -85,21 +85,37 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Analyze Search Engine Results (SERPs)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Analyze Search Engine Results (SERPs)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
@@ -167,9 +183,9 @@
             
   <span class="target" id="module-advertools.serp"></span><div class="section" id="import-search-engine-results-pages-serps-for-google-and-youtube">
 <span id="serp"></span><h1>Import Search Engine Results Pages (SERPs) for Google and YouTube<a class="headerlink" href="#import-search-engine-results-pages-serps-for-google-and-youtube" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.serp.serp_goog">
-<code class="sig-name descname">serp_goog</code><span class="sig-paren">(</span><em class="sig-param">q</em>, <em class="sig-param">cx</em>, <em class="sig-param">key</em>, <em class="sig-param">c2coff=None</em>, <em class="sig-param">cr=None</em>, <em class="sig-param">dateRestrict=None</em>, <em class="sig-param">exactTerms=None</em>, <em class="sig-param">excludeTerms=None</em>, <em class="sig-param">fileType=None</em>, <em class="sig-param">filter=None</em>, <em class="sig-param">gl=None</em>, <em class="sig-param">highRange=None</em>, <em class="sig-param">hl=None</em>, <em class="sig-param">hq=None</em>, <em class="sig-param">imgColorType=None</em>, <em class="sig-param">imgDominantColor=None</em>, <em class="sig-param">imgSize=None</em>, <em class="sig-param">imgType=None</em>, <em class="sig-param">linkSite=None</em>, <em class="sig-param">lowRange=None</em>, <em class="sig-param">lr=None</em>, <em class="sig-param">num=None</em>, <em class="sig-param">orTerms=None</em>, <em class="sig-param">relatedSite=None</em>, <em class="sig-param">rights=None</em>, <em class="sig-param">safe=None</em>, <em class="sig-param">searchType=None</em>, <em class="sig-param">siteSearch=None</em>, <em class="sig-param">siteSearchFilter=None</em>, <em class="sig-param">sort=None</em>, <em class="sig-param">start=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#serp_goog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.serp_goog" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">serp_goog</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">cx</span></em>, <em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">c2coff</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cr</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dateRestrict</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">exactTerms</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">excludeTerms</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fileType</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">gl</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">highRange</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">hl</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">hq</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">imgColorType</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">imgDominantColor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">imgSize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">imgType</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">linkSite</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lowRange</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lr</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">num</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">orTerms</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">relatedSite</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rights</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">safe</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">searchType</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">siteSearch</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">siteSearchFilter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sort</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">start</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#serp_goog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.serp_goog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Query Google and get search results in a DataFrame.</p>
 <dl class="simple">
 <dt>For each parameter, you can supply single or multiple values / arguments.</dt><dd><p>If you pass multiple arguments, all the possible combinations of
@@ -199,6 +215,7 @@ parameter.</p></li>
 <li><p><strong>dateRestrict</strong> – Restricts results to URLs based on
 date. Supported values include:d[number]: requests results
 from the specified number of past days.
+- d[number]: requests results from the specified number of past days.
 - w[number]: requests results from the specified number of past weeks.
 - m[number]: requests results from the specified number of past months.
 - y[number]: requests results from the specified number of past years.</p></li>
@@ -329,9 +346,9 @@ originating from the specified country.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.serp.serp_youtube">
-<code class="sig-name descname">serp_youtube</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">q=None</em>, <em class="sig-param">channelId=None</em>, <em class="sig-param">channelType=None</em>, <em class="sig-param">eventType=None</em>, <em class="sig-param">forContentOwner=None</em>, <em class="sig-param">forDeveloper=None</em>, <em class="sig-param">forMine=None</em>, <em class="sig-param">location=None</em>, <em class="sig-param">locationRadius=None</em>, <em class="sig-param">maxResults=None</em>, <em class="sig-param">onBehalfOfContentOwner=None</em>, <em class="sig-param">order=None</em>, <em class="sig-param">pageToken=None</em>, <em class="sig-param">publishedAfter=None</em>, <em class="sig-param">publishedBefore=None</em>, <em class="sig-param">regionCode=None</em>, <em class="sig-param">relatedToVideoId=None</em>, <em class="sig-param">relevanceLanguage=None</em>, <em class="sig-param">safeSearch=None</em>, <em class="sig-param">topicId=None</em>, <em class="sig-param">type=None</em>, <em class="sig-param">videoCaption=None</em>, <em class="sig-param">videoCategoryId=None</em>, <em class="sig-param">videoDefinition=None</em>, <em class="sig-param">videoDimension=None</em>, <em class="sig-param">videoDuration=None</em>, <em class="sig-param">videoEmbeddable=None</em>, <em class="sig-param">videoLicense=None</em>, <em class="sig-param">videoSyndicated=None</em>, <em class="sig-param">videoType=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#serp_youtube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.serp_youtube" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">serp_youtube</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">q</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">channelId</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">channelType</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">eventType</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">forContentOwner</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">forDeveloper</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">forMine</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">location</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">locationRadius</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxResults</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pageToken</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">publishedAfter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">publishedBefore</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">regionCode</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">relatedToVideoId</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">relevanceLanguage</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">safeSearch</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">topicId</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">type</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">videoCaption</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">videoCategoryId</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">videoDefinition</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">videoDimension</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">videoDuration</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">videoEmbeddable</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">videoLicense</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">videoSyndicated</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">videoType</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#serp_youtube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.serp_youtube" title="Permalink to this definition">¶</a></dt>
 <dd><p>Query the YouTube API and get search results in a DataFrame.
 For each parameter you can supply a single or multiple value(s).
 Looping and merging results is handled automatically in case of multiple
@@ -623,26 +640,26 @@ parameter’s value to video. Acceptable values are:</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.serp.set_logging_level">
-<code class="sig-name descname">set_logging_level</code><span class="sig-paren">(</span><em class="sig-param">level_or_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#set_logging_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.set_logging_level" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_logging_level</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">level_or_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#set_logging_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.set_logging_level" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the logging level during the session.
 Acceptable values are [0, 10, 20, 30, 40, 50,
 ‘NOTSET’, ‘DEBUG’, ‘INFO’, ‘WARNING’, ‘ERROR’,
 ‘CRITICAL’]</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.serp.youtube_channel_details">
-<code class="sig-name descname">youtube_channel_details</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">channel_ids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#youtube_channel_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.youtube_channel_details" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">youtube_channel_details</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">channel_ids</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#youtube_channel_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.youtube_channel_details" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return details of channels for which the ids are given.
 Assumes <code class="docutils literal notranslate"><span class="pre">ids</span></code> is a comma-separated list of channel ids with
 no spaces.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.serp.youtube_video_details">
-<code class="sig-name descname">youtube_video_details</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">vid_ids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#youtube_video_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.youtube_video_details" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">youtube_video_details</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">vid_ids</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/serp.html#youtube_video_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.serp.youtube_video_details" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return details of videos for which the ids are given.
 Assumes <code class="docutils literal notranslate"><span class="pre">ids</span></code> is a comma-separated list of video ids with
 no spaces.</p>
@@ -658,10 +675,10 @@ no spaces.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advertools.spider.html" class="btn btn-neutral float-right" title="Python SEO Crawler / Spider" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="advertools.emoji.html" class="btn btn-neutral float-right" title="Emoji: Extract, Analyze, and Get Insights" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="advertools.word_tokenize.html" class="btn btn-neutral float-left" title="Tokenize Words (N-grams)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="advertools.spider.html" class="btn btn-neutral float-left" title="Python SEO Crawler / Spider" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" href="advertools.serp.html" />
+    <link rel="next" title="Twitter Data API" href="advertools.twitter.html" />
     <link rel="prev" title="Text Analysis" href="advertools.word_frequency.html" /> 
 </head>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.10.1
+                0.10.2
               </div>
             
           
@@ -85,21 +85,37 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Word Tokenization (N-grams)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
@@ -177,9 +193,9 @@ The default is 2, which can be set through the <code class="xref py py-attr docu
 <p>This function is mainly a helper function for
 <a class="reference internal" href="advertools.word_frequency.html#word-frequency"><span class="std std-ref">word_frequency</span></a> to help with counting words and/or
 phrases.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.word_tokenize.word_tokenize">
-<code class="sig-name descname">word_tokenize</code><span class="sig-paren">(</span><em class="sig-param">text_list</em>, <em class="sig-param">phrase_len=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">word_tokenize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em>, <em class="sig-param"><span class="n">phrase_len</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split <code class="docutils literal notranslate"><span class="pre">text_list</span></code> into phrases of length <code class="docutils literal notranslate"><span class="pre">phrase_len</span></code> words each.</p>
 <p>A “word” is any string between white spaces (or beginning or
 end of string) with delimiters stripped from both sides.
@@ -237,7 +253,7 @@ are part of the “word”, but the trailing comma is stripped.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advertools.serp.html" class="btn btn-neutral float-right" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="advertools.twitter.html" class="btn btn-neutral float-right" title="Twitter Data API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="advertools.word_frequency.html" class="btn btn-neutral float-left" title="Text Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

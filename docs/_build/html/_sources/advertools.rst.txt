@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    advertools.ad_create
    advertools.ad_from_string
@@ -12,6 +13,7 @@ Submodules
    advertools.extract
    advertools.kw_generate
    advertools.regex
+   advertools.robotstxt
    advertools.serp
    advertools.sitemaps
    advertools.spider

@@ -18,8 +18,8 @@ There are two main approaches to crawl:
 2. **Pre-determined:** You have a known set of URLs that you want to crawl and
    analyze, without following links or discovering new URLs.
 
-Discovery
-^^^^^^^^^
+Discovery Crawling Approach
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The simplest way to use the function is to provide a list of one or more URLs
 and the crawler will go through all of the reachable pages.

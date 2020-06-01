@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Stopwords in Several Languages" href="advertools.stopwords.html" />
-    <link rel="prev" title="Extract structured entities from text lists" href="advertools.extract.html" /> 
+    <link rel="next" title="Python SEO Crawler / Spider" href="advertools.spider.html" />
+    <link rel="prev" title="🤖 robots.txt Tester for Large Scale Testing" href="advertools.robotstxt.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.10.1
+                0.10.2
               </div>
             
           
@@ -85,21 +85,42 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">XML Sitemaps</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#regular-xml-sitemaps">Regular XML Sitemaps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#news-sitemaps">News Sitemaps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#video-sitemaps">Video Sitemaps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
@@ -399,24 +420,9 @@ the content.</p>
 <span class="go">[2343 rows x 11 columns]</span>
 </pre></div>
 </div>
-<dl class="function">
-<dt id="advertools.sitemaps.robotstxt_to_df">
-<code class="sig-name descname">robotstxt_to_df</code><span class="sig-paren">(</span><em class="sig-param">robotstxt_url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#robotstxt_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.sitemaps.robotstxt_to_df" title="Permalink to this definition">¶</a></dt>
-<dd><p>Download the contents of <code class="docutils literal notranslate"><span class="pre">robotstxt_url</span></code> into a DataFrame</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>robotstxt_url</strong> (<em>url</em>) – The URL of the robots.txt file</p>
-</dd>
-<dt class="field-even">Returns DataFrame robotstxt_df</dt>
-<dd class="field-even"><p>A DataFrame containing directives, their
-content, the URL and time of download</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.sitemaps.sitemap_to_df">
-<code class="sig-name descname">sitemap_to_df</code><span class="sig-paren">(</span><em class="sig-param">sitemap_url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">sitemap_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sitemap_url</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve all URLs and other available tags of a sitemap(s) and put them in
 a DataFrame.</p>
 <p>You can also pass the URL of a sitemap index, or a link to a robots.txt
@@ -449,10 +455,10 @@ video, or image sitemaps).</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advertools.stopwords.html" class="btn btn-neutral float-right" title="Stopwords in Several Languages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="advertools.spider.html" class="btn btn-neutral float-right" title="Python SEO Crawler / Spider" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="advertools.extract.html" class="btn btn-neutral float-left" title="Extract structured entities from text lists" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="advertools.robotstxt.html" class="btn btn-neutral float-left" title="🤖 robots.txt Tester for Large Scale Testing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

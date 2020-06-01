@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Create Ads on a Large Scale" href="advertools.ad_create.html" />
-    <link rel="prev" title="advertools: create, scale, and manage online campaigns" href="readme.html" /> 
+    <link rel="prev" title="advertools: productivity &amp; analysis tools to scale your online marketing" href="readme.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.10.1
+                0.10.2
               </div>
             
           
@@ -85,21 +85,37 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
@@ -236,9 +252,9 @@ matters) and get a ready-to-use table to upload and start running the campaign.<
 Once you have your keywords done, you can start creating ads using either the
 <a class="reference internal" href="advertools.ad_create.html#ad-create"><span class="std std-ref">ad_create</span></a> function (bottom-up approach) or the
 <a class="reference internal" href="advertools.ad_from_string.html#ad-from-string"><span class="std std-ref">ad_from_string</span></a> function (top-down approach).</p>
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.kw_generate.kw_broad">
-<code class="sig-name descname">kw_broad</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_broad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_broad" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kw_broad</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">words</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_broad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_broad" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="xref py py-attr docutils literal notranslate"><span class="pre">words</span></code> in broad match.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -255,9 +271,9 @@ Once you have your keywords done, you can start creating ads using either the
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.kw_generate.kw_exact">
-<code class="sig-name descname">kw_exact</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_exact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_exact" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kw_exact</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">words</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_exact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_exact" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="xref py py-attr docutils literal notranslate"><span class="pre">words</span></code> in exact match.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -274,9 +290,9 @@ Once you have your keywords done, you can start creating ads using either the
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.kw_generate.kw_generate">
-<code class="sig-name descname">kw_generate</code><span class="sig-paren">(</span><em class="sig-param">products</em>, <em class="sig-param">words</em>, <em class="sig-param">max_len=3</em>, <em class="sig-param">match_types=('Exact'</em>, <em class="sig-param">'Phrase'</em>, <em class="sig-param">'Modified')</em>, <em class="sig-param">order_matters=True</em>, <em class="sig-param">campaign_name='SEM_Campaign'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_generate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kw_generate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">products</span></em>, <em class="sig-param"><span class="n">words</span></em>, <em class="sig-param"><span class="n">max_len</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">match_types</span><span class="o">=</span><span class="default_value">'Exact', 'Phrase', 'Modified'</span></em>, <em class="sig-param"><span class="n">order_matters</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">campaign_name</span><span class="o">=</span><span class="default_value">'SEM_Campaign'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_generate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a data frame of keywords using a list of products and relevant
 words.</p>
 <dl class="field-list simple">
@@ -322,9 +338,9 @@ matters, default False</p></li>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.kw_generate.kw_modified">
-<code class="sig-name descname">kw_modified</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_modified"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_modified" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kw_modified</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">words</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_modified"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_modified" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="xref py py-attr docutils literal notranslate"><span class="pre">words</span></code> in modified broad match.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -341,9 +357,9 @@ matters, default False</p></li>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.kw_generate.kw_neg_broad">
-<code class="sig-name descname">kw_neg_broad</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_broad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_broad" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kw_neg_broad</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">words</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_broad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_broad" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="xref py py-attr docutils literal notranslate"><span class="pre">words</span></code> in negative broad match.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -360,9 +376,9 @@ matters, default False</p></li>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.kw_generate.kw_neg_exact">
-<code class="sig-name descname">kw_neg_exact</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_exact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_exact" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kw_neg_exact</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">words</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_exact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_exact" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="xref py py-attr docutils literal notranslate"><span class="pre">words</span></code> in negative exact match.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -379,9 +395,9 @@ matters, default False</p></li>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.kw_generate.kw_neg_phrase">
-<code class="sig-name descname">kw_neg_phrase</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_phrase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_phrase" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kw_neg_phrase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">words</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_neg_phrase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_neg_phrase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="xref py py-attr docutils literal notranslate"><span class="pre">words</span></code> in negative phrase match.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -398,9 +414,9 @@ matters, default False</p></li>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.kw_generate.kw_phrase">
-<code class="sig-name descname">kw_phrase</code><span class="sig-paren">(</span><em class="sig-param">words</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_phrase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_phrase" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kw_phrase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">words</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_phrase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_phrase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="xref py py-attr docutils literal notranslate"><span class="pre">words</span></code> in phrase match.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -430,7 +446,7 @@ matters, default False</p></li>
         <a href="advertools.ad_create.html" class="btn btn-neutral float-right" title="Create Ads on a Large Scale" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="readme.html" class="btn btn-neutral float-left" title="advertools: create, scale, and manage online campaigns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="readme.html" class="btn btn-neutral float-left" title="advertools: productivity &amp; analysis tools to scale your online marketing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

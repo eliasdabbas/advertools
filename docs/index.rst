@@ -28,21 +28,38 @@ life a little easier.
    :titlesonly:
 
    About advertools <readme>
+
+.. toctree::
+   :caption: SEM
+
    Generate SEM Keywords <advertools.kw_generate>
    Create Text Ads on a Large Scale <advertools.ad_create>
    Create Text Ads From Description Text <advertools.ad_from_string>
+
+.. toctree::
+   :caption: SEO
+
+   robots.txt <advertools.robotstxt>
+   XML Sitemaps <advertools.sitemaps>
+   SEO Spider / Crawler <advertools.spider>
+   Analyze Search Engine Results (SERPs) <advertools.serp>
+
+.. toctree::
+   :caption: Text & Content Analysis
+
    Emoji Tools <advertools.emoji>
    Extract Structured Entities from Text <advertools.extract>
-   XML Sitemaps <advertools.sitemaps>
    Stop Words <advertools.stopwords>
    Text Analysis (absolute & weighted word frequency) <advertools.word_frequency>
    Word Tokenization (N-grams) <advertools.word_tokenize>
-   Analyze Search Engine Results (SERPs) <advertools.serp>
-   SEO Spider / Crawler <advertools.spider>
-   Twitter Data <advertools.twitter>
-   YouTube Data <advertools.youtube>
 
-   Index & Change Log <include_changelog>
+.. toctree::
+   :caption: Social Media
+
+   Twitter Data API <advertools.twitter>
+   YouTube Data API <advertools.youtube>
+
+
 
 Indices and tables
 ==================
@@ -50,3 +67,8 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. toctree::
+   :caption: Index & Change Log
+
+   Index & Change Log <include_changelog>

@@ -10,8 +10,8 @@ analyzing content of social media posts, tweets, web pages, keywords, etc.
 Each list is accessible as part of a dictionary ``stopwords`` which is a normal
 Python dictionary.
 
-Available Languages:
-^^^^^^^^^^^^^^^^^^^^
+Available Languages
+^^^^^^^^^^^^^^^^^^^
 
 * Arabic
 * Azerbaijani

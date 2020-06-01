@@ -9,21 +9,36 @@ that can block major sections of your site, which is what they are supposed to
 do. Only sometimes you might make the mistake of blocking the wrong section.
 
 So it is very important to check if certain pages (or groups of pages) are
-blocked for a certain user-agent by a certain robots.txt. Ideally, you would
-want to run the same check for all possible user-agents. Even more ideally, you
-want to be able to run the check for a large number of pages!
+blocked for a certain user-agent by a certain robots.txt file. Ideally, you
+would want to run the same check for all possible user-agents. Even more
+ideally, you want to be able to run the check for a large number of pages with
+every possible combination with user-agents!
 
 To get the robots.txt file into an easily readable format, you can use the
-:func:`robotstxt_to_df` function to get any file in a DataFrame.
+:func:`robotstxt_to_df` function to get it in a DataFrame.
 
->>> robotstxt_to_df('https://www.example.com/robots.txt')
+>>> robotstxt_to_df('https://www.google.com/robots.txt')
+      directive                             content                      robotstxt_url                  file_downloaded
+0    User-agent                                   *  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
+1      Disallow                             /search  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
+2         Allow                       /search/about  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
+3         Allow                      /search/static  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
+4         Allow              /search/howsearchworks  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
+..          ...                                 ...                                ...                              ...
+277  User-agent                          Twitterbot  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
+278       Allow                             /imgres  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
+279  User-agent                 facebookexternalhit  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
+280       Allow                             /imgres  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
+281     Sitemap  https://www.google.com/sitemap.xml  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
+[282 rows x 4 columns]
+
 
 The returned DataFrame contains columns for directives, their content, the URL
 of the robots.txt file, as well as the date it was downloaded.
 Under the `directive` column you can see the main commands; Allow, Disallow,
 Sitemap, Crawl-delay, User-agent, and so on. The `content` column contains the
 details of each of those directives (the pattern to disallow, the sitemap URL,
-etc.
+etc.)
 
 As for testing, the :func:`robotstxt_test` function runs a test for a given
 robots.txt file, checking which of the provided user-agents can fetch which of
@@ -116,10 +131,8 @@ As a small and quick test, I'm interested in checking the home page, a random
 profile page (/bbc), groups and hashtags pages.
 
 >>> urls_to_test = ['/', '/bbc', '/groups', '/hashtag/']
-
 >>> fb_test = robotstxt_test('https://www.facebook.com/robots.txt',
 ...                          fb_useragents, urls_to_test)
-
 >>> fb_test
                           robotstxt_url user_agent   url_path  can_fetch
 0   https://www.facebook.com/robots.txt          *       /bbc      False
@@ -138,7 +151,7 @@ profile page (/bbc), groups and hashtags pages.
 
 For twenty user-agents and four URLs each, we received a total of eighty test
 results. You can immediately see that all user-agents not listed (denoted by
-`*` are not allowed to fetch any of the provided URLs).
+"*" are not allowed to fetch any of the provided URLs).
 
 Let's see who is and who is not allowed to fetch the home page.
 
@@ -211,8 +224,8 @@ def robotstxt_test(robotstxt_url, user_agents, urls):
     """Given a :attr:`robotstxt_url` check which of the :attr:`user_agents` is
     allowed to fetch which of the :attr:`urls`.
 
-    All the combinations of :attr:`user_agent` and :attr:`urls` will be checked
-    and returned in one DataFrame.
+    All the combinations of :attr:`user_agents` and :attr:`urls` will be
+    checked and the results returned in one DataFrame.
 
     >>> robotstxt_test('https://facebook.com/robots.txt',
     ...                user_agents=['*', 'Googlebot', 'Applebot'],
@@ -228,7 +241,7 @@ def robotstxt_test(robotstxt_url, user_agents, urls):
     :param str,list user_agents: One or more user agents
     :param str,list urls: One or more paths (relative) or URLs (absolute) to
                            check
-    :return DataFrame:
+    :return DataFrame robotstxt_test_df:
     """
     if not robotstxt_url.endswith('/robots.txt'):
         raise ValueError('Please make sure you enter a valid robots.txt URL')

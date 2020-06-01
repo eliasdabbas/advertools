@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Twitter Data API" href="advertools.twitter.html" />
-    <link rel="prev" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" href="advertools.serp.html" /> 
+    <link rel="next" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" href="advertools.serp.html" />
+    <link rel="prev" title="Download, Parse, and Analyze XML Sitemaps" href="advertools.sitemaps.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.10.1
+                0.10.2
               </div>
             
           
@@ -84,21 +84,49 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SEO Spider / Crawler</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#discovery-crawling-approach">Discovery Crawling Approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extracted-on-page-seo-elements">Extracted On-Page SEO Elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-determined-crawling-approach">Pre-Determined Crawling Approach</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#serp-data">SERP Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#news-articles">News Articles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#google-analytics-google-search-console">Google Analytics / Google Search Console</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#css-and-xpath-selectors">CSS and XPath Selectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spider-custom-settings-and-additional-functionality">Spider Custom Settings and Additional Functionality</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">SEO Spider / Crawler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
@@ -179,8 +207,8 @@ website(s) by following all available links.</p></li>
 <li><p><strong>Pre-determined:</strong> You have a known set of URLs that you want to crawl and
 analyze, without following links or discovering new URLs.</p></li>
 </ol>
-<div class="section" id="discovery">
-<h2>Discovery<a class="headerlink" href="#discovery" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="discovery-crawling-approach">
+<h2>Discovery Crawling Approach<a class="headerlink" href="#discovery-crawling-approach" title="Permalink to this headline">¶</a></h2>
 <p>The simplest way to use the function is to provide a list of one or more URLs
 and the crawler will go through all of the reachable pages.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;my_output_file.csv&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -456,9 +484,9 @@ very useful while exploring, just in case you get unexpected errors.</p></li>
 </div>
 <p>Please refer to the <a class="reference external" href="https://docs.scrapy.org/en/latest/topics/settings.html">spider settings documentation</a>
 for the full details.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.spider.crawl">
-<code class="sig-name descname">crawl</code><span class="sig-paren">(</span><em class="sig-param">url_list</em>, <em class="sig-param">output_file</em>, <em class="sig-param">follow_links=False</em>, <em class="sig-param">css_selectors=None</em>, <em class="sig-param">xpath_selectors=None</em>, <em class="sig-param">custom_settings=None</em>, <em class="sig-param">allowed_domains=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.spider.crawl" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">crawl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url_list</span></em>, <em class="sig-param"><span class="n">output_file</span></em>, <em class="sig-param"><span class="n">follow_links</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">css_selectors</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xpath_selectors</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_settings</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">allowed_domains</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.spider.crawl" title="Permalink to this definition">¶</a></dt>
 <dd><p>Crawl a website’s URLs based on the given <code class="xref py py-attr docutils literal notranslate"><span class="pre">url_list</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -531,10 +559,10 @@ selectors).</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advertools.twitter.html" class="btn btn-neutral float-right" title="Twitter Data API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="advertools.serp.html" class="btn btn-neutral float-right" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="advertools.serp.html" class="btn btn-neutral float-left" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="advertools.sitemaps.html" class="btn btn-neutral float-left" title="Download, Parse, and Analyze XML Sitemaps" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

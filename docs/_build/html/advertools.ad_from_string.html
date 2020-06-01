@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Emoji: Extract, Analyze, and Get Insights" href="advertools.emoji.html" />
+    <link rel="next" title="🤖 robots.txt Tester for Large Scale Testing" href="advertools.robotstxt.html" />
     <link rel="prev" title="Create Ads on a Large Scale" href="advertools.ad_create.html" /> 
 </head>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.10.1
+                0.10.2
               </div>
             
           
@@ -85,21 +85,42 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Create Text Ads From Description Text</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Create Text Ads From Description Text</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#google-text-ads">Google Text Ads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#facebook-feed-ads">Facebook Feed Ads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#facebook-instant-article-ad">Facebook Instant Article Ad</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
@@ -260,9 +281,9 @@ end up having an extra space that is not used:</p>
 <span class="go"> &#39;with 13 things that do a lot of good stuff for your health. Start shopping now.&#39;]</span>
 </pre></div>
 </div>
-<dl class="function">
+<dl class="py function">
 <dt id="advertools.ad_from_string.ad_from_string">
-<code class="sig-name descname">ad_from_string</code><span class="sig-paren">(</span><em class="sig-param">s</em>, <em class="sig-param">slots=(30</em>, <em class="sig-param">30</em>, <em class="sig-param">30</em>, <em class="sig-param">90</em>, <em class="sig-param">90</em>, <em class="sig-param">15</em>, <em class="sig-param">15)</em>, <em class="sig-param">sep=None</em>, <em class="sig-param">capitalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ad_from_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">slots</span><span class="o">=</span><span class="default_value">30, 30, 30, 90, 90, 15, 15</span></em>, <em class="sig-param"><span class="n">sep</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">capitalize</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert string <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> to an ad by splitting it into groups of words.
 Each group would have a length of at most the allowed length for that slot.</p>
 <p>If the total length of <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> exceeds the total allowed length, all
@@ -321,7 +342,7 @@ capitalization of the input string</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advertools.emoji.html" class="btn btn-neutral float-right" title="Emoji: Extract, Analyze, and Get Insights" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="advertools.robotstxt.html" class="btn btn-neutral float-right" title="🤖 robots.txt Tester for Large Scale Testing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="advertools.ad_create.html" class="btn btn-neutral float-left" title="Create Ads on a Large Scale" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
