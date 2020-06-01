@@ -211,6 +211,19 @@ def robotstxt_test(robotstxt_url, user_agents, urls):
     """Given a :attr:`robotstxt_url` check which of the :attr:`user_agents` is
     allowed to fetch which of the :attr:`urls`.
 
+    All the combinations of :attr:`user_agent` and :attr:`urls` will be checked
+    and returned in one DataFrame.
+
+    >>> robotstxt_test('https://facebook.com/robots.txt',
+    ...                user_agents=['*', 'Googlebot', 'Applebot'],
+    ...                urls=['/', '/bbc', '/groups', '/hashtag/'])
+                                  robotstxt_url user_agent   url_path  can_fetch
+    0   https://www.facebook.com/robots.txt          *       /bbc      False
+    1   https://www.facebook.com/robots.txt          *    /groups      False
+    2   https://www.facebook.com/robots.txt          *          /      False
+    3   https://www.facebook.com/robots.txt          *  /hashtag/      False
+    4   https://www.facebook.com/robots.txt   Applebot          /       True
+
     :param url robotstxt_url: The URL of robotx.txt file
     :param str,list user_agents: One or more user agents
     :param str,list urls: One or more paths (relative) or URLs (absolute) to
