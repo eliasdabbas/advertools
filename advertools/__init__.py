@@ -12,7 +12,8 @@ from advertools.emoji import emoji_search, emoji_df
 from advertools.extract import *
 from advertools.kw_generate import *
 from advertools.regex import *
-from advertools.sitemaps import robotstxt_to_df, sitemap_to_df
+from advertools.robotstxt import robotstxt_to_df, robotstxt_test
+from advertools.sitemaps import sitemap_to_df
 from advertools.stopwords import stopwords
 from advertools.url_builders import url_utm_ga
 from advertools.word_frequency import word_frequency
