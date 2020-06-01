@@ -269,6 +269,7 @@ for the full details.
 """
 import datetime
 import json
+import os
 import subprocess
 
 from urllib.parse import urlparse
@@ -276,6 +277,7 @@ from urllib.parse import urlparse
 from scrapy.spiders import Spider
 from scrapy.linkextractors import LinkExtractor
 from scrapy import Request
+import scrapy.logformatter as formatter
 import advertools as adv
 
 spider_path = adv.__path__[0] + '/spider.py'
@@ -284,6 +286,10 @@ user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' \
              '(KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
 
 BODY_TEXT_SELECTOR = '//body//span//text() | //body//p//text() | //body//li//text()'
+
+formatter.SCRAPEDMSG = "Scraped from %(src)s" + os.linesep
+formatter.DROPPEDMSG = "Dropped: %(exception)s" + os.linesep
+formatter.DOWNLOADERRORMSG_LONG = "Error downloading %(request)s" + os.linesep
 
 le = LinkExtractor()
 
