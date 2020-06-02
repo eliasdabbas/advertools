@@ -67,7 +67,7 @@ Now you can start exploring:
 [('#sentence', 3), ('#text', 1)]
 
 """
-__all__ = ['extract', 'extract_currency', 'extract_emoji',
+__all__ = ['extract', 'extract_currency',
            'extract_exclamations', 'extract_hashtags',
            'extract_intense_words', 'extract_mentions', 'extract_numbers',
            'extract_questions', 'extract_words', 'extract_urls'
@@ -77,7 +77,7 @@ import re
 from unicodedata import name
 from collections import Counter
 from urllib.parse import urlparse
-from .emoji import EMOJI, EMOJI_ENTRIES
+# from .emoji import EMOJI, EMOJI_ENTRIES
 from .regex import (MENTION, HASHTAG, CURRENCY, CURRENCY_RAW, EXCLAMATION,
                     EXCLAMATION_MARK, QUESTION, QUESTION_MARK, URL)
 
@@ -203,111 +203,6 @@ def extract_currency(text_list, left_chars=20, right_chars=20):
                                         r'.{0,' + str(right_chars) + '}')
     summary['surrounding_text'] = [surrounding_text_regex.findall(text)
                                    for text in text_list]
-    return summary
-
-
-def extract_emoji(text_list):
-    """Return a summary dictionary about emoji in ``text_list``
-
-    Get a summary of the number of emoji, their frequency, the top
-    ones, and more.
-
-    :param list text_list: A list of text strings.
-    :returns summary: A dictionary with various stats about emoji
-
-    >>> posts = ['I am grinning 😀','A grinning cat 😺',
-    ...          'hello! 😀😀😀 💛💛', 'Just text']
-
-    >>> emoji_summary = extract_emoji(posts)
-    >>> emoji_summary.keys()
-    dict_keys(['emoji', 'emoji_text', 'emoji_flat', 'emoji_flat_text',
-    'emoji_counts', 'emoji_freq', 'top_emoji', 'top_emoji_text',
-    'top_emoji_groups', 'top_emoji_sub_groups', 'overview'])
-
-
-    >>> emoji_summary['emoji']
-    [['😀'], ['😺'], ['😀', '😀', '😀', '💛', '💛'], []]
-
-    >>> emoji_summary['emoji_text']
-    [['grinning face'], ['grinning cat'], ['grinning face', 'grinning face',
-      'grinning face', 'yellow heart', 'yellow heart'], []]
-
-    A simple extract of emoji from each of the posts. An empty
-    list if none exist
-
-    >>> emoji_summary['emoji_flat']
-    ['😀', '😺', '😀', '😀', '😀', '💛', '💛']
-
-    >>> emoji_summary['emoji_flat_text']
-    ['grinning face', 'grinning cat', 'grinning face', 'grinning face',
-    'grinning face', 'yellow heart', 'yellow heart']
-
-    All emoji in one flat list.
-
-    >>> emoji_summary['emoji_counts']
-    [1, 1, 5, 0]
-
-    The count of emoji per post.
-
-    >>> emoji_summary['emoji_freq']
-    [(0, 1), (1, 2), (5, 1)]
-
-    Shows how many posts had 0, 1, 2, 3, etc. emoji
-    (number_of_emoji, count)
-
-    >>> emoji_summary['top_emoji']
-    [('😀', 4), ('💛', 2), ('😺', 1)]
-
-    >>> emoji_summary['top_emoji_text']
-    [('grinning face', 4), ('yellow heart', 2),
-     ('grinning cat', 1)]
-
-    >>> emoji_summary['top_emoji_groups']
-    [('Smileys & Emotion', 7)]
-
-    >>> emoji_summary['top_emoji_sub_groups']
-    [('face-smiling', 4), ('emotion', 2), ('cat-face', 1)]
-
-    >>> emoji_summary['overview']
-    {'num_posts': 4,
-     'num_emoji': 7,
-     'emoji_per_post': 1.75,
-     'unique_emoji': 3}
-    """
-    emoji = [re.findall(EMOJI, text.lower()) for text in text_list]
-    emoji_flat = [item for sublist in emoji for item in sublist]
-    emoji_flat_text = [EMOJI_ENTRIES[em].name for em in emoji_flat]
-    emoji_groups = [EMOJI_ENTRIES[em].group for em in emoji_flat]
-    emoji_sub_groups = [EMOJI_ENTRIES[em].sub_group for em in emoji_flat]
-    summary = {
-        'emoji': emoji,
-        'emoji_text': [[EMOJI_ENTRIES[em].name for em in em_list]
-                       for em_list in emoji],
-        'emoji_flat': emoji_flat,
-        'emoji_flat_text': emoji_flat_text,
-        'emoji_counts': [len(em) for em in emoji],
-        'emoji_freq': sorted(Counter([len(em) for em in emoji]).items(),
-                             key=lambda x: x[0]),
-        'top_emoji': sorted(Counter(emoji_flat).items(),
-                            key=lambda x: x[1],
-                            reverse=True),
-        'top_emoji_text': sorted(Counter(emoji_flat_text).items(),
-                                 key=lambda x: x[1],
-                                 reverse=True),
-        'top_emoji_groups': sorted(Counter(emoji_groups).items(),
-                                   key=lambda x: x[1],
-                                   reverse=True),
-        'top_emoji_sub_groups': sorted(Counter(emoji_sub_groups).items(),
-                                       key=lambda x: x[1],
-                                       reverse=True),
-        'overview': {
-            'num_posts': len(text_list),
-            'num_emoji': len(emoji_flat),
-            'emoji_per_post': len(emoji_flat) / len(text_list),
-            'unique_emoji': len(set(emoji_flat)),
-        }
-
-    }
     return summary
 
 
