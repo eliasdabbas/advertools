@@ -178,8 +178,8 @@
             
   <h1>Source code for advertools.spider</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Python SEO Crawler / Spider</span>
-<span class="sd">===========================</span>
+<span class="sd">🕷 Python SEO Crawler / Spider</span>
+<span class="sd">==============================</span>
 
 <span class="sd">A straightforward crawler to analyze SEO and content of pages and websites.</span>
 
@@ -339,7 +339,9 @@
 <span class="sd">crawler doesn&#39;t try to crawl the whole web when ``follow_links`` is `True`?</span>
 <span class="sd">The ``allowed_domains`` parameter gives you the ability to control this,</span>
 <span class="sd">although it is and optional parameter. If you don&#39;t specify it, then it will</span>
-<span class="sd">default to only the domains in the ``url_list``.</span>
+<span class="sd">default to only the domains in the ``url_list``. It&#39;s important to note that</span>
+<span class="sd">you have to set this parameter if you have certain sub-domains that you want to</span>
+<span class="sd">crawl.</span>
 
 <span class="sd">CSS and XPath Selectors</span>
 <span class="sd">^^^^^^^^^^^^^^^^^^^^^^^</span>
@@ -580,7 +582,9 @@
 <span class="sd">                                 crawl. This ensures that the crawler does not</span>
 <span class="sd">                                 attempt to crawl the whole web. If not</span>
 <span class="sd">                                 specified, it defaults to the domains of the</span>
-<span class="sd">                                 URLs provided in ``url_list``.</span>
+<span class="sd">                                 URLs provided in ``url_list``. You can use it</span>
+<span class="sd">                                 for sub-domains if you want them to be crawled</span>
+<span class="sd">                                 as they will not be crawled if not specified.</span>
 <span class="sd">    :Examples:</span>
 
 <span class="sd">    Crawl a website and let the crawler discover as many pages as available</span>

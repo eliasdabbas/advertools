@@ -190,12 +190,13 @@
 <span class="sd">=======================   ====================================================================</span>
 <span class="sd">:class:`EMOJI_ENTRIES`    A dictionary of the full emoji list together with unicode code points, textual name, group, and sub-group. Based on v13.0 https://unicode.org/Public/emoji/13.0/emoji-test.txt</span>
 <span class="sd">:class:`emoji_df`         The same dictionary as a pandas DataFrame</span>
+<span class="sd">:func:`extract_emoji`     A function for extracting and summarizing emoji in a text list, with statistics about frequencies and usage.</span>
 <span class="sd">:func:`emoji_search`      A function for searching across names, groups, and sub-groups to find emoji based on your keywords of choice.</span>
 <span class="sd">:class:`EMOJI_RAW`        A regular expression to extract the full list. See here on how it was developed: https://www.kaggle.com/eliasdabbas/how-to-create-a-python-regex-to-extract-emoji</span>
 <span class="sd">=======================   ====================================================================</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">namedtuple</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
@@ -4370,6 +4371,111 @@
 <span class="n">EMOJI</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">EMOJI_RAW</span><span class="p">)</span>
 
 <span class="n">emoji_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">EMOJI_ENTRIES</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+
+<div class="viewcode-block" id="extract_emoji"><a class="viewcode-back" href="../../advertools.emoji.html#advertools.emoji.extract_emoji">[docs]</a><span class="k">def</span> <span class="nf">extract_emoji</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about emoji in ``text_list``</span>
+
+<span class="sd">    Get a summary of the number of emoji, their frequency, the top</span>
+<span class="sd">    ones, and more.</span>
+
+<span class="sd">    :param list text_list: A list of text strings.</span>
+<span class="sd">    :returns summary: A dictionary with various stats about emoji</span>
+
+<span class="sd">    &gt;&gt;&gt; posts = [&#39;I am grinning 😀&#39;,&#39;A grinning cat 😺&#39;,</span>
+<span class="sd">    ...          &#39;hello! 😀😀😀 💛💛&#39;, &#39;Just text&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary = extract_emoji(posts)</span>
+<span class="sd">    &gt;&gt;&gt; emoji_summary.keys()</span>
+<span class="sd">    dict_keys([&#39;emoji&#39;, &#39;emoji_text&#39;, &#39;emoji_flat&#39;, &#39;emoji_flat_text&#39;,</span>
+<span class="sd">    &#39;emoji_counts&#39;, &#39;emoji_freq&#39;, &#39;top_emoji&#39;, &#39;top_emoji_text&#39;,</span>
+<span class="sd">    &#39;top_emoji_groups&#39;, &#39;top_emoji_sub_groups&#39;, &#39;overview&#39;])</span>
+
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary[&#39;emoji&#39;]</span>
+<span class="sd">    [[&#39;😀&#39;], [&#39;😺&#39;], [&#39;😀&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;💛&#39;, &#39;💛&#39;], []]</span>
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary[&#39;emoji_text&#39;]</span>
+<span class="sd">    [[&#39;grinning face&#39;], [&#39;grinning cat&#39;], [&#39;grinning face&#39;, &#39;grinning face&#39;,</span>
+<span class="sd">      &#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;], []]</span>
+
+<span class="sd">    A simple extract of emoji from each of the posts. An empty</span>
+<span class="sd">    list if none exist</span>
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary[&#39;emoji_flat&#39;]</span>
+<span class="sd">    [&#39;😀&#39;, &#39;😺&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;💛&#39;, &#39;💛&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary[&#39;emoji_flat_text&#39;]</span>
+<span class="sd">    [&#39;grinning face&#39;, &#39;grinning cat&#39;, &#39;grinning face&#39;, &#39;grinning face&#39;,</span>
+<span class="sd">    &#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;]</span>
+
+<span class="sd">    All emoji in one flat list.</span>
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary[&#39;emoji_counts&#39;]</span>
+<span class="sd">    [1, 1, 5, 0]</span>
+
+<span class="sd">    The count of emoji per post.</span>
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary[&#39;emoji_freq&#39;]</span>
+<span class="sd">    [(0, 1), (1, 2), (5, 1)]</span>
+
+<span class="sd">    Shows how many posts had 0, 1, 2, 3, etc. emoji</span>
+<span class="sd">    (number_of_emoji, count)</span>
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary[&#39;top_emoji&#39;]</span>
+<span class="sd">    [(&#39;😀&#39;, 4), (&#39;💛&#39;, 2), (&#39;😺&#39;, 1)]</span>
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary[&#39;top_emoji_text&#39;]</span>
+<span class="sd">    [(&#39;grinning face&#39;, 4), (&#39;yellow heart&#39;, 2),</span>
+<span class="sd">     (&#39;grinning cat&#39;, 1)]</span>
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary[&#39;top_emoji_groups&#39;]</span>
+<span class="sd">    [(&#39;Smileys &amp; Emotion&#39;, 7)]</span>
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary[&#39;top_emoji_sub_groups&#39;]</span>
+<span class="sd">    [(&#39;face-smiling&#39;, 4), (&#39;emotion&#39;, 2), (&#39;cat-face&#39;, 1)]</span>
+
+<span class="sd">    &gt;&gt;&gt; emoji_summary[&#39;overview&#39;]</span>
+<span class="sd">    {&#39;num_posts&#39;: 4,</span>
+<span class="sd">     &#39;num_emoji&#39;: 7,</span>
+<span class="sd">     &#39;emoji_per_post&#39;: 1.75,</span>
+<span class="sd">     &#39;unique_emoji&#39;: 3}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">emoji</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">EMOJI</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="n">emoji_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">emoji</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+    <span class="n">emoji_flat_text</span> <span class="o">=</span> <span class="p">[</span><span class="n">EMOJI_ENTRIES</span><span class="p">[</span><span class="n">em</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">em</span> <span class="ow">in</span> <span class="n">emoji_flat</span><span class="p">]</span>
+    <span class="n">emoji_groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">EMOJI_ENTRIES</span><span class="p">[</span><span class="n">em</span><span class="p">]</span><span class="o">.</span><span class="n">group</span> <span class="k">for</span> <span class="n">em</span> <span class="ow">in</span> <span class="n">emoji_flat</span><span class="p">]</span>
+    <span class="n">emoji_sub_groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">EMOJI_ENTRIES</span><span class="p">[</span><span class="n">em</span><span class="p">]</span><span class="o">.</span><span class="n">sub_group</span> <span class="k">for</span> <span class="n">em</span> <span class="ow">in</span> <span class="n">emoji_flat</span><span class="p">]</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;emoji&#39;</span><span class="p">:</span> <span class="n">emoji</span><span class="p">,</span>
+        <span class="s1">&#39;emoji_text&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="n">EMOJI_ENTRIES</span><span class="p">[</span><span class="n">em</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">em</span> <span class="ow">in</span> <span class="n">em_list</span><span class="p">]</span>
+                       <span class="k">for</span> <span class="n">em_list</span> <span class="ow">in</span> <span class="n">emoji</span><span class="p">],</span>
+        <span class="s1">&#39;emoji_flat&#39;</span><span class="p">:</span> <span class="n">emoji_flat</span><span class="p">,</span>
+        <span class="s1">&#39;emoji_flat_text&#39;</span><span class="p">:</span> <span class="n">emoji_flat_text</span><span class="p">,</span>
+        <span class="s1">&#39;emoji_counts&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">em</span><span class="p">)</span> <span class="k">for</span> <span class="n">em</span> <span class="ow">in</span> <span class="n">emoji</span><span class="p">],</span>
+        <span class="s1">&#39;emoji_freq&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">em</span><span class="p">)</span> <span class="k">for</span> <span class="n">em</span> <span class="ow">in</span> <span class="n">emoji</span><span class="p">])</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="s1">&#39;top_emoji&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">emoji_flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                            <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;top_emoji_text&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">emoji_flat_text</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                                 <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                 <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;top_emoji_groups&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">emoji_groups</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                                   <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                   <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;top_emoji_sub_groups&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">emoji_sub_groups</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                                       <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                       <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;overview&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;num_posts&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
+            <span class="s1">&#39;num_emoji&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">emoji_flat</span><span class="p">),</span>
+            <span class="s1">&#39;emoji_per_post&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">emoji_flat</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
+            <span class="s1">&#39;unique_emoji&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">emoji_flat</span><span class="p">)),</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">summary</span></div>
 
 
 <div class="viewcode-block" id="emoji_search"><a class="viewcode-back" href="../../advertools.emoji.html#advertools.emoji.emoji_search">[docs]</a><span class="k">def</span> <span class="nf">emoji_search</span><span class="p">(</span><span class="n">regex</span><span class="p">):</span>

@@ -199,8 +199,8 @@ and returns a similar dictionary to the other functions.</p>
 <h2>Extract Functions<a class="headerlink" href="#extract-functions" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 13%" />
-<col style="width: 87%" />
+<col style="width: 17%" />
+<col style="width: 83%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#advertools.extract.extract" title="advertools.extract.extract"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract()</span></code></a></p></td>
@@ -209,7 +209,7 @@ and returns a similar dictionary to the other functions.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#advertools.extract.extract_currency" title="advertools.extract.extract_currency"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_currency()</span></code></a></p></td>
 <td><p>Currency symbols together with surrounding text for context. This does not include currency abbreviations (USD, EUR, JPY, etc.), only symbols ($, £, €, etc).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#advertools.extract.extract_emoji" title="advertools.extract.extract_emoji"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_emoji()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="advertools.emoji.html#advertools.emoji.extract_emoji" title="advertools.emoji.extract_emoji"><code class="xref py py-func docutils literal notranslate"><span class="pre">advertools.emoji.extract_emoji()</span></code></a></p></td>
 <td><p>All the emoji database, together with textual names, groups and sub-groups.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#advertools.extract.extract_exclamations" title="advertools.extract.extract_exclamations"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_exclamations()</span></code></a></p></td>
@@ -375,89 +375,6 @@ none exist</p>
 <span class="go">&#39;num_currency_symbols&#39;: 5,</span>
 <span class="go">&#39;currency_symbols_per_post&#39;: 1.6666666666666667,</span>
 <span class="go">&#39;unique_currency_symbols&#39;: 4}</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt id="advertools.extract.extract_emoji">
-<code class="sig-name descname">extract_emoji</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/extract.html#extract_emoji"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.extract.extract_emoji" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a summary dictionary about emoji in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
-<p>Get a summary of the number of emoji, their frequency, the top
-ones, and more.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>text_list</strong> (<em>list</em>) – A list of text strings.</p>
-</dd>
-<dt class="field-even">Returns summary</dt>
-<dd class="field-even"><p>A dictionary with various stats about emoji</p>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I am grinning 😀&#39;</span><span class="p">,</span><span class="s1">&#39;A grinning cat 😺&#39;</span><span class="p">,</span>
-<span class="gp">... </span>         <span class="s1">&#39;hello! 😀😀😀 💛💛&#39;</span><span class="p">,</span> <span class="s1">&#39;Just text&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span> <span class="o">=</span> <span class="n">extract_emoji</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-<span class="go">dict_keys([&#39;emoji&#39;, &#39;emoji_text&#39;, &#39;emoji_flat&#39;, &#39;emoji_flat_text&#39;,</span>
-<span class="go">&#39;emoji_counts&#39;, &#39;emoji_freq&#39;, &#39;top_emoji&#39;, &#39;top_emoji_text&#39;,</span>
-<span class="go">&#39;top_emoji_groups&#39;, &#39;top_emoji_sub_groups&#39;, &#39;overview&#39;])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji&#39;</span><span class="p">]</span>
-<span class="go">[[&#39;😀&#39;], [&#39;😺&#39;], [&#39;😀&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;💛&#39;, &#39;💛&#39;], []]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_text&#39;</span><span class="p">]</span>
-<span class="go">[[&#39;grinning face&#39;], [&#39;grinning cat&#39;], [&#39;grinning face&#39;, &#39;grinning face&#39;,</span>
-<span class="go">  &#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;], []]</span>
-</pre></div>
-</div>
-<p>A simple extract of emoji from each of the posts. An empty
-list if none exist</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_flat&#39;</span><span class="p">]</span>
-<span class="go">[&#39;😀&#39;, &#39;😺&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;💛&#39;, &#39;💛&#39;]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_flat_text&#39;</span><span class="p">]</span>
-<span class="go">[&#39;grinning face&#39;, &#39;grinning cat&#39;, &#39;grinning face&#39;, &#39;grinning face&#39;,</span>
-<span class="go">&#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;]</span>
-</pre></div>
-</div>
-<p>All emoji in one flat list.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_counts&#39;</span><span class="p">]</span>
-<span class="go">[1, 1, 5, 0]</span>
-</pre></div>
-</div>
-<p>The count of emoji per post.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_freq&#39;</span><span class="p">]</span>
-<span class="go">[(0, 1), (1, 2), (5, 1)]</span>
-</pre></div>
-</div>
-<p>Shows how many posts had 0, 1, 2, 3, etc. emoji
-(number_of_emoji, count)</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji&#39;</span><span class="p">]</span>
-<span class="go">[(&#39;😀&#39;, 4), (&#39;💛&#39;, 2), (&#39;😺&#39;, 1)]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_text&#39;</span><span class="p">]</span>
-<span class="go">[(&#39;grinning face&#39;, 4), (&#39;yellow heart&#39;, 2),</span>
-<span class="go"> (&#39;grinning cat&#39;, 1)]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_groups&#39;</span><span class="p">]</span>
-<span class="go">[(&#39;Smileys &amp; Emotion&#39;, 7)]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_sub_groups&#39;</span><span class="p">]</span>
-<span class="go">[(&#39;face-smiling&#39;, 4), (&#39;emotion&#39;, 2), (&#39;cat-face&#39;, 1)]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
-<span class="go">{&#39;num_posts&#39;: 4,</span>
-<span class="go"> &#39;num_emoji&#39;: 7,</span>
-<span class="go"> &#39;emoji_per_post&#39;: 1.75,</span>
-<span class="go"> &#39;unique_emoji&#39;: 3}</span>
 </pre></div>
 </div>
 </dd></dl>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python SEO Crawler / Spider &mdash;  Python</title>
+  <title>🕷 Python SEO Crawler / Spider &mdash;  Python</title>
   
 
   
@@ -173,7 +173,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Python SEO Crawler / Spider</li>
+      <li>🕷 Python SEO Crawler / Spider</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -193,7 +193,7 @@
            <div itemprop="articleBody">
             
   <span class="target" id="module-advertools.spider"></span><div class="section" id="python-seo-crawler-spider">
-<h1>Python SEO Crawler / Spider<a class="headerlink" href="#python-seo-crawler-spider" title="Permalink to this headline">¶</a></h1>
+<h1>🕷 Python SEO Crawler / Spider<a class="headerlink" href="#python-seo-crawler-spider" title="Permalink to this headline">¶</a></h1>
 <p>A straightforward crawler to analyze SEO and content of pages and websites.</p>
 <p>This is provided by the <a class="reference internal" href="#advertools.spider.crawl" title="advertools.spider.crawl"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawl()</span></code></a> function which is customized for SEO and
 content analysis usage, and is highly configurable. The crawler uses
@@ -387,7 +387,9 @@ following links on pages that it crawls. So how do you make sure that the
 crawler doesn’t try to crawl the whole web when <code class="docutils literal notranslate"><span class="pre">follow_links</span></code> is <cite>True</cite>?
 The <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code> parameter gives you the ability to control this,
 although it is and optional parameter. If you don’t specify it, then it will
-default to only the domains in the <code class="docutils literal notranslate"><span class="pre">url_list</span></code>.</p>
+default to only the domains in the <code class="docutils literal notranslate"><span class="pre">url_list</span></code>. It’s important to note that
+you have to set this parameter if you have certain sub-domains that you want to
+crawl.</p>
 </div>
 </div>
 <div class="section" id="css-and-xpath-selectors">
@@ -517,7 +519,9 @@ documentation.</p></li>
 crawl. This ensures that the crawler does not
 attempt to crawl the whole web. If not
 specified, it defaults to the domains of the
-URLs provided in <code class="docutils literal notranslate"><span class="pre">url_list</span></code>.</p></li>
+URLs provided in <code class="docutils literal notranslate"><span class="pre">url_list</span></code>. You can use it
+for sub-domains if you want them to be crawled
+as they will not be crawled if not specified.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Examples</dt>

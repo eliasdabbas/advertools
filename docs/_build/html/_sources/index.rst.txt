@@ -16,15 +16,14 @@ advertools
 Online marketing productivity and analysis tools
 ------------------------------------------------
 
-Generate keywords for SEM campaigns, create text ads on a large scale, analyze
-multiple SERPs at once, gain insights from large social media posts, and get
-productive as an online marketer.
+Crawl websites, Generate keywords for SEM campaigns, create text ads on a large
+scale, analyze multiple SERPs at once, gain insights from large social media
+posts, and get productive as an online marketer.
 
 If these are things you are interested in, then this package might make your
 life a little easier.
 
 .. toctree::
-   :maxdepth: 2
    :titlesonly:
 
    About advertools <readme>
