@@ -1,6 +1,6 @@
 """
-Python SEO Crawler / Spider
-===========================
+🕷 Python SEO Crawler / Spider
+==============================
 
 A straightforward crawler to analyze SEO and content of pages and websites.
 
@@ -160,7 +160,9 @@ following links on pages that it crawls. So how do you make sure that the
 crawler doesn't try to crawl the whole web when ``follow_links`` is `True`?
 The ``allowed_domains`` parameter gives you the ability to control this,
 although it is and optional parameter. If you don't specify it, then it will
-default to only the domains in the ``url_list``.
+default to only the domains in the ``url_list``. It's important to note that
+you have to set this parameter if you have certain sub-domains that you want to
+crawl.
 
 CSS and XPath Selectors
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -401,7 +403,9 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
                                  crawl. This ensures that the crawler does not
                                  attempt to crawl the whole web. If not
                                  specified, it defaults to the domains of the
-                                 URLs provided in ``url_list``.
+                                 URLs provided in ``url_list``. You can use it
+                                 for sub-domains if you want them to be crawled
+                                 as they will not be crawled if not specified.
     :Examples:
 
     Crawl a website and let the crawler discover as many pages as available
