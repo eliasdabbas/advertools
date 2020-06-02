@@ -19,19 +19,19 @@ and returns a similar dictionary to the other functions.
 Extract Functions
 -----------------
 
-=============================   ====================================================================
-:func:`extract`                 A generic function that takes a regex to extract any pattern you want
-:func:`extract_currency`        Currency symbols together with surrounding text for context. This does not include currency abbreviations (USD, EUR, JPY, etc.), only symbols ($, £, €, etc).
-:func:`extract_emoji`           All the emoji database, together with textual names, groups and sub-groups.
-:func:`extract_exclamations`    Sentences that end with an excalamation mark!
-:func:`extract_hashtags`        Extract hashtags with descriptive statistics.
-:func:`extract_intense_words`   Words that contain three or more repeated characters to express an intense feeling (positive or negative), "I looooooovvvvee this thing".
-:func:`extract_mentions`        User mentions in social media posts. Also useful for network analysis.
-:func:`extract_numbers`         Any numbers that are included the text list. Included a modifiable list of separators to use (",", ".", "-", etc.).
-:func:`extract_questions`       Questions included in the text list.
-:func:`extract_urls`            URls in the text list.
-:func:`extract_words`           Any arbitrary words that you want extracted. Works in two modes, either the word should fully match the pattern, or as part of a longer word, ("rest" can be matched from "restaurant" or not).
-=============================   ====================================================================
+======================================     ====================================================================
+:func:`extract`                            A generic function that takes a regex to extract any pattern you want
+:func:`extract_currency`                   Currency symbols together with surrounding text for context. This does not include currency abbreviations (USD, EUR, JPY, etc.), only symbols ($, £, €, etc).
+:func:`advertools.emoji.extract_emoji`     All the emoji database, together with textual names, groups and sub-groups.
+:func:`extract_exclamations`               Sentences that end with an excalamation mark!
+:func:`extract_hashtags`                   Extract hashtags with descriptive statistics.
+:func:`extract_intense_words`              Words that contain three or more repeated characters to express an intense feeling (positive or negative), "I looooooovvvvee this thing".
+:func:`extract_mentions`                   User mentions in social media posts. Also useful for network analysis.
+:func:`extract_numbers`                    Any numbers that are included the text list. Included a modifiable list of separators to use (",", ".", "-", etc.).
+:func:`extract_questions`                  Questions included in the text list.
+:func:`extract_urls`                       URls in the text list.
+:func:`extract_words`                      Any arbitrary words that you want extracted. Works in two modes, either the word should fully match the pattern, or as part of a longer word, ("rest" can be matched from "restaurant" or not).
+======================================     ====================================================================
 
 All functions return a dictionary with the entities extracted, along with
 helpful statistics. Since the entities have different meanings, most of them
