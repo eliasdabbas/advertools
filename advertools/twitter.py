@@ -10,7 +10,10 @@ from functools import wraps
 
 from twython import Twython
 import pandas as pd
-from pandas.io.json import json_normalize
+if int(pd.__version__[0]) >= 1:
+    from pandas import json_normalize
+else:
+    from pandas.io.json import json_normalize
 
 
 TWITTER_LOG_FMT = ('%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d '
