@@ -32,12 +32,15 @@ That's it!
 
 What this does:
 
-* Check the site's robots.txt file and get the crawl rules
-* Starting with the provided URL(s) go through all links and parse pages
-* For each URL extract the most important SEO elements
-* Save them to ``output_file`` in the specified format
+* Check the site's robots.txt file and get the crawl rules, which means that
+  your crawl will be affected by these rules and the user agent you are using.
+  Check the details below on how to change settings and user agents to control
+  this.
+* Starting with the provided URL(s) go through all links and parse pages.
+* For each URL extract the most important SEO elements.
+* Save them to ``output_file`` in the specified format.
 * The column headers of the output file (if you specify csv) would be the names
-  of the elements
+  of the elements.
 
 Supported file extensions:
 
