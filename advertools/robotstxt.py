@@ -181,6 +181,7 @@ Let's see who is and who is not allowed to fetch the home page.
 I'll leave to you to figure out why LinkedIn and Pinterest are not allowed to
 crawl the home page but Google and Apple are, because I have no clue!
 """
+__all__ = ['robotstxt_to_df', 'robotstxt_test']
 
 import logging
 from urllib.request import Request, urlopen
