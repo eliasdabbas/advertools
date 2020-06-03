@@ -8,11 +8,11 @@ __version__ = '0.10.2'
 from advertools.ad_create import ad_create
 from advertools.ad_from_string import ad_from_string
 from advertools.spider import crawl
-from advertools.emoji import extract_emoji, emoji_search, emoji_df
+from advertools.emoji import *
 from advertools.extract import *
 from advertools.kw_generate import *
 from advertools.regex import *
-from advertools.robotstxt import robotstxt_to_df, robotstxt_test
+from advertools.robotstxt import *
 from advertools.sitemaps import sitemap_to_df
 from advertools.stopwords import stopwords
 from advertools.url_builders import url_utm_ga
