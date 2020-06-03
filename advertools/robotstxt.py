@@ -49,8 +49,8 @@ the provided URLs, paths, or patterns.
 ...                urls=['/', '/hello', '/some-page.html']])
 
 As a result, you get a DataFrame with a row for each combination of
-(user-agent, URL) indicating whether or not that particular user-agen can fetch
-the given URL.
+(user-agent, URL) indicating whether or not that particular user-agent can
+fetch the given URL.
 
 Some reasons why you might want to do that:
 
@@ -66,7 +66,7 @@ In reality there are only two groups of user-agents that you need to worry
 about:
 
 * User-agents listed in the robots.txt file: For each one of those you need to
-  check whether or not they are blocked from a fetching a certain URL
+  check whether or not they are blocked from fetching a certain URL
   (or pattern).
 * ``*`` all other user-agents: The ``*`` includes all other user-agents, so
   checking the rules that apply to it should take care of the rest.
@@ -151,7 +151,7 @@ profile page (/bbc), groups and hashtags pages.
 
 For twenty user-agents and four URLs each, we received a total of eighty test
 results. You can immediately see that all user-agents not listed (denoted by
-"*" are not allowed to fetch any of the provided URLs).
+`*` are not allowed to fetch any of the provided URLs).
 
 Let's see who is and who is not allowed to fetch the home page.
 
@@ -231,12 +231,19 @@ def robotstxt_test(robotstxt_url, user_agents, urls):
     >>> robotstxt_test('https://facebook.com/robots.txt',
     ...                user_agents=['*', 'Googlebot', 'Applebot'],
     ...                urls=['/', '/bbc', '/groups', '/hashtag/'])
-                                  robotstxt_url user_agent   url_path  can_fetch
-    0   https://www.facebook.com/robots.txt          *       /bbc      False
-    1   https://www.facebook.com/robots.txt          *    /groups      False
-    2   https://www.facebook.com/robots.txt          *          /      False
-    3   https://www.facebook.com/robots.txt          *  /hashtag/      False
-    4   https://www.facebook.com/robots.txt   Applebot          /       True
+                          robotstxt_url user_agent   url_path  can_fetch
+    0   https://facebook.com/robots.txt          *          /      False
+    1   https://facebook.com/robots.txt          *       /bbc      False
+    2   https://facebook.com/robots.txt          *    /groups      False
+    3   https://facebook.com/robots.txt          *  /hashtag/      False
+    4   https://facebook.com/robots.txt   Applebot          /       True
+    5   https://facebook.com/robots.txt   Applebot       /bbc       True
+    6   https://facebook.com/robots.txt   Applebot    /groups       True
+    7   https://facebook.com/robots.txt   Applebot  /hashtag/      False
+    8   https://facebook.com/robots.txt  Googlebot          /       True
+    9   https://facebook.com/robots.txt  Googlebot       /bbc       True
+    10  https://facebook.com/robots.txt  Googlebot    /groups       True
+    11  https://facebook.com/robots.txt  Googlebot  /hashtag/      False
 
     :param url robotstxt_url: The URL of robotx.txt file
     :param str,list user_agents: One or more user agents
