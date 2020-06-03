@@ -1,9 +1,12 @@
+# this is a comment
 User-agent: *
-Allow: /
 
-Sitemap: https://advertools.readthedocs.io/sitemap_testing/image_sitemap.xml
-Sitemap: https://advertools.readthedocs.io/sitemap_testing/zipped_sitemap.xml.gz
-Sitemap: https://advertools.readthedocs.io/sitemap_testing/video_sitemap.xml
-Sitemap: https://advertools.readthedocs.io/sitemap_testing/regular_sitemap.xml
-Sitemap: https://advertools.readthedocs.io/sitemap_testing/news_sitemap.xml
-Sitemap: https://advertools.readthedocs.io/sitemap_testing/sitemap_index.xml
+Allow: /help*
+Allow: /*php$
+
+User-agent: Googlebot
+Disallow:/dont_crawl
+Disallow: /*php$
+Allow: /*js$
+
+Sitemap: https://advertools.readthedocs.io/sitemap.xml
