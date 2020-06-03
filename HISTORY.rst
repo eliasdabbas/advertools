@@ -2,6 +2,17 @@
 Change Log - advertools
 =======================
 
+0.10.3 (2020-06-03)
+-------------------
+
+* Added
+    - New function ``robotstxt_test``, testing URLs and whether they can be
+      fetched by certain user-agents
+
+* Changed
+    - Documentation main page relayout, grouping of topics, & sidebar captions
+    - Various documentation clarifications and new tests
+
 0.10.2 (2020-05-25)
 -------------------
 
