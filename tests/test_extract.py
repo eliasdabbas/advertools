@@ -4,6 +4,7 @@ from advertools.extract import * # (extract, extract_currency, extract_emoji,
 #                                 extract_exclamations, extract_hashtags,
 #                                 extract_intense_words, extract_mentions,
 #                                 extract_questions, extract_words, extract_urls)
+from advertools.emoji import *
 
 number_posts = ['before123,000', '123after', 'comma 123,456', 'dot 123.234.3',
                 'skip 123-', 'nothing', 'two 123 456,789']
