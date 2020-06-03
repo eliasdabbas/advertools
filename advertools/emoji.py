@@ -16,6 +16,8 @@ emoji from text.
 :class:`EMOJI_RAW`        A regular expression to extract the full list. See here on how it was developed: https://www.kaggle.com/eliasdabbas/how-to-create-a-python-regex-to-extract-emoji
 =======================   ====================================================================
 """
+__all__ = ['emoji_df', 'extract_emoji', 'emoji_search']
+
 import re
 from collections import Counter, namedtuple
 
