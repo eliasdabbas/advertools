@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.10.2
+                0.10.3
               </div>
             
           
@@ -228,8 +228,8 @@
 <span class="sd">...                urls=[&#39;/&#39;, &#39;/hello&#39;, &#39;/some-page.html&#39;]])</span>
 
 <span class="sd">As a result, you get a DataFrame with a row for each combination of</span>
-<span class="sd">(user-agent, URL) indicating whether or not that particular user-agen can fetch</span>
-<span class="sd">the given URL.</span>
+<span class="sd">(user-agent, URL) indicating whether or not that particular user-agent can</span>
+<span class="sd">fetch the given URL.</span>
 
 <span class="sd">Some reasons why you might want to do that:</span>
 
@@ -245,7 +245,7 @@
 <span class="sd">about:</span>
 
 <span class="sd">* User-agents listed in the robots.txt file: For each one of those you need to</span>
-<span class="sd">  check whether or not they are blocked from a fetching a certain URL</span>
+<span class="sd">  check whether or not they are blocked from fetching a certain URL</span>
 <span class="sd">  (or pattern).</span>
 <span class="sd">* ``*`` all other user-agents: The ``*`` includes all other user-agents, so</span>
 <span class="sd">  checking the rules that apply to it should take care of the rest.</span>
@@ -330,7 +330,7 @@
 
 <span class="sd">For twenty user-agents and four URLs each, we received a total of eighty test</span>
 <span class="sd">results. You can immediately see that all user-agents not listed (denoted by</span>
-<span class="sd">&quot;*&quot; are not allowed to fetch any of the provided URLs).</span>
+<span class="sd">`*` are not allowed to fetch any of the provided URLs).</span>
 
 <span class="sd">Let&#39;s see who is and who is not allowed to fetch the home page.</span>
 
@@ -410,12 +410,19 @@
 <span class="sd">    &gt;&gt;&gt; robotstxt_test(&#39;https://facebook.com/robots.txt&#39;,</span>
 <span class="sd">    ...                user_agents=[&#39;*&#39;, &#39;Googlebot&#39;, &#39;Applebot&#39;],</span>
 <span class="sd">    ...                urls=[&#39;/&#39;, &#39;/bbc&#39;, &#39;/groups&#39;, &#39;/hashtag/&#39;])</span>
-<span class="sd">                                  robotstxt_url user_agent   url_path  can_fetch</span>
-<span class="sd">    0   https://www.facebook.com/robots.txt          *       /bbc      False</span>
-<span class="sd">    1   https://www.facebook.com/robots.txt          *    /groups      False</span>
-<span class="sd">    2   https://www.facebook.com/robots.txt          *          /      False</span>
-<span class="sd">    3   https://www.facebook.com/robots.txt          *  /hashtag/      False</span>
-<span class="sd">    4   https://www.facebook.com/robots.txt   Applebot          /       True</span>
+<span class="sd">                          robotstxt_url user_agent   url_path  can_fetch</span>
+<span class="sd">    0   https://facebook.com/robots.txt          *          /      False</span>
+<span class="sd">    1   https://facebook.com/robots.txt          *       /bbc      False</span>
+<span class="sd">    2   https://facebook.com/robots.txt          *    /groups      False</span>
+<span class="sd">    3   https://facebook.com/robots.txt          *  /hashtag/      False</span>
+<span class="sd">    4   https://facebook.com/robots.txt   Applebot          /       True</span>
+<span class="sd">    5   https://facebook.com/robots.txt   Applebot       /bbc       True</span>
+<span class="sd">    6   https://facebook.com/robots.txt   Applebot    /groups       True</span>
+<span class="sd">    7   https://facebook.com/robots.txt   Applebot  /hashtag/      False</span>
+<span class="sd">    8   https://facebook.com/robots.txt  Googlebot          /       True</span>
+<span class="sd">    9   https://facebook.com/robots.txt  Googlebot       /bbc       True</span>
+<span class="sd">    10  https://facebook.com/robots.txt  Googlebot    /groups       True</span>
+<span class="sd">    11  https://facebook.com/robots.txt  Googlebot  /hashtag/      False</span>
 
 <span class="sd">    :param url robotstxt_url: The URL of robotx.txt file</span>
 <span class="sd">    :param str,list user_agents: One or more user agents</span>

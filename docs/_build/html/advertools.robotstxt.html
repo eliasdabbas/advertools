@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.10.2
+                0.10.3
               </div>
             
           
@@ -227,8 +227,8 @@ the provided URLs, paths, or patterns.</p>
 </pre></div>
 </div>
 <p>As a result, you get a DataFrame with a row for each combination of
-(user-agent, URL) indicating whether or not that particular user-agen can fetch
-the given URL.</p>
+(user-agent, URL) indicating whether or not that particular user-agent can
+fetch the given URL.</p>
 <p>Some reasons why you might want to do that:</p>
 <ul class="simple">
 <li><p>SEO Audits: Especially for large websites with many URL patterns, and many
@@ -242,7 +242,7 @@ rules for different user-agents.</p></li>
 about:</p>
 <ul class="simple">
 <li><p>User-agents listed in the robots.txt file: For each one of those you need to
-check whether or not they are blocked from a fetching a certain URL
+check whether or not they are blocked from fetching a certain URL
 (or pattern).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">*</span></code> all other user-agents: The <code class="docutils literal notranslate"><span class="pre">*</span></code> includes all other user-agents, so
 checking the rules that apply to it should take care of the rest.</p></li>
@@ -326,7 +326,7 @@ profile page (/bbc), groups and hashtags pages.</p>
 </div>
 <p>For twenty user-agents and four URLs each, we received a total of eighty test
 results. You can immediately see that all user-agents not listed (denoted by
-“*” are not allowed to fetch any of the provided URLs).</p>
+<cite>*</cite> are not allowed to fetch any of the provided URLs).</p>
 <p>Let’s see who is and who is not allowed to fetch the home page.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fb_test</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;url_path== &quot;/&quot;&#39;</span><span class="p">)</span>
 <span class="go">                          robotstxt_url           user_agent  url_path  can_fetch</span>
@@ -379,12 +379,19 @@ checked and the results returned in one DataFrame.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_test</span><span class="p">(</span><span class="s1">&#39;https://facebook.com/robots.txt&#39;</span><span class="p">,</span>
 <span class="gp">... </span>               <span class="n">user_agents</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;Googlebot&#39;</span><span class="p">,</span> <span class="s1">&#39;Applebot&#39;</span><span class="p">],</span>
 <span class="gp">... </span>               <span class="n">urls</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;/bbc&#39;</span><span class="p">,</span> <span class="s1">&#39;/groups&#39;</span><span class="p">,</span> <span class="s1">&#39;/hashtag/&#39;</span><span class="p">])</span>
-<span class="go">                              robotstxt_url user_agent   url_path  can_fetch</span>
-<span class="go">0   https://www.facebook.com/robots.txt          *       /bbc      False</span>
-<span class="go">1   https://www.facebook.com/robots.txt          *    /groups      False</span>
-<span class="go">2   https://www.facebook.com/robots.txt          *          /      False</span>
-<span class="go">3   https://www.facebook.com/robots.txt          *  /hashtag/      False</span>
-<span class="go">4   https://www.facebook.com/robots.txt   Applebot          /       True</span>
+<span class="go">                      robotstxt_url user_agent   url_path  can_fetch</span>
+<span class="go">0   https://facebook.com/robots.txt          *          /      False</span>
+<span class="go">1   https://facebook.com/robots.txt          *       /bbc      False</span>
+<span class="go">2   https://facebook.com/robots.txt          *    /groups      False</span>
+<span class="go">3   https://facebook.com/robots.txt          *  /hashtag/      False</span>
+<span class="go">4   https://facebook.com/robots.txt   Applebot          /       True</span>
+<span class="go">5   https://facebook.com/robots.txt   Applebot       /bbc       True</span>
+<span class="go">6   https://facebook.com/robots.txt   Applebot    /groups       True</span>
+<span class="go">7   https://facebook.com/robots.txt   Applebot  /hashtag/      False</span>
+<span class="go">8   https://facebook.com/robots.txt  Googlebot          /       True</span>
+<span class="go">9   https://facebook.com/robots.txt  Googlebot       /bbc       True</span>
+<span class="go">10  https://facebook.com/robots.txt  Googlebot    /groups       True</span>
+<span class="go">11  https://facebook.com/robots.txt  Googlebot  /hashtag/      False</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
