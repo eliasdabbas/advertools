@@ -178,8 +178,8 @@ Let's see who is and who is not allowed to fetch the home page.
 74  https://www.facebook.com/robots.txt            seznambot         /       True
 76  https://www.facebook.com/robots.txt                teoma         /       True
 
-I'll leave to you to figure out why LinkedIn and Pinterest are not allowed to
-crawl the home page but Google and Apple are, because I have no clue!
+I'll leave it to you to figure out why LinkedIn and Pinterest are not allowed
+to crawl the home page but Google and Apple are, because I have no clue!
 """
 __all__ = ['robotstxt_to_df', 'robotstxt_test']
 
