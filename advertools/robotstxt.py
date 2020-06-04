@@ -270,5 +270,5 @@ def robotstxt_test(robotstxt_url, user_agents, urls):
         d['can_fetch'] = rp.can_fetch(path, agent)
         df = df.append(pd.DataFrame(d, index=range(1)), ignore_index=True)
     df.insert(0, 'robotstxt_url', robotstxt_url)
-    df = df.sort_values('user_agent').reset_index(drop=True)
+    df = df.sort_values(['user_agent', 'url_path']).reset_index(drop=True)
     return df
