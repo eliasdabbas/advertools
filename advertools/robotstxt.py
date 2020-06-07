@@ -262,13 +262,14 @@ def robotstxt_test(robotstxt_url, user_agents, urls):
     robots_text = ''.join(line.decode() for line in robots_bytes)
     rp = Protego.parse(robots_text)
 
-    df = pd.DataFrame()
+    test_list = []
     for path, agent in product(urls, user_agents):
         d = dict()
         d['user_agent'] = agent
         d['url_path'] = path
         d['can_fetch'] = rp.can_fetch(path, agent)
-        df = df.append(pd.DataFrame(d, index=range(1)), ignore_index=True)
+        test_list.append(d)
+    df = pd.DataFrame(test_list)
     df.insert(0, 'robotstxt_url', robotstxt_url)
     df = df.sort_values(['user_agent', 'url_path']).reset_index(drop=True)
     return df
