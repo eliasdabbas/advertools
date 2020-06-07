@@ -2,6 +2,14 @@
 Change Log - advertools
 =======================
 
+0.10.4 (2020-06-07)
+-------------------
+
+* Added
+    - New function ``url_to_df``, splitting URLs into their components and to a
+      DataFrame
+    - Slight speed up for ``robotstxt_test``
+
 0.10.3 (2020-06-03)
 -------------------
 
