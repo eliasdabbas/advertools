@@ -16,6 +16,7 @@ from advertools.robotstxt import *
 from advertools.sitemaps import sitemap_to_df
 from advertools.stopwords import stopwords
 from advertools.url_builders import url_utm_ga
+from advertools.urlytics import url_to_df
 from advertools.word_frequency import word_frequency
 from advertools.word_tokenize import word_tokenize
 from . import twitter
