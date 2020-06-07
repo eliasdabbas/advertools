@@ -15,6 +15,7 @@
         :target: https://lgtm.com/projects/g/eliasdabbas/advertools/context:python
 
 | 🎊 **New:** `SEO crawler <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
+| 🎉 **New:** ``url_to_df`` Function for `analyzing URLs <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html>`_ by extracting their elements into DataFrames
 | 🎉 **New:** ``sitemap_to_df`` Function for `downloading & parsing XML sitemaps <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html>`_ into DataFrames
 
 
@@ -132,8 +133,13 @@ options for text analysis
   text mining. What is also important is counting those words by taking in
   consideration their relative weights in the dataset. ``word_frequency`` does
   just that.
+* `URL Analysis <https://advertools.readthedocs.io/en/master/advertools.urlytics.html>`_
+  We all have to handle many thousands of URLs in reports, crawls, social media
+  extracts, XML sitemaps and so on. ``url_to_df`` converts your URLs into
+  easily readable DataFrames.
+
 * `Emoji <https://advertools.readthedocs.io/en/master/advertools.emoji.html>`_
-  Produced with one click, extremely expressive, highgly diverse (3k+ emoji),
+  Produced with one click, extremely expressive, highly diverse (3k+ emoji),
   and very popular, it's important to capture what people are trying to communicate
   with emoji. Extracting emoji, get their names, groups, and sub-groups is
   possible. The full emoji database is also available for convenience, as well
@@ -202,3 +208,5 @@ autocomplete to discover other options:
 | ``youtube``: a module for querying the YouTube Data API and getting results in a DataFrame
 | ``serp_``: get search engine results pages in a DataFrame, currently available: Google and YouTube
 | ``crawl``: a function you will probably use a lot if you do SEO
+| ``*_to_df``: a set of convenience functions for converting to DataFrames
+  (XML sitemaps, robots.txt files, and lists of URLs)
