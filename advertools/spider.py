@@ -1,4 +1,6 @@
 """
+.. _crawl:
+
 🕷 Python SEO Crawler / Spider
 ==============================
 
@@ -51,6 +53,14 @@ Supported file extensions:
 * marshal
 * pickle
 
+.. note::
+
+    When the crawler parses pages it saves the data to the specified file by
+    appending, and not overwriting. Otherwise it would have to store all the
+    data in memory, which might crash your computer. A good practice is to have
+    a separate ``output_file`` for every crawl with a descriptive name
+    `sitename_crawl_YYYY_MM_DD.csv` for example. If you use the same file you
+    will probably get duplicate data in the same file.
 
 Extracted On-Page SEO Elements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
