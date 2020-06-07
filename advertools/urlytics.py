@@ -28,8 +28,7 @@ The main function here is :func:`url_to_df`, which as the name suggests,
 converts URLs to DataFrames.
 
 >>> urls ['https://net.location.com/path_1/path_2?price=10&color=blue#frag_1',
-...       'https://net.location.com/path_1/path_2?price=15&color=red#frag_2',
-...       '/path_1/path_2?price=555&color=yellow#frag_2']
+...       'https://net.location.com/path_1/path_2?price=15&color=red#frag_2']
 >>> url_to_df(urls)
 	                                                              url  scheme	          netloc	          path	                 query	fragment     dir_1	 dir_2	query_price	query_color
 0	https://net.location.com/path_1/path_2?price=10&color=blue#frag_1	https	net.location.com	/path_1/path_2	   price=10&color=blue	  frag_1	path_1	path_2	         10	       blue
