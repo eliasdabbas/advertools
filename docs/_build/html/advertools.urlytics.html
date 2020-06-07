@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Split, Parse, and Analyze URLs &mdash;  Python</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Emoji: Extract, Analyze, and Get Insights" href="advertools.emoji.html" />
+    <link rel="prev" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" href="advertools.serp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">URL Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#query-parameters">Query Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-url-path-directories">The URL Path (Directories):</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Split, Parse, and Analyze URLs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/advertools.urlytics.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-advertools.urlytics"></span><div class="section" id="split-parse-and-analyze-urls">
+<span id="urlytics"></span><h1>Split, Parse, and Analyze URLs<a class="headerlink" href="#split-parse-and-analyze-urls" title="Permalink to this headline">¶</a></h1>
+<p>Extracting information from URLs can be a little tedious, yet very important.
+Using the standard for URLs we can extract a lot of information in a fairly
+structured manner.</p>
+<p>There are many situations in which you have many URLs that you want to better
+understand:</p>
+<ul class="simple">
+<li><p><strong>Analytics reports</strong>: Whichever analytics sytem you use, whether Google
+Analytics, search console, or any other reporting tool that reports on URLs,
+your reports can be enhanced by splitting URLs, and in effect becoming four
+or five data points as opposed to one.</p></li>
+<li><p><a class="reference internal" href="advertools.spider.html#crawl"><span class="std std-ref">Crawl datasets</span></a>: The result of any crawl you run typically
+contains the URLs, which can benefit from the same enhancement.</p></li>
+<li><p><a class="reference internal" href="advertools.serp.html#serp"><span class="std std-ref">SERP datasets</span></a>: Which are basically about URLs.</p></li>
+<li><p><a class="reference internal" href="advertools.extract.html#extract"><span class="std std-ref">Extracted URLs</span></a>: Extracting URLs from social media posts is
+one thing you might want to do to better understand those posts, and further
+splitting URLs can also help.</p></li>
+<li><p><a class="reference internal" href="advertools.sitemaps.html#sitemaps"><span class="std std-ref">XML sitemaps</span></a>: Right after downloading a sitemap(s)
+splitting it further can help in giving a better perspective on the dataset.</p></li>
+</ul>
+<p>The main function here is <a class="reference internal" href="#advertools.urlytics.url_to_df" title="advertools.urlytics.url_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">url_to_df()</span></code></a>, which as the name suggests,
+converts URLs to DataFrames.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">urls</span> <span class="p">[</span><span class="s1">&#39;https://net.location.com/path_1/path_2?price=10&amp;color=blue#frag_1&#39;</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="s1">&#39;https://net.location.com/path_1/path_2?price=15&amp;color=red#frag_2&#39;</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="s1">&#39;/path_1/path_2?price=555&amp;color=yellow#frag_2&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_to_df</span><span class="p">(</span><span class="n">urls</span><span class="p">)</span>
+<span class="go">                                                                      url  scheme                 netloc                  path                   query  fragment     dir_1       dir_2  query_price     query_color</span>
+<span class="go">0       https://net.location.com/path_1/path_2?price=10&amp;color=blue#frag_1       https   net.location.com        /path_1/path_2     price=10&amp;color=blue    frag_1        path_1  path_2           10            blue</span>
+<span class="go">1        https://net.location.com/path_1/path_2?price=15&amp;color=red#frag_2       https   net.location.com        /path_1/path_2      price=15&amp;color=red    frag_2        path_1  path_2           15             red</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>url</strong>: The original URLs are listed as a reference. They are decoded for
+easier reading, and you can set <code class="docutils literal notranslate"><span class="pre">decode=False</span></code> if you want to retain the
+original encoding.</p></li>
+<li><p><strong>scheme</strong>: Self-explanatory. Note that you can also provide relative URLs
+<cite>/category/sub-category?one=1&amp;two=2</cite> in which case the <cite>url</cite>, <cite>scheme</cite> and
+<cite>netloc</cite> columns would be empty. You can mix relative and absolute URLs as
+well.</p></li>
+<li><p><strong>netloc</strong>: The network location is the sub-domain (optional) together with
+the domain and top-level domain and/or the country domain.</p></li>
+<li><p><strong>path</strong>: The slug of the URL, excluding the query parameters and fragments
+if any. The path is also split in to directories <cite>dir_1, dir_2, dir_3…</cite> to
+make it easier to categorize and analyze the URLs.</p></li>
+<li><p><strong>query</strong>: If query parameters are available they are given in this column,
+but more importantly they are parsed and included in separate columns, where
+each parameter has its own column (with the keys being the names). As in the
+example above, the query <cite>price=10&amp;color=blue</cite> becomes two columns, one for
+price and the other for color. If any other URLs in the dataset contain the
+same parameters, their values will be populated in the same column, and <cite>NA</cite>
+otherwise.</p></li>
+<li><p><strong>fragment</strong>: The final part of the URL after the hash mark <cite>#</cite>, linking to a
+part in the page.</p></li>
+<li><p><strong>query_*</strong>: The query parameter names are prepended with <cite>query_</cite> to make
+it easy to filter them out, and to avoid any name collissions with other
+columns, if some URL contains a query parameter called “url” for example.
+In the unlikely event of having a repeated parameter in the same URL, then
+their values would be delimited by two “&#64;” signs <cite>one&#64;&#64;two&#64;&#64;three</cite>. It’s
+unusual, but it happens.</p></li>
+<li><p><strong>hostname and port</strong>: If available a column for ports will be shown, and if
+the hostname is different from <cite>netloc</cite> it would also have its own column.</p></li>
+</ul>
+<div class="section" id="query-parameters">
+<h2>Query Parameters<a class="headerlink" href="#query-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The great thing about parameters is that the names are descriptive (mostly!)
+and once given a certain column you can easily understand what data they
+contain. Once this is done, you can sort the products by price, filter by
+destination, get the red and blue items, and so on.</p>
+</div>
+<div class="section" id="the-url-path-directories">
+<h2>The URL Path (Directories):<a class="headerlink" href="#the-url-path-directories" title="Permalink to this headline">¶</a></h2>
+<p>Here things are not as straightforward, and there is no way to know what the
+first or second directory is supposed to indicate. In general, I can think of
+three main situations that you can encounter while analyzing directories.</p>
+<ul>
+<li><p><strong>Consistent URLs</strong>: This is the simplest case, where all URLs follow the
+same structure. <cite>/en/product1</cite> clearly shows that the first directory
+indicates the language of the page. So it can also make sense to rename those
+columns once you have discovered their meaning.</p></li>
+<li><p><strong>Inconsistent URLs</strong>: This is similar to the previous situation. All URLs
+follow the same pattern with a few exceptions. Take the following URLs for
+example:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>/topic1/title-of-article-1</p></li>
+<li><p>/es/topic1/title-of-article-2</p></li>
+<li><p>/es/topic2/title-of-article-3</p></li>
+<li><p>/topic2/title-of-artilce-4</p></li>
+</ul>
+</div></blockquote>
+<p>You can see that they follow the pattern <cite>/language/topic/article-title</cite>,
+except for English, which is not explicitly mentioned, but its articles can
+be identified by having two instead of three directories, as we have for
+“/es/”. If URLs are split in this case, yout will end up with <cite>dir_1</cite> having
+“topic1”, “es”, “es”, and “topic2”, which distorts the data. Actually you
+want to have “en”, “es”, “es”, “en”. In such cases, after making sure you
+have the right rules and patterns, you might create special columns or
+replace/insert values to make them consistent, and get them to a state
+similar to the first example.</p>
+</li>
+<li><p><strong>URLs of different types</strong>: In many cases you will find that sites having
+different types of pages with completely different roles on the site.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>/blog/post-1-title.html</p></li>
+<li><p>/community/help/topic_1</p></li>
+<li><p>/community/help/topic_2</p></li>
+</ul>
+</div></blockquote>
+<p>Here, once you split the directories, you will see that they don’t align
+properly (because of different lengths), and they can’t be compared easily. A
+good approach is to split your dataset into one for blog posts and another
+for community content for example.</p>
+</li>
+</ul>
+<p>The ideal case for the <cite>path</cite> part of the URL is to be split into directories
+of equal length across the dataset, having the right data in the right columns
+and <cite>NA</cite> otherwise. Or, splitting the dataset and analyzing separately.</p>
+<dl class="py function">
+<dt id="advertools.urlytics.url_to_df">
+<code class="sig-name descname">url_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">urls</span></em>, <em class="sig-param"><span class="n">decode</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/urlytics.html#url_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.urlytics.url_to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split the given URLs into their components to a DataFrame.</p>
+<p>Each column will have its own component, and query parameters and
+directories will also be parsed and given special columns each.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>urls</strong> (<em>url</em>) – A list of URLs to split into components</p></li>
+<li><p><strong>decode</strong> (<em>bool</em>) – Whether or not to decode the given URLs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return DataFrame split</dt>
+<dd class="field-even"><p>A DataFrame with a column for each component</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advertools.emoji.html" class="btn btn-neutral float-right" title="Emoji: Extract, Analyze, and Get Insights" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="advertools.serp.html" class="btn btn-neutral float-left" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Elias Dabbas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

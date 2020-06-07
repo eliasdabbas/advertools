@@ -100,6 +100,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.urlytics.html">URL Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
@@ -357,8 +358,8 @@
 <span class="sd">74  https://www.facebook.com/robots.txt            seznambot         /       True</span>
 <span class="sd">76  https://www.facebook.com/robots.txt                teoma         /       True</span>
 
-<span class="sd">I&#39;ll leave to you to figure out why LinkedIn and Pinterest are not allowed to</span>
-<span class="sd">crawl the home page but Google and Apple are, because I have no clue!</span>
+<span class="sd">I&#39;ll leave it to you to figure out why LinkedIn and Pinterest are not allowed</span>
+<span class="sd">to crawl the home page but Google and Apple are, because I have no clue!</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;robotstxt_to_df&#39;</span><span class="p">,</span> <span class="s1">&#39;robotstxt_test&#39;</span><span class="p">]</span>
 
@@ -449,7 +450,7 @@
         <span class="n">d</span><span class="p">[</span><span class="s1">&#39;can_fetch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">can_fetch</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;robotstxt_url&#39;</span><span class="p">,</span> <span class="n">robotstxt_url</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;user_agent&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;user_agent&#39;</span><span class="p">,</span> <span class="s1">&#39;url_path&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span></div>
 </pre></div>
 

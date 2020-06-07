@@ -100,7 +100,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">SEO Spider / Crawler</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#discovery-crawling-approach">Discovery Crawling Approach</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#extracted-on-page-seo-elements">Extracted On-Page SEO Elements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pre-determined-crawling-approach">Pre-Determined Crawling Approach</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pre-determined-crawling-approach-list-mode">Pre-Determined Crawling Approach (List Mode)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#serp-data">SERP Data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#news-articles">News Articles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#google-analytics-google-search-console">Google Analytics / Google Search Console</a></li>
@@ -114,6 +114,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
@@ -193,7 +194,7 @@
            <div itemprop="articleBody">
             
   <span class="target" id="module-advertools.spider"></span><div class="section" id="python-seo-crawler-spider">
-<h1>🕷 Python SEO Crawler / Spider<a class="headerlink" href="#python-seo-crawler-spider" title="Permalink to this headline">¶</a></h1>
+<span id="crawl"></span><h1>🕷 Python SEO Crawler / Spider<a class="headerlink" href="#python-seo-crawler-spider" title="Permalink to this headline">¶</a></h1>
 <p>A straightforward crawler to analyze SEO and content of pages and websites.</p>
 <p>This is provided by the <a class="reference internal" href="#advertools.spider.crawl" title="advertools.spider.crawl"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawl()</span></code></a> function which is customized for SEO and
 content analysis usage, and is highly configurable. The crawler uses
@@ -204,8 +205,8 @@ terms of performance, speed, as well as flexibility and customization.</p>
 <li><p><strong>Discovery:</strong> You know the website to crawl, so you provide a <code class="docutils literal notranslate"><span class="pre">url_list</span></code>
 (one or more URLs), and you want the crawler to go through the whole
 website(s) by following all available links.</p></li>
-<li><p><strong>Pre-determined:</strong> You have a known set of URLs that you want to crawl and
-analyze, without following links or discovering new URLs.</p></li>
+<li><p><strong>Pre-determined a.k.a “list mode”:</strong> You have a known set of URLs that you
+want to crawl and analyze, without following links or discovering new URLs.</p></li>
 </ol>
 <div class="section" id="discovery-crawling-approach">
 <h2>Discovery Crawling Approach<a class="headerlink" href="#discovery-crawling-approach" title="Permalink to this headline">¶</a></h2>
@@ -236,6 +237,15 @@ of the elements.</p></li>
 <li><p>marshal</p></li>
 <li><p>pickle</p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When the crawler parses pages it saves the data to the specified file by
+appending, and not overwriting. Otherwise it would have to store all the
+data in memory, which might crash your computer. A good practice is to have
+a separate <code class="docutils literal notranslate"><span class="pre">output_file</span></code> for every crawl with a descriptive name
+<cite>sitename_crawl_YYYY_MM_DD.csv</cite> for example. If you use the same file you
+will probably get duplicate data in the same file.</p>
+</div>
 </div>
 <div class="section" id="extracted-on-page-seo-elements">
 <h2>Extracted On-Page SEO Elements<a class="headerlink" href="#extracted-on-page-seo-elements" title="Permalink to this headline">¶</a></h2>
@@ -349,8 +359,8 @@ readability):</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="pre-determined-crawling-approach">
-<h2>Pre-Determined Crawling Approach<a class="headerlink" href="#pre-determined-crawling-approach" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pre-determined-crawling-approach-list-mode">
+<h2>Pre-Determined Crawling Approach (List Mode)<a class="headerlink" href="#pre-determined-crawling-approach-list-mode" title="Permalink to this headline">¶</a></h2>
 <p>Sometimes you might have a fixed set of URLs for which you want to scrape and
 analyze SEO or content performance. Some ideas:</p>
 <div class="section" id="serp-data">

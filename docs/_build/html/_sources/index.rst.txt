@@ -46,6 +46,7 @@ life a little easier.
 .. toctree::
    :caption: Text & Content Analysis
 
+   URL Analysis <advertools.urlytics>
    Emoji Tools <advertools.emoji>
    Extract Structured Entities from Text <advertools.extract>
    Stop Words <advertools.stopwords>

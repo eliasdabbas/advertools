@@ -20,6 +20,7 @@ Submodules
    advertools.stopwords
    advertools.twitter
    advertools.url_builders
+   advertools.urlytics
    advertools.word_frequency
    advertools.word_tokenize
    advertools.youtube

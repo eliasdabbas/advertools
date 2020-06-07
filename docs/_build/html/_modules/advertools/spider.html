@@ -100,6 +100,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.urlytics.html">URL Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
@@ -178,6 +179,8 @@
             
   <h1>Source code for advertools.spider</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. _crawl:</span>
+
 <span class="sd">🕷 Python SEO Crawler / Spider</span>
 <span class="sd">==============================</span>
 
@@ -194,8 +197,8 @@
 <span class="sd">   (one or more URLs), and you want the crawler to go through the whole</span>
 <span class="sd">   website(s) by following all available links.</span>
 
-<span class="sd">2. **Pre-determined:** You have a known set of URLs that you want to crawl and</span>
-<span class="sd">   analyze, without following links or discovering new URLs.</span>
+<span class="sd">2. **Pre-determined a.k.a &quot;list mode&quot;:** You have a known set of URLs that you</span>
+<span class="sd">   want to crawl and analyze, without following links or discovering new URLs.</span>
 
 <span class="sd">Discovery Crawling Approach</span>
 <span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
@@ -230,6 +233,14 @@
 <span class="sd">* marshal</span>
 <span class="sd">* pickle</span>
 
+<span class="sd">.. note::</span>
+
+<span class="sd">    When the crawler parses pages it saves the data to the specified file by</span>
+<span class="sd">    appending, and not overwriting. Otherwise it would have to store all the</span>
+<span class="sd">    data in memory, which might crash your computer. A good practice is to have</span>
+<span class="sd">    a separate ``output_file`` for every crawl with a descriptive name</span>
+<span class="sd">    `sitename_crawl_YYYY_MM_DD.csv` for example. If you use the same file you</span>
+<span class="sd">    will probably get duplicate data in the same file.</span>
 
 <span class="sd">Extracted On-Page SEO Elements</span>
 <span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
@@ -293,8 +304,8 @@
 <span class="sd">    69  https://advertools.readthedocs  https://advertools.readthedocs  advertools.ad_create —  Python                             NaN  Source code for advertools.ad_                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  9dfdd38a-101e-00a1-7ec3-2e93a0                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd99847ec2-BUD  02d86a4a7f00007ec2a811f2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
 <span class="sd">    70  https://advertools.readthedocs  https://advertools.readthedocs      advertools.emoji —  Python                             NaN  Source code for advertools.emo                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:40  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  2ad504a1-101e-000b-03c3-2e454f                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web000079                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd9fb97e9e-BUD  02d86a4a7f00007e9edb13a2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
 
-<span class="sd">Pre-Determined Crawling Approach</span>
-<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">Pre-Determined Crawling Approach (List Mode)</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
 <span class="sd">Sometimes you might have a fixed set of URLs for which you want to scrape and</span>
 <span class="sd">analyze SEO or content performance. Some ideas:</span>
