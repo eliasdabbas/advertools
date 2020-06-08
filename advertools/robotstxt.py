@@ -207,14 +207,14 @@ def robotstxt_to_df(robotstxt_url):
     logging.info(msg='Getting: ' + robotstxt_url)
     robots_open = urlopen(Request(robotstxt_url, headers=headers))
     robots_text = robots_open.readlines()
-
     lines = []
     for line in robots_text:
-        if line and line.decode().startswith('#'):
-            lines.append(['comment', line.decode().replace('#', '').strip()])
-        if line and line.decode()[0].isupper():
-            split = line.decode().split(':', maxsplit=1)
-            lines.append([split[0], split[1].strip()])
+        if line.strip():
+            if line.decode().startswith('#'):
+                lines.append(['comment', line.decode().replace('#', '').strip()])
+            else:
+                split = line.decode().split(':', maxsplit=1)
+                lines.append([split[0].strip(), split[1].strip()])
     df = pd.DataFrame(lines, columns=['directive', 'content'])
     df['robotstxt_url'] = robotstxt_url
     df['file_downloaded'] = pd.Timestamp.now(tz='UTC')
