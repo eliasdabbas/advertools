@@ -2,6 +2,14 @@
 Change Log - advertools
 =======================
 
+Unreleased
+----------
+
+* Fixed
+    - Minor changes to ``robotstxt_to_df``:
+        * Allow whitespace in fields
+        * Allow case-insensitive fields
+
 0.10.4 (2020-06-07)
 -------------------
 
