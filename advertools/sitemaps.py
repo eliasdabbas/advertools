@@ -258,8 +258,9 @@ def _sitemaps_from_robotstxt(robots_url):
     sitemaps = []
     robots_page = urlopen(Request(robots_url, headers=headers))
     for line in robots_page.readlines():
-        if line.decode().lower().startswith('sitemap:'):
-            sitemaps.append(line.decode().split()[-1])
+        line_split = [s.strip() for s in line.decode().split(':', maxsplit=1)]
+        if line_split[0].lower() == 'sitemap':
+            sitemaps.append(line_split[1])
     return sitemaps
 
 
