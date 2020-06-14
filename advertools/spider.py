@@ -235,7 +235,7 @@ Or, instead of ``css_selectors`` you can add a similar dictionary for the
 ``xpath_selectors`` argument:
 
 >>> crawl('https://advertools.readthedocs.io/en/master/advertools.spider.html',
-...       'output_file.csv',
+...       'output_file.jl',
 ...       xpath_selectors={'sidebar_links': '//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]/text()',
 ...                        'sidebar_links_url': '//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]/@href'})
 

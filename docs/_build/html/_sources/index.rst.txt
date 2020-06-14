@@ -7,6 +7,9 @@
    :google-site-verification: GcN6XL_hWV3BP2Y9FNLjmTXxysS7QxJs804KoF15n_c
 
 .. meta::
+   :msvalidate.01: 527FAF22ADAF509BA5A2DDC3DDED12F5
+
+.. meta::
     :description lang=en:
         Get productive as an online marketer with a Python package that helps
         in automating many of the important tasks.

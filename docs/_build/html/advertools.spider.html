@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.10.3
+                0.10.4
               </div>
             
           
@@ -195,7 +195,7 @@
             
   <span class="target" id="module-advertools.spider"></span><div class="section" id="python-seo-crawler-spider">
 <span id="crawl"></span><h1>🕷 Python SEO Crawler / Spider<a class="headerlink" href="#python-seo-crawler-spider" title="Permalink to this headline">¶</a></h1>
-<p>A straightforward crawler to analyze SEO and content of pages and websites.</p>
+<p>A customizable crawler to analyze SEO and content of pages and websites.</p>
 <p>This is provided by the <a class="reference internal" href="#advertools.spider.crawl" title="advertools.spider.crawl"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawl()</span></code></a> function which is customized for SEO and
 content analysis usage, and is highly configurable. The crawler uses
 <a class="reference external" href="https://scrapy.org/">Scrapy</a> so you get all the power that it provides in
@@ -212,10 +212,14 @@ want to crawl and analyze, without following links or discovering new URLs.</p><
 <h2>Discovery Crawling Approach<a class="headerlink" href="#discovery-crawling-approach" title="Permalink to this headline">¶</a></h2>
 <p>The simplest way to use the function is to provide a list of one or more URLs
 and the crawler will go through all of the reachable pages.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;my_output_file.csv&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;my_output_file.jl&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>That’s it!</p>
+<p>That’s it! To open the file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;my_output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>What this does:</p>
 <ul class="simple">
 <li><p>Check the site’s robots.txt file and get the crawl rules, which means that
@@ -224,26 +228,20 @@ Check the details below on how to change settings and user agents to control
 this.</p></li>
 <li><p>Starting with the provided URL(s) go through all links and parse pages.</p></li>
 <li><p>For each URL extract the most important SEO elements.</p></li>
-<li><p>Save them to <code class="docutils literal notranslate"><span class="pre">output_file</span></code> in the specified format.</p></li>
-<li><p>The column headers of the output file (if you specify csv) would be the names
-of the elements.</p></li>
+<li><p>Save them to <code class="docutils literal notranslate"><span class="pre">my_output_file.jl</span></code>.</p></li>
+<li><p>The column headers of the output file (once you import it as a DataFrame)
+would be the names of the elements (title, h1, h2, etc.).</p></li>
 </ul>
-<p>Supported file extensions:</p>
-<ul class="simple">
-<li><p>csv</p></li>
-<li><p>json</p></li>
-<li><p>jl</p></li>
-<li><p>xml</p></li>
-<li><p>marshal</p></li>
-<li><p>pickle</p></li>
-</ul>
+<p>Jsonlines is the supported output format because of its flexibility in allowing
+different values for different scraped pages, and appending indepentent items
+to the output files.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>When the crawler parses pages it saves the data to the specified file by
 appending, and not overwriting. Otherwise it would have to store all the
 data in memory, which might crash your computer. A good practice is to have
 a separate <code class="docutils literal notranslate"><span class="pre">output_file</span></code> for every crawl with a descriptive name
-<cite>sitename_crawl_YYYY_MM_DD.csv</cite> for example. If you use the same file you
+<cite>sitename_crawl_YYYY_MM_DD.jl</cite> for example. If you use the same file you
 will probably get duplicate data in the same file.</p>
 </div>
 </div>
@@ -275,59 +273,74 @@ same as <cite>url</cite></p></td>
 <tr class="row-odd"><td><p>meta_desc</p></td>
 <td><p>Meta description</p></td>
 </tr>
-<tr class="row-even"><td><p>h1</p></td>
+<tr class="row-even"><td><p>canonical</p></td>
+<td><p>The canonical tag if available</p></td>
+</tr>
+<tr class="row-odd"><td><p>alt_href</p></td>
+<td><p>The <cite>href</cite> attribute of rel=alternate tags</p></td>
+</tr>
+<tr class="row-even"><td><p>alt_hreflang</p></td>
+<td><p>The language codes of the alternate links</p></td>
+</tr>
+<tr class="row-odd"><td><p>og:*</p></td>
+<td><p>Open Graph data</p></td>
+</tr>
+<tr class="row-even"><td><p>twitter:*</p></td>
+<td><p>Twitter card data</p></td>
+</tr>
+<tr class="row-odd"><td><p>h1</p></td>
 <td><p><cite>&lt;h1&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-odd"><td><p>h2</p></td>
+<tr class="row-even"><td><p>h2</p></td>
 <td><p><cite>&lt;h2&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-even"><td><p>h3</p></td>
+<tr class="row-odd"><td><p>h3</p></td>
 <td><p><cite>&lt;h3&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-odd"><td><p>body_text</p></td>
+<tr class="row-even"><td><p>body_text</p></td>
 <td><p>The text in the &lt;p&gt; tags</p></td>
 </tr>
-<tr class="row-even"><td><p>size</p></td>
+<tr class="row-odd"><td><p>size</p></td>
 <td><p>The page size in bytes</p></td>
 </tr>
-<tr class="row-odd"><td><p>resp_meta_*</p></td>
+<tr class="row-even"><td><p>resp_meta_*</p></td>
 <td><p>Several metadata for the response download_latency, timeout
 etc.</p></td>
 </tr>
-<tr class="row-even"><td><p>status</p></td>
+<tr class="row-odd"><td><p>status</p></td>
 <td><p>Response status (200, 301, 302, 404, etc.)</p></td>
 </tr>
-<tr class="row-odd"><td><p>links_url</p></td>
+<tr class="row-even"><td><p>links_url</p></td>
 <td><p>The URLs of the links on the page</p></td>
 </tr>
-<tr class="row-even"><td><p>links_text</p></td>
+<tr class="row-odd"><td><p>links_text</p></td>
 <td><p>The link text (anchor text)</p></td>
 </tr>
-<tr class="row-odd"><td><p>links_fragment</p></td>
+<tr class="row-even"><td><p>links_fragment</p></td>
 <td><p>The fragment part of the link (#fragment)</p></td>
 </tr>
-<tr class="row-even"><td><p>links_nofollow</p></td>
+<tr class="row-odd"><td><p>links_nofollow</p></td>
 <td><p>Boolean, whether or not the link is a nofllow link</p></td>
 </tr>
-<tr class="row-odd"><td><p>img_src</p></td>
+<tr class="row-even"><td><p>img_src</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">src</span></code> attribute of images</p></td>
 </tr>
-<tr class="row-even"><td><p>img_alt</p></td>
+<tr class="row-odd"><td><p>img_alt</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">alt</span></code> attribute if available or an empty string</p></td>
 </tr>
-<tr class="row-odd"><td><p>page_depth</p></td>
+<tr class="row-even"><td><p>page_depth</p></td>
 <td><p>The depth of the crawled page</p></td>
 </tr>
-<tr class="row-even"><td><p>ip_address</p></td>
+<tr class="row-odd"><td><p>ip_address</p></td>
 <td><p>IP address</p></td>
 </tr>
-<tr class="row-odd"><td><p>crawl_time</p></td>
+<tr class="row-even"><td><p>crawl_time</p></td>
 <td><p>Date and time the page was crawled</p></td>
 </tr>
-<tr class="row-even"><td><p>resp_headers_*</p></td>
+<tr class="row-odd"><td><p>resp_headers_*</p></td>
 <td><p>All available response headers (last modified, server, etc.)</p></td>
 </tr>
-<tr class="row-odd"><td><p>request_headers_*</p></td>
+<tr class="row-even"><td><p>request_headers_*</p></td>
 <td><p>All available request headers (user-agent, encoding, etc.)</p></td>
 </tr>
 </tbody>
@@ -343,7 +356,7 @@ elements as a list.</p>
 <p>Here is a sample file of a crawl of this site (output truncated for
 readability):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">site_crawl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;path/to/file.csv&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">site_crawl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;path/to/file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">site_crawl</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 <span class="go">                               url               url_redirected_to                           title                       meta_desc                              h1                              h2                              h3                        body_text  size  download_timeout              download_slot  download_latency  redirect_times  redirect_ttl                   redirect_urls redirect_reasons  depth  status                      links_href                      links_text                         img_src                         img_alt    ip_address           crawl_time              resp_headers_date resp_headers_content-type     resp_headers_last-modified resp_headers_vary    resp_headers_x-ms-request-id resp_headers_x-ms-version resp_headers_x-ms-lease-status resp_headers_x-ms-blob-type resp_headers_access-control-allow-origin   resp_headers_x-served resp_headers_x-backend resp_headers_x-rtd-project resp_headers_x-rtd-version         resp_headers_x-rtd-path  resp_headers_x-rtd-domain resp_headers_x-rtd-version-method resp_headers_x-rtd-project-method resp_headers_strict-transport-security resp_headers_cf-cache-status  resp_headers_age           resp_headers_expires resp_headers_cache-control          resp_headers_expect-ct resp_headers_server   resp_headers_cf-ray      resp_headers_cf-request-id          request_headers_accept request_headers_accept-language      request_headers_user-agent request_headers_accept-encoding          request_headers_cookie</span>
 <span class="go">0   https://advertools.readthedocs  https://advertools.readthedocs            advertools —  Python  Get productive as an online ma  advertools@@Indices and tables  Online marketing productivity                              NaN   Generate keywords for SEM camp   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN  https://advertools.readthedocs            [302]    NaN     NaN  #@@readme.html@@advertools.kw_  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:35  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  720a8581-501e-0043-01a2-2e77d2                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca7dbaa7e9e-BUD  02d86a3cea00007e9edb0cf2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
@@ -390,7 +403,7 @@ those URLs and crawl them.</p>
 <p>Any tool that has data about a set of URLs can be used.</p>
 <p>Again running the function is as simple as providing a list of URLs, as well as
 a filepath where you want the result saved.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The difference between the two approaches, is the simple parameter
@@ -399,7 +412,7 @@ will only go through the provided URLs. Otherwise, it will discover pages by
 following links on pages that it crawls. So how do you make sure that the
 crawler doesn’t try to crawl the whole web when <code class="docutils literal notranslate"><span class="pre">follow_links</span></code> is <cite>True</cite>?
 The <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code> parameter gives you the ability to control this,
-although it is and optional parameter. If you don’t specify it, then it will
+although it is an optional parameter. If you don’t specify it, then it will
 default to only the domains in the <code class="docutils literal notranslate"><span class="pre">url_list</span></code>. It’s important to note that
 you have to set this parameter if you have certain sub-domains that you want to
 crawl.</p>
@@ -438,11 +451,11 @@ sidebar in a separate column. It seems that the CSS selector for them is
 <cite>//*[contains(concat( ” “, &#64;class, ” ” ), concat( ” “, “toctree-l1”, ” ” ))]//*[contains(concat( ” “, &#64;class, ” ” ), concat( ” “, “internal”, ” ” ))]</cite>.
 Note that this selects the <em>element</em> (the whole link object), which is not
 typically what you might be interested in.</p>
-<p>So with CSS you need to append <cite>::text</cite> or <cite>::attr(href)</cite> if you want the text of
-the links or the <cite>href</cite> attribute respectively. Similarly with XPath, you will
-need to append <cite>/text()</cite> or <cite>/&#64;href</cite> to the selector to get the same.</p>
+<p>So with CSS you need to append <cite>::text</cite> or <cite>::attr(href)</cite> if you want the text
+of the links or the <cite>href</cite> attribute respectively. Similarly with XPath, you
+will need to append <cite>/text()</cite> or <cite>/&#64;href</cite> to the selector to get the same.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;</span><span class="p">,</span>
-<span class="gp">... </span>      <span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span>
 <span class="gp">... </span>      <span class="n">css_selectors</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sidebar_links&#39;</span><span class="p">:</span> <span class="s1">&#39;.toctree-l1 .internal::text&#39;</span><span class="p">,</span>
 <span class="gp">... </span>                     <span class="s1">&#39;sidebar_links_url&#39;</span><span class="p">:</span> <span class="s1">&#39;.toctree-l1 .internal::attr(href)&#39;</span><span class="p">})</span>
 </pre></div>
@@ -450,7 +463,7 @@ need to append <cite>/text()</cite> or <cite>/&#64;href</cite> to the selector t
 <p>Or, instead of <code class="docutils literal notranslate"><span class="pre">css_selectors</span></code> you can add a similar dictionary for the
 <code class="docutils literal notranslate"><span class="pre">xpath_selectors</span></code> argument:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;</span><span class="p">,</span>
-<span class="gp">... </span>      <span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span>
 <span class="gp">... </span>      <span class="n">xpath_selectors</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sidebar_links&#39;</span><span class="p">:</span> <span class="s1">&#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/text()&#39;</span><span class="p">,</span>
 <span class="gp">... </span>                       <span class="s1">&#39;sidebar_links_url&#39;</span><span class="p">:</span> <span class="s1">&#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/@href&#39;</span><span class="p">})</span>
 </pre></div>
@@ -478,7 +491,9 @@ seconds for the crawler to wait between consecutive pages of the same website.
 It can also take fractions of a second (0.4, 0.75, etc.)</p></li>
 <li><p><cite>LOG_FILE</cite> If you want to save your crawl logs to a file, you can provide a
 path to it here.</p></li>
-<li><p><cite>USER_AGENT</cite> If you want to identify yourself differently while crawling.</p></li>
+<li><p><cite>USER_AGENT</cite> If you want to identify yourself differently while crawling.
+This is affected by the robots.txt rules, so you would be potentially
+allowed/disallowed from certain pages based on your user-agent.</p></li>
 <li><p><cite>CLOSESPIDER_ERRORCOUNT</cite>, <cite>CLOSESPIDER_ITEMCOUNT</cite>, <cite>CLOSESPIDER_PAGECOUNT</cite>,
 <cite>CLOSESPIDER_TIMEOUT</cite> Stop crawling after that many errors, items, pages, or
 seconds. These can be very useful to limit your crawling in certain cases.
@@ -490,8 +505,8 @@ fine, you can remove this restriction. <cite>CLOSESPIDER_ERRORCOUNT</cite> can a
 very useful while exploring, just in case you get unexpected errors.</p></li>
 </ul>
 <p><strong>Usage</strong></p>
-<p>A very simpl dictionary to be added to your function call:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://exmaple.com&#39;</span><span class="p">,</span> <span class="s1">&#39;outpuf_file.csv&#39;</span><span class="p">,</span>
+<p>A very simple dictionary to be added to your function call:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://exmaple.com&#39;</span><span class="p">,</span> <span class="s1">&#39;outpuf_file.jl&#39;</span><span class="p">,</span>
 <span class="gp">... </span>      <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;CLOSESPIDER_PAGECOUNT&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
 <span class="gp">... </span>                       <span class="s1">&#39;CONCURRENT_REQUESTS_PER_DOMAIN&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
 <span class="gp">... </span>                       <span class="s1">&#39;USER_AGENT&#39;</span><span class="p">:</span> <span class="s1">&#39;custom-user-agent&#39;</span><span class="p">})</span>
@@ -509,9 +524,9 @@ for the full details.</p>
 <li><p><strong>url_list</strong> (<em>url</em><em>,</em><em>list</em>) – One or more URLs to crawl. If <code class="docutils literal notranslate"><span class="pre">follow_links</span></code>
 is True, the crawler will start with these URLs and
 follow all links on pages recursively.</p></li>
-<li><p><strong>output_file</strong> (<em>str</em>) – The path to the output of the crawl. Supported
-formats: <cite>csv</cite>, <cite>json</cite>, <cite>jsonlines</cite>, <cite>jl</cite>, <cite>xml</cite>,
-<cite>marshal</cite>, <cite>pickle</cite>.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – The path to the output of the crawl. Jsonlines only
+is supported to allow for dynamic values. Make sure
+your file ends with “.jl”, e.g. <cite>output_file.jl</cite>.</p></li>
 <li><p><strong>follow_links</strong> (<em>bool</em>) – Defaults to False. Whether or not to follow links
 on crawled pages.</p></li>
 <li><p><strong>css_selectors</strong> (<em>dict</em>) – A dictionary mapping names to CSS selectors. The
@@ -541,14 +556,16 @@ as they will not be crawled if not specified.</p></li>
 <dd class="field-even"><p></p></dd>
 </dl>
 <p>Crawl a website and let the crawler discover as many pages as available</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawl_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Crawl a known set of pages (on a single or multiple sites) without
-following links (just crawl the specified pages):</p>
+following links (just crawl the specified pages) or “list mode”:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;http://exmaple.com/product&#39;</span><span class="p">,</span> <span class="s1">&#39;http://exmaple.com/product2&#39;</span><span class="p">,</span>
 <span class="gp">... </span>       <span class="s1">&#39;https://anotherexample.com&#39;</span><span class="p">,</span> <span class="s1">&#39;https://anotherexmaple.com/hello&#39;</span><span class="p">],</span>
-<span class="gp">... </span>       <span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">... </span>       <span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Crawl a website, and in addition to standard SEO elements, also get the
@@ -557,7 +574,7 @@ Here we will get three additional columns <cite>price</cite>, <cite>author</cite
 <cite>author_url</cite>. Note that you need to specify if you want the text attribute
 or the <cite>href</cite> attribute if you are working with links (and all other
 selectors).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;output_file.csv&#39;</span><span class="p">,</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span>
 <span class="gp">... </span>      <span class="n">css_selectors</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;price&#39;</span><span class="p">:</span> <span class="s1">&#39;.a-color-price::text&#39;</span><span class="p">,</span>
 <span class="gp">... </span>                     <span class="s1">&#39;author&#39;</span><span class="p">:</span> <span class="s1">&#39;.contributorNameID::text&#39;</span><span class="p">,</span>
 <span class="gp">... </span>                     <span class="s1">&#39;author_url&#39;</span><span class="p">:</span> <span class="s1">&#39;.contributorNameID::attr(href)&#39;</span><span class="p">})</span>

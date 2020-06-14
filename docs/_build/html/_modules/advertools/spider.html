@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.10.3
+                0.10.4
               </div>
             
           
@@ -184,7 +184,7 @@
 <span class="sd">🕷 Python SEO Crawler / Spider</span>
 <span class="sd">==============================</span>
 
-<span class="sd">A straightforward crawler to analyze SEO and content of pages and websites.</span>
+<span class="sd">A customizable crawler to analyze SEO and content of pages and websites.</span>
 
 <span class="sd">This is provided by the :func:`crawl` function which is customized for SEO and</span>
 <span class="sd">content analysis usage, and is highly configurable. The crawler uses</span>
@@ -208,9 +208,15 @@
 
 <span class="sd">.. code-block:: python</span>
 
-<span class="sd">   &gt;&gt;&gt; crawl(&#39;https://example.com&#39;, &#39;my_output_file.csv&#39;, follow_links=True)</span>
+<span class="sd">   &gt;&gt;&gt; crawl(&#39;https://example.com&#39;, &#39;my_output_file.jl&#39;, follow_links=True)</span>
 
-<span class="sd">That&#39;s it!</span>
+<span class="sd">That&#39;s it! To open the file:</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">   &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">   &gt;&gt;&gt; pd.read_json(&#39;my_output_file.jl&#39;, lines=True)</span>
+
 
 <span class="sd">What this does:</span>
 
@@ -220,18 +226,13 @@
 <span class="sd">  this.</span>
 <span class="sd">* Starting with the provided URL(s) go through all links and parse pages.</span>
 <span class="sd">* For each URL extract the most important SEO elements.</span>
-<span class="sd">* Save them to ``output_file`` in the specified format.</span>
-<span class="sd">* The column headers of the output file (if you specify csv) would be the names</span>
-<span class="sd">  of the elements.</span>
+<span class="sd">* Save them to ``my_output_file.jl``.</span>
+<span class="sd">* The column headers of the output file (once you import it as a DataFrame)</span>
+<span class="sd">  would be the names of the elements (title, h1, h2, etc.).</span>
 
-<span class="sd">Supported file extensions:</span>
-
-<span class="sd">* csv</span>
-<span class="sd">* json</span>
-<span class="sd">* jl</span>
-<span class="sd">* xml</span>
-<span class="sd">* marshal</span>
-<span class="sd">* pickle</span>
+<span class="sd">Jsonlines is the supported output format because of its flexibility in allowing</span>
+<span class="sd">different values for different scraped pages, and appending indepentent items</span>
+<span class="sd">to the output files.</span>
 
 <span class="sd">.. note::</span>
 
@@ -239,7 +240,7 @@
 <span class="sd">    appending, and not overwriting. Otherwise it would have to store all the</span>
 <span class="sd">    data in memory, which might crash your computer. A good practice is to have</span>
 <span class="sd">    a separate ``output_file`` for every crawl with a descriptive name</span>
-<span class="sd">    `sitename_crawl_YYYY_MM_DD.csv` for example. If you use the same file you</span>
+<span class="sd">    `sitename_crawl_YYYY_MM_DD.jl` for example. If you use the same file you</span>
 <span class="sd">    will probably get duplicate data in the same file.</span>
 
 <span class="sd">Extracted On-Page SEO Elements</span>
@@ -255,6 +256,11 @@
 <span class="sd">                  same as `url`</span>
 <span class="sd">title             The &lt;title&gt; tag(s)</span>
 <span class="sd">meta_desc         Meta description</span>
+<span class="sd">canonical         The canonical tag if available</span>
+<span class="sd">alt_href          The `href` attribute of rel=alternate tags</span>
+<span class="sd">alt_hreflang      The language codes of the alternate links</span>
+<span class="sd">og:*              Open Graph data</span>
+<span class="sd">twitter:*         Twitter card data</span>
 <span class="sd">h1                `&lt;h1&gt;` tag(s)</span>
 <span class="sd">h2                `&lt;h2&gt;` tag(s)</span>
 <span class="sd">h3                `&lt;h3&gt;` tag(s)</span>
@@ -290,7 +296,7 @@
 <span class="sd">.. code-block:: python</span>
 
 <span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
-<span class="sd">    &gt;&gt;&gt; site_crawl = pd.read_csv(&#39;path/to/file.csv&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; site_crawl = pd.read_json(&#39;path/to/file.jl&#39;, lines=True)</span>
 <span class="sd">    &gt;&gt;&gt; site_crawl.head()</span>
 <span class="sd">                                   url               url_redirected_to                           title                       meta_desc                              h1                              h2                              h3                        body_text  size  download_timeout              download_slot  download_latency  redirect_times  redirect_ttl                   redirect_urls redirect_reasons  depth  status                      links_href                      links_text                         img_src                         img_alt    ip_address           crawl_time              resp_headers_date resp_headers_content-type     resp_headers_last-modified resp_headers_vary    resp_headers_x-ms-request-id resp_headers_x-ms-version resp_headers_x-ms-lease-status resp_headers_x-ms-blob-type resp_headers_access-control-allow-origin   resp_headers_x-served resp_headers_x-backend resp_headers_x-rtd-project resp_headers_x-rtd-version         resp_headers_x-rtd-path  resp_headers_x-rtd-domain resp_headers_x-rtd-version-method resp_headers_x-rtd-project-method resp_headers_strict-transport-security resp_headers_cf-cache-status  resp_headers_age           resp_headers_expires resp_headers_cache-control          resp_headers_expect-ct resp_headers_server   resp_headers_cf-ray      resp_headers_cf-request-id          request_headers_accept request_headers_accept-language      request_headers_user-agent request_headers_accept-encoding          request_headers_cookie</span>
 <span class="sd">    0   https://advertools.readthedocs  https://advertools.readthedocs            advertools —  Python  Get productive as an online ma  advertools@@Indices and tables  Online marketing productivity                              NaN   Generate keywords for SEM camp   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN  https://advertools.readthedocs            [302]    NaN     NaN  #@@readme.html@@advertools.kw_  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:35  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  720a8581-501e-0043-01a2-2e77d2                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca7dbaa7e9e-BUD  02d86a3cea00007e9edb0cf2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
@@ -344,7 +350,7 @@
 
 <span class="sd">.. code-block:: python</span>
 
-<span class="sd">    &gt;&gt;&gt; crawl(url_list, output_file, follow_links=False)</span>
+<span class="sd">    &gt;&gt;&gt; crawl(url_list, &#39;output_file.jl&#39;, follow_links=False)</span>
 
 <span class="sd">The difference between the two approaches, is the simple parameter</span>
 <span class="sd">``follow_links``. If you keep it as ``False`` (the default), the crawler</span>
@@ -352,7 +358,7 @@
 <span class="sd">following links on pages that it crawls. So how do you make sure that the</span>
 <span class="sd">crawler doesn&#39;t try to crawl the whole web when ``follow_links`` is `True`?</span>
 <span class="sd">The ``allowed_domains`` parameter gives you the ability to control this,</span>
-<span class="sd">although it is and optional parameter. If you don&#39;t specify it, then it will</span>
+<span class="sd">although it is an optional parameter. If you don&#39;t specify it, then it will</span>
 <span class="sd">default to only the domains in the ``url_list``. It&#39;s important to note that</span>
 <span class="sd">you have to set this parameter if you have certain sub-domains that you want to</span>
 <span class="sd">crawl.</span>
@@ -396,12 +402,12 @@
 <span class="sd">Note that this selects the *element* (the whole link object), which is not</span>
 <span class="sd">typically what you might be interested in.</span>
 
-<span class="sd">So with CSS you need to append `::text` or `::attr(href)` if you want the text of</span>
-<span class="sd">the links or the `href` attribute respectively. Similarly with XPath, you will</span>
-<span class="sd">need to append `/text()` or `/@href` to the selector to get the same.</span>
+<span class="sd">So with CSS you need to append `::text` or `::attr(href)` if you want the text</span>
+<span class="sd">of the links or the `href` attribute respectively. Similarly with XPath, you</span>
+<span class="sd">will need to append `/text()` or `/@href` to the selector to get the same.</span>
 
 <span class="sd">&gt;&gt;&gt; crawl(&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;,</span>
-<span class="sd">...       &#39;output_file.csv&#39;,</span>
+<span class="sd">...       &#39;output_file.jl&#39;,</span>
 <span class="sd">...       css_selectors={&#39;sidebar_links&#39;: &#39;.toctree-l1 .internal::text&#39;,</span>
 <span class="sd">...                      &#39;sidebar_links_url&#39;: &#39;.toctree-l1 .internal::attr(href)&#39;})</span>
 
@@ -409,7 +415,7 @@
 <span class="sd">``xpath_selectors`` argument:</span>
 
 <span class="sd">&gt;&gt;&gt; crawl(&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;,</span>
-<span class="sd">...       &#39;output_file.csv&#39;,</span>
+<span class="sd">...       &#39;output_file.jl&#39;,</span>
 <span class="sd">...       xpath_selectors={&#39;sidebar_links&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/text()&#39;,</span>
 <span class="sd">...                        &#39;sidebar_links_url&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/@href&#39;})</span>
 
@@ -439,6 +445,8 @@
 <span class="sd">* `LOG_FILE` If you want to save your crawl logs to a file, you can provide a</span>
 <span class="sd">  path to it here.</span>
 <span class="sd">* `USER_AGENT` If you want to identify yourself differently while crawling.</span>
+<span class="sd">  This is affected by the robots.txt rules, so you would be potentially</span>
+<span class="sd">  allowed/disallowed from certain pages based on your user-agent.</span>
 <span class="sd">* `CLOSESPIDER_ERRORCOUNT`, `CLOSESPIDER_ITEMCOUNT`, `CLOSESPIDER_PAGECOUNT`,</span>
 <span class="sd">  `CLOSESPIDER_TIMEOUT` Stop crawling after that many errors, items, pages, or</span>
 <span class="sd">  seconds. These can be very useful to limit your crawling in certain cases.</span>
@@ -451,9 +459,9 @@
 
 <span class="sd">**Usage**</span>
 
-<span class="sd">A very simpl dictionary to be added to your function call:</span>
+<span class="sd">A very simple dictionary to be added to your function call:</span>
 
-<span class="sd">&gt;&gt;&gt; crawl(&#39;http://exmaple.com&#39;, &#39;outpuf_file.csv&#39;,</span>
+<span class="sd">&gt;&gt;&gt; crawl(&#39;http://exmaple.com&#39;, &#39;outpuf_file.jl&#39;,</span>
 <span class="sd">...       custom_settings={&#39;CLOSESPIDER_PAGECOUNT&#39;: 100,</span>
 <span class="sd">...                        &#39;CONCURRENT_REQUESTS_PER_DOMAIN&#39;: 1,</span>
 <span class="sd">...                        &#39;USER_AGENT&#39;: &#39;custom-user-agent&#39;})</span>
@@ -464,7 +472,6 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
@@ -482,11 +489,30 @@
 
 <span class="n">BODY_TEXT_SELECTOR</span> <span class="o">=</span> <span class="s1">&#39;//body//span//text() | //body//p//text() | //body//li//text()&#39;</span>
 
-<span class="n">formatter</span><span class="o">.</span><span class="n">SCRAPEDMSG</span> <span class="o">=</span> <span class="s2">&quot;Scraped from </span><span class="si">%(src)s</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span>
-<span class="n">formatter</span><span class="o">.</span><span class="n">DROPPEDMSG</span> <span class="o">=</span> <span class="s2">&quot;Dropped: </span><span class="si">%(exception)s</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span>
-<span class="n">formatter</span><span class="o">.</span><span class="n">DOWNLOADERRORMSG_LONG</span> <span class="o">=</span> <span class="s2">&quot;Error downloading </span><span class="si">%(request)s</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span>
+<span class="n">formatter</span><span class="o">.</span><span class="n">SCRAPEDMSG</span> <span class="o">=</span> <span class="s2">&quot;Scraped from </span><span class="si">%(src)s</span><span class="s2">&quot;</span>
+<span class="n">formatter</span><span class="o">.</span><span class="n">DROPPEDMSG</span> <span class="o">=</span> <span class="s2">&quot;Dropped: </span><span class="si">%(exception)s</span><span class="s2">&quot;</span>
+<span class="n">formatter</span><span class="o">.</span><span class="n">DOWNLOADERRORMSG_LONG</span> <span class="o">=</span> <span class="s2">&quot;Error downloading </span><span class="si">%(request)s</span><span class="s2">&quot;</span>
 
 <span class="n">le</span> <span class="o">=</span> <span class="n">LinkExtractor</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_numbered_duplicates</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Append a number to all duplicated items starting at 1.</span>
+
+<span class="sd">    [&#39;og:site&#39;, &#39;og:image&#39;, &#39;og:image&#39;, &#39;og:type&#39;, &#39;og:image&#39;]</span>
+<span class="sd">    becomes:</span>
+<span class="sd">    [&#39;og:site&#39;, &#39;og:image_1&#39;, &#39;og:image_2&#39;, &#39;og:type&#39;, &#39;og:image_3&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">item_count</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">numbered_items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+        <span class="n">item_count</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">numbered_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">item_count</span><span class="p">[</span><span class="n">item</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">num_item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">numbered_items</span><span class="p">):</span>
+        <span class="n">split_number</span> <span class="o">=</span> <span class="n">num_item</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">item_count</span><span class="p">[</span><span class="n">split_number</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">numbered_items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">split_number</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">numbered_items</span>
 
 
 <span class="k">class</span> <span class="nc">SEOSitemapSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
@@ -527,12 +553,36 @@
                                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xpath_selectors</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">xpath_selectors</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">canonical</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;canonical&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;[rel=&quot;canonical&quot;]::attr(href)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())}</span>
+        <span class="n">canonical</span> <span class="o">=</span> <span class="n">canonical</span> <span class="k">if</span> <span class="n">canonical</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;canonical&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">alt_href</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alt_href&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;[rel=alternate]::attr(href)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())}</span>
+        <span class="n">alt_href</span> <span class="o">=</span> <span class="n">alt_href</span> <span class="k">if</span> <span class="n">alt_href</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alt_href&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">alt_hreflang</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alt_hreflang&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;[rel=alternate]::attr(hreflang)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())}</span>
+        <span class="n">alt_hreflang</span> <span class="o">=</span> <span class="n">alt_hreflang</span> <span class="k">if</span> <span class="n">alt_hreflang</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alt_hreflang&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">og_props</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;meta[property^=&quot;og:&quot;]::attr(property)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
+        <span class="n">og_content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;meta[property^=&quot;og:&quot;]::attr(content)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">og_props</span> <span class="ow">and</span> <span class="n">og_content</span><span class="p">:</span>
+            <span class="n">og_props</span> <span class="o">=</span> <span class="n">_numbered_duplicates</span><span class="p">(</span><span class="n">og_props</span><span class="p">)</span>
+            <span class="n">open_graph</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">og_props</span><span class="p">,</span> <span class="n">og_content</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">open_graph</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">twtr_names</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;meta[name^=&quot;twitter:&quot;]::attr(name)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
+        <span class="n">twtr_content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;meta[name^=&quot;twitter:&quot;]::attr(content)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">twtr_names</span> <span class="ow">and</span> <span class="n">twtr_content</span><span class="p">:</span>
+            <span class="n">twtr_card</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">twtr_names</span><span class="p">,</span> <span class="n">twtr_content</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">twtr_card</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="n">url</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
             <span class="n">url_redirected_to</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;title::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
             <span class="n">meta_desc</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;//meta[@name=&#39;description&#39;]/@content&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+            <span class="o">**</span><span class="n">canonical</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">alt_href</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">alt_hreflang</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">open_graph</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">twtr_card</span><span class="p">,</span>
             <span class="n">h1</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h1::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
             <span class="n">h2</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h2::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
             <span class="n">h3</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h3::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
@@ -551,7 +601,7 @@
                                <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">)]),</span>
             <span class="n">img_alt</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">im</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alt&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
                                <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">)]),</span>
-            <span class="n">ip_address</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">ip_address</span><span class="p">,</span>
+            <span class="n">ip_address</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">ip_address</span><span class="p">),</span>
             <span class="n">crawl_time</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">),</span>
             <span class="o">**</span><span class="p">{</span><span class="s1">&#39;resp_headers_&#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">to_unicode_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
@@ -573,9 +623,9 @@
 <span class="sd">    :param url,list url_list: One or more URLs to crawl. If ``follow_links``</span>
 <span class="sd">                          is True, the crawler will start with these URLs and</span>
 <span class="sd">                          follow all links on pages recursively.</span>
-<span class="sd">    :param str output_file: The path to the output of the crawl. Supported</span>
-<span class="sd">                            formats: `csv`, `json`, `jsonlines`, `jl`, `xml`,</span>
-<span class="sd">                            `marshal`, `pickle`.</span>
+<span class="sd">    :param str output_file: The path to the output of the crawl. Jsonlines only</span>
+<span class="sd">                            is supported to allow for dynamic values. Make sure</span>
+<span class="sd">                            your file ends with &quot;.jl&quot;, e.g. `output_file.jl`.</span>
 <span class="sd">    :param bool follow_links: Defaults to False. Whether or not to follow links</span>
 <span class="sd">                              on crawled pages.</span>
 <span class="sd">    :param dict css_selectors: A dictionary mapping names to CSS selectors. The</span>
@@ -603,14 +653,16 @@
 
 <span class="sd">    Crawl a website and let the crawler discover as many pages as available</span>
 
-<span class="sd">    &gt;&gt;&gt; crawl(&#39;http://example.com&#39;, &#39;output_file.csv&#39;, follow_links=True)</span>
+<span class="sd">    &gt;&gt;&gt; crawl(&#39;http://example.com&#39;, &#39;output_file.jl&#39;, follow_links=True)</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; crawl_df = pd.read_json(&#39;output_file.jl&#39;, lines=True)</span>
 
 <span class="sd">    Crawl a known set of pages (on a single or multiple sites) without</span>
-<span class="sd">    following links (just crawl the specified pages):</span>
+<span class="sd">    following links (just crawl the specified pages) or &quot;list mode&quot;:</span>
 
 <span class="sd">    &gt;&gt;&gt; crawl([&#39;http://exmaple.com/product&#39;, &#39;http://exmaple.com/product2&#39;,</span>
 <span class="sd">    ...        &#39;https://anotherexample.com&#39;, &#39;https://anotherexmaple.com/hello&#39;],</span>
-<span class="sd">    ...        &#39;output_file.csv&#39;, follow_links=False)</span>
+<span class="sd">    ...        &#39;output_file.jl&#39;, follow_links=False)</span>
 
 <span class="sd">    Crawl a website, and in addition to standard SEO elements, also get the</span>
 <span class="sd">    required CSS selectors.</span>
@@ -619,7 +671,7 @@
 <span class="sd">    or the `href` attribute if you are working with links (and all other</span>
 <span class="sd">    selectors).</span>
 
-<span class="sd">    &gt;&gt;&gt; crawl(&#39;http://example.com&#39;, &#39;output_file.csv&#39;,</span>
+<span class="sd">    &gt;&gt;&gt; crawl(&#39;http://example.com&#39;, &#39;output_file.jl&#39;,</span>
 <span class="sd">    ...       css_selectors={&#39;price&#39;: &#39;.a-color-price::text&#39;,</span>
 <span class="sd">    ...                      &#39;author&#39;: &#39;.contributorNameID::text&#39;,</span>
 <span class="sd">    ...                      &#39;author_url&#39;: &#39;.contributorNameID::attr(href)&#39;})</span>
@@ -628,7 +680,10 @@
         <span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">url_list</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">allowed_domains</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">allowed_domains</span> <span class="o">=</span> <span class="p">[</span><span class="n">allowed_domains</span><span class="p">]</span>
-
+    <span class="k">if</span> <span class="n">output_file</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;jl&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please make sure your output_file ends with &#39;.jl&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                         <span class="s2">&quot;For example:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                         <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.jl&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_file</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
     <span class="k">if</span> <span class="n">allowed_domains</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">allowed_domains</span> <span class="o">=</span> <span class="p">{</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">netloc</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">url_list</span><span class="p">}</span>
     <span class="n">settings_list</span> <span class="o">=</span> <span class="p">[]</span>

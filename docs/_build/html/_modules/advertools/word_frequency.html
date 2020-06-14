@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.10.3
+                0.10.4
               </div>
             
           
@@ -430,7 +430,8 @@
                           <span class="n">abs_wtd_df</span><span class="p">[</span><span class="s1">&#39;wtd_freq_perc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">())</span>
 
     <span class="n">abs_wtd_df</span> <span class="o">=</span> <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;word&#39;</span><span class="p">})</span>
-
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">num_list</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="mi">1</span><span class="p">}:</span>
+        <span class="n">abs_wtd_df</span> <span class="o">=</span> <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;wtd_freq&#39;</span><span class="p">,</span> <span class="s1">&#39;rel_value&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">abs_wtd_df</span></div>
 </pre></div>
 

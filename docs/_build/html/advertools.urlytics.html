@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.10.3
+                0.10.4
               </div>
             
           
@@ -209,8 +209,7 @@ splitting it further can help in giving a better perspective on the dataset.</p>
 <p>The main function here is <a class="reference internal" href="#advertools.urlytics.url_to_df" title="advertools.urlytics.url_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">url_to_df()</span></code></a>, which as the name suggests,
 converts URLs to DataFrames.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">urls</span> <span class="p">[</span><span class="s1">&#39;https://net.location.com/path_1/path_2?price=10&amp;color=blue#frag_1&#39;</span><span class="p">,</span>
-<span class="gp">... </span>      <span class="s1">&#39;https://net.location.com/path_1/path_2?price=15&amp;color=red#frag_2&#39;</span><span class="p">,</span>
-<span class="gp">... </span>      <span class="s1">&#39;/path_1/path_2?price=555&amp;color=yellow#frag_2&#39;</span><span class="p">]</span>
+<span class="gp">... </span>      <span class="s1">&#39;https://net.location.com/path_1/path_2?price=15&amp;color=red#frag_2&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">url_to_df</span><span class="p">(</span><span class="n">urls</span><span class="p">)</span>
 <span class="go">                                                                      url  scheme                 netloc                  path                   query  fragment     dir_1       dir_2  query_price     query_color</span>
 <span class="go">0       https://net.location.com/path_1/path_2?price=10&amp;color=blue#frag_1       https   net.location.com        /path_1/path_2     price=10&amp;color=blue    frag_1        path_1  path_2           10            blue</span>
