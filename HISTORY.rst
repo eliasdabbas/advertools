@@ -2,13 +2,25 @@
 Change Log - advertools
 =======================
 
-Unreleased
-----------
+0.10.5 (2020-06-14)
+-------------------
+
+* Added
+    - New features for the ``crawl`` function:
+        * Extract canonical tags if available
+        * Extract alternate `href` and `hreflang` tags if available
+        * Open Graph data "og:title", "og:type", "og:image", etc.
+        * Twitter cards data "twitter:site", "twitter:title", etc.
 
 * Fixed
-    - Minor changes to ``robotstxt_to_df``:
+    - Minor fixes to ``robotstxt_to_df``:
         * Allow whitespace in fields
         * Allow case-insensitive fields
+
+* Changed
+    - ``crawl`` now only supports `output_file` with the extension ".jl"
+    - ``word_frequency`` drops `wtd_freq` and `rel_value` columns if `num_list`
+      is not provided
 
 0.10.4 (2020-06-07)
 -------------------
