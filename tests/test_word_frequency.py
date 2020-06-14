@@ -55,3 +55,8 @@ def test_works_without_numlist_provided():
 def test_word_freq_uses_regex():
     result = word_frequency(['pizza burger', 'pizza sandwitch'], regex='pizza')
     assert result['word'][0] == 'pizza'
+
+
+def test_word_freq_returns_two_cols_if_not_num_list():
+    result = word_frequency(['pizza burger', 'pizza sandwitch'])
+    assert result.shape[1] == 2

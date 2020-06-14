@@ -250,5 +250,6 @@ def word_frequency(text_list, num_list=None, phrase_len=1, regex=None,
                           abs_wtd_df['wtd_freq_perc'].cumsum())
 
     abs_wtd_df = abs_wtd_df.reset_index().rename(columns={'index': 'word'})
-
+    if set(num_list) == {1}:
+        abs_wtd_df = abs_wtd_df.drop(['wtd_freq', 'rel_value'], axis=1)
     return abs_wtd_df
