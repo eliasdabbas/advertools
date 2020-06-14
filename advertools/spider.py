@@ -4,7 +4,7 @@
 🕷 Python SEO Crawler / Spider
 ==============================
 
-A straightforward crawler to analyze SEO and content of pages and websites.
+A customizable crawler to analyze SEO and content of pages and websites.
 
 This is provided by the :func:`crawl` function which is customized for SEO and
 content analysis usage, and is highly configurable. The crawler uses
@@ -28,9 +28,15 @@ and the crawler will go through all of the reachable pages.
 
 .. code-block:: python
 
-   >>> crawl('https://example.com', 'my_output_file.csv', follow_links=True)
+   >>> crawl('https://example.com', 'my_output_file.jl', follow_links=True)
 
-That's it!
+That's it! To open the file:
+
+.. code-block:: python
+
+   >>> import pandas as pd
+   >>> pd.read_json('my_output_file.jl', lines=True)
+
 
 What this does:
 
@@ -40,18 +46,13 @@ What this does:
   this.
 * Starting with the provided URL(s) go through all links and parse pages.
 * For each URL extract the most important SEO elements.
-* Save them to ``output_file`` in the specified format.
-* The column headers of the output file (if you specify csv) would be the names
-  of the elements.
+* Save them to ``my_output_file.jl``.
+* The column headers of the output file (once you import it as a DataFrame)
+  would be the names of the elements (title, h1, h2, etc.).
 
-Supported file extensions:
-
-* csv
-* json
-* jl
-* xml
-* marshal
-* pickle
+Jsonlines is the supported output format because of its flexibility in allowing
+different values for different scraped pages, and appending indepentent items
+to the output files.
 
 .. note::
 
@@ -59,7 +60,7 @@ Supported file extensions:
     appending, and not overwriting. Otherwise it would have to store all the
     data in memory, which might crash your computer. A good practice is to have
     a separate ``output_file`` for every crawl with a descriptive name
-    `sitename_crawl_YYYY_MM_DD.csv` for example. If you use the same file you
+    `sitename_crawl_YYYY_MM_DD.jl` for example. If you use the same file you
     will probably get duplicate data in the same file.
 
 Extracted On-Page SEO Elements
@@ -75,6 +76,11 @@ url_redirected_to The actual URL that was parsed, usually but not always the
                   same as `url`
 title             The <title> tag(s)
 meta_desc         Meta description
+canonical         The canonical tag if available
+alt_href          The `href` attribute of rel=alternate tags
+alt_hreflang      The language codes of the alternate links
+og:*              Open Graph data
+twitter:*         Twitter card data
 h1                `<h1>` tag(s)
 h2                `<h2>` tag(s)
 h3                `<h3>` tag(s)
@@ -110,7 +116,7 @@ readability):
 .. code-block:: python
 
     >>> import pandas as pd
-    >>> site_crawl = pd.read_csv('path/to/file.csv')
+    >>> site_crawl = pd.read_json('path/to/file.jl', lines=True)
     >>> site_crawl.head()
                                    url               url_redirected_to                           title                       meta_desc                              h1                              h2                              h3                        body_text  size  download_timeout              download_slot  download_latency  redirect_times  redirect_ttl                   redirect_urls redirect_reasons  depth  status                      links_href                      links_text                         img_src                         img_alt    ip_address           crawl_time              resp_headers_date resp_headers_content-type     resp_headers_last-modified resp_headers_vary    resp_headers_x-ms-request-id resp_headers_x-ms-version resp_headers_x-ms-lease-status resp_headers_x-ms-blob-type resp_headers_access-control-allow-origin   resp_headers_x-served resp_headers_x-backend resp_headers_x-rtd-project resp_headers_x-rtd-version         resp_headers_x-rtd-path  resp_headers_x-rtd-domain resp_headers_x-rtd-version-method resp_headers_x-rtd-project-method resp_headers_strict-transport-security resp_headers_cf-cache-status  resp_headers_age           resp_headers_expires resp_headers_cache-control          resp_headers_expect-ct resp_headers_server   resp_headers_cf-ray      resp_headers_cf-request-id          request_headers_accept request_headers_accept-language      request_headers_user-agent request_headers_accept-encoding          request_headers_cookie
     0   https://advertools.readthedocs  https://advertools.readthedocs            advertools —  Python  Get productive as an online ma  advertools@@Indices and tables  Online marketing productivity                              NaN   Generate keywords for SEM camp   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN  https://advertools.readthedocs            [302]    NaN     NaN  #@@readme.html@@advertools.kw_  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:35  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  720a8581-501e-0043-01a2-2e77d2                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri="ht          cloudflare  596daca7dbaa7e9e-BUD  02d86a3cea00007e9edb0cf2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004
@@ -164,7 +170,7 @@ a filepath where you want the result saved.
 
 .. code-block:: python
 
-    >>> crawl(url_list, output_file, follow_links=False)
+    >>> crawl(url_list, 'output_file.jl', follow_links=False)
 
 The difference between the two approaches, is the simple parameter
 ``follow_links``. If you keep it as ``False`` (the default), the crawler
@@ -172,7 +178,7 @@ will only go through the provided URLs. Otherwise, it will discover pages by
 following links on pages that it crawls. So how do you make sure that the
 crawler doesn't try to crawl the whole web when ``follow_links`` is `True`?
 The ``allowed_domains`` parameter gives you the ability to control this,
-although it is and optional parameter. If you don't specify it, then it will
+although it is an optional parameter. If you don't specify it, then it will
 default to only the domains in the ``url_list``. It's important to note that
 you have to set this parameter if you have certain sub-domains that you want to
 crawl.
@@ -216,12 +222,12 @@ sidebar in a separate column. It seems that the CSS selector for them is
 Note that this selects the *element* (the whole link object), which is not
 typically what you might be interested in.
 
-So with CSS you need to append `::text` or `::attr(href)` if you want the text of
-the links or the `href` attribute respectively. Similarly with XPath, you will
-need to append `/text()` or `/@href` to the selector to get the same.
+So with CSS you need to append `::text` or `::attr(href)` if you want the text
+of the links or the `href` attribute respectively. Similarly with XPath, you
+will need to append `/text()` or `/@href` to the selector to get the same.
 
 >>> crawl('https://advertools.readthedocs.io/en/master/advertools.spider.html',
-...       'output_file.csv',
+...       'output_file.jl',
 ...       css_selectors={'sidebar_links': '.toctree-l1 .internal::text',
 ...                      'sidebar_links_url': '.toctree-l1 .internal::attr(href)'})
 
@@ -259,6 +265,8 @@ Here are some examples that you might find interesting:
 * `LOG_FILE` If you want to save your crawl logs to a file, you can provide a
   path to it here.
 * `USER_AGENT` If you want to identify yourself differently while crawling.
+  This is affected by the robots.txt rules, so you would be potentially
+  allowed/disallowed from certain pages based on your user-agent.
 * `CLOSESPIDER_ERRORCOUNT`, `CLOSESPIDER_ITEMCOUNT`, `CLOSESPIDER_PAGECOUNT`,
   `CLOSESPIDER_TIMEOUT` Stop crawling after that many errors, items, pages, or
   seconds. These can be very useful to limit your crawling in certain cases.
@@ -271,9 +279,9 @@ Here are some examples that you might find interesting:
 
 **Usage**
 
-A very simpl dictionary to be added to your function call:
+A very simple dictionary to be added to your function call:
 
->>> crawl('http://exmaple.com', 'outpuf_file.csv',
+>>> crawl('http://exmaple.com', 'outpuf_file.jl',
 ...       custom_settings={'CLOSESPIDER_PAGECOUNT': 100,
 ...                        'CONCURRENT_REQUESTS_PER_DOMAIN': 1,
 ...                        'USER_AGENT': 'custom-user-agent'})
@@ -284,7 +292,6 @@ for the full details.
 """
 import datetime
 import json
-import os
 import subprocess
 
 from urllib.parse import urlparse
@@ -302,11 +309,30 @@ user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' \
 
 BODY_TEXT_SELECTOR = '//body//span//text() | //body//p//text() | //body//li//text()'
 
-formatter.SCRAPEDMSG = "Scraped from %(src)s" + os.linesep
-formatter.DROPPEDMSG = "Dropped: %(exception)s" + os.linesep
-formatter.DOWNLOADERRORMSG_LONG = "Error downloading %(request)s" + os.linesep
+formatter.SCRAPEDMSG = "Scraped from %(src)s"
+formatter.DROPPEDMSG = "Dropped: %(exception)s"
+formatter.DOWNLOADERRORMSG_LONG = "Error downloading %(request)s"
 
 le = LinkExtractor()
+
+
+def _numbered_duplicates(items):
+    """Append a number to all duplicated items starting at 1.
+
+    ['og:site', 'og:image', 'og:image', 'og:type', 'og:image']
+    becomes:
+    ['og:site', 'og:image_1', 'og:image_2', 'og:type', 'og:image_3']
+    """
+    item_count = dict.fromkeys(items, 0)
+    numbered_items = []
+    for item in items:
+        item_count[item] += 1
+        numbered_items.append(item + '_' + str(item_count[item]))
+    for i, num_item in enumerate(numbered_items):
+        split_number = num_item.rsplit('_', maxsplit=1)
+        if item_count[split_number[0]] == 1:
+            numbered_items[i] = split_number[0]
+    return numbered_items
 
 
 class SEOSitemapSpider(Spider):
@@ -347,12 +373,36 @@ class SEOSitemapSpider(Spider):
                                for key, val in self.xpath_selectors.items()}
         else:
             xpath_selectors = {}
+        canonical = {'canonical': '@@'.join(response.css('[rel="canonical"]::attr(href)').getall())}
+        canonical = canonical if canonical.get('canonical') else {}
+        alt_href = {'alt_href': '@@'.join(response.css('[rel=alternate]::attr(href)').getall())}
+        alt_href = alt_href if alt_href.get('alt_href') else {}
+        alt_hreflang = {'alt_hreflang': '@@'.join(response.css('[rel=alternate]::attr(hreflang)').getall())}
+        alt_hreflang = alt_hreflang if alt_hreflang.get('alt_hreflang') else {}
+        og_props = response.css('meta[property^="og:"]::attr(property)').getall()
+        og_content = response.css('meta[property^="og:"]::attr(content)').getall()
+        if og_props and og_content:
+            og_props = _numbered_duplicates(og_props)
+            open_graph = dict(zip(og_props, og_content))
+        else:
+            open_graph = {}
+        twtr_names = response.css('meta[name^="twitter:"]::attr(name)').getall()
+        twtr_content = response.css('meta[name^="twitter:"]::attr(content)').getall()
+        if twtr_names and twtr_content:
+            twtr_card = dict(zip(twtr_names, twtr_content))
+        else:
+            twtr_card = {}
 
         yield dict(
             url=response.request.url,
             url_redirected_to=response.url,
             title='@@'.join(response.css('title::text').getall()),
             meta_desc=response.xpath("//meta[@name='description']/@content").get(),
+            **canonical,
+            **alt_href,
+            **alt_hreflang,
+            **open_graph,
+            **twtr_card,
             h1='@@'.join(response.css('h1::text').getall()),
             h2='@@'.join(response.css('h2::text').getall()),
             h3='@@'.join(response.css('h3::text').getall()),
@@ -371,7 +421,7 @@ class SEOSitemapSpider(Spider):
                                for im in response.css('img')]),
             img_alt='@@'.join([im.attrib.get('alt') or ''
                                for im in response.css('img')]),
-            ip_address=response.ip_address,
+            ip_address=str(response.ip_address),
             crawl_time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
             **{'resp_headers_' + k: v
                for k, v in response.headers.to_unicode_dict().items()},
@@ -393,9 +443,9 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
     :param url,list url_list: One or more URLs to crawl. If ``follow_links``
                           is True, the crawler will start with these URLs and
                           follow all links on pages recursively.
-    :param str output_file: The path to the output of the crawl. Supported
-                            formats: `csv`, `json`, `jsonlines`, `jl`, `xml`,
-                            `marshal`, `pickle`.
+    :param str output_file: The path to the output of the crawl. Jsonlines only
+                            is supported to allow for dynamic values. Make sure
+                            your file ends with ".jl", e.g. `output_file.jl`.
     :param bool follow_links: Defaults to False. Whether or not to follow links
                               on crawled pages.
     :param dict css_selectors: A dictionary mapping names to CSS selectors. The
@@ -423,14 +473,16 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
 
     Crawl a website and let the crawler discover as many pages as available
 
-    >>> crawl('http://example.com', 'output_file.csv', follow_links=True)
+    >>> crawl('http://example.com', 'output_file.jl', follow_links=True)
+    >>> import pandas as pd
+    >>> crawl_df = pd.read_json('output_file.jl', lines=True)
 
     Crawl a known set of pages (on a single or multiple sites) without
-    following links (just crawl the specified pages):
+    following links (just crawl the specified pages) or "list mode":
 
     >>> crawl(['http://exmaple.com/product', 'http://exmaple.com/product2',
     ...        'https://anotherexample.com', 'https://anotherexmaple.com/hello'],
-    ...        'output_file.csv', follow_links=False)
+    ...        'output_file.jl', follow_links=False)
 
     Crawl a website, and in addition to standard SEO elements, also get the
     required CSS selectors.
@@ -439,7 +491,7 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
     or the `href` attribute if you are working with links (and all other
     selectors).
 
-    >>> crawl('http://example.com', 'output_file.csv',
+    >>> crawl('http://example.com', 'output_file.jl',
     ...       css_selectors={'price': '.a-color-price::text',
     ...                      'author': '.contributorNameID::text',
     ...                      'author_url': '.contributorNameID::attr(href)'})
@@ -448,7 +500,10 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
         url_list = [url_list]
     if isinstance(allowed_domains, str):
         allowed_domains = [allowed_domains]
-
+    if output_file.rsplit('.')[-1] != 'jl':
+        raise ValueError("Please make sure your output_file ends with '.jl'.\n"
+                         "For example:\n"
+                         "{}.jl".format(output_file.rsplit('.', maxsplit=1)[0]))
     if allowed_domains is None:
         allowed_domains = {urlparse(url).netloc for url in url_list}
     settings_list = []
