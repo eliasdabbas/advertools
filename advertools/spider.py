@@ -92,7 +92,10 @@ status            Response status (200, 301, 302, 404, etc.)
 links_url         The URLs of the links on the page
 links_text        The link text (anchor text)
 links_fragment    The fragment part of the link (#fragment)
-links_nofollow    Boolean, whether or not the link is a nofllow link
+links_nofollow    Boolean, whether or not the link is a nofllow link. Note that
+                  this only tells if the link itself contains a rel="nofollow"
+                  attribute. The page might indicate "nofollow" using meta
+                  robots or X-Robots-Tag, which you have to check separately.
 img_src           The ``src`` attribute of images
 img_alt           The ``alt`` attribute if available or an empty string
 page_depth        The depth of the crawled page
