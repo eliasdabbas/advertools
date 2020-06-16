@@ -376,11 +376,11 @@ class SEOSitemapSpider(Spider):
                                for key, val in self.xpath_selectors.items()}
         else:
             xpath_selectors = {}
-        canonical = {'canonical': '@@'.join(response.css('[rel="canonical"]::attr(href)').getall())}
+        canonical = {'canonical': '@@'.join(response.css('link[rel="canonical"]::attr(href)').getall())}
         canonical = canonical if canonical.get('canonical') else {}
-        alt_href = {'alt_href': '@@'.join(response.css('[rel=alternate]::attr(href)').getall())}
+        alt_href = {'alt_href': '@@'.join(response.css('link[rel=alternate]::attr(href)').getall())}
         alt_href = alt_href if alt_href.get('alt_href') else {}
-        alt_hreflang = {'alt_hreflang': '@@'.join(response.css('[rel=alternate]::attr(hreflang)').getall())}
+        alt_hreflang = {'alt_hreflang': '@@'.join(response.css('link[rel=alternate]::attr(hreflang)').getall())}
         alt_hreflang = alt_hreflang if alt_hreflang.get('alt_hreflang') else {}
         og_props = response.css('meta[property^="og:"]::attr(property)').getall()
         og_content = response.css('meta[property^="og:"]::attr(content)').getall()
