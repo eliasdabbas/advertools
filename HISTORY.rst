@@ -2,6 +2,13 @@
 Change Log - advertools
 =======================
 
+Unreleased
+----------
+
+* Changed
+    - Stricter parsing for rel attributes, making sure they are in link
+      elements as well
+
 0.10.5 (2020-06-14)
 -------------------
 
