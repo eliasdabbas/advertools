@@ -14,6 +14,40 @@
         Get productive as an online marketer with a Python package that helps
         in automating many of the important tasks.
 
+.. raw:: html
+
+      <script type="application/ld+json">
+   {
+     "@context": "http://schema.org",
+     "@type": "SoftwareSourceCode",
+     "author":
+       {
+         "@type": "Person",
+         "name": "Elias Dabbas",
+         "sameAs": ["https://www.linkedin.com/in/eliasdabbas",
+                    "https://twitter.com/eliasdabbas",
+                    "https://github.com/eliasdabbas"]
+       },
+     "description": "Productivity and analysis tool for online marketing.",
+     "name": "advertools",
+     "license": "https://github.com/eliasdabbas/advertools/blob/master/LICENSE",
+     "programmingLanguage":
+            {
+            "@type": "ComputerLanguage",
+            "name": "Python"
+            },
+     "runtimePlatform": "Python3",
+     "codeRepository": "https://github.com/eliasdabbas/advertools",
+     "keywords": ["marketing", "advertising", "SEO", "SEM",
+                  "robots.txt",
+                  "XML sitemaps", "AdWords", "PPC", "Social Media", "Twitter",
+                  "YouTube", "Emoji", "Text Analysis"
+     ],
+     "version": "0.10.5"
+
+   }
+   </script>
+
 advertools
 ==========
 Online marketing productivity and analysis tools
