@@ -1,8 +1,72 @@
 """
+
 .. _twitter:
 
 Twitter Data API
 ================
+Easily connect to the Twitter API and start your analysis immediately.
+
+Main Features:
+
+1 **Get the results in a DataFrame**: With the exception of three functions
+that return a list of ID's, everything else returns a pandas DataFrame, ready
+to use. This allows you to spend more time analyzing data, and less time
+figuring out the structure of the JSON response object. It's not complicated
+or anything, just takes time.
+
+2 **Manage looping and merging**: there is a limit on how many results you get
+per request (typically in the 100 - 200 range), several requests have to be
+made, and merged together. Not all responses have the same structure, so this
+is also handled. You only have to provide the number of responses you want
+through the ``count`` parameter where applicable (provided you are within
+your app's rate limits).
+
+3 **Unnesting nested objects**: Many response objects contain very rich
+embedded data, which is usually meta data about the response. For example,
+when you request tweets, you get a user object along with that. This is very
+helpful in better understanding who made the tweet, and how
+influential/credible they are.
+
+4 **Documentation**: All available parameters are included in the function
+signatures, to make it easier to explore interactively, as well as
+descriptions of the parameters imported from the Twitter documentation.
+
+Authentication
+--------------
+
+Before starting you will have to create an app through
+`developer.twitter.com <https://developer.twitter.com/>`_, and then you can get
+your authentication keys from your dashboard. Then you can authenticate as
+follows:
+
+.. code-block:: python
+
+   >>> auth_params = {
+   ...     'app_key': 'YOUR_APP_KEY',
+   ...     'app_secret': 'YOUR_APP_SECRET',
+   ...     'oauth_token': 'YOUR_OAUTH_TOKEN',
+   ...     'oauth_token_secret': 'YOUR_OAUTH_TOKEN_SECRET',
+   ... }
+   >>> import advertools as adv
+   >>> adv.twitter.set_auth_params(**auth_params)
+
+Now every request you send will include your ``auth_params`` in it, and if
+valid you will get the respective response, for example:
+
+.. code-block:: python
+
+   >>> python_tweets = adv.twitter.search(q='#python', tweet_mode='extended')
+
+Make sure you always specify ``tweet_mode='extended'`` because otherwise you
+will get tweets that are 140 characters long.
+
+When you have tweets and user data in the DataFrame, the column names would be
+prepended with ``tweet_`` and ``user_`` to make it clear what the data belong
+to.
+
+
+Functions
+---------
 """
 
 import logging

@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.10.4
+                0.10.5
               </div>
             
           
@@ -112,7 +112,11 @@
 </ul>
 <p class="caption"><span class="caption-text">Social Media</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Twitter Data API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Twitter Data API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
@@ -184,6 +188,56 @@
             
   <span class="target" id="module-advertools.twitter"></span><div class="section" id="twitter-data-api">
 <span id="twitter"></span><h1>Twitter Data API<a class="headerlink" href="#twitter-data-api" title="Permalink to this headline">¶</a></h1>
+<p>Easily connect to the Twitter API and start your analysis immediately.</p>
+<p>Main Features:</p>
+<p>1 <strong>Get the results in a DataFrame</strong>: With the exception of three functions
+that return a list of ID’s, everything else returns a pandas DataFrame, ready
+to use. This allows you to spend more time analyzing data, and less time
+figuring out the structure of the JSON response object. It’s not complicated
+or anything, just takes time.</p>
+<p>2 <strong>Manage looping and merging</strong>: there is a limit on how many results you get
+per request (typically in the 100 - 200 range), several requests have to be
+made, and merged together. Not all responses have the same structure, so this
+is also handled. You only have to provide the number of responses you want
+through the <code class="docutils literal notranslate"><span class="pre">count</span></code> parameter where applicable (provided you are within
+your app’s rate limits).</p>
+<p>3 <strong>Unnesting nested objects</strong>: Many response objects contain very rich
+embedded data, which is usually meta data about the response. For example,
+when you request tweets, you get a user object along with that. This is very
+helpful in better understanding who made the tweet, and how
+influential/credible they are.</p>
+<p>4 <strong>Documentation</strong>: All available parameters are included in the function
+signatures, to make it easier to explore interactively, as well as
+descriptions of the parameters imported from the Twitter documentation.</p>
+<div class="section" id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h2>
+<p>Before starting you will have to create an app through
+<a class="reference external" href="https://developer.twitter.com/">developer.twitter.com</a>, and then you can get
+your authentication keys from your dashboard. Then you can authenticate as
+follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">auth_params</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;app_key&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_APP_KEY&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;app_secret&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_APP_SECRET&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;oauth_token&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_OAUTH_TOKEN&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;oauth_token_secret&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_OAUTH_TOKEN_SECRET&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="kn">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">twitter</span><span class="o">.</span><span class="n">set_auth_params</span><span class="p">(</span><span class="o">**</span><span class="n">auth_params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now every request you send will include your <code class="docutils literal notranslate"><span class="pre">auth_params</span></code> in it, and if
+valid you will get the respective response, for example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">python_tweets</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">twitter</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="s1">&#39;#python&#39;</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="s1">&#39;extended&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Make sure you always specify <code class="docutils literal notranslate"><span class="pre">tweet_mode='extended'</span></code> because otherwise you
+will get tweets that are 140 characters long.</p>
+<p>When you have tweets and user data in the DataFrame, the column names would be
+prepended with <code class="docutils literal notranslate"><span class="pre">tweet_</span></code> and <code class="docutils literal notranslate"><span class="pre">user_</span></code> to make it clear what the data belong
+to.</p>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="advertools.twitter.authenticate">
 <code class="sig-name descname">authenticate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#authenticate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.authenticate" title="Permalink to this definition">¶</a></dt>
@@ -1064,6 +1118,7 @@ Cursoring for more information.</p></li>
 <p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships">https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships</a></p>
 </dd></dl>
 
+</div>
 </div>
 
 

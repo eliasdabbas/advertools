@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.10.4
+                0.10.5
               </div>
             
           
@@ -272,7 +272,10 @@
 <span class="sd">links_url         The URLs of the links on the page</span>
 <span class="sd">links_text        The link text (anchor text)</span>
 <span class="sd">links_fragment    The fragment part of the link (#fragment)</span>
-<span class="sd">links_nofollow    Boolean, whether or not the link is a nofllow link</span>
+<span class="sd">links_nofollow    Boolean, whether or not the link is a nofllow link. Note that</span>
+<span class="sd">                  this only tells if the link itself contains a rel=&quot;nofollow&quot;</span>
+<span class="sd">                  attribute. The page might indicate &quot;nofollow&quot; using meta</span>
+<span class="sd">                  robots or X-Robots-Tag, which you have to check separately.</span>
 <span class="sd">img_src           The ``src`` attribute of images</span>
 <span class="sd">img_alt           The ``alt`` attribute if available or an empty string</span>
 <span class="sd">page_depth        The depth of the crawled page</span>
@@ -553,11 +556,11 @@
                                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xpath_selectors</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">xpath_selectors</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">canonical</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;canonical&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;[rel=&quot;canonical&quot;]::attr(href)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())}</span>
+        <span class="n">canonical</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;canonical&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;link[rel=&quot;canonical&quot;]::attr(href)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())}</span>
         <span class="n">canonical</span> <span class="o">=</span> <span class="n">canonical</span> <span class="k">if</span> <span class="n">canonical</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;canonical&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
-        <span class="n">alt_href</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alt_href&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;[rel=alternate]::attr(href)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())}</span>
+        <span class="n">alt_href</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alt_href&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;link[rel=alternate]::attr(href)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())}</span>
         <span class="n">alt_href</span> <span class="o">=</span> <span class="n">alt_href</span> <span class="k">if</span> <span class="n">alt_href</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alt_href&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
-        <span class="n">alt_hreflang</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alt_hreflang&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;[rel=alternate]::attr(hreflang)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())}</span>
+        <span class="n">alt_hreflang</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alt_hreflang&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;link[rel=alternate]::attr(hreflang)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())}</span>
         <span class="n">alt_hreflang</span> <span class="o">=</span> <span class="n">alt_hreflang</span> <span class="k">if</span> <span class="n">alt_hreflang</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alt_hreflang&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
         <span class="n">og_props</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;meta[property^=&quot;og:&quot;]::attr(property)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
         <span class="n">og_content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;meta[property^=&quot;og:&quot;]::attr(content)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>

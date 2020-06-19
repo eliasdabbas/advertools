@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.10.4
+                0.10.5
               </div>
             
           
@@ -179,10 +179,74 @@
             
   <h1>Source code for advertools.twitter</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
+
 <span class="sd">.. _twitter:</span>
 
 <span class="sd">Twitter Data API</span>
 <span class="sd">================</span>
+<span class="sd">Easily connect to the Twitter API and start your analysis immediately.</span>
+
+<span class="sd">Main Features:</span>
+
+<span class="sd">1 **Get the results in a DataFrame**: With the exception of three functions</span>
+<span class="sd">that return a list of ID&#39;s, everything else returns a pandas DataFrame, ready</span>
+<span class="sd">to use. This allows you to spend more time analyzing data, and less time</span>
+<span class="sd">figuring out the structure of the JSON response object. It&#39;s not complicated</span>
+<span class="sd">or anything, just takes time.</span>
+
+<span class="sd">2 **Manage looping and merging**: there is a limit on how many results you get</span>
+<span class="sd">per request (typically in the 100 - 200 range), several requests have to be</span>
+<span class="sd">made, and merged together. Not all responses have the same structure, so this</span>
+<span class="sd">is also handled. You only have to provide the number of responses you want</span>
+<span class="sd">through the ``count`` parameter where applicable (provided you are within</span>
+<span class="sd">your app&#39;s rate limits).</span>
+
+<span class="sd">3 **Unnesting nested objects**: Many response objects contain very rich</span>
+<span class="sd">embedded data, which is usually meta data about the response. For example,</span>
+<span class="sd">when you request tweets, you get a user object along with that. This is very</span>
+<span class="sd">helpful in better understanding who made the tweet, and how</span>
+<span class="sd">influential/credible they are.</span>
+
+<span class="sd">4 **Documentation**: All available parameters are included in the function</span>
+<span class="sd">signatures, to make it easier to explore interactively, as well as</span>
+<span class="sd">descriptions of the parameters imported from the Twitter documentation.</span>
+
+<span class="sd">Authentication</span>
+<span class="sd">--------------</span>
+
+<span class="sd">Before starting you will have to create an app through</span>
+<span class="sd">`developer.twitter.com &lt;https://developer.twitter.com/&gt;`_, and then you can get</span>
+<span class="sd">your authentication keys from your dashboard. Then you can authenticate as</span>
+<span class="sd">follows:</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">   &gt;&gt;&gt; auth_params = {</span>
+<span class="sd">   ...     &#39;app_key&#39;: &#39;YOUR_APP_KEY&#39;,</span>
+<span class="sd">   ...     &#39;app_secret&#39;: &#39;YOUR_APP_SECRET&#39;,</span>
+<span class="sd">   ...     &#39;oauth_token&#39;: &#39;YOUR_OAUTH_TOKEN&#39;,</span>
+<span class="sd">   ...     &#39;oauth_token_secret&#39;: &#39;YOUR_OAUTH_TOKEN_SECRET&#39;,</span>
+<span class="sd">   ... }</span>
+<span class="sd">   &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">   &gt;&gt;&gt; adv.twitter.set_auth_params(**auth_params)</span>
+
+<span class="sd">Now every request you send will include your ``auth_params`` in it, and if</span>
+<span class="sd">valid you will get the respective response, for example:</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">   &gt;&gt;&gt; python_tweets = adv.twitter.search(q=&#39;#python&#39;, tweet_mode=&#39;extended&#39;)</span>
+
+<span class="sd">Make sure you always specify ``tweet_mode=&#39;extended&#39;`` because otherwise you</span>
+<span class="sd">will get tweets that are 140 characters long.</span>
+
+<span class="sd">When you have tweets and user data in the DataFrame, the column names would be</span>
+<span class="sd">prepended with ``tweet_`` and ``user_`` to make it clear what the data belong</span>
+<span class="sd">to.</span>
+
+
+<span class="sd">Functions</span>
+<span class="sd">---------</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
