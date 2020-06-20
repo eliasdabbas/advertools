@@ -15,7 +15,7 @@
         :target: https://lgtm.com/projects/g/eliasdabbas/advertools/context:python
 
 .. image:: https://badges.gitter.im/advertools/community.svg
-        :target: https://bit.ly/2Ngc2Ve
+        :target: https://bit.ly/3hEWZCe
 
 | 🎊 **New:** `SEO crawler <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
   now extracts canonical, alternate href, alternate hreflang, OpenGraph, and Twitter cards if available on pages
