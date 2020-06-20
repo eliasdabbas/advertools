@@ -14,6 +14,9 @@
 .. image:: https://img.shields.io/lgtm/grade/python/g/eliasdabbas/advertools.svg
         :target: https://lgtm.com/projects/g/eliasdabbas/advertools/context:python
 
+.. image:: https://badges.gitter.im/advertools/community.svg
+        :target: https://bit.ly/2Ngc2Ve
+
 | 🎊 **New:** `SEO crawler <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
   now extracts canonical, alternate href, alternate hreflang, OpenGraph, and Twitter cards if available on pages
 | 🎉 **New:** ``url_to_df`` Function for `analyzing URLs <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html>`_ by extracting their elements into DataFrames
@@ -211,3 +214,8 @@ autocomplete to discover other options:
 | ``crawl``: a function you will probably use a lot if you do SEO
 | ``*_to_df``: a set of convenience functions for converting to DataFrames
   (XML sitemaps, robots.txt files, and lists of URLs)
+
+
+.. image:: https://badges.gitter.im/advertools/JSON-LD.svg
+   :alt: Join the chat at https://gitter.im/advertools/JSON-LD
+   :target: https://gitter.im/advertools/JSON-LD?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
