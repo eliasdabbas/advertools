@@ -13,6 +13,9 @@ __all__ = ['SERP_GOOG_VALID_VALS', 'YOUTUBE_TOPIC_IDS',
 import datetime
 import logging
 from itertools import product
+import time
+from googleapiclient.errors import HttpError
+
 
 import pandas as pd
 if int(pd.__version__[0]) >= 1:
@@ -681,7 +684,22 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
     for param in params_list:
         param_log = ', '.join([k + '=' + str(v) for k, v in param.items()])
         logging.info(msg='Requesting: ' + param_log)
-        resp = requests.get(base_url, params=param)
+        # counts how many times error was returned on request
+        n = 0
+        try:
+            resp = requests.get(base_url, params=param)
+            # sleeps 0.1 to fit 10 QPS
+            time.sleep(0.1)
+        except HttpError as error:
+            # waits 0.5 if exception is raised, else raises
+            n += 1
+            if error.resp.reason in ['userRateLimitExceeded', 'quotaExceeded', 'internalServerError', 'backendError']:
+                time.sleep(0.5)
+                resp = requests.get(base_url, params=param)
+                logging.exception('Server not responded and backoff used')
+            else:
+                raise Exception(resp.json())
+
         if resp.status_code >= 400:
             raise Exception(resp.json())
         responses.append(resp)
@@ -757,6 +775,7 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
                     metatag_df = metatag_df.rename(columns={col: 'metatag_' + col})
 
             final_df = pd.concat([final_df, metatag_df], axis=1)
+            print(f'Backoff used {n} times')
     return final_df
 
 
