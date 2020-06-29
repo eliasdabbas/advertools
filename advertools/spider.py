@@ -341,16 +341,16 @@ def _numbered_duplicates(items):
     item_count = dict.fromkeys(items, 0)
     numbered_items = []
     for item in items:
-        item_count[item] += 1
         numbered_items.append(item + '_' + str(item_count[item]))
+        item_count[item] += 1
     for i, num_item in enumerate(numbered_items):
         split_number = num_item.rsplit('_', maxsplit=1)
-        if item_count[split_number[0]] == 1:
+        if split_number[1] == '0':
             numbered_items[i] = split_number[0]
     return numbered_items
 
 
-def _josn_to_dict(jsonobj, i=None):
+def _json_to_dict(jsonobj, i=None):
     df = json_normalize(jsonobj)
     if i:
         df = df.add_prefix('jsonld_{}_'.format(i))
@@ -422,9 +422,9 @@ class SEOSitemapSpider(Spider):
             jsonld = {}
         else:
             if len(ld) == 1:
-                jsonld = _josn_to_dict(ld)
+                jsonld = _json_to_dict(ld)
             else:
-                ld_norm = [_josn_to_dict(x, i) for i, x in enumerate(ld)]
+                ld_norm = [_json_to_dict(x, i) for i, x in enumerate(ld)]
                 jsonld = {}
                 for norm in ld_norm:
                     jsonld.update(**norm)
