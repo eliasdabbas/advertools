@@ -217,7 +217,7 @@ def robotstxt_to_df(robotstxt_url):
                 lines.append([split[0].strip(), split[1].strip()])
     df = pd.DataFrame(lines, columns=['directive', 'content'])
     df['robotstxt_url'] = robotstxt_url
-    df['file_downloaded'] = pd.Timestamp.now(tz='UTC')
+    df['download_date'] = pd.Timestamp.now(tz='UTC')
     return df
 
 

@@ -347,8 +347,5 @@ def sitemap_to_df(sitemap_url):
         sitemap_df['lastmod'] = pd.to_datetime(sitemap_df['lastmod'], utc=True)
     if 'priority' in sitemap_df:
         sitemap_df['priority'] = sitemap_df['priority'].astype(float)
-    sitemap_df['sitemap_downloaded'] = pd.Timestamp.now(tz='UTC')
+    sitemap_df['download_date'] = pd.Timestamp.now(tz='UTC')
     return sitemap_df
-
-
-

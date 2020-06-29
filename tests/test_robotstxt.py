@@ -11,7 +11,7 @@ def test_robotstxt_to_df():
     result = robotstxt_to_df('https://www.media-supermarket.com/robots.txt')
     assert isinstance(result, pd.core.frame.DataFrame)
     assert all(col in result
-               for col in ['directive', 'content', 'file_downloaded'])
+               for col in ['directive', 'content', 'download_date'])
 
 
 def test_robotstxt_test():
