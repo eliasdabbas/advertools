@@ -34,7 +34,7 @@ def test_sitemap_index():
     result = sitemap_to_df(sitemap_index_url)
     assert isinstance(result, pd.core.frame.DataFrame)
     assert all([col in result
-               for col in ['loc', 'sitemap_downloaded', 'sitemap']])
+               for col in ['loc', 'download_date', 'sitemap']])
 
 
 def test_error_sitemap():
