@@ -81,6 +81,12 @@ alt_href          The `href` attribute of rel=alternate tags
 alt_hreflang      The language codes of the alternate links
 og:*              Open Graph data
 twitter:*         Twitter card data
+jsonld_*          JSON-LD data if available. In case multiple snippets occur,
+                  the respective column names will include a number to
+                  distinguish them, `jsonld_1_{item_a}, jsonld_1_{item_b}`,
+                  etc. Note that the first snippet will not contain a number,
+                  so the numbering starts with "1", starting from the second
+                  snippet. The same applies to OG and Twitter cards.
 h1                `<h1>` tag(s)
 h2                `<h2>` tag(s)
 h3                `<h3>` tag(s)
