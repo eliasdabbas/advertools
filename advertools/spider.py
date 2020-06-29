@@ -81,6 +81,12 @@ alt_href          The `href` attribute of rel=alternate tags
 alt_hreflang      The language codes of the alternate links
 og:*              Open Graph data
 twitter:*         Twitter card data
+jsonld_*          JSON-LD data if available. In case multiple snippets occur,
+                  the respective column names will include a number to
+                  distinguish them, `jsonld_1_{item_a}, jsonld_1_{item_b}`,
+                  etc. Note that the first snippet will not contain a number,
+                  so the numbering starts with "1", starting from the second
+                  snippet. The same applies to OG and Twitter cards.
 h1                `<h1>` tag(s)
 h2                `<h2>` tag(s)
 h3                `<h3>` tag(s)
@@ -304,6 +310,12 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy import Request
 import scrapy.logformatter as formatter
 import advertools as adv
+import pandas as pd
+if int(pd.__version__[0]) >= 1:
+    from pandas import json_normalize
+else:
+    from pandas.io.json import json_normalize
+
 
 spider_path = adv.__path__[0] + '/spider.py'
 
@@ -336,6 +348,15 @@ def _numbered_duplicates(items):
         if item_count[split_number[0]] == 1:
             numbered_items[i] = split_number[0]
     return numbered_items
+
+
+def _josn_to_dict(jsonobj, i=None):
+    df = json_normalize(jsonobj)
+    if i:
+        df = df.add_prefix('jsonld_{}_'.format(i))
+    else:
+        df = df.add_prefix('jsonld_')
+    return dict(zip(df.columns, df.values[0]))
 
 
 class SEOSitemapSpider(Spider):
@@ -395,7 +416,18 @@ class SEOSitemapSpider(Spider):
             twtr_card = dict(zip(twtr_names, twtr_content))
         else:
             twtr_card = {}
-
+        ld = [json.loads(s) for s in
+              response.css('script[type="application/ld+json"]::text').getall()]
+        if not ld:
+            jsonld = {}
+        else:
+            if len(ld) == 1:
+                jsonld = _josn_to_dict(ld)
+            else:
+                ld_norm = [_josn_to_dict(x, i) for i, x in enumerate(ld)]
+                jsonld = {}
+                for norm in ld_norm:
+                    jsonld.update(**norm)
         yield dict(
             url=response.request.url,
             url_redirected_to=response.url,
@@ -406,6 +438,7 @@ class SEOSitemapSpider(Spider):
             **alt_hreflang,
             **open_graph,
             **twtr_card,
+            **jsonld,
             h1='@@'.join(response.css('h1::text').getall()),
             h2='@@'.join(response.css('h2::text').getall()),
             h3='@@'.join(response.css('h3::text').getall()),
