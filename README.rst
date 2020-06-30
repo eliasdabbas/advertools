@@ -18,7 +18,7 @@
         :target: https://bit.ly/3hEWZCe
 
 | 🎊 **New:** `SEO crawler <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
-  now extracts canonical, alternate href, alternate hreflang, OpenGraph, and Twitter cards if available on pages
+  now extracts JSON-LD canonical, alternate href, alternate hreflang, OpenGraph, and Twitter cards if available on pages
 | 🎉 **New:** ``url_to_df`` Function for `analyzing URLs <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html>`_ by extracting their elements into DataFrames
 | 🎉 **New:** ``sitemap_to_df`` Function for `downloading & parsing XML sitemaps <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html>`_ into DataFrames
 
