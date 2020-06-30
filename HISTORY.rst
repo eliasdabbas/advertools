@@ -2,12 +2,22 @@
 Change Log - advertools
 =======================
 
-Unreleased
-----------
+0.10.6 (2020-06-30)
+-------------------
 
+* Added
+    - JSON-LD support in crawling. If available on a page, JSON-LD items will
+      have special columns, and multiple JSON-LD snippets will be numbered for
+      easy filtering
 * Changed
     - Stricter parsing for rel attributes, making sure they are in link
       elements as well
+    - Date column names for ``robotstxt_to_df`` and ``sitemap_to_df`` unified
+      as "download_date"
+    - Numbering OG, Twitter, and JSON-LD where multiple elements are present in
+      the same page, follows a unified approach: no numbering for the first
+      element, and numbers start with "1" from the second element on. "element",
+      "element_1", "element_2" etc.
 
 0.10.5 (2020-06-14)
 -------------------
