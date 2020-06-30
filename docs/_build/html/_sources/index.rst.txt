@@ -28,7 +28,7 @@
                     "https://twitter.com/eliasdabbas",
                     "https://github.com/eliasdabbas"]
        },
-     "description": "Productivity and analysis tool for online marketing.",
+     "description": "Productivity and analysis tools for online marketing.",
      "name": "advertools",
      "license": "https://github.com/eliasdabbas/advertools/blob/master/LICENSE",
      "programmingLanguage":

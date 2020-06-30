@@ -527,11 +527,8 @@
         <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">],</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="s1">&#39;priority&#39;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
         <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-    <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;sitemap_downloaded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
+    <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;download_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sitemap_df</span></div>
-
-
-
 </pre></div>
 
            </div>

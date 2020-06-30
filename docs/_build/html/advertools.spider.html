@@ -288,62 +288,70 @@ same as <cite>url</cite></p></td>
 <tr class="row-even"><td><p>twitter:*</p></td>
 <td><p>Twitter card data</p></td>
 </tr>
-<tr class="row-odd"><td><p>h1</p></td>
+<tr class="row-odd"><td><p>jsonld_*</p></td>
+<td><p>JSON-LD data if available. In case multiple snippets occur,
+the respective column names will include a number to
+distinguish them, <cite>jsonld_1_{item_a}, jsonld_1_{item_b}</cite>,
+etc. Note that the first snippet will not contain a number,
+so the numbering starts with “1”, starting from the second
+snippet. The same applies to OG and Twitter cards.</p></td>
+</tr>
+<tr class="row-even"><td><p>h1</p></td>
 <td><p><cite>&lt;h1&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-even"><td><p>h2</p></td>
+<tr class="row-odd"><td><p>h2</p></td>
 <td><p><cite>&lt;h2&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-odd"><td><p>h3</p></td>
+<tr class="row-even"><td><p>h3</p></td>
 <td><p><cite>&lt;h3&gt;</cite> tag(s)</p></td>
 </tr>
-<tr class="row-even"><td><p>body_text</p></td>
+<tr class="row-odd"><td><p>body_text</p></td>
 <td><p>The text in the &lt;p&gt; tags</p></td>
 </tr>
-<tr class="row-odd"><td><p>size</p></td>
+<tr class="row-even"><td><p>size</p></td>
 <td><p>The page size in bytes</p></td>
 </tr>
-<tr class="row-even"><td><p>resp_meta_*</p></td>
+<tr class="row-odd"><td><p>resp_meta_*</p></td>
 <td><p>Several metadata for the response download_latency, timeout
 etc.</p></td>
 </tr>
-<tr class="row-odd"><td><p>status</p></td>
+<tr class="row-even"><td><p>status</p></td>
 <td><p>Response status (200, 301, 302, 404, etc.)</p></td>
 </tr>
-<tr class="row-even"><td><p>links_url</p></td>
+<tr class="row-odd"><td><p>links_url</p></td>
 <td><p>The URLs of the links on the page</p></td>
 </tr>
-<tr class="row-odd"><td><p>links_text</p></td>
+<tr class="row-even"><td><p>links_text</p></td>
 <td><p>The link text (anchor text)</p></td>
 </tr>
-<tr class="row-even"><td><p>links_fragment</p></td>
+<tr class="row-odd"><td><p>links_fragment</p></td>
 <td><p>The fragment part of the link (#fragment)</p></td>
 </tr>
-<tr class="row-odd"><td><p>links_nofollow</p></td>
+<tr class="row-even"><td><p>links_nofollow</p></td>
 <td><p>Boolean, whether or not the link is a nofllow link. Note that
 this only tells if the link itself contains a rel=”nofollow”
 attribute. The page might indicate “nofollow” using meta
 robots or X-Robots-Tag, which you have to check separately.</p></td>
 </tr>
-<tr class="row-even"><td><p>img_src</p></td>
+<tr class="row-odd"><td><p>img_src</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">src</span></code> attribute of images</p></td>
 </tr>
-<tr class="row-odd"><td><p>img_alt</p></td>
+<tr class="row-even"><td><p>img_alt</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">alt</span></code> attribute if available or an empty string</p></td>
 </tr>
-<tr class="row-even"><td><p>page_depth</p></td>
+<tr class="row-odd"><td><p>page_depth</p></td>
 <td><p>The depth of the crawled page</p></td>
 </tr>
-<tr class="row-odd"><td><p>ip_address</p></td>
+<tr class="row-even"><td><p>ip_address</p></td>
 <td><p>IP address</p></td>
 </tr>
-<tr class="row-even"><td><p>crawl_time</p></td>
+<tr class="row-odd"><td><p>crawl_time</p></td>
 <td><p>Date and time the page was crawled</p></td>
 </tr>
-<tr class="row-odd"><td><p>resp_headers_*</p></td>
+<tr class="row-even"><td><p>resp_headers_*</p></td>
 <td><p>All available response headers (last modified, server, etc.)</p></td>
 </tr>
-<tr class="row-even"><td><p>request_headers_*</p></td>
+<tr class="row-odd"><td><p>request_headers_*</p></td>
 <td><p>All available request headers (user-agent, encoding, etc.)</p></td>
 </tr>
 </tbody>
