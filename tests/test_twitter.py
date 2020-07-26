@@ -1,5 +1,7 @@
 import os
 
+import pytest
+
 from advertools.twitter import *
 from advertools.twitter import FUNCTIONS
 from advertools.twitter import _get_counts
@@ -36,6 +38,7 @@ def test_set_auth_params():
         assert func.get_auth_params()['oauth_token_secret'] == oauth_token_secret
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_application_rate_limit_status():
     for truth in [True, False]:
         result = get_application_rate_limit_status(truth)
@@ -43,12 +46,14 @@ def test_get_application_rate_limit_status():
         assert 'endpoint' in result
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_available_trends():
     result = get_available_trends()
     assert type(result) == pd.core.frame.DataFrame
     assert 'woeid' in result
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_favorites():
     result = get_favorites(screen_name='twitter', count=5,
                            tweet_mode='extended')
@@ -60,11 +65,13 @@ def test_get_favorites():
                     result['user_id'])])
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_followers_ids():
     result = get_followers_ids(screen_name='nytimes', count=5)
     assert len(result['ids']) <= 5
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_followers_list():
     result = get_followers_list(screen_name='eliasdabbas', count=5,
                                 skip_status=None)
@@ -73,11 +80,13 @@ def test_get_followers_list():
     assert 'screen_name' in result
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_friends_ids():
     result = get_friends_ids(screen_name='twitter', count=5)
     assert len(result['ids']) <= 5 
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_friends_list():
     result = get_friends_list(screen_name='shakira', count=5)
     assert type(result) == pd.core.frame.DataFrame
@@ -85,6 +94,7 @@ def test_get_friends_list():
     assert 'screen_name' in result
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_home_timeline():
     result = get_home_timeline(count=5, tweet_mode='extended')
     assert type(result) == pd.core.frame.DataFrame
@@ -92,6 +102,7 @@ def test_get_home_timeline():
     assert 'tweet_full_text' in result
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_list_members():
     result = get_list_members(slug='nyt-journalists',
                               owner_screen_name='nytimes', count=5)
@@ -100,6 +111,7 @@ def test_get_list_members():
     assert 'screen_name' in result
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_list_memberships():
     result = get_list_memberships(screen_name='ThePSF', count=5)
     assert type(result) == pd.core.frame.DataFrame
@@ -107,6 +119,7 @@ def test_get_list_memberships():
     assert 'list_full_name' in result
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_list_statuses():
     result = get_list_statuses(slug='nyt-journalists',
                                owner_screen_name='nytimes', count=5,
@@ -119,6 +132,7 @@ def test_get_list_statuses():
                     result['user_id'])])
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_list_subscribers():
     result = get_list_subscribers(slug='nyt-journalists',
                                   owner_screen_name='nytimes', count=5)
@@ -126,12 +140,14 @@ def test_get_list_subscribers():
     assert len(result) <= 5
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_list_subscriptions():
     result = get_list_subscriptions(screen_name='twitter', count=5)
     assert type(result) == pd.core.frame.DataFrame
     assert len(result) <= 5
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_mentions_timeline():
     result = get_mentions_timeline(count=5, tweet_mode='extended')
     assert type(result) == pd.core.frame.DataFrame
@@ -142,6 +158,7 @@ def test_get_mentions_timeline():
                     result['user_id'])])
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_place_trends():
     result = get_place_trends(ids=[23424950, 766273])
     assert type(result) == pd.core.frame.DataFrame
@@ -150,11 +167,13 @@ def test_get_place_trends():
     assert type(result_single_id) == pd.core.frame.DataFrame
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_retweeters_ids():
     result = get_retweeters_ids(id=1032676609902428160, count=5)
     assert len(result['ids']) <= 5
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_retweets():
     result = get_retweets(id=1032676609902428160, tweet_mode='extended', count=5)
     assert type(result) == pd.core.frame.DataFrame
@@ -164,12 +183,14 @@ def test_get_retweets():
                     result['user_id'])])
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_supported_languages():
     result = get_supported_languages()
     assert type(result) == pd.core.frame.DataFrame
     assert 'code' in result
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_get_user_timeline():
     result = get_user_timeline(screen_name='bbc', count=5,
                                tweet_mode='extended')
@@ -185,6 +206,7 @@ def test_get_user_timeline():
     assert type(result) == pd.core.frame.DataFrame
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_lookup_status():
     result = lookup_status(id=[1032676609902428160,
                                1031574983095533568],
@@ -196,12 +218,14 @@ def test_lookup_status():
                     result['user_id'])])
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_lookup_user():
     result = lookup_user(screen_name=['twitter', 'nytimes', 'shakira'])
     assert type(result) == pd.core.frame.DataFrame
     assert len(result) <= 3
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_retweeted_of_me():
     result = retweeted_of_me(count=5, tweet_mode='extended')
     assert type(result) == pd.core.frame.DataFrame
@@ -211,6 +235,7 @@ def test_retweeted_of_me():
                     result['user_id'])])
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_search():
     result = search(q='basketball', lang='en', count=5, tweet_mode='extended')
     result_compat = search(q='basketball', lang='en', count=5,
@@ -229,6 +254,7 @@ def test_search():
                     result['user_id'])])
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_search_no_error_on_empty_result():
     result = search(q='thisqueryhasnoresult!@#$%^', lang='ar',
                     count=200, tweet_mode='extended')
@@ -236,17 +262,20 @@ def test_search_no_error_on_empty_result():
     assert len(result) == 0
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_search_users():
     result = search_users(q='finance', count=5)
     assert type(result) == pd.core.frame.DataFrame
     assert len(result) <= 5
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_show_lists():
     result = show_lists(screen_name='bbc')
     assert type(result) == pd.core.frame.DataFrame
 
 
+@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
 def test_show_owned_lists():
     result = show_owned_lists(screen_name='nytimes', count=5)
     assert type(result) == pd.core.frame.DataFrame
