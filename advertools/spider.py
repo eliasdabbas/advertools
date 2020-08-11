@@ -416,8 +416,12 @@ class SEOSitemapSpider(Spider):
             twtr_card = dict(zip(twtr_names, twtr_content))
         else:
             twtr_card = {}
-        ld = [json.loads(s) for s in
-              response.css('script[type="application/ld+json"]::text').getall()]
+        try:
+            ld = [json.loads(s.replace('\r', '')) for s in
+                  response.css('script[type="application/ld+json"]::text').getall()]
+        except Exception as e:
+            ld = None
+            self.logger.exception(' '.join([str(e), str(response.status), response.url]))
         if not ld:
             jsonld = {}
         else:
