@@ -2,7 +2,8 @@ import random
 from collections import Counter
 
 import pytest
-from advertools.spider import _numbered_duplicates, _json_to_dict, crawl
+from advertools.spider import (_numbered_duplicates, _json_to_dict,
+                               _split_long_urllist, crawl)
 
 jsonobj = {
     '@context': 'http://schema.org',
@@ -58,3 +59,10 @@ def test_crawl_raises_on_wrong_file_extension():
     with pytest.raises(ValueError):
         crawl('https://example.com', 'myfile.wrong',
               allowed_domains='example.com')
+
+
+def test_split_long_urllist_correct_lengths():
+    testlist = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight']
+    result = _split_long_urllist(testlist, max_len=15)
+    assert sum(len(x) for x in result) == len(testlist)
+    assert all(len(x) < 15 for x in result)
