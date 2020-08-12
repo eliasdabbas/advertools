@@ -301,6 +301,8 @@ for the full details.
 """
 import datetime
 import json
+import os
+import platform
 import subprocess
 
 from urllib.parse import urlparse
@@ -323,12 +325,27 @@ user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' \
              '(KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
 
 BODY_TEXT_SELECTOR = '//body//span//text() | //body//p//text() | //body//li//text()'
+MAX_CMD_LENGTH = (7000 if platform.system() == 'Windows'
+                  else os.sysconf('SC_ARG_MAX') * 0.9)
 
 formatter.SCRAPEDMSG = "Scraped from %(src)s"
 formatter.DROPPEDMSG = "Dropped: %(exception)s"
 formatter.DOWNLOADERRORMSG_LONG = "Error downloading %(request)s"
 
 le = LinkExtractor()
+
+
+def _split_long_urllist(url_list, max_len=MAX_CMD_LENGTH):
+    """Split url_lists if their total length is greater than MAX_CMD_LENGTH."""
+    split_list = [[]]
+
+    for u in url_list:
+        temp_len = sum(len(temp_u) for temp_u in split_list[-1])
+        if (temp_len < max_len) and (temp_len + len(u) < max_len):
+            split_list[-1].append(u)
+        else:
+            split_list.append([u])
+    return split_list
 
 
 def _numbered_duplicates(items):
@@ -559,4 +576,12 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
                '-a', 'css_selectors=' + str(css_selectors),
                '-a', 'xpath_selectors=' + str(xpath_selectors),
                '-o', output_file] + settings_list
-    subprocess.run(command)
+
+    if len(''.join(url_list)) > MAX_CMD_LENGTH and not follow_links:
+        split_urls = _split_long_urllist(url_list)
+
+        for u_list in split_urls:
+            command[4] = 'url_list=' + ','.join(u_list)
+            subprocess.run(command)
+    else:
+        subprocess.run(command)
