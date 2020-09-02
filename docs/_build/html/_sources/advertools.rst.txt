@@ -11,6 +11,7 @@ Submodules
    advertools.ad_from_string
    advertools.emoji
    advertools.extract
+   advertools.knowledge_graph
    advertools.kw_generate
    advertools.regex
    advertools.robotstxt

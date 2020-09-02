@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.10.5
+                0.10.6
               </div>
             
           
@@ -97,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
@@ -481,6 +482,8 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
@@ -503,12 +506,27 @@
              <span class="s1">&#39;(KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36&#39;</span><span class="p">,</span>
 
 <span class="n">BODY_TEXT_SELECTOR</span> <span class="o">=</span> <span class="s1">&#39;//body//span//text() | //body//p//text() | //body//li//text()&#39;</span>
+<span class="n">MAX_CMD_LENGTH</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7000</span> <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Windows&#39;</span>
+                  <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">sysconf</span><span class="p">(</span><span class="s1">&#39;SC_ARG_MAX&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
 
 <span class="n">formatter</span><span class="o">.</span><span class="n">SCRAPEDMSG</span> <span class="o">=</span> <span class="s2">&quot;Scraped from </span><span class="si">%(src)s</span><span class="s2">&quot;</span>
 <span class="n">formatter</span><span class="o">.</span><span class="n">DROPPEDMSG</span> <span class="o">=</span> <span class="s2">&quot;Dropped: </span><span class="si">%(exception)s</span><span class="s2">&quot;</span>
 <span class="n">formatter</span><span class="o">.</span><span class="n">DOWNLOADERRORMSG_LONG</span> <span class="o">=</span> <span class="s2">&quot;Error downloading </span><span class="si">%(request)s</span><span class="s2">&quot;</span>
 
 <span class="n">le</span> <span class="o">=</span> <span class="n">LinkExtractor</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_split_long_urllist</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="n">MAX_CMD_LENGTH</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Split url_lists if their total length is greater than MAX_CMD_LENGTH.&quot;&quot;&quot;</span>
+    <span class="n">split_list</span> <span class="o">=</span> <span class="p">[[]]</span>
+
+    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">url_list</span><span class="p">:</span>
+        <span class="n">temp_len</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">temp_u</span><span class="p">)</span> <span class="k">for</span> <span class="n">temp_u</span> <span class="ow">in</span> <span class="n">split_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">temp_len</span> <span class="o">&lt;</span> <span class="n">max_len</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">temp_len</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">max_len</span><span class="p">):</span>
+            <span class="n">split_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">split_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">u</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">split_list</span>
 
 
 <span class="k">def</span> <span class="nf">_numbered_duplicates</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
@@ -596,8 +614,12 @@
             <span class="n">twtr_card</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">twtr_names</span><span class="p">,</span> <span class="n">twtr_content</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">twtr_card</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">ld</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span>
-              <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;script[type=&quot;application/ld+json&quot;]::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ld</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span>
+                  <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;script[type=&quot;application/ld+json&quot;]::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">ld</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">),</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">]))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">ld</span><span class="p">:</span>
             <span class="n">jsonld</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">else</span><span class="p">:</span>
@@ -735,7 +757,15 @@
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;css_selectors=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">css_selectors</span><span class="p">),</span>
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;xpath_selectors=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">xpath_selectors</span><span class="p">),</span>
                <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">output_file</span><span class="p">]</span> <span class="o">+</span> <span class="n">settings_list</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">url_list</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">MAX_CMD_LENGTH</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">follow_links</span><span class="p">:</span>
+        <span class="n">split_urls</span> <span class="o">=</span> <span class="n">_split_long_urllist</span><span class="p">(</span><span class="n">url_list</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">u_list</span> <span class="ow">in</span> <span class="n">split_urls</span><span class="p">:</span>
+            <span class="n">command</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;url_list=&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">u_list</span><span class="p">)</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

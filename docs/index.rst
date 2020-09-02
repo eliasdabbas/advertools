@@ -79,6 +79,7 @@ life a little easier.
    XML Sitemaps <advertools.sitemaps>
    SEO Spider / Crawler <advertools.spider>
    Analyze Search Engine Results (SERPs) <advertools.serp>
+   Google's Knowledge Graph <advertools.knowledge_graph>
 
 .. toctree::
    :caption: Text & Content Analysis
