@@ -10,6 +10,7 @@ from advertools.ad_from_string import ad_from_string
 from advertools.spider import crawl
 from advertools.emoji import *
 from advertools.extract import *
+from advertools.knowledge_graph import knowledge_graph
 from advertools.kw_generate import *
 from advertools.regex import *
 from advertools.robotstxt import *
