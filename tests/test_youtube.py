@@ -50,11 +50,11 @@ def test_comments_list():
     assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
-@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
-def test_guide_categories_list():
-    result = yt.guide_categories_list(key=youtube_key, part='snippet',
-                                      regionCode='tr', hl='tr')
-    assert {'queryTime', 'param_part'}.issubset(result.columns)
+# @pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
+# def test_guide_categories_list():
+#     result = yt.guide_categories_list(key=youtube_key, part='snippet',
+#                                       regionCode='tr', hl='tr')
+#     assert {'queryTime', 'param_part'}.issubset(result.columns)
 
 
 @pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))

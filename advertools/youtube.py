@@ -825,12 +825,13 @@ def guide_categories_list(key, part, id=None, regionCode=None, hl=None):
     :param hl: string  The hl parameter specifies the language that will be
         used for text values in the API response. The default value is en-US.
     """
-    args = locals()
-    if sum([bool(p) for p in [id, regionCode]]) != 1:
-        raise ValueError("make sure you specify exactly one of ['id', 'regionCode']")
-
-    base_url = 'https://www.googleapis.com/youtube/v3/guideCategories'
-    return _combine_requests(args, base_url, count=None, max_allowed=None)
+    # args = locals()
+    # if sum([bool(p) for p in [id, regionCode]]) != 1:
+    #     raise ValueError("make sure you specify exactly one of ['id', 'regionCode']")
+    #
+    # base_url = 'https://www.googleapis.com/youtube/v3/guideCategories'
+    # return _combine_requests(args, base_url, count=None, max_allowed=None)
+    raise ValueError('This function has been deprecated as of September 9, 2020')
 
 
 def comment_threads_list(key, part, allThreadsRelatedToChannelId=None,
