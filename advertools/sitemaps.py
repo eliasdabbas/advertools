@@ -289,7 +289,7 @@ def _parse_sitemap(root):
     return pd.DataFrame(d.values())
 
 
-def sitemap_to_df(sitemap_url):
+def sitemap_to_df(sitemap_url, max_workers=8):
     """
     Retrieve all URLs and other available tags of a sitemap(s) and put them in
     a DataFrame.
@@ -302,6 +302,10 @@ def sitemap_to_df(sitemap_url):
                             In the case of a sitemap index or robots.txt, the
                             function will go through all the sub sitemaps and
                             retrieve all the included URLs in one DataFrame.
+    :param int max_workers: The maximum number of workers to use for threading.
+                            The higher the faster, but with high numbers you
+                            risk being blocked and/or missing some data as you
+                            might appear like an attacker.
     :return sitemap_df: A pandas DataFrame containing all URLs, as well as
                         other tags if available (``lastmod``, ``changefreq``,
                         ``priority``, ``alternate``, or others found in news,
@@ -311,25 +315,16 @@ def sitemap_to_df(sitemap_url):
         return pd.concat([sitemap_to_df(sitemap)
                           for sitemap in _sitemaps_from_robotstxt(sitemap_url)],
                          ignore_index=True)
-    try:
-        if sitemap_url.endswith('xml.gz'):
-            xml_text = urlopen(Request(sitemap_url,
-                                       headers={'Accept-Encoding': 'gzip',
-                                                'User-Agent': 'advertools-' +
-                                                              version}))
-            xml_text = GzipFile(fileobj=xml_text)
-        else:
-            xml_text = urlopen(Request(sitemap_url, headers=headers))
-        tree = ElementTree.parse(xml_text)
-        root = tree.getroot()
-    except Exception as e:
-        logging.warning(msg=str(e) + sitemap_url)
-        error_df = pd.DataFrame(dict(sitemap=sitemap_url),
-                                index=range(1))
-        error_df['errors'] = str(e)
-        error_df['sitemap'] = sitemap_url
-        error_df['download_date'] = pd.Timestamp.now(tz='UTC')
-        return error_df
+    if sitemap_url.endswith('xml.gz'):
+        xml_text = urlopen(Request(sitemap_url,
+                                   headers={'Accept-Encoding': 'gzip',
+                                            'User-Agent': 'advertools-' +
+                                                          version}))
+        xml_text = GzipFile(fileobj=xml_text)
+    else:
+        xml_text = urlopen(Request(sitemap_url, headers=headers))
+    tree = ElementTree.parse(xml_text)
+    root = tree.getroot()
 
     sitemap_df = pd.DataFrame()
 
@@ -340,15 +335,26 @@ def sitemap_to_df(sitemap_url):
                 if 'loc' in el.tag:
                     sitemap_url_list.append(el.text)
         multi_sitemap_df = pd.DataFrame()
-        with futures.ThreadPoolExecutor(max_workers=16) as executor:
+        with futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
             to_do = []
             for sitemap in sitemap_url_list:
                 future = executor.submit(sitemap_to_df, sitemap)
                 to_do.append(future)
             done_iter = futures.as_completed(to_do)
             for future in done_iter:
-                multi_sitemap_df = multi_sitemap_df.append(future.result(),
-                                                           ignore_index=True)
+                try:
+                    multi_sitemap_df = multi_sitemap_df.append(future.result(),
+                                                               ignore_index=True)
+                except Exception as e:
+                    error_df = pd.DataFrame(dict(errors=str(e)),
+                                            index=range(1))
+                    future_str = hex(id(future))
+                    hexes = [hex(id(f)) for f in to_do]
+                    index = hexes.index(future_str)
+                    error_df['sitemap'] = sitemap_url_list[index]
+                    logging.warning(msg=str(e) + ' ' + sitemap_url_list[index])
+                    multi_sitemap_df = multi_sitemap_df.append(error_df,
+                                                               ignore_index=True)
         return multi_sitemap_df
 
     else:
@@ -357,8 +363,14 @@ def sitemap_to_df(sitemap_url):
         sitemap_df = sitemap_df.append(elem_df, ignore_index=True)
         sitemap_df['sitemap'] = [sitemap_url] if sitemap_df.empty else sitemap_url
     if 'lastmod' in sitemap_df:
-        sitemap_df['lastmod'] = pd.to_datetime(sitemap_df['lastmod'], utc=True)
+        try:
+            sitemap_df['lastmod'] = pd.to_datetime(sitemap_df['lastmod'], utc=True)
+        except Exception as e:
+            pass
     if 'priority' in sitemap_df:
-        sitemap_df['priority'] = sitemap_df['priority'].astype(float)
+        try:
+            sitemap_df['priority'] = sitemap_df['priority'].astype(float)
+        except Exception as e:
+            pass
     sitemap_df['download_date'] = pd.Timestamp.now(tz='UTC')
     return sitemap_df
