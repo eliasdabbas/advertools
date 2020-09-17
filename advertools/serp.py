@@ -4,6 +4,19 @@
 Import Search Engine Results Pages (SERPs) for Google and YouTube
 =================================================================
 
+Before being able to run queries using :func:`serp_goog`, you will need to set
+up some credentials as follows (you don't need a custom search engine for
+:func:`serp_youtube`):
+
+* `Create a custom search engine <https://cse.google.com/>`_: At first, you might be asked to enter a site to search. Enter any domain, then go to the control panel and remove it. Make sure you enable "Search the entire web" and image search. You will also need to get your search engine ID, which you can find on the control panel page.
+
+* `Enable the custom search API <https://console.cloud.google.com/apis/library/customsearch.googleapis.com?pli=1>`_: The service will allow you to retrieve and display search results from your custom search engine programmatically. You will need to create a project for this first.
+
+* `Create credentials for this project <https://console.developers.google.com/apis/api/customsearch.googleapis.com/credentials>`_: so you can get your key.
+
+* `Enable billing for your project <https://console.cloud.google.com/billing/projects>`_ if you want to run more than 100 queries per day. The first 100 queries are free; then for each additional 1,000 queries, you pay USD $5.
+
+
 """
 __all__ = ['SERP_GOOG_VALID_VALS', 'YOUTUBE_TOPIC_IDS',
            'YOUTUBE_VID_CATEGORY_IDS', 'serp_goog', 'serp_youtube',
@@ -649,10 +662,12 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
     >>> serp_goog(q='hotel', gl=['us', 'fr'], cx='YOUR_CX', key='YOUR_KEY')
 
     The below function call will prouce four queries and make four requests:
-    "fligts" in UK
-    "fligts" in Australia
-    "tickets" in UK
-    "tickets" in Australia
+
+    * "fligts" in UK
+    * "fligts" in Australia
+    * "tickets" in UK
+    * "tickets" in Australia
+
     'cr' here refers to 'country restrict', which focuses on content
     originating from the specified country.
 
