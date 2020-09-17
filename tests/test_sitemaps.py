@@ -38,8 +38,8 @@ def test_sitemap_index():
 
 
 def test_error_sitemap():
-    with pytest.raises(Exception):
-        result = sitemap_to_df(error_sitemap_url)
+    result = sitemap_to_df(error_sitemap_url)
+    assert 'errors' in result
 
 
 def test_image_sitemap():
