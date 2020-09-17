@@ -424,24 +424,30 @@ the content.</p>
 </div>
 <dl class="py function">
 <dt id="advertools.sitemaps.sitemap_to_df">
-<code class="sig-name descname">sitemap_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sitemap_url</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">sitemap_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sitemap_url</span></em>, <em class="sig-param"><span class="n">max_workers</span><span class="o">=</span><span class="default_value">8</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve all URLs and other available tags of a sitemap(s) and put them in
 a DataFrame.</p>
 <p>You can also pass the URL of a sitemap index, or a link to a robots.txt
 file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>sitemap_url</strong> (<em>url</em>) – The URL of a sitemap, either a regular sitemap, a
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sitemap_url</strong> (<em>url</em>) – The URL of a sitemap, either a regular sitemap, a
 sitemap index, or a link to a robots.txt file.
 In the case of a sitemap index or robots.txt, the
 function will go through all the sub sitemaps and
-retrieve all the included URLs in one DataFrame.</p>
+retrieve all the included URLs in one DataFrame.</p></li>
+<li><p><strong>max_workers</strong> (<em>int</em>) – The maximum number of workers to use for threading.
+The higher the faster, but with high numbers you
+risk being blocked and/or missing some data as you
+might appear like an attacker.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return sitemap_df</dt>
 <dd class="field-even"><p>A pandas DataFrame containing all URLs, as well as
 other tags if available (<code class="docutils literal notranslate"><span class="pre">lastmod</span></code>, <code class="docutils literal notranslate"><span class="pre">changefreq</span></code>,
-<code class="docutils literal notranslate"><span class="pre">priority</span></code>, <code class="docutils literal notranslate"><span class="pre">alternate</span></code>, or others found in news,
-video, or image sitemaps).</p>
+<code class="docutils literal notranslate"><span class="pre">priority</span></code>, or others found in news, video, or image
+sitemaps).</p>
 </dd>
 </dl>
 </dd></dl>

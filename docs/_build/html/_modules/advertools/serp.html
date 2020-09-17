@@ -185,6 +185,19 @@
 <span class="sd">Import Search Engine Results Pages (SERPs) for Google and YouTube</span>
 <span class="sd">=================================================================</span>
 
+<span class="sd">Before being able to run queries using :func:`serp_goog`, you will need to set</span>
+<span class="sd">up some credentials as follows (you don&#39;t need a custom search engine for</span>
+<span class="sd">:func:`serp_youtube`):</span>
+
+<span class="sd">* `Create a custom search engine &lt;https://cse.google.com/&gt;`_: At first, you might be asked to enter a site to search. Enter any domain, then go to the control panel and remove it. Make sure you enable &quot;Search the entire web&quot; and image search. You will also need to get your search engine ID, which you can find on the control panel page.</span>
+
+<span class="sd">* `Enable the custom search API &lt;https://console.cloud.google.com/apis/library/customsearch.googleapis.com?pli=1&gt;`_: The service will allow you to retrieve and display search results from your custom search engine programmatically. You will need to create a project for this first.</span>
+
+<span class="sd">* `Create credentials for this project &lt;https://console.developers.google.com/apis/api/customsearch.googleapis.com/credentials&gt;`_: so you can get your key.</span>
+
+<span class="sd">* `Enable billing for your project &lt;https://console.cloud.google.com/billing/projects&gt;`_ if you want to run more than 100 queries per day. The first 100 queries are free; then for each additional 1,000 queries, you pay USD $5.</span>
+
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SERP_GOOG_VALID_VALS&#39;</span><span class="p">,</span> <span class="s1">&#39;YOUTUBE_TOPIC_IDS&#39;</span><span class="p">,</span>
            <span class="s1">&#39;YOUTUBE_VID_CATEGORY_IDS&#39;</span><span class="p">,</span> <span class="s1">&#39;serp_goog&#39;</span><span class="p">,</span> <span class="s1">&#39;serp_youtube&#39;</span><span class="p">,</span>
@@ -830,10 +843,12 @@
 <span class="sd">    &gt;&gt;&gt; serp_goog(q=&#39;hotel&#39;, gl=[&#39;us&#39;, &#39;fr&#39;], cx=&#39;YOUR_CX&#39;, key=&#39;YOUR_KEY&#39;)</span>
 
 <span class="sd">    The below function call will prouce four queries and make four requests:</span>
-<span class="sd">    &quot;fligts&quot; in UK</span>
-<span class="sd">    &quot;fligts&quot; in Australia</span>
-<span class="sd">    &quot;tickets&quot; in UK</span>
-<span class="sd">    &quot;tickets&quot; in Australia</span>
+
+<span class="sd">    * &quot;fligts&quot; in UK</span>
+<span class="sd">    * &quot;fligts&quot; in Australia</span>
+<span class="sd">    * &quot;tickets&quot; in UK</span>
+<span class="sd">    * &quot;tickets&quot; in Australia</span>
+
 <span class="sd">    &#39;cr&#39; here refers to &#39;country restrict&#39;, which focuses on content</span>
 <span class="sd">    originating from the specified country.</span>
 

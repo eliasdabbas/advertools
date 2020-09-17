@@ -424,6 +424,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">gzip</span> <span class="k">import</span> <span class="n">GzipFile</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">concurrent</span> <span class="k">import</span> <span class="n">futures</span>
 <span class="kn">from</span> <span class="nn">xml.etree</span> <span class="k">import</span> <span class="n">ElementTree</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="k">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
 
@@ -469,7 +470,7 @@
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
 
-<div class="viewcode-block" id="sitemap_to_df"><a class="viewcode-back" href="../../advertools.sitemaps.html#advertools.sitemaps.sitemap_to_df">[docs]</a><span class="k">def</span> <span class="nf">sitemap_to_df</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">):</span>
+<div class="viewcode-block" id="sitemap_to_df"><a class="viewcode-back" href="../../advertools.sitemaps.html#advertools.sitemaps.sitemap_to_df">[docs]</a><span class="k">def</span> <span class="nf">sitemap_to_df</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Retrieve all URLs and other available tags of a sitemap(s) and put them in</span>
 <span class="sd">    a DataFrame.</span>
@@ -482,10 +483,14 @@
 <span class="sd">                            In the case of a sitemap index or robots.txt, the</span>
 <span class="sd">                            function will go through all the sub sitemaps and</span>
 <span class="sd">                            retrieve all the included URLs in one DataFrame.</span>
+<span class="sd">    :param int max_workers: The maximum number of workers to use for threading.</span>
+<span class="sd">                            The higher the faster, but with high numbers you</span>
+<span class="sd">                            risk being blocked and/or missing some data as you</span>
+<span class="sd">                            might appear like an attacker.</span>
 <span class="sd">    :return sitemap_df: A pandas DataFrame containing all URLs, as well as</span>
 <span class="sd">                        other tags if available (``lastmod``, ``changefreq``,</span>
-<span class="sd">                        ``priority``, ``alternate``, or others found in news,</span>
-<span class="sd">                        video, or image sitemaps).</span>
+<span class="sd">                        ``priority``, or others found in news, video, or image</span>
+<span class="sd">                        sitemaps).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">sitemap_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;robots.txt&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="n">sitemap</span><span class="p">)</span>
@@ -505,19 +510,33 @@
     <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;sitemapindex&#39;</span><span class="p">:</span>
+        <span class="n">sitemap_url_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
                 <span class="k">if</span> <span class="s1">&#39;loc&#39;</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">tag</span><span class="p">:</span>
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
-                                                       <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-                        <span class="n">error_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">sitemap</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
-                                                <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-                        <span class="n">error_df</span><span class="p">[</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-                        <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error_df</span><span class="p">,</span>
-                                                       <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">sitemap_url_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+            <span class="n">to_do</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">sitemap</span> <span class="ow">in</span> <span class="n">sitemap_url_list</span><span class="p">:</span>
+                <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">sitemap_to_df</span><span class="p">,</span> <span class="n">sitemap</span><span class="p">)</span>
+                <span class="n">to_do</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future</span><span class="p">)</span>
+            <span class="n">done_iter</span> <span class="o">=</span> <span class="n">futures</span><span class="o">.</span><span class="n">as_completed</span><span class="p">(</span><span class="n">to_do</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">done_iter</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">multi_sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">(),</span>
+                                                               <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">error_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span>
+                                            <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+                    <span class="n">future_str</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">future</span><span class="p">))</span>
+                    <span class="n">hexes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">f</span><span class="p">))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">to_do</span><span class="p">]</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="n">hexes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">future_str</span><span class="p">)</span>
+                    <span class="n">error_df</span><span class="p">[</span><span class="s1">&#39;sitemap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_url_list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">sitemap_url_list</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+                    <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">multi_sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error_df</span><span class="p">,</span>
+                                                               <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">multi_sitemap_df</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Getting &#39;</span> <span class="o">+</span> <span class="n">sitemap_url</span><span class="p">)</span>
@@ -525,9 +544,15 @@
         <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem_df</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;sitemap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sitemap_url</span><span class="p">]</span> <span class="k">if</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="n">sitemap_url</span>
     <span class="k">if</span> <span class="s1">&#39;lastmod&#39;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
-        <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">],</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">],</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">pass</span>
     <span class="k">if</span> <span class="s1">&#39;priority&#39;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
-        <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">pass</span>
     <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;download_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sitemap_df</span></div>
 </pre></div>

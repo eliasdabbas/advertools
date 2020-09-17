@@ -308,8 +308,8 @@ def sitemap_to_df(sitemap_url, max_workers=8):
                             might appear like an attacker.
     :return sitemap_df: A pandas DataFrame containing all URLs, as well as
                         other tags if available (``lastmod``, ``changefreq``,
-                        ``priority``, ``alternate``, or others found in news,
-                        video, or image sitemaps).
+                        ``priority``, or others found in news, video, or image
+                        sitemaps).
     """
     if sitemap_url.endswith('robots.txt'):
         return pd.concat([sitemap_to_df(sitemap)
