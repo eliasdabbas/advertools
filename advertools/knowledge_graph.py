@@ -13,6 +13,14 @@ to all other eligible pages. Knowledge graph scores on the other hand, show the
 ranks of the different meanings that a word can take for Google (a person, a
 city, a brand, etc.).
 
+.. WARNING:: From `Google's documentation <https://developers.google.com/knowledge-graph>`_:
+   This API is not suitable for use as a production-critical service. Your
+   product should not form a critical dependence on this API.
+
+It's not clear whether this is from a technical reliability or a content
+correctness point of view, but it is what the docs mention. So please keep this
+in mind when using it.
+
 What is "google"? Is it a search engine, a company, a brand, a very large
 number? What else is it?
 
@@ -104,14 +112,8 @@ Index(['query', 'languages', 'resultScore', '@type', 'result.name',
        'result.url', 'query_time'],
       dtype='object')
 
-Not what I would expect, especially for "seo". An acress, a singer, a city...
-The `Google documentation <https://developers.google.com/knowledge-graph>`_
-clearly states that the service is not suitable for production-critical
-services, and that you 'should not form a critical dependence on this API'.
-
-It's not clear to me whether this is from a technical reliability or a content
-correctness point of view, but it is what the docs mention.
-
+It's interesting to see how the same word can mean different things in
+different contexts.
 
 """
 
@@ -128,6 +130,9 @@ param_regex = '^query$|^ids$|^languages$|^types$|^prefix$|^limit$'
 def knowledge_graph(key, query=None, ids=None, languages=None, types=None,
                     prefix=None, limit=None):
     """Query Google's Knowledge Graph with any combination of parameters.
+
+    Note that Google's documentation states that "This API is not suitable for
+    use as a production-critical service." So please keep this in mind.
 
     :param string key: Your Google developer key.
     :param string query: A literal string to search for in the Knowledge Graph.

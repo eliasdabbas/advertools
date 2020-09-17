@@ -194,6 +194,14 @@
 <span class="sd">ranks of the different meanings that a word can take for Google (a person, a</span>
 <span class="sd">city, a brand, etc.).</span>
 
+<span class="sd">.. WARNING:: From `Google&#39;s documentation &lt;https://developers.google.com/knowledge-graph&gt;`_:</span>
+<span class="sd">   This API is not suitable for use as a production-critical service. Your</span>
+<span class="sd">   product should not form a critical dependence on this API.</span>
+
+<span class="sd">It&#39;s not clear whether this is from a technical reliability or a content</span>
+<span class="sd">correctness point of view, but it is what the docs mention. So please keep this</span>
+<span class="sd">in mind when using it.</span>
+
 <span class="sd">What is &quot;google&quot;? Is it a search engine, a company, a brand, a very large</span>
 <span class="sd">number? What else is it?</span>
 
@@ -285,13 +293,7 @@
 <span class="sd">       &#39;result.url&#39;, &#39;query_time&#39;],</span>
 <span class="sd">      dtype=&#39;object&#39;)</span>
 
-<span class="sd">Not what I would expect, especially for &quot;seo&quot;. An acress, a singer, a city...</span>
-<span class="sd">The `Google documentation &lt;https://developers.google.com/knowledge-graph&gt;`_</span>
-<span class="sd">clearly states that the service is not suitable for production-critical</span>
-<span class="sd">services, and that you &#39;should not form a critical dependence on this API&#39;.</span>
-
-<span class="sd">It&#39;s not clear to me whether this is from a technical reliability or a content</span>
-<span class="sd">correctness point of view, but it is what the docs mention.</span>
+<span class="sd">Not what I would expect, especially for &quot;seo&quot;. An actress, a singer, a city...</span>
 
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -309,6 +311,9 @@
 <div class="viewcode-block" id="knowledge_graph"><a class="viewcode-back" href="../../advertools.knowledge_graph.html#advertools.knowledge_graph.knowledge_graph">[docs]</a><span class="k">def</span> <span class="nf">knowledge_graph</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">languages</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Query Google&#39;s Knowledge Graph with any combination of parameters.</span>
+
+<span class="sd">    Note that Google&#39;s documentation states that &quot;This API is not suitable for</span>
+<span class="sd">    use as a production-critical service.&quot; So please keep this in mind.</span>
 
 <span class="sd">    :param string key: Your Google developer key.</span>
 <span class="sd">    :param string query: A literal string to search for in the Knowledge Graph.</span>
