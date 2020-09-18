@@ -19,8 +19,8 @@
 
 | 🎊 **New:** `SEO crawler <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
   now extracts JSON-LD canonical, alternate href, alternate hreflang, OpenGraph, and Twitter cards if available on pages
-| 🎉 **New:** ``url_to_df`` Function for `analyzing URLs <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html>`_ by extracting their elements into DataFrames
-| 🎉 **New:** ``sitemap_to_df`` Function for `downloading & parsing XML sitemaps <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html>`_ into DataFrames
+| 🎉 **New:** ``knowledge_graph`` Function for `connecting to Google's Knowledge Graph Data API <https://advertools.readthedocs.io/en/master/advertools.knowledge_graph.html>`_
+| 🎉 **Faster:** ``sitemap_to_df`` Function for `downloading & parsing XML sitemaps <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html>`_ into DataFrames, is much faster now
 
 
 ``advertools``: productivity & analysis tools to scale your online marketing
