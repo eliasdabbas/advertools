@@ -15,7 +15,7 @@ Change Log - advertools
       default)
 
 * Fixed
-    - Removed restrictions on the number of URLs provided to ``crawl``,
+    - Remove restrictions on the number of URLs provided to ``crawl``,
       assuming `follow_links` is set to `False` (list mode)
     - JSON-LD issue breaking crawls when it's invalid (now skipped)
 
