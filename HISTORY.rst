@@ -2,6 +2,27 @@
 Change Log - advertools
 =======================
 
+0.10.7 (2020-09-18)
+-------------------
+
+* Added
+    - New function ``knowledge_graph`` for querying Google's API
+    - Faster ``sitemap_to_df`` with threads
+    - New parameter `max_workers` for ``sitemap_to_df`` to determine how fast
+      it could go
+    - New parameter `capitalize_adgroups` for ``kw_generate`` to determine
+      whether or not to keep ad groups as is, or set them to title case (the
+      default)
+
+* Fixed
+    - Removed restrictions on the number of URLs provided to ``crawl``,
+      assuming `follow_links` is set to `False` (list mode)
+    - JSON-LD issue breaking crawls when it's invalid (now skipped)
+
+* Removed
+    - Deprecate the ``youtube.guide_categories_list`` (no longer supported by
+      the API)
+
 0.10.6 (2020-06-30)
 -------------------
 
