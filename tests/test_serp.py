@@ -15,6 +15,9 @@ goog_cse_cx = os.environ.get('GOOG_CSE_CX')
 goog_cse_key = os.environ.get('GOOG_CSE_KEY')
 youtube_key = os.environ.get('GOOG_CSE_KEY')
 
+skip_api_tests = pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'),
+                                    reason='Run all except API dependents')
+
 
 def test_dict_product_produces_correct_result():
     d = {'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [10, 20]}
@@ -59,7 +62,7 @@ def test_serp_goog_raises_error_on_invalid_args():
             serp_goog(q='q', cx='cx', key='key', **params)
 
 
-@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
+@skip_api_tests
 def test_serp_goog_return_correct_result():
     result = serp_goog(q='testing hotels', cx=goog_cse_cx,
                        key=goog_cse_key, searchType=['image', None])
@@ -69,7 +72,7 @@ def test_serp_goog_return_correct_result():
     assert len(result) == 20
 
 
-@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
+@skip_api_tests
 def test_serp_goog_handles_no_search_results():
     q = 'aquerythatdoesntgetrezultssss'
     result = serp_goog(q=q, cx=goog_cse_cx, key=goog_cse_key,
@@ -78,13 +81,13 @@ def test_serp_goog_handles_no_search_results():
     assert result['searchTerms'].values[0] == q
 
 
-@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
+@skip_api_tests
 def test_serp_raises_error_on_wrong_key():
     with pytest.raises(Exception):
         serp_goog(q='test credit cart', cx=goog_cse_cx, key='wrong key')
 
 
-@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
+@skip_api_tests
 def test_serp_goog_restult_df_contains_all_provided_params():
     keys_vals_to_test = {k: list(SERP_GOOG_VALID_VALS[k])[0] for k in SERP_GOOG_VALID_VALS}
     for key, val in keys_vals_to_test.items():
@@ -105,7 +108,7 @@ def test_serp_youtube_raises_error_on_invalid_args():
             serp_youtube(q='q', key='key', **params)
 
 
-@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
+@skip_api_tests
 def test_serp_youtube_return_correct_result():
     result = serp_youtube(q=['testing hotels', 'testing computers'],
                           key=youtube_key, order='date')
@@ -115,7 +118,7 @@ def test_serp_youtube_return_correct_result():
     assert len(result) <= 10
 
 
-@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
+@skip_api_tests
 def test_serp_youtube_handles_no_search_results():
     q = 'aquerythatdoesntgetrezultssss'
     result = serp_youtube(q=q, key=youtube_key,
@@ -124,13 +127,13 @@ def test_serp_youtube_handles_no_search_results():
     assert result['q'].values[0] == q
 
 
-@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
+@skip_api_tests
 def test_serp_youtube_raises_type_video_error():
     with pytest.raises(Exception):
         serp_youtube(key=youtube_key, videoEmbeddable=True)
 
 
-@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
+@skip_api_tests
 def test_serp_youtube_raises_response_error():
     with pytest.raises(Exception):
         serp_youtube(key=youtube_key, publishedAfter='wrong date fmt')
@@ -145,14 +148,14 @@ def test_correctly_changing_log_levels():
         set_logging_level('WRONG VALUE')
 
 
-@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
+@skip_api_tests
 def test_youtube_video_details_raises_error():
     with pytest.raises(Exception):
         youtube_video_details(key='WRONG KEY',
                               vid_ids='wrong ID')
 
 
-@pytest.mark.skipif(os.environ.get('ADV_TEST_OFFLINE'))
+@skip_api_tests
 def test_youtube_channel_details_raises_error():
     with pytest.raises(Exception):
         youtube_channel_details(key='WRONG KEY',
