@@ -272,6 +272,7 @@
 
 <div class="viewcode-block" id="kw_generate"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_generate">[docs]</a><span class="k">def</span> <span class="nf">kw_generate</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">words</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="n">match_types</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Exact&#39;</span><span class="p">,</span> <span class="s1">&#39;Phrase&#39;</span><span class="p">,</span> <span class="s1">&#39;Modified&#39;</span><span class="p">),</span>
+                <span class="n">capitalize_adgroups</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">order_matters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">campaign_name</span><span class="o">=</span><span class="s1">&#39;SEM_Campaign&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate a data frame of keywords using a list of products and relevant</span>
 <span class="sd">    words.</span>
@@ -283,6 +284,9 @@
 <span class="sd">                        permutation of final keywords</span>
 <span class="sd">    :param list match_types: one or more of (&#39;Exact&#39;, &#39;Phrase&#39;, &#39;Modified&#39;,</span>
 <span class="sd">                             &#39;Broad&#39;)</span>
+<span class="sd">    :param bool capitalize_adgroups: whether or not to set adgroup names in the</span>
+<span class="sd">                                     &quot;Ad Group&quot; column to title case or keep</span>
+<span class="sd">                                     them as is, default True</span>
 <span class="sd">    :param bool order_matters: whether or not the order of words in keywords</span>
 <span class="sd">                               matters, default False</span>
 <span class="sd">    :param str campaign_name: name of campaign</span>
@@ -307,6 +311,21 @@
 <span class="sd">    57  SEM_Campaign   Toyota     second hand buy toyota          Exact  Second Hand;Buy</span>
 <span class="sd">    58  SEM_Campaign   Toyota     second hand buy toyota         Phrase  Second Hand;Buy</span>
 <span class="sd">    59  SEM_Campaign   Toyota  +second hand +buy +toyota          Broad  Second Hand;Buy</span>
+
+<span class="sd">    Sometimes you want to retain capitalization and keep it as it as is in the</span>
+<span class="sd">    &quot;Ad Group&quot; column.</span>
+<span class="sd">    This is especially important for consistency with ads DataFrames for easier</span>
+<span class="sd">    integration between the two. Set `capitalize_adgroups=False` to keep</span>
+<span class="sd">    capitalization the same:</span>
+
+<span class="sd">    &gt;&gt;&gt; adv.kw_generate([&#39;SEO&#39;], [&#39;services&#39;, &#39;provider&#39;], capitalize_adgroups=False).head()</span>
+<span class="sd">           Campaign Ad Group         Keyword Criterion Type    Labels</span>
+<span class="sd">    0  SEM_Campaign      SEO    SEO services          Exact  Services</span>
+<span class="sd">    1  SEM_Campaign      SEO    SEO services         Phrase  Services</span>
+<span class="sd">    2  SEM_Campaign      SEO  +SEO +services          Broad  Services</span>
+<span class="sd">    3  SEM_Campaign      SEO    SEO provider          Exact  Provider</span>
+<span class="sd">    4  SEM_Campaign      SEO    SEO provider         Phrase  Provider</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">match_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">match_types</span><span class="p">]</span>
     <span class="n">possible_match_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Exact&#39;</span><span class="p">,</span> <span class="s1">&#39;Phrase&#39;</span><span class="p">,</span> <span class="s1">&#39;Broad&#39;</span><span class="p">,</span> <span class="s1">&#39;Modified&#39;</span><span class="p">]</span>
@@ -328,7 +347,7 @@
                 <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">match_types</span><span class="p">:</span>
                     <span class="n">row</span> <span class="o">=</span> <span class="p">[</span>
                         <span class="n">campaign_name</span><span class="p">,</span>
-                        <span class="n">prod</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+                        <span class="n">prod</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">if</span> <span class="n">capitalize_adgroups</span> <span class="k">else</span> <span class="n">prod</span><span class="p">,</span>
                         <span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comb</span><span class="p">)</span> <span class="k">if</span> <span class="n">match</span> <span class="o">!=</span> <span class="s1">&#39;Modified&#39;</span> <span class="k">else</span>
                             <span class="s1">&#39;+&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comb</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39; +&#39;</span><span class="p">)),</span>
                         <span class="n">match</span> <span class="k">if</span> <span class="n">match</span> <span class="o">!=</span> <span class="s1">&#39;Modified&#39;</span> <span class="k">else</span> <span class="s1">&#39;Broad&#39;</span><span class="p">,</span>

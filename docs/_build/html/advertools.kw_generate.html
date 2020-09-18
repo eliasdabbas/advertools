@@ -294,7 +294,7 @@ Once you have your keywords done, you can start creating ads using either the
 
 <dl class="py function">
 <dt id="advertools.kw_generate.kw_generate">
-<code class="sig-name descname">kw_generate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">products</span></em>, <em class="sig-param"><span class="n">words</span></em>, <em class="sig-param"><span class="n">max_len</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">match_types</span><span class="o">=</span><span class="default_value">'Exact', 'Phrase', 'Modified'</span></em>, <em class="sig-param"><span class="n">order_matters</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">campaign_name</span><span class="o">=</span><span class="default_value">'SEM_Campaign'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_generate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kw_generate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">products</span></em>, <em class="sig-param"><span class="n">words</span></em>, <em class="sig-param"><span class="n">max_len</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">match_types</span><span class="o">=</span><span class="default_value">'Exact', 'Phrase', 'Modified'</span></em>, <em class="sig-param"><span class="n">capitalize_adgroups</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">order_matters</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">campaign_name</span><span class="o">=</span><span class="default_value">'SEM_Campaign'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/kw_generate.html#kw_generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.kw_generate.kw_generate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a data frame of keywords using a list of products and relevant
 words.</p>
 <dl class="field-list simple">
@@ -307,6 +307,9 @@ interested in <code class="xref py py-attr docutils literal notranslate"><span c
 permutation of final keywords</p></li>
 <li><p><strong>match_types</strong> (<em>list</em>) – one or more of (‘Exact’, ‘Phrase’, ‘Modified’,
 ‘Broad’)</p></li>
+<li><p><strong>capitalize_adgroups</strong> (<em>bool</em>) – whether or not to set adgroup names in the
+“Ad Group” column to title case or keep
+them as is, default True</p></li>
 <li><p><strong>order_matters</strong> (<em>bool</em>) – whether or not the order of words in keywords
 matters, default False</p></li>
 <li><p><strong>campaign_name</strong> (<em>str</em>) – name of campaign</p></li>
@@ -336,6 +339,20 @@ matters, default False</p></li>
 <span class="go">57  SEM_Campaign   Toyota     second hand buy toyota          Exact  Second Hand;Buy</span>
 <span class="go">58  SEM_Campaign   Toyota     second hand buy toyota         Phrase  Second Hand;Buy</span>
 <span class="go">59  SEM_Campaign   Toyota  +second hand +buy +toyota          Broad  Second Hand;Buy</span>
+</pre></div>
+</div>
+<p>Sometimes you want to retain capitalization and keep it as it as is in the
+“Ad Group” column.
+This is especially important for consistency with ads DataFrames for easier
+integration between the two. Set <cite>capitalize_adgroups=False</cite> to keep
+capitalization the same:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">kw_generate</span><span class="p">([</span><span class="s1">&#39;SEO&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;services&#39;</span><span class="p">,</span> <span class="s1">&#39;provider&#39;</span><span class="p">],</span> <span class="n">capitalize_adgroups</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="go">       Campaign Ad Group         Keyword Criterion Type    Labels</span>
+<span class="go">0  SEM_Campaign      SEO    SEO services          Exact  Services</span>
+<span class="go">1  SEM_Campaign      SEO    SEO services         Phrase  Services</span>
+<span class="go">2  SEM_Campaign      SEO  +SEO +services          Broad  Services</span>
+<span class="go">3  SEM_Campaign      SEO    SEO provider          Exact  Provider</span>
+<span class="go">4  SEM_Campaign      SEO    SEO provider         Phrase  Provider</span>
 </pre></div>
 </div>
 </dd></dl>

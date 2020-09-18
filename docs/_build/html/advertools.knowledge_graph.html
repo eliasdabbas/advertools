@@ -99,7 +99,11 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Google's Knowledge Graph</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Google's Knowledge Graph</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#account-setup">Account Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-use-google-s-knowledge-graph-api">How to use Google’s Knowledge Graph API</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
@@ -200,6 +204,16 @@ product should not form a critical dependence on this API.</p>
 <p>It’s not clear whether this is from a technical reliability or a content
 correctness point of view, but it is what the docs mention. So please keep this
 in mind when using it.</p>
+<div class="section" id="account-setup">
+<h2>Account Setup<a class="headerlink" href="#account-setup" title="Permalink to this headline">¶</a></h2>
+<p>In order to be able to send requests, you will need to <a class="reference external" href="https://console.developers.google.com/">create a project</a>, <a class="reference external" href="https://console.developers.google.com/billing">set up billing</a>, and <a class="reference external" href="https://console.developers.google.com/apis/library">activate the knowledge
+graph API</a> for your
+project. You will then need to <a class="reference external" href="https://console.developers.google.com/apis/credentials">create credentials</a> (API Key).
+Once you have that, you can use it as your <code class="docutils literal notranslate"><span class="pre">key</span></code> parameter when running
+requests, as shown below.</p>
+</div>
+<div class="section" id="how-to-use-google-s-knowledge-graph-api">
+<h2>How to use Google’s Knowledge Graph API<a class="headerlink" href="#how-to-use-google-s-knowledge-graph-api" title="Permalink to this headline">¶</a></h2>
 <p>What is “google”? Is it a search engine, a company, a brand, a very large
 number? What else is it?</p>
 <p>And if it is all of those things, what is the relative ranking of each? What
@@ -317,6 +331,7 @@ a higher chance of timing out.</p></li>
 <p><a class="reference external" href="https://developers.google.com/knowledge-graph/reference/rest/v1">https://developers.google.com/knowledge-graph/reference/rest/v1</a></p>
 </dd></dl>
 
+</div>
 </div>
 
 

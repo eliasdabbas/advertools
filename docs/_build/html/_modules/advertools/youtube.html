@@ -1006,12 +1006,13 @@
 <span class="sd">    :param hl: string  The hl parameter specifies the language that will be</span>
 <span class="sd">        used for text values in the API response. The default value is en-US.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">id</span><span class="p">,</span> <span class="n">regionCode</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;id&#39;, &#39;regionCode&#39;]&quot;</span><span class="p">)</span>
-
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/guideCategories&#39;</span>
-    <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+    <span class="c1"># args = locals()</span>
+    <span class="c1"># if sum([bool(p) for p in [id, regionCode]]) != 1:</span>
+    <span class="c1">#     raise ValueError(&quot;make sure you specify exactly one of [&#39;id&#39;, &#39;regionCode&#39;]&quot;)</span>
+    <span class="c1">#</span>
+    <span class="c1"># base_url = &#39;https://www.googleapis.com/youtube/v3/guideCategories&#39;</span>
+    <span class="c1"># return _combine_requests(args, base_url, count=None, max_allowed=None)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;This function has been deprecated as of September 9, 2020&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="comment_threads_list"><a class="viewcode-back" href="../../advertools.youtube.html#advertools.youtube.comment_threads_list">[docs]</a><span class="k">def</span> <span class="nf">comment_threads_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">allThreadsRelatedToChannelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>

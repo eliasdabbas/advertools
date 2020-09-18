@@ -21,6 +21,22 @@ It's not clear whether this is from a technical reliability or a content
 correctness point of view, but it is what the docs mention. So please keep this
 in mind when using it.
 
+Account Setup
+*************
+
+In order to be able to send requests, you will need to `create a project
+<https://console.developers.google.com/>`_, `set up billing
+<https://console.developers.google.com/billing>`_, and `activate the knowledge
+graph API <https://console.developers.google.com/apis/library>`_ for your
+project. You will then need to `create credentials
+<https://console.developers.google.com/apis/credentials>`_ (API Key).
+Once you have that, you can use it as your ``key`` parameter when running
+requests, as shown below.
+
+How to use Google's Knowledge Graph API
+***************************************
+
+
 What is "google"? Is it a search engine, a company, a brand, a very large
 number? What else is it?
 

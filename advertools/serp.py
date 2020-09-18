@@ -14,7 +14,7 @@ up some credentials as follows (you don't need a custom search engine for
 
 * `Create credentials for this project <https://console.developers.google.com/apis/api/customsearch.googleapis.com/credentials>`_: so you can get your key.
 
-* `Enable billing for your project <https://console.cloud.google.com/billing/projects>`_ if you want to run more than 100 queries per day. The first 100 queries are free; then for each additional 1,000 queries, you pay USD $5.
+* `Enable billing for your project <https://console.cloud.google.com/billing/projects>`_ if you want to run more than 100 queries per day. The first 100 queries are free; then for each additional 1,000 queries, you pay $5.
 
 
 """

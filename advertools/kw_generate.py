@@ -91,6 +91,7 @@ import pandas as pd
 
 def kw_generate(products, words, max_len=3,
                 match_types=('Exact', 'Phrase', 'Modified'),
+                capitalize_adgroups=True,
                 order_matters=True, campaign_name='SEM_Campaign'):
     """Generate a data frame of keywords using a list of products and relevant
     words.
@@ -102,6 +103,9 @@ def kw_generate(products, words, max_len=3,
                         permutation of final keywords
     :param list match_types: one or more of ('Exact', 'Phrase', 'Modified',
                              'Broad')
+    :param bool capitalize_adgroups: whether or not to set adgroup names in the
+                                     "Ad Group" column to title case or keep
+                                     them as is, default True
     :param bool order_matters: whether or not the order of words in keywords
                                matters, default False
     :param str campaign_name: name of campaign
@@ -126,6 +130,21 @@ def kw_generate(products, words, max_len=3,
     57  SEM_Campaign   Toyota     second hand buy toyota          Exact  Second Hand;Buy
     58  SEM_Campaign   Toyota     second hand buy toyota         Phrase  Second Hand;Buy
     59  SEM_Campaign   Toyota  +second hand +buy +toyota          Broad  Second Hand;Buy
+
+    Sometimes you want to retain capitalization and keep it as it as is in the
+    "Ad Group" column.
+    This is especially important for consistency with ads DataFrames for easier
+    integration between the two. Set `capitalize_adgroups=False` to keep
+    capitalization the same:
+
+    >>> adv.kw_generate(['SEO'], ['services', 'provider'], capitalize_adgroups=False).head()
+           Campaign Ad Group         Keyword Criterion Type    Labels
+    0  SEM_Campaign      SEO    SEO services          Exact  Services
+    1  SEM_Campaign      SEO    SEO services         Phrase  Services
+    2  SEM_Campaign      SEO  +SEO +services          Broad  Services
+    3  SEM_Campaign      SEO    SEO provider          Exact  Provider
+    4  SEM_Campaign      SEO    SEO provider         Phrase  Provider
+
     """
     match_types = [x.title() for x in match_types]
     possible_match_types = ['Exact', 'Phrase', 'Broad', 'Modified']
@@ -147,7 +166,7 @@ def kw_generate(products, words, max_len=3,
                 for match in match_types:
                     row = [
                         campaign_name,
-                        prod.title(),
+                        prod.title() if capitalize_adgroups else prod,
                         (' '.join(comb) if match != 'Modified' else
                             '+' + ' '.join(comb).replace(' ', ' +')),
                         match if match != 'Modified' else 'Broad',
