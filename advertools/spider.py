@@ -286,6 +286,9 @@ Here are some examples that you might find interesting:
   fine, you can remove this restriction. `CLOSESPIDER_ERRORCOUNT` can also be
   very useful while exploring, just in case you get unexpected errors.
 
+The next page contains a number of :ref:`strategies and recipes for crawling <crawl_strategies>`
+with code examples and explanations.
+
 **Usage**
 
 A very simple dictionary to be added to your function call:
