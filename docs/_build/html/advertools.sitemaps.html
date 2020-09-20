@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.10.6
+                0.10.7
               </div>
             
           
@@ -104,6 +104,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
@@ -424,7 +425,7 @@ the content.</p>
 </div>
 <dl class="py function">
 <dt id="advertools.sitemaps.sitemap_to_df">
-<code class="sig-name descname">sitemap_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sitemap_url</span></em>, <em class="sig-param"><span class="n">max_workers</span><span class="o">=</span><span class="default_value">8</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">sitemap_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sitemap_url</span></em>, <em class="sig-param"><span class="n">max_workers</span><span class="o">=</span><span class="default_value">8</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve all URLs and other available tags of a sitemap(s) and put them in
 a DataFrame.</p>
 <p>You can also pass the URL of a sitemap index, or a link to a robots.txt
@@ -441,6 +442,12 @@ retrieve all the included URLs in one DataFrame.</p></li>
 The higher the faster, but with high numbers you
 risk being blocked and/or missing some data as you
 might appear like an attacker.</p></li>
+<li><p><strong>recursive</strong> (<em>bool</em>) – Whether or not to follow and import all sub-sitemaps
+(in case you have a sitemap index), or to only
+import the given sitemap. This might be useful in
+case you want to explore what sitemaps are available
+after which you can decide which ones you are
+interested in.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return sitemap_df</dt>

@@ -1,0 +1,440 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes &mdash;  Python</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" href="advertools.serp.html" />
+    <link rel="prev" title="🕷 Python SEO Crawler / Spider" href="advertools.spider.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Crawl Strategies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-crawl-a-list-of-pages-and-those-pages-only-list-mode">How to crawl a list of pages, and those pages only (list mode)?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-crawl-a-website-including-its-sub-domains">How can I crawl a website including its sub-domains?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-save-a-copy-of-the-logs-of-my-crawl-for-auditing-them-later">How can I save a copy of the logs of my crawl for auditing them later?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-automatically-stop-my-crawl-based-on-a-certain-condition">How can I automatically stop my crawl based on a certain condition?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-dis-obey-robots-txt-rules">How can I (dis)obey robots.txt rules?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-set-my-user-agent-while-crawling">How do I set my User-agent while crawling?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-control-the-number-of-concurrent-requests-while-crawling">How can I control the number of concurrent requests while crawling?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-slow-down-the-crawling-so-i-don-t-hit-the-websites-servers-too-hard">How can I slow down the crawling so I don’t hit the websites’ servers too hard?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-set-multiple-settings-to-the-same-crawl-job">How can I set multiple settings to the same crawl job?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i-want-to-crawl-a-list-of-pages-follow-links-from-those-pages-but-only-to-a-certain-specified-depth">I want to crawl a list of pages, follow links from those pages, but only to a certain specified depth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice">How do I pause/resume crawling, while making sure I don’t crawl the same page twice?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/advertools.code_recipes.spider_strategies.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-advertools.code_recipes.spider_strategies"></span><div class="section" id="seo-crawling-scraping-strategies-recipes">
+<span id="crawl-strategies"></span><h1>🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes<a class="headerlink" href="#seo-crawling-scraping-strategies-recipes" title="Permalink to this headline">¶</a></h1>
+<p>Once you have mastered the basics of using the <a class="reference internal" href="advertools.spider.html#crawl"><span class="std std-ref">crawl</span></a> function,
+you probably want to achieve more with better customization, and control.</p>
+<p>These are some code strategies that might be useful to customize how you run
+your crawls.</p>
+<p>Most of these options can be set using the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter that
+the function takes. This can be set by using a dictionary, where the keys
+indicate the option you want to set, and the values specify how you want to set
+them.</p>
+<div class="section" id="how-to-crawl-a-list-of-pages-and-those-pages-only-list-mode">
+<h2>How to crawl a list of pages, and those pages only (list mode)?<a class="headerlink" href="#how-to-crawl-a-list-of-pages-and-those-pages-only-list-mode" title="Permalink to this headline">¶</a></h2>
+<p>Simply provide that list as the first argument, for the <code class="docutils literal notranslate"><span class="pre">url_list</span></code> parameter,
+and make sure that <code class="docutils literal notranslate"><span class="pre">follow_links=False</span></code>, which is the default. This simply
+crawls the given pages, and stops when done.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="kn">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://example.com/page_1&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s1">&#39;https://example.com/page_2&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s1">&#39;https://example.com/page_3&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s1">&#39;https://example.com/page_4&#39;</span><span class="p">]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">follow_links</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-can-i-crawl-a-website-including-its-sub-domains">
+<h2>How can I crawl a website including its sub-domains?<a class="headerlink" href="#how-can-i-crawl-a-website-including-its-sub-domains" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="advertools.spider.html#crawl"><span class="std std-ref">crawl</span></a> function takes an optional <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code>
+parameter. If not provided, it defaults to the domains of the URLs in
+<code class="docutils literal notranslate"><span class="pre">url_list</span></code>. When the crawler goes through the pages of <cite>example.com</cite>, it
+follows links to discover pages. If it finds pages on <cite>help.exmaple.com</cite> it
+won’t crawl them (it’s a different domain). The solution, therefore, is to
+provide a list of domains to the <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code> parameter. Make sure you
+also include the original domain, in this case <cite>example.com</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">follow_links</span><span class="o">=</span><span class="bp">True</span>
+<span class="gp">... </span>          <span class="n">allowed_domains</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;help.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;community.example.com&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-can-i-save-a-copy-of-the-logs-of-my-crawl-for-auditing-them-later">
+<h2>How can I save a copy of the logs of my crawl for auditing them later?<a class="headerlink" href="#how-can-i-save-a-copy-of-the-logs-of-my-crawl-for-auditing-them-later" title="Permalink to this headline">¶</a></h2>
+<p>It’s usually good to keep a copy of the logs of all your crawls to check for
+errors, exceptions, stats, etc.
+Pass a path of the file where you want the logs to be saved, in a dictionary to
+the <code class="docutils literal notranslate"><span class="pre">cutom_settings</span></code> parameter.
+A good practice for consistency is to give the same name to the <code class="docutils literal notranslate"><span class="pre">output_file</span></code>
+and log file (with a different extension) for easier retreival. For example:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">output_file</span></code>: ‘website_name_crawl_1.jl’</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">LOG_FILE</span></code>: ‘website_name_crawl_1.log’ (.txt can also work)</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">output_file</span></code>: ‘website_name_crawl_2.jl’</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">LOG_FILE</span></code>: ‘website_name_crawl_2.log’</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;LOG_FILE&#39;</span><span class="p">:</span> <span class="s1">&#39;example_crawl_1.log&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-can-i-automatically-stop-my-crawl-based-on-a-certain-condition">
+<h2>How can I automatically stop my crawl based on a certain condition?<a class="headerlink" href="#how-can-i-automatically-stop-my-crawl-based-on-a-certain-condition" title="Permalink to this headline">¶</a></h2>
+<p>There are a few conditions that you can use to trigger the crawl to stop, and
+they mostly have descriptive names:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>CLOSESPIDER_ERRORCOUNT</cite>: You don’t want to wait three hours for a crawl
+to finish, only to discover that you had errors all over the place. Set a
+certain number of errors to trigger the crawler to stop, so you can
+investigate the issue.</p></li>
+<li><p><cite>CLOSESPIDER_ITEMCOUNT</cite>: Anything scraped from a page is an “item”, h1,
+title , meta_desc, etc. Set the crawler to stop after getting a certain
+number of items if you want that.</p></li>
+<li><p><cite>CLOSESPIDER_PAGECOUNT</cite>: Stop the crawler after a certain number of pages
+have been crawled. This is useful as an exploratory technique, especially
+with very large websites. It might be good to crawl a few thousand pages,
+get an idea on its structure, and then run a full crawl with those
+insights in mind.</p></li>
+<li><p><cite>CLOSESPIDER_TIMEOUT</cite>: Stop the crawler after a certain number of
+seconds.</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;CLOSESPIDER_PAGECOUNT&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-can-i-dis-obey-robots-txt-rules">
+<h2>How can I (dis)obey robots.txt rules?<a class="headerlink" href="#how-can-i-dis-obey-robots-txt-rules" title="Permalink to this headline">¶</a></h2>
+<p>The crawler obeys robots.txt rules by default. Sometimes you might want to
+check the results of crawls without doing that. You can set the
+<code class="docutils literal notranslate"><span class="pre">ROBOTSTXT_OBEY</span></code> setting under <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ROBOTSTXT_OBEY&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-do-i-set-my-user-agent-while-crawling">
+<h2>How do I set my User-agent while crawling?<a class="headerlink" href="#how-do-i-set-my-user-agent-while-crawling" title="Permalink to this headline">¶</a></h2>
+<p>Set this parameter under <cite>custom_settings</cite> dictionary under the key
+<code class="docutils literal notranslate"><span class="pre">USER_AGENT</span></code>. The default User-agent can be found by running
+<cite>adv.spider.user_agent</cite></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">spider</span><span class="o">.</span><span class="n">user_agent</span> <span class="c1"># to get the current User-agent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;USER_AGENT&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_USER_AGENT&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-can-i-control-the-number-of-concurrent-requests-while-crawling">
+<h2>How can I control the number of concurrent requests while crawling?<a class="headerlink" href="#how-can-i-control-the-number-of-concurrent-requests-while-crawling" title="Permalink to this headline">¶</a></h2>
+<p>Some servers are set for high sensitivity to automated and/or concurrent
+requests, that you can quickly be blocked/banned. You also want to be polite
+and not kill those servers, don’t you?</p>
+<p>There are several ways to set that under the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter.
+The available keys are the following:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">CONCURRENT_ITEMS</span></code>: default 100</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">CONCURRENT_REQUESTS</span></code> : default 16</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">CONCURRENT_REQUESTS_PER_DOMAIN</span></code>: default 8</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">CONCURRENT_REQUESTS_PER_IP</span></code>: default 0</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;CONCURRENT_REQUESTS_PER_DOMAIN&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-can-i-slow-down-the-crawling-so-i-don-t-hit-the-websites-servers-too-hard">
+<h2>How can I slow down the crawling so I don’t hit the websites’ servers too hard?<a class="headerlink" href="#how-can-i-slow-down-the-crawling-so-i-don-t-hit-the-websites-servers-too-hard" title="Permalink to this headline">¶</a></h2>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">DOWNLOAD_DELAY</span></code> setting and set the interval to be waited before
+downloading consecutive page from the same website (in seconds).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;DOWNLOAD_DELAY&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span> <span class="c1"># wait 3 seconds between pages</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-can-i-set-multiple-settings-to-the-same-crawl-job">
+<h2>How can I set multiple settings to the same crawl job?<a class="headerlink" href="#how-can-i-set-multiple-settings-to-the-same-crawl-job" title="Permalink to this headline">¶</a></h2>
+<p>Simply add multiple settings to the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;CLOSESPIDER_PAGECOUNT&#39;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="s1">&#39;CONCURRENT_ITEMS&#39;</span><span class="p">:</span> <span class="mi">75</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="s1">&#39;LOG_FILE&#39;</span><span class="p">:</span> <span class="s1">&#39;output_file.log&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="i-want-to-crawl-a-list-of-pages-follow-links-from-those-pages-but-only-to-a-certain-specified-depth">
+<h2>I want to crawl a list of pages, follow links from those pages, but only to a certain specified depth<a class="headerlink" href="#i-want-to-crawl-a-list-of-pages-follow-links-from-those-pages-but-only-to-a-certain-specified-depth" title="Permalink to this headline">¶</a></h2>
+<p>Set the <code class="docutils literal notranslate"><span class="pre">DEPTH_LIMIT</span></code> setting in the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter. A setting
+of 1 would follow links one level after the provided URLs in <code class="docutils literal notranslate"><span class="pre">url_list</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;DEPTH_LIMIT&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span> <span class="c1"># follow links two levels from the initial URLs, then stop</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice">
+<h2>How do I pause/resume crawling, while making sure I don’t crawl the same page twice?<a class="headerlink" href="#how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice" title="Permalink to this headline">¶</a></h2>
+<p>There are several reasons why you might want to do this:</p>
+<ul class="simple">
+<li><p>You want to crawl the updates to the site only (you already crawled the site).</p></li>
+<li><p>The site is very big, and can’t be crawled quickly.</p></li>
+<li><p>You are not in a hurry, and you also don’t want to hit the servers hard, so
+you run your crawl across days for example.</p></li>
+<li><p>As an emergency measure (connection lost, battery died, etc.) you can start
+where you left off</p></li>
+</ul>
+<p>Handling this is extremely simple, and all you have to do is literally set
+provide a path to a new folder.
+Make sure it is new and empty, and make sure to use it for the same crawl job
+reruns. That’s all you have to worry about. The <code class="docutils literal notranslate"><span class="pre">JOBDIR</span></code> setting handles this.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;JOBDIR&#39;</span><span class="p">:</span> <span class="s1">&#39;/Path/to/en/empty/folder&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The first time you run the above code and then stop it. Stopping can happen by
+accident (lost connection, closed computer, etc.), manually (you hit ctrl+C) or
+you used an option to stop the crawl after a certain number of pages, seconds, etc.</p>
+<p>The second time you want to run this, you simply run the exact same command again.
+If you check the folder that was created you can see a few files that manage the
+process. You don’t need to worry about any of it. But make sure that folder
+doesn’t get changed manually, rerun the same command as many times as you need,
+and you’re good.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advertools.serp.html" class="btn btn-neutral float-right" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="advertools.spider.html" class="btn btn-neutral float-left" title="🕷 Python SEO Crawler / Spider" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Elias Dabbas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

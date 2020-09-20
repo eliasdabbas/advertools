@@ -78,6 +78,7 @@ life a little easier.
    robots.txt <advertools.robotstxt>
    XML Sitemaps <advertools.sitemaps>
    SEO Spider / Crawler <advertools.spider>
+   Crawl Strategies <advertools.code_recipes.spider_strategies>
    Analyze Search Engine Results (SERPs) <advertools.serp>
    Google's Knowledge Graph <advertools.knowledge_graph>
 

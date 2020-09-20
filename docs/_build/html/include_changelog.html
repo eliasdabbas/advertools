@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.10.6
+                0.10.7
               </div>
             
           
@@ -98,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
@@ -219,6 +220,14 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.html">advertools package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advertools.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="advertools.code_recipes.html">advertools.code_recipes package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="advertools.code_recipes.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advertools.code_recipes.html#module-advertools.code_recipes">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="advertools.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="advertools.ad_create.html">Create Ads on a Large Scale</a></li>
 <li class="toctree-l3"><a class="reference internal" href="advertools.ad_from_string.html">Create Ads Using Long Descriptive Text (top-down approach)</a><ul>
@@ -297,17 +306,18 @@
 <li><p>New function <code class="docutils literal notranslate"><span class="pre">knowledge_graph</span></code> for querying Google’s API</p></li>
 <li><p>Faster <code class="docutils literal notranslate"><span class="pre">sitemap_to_df</span></code> with threads</p></li>
 <li><p>New parameter <cite>max_workers</cite> for <code class="docutils literal notranslate"><span class="pre">sitemap_to_df</span></code> to determine how fast
-it should go</p></li>
+it could go</p></li>
 <li><p>New parameter <cite>capitalize_adgroups</cite> for <code class="docutils literal notranslate"><span class="pre">kw_generate</span></code> to determine
-whether or not to keep ad-groups as is, or set them to title case</p></li>
+whether or not to keep ad groups as is, or set them to title case (the
+default)</p></li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
 <dt>Fixed</dt><dd><ul>
-<li><p>Removed restrictions on number of URLs provided to <code class="docutils literal notranslate"><span class="pre">crawl</span></code>, provided
-that <cite>follow_links</cite> is set to <cite>False</cite></p></li>
+<li><p>Remove restrictions on the number of URLs provided to <code class="docutils literal notranslate"><span class="pre">crawl</span></code>,
+assuming <cite>follow_links</cite> is set to <cite>False</cite> (list mode)</p></li>
 <li><p>JSON-LD issue breaking crawls when it’s invalid (now skipped)</p></li>
 </ul>
 </dd>

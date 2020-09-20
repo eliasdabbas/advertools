@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.10.6
+                0.10.7
               </div>
             
           
@@ -96,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.robotstxt.html">robots.txt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
@@ -470,7 +471,7 @@
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
 
-<div class="viewcode-block" id="sitemap_to_df"><a class="viewcode-back" href="../../advertools.sitemaps.html#advertools.sitemaps.sitemap_to_df">[docs]</a><span class="k">def</span> <span class="nf">sitemap_to_df</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+<div class="viewcode-block" id="sitemap_to_df"><a class="viewcode-back" href="../../advertools.sitemaps.html#advertools.sitemaps.sitemap_to_df">[docs]</a><span class="k">def</span> <span class="nf">sitemap_to_df</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Retrieve all URLs and other available tags of a sitemap(s) and put them in</span>
 <span class="sd">    a DataFrame.</span>
@@ -487,6 +488,12 @@
 <span class="sd">                            The higher the faster, but with high numbers you</span>
 <span class="sd">                            risk being blocked and/or missing some data as you</span>
 <span class="sd">                            might appear like an attacker.</span>
+<span class="sd">    :param bool recursive: Whether or not to follow and import all sub-sitemaps</span>
+<span class="sd">                           (in case you have a sitemap index), or to only</span>
+<span class="sd">                           import the given sitemap. This might be useful in</span>
+<span class="sd">                           case you want to explore what sitemaps are available</span>
+<span class="sd">                           after which you can decide which ones you are</span>
+<span class="sd">                           interested in.</span>
 <span class="sd">    :return sitemap_df: A pandas DataFrame containing all URLs, as well as</span>
 <span class="sd">                        other tags if available (``lastmod``, ``changefreq``,</span>
 <span class="sd">                        ``priority``, or others found in news, video, or image</span>
@@ -509,7 +516,7 @@
 
     <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;sitemapindex&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;sitemapindex&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">recursive</span><span class="p">:</span>
         <span class="n">sitemap_url_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>

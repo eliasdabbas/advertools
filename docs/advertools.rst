@@ -1,6 +1,14 @@
 advertools package
 ==================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   advertools.code_recipes
+
 Submodules
 ----------
 
