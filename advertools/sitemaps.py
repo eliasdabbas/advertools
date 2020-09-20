@@ -289,7 +289,7 @@ def _parse_sitemap(root):
     return pd.DataFrame(d.values())
 
 
-def sitemap_to_df(sitemap_url, max_workers=8):
+def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
     """
     Retrieve all URLs and other available tags of a sitemap(s) and put them in
     a DataFrame.
@@ -306,6 +306,12 @@ def sitemap_to_df(sitemap_url, max_workers=8):
                             The higher the faster, but with high numbers you
                             risk being blocked and/or missing some data as you
                             might appear like an attacker.
+    :param bool recursive: Whether or not to follow and import all sub-sitemaps
+                           (in case you have a sitemap index), or to only
+                           import the given sitemap. This might be useful in
+                           case you want to explore what sitemaps are available
+                           after which you can decide which ones you are
+                           interested in.
     :return sitemap_df: A pandas DataFrame containing all URLs, as well as
                         other tags if available (``lastmod``, ``changefreq``,
                         ``priority``, or others found in news, video, or image
@@ -328,7 +334,7 @@ def sitemap_to_df(sitemap_url, max_workers=8):
 
     sitemap_df = pd.DataFrame()
 
-    if root.tag.split('}')[-1] == 'sitemapindex':
+    if (root.tag.split('}')[-1] == 'sitemapindex') and recursive:
         sitemap_url_list = []
         for elem in root:
             for el in elem:
