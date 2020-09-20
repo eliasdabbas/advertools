@@ -90,7 +90,7 @@ jsonld_*          JSON-LD data if available. In case multiple snippets occur,
 h1                `<h1>` tag(s)
 h2                `<h2>` tag(s)
 h3                `<h3>` tag(s)
-body_text         The text in the <p> tags
+body_text         The text in the <p>, <span>, and <li> tags within <body>
 size              The page size in bytes
 resp_meta_*       Several metadata for the response download_latency, timeout
                   etc.
