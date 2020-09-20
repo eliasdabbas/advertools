@@ -2,6 +2,14 @@
 Change Log - advertools
 =======================
 
+Unreleased
+----------
+
+* Added
+    - New parameter `recursive` for ``sitemap_to_df`` to control whether or not
+      to get all sub sitemaps (default), or to only get the current one
+    - Strategies and recipes for crawling and scraping
+
 0.10.7 (2020-09-18)
 -------------------
 
