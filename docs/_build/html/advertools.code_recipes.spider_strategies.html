@@ -199,7 +199,7 @@
   <span class="target" id="module-advertools.code_recipes.spider_strategies"></span><div class="section" id="seo-crawling-scraping-strategies-recipes">
 <span id="crawl-strategies"></span><h1>🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes<a class="headerlink" href="#seo-crawling-scraping-strategies-recipes" title="Permalink to this headline">¶</a></h1>
 <p>Once you have mastered the basics of using the <a class="reference internal" href="advertools.spider.html#crawl"><span class="std std-ref">crawl</span></a> function,
-you probably want to achieve more with better customization, and control.</p>
+you probably want to achieve more with better customization and control.</p>
 <p>These are some code strategies that might be useful to customize how you run
 your crawls.</p>
 <p>Most of these options can be set using the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter that
@@ -264,19 +264,19 @@ and log file (with a different extension) for easier retreival. For example:</p>
 they mostly have descriptive names:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><cite>CLOSESPIDER_ERRORCOUNT</cite>: You don’t want to wait three hours for a crawl
-to finish, only to discover that you had errors all over the place. Set a
-certain number of errors to trigger the crawler to stop, so you can
+<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_ERRORCOUNT</span></code>: You don’t want to wait three hours for a
+crawl to finish, only to discover that you had errors all over the place.
+Set a certain number of errors to trigger the crawler to stop, so you can
 investigate the issue.</p></li>
-<li><p><cite>CLOSESPIDER_ITEMCOUNT</cite>: Anything scraped from a page is an “item”, h1,
+<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_ITEMCOUNT</span></code>: Anything scraped from a page is an “item”, h1,
 title , meta_desc, etc. Set the crawler to stop after getting a certain
 number of items if you want that.</p></li>
-<li><p><cite>CLOSESPIDER_PAGECOUNT</cite>: Stop the crawler after a certain number of pages
-have been crawled. This is useful as an exploratory technique, especially
-with very large websites. It might be good to crawl a few thousand pages,
-get an idea on its structure, and then run a full crawl with those
-insights in mind.</p></li>
-<li><p><cite>CLOSESPIDER_TIMEOUT</cite>: Stop the crawler after a certain number of
+<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_PAGECOUNT</span></code>: Stop the crawler after a certain number of
+pages have been crawled. This is useful as an exploratory technique,
+especially with very large websites. It might be good to crawl a few
+thousand pages, get an idea on its structure, and then run a full crawl
+with those insights in mind.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_TIMEOUT</span></code>: Stop the crawler after a certain number of
 seconds.</p></li>
 </ul>
 </div></blockquote>
@@ -361,17 +361,17 @@ of 1 would follow links one level after the provided URLs in <code class="docuti
 <h2>How do I pause/resume crawling, while making sure I don’t crawl the same page twice?<a class="headerlink" href="#how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice" title="Permalink to this headline">¶</a></h2>
 <p>There are several reasons why you might want to do this:</p>
 <ul class="simple">
-<li><p>You want to crawl the updates to the site only (you already crawled the site).</p></li>
+<li><p>You want to mainly crawl the updates to the site (you already crawled the site).</p></li>
 <li><p>The site is very big, and can’t be crawled quickly.</p></li>
 <li><p>You are not in a hurry, and you also don’t want to hit the servers hard, so
 you run your crawl across days for example.</p></li>
 <li><p>As an emergency measure (connection lost, battery died, etc.) you can start
 where you left off</p></li>
 </ul>
-<p>Handling this is extremely simple, and all you have to do is literally set
-provide a path to a new folder.
-Make sure it is new and empty, and make sure to use it for the same crawl job
-reruns. That’s all you have to worry about. The <code class="docutils literal notranslate"><span class="pre">JOBDIR</span></code> setting handles this.</p>
+<p>Handling this is extremely simple, and all you have to do is simply provide a
+path to a new folder. Make sure it is new and empty, and make sure to only use
+it for the same crawl job reruns. That’s all you have to worry about. The
+<code class="docutils literal notranslate"><span class="pre">JOBDIR</span></code> setting handles this.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span>
 <span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
 <span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;JOBDIR&#39;</span><span class="p">:</span> <span class="s1">&#39;/Path/to/en/empty/folder&#39;</span><span class="p">})</span>
@@ -379,12 +379,13 @@ reruns. That’s all you have to worry about. The <code class="docutils literal 
 </div>
 <p>The first time you run the above code and then stop it. Stopping can happen by
 accident (lost connection, closed computer, etc.), manually (you hit ctrl+C) or
-you used an option to stop the crawl after a certain number of pages, seconds, etc.</p>
-<p>The second time you want to run this, you simply run the exact same command again.
-If you check the folder that was created you can see a few files that manage the
-process. You don’t need to worry about any of it. But make sure that folder
-doesn’t get changed manually, rerun the same command as many times as you need,
-and you’re good.</p>
+you used a custom setting option to stop the crawl after a certain number of
+pages, seconds, etc.</p>
+<p>The second time you want to run this, you simply run the exact same command
+again. If you check the folder that was created you can see a few files that
+manage the process. You don’t need to worry about any of it. But make sure that
+folder doesn’t get changed manually, rerun the same command as many times as
+you need, and the crawler should handle de-duplication for you.</p>
 </div>
 </div>
 
