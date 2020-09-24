@@ -18,7 +18,7 @@ To get the robots.txt file into an easily readable format, you can use the
 :func:`robotstxt_to_df` function to get it in a DataFrame.
 
 >>> robotstxt_to_df('https://www.google.com/robots.txt')
-      directive                             content                      robotstxt_url                  file_downloaded
+      directive                             content                      robotstxt_url                    download_date
 0    User-agent                                   *  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
 1      Disallow                             /search  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
 2         Allow                       /search/about  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
@@ -81,7 +81,7 @@ robots.txt Testing Approach
 
 >>> fb_robots = robotstxt_to_df('https://www.facebook.com/robots.txt')
 >>> fb_robots
-      directive                                            content                        robotstxt_url                  file_downloaded
+      directive                                            content                        robotstxt_url                    download_date
 0       comment  Notice: Collection of data on Facebook through...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
 1       comment  prohibited unless you have express written per...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
 2       comment  and may only be conducted for the limited purp...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
