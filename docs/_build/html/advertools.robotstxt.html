@@ -200,7 +200,7 @@ every possible combination with user-agents!</p>
 <p>To get the robots.txt file into an easily readable format, you can use the
 <a class="reference internal" href="#advertools.robotstxt.robotstxt_to_df" title="advertools.robotstxt.robotstxt_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_to_df()</span></code></a> function to get it in a DataFrame.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.google.com/robots.txt&#39;</span><span class="p">)</span>
-<span class="go">      directive                             content                      robotstxt_url                  file_downloaded</span>
+<span class="go">      directive                             content                      robotstxt_url                    download_date</span>
 <span class="go">0    User-agent                                   *  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
 <span class="go">1      Disallow                             /search  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
 <span class="go">2         Allow                       /search/about  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
@@ -261,7 +261,7 @@ checking the rules that apply to it should take care of the rest.</p></li>
 </ol>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fb_robots</span> <span class="o">=</span> <span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.facebook.com/robots.txt&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fb_robots</span>
-<span class="go">      directive                                            content                        robotstxt_url                  file_downloaded</span>
+<span class="go">      directive                                            content                        robotstxt_url                    download_date</span>
 <span class="go">0       comment  Notice: Collection of data on Facebook through...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
 <span class="go">1       comment  prohibited unless you have express written per...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
 <span class="go">2       comment  and may only be conducted for the limited purp...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>

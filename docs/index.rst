@@ -65,6 +65,12 @@ life a little easier.
 
    About advertools <readme>
 
+To install advertools, run the following from the command line::
+
+   pip install advertools
+   # OR:
+   pip3 install advertools
+
 .. toctree::
    :caption: SEM
 
