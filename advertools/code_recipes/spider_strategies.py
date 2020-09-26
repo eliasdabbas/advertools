@@ -156,7 +156,7 @@ How can I slow down the crawling so I don't hit the websites' servers too hard?
 *******************************************************************************
 
 Use the ``DOWNLOAD_DELAY`` setting and set the interval to be waited before
-downloading consecutive page from the same website (in seconds).
+downloading consecutive pages from the same website (in seconds).
 
 .. code-block:: python
 
