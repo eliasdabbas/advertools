@@ -43,6 +43,15 @@ next 124,538 keywords for an upcoming campaign, by the end of the week!
 
 ``advertools`` is a Python package that can hopefully make that part of your job a little easier.
 
+Installation
+~~~~~~~~~~~~
+
+.. code:: bash
+
+   pip install advertools
+   # OR:
+   pip3 install advertools
+
 
 SEM Campaigns
 -------------
@@ -190,12 +199,6 @@ for this:
 * `Analyzing 131k tweets <https://www.kaggle.com/eliasdabbas/extract-entities-from-social-media-posts>`_ by European Football clubs tutorial on Kaggle
 * An overview of the `YouTube data API with Python <https://www.kaggle.com/eliasdabbas/youtube-data-api>`_
 
-Installation
-~~~~~~~~~~~~
-
-.. code:: bash
-
-   pip install advertools
 
 Conventions
 ~~~~~~~~~~~
