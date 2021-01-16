@@ -33,14 +33,14 @@ To get the robots.txt file into an easily readable format, you can use the
 The returned DataFrame contains columns for directives, their content, the URL
 of the robots.txt file, as well as the date it was downloaded.
 
-*  directive: The main commands. Allow, Disallow, Sitemap, Crawl-delay,
+*  `directive`: The main commands. Allow, Disallow, Sitemap, Crawl-delay,
    User-agent, and so on.
-*  content: The details of each of the directives
-*  last_modified: The date when the robots.txt file was last modified
+*  `content`: The details of each of the directives
+*  `last_modified`: The date when the robots.txt file was last modified
    (if availabe)
-*  etag: The entity tag of the response header.
-*  robotstxt_url: The URL of the robots.txt file.
-*  download_date: The date and time when the file was downloaded.
+*  `etag`: The entity tag of the response header, if provided.
+*  `robotstxt_url`: The URL of the robots.txt file.
+*  `download_date`: The date and time when the file was downloaded.
 
 
 As for testing, the :func:`robotstxt_test` function runs a test for a given
