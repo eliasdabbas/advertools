@@ -198,28 +198,94 @@ headers = {'User-Agent': 'advertools-' + version}
 logging.basicConfig(level=logging.INFO)
 
 
-def robotstxt_to_df(robotstxt_url):
+def robotstxt_to_df(robotstxt_url, output_file=None):
     """Download the contents of ``robotstxt_url`` into a DataFrame
 
-    :param url robotstxt_url: The URL of the robots.txt file
+    You can also use it to download multiple robots files by passing a list of
+    URLs.
+
+    >>> robotstxt_to_df('https://www.twitter.com/robots.txt')
+         directive content   	                 robotstxt_url	                   download_date
+    0	User-agent	     *	https://www.twitter.com/robots.txt	2020-09-27 21:57:23.702814+00:00
+    1	  Disallow	     /	https://www.twitter.com/robots.txt	2020-09-27 21:57:23.702814+00:00
+
+    >>> robotstxt_to_df(['https://www.google.com/robots.txt',
+    ...                  'https://www.twitter.com/robots.txt'])
+            directive	content	robotstxt_url	download_date
+    0	User-agent	*	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
+    1	Disallow	/search	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
+    2	Allow	/search/about	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
+    3	Allow	/search/static	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
+    4	Allow	/search/howsearchworks	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
+    282	User-agent	facebookexternalhit	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
+    283	Allow	/imgres	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
+    284	Sitemap	https://www.google.com/sitemap.xml	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
+    285	User-agent	*	https://www.twitter.com/robots.txt	2020-09-27 21:59:29.357141+00:00
+    286	Disallow	/	https://www.twitter.com/robots.txt	2020-09-27 21:59:29.357141+00:00
+
+    For research purposes and if you want to download more than ~500 files, you
+    might want to use ``output_file`` to save results as they are downloaded.
+    The file extension should be ".jl", and robots files are appended to that
+    file as soon as they are downloaded, in case you lose your connection, or
+    maybe your patience!
+
+    >>> robotstxt_to_df(['https://example.com/robots.txt',
+    ...                  'https://example.com/robots.txt',
+    ...                  'https://example.com/robots.txt'],
+    ...                 output_file='robots_output_file.jl')
+
+    To open the file as a DataFrame:
+
+    >>> import pandas as pd
+    >>> robotsfiles_df = pd.read_json('robots_output_file.jl', lines=True)
+
+    :param url robotstxt_url: One or more URLs of the robots.txt file(s)
+    :param str output_file: Optional file path to save the robots.txt files,
+                            mainly useful for downloading > 500 files. The
+                            files are appended as soon as they are downloaded.
+                            Only ".jl" extensions are supported.
+
     :returns DataFrame robotstxt_df: A DataFrame containing directives, their
                                      content, the URL and time of download
     """
-    logging.info(msg='Getting: ' + robotstxt_url)
-    robots_open = urlopen(Request(robotstxt_url, headers=headers))
-    robots_text = robots_open.readlines()
-    lines = []
-    for line in robots_text:
-        if line.strip():
-            if line.decode().startswith('#'):
-                lines.append(['comment', line.decode().replace('#', '').strip()])
-            else:
-                split = line.decode().split(':', maxsplit=1)
-                lines.append([split[0].strip(), split[1].strip()])
-    df = pd.DataFrame(lines, columns=['directive', 'content'])
-    df['robotstxt_url'] = robotstxt_url
-    df['download_date'] = pd.Timestamp.now(tz='UTC')
-    return df
+    if output_file is not None and (not output_file.endswith('.jl')):
+        raise ValueError('Please specify a file with a `.jl` extension.')
+    if isinstance(robotstxt_url, (list, tuple, set, pd.Series)):
+        return _robots_multi(robotstxt_url, output_file)
+    else:
+        try:
+            logging.info(msg='Getting: ' + robotstxt_url)
+            robots_open = urlopen(Request(robotstxt_url, headers=headers))
+            robots_text = robots_open.readlines()
+            lines = []
+            for line in robots_text:
+                if line.strip():
+                    if line.decode('utf-8-sig').strip().startswith('#'):
+                        lines.append(['comment',
+                                      (line.decode('utf-8-sig')
+                                           .replace('#', '').strip())])
+                    else:
+                        split = line.decode('utf-8-sig').split(':', maxsplit=1)
+                        lines.append([split[0].strip(), split[1].strip()])
+            df = pd.DataFrame(lines, columns=['directive', 'content'])
+            etag_lastmod = {header.lower().replace('-', '_'): val
+                            for header, val in robots_open.getheaders()
+                            if header.lower() in ['etag', 'last-modified']}
+            df = df.assign(**etag_lastmod)
+            if 'last_modified' in df:
+                df['last_modified'] = pd.to_datetime(df['last_modified'])
+        except Exception as e:
+            df = pd.DataFrame({'errors': [str(e)]})
+        df['robotstxt_url'] = robotstxt_url
+        df['download_date'] = pd.Timestamp.now(tz='UTC')
+        if output_file is not None:
+            with open(output_file, 'a') as file:
+                file.write(df.to_json(orient='records',
+                                      lines=True,
+                                      date_format='iso'))
+                file.write('\n')
+        else:
+            return df
 
 
 def _robots_multi(robots_url_list, output_file=None):
