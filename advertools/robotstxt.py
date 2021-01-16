@@ -17,28 +17,31 @@ every possible combination with user-agents!
 To get the robots.txt file into an easily readable format, you can use the
 :func:`robotstxt_to_df` function to get it in a DataFrame.
 
->>> robotstxt_to_df('https://www.google.com/robots.txt')
-      directive                             content                      robotstxt_url                    download_date
-0    User-agent                                   *  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
-1      Disallow                             /search  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
-2         Allow                       /search/about  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
-3         Allow                      /search/static  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
-4         Allow              /search/howsearchworks  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
-..          ...                                 ...                                ...                              ...
-277  User-agent                          Twitterbot  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
-278       Allow                             /imgres  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
-279  User-agent                 facebookexternalhit  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
-280       Allow                             /imgres  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
-281     Sitemap  https://www.google.com/sitemap.xml  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00
-[282 rows x 4 columns]
-
+>>> robotstxt_to_df('https://www.amazon.com/robots.txt')
+	   directive	                                        content	              last_modified	                              etag	                      robotstxt_url	                     download_date
+0	  User-agent	                                              *	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+1	    Disallow	              /exec/obidos/account-access-login	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+2	    Disallow	                      /exec/obidos/change-style	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+4	    Disallow	                    /exec/obidos/handle-buy-box	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+138	    Disallow	                 /gp/help/customer/express/c2c/	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+139	    Disallow	                                      /slp/*/b$	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+140	    Disallow	  /hz/contact-us/ajax/initiate-trusted-contact/	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+141	  User-agent	                                     EtaoSpider	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+142	    Disallow	                                              /	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
 
 The returned DataFrame contains columns for directives, their content, the URL
 of the robots.txt file, as well as the date it was downloaded.
-Under the `directive` column you can see the main commands; Allow, Disallow,
-Sitemap, Crawl-delay, User-agent, and so on. The `content` column contains the
-details of each of those directives (the pattern to disallow, the sitemap URL,
-etc.)
+
+*  directive: The main commands. Allow, Disallow, Sitemap, Crawl-delay,
+   User-agent, and so on.
+*  content: The details of each of the directives
+*  last_modified: The date when the robots.txt file was last modified
+   (if availabe)
+*  etag: The entity tag of the response header.
+*  robotstxt_url: The URL of the robots.txt file.
+*  download_date: The date and time when the file was downloaded.
+
 
 As for testing, the :func:`robotstxt_test` function runs a test for a given
 robots.txt file, checking which of the provided user-agents can fetch which of
@@ -211,17 +214,17 @@ def robotstxt_to_df(robotstxt_url, output_file=None):
 
     >>> robotstxt_to_df(['https://www.google.com/robots.txt',
     ...                  'https://www.twitter.com/robots.txt'])
-            directive	content	robotstxt_url	download_date
-    0	User-agent	*	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
-    1	Disallow	/search	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
-    2	Allow	/search/about	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
-    3	Allow	/search/static	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
-    4	Allow	/search/howsearchworks	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
-    282	User-agent	facebookexternalhit	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
-    283	Allow	/imgres	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
-    284	Sitemap	https://www.google.com/sitemap.xml	https://www.google.com/robots.txt	2020-09-27 21:59:29.243672+00:00
-    285	User-agent	*	https://www.twitter.com/robots.txt	2020-09-27 21:59:29.357141+00:00
-    286	Disallow	/	https://www.twitter.com/robots.txt	2020-09-27 21:59:29.357141+00:00
+           directive	                             content	              last_modified	                       robotstxt_url	                     download_date
+    0	  User-agent	                                   *	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
+    1	    Disallow	                             /search	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
+    2	       Allow	                       /search/about	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
+    3	       Allow	                      /search/static	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
+    4	       Allow	              /search/howsearchworks	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
+    283	  User-agent	                 facebookexternalhit	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
+    284	       Allow	                             /imgres	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
+    285	     Sitemap	  https://www.google.com/sitemap.xml	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
+    286	  User-agent	                                   *	                        NaT	  https://www.twitter.com/robots.txt	  2021-01-16 14:08:50.468588+00:00
+    287	    Disallow	                                   /	                        NaT	  https://www.twitter.com/robots.txt	  2021-01-16 14:08:50.468588+00:00
 
     For research purposes and if you want to download more than ~500 files, you
     might want to use ``output_file`` to save results as they are downloaded.
