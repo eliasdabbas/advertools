@@ -184,6 +184,7 @@ to crawl the home page but Google and Apple are, because I have no clue!
 __all__ = ['robotstxt_to_df', 'robotstxt_test']
 
 import logging
+from concurrent import futures
 from urllib.request import Request, urlopen
 from itertools import product
 
@@ -219,6 +220,29 @@ def robotstxt_to_df(robotstxt_url):
     df['robotstxt_url'] = robotstxt_url
     df['download_date'] = pd.Timestamp.now(tz='UTC')
     return df
+
+
+def _robots_multi(robots_url_list, output_file=None):
+    final_df = pd.DataFrame()
+    with futures.ThreadPoolExecutor(max_workers=16) as executor:
+        to_do = []
+        for robotsurl in robots_url_list:
+            future = executor.submit(robotstxt_to_df, robotsurl)
+            to_do.append(future)
+        done_iter = futures.as_completed(to_do)
+
+        for future in done_iter:
+            future_result = future.result()
+            if output_file is not None:
+                with open(output_file, 'a') as file:
+                    file.write(future_result.to_json(orient='records',
+                                                     lines=True,
+                                                     date_format='iso'))
+                    file.write('\n')
+            else:
+                final_df = final_df.append(future_result, ignore_index=True)
+    if output_file is None:
+        return final_df
 
 
 def robotstxt_test(robotstxt_url, user_agents, urls):
