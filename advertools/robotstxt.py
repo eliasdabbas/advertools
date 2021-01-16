@@ -268,7 +268,7 @@ def robotstxt_to_df(robotstxt_url, output_file=None):
                         split = line.decode('utf-8-sig').split(':', maxsplit=1)
                         lines.append([split[0].strip(), split[1].strip()])
             df = pd.DataFrame(lines, columns=['directive', 'content'])
-            etag_lastmod = {header.lower().replace('-', '_'): val
+            etag_lastmod = {header.lower().replace('-', '_'): val.strip('"')
                             for header, val in robots_open.getheaders()
                             if header.lower() in ['etag', 'last-modified']}
             df = df.assign(**etag_lastmod)
