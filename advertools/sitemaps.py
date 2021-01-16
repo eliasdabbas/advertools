@@ -13,12 +13,24 @@ run an SEO audit and check if the URLs in the sitemap properly correspond to
 the actual URLs of the site, so this would be an easy way to get them.
 
 Sitemaps basically contain a log of publishing activity, and if they have rich
-URLs then you can do some good analysis on their content across time as well.
+URLs then you can do some good analysis on their content over time as well.
 
 The :func:`sitemap_to_df` function is very simple to use, and only requires the
 URL of a sitemap, a sitemap index, or even a robots.txt file. It goes through
-the sitemap(s) and returns a DataFrame containing the tags and their
+the sitemap(s) and returns a DataFrame containing all the tags and their
 information.
+
+*  `loc`: The location of the URLs of hte sitemaps.
+*  `lastmod`: The datetime of the date when each URL was last modified, if
+   available.
+*  `sitemap`: The URL of the sitemap from which the URL on this row was
+   retreived.
+*  `etag`: The entity tag of the response header, if provided.
+*  `sitemap_last_modified`: The datetime when the sitemap file was last
+   modified, if provided.
+*  `sitemap_size_mb`: The size of the sitemap in mega bytes
+   (1MB = 1,024 x 1,024 bytes)
+*  `download_date`: The datetime when the sitemap was downloaded.
 
 Let's go through a quick example of what can be done with sitemaps. We can
 start by getting one of the BBC's sitemaps.
@@ -27,25 +39,30 @@ Regular XML Sitemaps
 --------------------
 
 >>> bbc_sitemap = sitemap_to_df('https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml')
->>> bbc_sitemap
-                                                     loc                    lastmod                                            sitemap
-0      https://www.bbc.com/arabic/middleeast/2009/06/...  2009-06-20 14:10:48+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...
-1      https://www.bbc.com/arabic/middleeast/2009/06/...  2009-06-20 21:07:43+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...
-2      https://www.bbc.com/arabic/business/2009/06/09...  2009-06-22 12:41:48+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...
-3      https://www.bbc.com/arabic/multimedia/2009/06/...  2009-06-24 15:27:24+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...
-4      https://www.bbc.com/arabic/business/2009/06/09...  2009-06-18 15:32:54+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...
-                                                  ...                        ...                                                ...
-49994  https://www.bbc.com/vietnamese/world/2009/09/0...  2009-09-02 11:46:23+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...
-49995  https://www.bbc.com/vietnamese/world/2009/09/0...  2009-09-04 11:20:42+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...
-49996  https://www.bbc.com/vietnamese/world/2009/09/0...  2009-09-02 02:40:41+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...
-49997  https://www.bbc.com/vietnamese/football/2009/0...  2009-09-02 03:09:06+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...
-49998  https://www.bbc.com/vietnamese/world/2009/09/0...  2009-09-05 04:38:11+00:00  https://www.bbc.com/sitemaps/https-sitemap-com...
-[49999 rows x 3 columns]
+>>> bbc_sitemap.head(10)
+	                                                                            loc	                    lastmod	                                                       sitemap	                              etag	      sitemap_last_modified	     sitemap_size_mb	                     download_date
+0	     https://www.bbc.com/arabic/middleeast/2009/06/090620_as_iraq_explosion_tc2	  2009-06-20 14:10:48+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00
+1	            https://www.bbc.com/arabic/middleeast/2009/06/090620_iraq_blast_tc2	  2009-06-20 21:07:43+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00
+2	            https://www.bbc.com/arabic/business/2009/06/090622_me_worldbank_tc2	  2009-06-22 12:41:48+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00
+3	  https://www.bbc.com/arabic/multimedia/2009/06/090624_me_inpictures_brazil_tc2	  2009-06-24 15:27:24+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00
+4	                     https://www.bbc.com/arabic/business/2009/06/090618_tomtest	  2009-06-18 15:32:54+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00
+5	      https://www.bbc.com/arabic/multimedia/2009/06/090625_sf_tamim_verdict_tc2	  2009-06-25 09:46:39+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00
+6	       https://www.bbc.com/arabic/middleeast/2009/06/090623_iz_cairo_russia_tc2	  2009-06-23 13:10:56+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00
+7	               https://www.bbc.com/arabic/sports/2009/06/090622_me_egypt_us_tc2	  2009-06-22 15:37:07+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00
+8	              https://www.bbc.com/arabic/sports/2009/06/090624_mz_wimbledon_tc2	  2009-06-24 13:57:18+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00
+9	    https://www.bbc.com/arabic/worldnews/2009/06/090623_mz_leaders_lifespan_tc2	  2009-06-23 13:24:23+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00
+
+>>> bbc_sitemap.shape
+(49999, 7)
 
 >>> bbc_sitemap.dtypes
-loc                     object
-lastmod    datetime64[ns, UTC]
-sitemap                 object
+loc                                   object
+lastmod                  datetime64[ns, UTC]
+sitemap                               object
+etag                                  object
+sitemap_last_modified    datetime64[ns, UTC]
+sitemap_size_mb                      float64
+download_date            datetime64[ns, UTC]
 dtype: object
 
 Since ``lastmod`` is a ``datetime`` object, we can easily use it for various
@@ -55,7 +72,7 @@ Here we look at how many articles have been published (last modified) per year.
 >>> bbc_sitemap.set_index('lastmod').resample('A')['loc'].count()
 lastmod
 2008-12-31 00:00:00+00:00     2261
-2009-12-31 00:00:00+00:00    47223
+2009-12-31 00:00:00+00:00    47225
 2010-12-31 00:00:00+00:00        0
 2011-12-31 00:00:00+00:00        0
 2012-12-31 00:00:00+00:00        0
@@ -65,7 +82,7 @@ lastmod
 2016-12-31 00:00:00+00:00        0
 2017-12-31 00:00:00+00:00        0
 2018-12-31 00:00:00+00:00        0
-2019-12-31 00:00:00+00:00      483
+2019-12-31 00:00:00+00:00      481
 2020-12-31 00:00:00+00:00       32
 Freq: A-DEC, Name: loc, dtype: int64
 
@@ -203,43 +220,50 @@ This was a quick overview and data preparation for a sample sitemap. Once you
 are familiar with the sitemap's structure, you can more easily start analyzing
 the content.
 
+.. note::
+
+    There is a bug currently with tags that contain multiple values in
+    sitemaps. If an image column in a news sitemap contains multiple images,
+    only the last one is retreived. The same applies for any other sitemap that
+    has a tag with multiple values.
+
+
 News Sitemaps
 -------------
 
 >>> nyt_news = sitemap_to_df('https://www.nytimes.com/sitemaps/new/news.xml.gz')
 >>> nyt_news
-                                                   loc                    lastmod    publication_name publication_language news_publication_date                                          news_title                                      news_keywords                                          image_loc                                           sitemap                sitemap_downloaded
-0    https://www.nytimes.com/2020/05/19/sports/hors...  2020-05-19 15:49:28+00:00  The New York Times                en-US  2020-05-19T15:49:28Z   Belmont Stakes to Run June 20 as First Leg of ...  Triple Crown (Horse Racing), Horse Racing, Bel...  https://static01.nyt.com/images/2020/05/19/spo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
-1    https://www.nytimes.com/2020/05/19/us/coronavi...  2020-05-19 15:49:10+00:00  The New York Times                en-US  2020-05-19T09:21:33Z                   Coronavirus Live News and Updates                            Coronavirus (2019-nCoV)  https://static01.nyt.com/images/2020/05/19/wor...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
-2    https://www.nytimes.com/interactive/2020/obitu...  2020-05-19 15:48:46+00:00  The New York Times                en-US  2020-04-16T22:28:14Z                                    Those We’ve Lost                                Deaths (Obituaries)                                                NaN  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
-3    https://www.nytimes.com/2020/05/19/nyregion/co...  2020-05-19 15:48:06+00:00  The New York Times                en-US  2020-05-19T11:24:24Z   Number of N.Y.C. Students Slated for Summer Sc...  Coronavirus (2019-nCoV), New York State, New Y...  https://static01.nyt.com/images/2020/05/19/nyr...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
-4    https://www.nytimes.com/2020/05/19/books/coron...  2020-05-19 15:46:10+00:00  The New York Times                en-US  2020-05-19T15:46:10Z           Coronavirus Shutdowns Weigh on Book Sales  Books and Literature, Book Trade and Publishin...  https://static01.nyt.com/images/2020/05/19/boo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
-..                                                 ...                        ...                 ...                  ...                   ...                                                 ...                                                ...                                                ...                                               ...                               ...
-502  https://www.nytimes.com/2020/05/14/books/revie...  2020-05-17 16:17:52+00:00  The New York Times                   en  2020-05-14T09:00:03Z   The Title of Emma Straub’s New Novel Is Mockin...  Books and Literature, Straub, Emma, All Adults...  https://static01.nyt.com/images/2020/04/21/boo...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
-503  https://www.nytimes.com/2020/05/17/opinion/nur...  2020-05-17 16:08:29+00:00  The New York Times                en-US  2020-05-17T15:00:07Z   Coronavirus Is Hitting Nursing Homes Hard. How...  Nursing Homes, Coronavirus (2019-nCoV), Elderl...  https://static01.nyt.com/images/2020/05/17/opi...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
-504  https://www.nytimes.com/2020/05/17/business/co...  2020-05-17 16:00:08+00:00  The New York Times                en-US  2020-05-17T16:00:08Z   Autoworkers Are Returning as Carmakers Gradual...  Automobiles, Shutdowns (Institutional), Labor ...  https://static01.nyt.com/images/2020/05/18/bus...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
-505  https://www.nytimes.com/2020/05/17/opinion/let...  2020-05-17 16:00:05+00:00  The New York Times                en-US  2020-05-17T16:00:05Z              Fathers, Sons, Forgiveness and Regrets                  Children and Childhood, Parenting  https://static01.nyt.com/images/2020/05/10/opi...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
-506  https://www.nytimes.com/2020/05/17/opinion/let...  2020-05-17 16:00:05+00:00  The New York Times                en-US  2020-05-17T16:00:05Z                                To the Class of 2020          Coronavirus (2019-nCoV), Education (K-12)  https://static01.nyt.com/images/2020/04/16/wor...  https://www.nytimes.com/sitemaps/new/news.xml.gz  2020-05-19 15:49:44.459267+00:00
-[507 rows x 13 columns]
+	                                                                                          loc              	        lastmod       publication_name publication_language	 news_publication_date	                                                                    news_title	                                                                                                                                                                                            news_keywords	            image                                                                                                                                                                    	image_loc                                              sitemap	                              etag        sitemap_last_modified	     sitemap_size_mb	                     download_date
+0	                            https://www.nytimes.com/live/2021/01/16/us/inauguration-day-biden	  2021-01-16 20:22:56+00:00	    The New York Times                   en	  2021-01-16T13:58:07Z	  Biden Inauguration, Trump Approval Rating and Protests: Live Weekend Updates	                                                                                                                                                                                                      nan	              nan	                                                                                                                                                                          nan	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00
+1	           https://www.nytimes.com/live/2021/01/16/science/nasa-space-launch-rocket-fire-test	  2021-01-16 20:18:17+00:00	    The New York Times                   en	  2021-01-16T20:15:56Z	                                Live: NASA’s Space Launch System Hot-Fire Test	                                                                                                                                                                                                      nan	              nan	                                                                                                                                                                          nan	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00
+2	  https://www.nytimes.com/interactive/2020/obituaries/people-died-coronavirus-obituaries.html	  2021-01-16 20:17:36+00:00	    The New York Times                en-US	  2020-04-16T22:28:14Z	                                                              Those We’ve Lost	                                                                                                                                                             Deaths (Obituaries), Coronavirus (2019-nCoV)	                 	                                        https://static01.nyt.com/images/2020/12/01/obituaries/25Houser/merlin_180391827_78fe8f74-0a8e-43c9-bc96-51859d84c2a5-articleLarge.jpg	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00
+3	              https://www.nytimes.com/2021/01/16/opinion/coronavirus-biden-vaccine-covid.html	  2021-01-16 20:13:19+00:00	    The New York Times                en-US	  2021-01-16T19:30:07Z	                                           Joe Biden Actually Has a Covid Plan	                                         Coronavirus (2019-nCoV), Contact Tracing (Public Health), Vaccination and Immunization, United States Politics and Government, Biden, Joseph R Jr, United States	                 	                                  https://static01.nyt.com/images/2021/01/17/opinion/16pandemic1-print/merlin_173210889_b98256be-c87b-4a48-b3ab-14c0c064e33f-articleLarge.jpg	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00
+4	                           https://www.nytimes.com/2021/01/13/opinion/capitol-attack-war.html	  2021-01-16 20:06:43+00:00	    The New York Times                   en	  2021-01-13T10:06:54Z	                                       Why the Capitol Riot Reminded Me of War	                                                                                                    Storming of the US Capitol (Jan, 2021), Video Recordings, Downloads and Streaming, Iraq War (2003-11)	                 	                                                                           https://static01.nyt.com/images/2021/01/18/opinion/sunday/18Ackermann/13Ackermann-articleLarge.jpg	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00
+5	                   https://www.nytimes.com/interactive/2020/us/wyoming-coronavirus-cases.html	  2021-01-16 20:01:26+00:00	    The New York Times                en-US	  2020-04-01T15:47:57Z	                                        Wyoming Coronavirus Map and Case Count	                                                                                                                                                          Coronavirus (2019-nCoV), Wyoming, Disease Rates	                 	              https://static01.nyt.com/images/2020/03/29/us/wyoming-coronavirus-cases-promo-1585539595289/wyoming-coronavirus-cases-promo-1585539595289-articleLarge-v117.png	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00
+6	                         https://www.nytimes.com/interactive/2020/world/coronavirus-maps.html	  2021-01-16 20:01:21+00:00	    The New York Times                en-US	  2020-01-28T22:57:20Z	                           Coronavirus World Map: Tracking the Global Outbreak	  Coronavirus (2019-nCoV), Epidemics, Centers for Disease Control and Prevention, Johns Hopkins University, Wuhan (China), China, United States, Australia, Singapore, Disease Rates, Deaths (Fatalities)	                 	        https://static01.nyt.com/images/2020/09/29/us/china-wuhan-coronavirus-maps-promo-1601396059552/china-wuhan-coronavirus-maps-promo-1601396059552-articleLarge-v354.png	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00
+7	                 https://www.nytimes.com/interactive/2020/us/wisconsin-coronavirus-cases.html	  2021-01-16 20:01:16+00:00	    The New York Times                en-US	  2020-04-01T15:47:54Z	                                      Wisconsin Coronavirus Map and Case Count	                                                                                                                                                        Coronavirus (2019-nCoV), Wisconsin, Disease Rates	                 	          https://static01.nyt.com/images/2020/03/29/us/wisconsin-coronavirus-cases-promo-1585539580772/wisconsin-coronavirus-cases-promo-1585539580772-articleLarge-v118.png	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00
+8	             https://www.nytimes.com/interactive/2020/us/west-virginia-coronavirus-cases.html	  2021-01-16 20:01:12+00:00	    The New York Times                en-US	  2020-04-01T15:47:51Z	                                  West Virginia Coronavirus Map and Case Count	                                                                                                                                                    Coronavirus (2019-nCoV), West Virginia, Disease Rates	                 	  https://static01.nyt.com/images/2020/03/29/us/west-virginia-coronavirus-cases-promo-1585539566313/west-virginia-coronavirus-cases-promo-1585539566313-articleLarge-v118.png	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00
+9	                https://www.nytimes.com/interactive/2020/us/washington-coronavirus-cases.html	  2021-01-16 20:01:07+00:00	    The New York Times                en-US	  2020-04-01T15:47:47Z	                                     Washington Coronavirus Map and Case Count	                                                                                                                                               Coronavirus (2019-nCoV), Washington (State), Disease Rates	                 	        https://static01.nyt.com/images/2020/03/29/us/washington-coronavirus-cases-promo-1585539550650/washington-coronavirus-cases-promo-1585539550650-articleLarge-v116.png	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00
+[741 rows x 13 columns]
 
 Video Sitemaps
 --------------
 
 >>> wired_video = sitemap_to_df('https://www.wired.com/video/sitemap.xml')
 >>> wired_video
-                                                    loc                                video_thumbnail_loc                                          video_title                                    video_description                                    video_content_loc video_duration       video_publication_date video_expiration_date                                   sitemap               sitemap_downloaded
-0     https://www.wired.com/video/watch/autocomplete...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    WIRED Autocomplete Interviews - Lele Pons Answ...    Lele Pons takes the WIRED Autocomplete Intervi...    http://dp8hsntg6do36.cloudfront.net/5db75425bc...            478    2019-10-29T16:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
-1     https://www.wired.com/video/watch/professor-ex...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Laser Expert Explains One Concept in 5 Levels ...    Donna Strickland, PhD, professor at the Univer...    http://dp8hsntg6do36.cloudfront.net/5da6107834...           1476    2019-10-28T17:18:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
-2     https://www.wired.com/video/watch/6-levels-of-...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...           6 Levels of Knife Making: Easy to Complex     Knife maker Chelsea Miller explains knife maki...    http://dp8hsntg6do36.cloudfront.net/5db32c4a34...            963    2019-10-25T19:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
-3     https://www.wired.com/video/watch/mycologist-e...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Mycologist Explains How a Slime Mold Can Solve...    Physarum polycephalum is a single-celled, brai...    http://dp8hsntg6do36.cloudfront.net/5db31cfabc...            606    2019-10-25T16:27:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
-4     https://www.wired.com/video/watch/almost-impos...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...    Why It's Almost Impossible to Do a Quintuple C...    Tricking is a sport with roots in martial arts...    http://dp8hsntg6do36.cloudfront.net/5db2005238...            644    2019-10-24T20:34:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
-...                                                 ...                                                ...                                                  ...                                                  ...                                                  ...            ...                          ...                   ...                                       ...                              ...
-2338  https://www.wired.com/video/watch/how-to-make-...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                            How To Make Wired Origami    Robert Lang explains how to fold the Wired iss...    http://dp8hsntg6do36.cloudfront.net/5171b3cbc2...            150    2008-09-23T00:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
-2339  https://www.wired.com/video/watch/clover-coffe...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                                Clover Coffee Machine    Wired.com takes a look at the 'Clover', an $11...    http://dp8hsntg6do36.cloudfront.net/5171b42ec2...            147    2008-09-23T00:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
-2340  https://www.wired.com/video/watch/original-war...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                            Original WarGames Trailer                            Original WarGames Trailer    http://dp8hsntg6do36.cloudfront.net/5171b427c2...            140    2008-07-21T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
-2341  https://www.wired.com/video/watch/rock-band-tr...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                                    Rock Band Trailer                                    Rock Band Trailer    http://dp8hsntg6do36.cloudfront.net/5171b431c2...             70    2007-09-14T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
-2342  https://www.wired.com/video/watch/arrival-full...  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/...                             ‘Arrival’ — Full Trailer    Louise Banks (Amy Adams) must learn to communi...    http://dp8hsntg6do36.cloudfront.net/57b344f4fd...            145    2003-10-22T04:00:00+00:00                   NaN   https://www.wired.com/video/sitemap.xml 2020-05-19 16:18:17.813461+00:00
+                                                                                  loc                                                                                                                                                                                         video_thumbnail_loc                                         video_title                                                                                                                             video_description                                                                                          video_content_loc  video_duration       video_publication_date                                   sitemap                                   etag         sitemap_size_mb                         download_date
+0	               https://www.wired.com/video/watch/behind-the-scenes-with-jj-abrams	               http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040164/wired_behind-the-scenes-with-jj-abrams.jpg	               Behind the Scenes with J.J. Abrams	       Wired magazine teams up with J.J. Abrams for the May issue. Look in on the creative process with J.J. and the edit and design teams.	                                      http://dp8hsntg6do36.cloudfront.net/5171b42ac2b4c00dd0c1ff9e/low.mp4	           205	  2009-04-20T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00
+1	        https://www.wired.com/video/watch/trip-hop-pioneer-tricky-sweet-and-naive	        http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040238/wired_trip-hop-pioneer-tricky-sweet-and-naive.jpg	         Trip-Hop Pioneer Tricky: Sweet and Naive	                                             Tricky, of Massive Attack fame, shows Wired.com the ropes on becoming a musician and producer.	                                      http://dp8hsntg6do36.cloudfront.net/5171b424c2b4c00dd0c1fe4e/low.mp4	           267	  2009-04-18T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00
+2	                      https://www.wired.com/video/watch/trash-foils-diamond-heist	                      http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1464291637/wired_trash-foils-diamond-heist.jpg	                        Trash Foils Diamond Heist	                                                                                                                  Trash Foils Diamond Heist	                                      http://dp8hsntg6do36.cloudfront.net/5171b424c2b4c00dd0c1fe3c/low.mp4	           278	  2009-03-12T04:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00
+3	  https://www.wired.com/video/watch/the-toxic-cloud-emitting-portable-dry-ice-mak	  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040172/wired_the-toxic-cloud-emitting-portable-dry-ice-mak.jpg	  The Toxic Cloud-Emitting Portable Dry Ice Maker	                                                                                 The Toxic Cloud-Emitting Portable Dry Ice Maker in action.	                                      http://dp8hsntg6do36.cloudfront.net/5171b424c2b4c00dd0c1fe42/low.mp4	            31	  2009-02-11T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00
+4	                  https://www.wired.com/video/watch/chef-ferran-adria-of-el-bulli	                  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1368475899/wired_chef-ferran-adria-of-el-bulli.jpg	                    Chef Ferran Adria of El Bulli	                                                                  Ferran Adria on why the knife is the most essential tool in your kitchen.	                                      http://dp8hsntg6do36.cloudfront.net/5171b42ec2b4c00dd0c20064/low.mp4	            72	  2008-11-25T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00
+5	                      https://www.wired.com/video/watch/how-to-make-wired-origami	                      http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040170/wired_how-to-make-wired-origami.jpg	                        How To Make Wired Origami	                                                                Robert Lang explains how to fold the Wired issue 16.07 origami splash page.	                                      http://dp8hsntg6do36.cloudfront.net/5171b3cbc2b4c00dd0c1e969/low.mp4	           150	  2008-09-23T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00
+6	                          https://www.wired.com/video/watch/clover-coffee-machine	                          http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040152/wired_clover-coffee-machine.jpg	                            Clover Coffee Machine	                                        Wired.com takes a look at the 'Clover', an $11,000 coffee machine hand-built by Stanford engineers.	                                      http://dp8hsntg6do36.cloudfront.net/5171b42ec2b4c00dd0c2005b/low.mp4	           147	  2008-09-23T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00
+7	                      https://www.wired.com/video/watch/original-wargames-trailer	                      http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1464291813/wired_original-wargames-trailer.jpg	                        Original WarGames Trailer	                                                                                                                  Original WarGames Trailer	                                      http://dp8hsntg6do36.cloudfront.net/5171b427c2b4c00dd0c1fee7/low.mp4	           140	  2008-07-21T04:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00
+8	                              https://www.wired.com/video/watch/rock-band-trailer	                              http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1464292286/wired_rock-band-trailer.jpg	                                Rock Band Trailer	                                                                                                                          Rock Band Trailer	                                      http://dp8hsntg6do36.cloudfront.net/5171b431c2b4c00dd0c20100/low.mp4	            70	  2007-09-14T04:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00
+9	                           https://www.wired.com/video/watch/arrival-full-trailer	                           http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1471366897/wired_arrival-full-trailer.jpg	                         ‘Arrival’ — Full Trailer	  Louise Banks (Amy Adams) must learn to communicate with aliens to save humanity in the new film from ‘Sicario’ director Denis Villeneuve.	  http://dp8hsntg6do36.cloudfront.net/57b344f4fd2e614f99000014/1a74100f-bc1b-4279-b677-5efc301785d9low.mp4	           145	  2003-10-22T04:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00
 [2343 rows x 11 columns]
+
 """
 from gzip import GzipFile
 import logging
@@ -326,19 +350,30 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
                                    headers={'Accept-Encoding': 'gzip',
                                             'User-Agent': 'advertools-' +
                                                           version}))
+        resp_headers = xml_text.getheaders()
         xml_text = GzipFile(fileobj=xml_text)
     else:
         xml_text = urlopen(Request(sitemap_url, headers=headers))
-    tree = ElementTree.parse(xml_text)
-    root = tree.getroot()
+        resp_headers = xml_text.getheaders()
+    xml_string = xml_text.read()
+    root = ElementTree.fromstring(xml_string)
 
     sitemap_df = pd.DataFrame()
 
     if (root.tag.split('}')[-1] == 'sitemapindex') and recursive:
+        multi_sitemap_df = pd.DataFrame()
         sitemap_url_list = []
         for elem in root:
             for el in elem:
                 if 'loc' in el.tag:
+                    if el.text == sitemap_url:
+                        error_df = pd.DataFrame({
+                            'sitemap': [sitemap_url],
+                            'errors': ['WARNING: Sitemap contains a link to itself']
+                        })
+                        multi_sitemap_df = multi_sitemap_df.append(error_df,
+                                                                   ignore_index=True)
+                else:
                     sitemap_url_list.append(el.text)
         multi_sitemap_df = pd.DataFrame()
         with futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -378,5 +413,13 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
             sitemap_df['priority'] = sitemap_df['priority'].astype(float)
         except Exception as e:
             pass
+    etag_lastmod = {header.lower().replace('-', '_'): val.replace('"', '')
+                    for header, val in resp_headers
+                    if header.lower() in ['etag', 'last-modified']}
+    sitemap_df = sitemap_df.assign(**etag_lastmod)
+    if 'last_modified' in sitemap_df:
+        sitemap_df['sitemap_last_modified'] = pd.to_datetime(sitemap_df['last_modified'])
+        del sitemap_df['last_modified']
+    sitemap_df['sitemap_size_mb'] = len(xml_string) / 1024 / 1024
     sitemap_df['download_date'] = pd.Timestamp.now(tz='UTC')
     return sitemap_df
