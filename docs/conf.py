@@ -22,7 +22,7 @@ from advertools import __version__ as adv_version
 # -- Project information -----------------------------------------------------
 
 project = 'advertools'
-copyright = '2020, Elias Dabbas'
+copyright = '2021, Elias Dabbas'
 author = 'Elias Dabbas'
 
 # The short X.Y version
