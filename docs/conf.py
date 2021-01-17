@@ -177,5 +177,6 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
+smartquotes = False
 
 # -- Extension configuration -------------------------------------------------
