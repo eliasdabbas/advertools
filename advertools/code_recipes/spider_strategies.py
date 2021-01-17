@@ -219,4 +219,48 @@ manage the process. You don't need to worry about any of it. But make sure that
 folder doesn't get changed manually, rerun the same command as many times as
 you need, and the crawler should handle de-duplication for you.
 
+XPath expressions for custom extraction
+***************************************
+
+The following are some expressions you might find useful in your crawling,
+whether you use ``advertools`` or not. The first column indicates whether or
+not the respective expression is used by default by the ``advertools`` crawler.
+
+====================  ===================  =================================================================  ===============================================================================================================
+Used by advertools    Suggested Name       XPath Expression                                                   What it does
+====================  ===================  =================================================================  ===============================================================================================================
+True                  title                //title/text()                                                     Extract the text of title tags
+True                  meta_desc            //meta[@name='description']/@content                               Extract the content attribute of the meta tag which has the name 'description'
+True                  viewport             //meta[@name='viewport']/@content                                  Extract the content attribute of the meta tag which has the name 'viewport
+True                  charset              //meta[@charset]/@charset                                          Get the meta tag that has the attribute 'charset', extract the charset attribute
+True                  h1                   //h1/text()                                                        Get the h1 tags, extract their text
+True                  h2                   //h2/text()                                                        Get the h2 tags, extract their text
+True                  h3                   //h3/text()                                                        Get the h3 tags, extract their text
+True                  h4                   //h4/text()                                                        Get the h4 tags, extract their text
+True                  h5                   //h5/text()                                                        Get the h5 tags, extract their text
+True                  h6                   //h6/text()                                                        Get the h6 tags, extract their text
+True                  canonical            //link[@rel='canonical']/@href                                     Get the link elements with the rel attribute 'canonical', extract their href attributes
+True                  alt_href             //link[@rel='alternate']/@href                                     Get the link elements with the rel attribute 'alternate', extract their href attributes
+True                  alt_hreflang         //link[@rel='alternate']/@hreflang                                 Get the link elements with the rel attribute 'alternate', extract their hreflang attributes
+True                  og_props             //meta[starts-with(@property, 'og:')]/@property                    Extract all properties of meta tags whos property attribute starts with 'og:' (OpenGraph)
+True                  og_content           //meta[starts-with(@property, 'og:')]/@content                     Extract the content of meta tags whos property attribute starts with 'og:' (OpenGraph)
+True                  twtr_names           //meta[starts-with(@name, 'twitter:')]/@name                       Get meta tags who's name starts with 'twitter:' and extract their name attribute
+True                  twtr_content         //meta[starts-with(@name, 'twitter:')]/@content                    Get meta tags who's name starts with 'twitter:' and extract their content attribute
+False                 iframe_src           //iframe/@src                                                      Get the iframes, and extract their src attribute
+False                 gtm_script           //script[contains(@src, 'googletagmanager.com/gtm.js?id=')]/@src   Get the script where the src attribute contains googletagmanager.com/gtm.js?id= and extract its src attribute
+False                 gtm_noscript         //iframe[contains(@src, 'googletagmanager.com/ns.html?id=')]/@src  Get the iframes where the src attribute contains googletagmanager.com/ns.html?id= and extract the src attribute
+False                 link_rel_rel         //link[@rel]/@rel                                                  Get all the link elements that have a rel attribute, extract the rel attributes
+False                 link_rel_href        //link[@rel]/@href                                                 Get all the link elements that have a rel attribute, extract the href attributes
+False                 link_rel_stylesheet  //link[@rel='stylesheet']/@href                                    Get all the link elements that have a stylesheet attribute, extract their href attribute
+False                 css_links            //link[contains(@href, '.css')]/@href                              Get the link elements where the href attribute contains .css, extract their href attribute
+True                  footer_links_text    //footer//a/text()                                                 From the footer, extract the anchor text of links
+True                  footer_links_href    //footer//a/@href                                                  From the footer, extract all the links
+True                  header_links_text    //header//a/text()                                                 From the header, extract the anchor text of links
+True                  header_links_href    //header//a/@href                                                  From the header, extract all the links
+False                 js_script_src        //script[@type='text/javascript']/@src                             From script tags where the type is text/javascript, extract the src of the script(s)
+False                 js_script_text       //script[@type='text/javascript']/text()                           From script tags where the type is text/javascript, extract the text of the script(s)
+False                 script_src           //script//@src                                                     Get the src attribute of any <script> tag
+False                 canonical_parent     name(//link[@rel='canonical']/..)                                  Get the name of the parent of the link element that has a rel attribute 'canonical'
+====================  ===================  =================================================================  ===============================================================================================================
+
 """
