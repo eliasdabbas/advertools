@@ -373,9 +373,8 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
                         })
                         multi_sitemap_df = multi_sitemap_df.append(error_df,
                                                                    ignore_index=True)
-                else:
-                    sitemap_url_list.append(el.text)
-        multi_sitemap_df = pd.DataFrame()
+                    else:
+                        sitemap_url_list.append(el.text)
         with futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
             to_do = []
             for sitemap in sitemap_url_list:
