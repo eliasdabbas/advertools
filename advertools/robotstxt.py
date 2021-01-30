@@ -18,10 +18,16 @@ To get the robots.txt file into an easily readable format, you can use the
 :func:`robotstxt_to_df` function to get it in a DataFrame.
 
 >>> robotstxt_to_df('https://www.amazon.com/robots.txt')
-	   directive	                                        content	              last_modified	                              etag	                      robotstxt_url	                     download_date
+       directive                                            content	    robotstxt_last_modified	                              etag	                      robotstxt_url	                     download_date
 0	  User-agent	                                              *	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
 1	    Disallow	              /exec/obidos/account-access-login	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
 2	    Disallow	                      /exec/obidos/change-style	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
 3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
 4	    Disallow	                    /exec/obidos/handle-buy-box	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
 138	    Disallow	                 /gp/help/customer/express/c2c/	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
@@ -36,7 +42,7 @@ of the robots.txt file, as well as the date it was downloaded.
 *  `directive`: The main commands. Allow, Disallow, Sitemap, Crawl-delay,
    User-agent, and so on.
 *  `content`: The details of each of the directives
-*  `last_modified`: The date when the robots.txt file was last modified
+*  `robotstxt_last_modified`: The date when the robots.txt file was last modified
    (if availabe)
 *  `etag`: The entity tag of the response header, if provided.
 *  `robotstxt_url`: The URL of the robots.txt file.
@@ -214,7 +220,7 @@ def robotstxt_to_df(robotstxt_url, output_file=None):
 
     >>> robotstxt_to_df(['https://www.google.com/robots.txt',
     ...                  'https://www.twitter.com/robots.txt'])
-           directive	                             content	              last_modified	                       robotstxt_url	                     download_date
+           directive	                             content	    robotstxt_last_modified	                       robotstxt_url	                     download_date
     0	  User-agent	                                   *	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
     1	    Disallow	                             /search	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
     2	       Allow	                       /search/about	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
@@ -276,7 +282,8 @@ def robotstxt_to_df(robotstxt_url, output_file=None):
                             if header.lower() in ['etag', 'last-modified']}
             df = df.assign(**etag_lastmod)
             if 'last_modified' in df:
-                df['last_modified'] = pd.to_datetime(df['last_modified'])
+                df['robotstxt_last_modified'] = pd.to_datetime(df['last_modified'])
+                del df['last_modified']
         except Exception as e:
             df = pd.DataFrame({'errors': [str(e)]})
         df['robotstxt_url'] = robotstxt_url
