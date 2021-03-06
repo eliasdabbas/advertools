@@ -342,7 +342,7 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
                         sitemaps).
     """
     if sitemap_url.endswith('robots.txt'):
-        return pd.concat([sitemap_to_df(sitemap)
+        return pd.concat([sitemap_to_df(sitemap, recursive=recursive)
                           for sitemap in _sitemaps_from_robotstxt(sitemap_url)],
                          ignore_index=True)
     if sitemap_url.endswith('xml.gz'):
