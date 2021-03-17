@@ -1,8 +1,8 @@
 """
 .. _urlytics:
 
-Split, Parse, and Analyze URLs
-==============================
+Split, Parse, and Analyze URL Structure
+=======================================
 
 Extracting information from URLs can be a little tedious, yet very important.
 Using the standard for URLs we can extract a lot of information in a fairly
