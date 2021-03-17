@@ -8,8 +8,7 @@ While crawling with the :func:`crawl` function, the process produces logs for
 every page crawled, scraped, redirected, and even blocked by robots.txt rules.
 
 By default, those logs are can be seen on the command line as their default
-destination is stdout. This is not about analyzing the logs produced by search
-engines crawling your site.
+destination is stdout.
 
 A good practice is to set a ``LOG_FILE`` so you can save those logs to a text
 file, and review them later. There are several reasons why you might want to do
@@ -29,7 +28,7 @@ This can simply be done by specifying a file name through the optional
 
 >>> import advertools as adv
 >>> adv.crawl('https://example.com',
-              output_file='example.jl', 
+              output_file='example.jl',
               follow_links=True,
               custom_settings={'LOG_FILE': 'example.log'})
 
