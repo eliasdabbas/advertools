@@ -4,8 +4,8 @@ import pandas as pd
 import pytest
 from .test_sitemaps import full_path
 
-# robots_file = 'file://' + os.path.abspath('tests/sitemap_testing/robots.txt')
 robots_file = full_path('robots.txt')
+
 
 def test_robotstxt_to_df():
     result = robotstxt_to_df('https://www.media-supermarket.com/robots.txt')
