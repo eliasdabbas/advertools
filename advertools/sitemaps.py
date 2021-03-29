@@ -32,7 +32,25 @@ information.
    (1MB = 1,024 x 1,024 bytes)
 *  `download_date`: The datetime when the sitemap was downloaded.
 
-Let's go through a quick example of what can be done with sitemaps. We can
+Sitemap Index
+-------------
+Large websites typically have a sitmeapindex file, which contains links to all
+other regular sitemaps that belong to the site. The :func:`sitemap_to_df`
+function retreives all sub-sitemaps recursively by default.
+In some cases, especially with very large sites, it might be better to first
+get the sitemap index, explore its structure, and then decide which sitemaps
+you want to get, or if you want them all. Even with smaller websites, it still
+might be interesting to get the index only and see how it is structured.
+
+This behavior can be modified by the ``recursive`` parameter, which is set to
+`True` by default. Set it to `False` if you want only the index file.
+
+Another interesting thing you might want to do is to provide a robots.txt URL,
+and set `recursive=False` to get all available sitemap index files.
+
+>>> sitemap_to_df('https://example.com/robots.txt', recursive=False)
+
+Let's now go through a quick example of what can be done with sitemaps. We can
 start by getting one of the BBC's sitemaps.
 
 Regular XML Sitemaps
