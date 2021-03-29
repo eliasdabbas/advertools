@@ -35,7 +35,7 @@ This can simply be done by specifying a file name through the optional
 If you run it this way, all logs will be saved to the file you chose,
 `example.log` in this case.
 
-Now, you can use the :func:`crawl_logs_to_df` function to open the logs in a
+Now, you can use the :func:`crawllogs_to_df` function to open the logs in a
 DataFrame:
 
 >>> import pandas as pd
