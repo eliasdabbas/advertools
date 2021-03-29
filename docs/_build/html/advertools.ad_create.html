@@ -1,39 +1,42 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <meta content="Create text ads on a large scale with a simple Python function that works for any online advertising platform and/or ad template." lang="en" name="description" xml:lang="en" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Create Ads on a Large Scale &mdash;  Python</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Create Ads Using Long Descriptive Text (top-down approach)" href="advertools.ad_from_string.html" />
@@ -78,6 +81,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -100,12 +104,13 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Crawl Logs Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
@@ -125,6 +130,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -159,18 +165,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Create Ads on a Large Scale</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/advertools.ad_create.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -188,7 +196,7 @@
 <span id="ad-create"></span><h1>Create Ads on a Large Scale<a class="headerlink" href="#create-ads-on-a-large-scale" title="Permalink to this headline">¶</a></h1>
 <p>When creating large-scale campaigns, you also need to create ads on a large
 scale. For products in a similar category you typically want to use the same
-ads, but only replace the product name, “Get the latest &lt;product&gt; now”, and
+ads, but only replace the product name, &quot;Get the latest &lt;product&gt; now&quot;, and
 replace <cite>product</cite> as many times as you have ads.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Dubai&#39;</span><span class="p">,</span> <span class="s1">&#39;Tokyo&#39;</span><span class="p">,</span> <span class="s1">&#39;Singapore&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;5-star Hotels in </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -201,7 +209,7 @@ replace <cite>product</cite> as many times as you have ads.</p>
 </pre></div>
 </div>
 <p>An important thing to to watch out for, is long product names. Since text ads
-have limits on each slot, you need to make sure you don’t exceed that limit.
+have limits on each slot, you need to make sure you don't exceed that limit.
 For this you need to provide a <cite>fallback</cite> text in case the product name is
 longer than <cite>max_len</cite>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Dubai&#39;</span><span class="p">,</span> <span class="s1">&#39;Tokyo&#39;</span><span class="p">,</span> <span class="s1">&#39;Singapore&#39;</span><span class="p">,</span> <span class="s1">&#39;Llanfairpwllgwyngyll&#39;</span><span class="p">]</span>
@@ -222,14 +230,14 @@ longer than <cite>max_len</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>template</strong> (<em>str</em>) – a string format template, using braces e.g. “Get the
-latest {} today.”</p></li>
-<li><p><strong>replacements</strong> (<em>list</em>) – replacement strings to be inserted in
+<li><p><strong>template</strong> (<em>str</em>) -- a string format template, using braces e.g. &quot;Get the
+latest {} today.&quot;</p></li>
+<li><p><strong>replacements</strong> (<em>list</em>) -- replacement strings to be inserted in
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">template</span></code></p></li>
-<li><p><strong>fallback</strong> (<em>str</em>) – the string to insert in <code class="xref py py-attr docutils literal notranslate"><span class="pre">template</span></code> in case
+<li><p><strong>fallback</strong> (<em>str</em>) -- the string to insert in <code class="xref py py-attr docutils literal notranslate"><span class="pre">template</span></code> in case
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">replacement</span></code> is longer than <code class="xref py py-attr docutils literal notranslate"><span class="pre">max_len</span></code></p></li>
-<li><p><strong>max_len</strong> (<em>int</em>) – the maximum allowed length of the full string</p></li>
-<li><p><strong>capitalize</strong> (<em>bool</em>) – whether or not to capitalize words in the result</p></li>
+<li><p><strong>max_len</strong> (<em>int</em>) -- the maximum allowed length of the full string</p></li>
+<li><p><strong>capitalize</strong> (<em>bool</em>) -- whether or not to capitalize words in the result</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns formatted</dt>
@@ -271,29 +279,29 @@ ValueError: template + fallback should be &lt;= 20 chars
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="advertools.ad_from_string.html" class="btn btn-neutral float-right" title="Create Ads Using Long Descriptive Text (top-down approach)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="advertools.kw_generate.html" class="btn btn-neutral float-left" title="Generate Keywords for SEM Campaigns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="advertools.ad_from_string.html" class="btn btn-neutral float-right" title="Create Ads Using Long Descriptive Text (top-down approach)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="advertools.kw_generate.html" class="btn btn-neutral float-left" title="Generate Keywords for SEM Campaigns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Elias Dabbas
+        &#169; Copyright 2021, Elias Dabbas.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -301,7 +309,6 @@ ValueError: template + fallback should be &lt;= 20 chars
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

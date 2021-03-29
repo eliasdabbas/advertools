@@ -85,13 +85,14 @@ To install advertools, run the following from the command line::
    XML Sitemaps <advertools.sitemaps>
    SEO Spider / Crawler <advertools.spider>
    Crawl Strategies <advertools.code_recipes.spider_strategies>
+   Crawl Logs Analysis <advertools.logs>
    Analyze Search Engine Results (SERPs) <advertools.serp>
    Google's Knowledge Graph <advertools.knowledge_graph>
 
 .. toctree::
    :caption: Text & Content Analysis
 
-   URL Analysis <advertools.urlytics>
+   URL Structure Analysis <advertools.urlytics>
    Emoji Tools <advertools.emoji>
    Extract Structured Entities from Text <advertools.extract>
    Stop Words <advertools.stopwords>

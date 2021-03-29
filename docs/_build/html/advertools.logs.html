@@ -1,0 +1,331 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Parse and Analyze Crawl Logs in a Dataframe &mdash;  Python</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" href="advertools.serp.html" />
+    <link rel="prev" title="🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes" href="advertools.code_recipes.spider_strategies.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> advertools
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SEO</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Crawl Logs Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Parse and Analyze Crawl Logs in a Dataframe</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/advertools.logs.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-advertools.logs"></span><div class="section" id="parse-and-analyze-crawl-logs-in-a-dataframe">
+<span id="logs"></span><h1>Parse and Analyze Crawl Logs in a Dataframe<a class="headerlink" href="#parse-and-analyze-crawl-logs-in-a-dataframe" title="Permalink to this headline">¶</a></h1>
+<p>While crawling with the <code class="xref py py-func docutils literal notranslate"><span class="pre">crawl()</span></code> function, the process produces logs for
+every page crawled, scraped, redirected, and even blocked by robots.txt rules.</p>
+<p>By default, those logs are can be seen on the command line as their default
+destination is stdout.</p>
+<p>A good practice is to set a <code class="docutils literal notranslate"><span class="pre">LOG_FILE</span></code> so you can save those logs to a text
+file, and review them later. There are several reasons why you might want to do
+that:</p>
+<ul class="simple">
+<li><p>Blocked URLs: The crawler obeys robots.txt rules by default, and when it
+encounters pages that it shouldn't crawl, it doesn't. However, this is logged
+as an event, and you can easily extract a list of blocked URLs from the logs.</p></li>
+<li><p>Crawl errors: You might also get some errors while crawling, and it can be
+interesting to know which URLs generated errors.</p></li>
+<li><p>Filtered pages: Those are pages that were discovered but weren't crawled
+because they are not a sub-domain of the provided url_list, or happen to be
+on external domains altogether.</p></li>
+</ul>
+<p>This can simply be done by specifying a file name through the optional
+<cite>custom_settings</cite> parameter of <code class="docutils literal notranslate"><span class="pre">crawl</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
+<span class="go">              output_file=&#39;example.jl&#39;,</span>
+<span class="go">              follow_links=True,</span>
+<span class="go">              custom_settings={&#39;LOG_FILE&#39;: &#39;example.log&#39;})</span>
+</pre></div>
+</div>
+<p>If you run it this way, all logs will be saved to the file you chose,
+<cite>example.log</cite> in this case.</p>
+<p>Now, you can use the <a class="reference internal" href="#advertools.logs.crawllogs_to_df" title="advertools.logs.crawllogs_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawllogs_to_df()</span></code></a> function to open the logs in a
+DataFrame:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example.log&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The DataFrame might contain the following columns:</p>
+<ul class="simple">
+<li><p><cite>time</cite>: The timestamp for the process</p></li>
+<li><p><cite>middleware</cite>: The middleware responsible for this process, whether it is the
+core engine, the scraper, error handler and so on.</p></li>
+<li><p><cite>level</cite>: The logging level (DEBUG, INFO, etc.)</p></li>
+<li><p><cite>message</cite>: A single word summarizing what this row represents, &quot;Crawled&quot;,
+&quot;Scraped&quot;, &quot;Filtered&quot;, and so on.</p></li>
+<li><p><cite>domain</cite>: The domain name of filtered (not crawled pages) typically for URLs
+outside the current website.</p></li>
+<li><p><cite>method</cite>: The HTTP method used in this process (GET, PUT, etc.)</p></li>
+<li><p><cite>url</cite>: The URL currently under process.</p></li>
+<li><p><cite>status</cite>: HTTP status code, 200, 404, etc.</p></li>
+<li><p><cite>referer</cite>: The referring URL, where applicable.</p></li>
+<li><p><cite>method_to</cite>: In redirect rows the HTTP method used to crawl the URL going to.</p></li>
+<li><p><cite>redirect_to</cite>: The URL redirected to.</p></li>
+<li><p><cite>method_from</cite>: In redirect rows the HTTP method used to crawl the URL coming
+from.</p></li>
+<li><p><cite>redirect_from</cite>: The URL redirected from.</p></li>
+<li><p><cite>blocked_urls</cite>: The URLs that were not crawled due to robots.txt rules.</p></li>
+</ul>
+<dl class="py function">
+<dt id="advertools.logs.crawllogs_to_df">
+<code class="sig-name descname">crawllogs_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logs_file_path</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/logs.html#crawllogs_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.logs.crawllogs_to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a crawl logs file to a DataFrame.</p>
+<p>An interesting option while using the <code class="docutils literal notranslate"><span class="pre">crawl</span></code> function, is to specify a
+destination file to save the logs of the crawl process itself. This contains
+additional information about each crawled, scraped, blocked, or redirected
+URL.</p>
+<p>What you would most likely use this for is to get a list of URLs blocked by
+robots.txt rules. These can be found und the column <code class="docutils literal notranslate"><span class="pre">blocked_urls</span></code>.
+Crawling errors are also interesting, and can be found in rows where
+<code class="docutils literal notranslate"><span class="pre">message</span></code> is equal to &quot;error&quot;.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
+<span class="go">              output_file=&#39;example.jl&#39;,</span>
+<span class="go">              follow_links=True,</span>
+<span class="go">              custom_settings={&#39;LOG_FILE&#39;: &#39;example.log&#39;})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawl_logs_to_df</span><span class="p">(</span><span class="s1">&#39;example.log&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>logs_file_path</strong> (<em>str</em>) -- The path to the logs file.</p>
+</dd>
+<dt class="field-even">Returns DataFrame crawl_logs_df</dt>
+<dd class="field-even"><p>A DataFrame summarizing the logs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="advertools.serp.html" class="btn btn-neutral float-right" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="advertools.code_recipes.spider_strategies.html" class="btn btn-neutral float-left" title="🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Elias Dabbas.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

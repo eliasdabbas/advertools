@@ -1,38 +1,41 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>advertools.spider &mdash;  Python</title>
   
 
   
-  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -75,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -97,12 +101,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Crawl Logs Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.urlytics.html">URL Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
@@ -122,6 +127,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -156,11 +162,13 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
@@ -210,14 +218,15 @@
 
 <span class="sd">.. code-block:: python</span>
 
-<span class="sd">   &gt;&gt;&gt; crawl(&#39;https://example.com&#39;, &#39;my_output_file.jl&#39;, follow_links=True)</span>
+<span class="sd">   &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">   &gt;&gt;&gt; adv.crawl(&#39;https://example.com&#39;, &#39;my_output_file.jl&#39;, follow_links=True)</span>
 
 <span class="sd">That&#39;s it! To open the file:</span>
 
 <span class="sd">.. code-block:: python</span>
 
 <span class="sd">   &gt;&gt;&gt; import pandas as pd</span>
-<span class="sd">   &gt;&gt;&gt; pd.read_json(&#39;my_output_file.jl&#39;, lines=True)</span>
+<span class="sd">   &gt;&gt;&gt; crawl_df = pd.read_json(&#39;my_output_file.jl&#39;, lines=True)</span>
 
 
 <span class="sd">What this does:</span>
@@ -254,9 +263,9 @@
 <span class="sd">Element           Remarks</span>
 <span class="sd">================= =============================================================</span>
 <span class="sd">url               The URL requested</span>
-<span class="sd">url_redirected_to The actual URL that was parsed, usually but not always the</span>
-<span class="sd">                  same as `url`</span>
 <span class="sd">title             The &lt;title&gt; tag(s)</span>
+<span class="sd">viewport          The `viewport` meta tag if available</span>
+<span class="sd">charset           The `charset` meta tag if available</span>
 <span class="sd">meta_desc         Meta description</span>
 <span class="sd">canonical         The canonical tag if available</span>
 <span class="sd">alt_href          The `href` attribute of rel=alternate tags</span>
@@ -269,24 +278,38 @@
 <span class="sd">                  etc. Note that the first snippet will not contain a number,</span>
 <span class="sd">                  so the numbering starts with &quot;1&quot;, starting from the second</span>
 <span class="sd">                  snippet. The same applies to OG and Twitter cards.</span>
-<span class="sd">h1                `&lt;h1&gt;` tag(s)</span>
-<span class="sd">h2                `&lt;h2&gt;` tag(s)</span>
-<span class="sd">h3                `&lt;h3&gt;` tag(s)</span>
+<span class="sd">h1...h6           `&lt;h1&gt;` through `&lt;h6&gt;` tag(s), whichever is available</span>
+<span class="sd">nav_links_text    The anchor text of all links in the `&lt;nav&gt;` tag if</span>
+<span class="sd">                  available</span>
+<span class="sd">nav_links_url     The links in the `&lt;nav&gt;` tag if available</span>
+<span class="sd">header_links_text The anchor text of all links in the `&lt;header&gt;` tag if</span>
+<span class="sd">                  available</span>
+<span class="sd">header_links_url  The links in the `&lt;header&gt;` tag if available</span>
+<span class="sd">footer_links_text The anchor text of all links in the `&lt;footer&gt;` tag if</span>
+<span class="sd">                  available</span>
+<span class="sd">footer_links_url  The links in the `&lt;footer&gt;` tag if available</span>
 <span class="sd">body_text         The text in the &lt;p&gt;, &lt;span&gt;, and &lt;li&gt; tags within &lt;body&gt;</span>
 <span class="sd">size              The page size in bytes</span>
-<span class="sd">resp_meta_*       Several metadata for the response download_latency, timeout</span>
-<span class="sd">                  etc.</span>
-<span class="sd">status            Response status (200, 301, 302, 404, etc.)</span>
+<span class="sd">download_latency  The amount of time it took to get the page HTML, in seconds.</span>
+<span class="sd">download_timout   The amount of time (in secs) that the downloader will wait</span>
+<span class="sd">                  before timing out. Defaults to 180.</span>
+<span class="sd">redirect_times    The number of times the pages was redirected if available</span>
+<span class="sd">redirect_ttl      The default maximum number of redirects the crawler allows</span>
+<span class="sd">redirect_urls     The chain of URLs from the requested URL to the one actually</span>
+<span class="sd">                  fetched</span>
+<span class="sd">redirect_reasons  The type of redirection(s) 301, 302, etc.</span>
+<span class="sd">depth             The depth of the current URL, relative to the first URLs</span>
+<span class="sd">                  where crawling started. The first pages to be crawled have a</span>
+<span class="sd">                  depth of zero, pages linked from there, a depth of one, etc.</span>
+<span class="sd">status            Response status (200, 404, etc.)</span>
 <span class="sd">links_url         The URLs of the links on the page</span>
 <span class="sd">links_text        The link text (anchor text)</span>
-<span class="sd">links_fragment    The fragment part of the link (#fragment)</span>
 <span class="sd">links_nofollow    Boolean, whether or not the link is a nofllow link. Note that</span>
 <span class="sd">                  this only tells if the link itself contains a rel=&quot;nofollow&quot;</span>
 <span class="sd">                  attribute. The page might indicate &quot;nofollow&quot; using meta</span>
 <span class="sd">                  robots or X-Robots-Tag, which you have to check separately.</span>
 <span class="sd">img_src           The ``src`` attribute of images</span>
 <span class="sd">img_alt           The ``alt`` attribute if available or an empty string</span>
-<span class="sd">page_depth        The depth of the crawled page</span>
 <span class="sd">ip_address        IP address</span>
 <span class="sd">crawl_time        Date and time the page was crawled</span>
 <span class="sd">resp_headers_*    All available response headers (last modified, server, etc.)</span>
@@ -295,9 +318,9 @@
 
 <span class="sd">.. note::</span>
 
-<span class="sd">    All elements that may appear multiple times on a page (like header tags, or</span>
-<span class="sd">    images, for example), will be joined with two &quot;@&quot; signs `@@`. For example,</span>
-<span class="sd">    **&quot;first H2 tag@@second H2 tag@@third tag&quot;** and so on.</span>
+<span class="sd">    All elements that may appear multiple times on a page (like heading tags,</span>
+<span class="sd">    or images, for example), will be joined with two &quot;@&quot; signs `@@`. For</span>
+<span class="sd">    example, **&quot;first H2 tag@@second H2 tag@@third tag&quot;** and so on.</span>
 <span class="sd">    Once you open the file, you simply have to split by `@@` to get the</span>
 <span class="sd">    elements as a list.</span>
 
@@ -309,17 +332,17 @@
 <span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
 <span class="sd">    &gt;&gt;&gt; site_crawl = pd.read_json(&#39;path/to/file.jl&#39;, lines=True)</span>
 <span class="sd">    &gt;&gt;&gt; site_crawl.head()</span>
-<span class="sd">                                   url               url_redirected_to                           title                       meta_desc                              h1                              h2                              h3                        body_text  size  download_timeout              download_slot  download_latency  redirect_times  redirect_ttl                   redirect_urls redirect_reasons  depth  status                      links_href                      links_text                         img_src                         img_alt    ip_address           crawl_time              resp_headers_date resp_headers_content-type     resp_headers_last-modified resp_headers_vary    resp_headers_x-ms-request-id resp_headers_x-ms-version resp_headers_x-ms-lease-status resp_headers_x-ms-blob-type resp_headers_access-control-allow-origin   resp_headers_x-served resp_headers_x-backend resp_headers_x-rtd-project resp_headers_x-rtd-version         resp_headers_x-rtd-path  resp_headers_x-rtd-domain resp_headers_x-rtd-version-method resp_headers_x-rtd-project-method resp_headers_strict-transport-security resp_headers_cf-cache-status  resp_headers_age           resp_headers_expires resp_headers_cache-control          resp_headers_expect-ct resp_headers_server   resp_headers_cf-ray      resp_headers_cf-request-id          request_headers_accept request_headers_accept-language      request_headers_user-agent request_headers_accept-encoding          request_headers_cookie</span>
-<span class="sd">    0   https://advertools.readthedocs  https://advertools.readthedocs            advertools —  Python  Get productive as an online ma  advertools@@Indices and tables  Online marketing productivity                              NaN   Generate keywords for SEM camp   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN  https://advertools.readthedocs            [302]    NaN     NaN  #@@readme.html@@advertools.kw_  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:35  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  720a8581-501e-0043-01a2-2e77d2                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca7dbaa7e9e-BUD  02d86a3cea00007e9edb0cf2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
-<span class="sd">    1   https://advertools.readthedocs  https://advertools.readthedocs            advertools —  Python                             NaN                      advertools         Change Log - advertools  0.9.1 (2020-05-19)@@0.9.0 (202   Ability to specify robots.txt    NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  index.html@@readme.html@@adver  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  4f7bea3b-701e-0039-3f44-2f1d9f                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007h                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9bcab7e9e-BUD  02d86a3e0e00007e9edb0d72000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
-<span class="sd">    2   https://advertools.readthedocs  https://advertools.readthedocs            advertools —  Python  Get productive as an online ma  advertools@@Indices and tables  Online marketing productivity                              NaN   Generate keywords for SEM camp   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  #@@readme.html@@advertools.kw_  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  98b729fa-e01e-00bf-24c3-2e494d                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9bf26d423-BUD  02d86a3e150000d423322742000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
-<span class="sd">    3   https://advertools.readthedocs  https://advertools.readthedocs    advertools package —  Python                             NaN              advertools package     Submodules@@Module contents                             NaN   Top-level package for advertoo   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  index.html@@readme.html@@adver  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:25 GMT   Accept-Encoding  7a28ef3b-801e-00c2-24c3-2ed585                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web000079                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9bddb7ec2-BUD  02d86a3e1300007ec2a808a2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
-<span class="sd">    4   https://advertools.readthedocs  https://advertools.readthedocs   Python Module Index —  Python                             NaN             Python Module Index                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  index.html@@readme.html@@adver  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@               _static/minus.png                               -  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  75911c9e-201e-00e6-34c3-2e4ccb                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007g                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9b91fd437-BUD  02d86a3e140000d437b81532000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
-<span class="sd">    66  https://advertools.readthedocs  https://advertools.readthedocs  advertools.url_builders —  Pyt                             NaN  Source code for advertools.url                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:38 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  d99f2368-c01e-006f-18c3-2ef5ef                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007a                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:38 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbbb8afd437-BUD  02d86a494f0000d437b828b2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
-<span class="sd">    67  https://advertools.readthedocs  https://advertools.readthedocs  advertools.kw_generate —  Pyth                             NaN  Source code for advertools.kw_                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  85855c48-c01e-00ce-13c3-2e3b74                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007g                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd980bd423-BUD  02d86a4a7f0000d423323b42000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
-<span class="sd">    68  https://advertools.readthedocs  https://advertools.readthedocs  advertools.ad_from_string —  P                             NaN  Source code for advertools.ad_                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  b0aef497-801e-004a-1647-2f6d5c                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007k                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd980cd423-BUD  02d86a4a7f0000d423209db2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
-<span class="sd">    69  https://advertools.readthedocs  https://advertools.readthedocs  advertools.ad_create —  Python                             NaN  Source code for advertools.ad_                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  9dfdd38a-101e-00a1-7ec3-2e93a0                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd99847ec2-BUD  02d86a4a7f00007ec2a811f2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
-<span class="sd">    70  https://advertools.readthedocs  https://advertools.readthedocs      advertools.emoji —  Python                             NaN  Source code for advertools.emo                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:40  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  2ad504a1-101e-000b-03c3-2e454f                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web000079                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd9fb97e9e-BUD  02d86a4a7f00007e9edb13a2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="sd">                                   url                           title                       meta_desc                              h1                              h2                              h3                        body_text  size  download_timeout              download_slot  download_latency  redirect_times  redirect_ttl                   redirect_urls redirect_reasons  depth  status                      links_href                      links_text                         img_src                         img_alt    ip_address           crawl_time              resp_headers_date resp_headers_content-type     resp_headers_last-modified resp_headers_vary    resp_headers_x-ms-request-id resp_headers_x-ms-version resp_headers_x-ms-lease-status resp_headers_x-ms-blob-type resp_headers_access-control-allow-origin   resp_headers_x-served resp_headers_x-backend resp_headers_x-rtd-project resp_headers_x-rtd-version         resp_headers_x-rtd-path  resp_headers_x-rtd-domain resp_headers_x-rtd-version-method resp_headers_x-rtd-project-method resp_headers_strict-transport-security resp_headers_cf-cache-status  resp_headers_age           resp_headers_expires resp_headers_cache-control          resp_headers_expect-ct resp_headers_server   resp_headers_cf-ray      resp_headers_cf-request-id          request_headers_accept request_headers_accept-language      request_headers_user-agent request_headers_accept-encoding          request_headers_cookie</span>
+<span class="sd">    0   https://advertools.readthedocs            advertools —  Python  Get productive as an online ma  advertools@@Indices and tables  Online marketing productivity                              NaN   Generate keywords for SEM camp   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN  https://advertools.readthedocs            [302]    NaN     NaN  #@@readme.html@@advertools.kw_  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:35  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  720a8581-501e-0043-01a2-2e77d2                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca7dbaa7e9e-BUD  02d86a3cea00007e9edb0cf2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="sd">    1   https://advertools.readthedocs            advertools —  Python                             NaN                      advertools         Change Log - advertools  0.9.1 (2020-05-19)@@0.9.0 (202   Ability to specify robots.txt    NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  index.html@@readme.html@@adver  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  4f7bea3b-701e-0039-3f44-2f1d9f                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007h                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9bcab7e9e-BUD  02d86a3e0e00007e9edb0d72000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="sd">    2   https://advertools.readthedocs            advertools —  Python  Get productive as an online ma  advertools@@Indices and tables  Online marketing productivity                              NaN   Generate keywords for SEM camp   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  #@@readme.html@@advertools.kw_  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  98b729fa-e01e-00bf-24c3-2e494d                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9bf26d423-BUD  02d86a3e150000d423322742000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="sd">    3   https://advertools.readthedocs    advertools package —  Python                             NaN              advertools package     Submodules@@Module contents                             NaN   Top-level package for advertoo   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  index.html@@readme.html@@adver  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:25 GMT   Accept-Encoding  7a28ef3b-801e-00c2-24c3-2ed585                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web000079                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9bddb7ec2-BUD  02d86a3e1300007ec2a808a2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="sd">    4   https://advertools.readthedocs   Python Module Index —  Python                             NaN             Python Module Index                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  index.html@@readme.html@@adver  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@               _static/minus.png                               -  104.17.32.82  2020-05-21 10:39:36  Thu, 21 May 2020 10:39:35 GMT                 text/html  Wed, 20 May 2020 12:26:23 GMT   Accept-Encoding  75911c9e-201e-00e6-34c3-2e4ccb                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007g                 advertools                     master  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:35 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596daca9b91fd437-BUD  02d86a3e140000d437b81532000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="sd">    66  https://advertools.readthedocs  advertools.url_builders —  Pyt                             NaN  Source code for advertools.url                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:38 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  d99f2368-c01e-006f-18c3-2ef5ef                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007a                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:38 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbbb8afd437-BUD  02d86a494f0000d437b828b2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="sd">    67  https://advertools.readthedocs  advertools.kw_generate —  Pyth                             NaN  Source code for advertools.kw_                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  85855c48-c01e-00ce-13c3-2e3b74                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007g                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd980bd423-BUD  02d86a4a7f0000d423323b42000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="sd">    68  https://advertools.readthedocs  advertools.ad_from_string —  P                             NaN  Source code for advertools.ad_                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  b0aef497-801e-004a-1647-2f6d5c                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007k                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd980cd423-BUD  02d86a4a7f0000d423209db2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="sd">    69  https://advertools.readthedocs  advertools.ad_create —  Python                             NaN  Source code for advertools.ad_                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:39  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  9dfdd38a-101e-00a1-7ec3-2e93a0                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web00007c                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd99847ec2-BUD  02d86a4a7f00007ec2a811f2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
+<span class="sd">    70  https://advertools.readthedocs      advertools.emoji —  Python                             NaN  Source code for advertools.emo                             NaN                             NaN            © Copyright 2020, Eli   NaN               NaN  advertools.readthedocs.io               NaN             NaN           NaN                             NaN              NaN    NaN     NaN  ../../index.html@@../../readme  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             NaN                             NaN  104.17.32.82  2020-05-21 10:39:40  Thu, 21 May 2020 10:39:39 GMT                 text/html  Wed, 20 May 2020 12:26:36 GMT   Accept-Encoding  2ad504a1-101e-000b-03c3-2e454f                2009-09-19                       unlocked                   BlockBlob                                        *  Nginx-Proxito-Sendfile              web000079                 advertools                     latest  /proxito/media/html/advertools  advertools.readthedocs.io                              path                         subdomain         max-age=31536000; includeSubDo                          HIT               NaN  Thu, 21 May 2020 11:39:39 GMT       public, max-age=3600  max-age=604800, report-uri=&quot;ht          cloudflare  596dacbd9fb97e9e-BUD  02d86a4a7f00007e9edb13a2000000  text/html,application/xhtml+xm                              en  Mozilla/5.0 (Windows NT 10.0;                    gzip, deflate  __cfduid=d76b68d148ddec1efd004</span>
 
 <span class="sd">Pre-Determined Crawling Approach (List Mode)</span>
 <span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
@@ -361,7 +384,7 @@
 
 <span class="sd">.. code-block:: python</span>
 
-<span class="sd">    &gt;&gt;&gt; crawl(url_list, &#39;output_file.jl&#39;, follow_links=False)</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawl(url_list, &#39;output_file.jl&#39;, follow_links=False)</span>
 
 <span class="sd">The difference between the two approaches, is the simple parameter</span>
 <span class="sd">``follow_links``. If you keep it as ``False`` (the default), the crawler</span>
@@ -370,14 +393,14 @@
 <span class="sd">crawler doesn&#39;t try to crawl the whole web when ``follow_links`` is `True`?</span>
 <span class="sd">The ``allowed_domains`` parameter gives you the ability to control this,</span>
 <span class="sd">although it is an optional parameter. If you don&#39;t specify it, then it will</span>
-<span class="sd">default to only the domains in the ``url_list``. It&#39;s important to note that</span>
-<span class="sd">you have to set this parameter if you have certain sub-domains that you want to</span>
-<span class="sd">crawl.</span>
+<span class="sd">default to only the domains in the ``url_list`` and their sub-domains if any.</span>
+<span class="sd">It&#39;s important to note that you have to set this parameter if you want to only</span>
+<span class="sd">crawl certain sub-domains.</span>
 
 <span class="sd">CSS and XPath Selectors</span>
 <span class="sd">^^^^^^^^^^^^^^^^^^^^^^^</span>
 
-<span class="sd">The above approaches are generic, and are useful for an exploratory SEO audit</span>
+<span class="sd">The above approaches are generic, and are useful for exploratory SEO audits</span>
 <span class="sd">and the output is helpful for most cases.</span>
 
 <span class="sd">But what if you want to extract special elements that are not included in the</span>
@@ -386,7 +409,7 @@
 <span class="sd">prices, social media shares, product price or availability, comments, and</span>
 <span class="sd">pretty much any element on a page that might be of interest to you.</span>
 
-<span class="sd">For this you can use two special arguments for CSS and/or XPath selectors. You</span>
+<span class="sd">For this you can use two special parameters for CSS and/or XPath selectors. You</span>
 <span class="sd">simply provide a dictionary `{&#39;name_1&#39;: &#39;selector_1&#39;, &#39;name_2&#39;: &#39;selector_2&#39;}`</span>
 <span class="sd">where the keys become the column names, and the values (selectors) will be</span>
 <span class="sd">used to extract the required elements.</span>
@@ -417,18 +440,18 @@
 <span class="sd">of the links or the `href` attribute respectively. Similarly with XPath, you</span>
 <span class="sd">will need to append `/text()` or `/@href` to the selector to get the same.</span>
 
-<span class="sd">&gt;&gt;&gt; crawl(&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;,</span>
-<span class="sd">...       &#39;output_file.jl&#39;,</span>
-<span class="sd">...       css_selectors={&#39;sidebar_links&#39;: &#39;.toctree-l1 .internal::text&#39;,</span>
-<span class="sd">...                      &#39;sidebar_links_url&#39;: &#39;.toctree-l1 .internal::attr(href)&#39;})</span>
+<span class="sd">&gt;&gt;&gt; adv.crawl(&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;,</span>
+<span class="sd">...           &#39;output_file.jl&#39;,</span>
+<span class="sd">...           css_selectors={&#39;sidebar_links&#39;: &#39;.toctree-l1 .internal::text&#39;,</span>
+<span class="sd">...                          &#39;sidebar_links_url&#39;: &#39;.toctree-l1 .internal::attr(href)&#39;})</span>
 
 <span class="sd">Or, instead of ``css_selectors`` you can add a similar dictionary for the</span>
 <span class="sd">``xpath_selectors`` argument:</span>
 
-<span class="sd">&gt;&gt;&gt; crawl(&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;,</span>
-<span class="sd">...       &#39;output_file.jl&#39;,</span>
-<span class="sd">...       xpath_selectors={&#39;sidebar_links&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/text()&#39;,</span>
-<span class="sd">...                        &#39;sidebar_links_url&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/@href&#39;})</span>
+<span class="sd">&gt;&gt;&gt; adv.crawl(&#39;https://advertools.readthedocs.io/en/master/advertools.spider.html&#39;,</span>
+<span class="sd">...           &#39;output_file.jl&#39;,</span>
+<span class="sd">...           xpath_selectors={&#39;sidebar_links&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/text()&#39;,</span>
+<span class="sd">...                            &#39;sidebar_links_url&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/@href&#39;})</span>
 
 <span class="sd">Spider Custom Settings and Additional Functionality</span>
 <span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
@@ -451,10 +474,10 @@
 <span class="sd">* `DEFAULT_REQUEST_HEADERS` You can change this if you need to.</span>
 <span class="sd">* `DEPTH_LIMIT` How deep your crawl will be allowed. The default has no limit.</span>
 <span class="sd">* `DOWNLOAD_DELAY` Similar to the first option. Controls the amount of time in</span>
-<span class="sd">  seconds for the crawler to wait between consecutive pages of the same website.</span>
-<span class="sd">  It can also take fractions of a second (0.4, 0.75, etc.)</span>
-<span class="sd">* `LOG_FILE` If you want to save your crawl logs to a file, you can provide a</span>
-<span class="sd">  path to it here.</span>
+<span class="sd">  seconds for the crawler to wait between consecutive pages of the same</span>
+<span class="sd">  website. It can also take fractions of a second (0.4, 0.75, etc.)</span>
+<span class="sd">* `LOG_FILE` If you want to save your crawl logs to a file, which is strongly</span>
+<span class="sd">  recommended, you can provide a path to it here.</span>
 <span class="sd">* `USER_AGENT` If you want to identify yourself differently while crawling.</span>
 <span class="sd">  This is affected by the robots.txt rules, so you would be potentially</span>
 <span class="sd">  allowed/disallowed from certain pages based on your user-agent.</span>
@@ -463,7 +486,7 @@
 <span class="sd">  seconds. These can be very useful to limit your crawling in certain cases.</span>
 <span class="sd">  I particularly like to use `CLOSESPIDER_PAGECOUNT` when exploring a new</span>
 <span class="sd">  website, and also to make sure that my selectors are working as expected. So</span>
-<span class="sd">  for your first few crawls you might set this to one hundred for example and</span>
+<span class="sd">  for your first few crawls you might set this to five hundred for example and</span>
 <span class="sd">  explore the crawled pages. Then when you are confident things are working</span>
 <span class="sd">  fine, you can remove this restriction. `CLOSESPIDER_ERRORCOUNT` can also be</span>
 <span class="sd">  very useful while exploring, just in case you get unexpected errors.</span>
@@ -475,34 +498,35 @@
 
 <span class="sd">A very simple dictionary to be added to your function call:</span>
 
-<span class="sd">&gt;&gt;&gt; crawl(&#39;http://exmaple.com&#39;, &#39;outpuf_file.jl&#39;,</span>
-<span class="sd">...       custom_settings={&#39;CLOSESPIDER_PAGECOUNT&#39;: 100,</span>
-<span class="sd">...                        &#39;CONCURRENT_REQUESTS_PER_DOMAIN&#39;: 1,</span>
-<span class="sd">...                        &#39;USER_AGENT&#39;: &#39;custom-user-agent&#39;})</span>
+<span class="sd">&gt;&gt;&gt; adv.crawl(&#39;http://exmaple.com&#39;, &#39;outpuf_file.jl&#39;,</span>
+<span class="sd">...           custom_settings={&#39;CLOSESPIDER_PAGECOUNT&#39;: 100,</span>
+<span class="sd">...                            &#39;CONCURRENT_REQUESTS_PER_DOMAIN&#39;: 1,</span>
+<span class="sd">...                            &#39;USER_AGENT&#39;: &#39;custom-user-agent&#39;})</span>
 
 <span class="sd">Please refer to the `spider settings documentation &lt;https://docs.scrapy.org/en/latest/topics/settings.html&gt;`_</span>
 <span class="sd">for the full details.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 
-<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlparse</span>
+<span class="kn">import</span> <span class="nn">scrapy</span>
 
-<span class="kn">from</span> <span class="nn">scrapy.spiders</span> <span class="k">import</span> <span class="n">Spider</span>
-<span class="kn">from</span> <span class="nn">scrapy.linkextractors</span> <span class="k">import</span> <span class="n">LinkExtractor</span>
-<span class="kn">from</span> <span class="nn">scrapy</span> <span class="k">import</span> <span class="n">Request</span>
+<span class="kn">from</span> <span class="nn">scrapy.spiders</span> <span class="kn">import</span> <span class="n">Spider</span>
+<span class="kn">from</span> <span class="nn">scrapy.linkextractors</span> <span class="kn">import</span> <span class="n">LinkExtractor</span>
+<span class="kn">from</span> <span class="nn">scrapy</span> <span class="kn">import</span> <span class="n">Request</span>
 <span class="kn">import</span> <span class="nn">scrapy.logformatter</span> <span class="k">as</span> <span class="nn">formatter</span>
 <span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">__version__</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">json_normalize</span>
+    <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">json_normalize</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">pandas.io.json</span> <span class="k">import</span> <span class="n">json_normalize</span>
-
+    <span class="kn">from</span> <span class="nn">pandas.io.json</span> <span class="kn">import</span> <span class="n">json_normalize</span>
+<span class="kn">from</span> <span class="nn">advertools</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">adv_version</span>
 
 <span class="n">spider_path</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/spider.py&#39;</span>
 
@@ -510,18 +534,67 @@
              <span class="s1">&#39;(KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36&#39;</span><span class="p">,</span>
 
 <span class="n">BODY_TEXT_SELECTOR</span> <span class="o">=</span> <span class="s1">&#39;//body//span//text() | //body//p//text() | //body//li//text()&#39;</span>
-<span class="n">MAX_CMD_LENGTH</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7000</span> <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Windows&#39;</span>
-                  <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">sysconf</span><span class="p">(</span><span class="s1">&#39;SC_ARG_MAX&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_max_cmd_len</span><span class="p">():</span>
+    <span class="n">system</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
+    <span class="n">cmd_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Windows&#39;</span><span class="p">:</span> <span class="mi">7000</span><span class="p">,</span> <span class="s1">&#39;Linux&#39;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span> <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">cmd_dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cmd_dict</span><span class="p">[</span><span class="n">system</span><span class="p">]</span>
+    <span class="k">return</span> <span class="mi">6000</span>
+
+<span class="n">MAX_CMD_LENGTH</span> <span class="o">=</span> <span class="n">get_max_cmd_len</span><span class="p">()</span>
 
 <span class="n">formatter</span><span class="o">.</span><span class="n">SCRAPEDMSG</span> <span class="o">=</span> <span class="s2">&quot;Scraped from </span><span class="si">%(src)s</span><span class="s2">&quot;</span>
 <span class="n">formatter</span><span class="o">.</span><span class="n">DROPPEDMSG</span> <span class="o">=</span> <span class="s2">&quot;Dropped: </span><span class="si">%(exception)s</span><span class="s2">&quot;</span>
 <span class="n">formatter</span><span class="o">.</span><span class="n">DOWNLOADERRORMSG_LONG</span> <span class="o">=</span> <span class="s2">&quot;Error downloading </span><span class="si">%(request)s</span><span class="s2">&quot;</span>
 
-<span class="n">le</span> <span class="o">=</span> <span class="n">LinkExtractor</span><span class="p">()</span>
+<span class="n">le</span> <span class="o">=</span> <span class="n">LinkExtractor</span><span class="p">(</span><span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">crawl_headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;url&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;meta_desc&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;viewport&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;charset&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;alt_href&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;alt_hreflang&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h4&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h5&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h6&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;canonical&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;body_text&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;size&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;download_timeout&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;download_slot&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;download_latency&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;redirect_times&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;redirect_ttl&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;redirect_urls&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;redirect_reasons&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;depth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;status&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;links_url&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;links_text&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;links_nofollow&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;img_src&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;img_alt&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ip_address&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;crawl_time&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;blocked_by_robotstxt&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;jsonld_errors&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;request_headers_accept&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;request_headers_accept-language&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;request_headers_user-agent&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;request_headers_accept-encoding&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;request_headers_cookie&#39;</span><span class="p">,</span>
+<span class="p">}</span>
 
 
 <span class="k">def</span> <span class="nf">_split_long_urllist</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="n">MAX_CMD_LENGTH</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Split url_lists if their total length is greater than MAX_CMD_LENGTH.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Split url_list if their total length is greater than MAX_CMD_LENGTH.&quot;&quot;&quot;</span>
     <span class="n">split_list</span> <span class="o">=</span> <span class="p">[[]]</span>
 
     <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">url_list</span><span class="p">:</span>
@@ -553,16 +626,53 @@
 
 
 <span class="k">def</span> <span class="nf">_json_to_dict</span><span class="p">(</span><span class="n">jsonobj</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">json_normalize</span><span class="p">(</span><span class="n">jsonobj</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">i</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s1">&#39;jsonld_</span><span class="si">{}</span><span class="s1">_&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s1">&#39;jsonld_&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">json_normalize</span><span class="p">(</span><span class="n">jsonobj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s1">&#39;jsonld_</span><span class="si">{}</span><span class="s1">_&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s1">&#39;jsonld_&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+
+<span class="n">tags_xpaths</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;//title/text()&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;meta_desc&#39;</span><span class="p">:</span> <span class="s1">&#39;//meta[@name=&quot;description&quot;]/@content&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;viewport&#39;</span><span class="p">:</span> <span class="s1">&#39;//meta[@name=&quot;viewport&quot;]/@content&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;charset&#39;</span><span class="p">:</span> <span class="s1">&#39;//meta[@charset]/@charset&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h1&#39;</span><span class="p">:</span> <span class="s1">&#39;//h1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h2&#39;</span><span class="p">:</span> <span class="s1">&#39;//h2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h3&#39;</span><span class="p">:</span> <span class="s1">&#39;//h3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h4&#39;</span><span class="p">:</span> <span class="s1">&#39;//h4&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h5&#39;</span><span class="p">:</span> <span class="s1">&#39;//h5&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h6&#39;</span><span class="p">:</span> <span class="s1">&#39;//h6&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;canonical&#39;</span><span class="p">:</span> <span class="s1">&#39;//link[@rel=&quot;canonical&quot;]/@href&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;alt_href&#39;</span><span class="p">:</span> <span class="s1">&#39;//link[@rel=&quot;alternate&quot;]/@href&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;alt_hreflang&#39;</span><span class="p">:</span> <span class="s1">&#39;//link[@rel=&quot;alternate&quot;]/@hreflang&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_extract_content</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="o">**</span><span class="n">tags_xpaths</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">xpath</span> <span class="ow">in</span> <span class="n">tags_xpaths</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">tag</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="n">xpath</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">tag</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">h</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span> 
+                               <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="n">xpath</span><span class="p">)])</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">tag</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">d</span>
 
 
 <span class="k">class</span> <span class="nc">SEOSitemapSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;seo_sitemap_spider&#39;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;seo_spider&#39;</span>
     <span class="n">follow_links</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">css_selectors</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">xpath_selectors</span> <span class="o">=</span> <span class="p">{}</span>
@@ -570,9 +680,10 @@
         <span class="s1">&#39;USER_AGENT&#39;</span><span class="p">:</span> <span class="n">user_agent</span><span class="p">,</span>
         <span class="s1">&#39;ROBOTSTXT_OBEY&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="s1">&#39;HTTPERROR_ALLOW_ALL&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;BOT_NAME&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;advertools-</span><span class="si">{</span><span class="n">adv_version</span><span class="si">}</span><span class="s1">&#39;</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allowed_domains</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">css_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xpath_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -584,19 +695,28 @@
 
     <span class="k">def</span> <span class="nf">start_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_urls</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">,</span> <span class="n">errback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">errback</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">errback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failure</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">failure</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">IgnoreRequest</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">failure</span><span class="p">))</span>
+            <span class="k">yield</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">failure</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+                   <span class="s1">&#39;crawl_time&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;errors&#39;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">failure</span><span class="p">)}</span>
 
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
         <span class="n">links</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">extract_links</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">css_selectors</span><span class="p">:</span>
             <span class="n">css_selectors</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">))</span><span class="o">.</span><span class="n">getall</span><span class="p">())</span>
                              <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">css_selectors</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">css_selectors</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">css_selectors</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">css_selectors</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xpath_selectors</span><span class="p">:</span>
             <span class="n">xpath_selectors</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">))</span><span class="o">.</span><span class="n">getall</span><span class="p">())</span>
                                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xpath_selectors</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">xpath_selectors</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">xpath_selectors</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">xpath_selectors</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">canonical</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;canonical&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;link[rel=&quot;canonical&quot;]::attr(href)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())}</span>
@@ -605,15 +725,15 @@
         <span class="n">alt_href</span> <span class="o">=</span> <span class="n">alt_href</span> <span class="k">if</span> <span class="n">alt_href</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alt_href&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
         <span class="n">alt_hreflang</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alt_hreflang&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;link[rel=alternate]::attr(hreflang)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">())}</span>
         <span class="n">alt_hreflang</span> <span class="o">=</span> <span class="n">alt_hreflang</span> <span class="k">if</span> <span class="n">alt_hreflang</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alt_hreflang&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
-        <span class="n">og_props</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;meta[property^=&quot;og:&quot;]::attr(property)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
-        <span class="n">og_content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;meta[property^=&quot;og:&quot;]::attr(content)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
+        <span class="n">og_props</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//meta[starts-with(@property, &quot;og:&quot;)]/@property&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
+        <span class="n">og_content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//meta[starts-with(@property, &quot;og:&quot;)]/@content&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">og_props</span> <span class="ow">and</span> <span class="n">og_content</span><span class="p">:</span>
             <span class="n">og_props</span> <span class="o">=</span> <span class="n">_numbered_duplicates</span><span class="p">(</span><span class="n">og_props</span><span class="p">)</span>
             <span class="n">open_graph</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">og_props</span><span class="p">,</span> <span class="n">og_content</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">open_graph</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">twtr_names</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;meta[name^=&quot;twitter:&quot;]::attr(name)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
-        <span class="n">twtr_content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;meta[name^=&quot;twitter:&quot;]::attr(content)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
+        <span class="n">twtr_names</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//meta[starts-with(@name, &quot;twitter:&quot;)]/@name&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
+        <span class="n">twtr_content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//meta[starts-with(@name, &quot;twitter:&quot;)]/@content&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">twtr_names</span> <span class="ow">and</span> <span class="n">twtr_content</span><span class="p">:</span>
             <span class="n">twtr_card</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">twtr_names</span><span class="p">,</span> <span class="n">twtr_content</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
@@ -621,43 +741,70 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">ld</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span>
                   <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;script[type=&quot;application/ld+json&quot;]::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()]</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">ld</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">),</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">]))</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">ld</span><span class="p">:</span>
-            <span class="n">jsonld</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ld</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">jsonld</span> <span class="o">=</span> <span class="n">_json_to_dict</span><span class="p">(</span><span class="n">ld</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">ld_norm</span> <span class="o">=</span> <span class="p">[</span><span class="n">_json_to_dict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ld</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ld</span><span class="p">:</span>
                 <span class="n">jsonld</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="k">for</span> <span class="n">norm</span> <span class="ow">in</span> <span class="n">ld_norm</span><span class="p">:</span>
-                    <span class="n">jsonld</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">norm</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ld</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">jsonld</span> <span class="o">=</span> <span class="n">_json_to_dict</span><span class="p">(</span><span class="n">ld</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ld_norm</span> <span class="o">=</span> <span class="p">[</span><span class="n">_json_to_dict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ld</span><span class="p">)]</span>
+                    <span class="n">jsonld</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">norm</span> <span class="ow">in</span> <span class="n">ld_norm</span><span class="p">:</span>
+                        <span class="n">jsonld</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">norm</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">jsonld</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;jsonld_errors&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">),</span>
+                                            <span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">]))</span>
+        <span class="n">page_content</span> <span class="o">=</span> <span class="n">_extract_content</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="o">**</span><span class="n">tags_xpaths</span><span class="p">)</span>
+        <span class="n">navlinks</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//nav//a&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">navlinks</span><span class="p">:</span>
+            <span class="n">nav_links</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;nav_links_url&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;@href&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                                           <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">navlinks</span><span class="p">),</span>
+                <span class="s1">&#39;nav_links_text&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;text()&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                                            <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">navlinks</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nav_links</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">hlinks</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//header//a&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">hlinks</span><span class="p">:</span>
+            <span class="n">header_links</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;header_links_url&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;@href&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                                              <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">hlinks</span><span class="p">),</span>
+                <span class="s1">&#39;header_links_text&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;text()&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                                               <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">hlinks</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">header_links</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">flinks</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//footer//a&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">flinks</span><span class="p">:</span>
+            <span class="n">footer_links</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;footer_links_url&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;@href&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                                              <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">flinks</span><span class="p">),</span>
+                <span class="s1">&#39;footer_links_text&#39;</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;text()&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                                               <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">flinks</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">footer_links</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="n">url</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
-            <span class="n">url_redirected_to</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;title::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
-            <span class="n">meta_desc</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;//meta[@name=&#39;description&#39;]/@content&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
-            <span class="o">**</span><span class="n">canonical</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">alt_href</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">alt_hreflang</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">page_content</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">nav_links</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">header_links</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">footer_links</span><span class="p">,</span>
             <span class="o">**</span><span class="n">open_graph</span><span class="p">,</span>
             <span class="o">**</span><span class="n">twtr_card</span><span class="p">,</span>
             <span class="o">**</span><span class="n">jsonld</span><span class="p">,</span>
-            <span class="n">h1</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h1::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
-            <span class="n">h2</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h2::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
-            <span class="n">h3</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;h3::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()),</span>
             <span class="n">body_text</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="n">BODY_TEXT_SELECTOR</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">()),</span>
             <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">),</span>
             <span class="o">**</span><span class="n">css_selectors</span><span class="p">,</span>
             <span class="o">**</span><span class="n">xpath_selectors</span><span class="p">,</span>
-            <span class="o">**</span><span class="p">{</span><span class="s1">&#39;resp_meta_&#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
-               <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+            <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">v</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+               <span class="k">else</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
             <span class="n">status</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
             <span class="n">links_url</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">url</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
             <span class="n">links_text</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
-            <span class="n">links_fragment</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">fragment</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
             <span class="n">links_nofollow</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">nofollow</span><span class="p">)</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">),</span>
             <span class="n">img_src</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">im</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
                                <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">)]),</span>
@@ -674,7 +821,8 @@
             <span class="n">next_pages</span> <span class="o">=</span> <span class="p">[</span><span class="n">link</span><span class="o">.</span><span class="n">url</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">next_pages</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">next_pages</span><span class="p">:</span>
-                    <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">,</span>
+                                  <span class="n">errback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">errback</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="crawl"><a class="viewcode-back" href="../../advertools.spider.html#advertools.spider.crawl">[docs]</a><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">css_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -715,16 +863,17 @@
 
 <span class="sd">    Crawl a website and let the crawler discover as many pages as available</span>
 
-<span class="sd">    &gt;&gt;&gt; crawl(&#39;http://example.com&#39;, &#39;output_file.jl&#39;, follow_links=True)</span>
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawl(&#39;http://example.com&#39;, &#39;output_file.jl&#39;, follow_links=True)</span>
 <span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
 <span class="sd">    &gt;&gt;&gt; crawl_df = pd.read_json(&#39;output_file.jl&#39;, lines=True)</span>
 
 <span class="sd">    Crawl a known set of pages (on a single or multiple sites) without</span>
 <span class="sd">    following links (just crawl the specified pages) or &quot;list mode&quot;:</span>
 
-<span class="sd">    &gt;&gt;&gt; crawl([&#39;http://exmaple.com/product&#39;, &#39;http://exmaple.com/product2&#39;,</span>
-<span class="sd">    ...        &#39;https://anotherexample.com&#39;, &#39;https://anotherexmaple.com/hello&#39;],</span>
-<span class="sd">    ...        &#39;output_file.jl&#39;, follow_links=False)</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawl([&#39;http://exmaple.com/product&#39;, &#39;http://exmaple.com/product2&#39;,</span>
+<span class="sd">    ...            &#39;https://anotherexample.com&#39;, &#39;https://anotherexmaple.com/hello&#39;],</span>
+<span class="sd">    ...            &#39;output_file.jl&#39;, follow_links=False)</span>
 
 <span class="sd">    Crawl a website, and in addition to standard SEO elements, also get the</span>
 <span class="sd">    required CSS selectors.</span>
@@ -733,10 +882,10 @@
 <span class="sd">    or the `href` attribute if you are working with links (and all other</span>
 <span class="sd">    selectors).</span>
 
-<span class="sd">    &gt;&gt;&gt; crawl(&#39;http://example.com&#39;, &#39;output_file.jl&#39;,</span>
-<span class="sd">    ...       css_selectors={&#39;price&#39;: &#39;.a-color-price::text&#39;,</span>
-<span class="sd">    ...                      &#39;author&#39;: &#39;.contributorNameID::text&#39;,</span>
-<span class="sd">    ...                      &#39;author_url&#39;: &#39;.contributorNameID::attr(href)&#39;})</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawl(&#39;http://example.com&#39;, &#39;output_file.jl&#39;,</span>
+<span class="sd">    ...           css_selectors={&#39;price&#39;: &#39;.a-color-price::text&#39;,</span>
+<span class="sd">    ...                          &#39;author&#39;: &#39;.contributorNameID::text&#39;,</span>
+<span class="sd">    ...                          &#39;author_url&#39;: &#39;.contributorNameID::attr(href)&#39;})</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">url_list</span><span class="p">]</span>
@@ -746,6 +895,17 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please make sure your output_file ends with &#39;.jl&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
                          <span class="s2">&quot;For example:</span><span class="se">\n</span><span class="s2">&quot;</span>
                          <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.jl&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_file</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">xpath_selectors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">css_selectors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">css_xpath</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">xpath_selectors</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">css_selectors</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">css_xpath</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please make sure you don&#39;t set common keys for&quot;</span>
+                             <span class="s2">&quot;`css_selectors` and `xpath_selectors`.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                             <span class="s2">&quot;Duplicated keys: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">css_xpath</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">selector</span> <span class="ow">in</span> <span class="p">[</span><span class="n">xpath_selectors</span><span class="p">,</span> <span class="n">css_selectors</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">selector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">set</span><span class="p">(</span><span class="n">selector</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">crawl_headers</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please make sure you don&#39;t use names of default &quot;</span>
+                             <span class="s2">&quot;headers. Avoid using any of these as keys: </span><span class="se">\n</span><span class="s2">&quot;</span>
+                             <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">crawl_headers</span><span class="p">)))</span>
     <span class="k">if</span> <span class="n">allowed_domains</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">allowed_domains</span> <span class="o">=</span> <span class="p">{</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">netloc</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">url_list</span><span class="p">}</span>
     <span class="n">settings_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -761,8 +921,7 @@
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;css_selectors=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">css_selectors</span><span class="p">),</span>
                <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;xpath_selectors=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">xpath_selectors</span><span class="p">),</span>
                <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">output_file</span><span class="p">]</span> <span class="o">+</span> <span class="n">settings_list</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">url_list</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">MAX_CMD_LENGTH</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">follow_links</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">url_list</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">MAX_CMD_LENGTH</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">follow_links</span><span class="p">:</span>
         <span class="n">split_urls</span> <span class="o">=</span> <span class="n">_split_long_urllist</span><span class="p">(</span><span class="n">url_list</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">u_list</span> <span class="ow">in</span> <span class="n">split_urls</span><span class="p">:</span>
@@ -776,20 +935,25 @@
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Elias Dabbas
+        &#169; Copyright 2021, Elias Dabbas.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -797,7 +961,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

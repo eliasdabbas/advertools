@@ -1,41 +1,44 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Import and Analyze Knowledge Graph Results on a Large Scale &mdash;  Python</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Split, Parse, and Analyze URLs" href="advertools.urlytics.html" />
+    <link rel="next" title="Split, Parse, and Analyze URL Structure" href="advertools.urlytics.html" />
     <link rel="prev" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" href="advertools.serp.html" /> 
 </head>
 
@@ -77,6 +80,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -99,16 +103,17 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Crawl Logs Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Google's Knowledge Graph</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#account-setup">Account Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-use-google-s-knowledge-graph-api">How to use Google’s Knowledge Graph API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-use-google-s-knowledge-graph-api">How to use Google's Knowledge Graph API</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
@@ -128,6 +133,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -162,18 +168,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Import and Analyze Knowledge Graph Results on a Large Scale</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/advertools.knowledge_graph.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -198,11 +206,11 @@ ranks of the different meanings that a word can take for Google (a person, a
 city, a brand, etc.).</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>From <a class="reference external" href="https://developers.google.com/knowledge-graph">Google’s documentation</a>:
+<p>From <a class="reference external" href="https://developers.google.com/knowledge-graph">Google's documentation</a>:
 This API is not suitable for use as a production-critical service. Your
 product should not form a critical dependence on this API.</p>
 </div>
-<p>It’s not clear whether this is from a technical reliability or a content
+<p>It's not clear whether this is from a technical reliability or a content
 correctness point of view, but it is what the docs mention. So please keep this
 in mind when using it.</p>
 <div class="section" id="account-setup">
@@ -214,8 +222,8 @@ Once you have that, you can use it as your <code class="docutils literal notrans
 requests, as shown below.</p>
 </div>
 <div class="section" id="how-to-use-google-s-knowledge-graph-api">
-<h2>How to use Google’s Knowledge Graph API<a class="headerlink" href="#how-to-use-google-s-knowledge-graph-api" title="Permalink to this headline">¶</a></h2>
-<p>What is “google”? Is it a search engine, a company, a brand, a very large
+<h2>How to use Google's Knowledge Graph API<a class="headerlink" href="#how-to-use-google-s-knowledge-graph-api" title="Permalink to this headline">¶</a></h2>
+<p>What is &quot;google&quot;? Is it a search engine, a company, a brand, a very large
 number? What else is it?</p>
 <p>And if it is all of those things, what is the relative ranking of each? What
 is the source of the information, its URL, images (if any)?</p>
@@ -245,13 +253,13 @@ is the source of the information, its URL, images (if any)?</p>
 </div>
 <p>The above table is a sample response from the <a class="reference internal" href="#advertools.knowledge_graph.knowledge_graph" title="advertools.knowledge_graph.knowledge_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">knowledge_graph()</span></code></a> function.
 Many more columns are available as you can see in the second line above.
-We can see that “google” is a company, with a result score of 203,191 and it is
+We can see that &quot;google&quot; is a company, with a result score of 203,191 and it is
 a search engine/website with a result score of 49,462. It is then understood as
 an email application, a mapping application, and so on, as you can see in the
 <cite>result.name</cite> column.</p>
 <p>You can also see that we get the types under which this result falls, in the
 <cite>result.&#64;type</cite> column. Multiple types show the type inheritance, and as you can
-also see, everything is a “Thing”. This is the top element in the type
+also see, everything is a &quot;Thing&quot;. This is the top element in the type
 hierarchy under which everything belongs.</p>
 <p>Like <code class="xref py py-func docutils literal notranslate"><span class="pre">serp_goog()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">serp_youtube()</span></code>, this funcion works in the same
 manner, creating, sending, and aggregating the product of the arguments passed
@@ -264,7 +272,7 @@ to it.</p>
 <p>(google, en), (google, fr), (google, de) , (bing, en), (bing, fr), (bing, de)</p>
 <p>This is actually the main value of having this function, because you usually
 want a large sample to evaluate certain keywords across languages or types.</p>
-<p>Let’s check what “seo” and “search engine optimization” mean in different
+<p>Let's check what &quot;seo&quot; and &quot;search engine optimization&quot; mean in different
 languages.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">seo</span> <span class="o">=</span> <span class="n">knowledge_graph</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;seo&#39;</span><span class="p">,</span> <span class="s1">&#39;search engine optimization&#39;</span><span class="p">],</span> <span class="n">languages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="s1">&#39;es&#39;</span><span class="p">,</span> <span class="s1">&#39;de&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">seo</span>
@@ -296,34 +304,34 @@ languages.</p>
 <span class="go">      dtype=&#39;object&#39;)</span>
 </pre></div>
 </div>
-<p>It’s interesting to see how the same word can mean different things in
+<p>It's interesting to see how the same word can mean different things in
 different contexts.</p>
 <dl class="py function">
 <dt id="advertools.knowledge_graph.knowledge_graph">
 <code class="sig-name descname">knowledge_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">query</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ids</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">languages</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">types</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/knowledge_graph.html#knowledge_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.knowledge_graph.knowledge_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Query Google’s Knowledge Graph with any combination of parameters.</p>
-<p>Note that Google’s documentation states that “This API is not suitable for
-use as a production-critical service.” So please keep this in mind.</p>
+<dd><p>Query Google's Knowledge Graph with any combination of parameters.</p>
+<p>Note that Google's documentation states that &quot;This API is not suitable for
+use as a production-critical service.&quot; So please keep this in mind.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<em>string</em>) – Your Google developer key.</p></li>
-<li><p><strong>query</strong> (<em>string</em>) – A literal string to search for in the Knowledge Graph.</p></li>
-<li><p><strong>ids</strong> (<em>string</em>) – A list of entity IDs to search for in the Knowledge
+<li><p><strong>key</strong> (<em>string</em>) -- Your Google developer key.</p></li>
+<li><p><strong>query</strong> (<em>string</em>) -- A literal string to search for in the Knowledge Graph.</p></li>
+<li><p><strong>ids</strong> (<em>string</em>) -- A list of entity IDs to search for in the Knowledge
 Graph.</p></li>
-<li><p><strong>languages</strong> (<em>string</em>) – The list of language codes (defined in ISO 639) to
+<li><p><strong>languages</strong> (<em>string</em>) -- The list of language codes (defined in ISO 639) to
 run the query with, for instance <cite>en</cite>.</p></li>
-<li><p><strong>types</strong> (<em>string</em>) – Restricts returned entities to those of the specified
+<li><p><strong>types</strong> (<em>string</em>) -- Restricts returned entities to those of the specified
 types. For example,  you can specify <cite>Person</cite> (as
 defined in <a class="reference external" href="http://schema.org/Person">http://schema.org/Person</a>)  to restrict the
 results to entities representing people. If multiple
 types are specified,  returned entities will contain
 one or more of these types.</p></li>
-<li><p><strong>prefix</strong> (<em>boolean</em>) – Enables prefix (initial substring) match against
+<li><p><strong>prefix</strong> (<em>boolean</em>) -- Enables prefix (initial substring) match against
 names and aliases of  entities. For example, a
 prefix <cite>Jung</cite> will match entities and aliases such
 as <cite>Jung</cite>, <cite>Jungle</cite>, and <cite>Jung-ho Kang</cite>.</p></li>
-<li><p><strong>limit</strong> (<em>number</em>) – Limits the number of entities to be returned. Maximum
+<li><p><strong>limit</strong> (<em>number</em>) -- Limits the number of entities to be returned. Maximum
 is 500. Default is 20.  Requests with high limits have
 a higher chance of timing out.</p></li>
 </ul>
@@ -340,29 +348,29 @@ a higher chance of timing out.</p></li>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="advertools.urlytics.html" class="btn btn-neutral float-right" title="Split, Parse, and Analyze URLs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="advertools.serp.html" class="btn btn-neutral float-left" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="advertools.urlytics.html" class="btn btn-neutral float-right" title="Split, Parse, and Analyze URL Structure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="advertools.serp.html" class="btn btn-neutral float-left" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Elias Dabbas
+        &#169; Copyright 2021, Elias Dabbas.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -370,7 +378,6 @@ a higher chance of timing out.</p></li>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

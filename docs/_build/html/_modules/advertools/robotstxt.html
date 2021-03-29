@@ -1,38 +1,41 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>advertools.robotstxt &mdash;  Python</title>
   
 
   
-  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -75,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -97,12 +101,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Crawl Logs Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.urlytics.html">URL Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
@@ -122,6 +127,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -156,11 +162,13 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
@@ -199,28 +207,37 @@
 <span class="sd">To get the robots.txt file into an easily readable format, you can use the</span>
 <span class="sd">:func:`robotstxt_to_df` function to get it in a DataFrame.</span>
 
-<span class="sd">&gt;&gt;&gt; robotstxt_to_df(&#39;https://www.google.com/robots.txt&#39;)</span>
-<span class="sd">      directive                             content                      robotstxt_url                    download_date</span>
-<span class="sd">0    User-agent                                   *  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="sd">1      Disallow                             /search  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="sd">2         Allow                       /search/about  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="sd">3         Allow                      /search/static  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="sd">4         Allow              /search/howsearchworks  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="sd">..          ...                                 ...                                ...                              ...</span>
-<span class="sd">277  User-agent                          Twitterbot  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="sd">278       Allow                             /imgres  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="sd">279  User-agent                 facebookexternalhit  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="sd">280       Allow                             /imgres  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="sd">281     Sitemap  https://www.google.com/sitemap.xml  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="sd">[282 rows x 4 columns]</span>
-
+<span class="sd">&gt;&gt;&gt; robotstxt_to_df(&#39;https://www.amazon.com/robots.txt&#39;)</span>
+<span class="sd">       directive                                            content	    robotstxt_last_modified	                              etag	                      robotstxt_url	                     download_date</span>
+<span class="sd">0	  User-agent	                                              *	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">1	    Disallow	              /exec/obidos/account-access-login	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">2	    Disallow	                      /exec/obidos/change-style	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">4	    Disallow	                    /exec/obidos/handle-buy-box	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">138	    Disallow	                 /gp/help/customer/express/c2c/	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">139	    Disallow	                                      /slp/*/b$	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">140	    Disallow	  /hz/contact-us/ajax/initiate-trusted-contact/	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">141	  User-agent	                                     EtaoSpider	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
+<span class="sd">142	    Disallow	                                              /	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00</span>
 
 <span class="sd">The returned DataFrame contains columns for directives, their content, the URL</span>
 <span class="sd">of the robots.txt file, as well as the date it was downloaded.</span>
-<span class="sd">Under the `directive` column you can see the main commands; Allow, Disallow,</span>
-<span class="sd">Sitemap, Crawl-delay, User-agent, and so on. The `content` column contains the</span>
-<span class="sd">details of each of those directives (the pattern to disallow, the sitemap URL,</span>
-<span class="sd">etc.)</span>
+
+<span class="sd">*  `directive`: The main commands. Allow, Disallow, Sitemap, Crawl-delay,</span>
+<span class="sd">   User-agent, and so on.</span>
+<span class="sd">*  `content`: The details of each of the directives</span>
+<span class="sd">*  `robotstxt_last_modified`: The date when the robots.txt file was last modified</span>
+<span class="sd">   (if availabe)</span>
+<span class="sd">*  `etag`: The entity tag of the response header, if provided.</span>
+<span class="sd">*  `robotstxt_url`: The URL of the robots.txt file.</span>
+<span class="sd">*  `download_date`: The date and time when the file was downloaded.</span>
+
 
 <span class="sd">As for testing, the :func:`robotstxt_test` function runs a test for a given</span>
 <span class="sd">robots.txt file, checking which of the provided user-agents can fetch which of</span>
@@ -366,41 +383,132 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;robotstxt_to_df&#39;</span><span class="p">,</span> <span class="s1">&#39;robotstxt_test&#39;</span><span class="p">]</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="k">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">product</span>
+<span class="kn">from</span> <span class="nn">concurrent</span> <span class="kn">import</span> <span class="n">futures</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
 
-<span class="kn">from</span> <span class="nn">protego</span> <span class="k">import</span> <span class="n">Protego</span>
+<span class="kn">from</span> <span class="nn">protego</span> <span class="kn">import</span> <span class="n">Protego</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">advertools</span> <span class="k">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">version</span>
+<span class="kn">from</span> <span class="nn">advertools</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">version</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;advertools-&#39;</span> <span class="o">+</span> <span class="n">version</span><span class="p">}</span>
 
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="robotstxt_to_df"><a class="viewcode-back" href="../../advertools.robotstxt.html#advertools.robotstxt.robotstxt_to_df">[docs]</a><span class="k">def</span> <span class="nf">robotstxt_to_df</span><span class="p">(</span><span class="n">robotstxt_url</span><span class="p">):</span>
+<div class="viewcode-block" id="robotstxt_to_df"><a class="viewcode-back" href="../../advertools.robotstxt.html#advertools.robotstxt.robotstxt_to_df">[docs]</a><span class="k">def</span> <span class="nf">robotstxt_to_df</span><span class="p">(</span><span class="n">robotstxt_url</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Download the contents of ``robotstxt_url`` into a DataFrame</span>
 
-<span class="sd">    :param url robotstxt_url: The URL of the robots.txt file</span>
+<span class="sd">    You can also use it to download multiple robots files by passing a list of</span>
+<span class="sd">    URLs.</span>
+
+<span class="sd">    &gt;&gt;&gt; robotstxt_to_df(&#39;https://www.twitter.com/robots.txt&#39;)</span>
+<span class="sd">         directive content   	                 robotstxt_url	                   download_date</span>
+<span class="sd">    0	User-agent	     *	https://www.twitter.com/robots.txt	2020-09-27 21:57:23.702814+00:00</span>
+<span class="sd">    1	  Disallow	     /	https://www.twitter.com/robots.txt	2020-09-27 21:57:23.702814+00:00</span>
+
+<span class="sd">    &gt;&gt;&gt; robotstxt_to_df([&#39;https://www.google.com/robots.txt&#39;,</span>
+<span class="sd">    ...                  &#39;https://www.twitter.com/robots.txt&#39;])</span>
+<span class="sd">           directive	                             content	    robotstxt_last_modified	                       robotstxt_url	                     download_date</span>
+<span class="sd">    0	  User-agent	                                   *	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00</span>
+<span class="sd">    1	    Disallow	                             /search	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00</span>
+<span class="sd">    2	       Allow	                       /search/about	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00</span>
+<span class="sd">    3	       Allow	                      /search/static	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00</span>
+<span class="sd">    4	       Allow	              /search/howsearchworks	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00</span>
+<span class="sd">    283	  User-agent	                 facebookexternalhit	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00</span>
+<span class="sd">    284	       Allow	                             /imgres	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00</span>
+<span class="sd">    285	     Sitemap	  https://www.google.com/sitemap.xml	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00</span>
+<span class="sd">    286	  User-agent	                                   *	                        NaT	  https://www.twitter.com/robots.txt	  2021-01-16 14:08:50.468588+00:00</span>
+<span class="sd">    287	    Disallow	                                   /	                        NaT	  https://www.twitter.com/robots.txt	  2021-01-16 14:08:50.468588+00:00</span>
+
+<span class="sd">    For research purposes and if you want to download more than ~500 files, you</span>
+<span class="sd">    might want to use ``output_file`` to save results as they are downloaded.</span>
+<span class="sd">    The file extension should be &quot;.jl&quot;, and robots files are appended to that</span>
+<span class="sd">    file as soon as they are downloaded, in case you lose your connection, or</span>
+<span class="sd">    maybe your patience!</span>
+
+<span class="sd">    &gt;&gt;&gt; robotstxt_to_df([&#39;https://example.com/robots.txt&#39;,</span>
+<span class="sd">    ...                  &#39;https://example.com/robots.txt&#39;,</span>
+<span class="sd">    ...                  &#39;https://example.com/robots.txt&#39;],</span>
+<span class="sd">    ...                 output_file=&#39;robots_output_file.jl&#39;)</span>
+
+<span class="sd">    To open the file as a DataFrame:</span>
+
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; robotsfiles_df = pd.read_json(&#39;robots_output_file.jl&#39;, lines=True)</span>
+
+<span class="sd">    :param url robotstxt_url: One or more URLs of the robots.txt file(s)</span>
+<span class="sd">    :param str output_file: Optional file path to save the robots.txt files,</span>
+<span class="sd">                            mainly useful for downloading &gt; 500 files. The</span>
+<span class="sd">                            files are appended as soon as they are downloaded.</span>
+<span class="sd">                            Only &quot;.jl&quot; extensions are supported.</span>
+
 <span class="sd">    :returns DataFrame robotstxt_df: A DataFrame containing directives, their</span>
 <span class="sd">                                     content, the URL and time of download</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Getting: &#39;</span> <span class="o">+</span> <span class="n">robotstxt_url</span><span class="p">)</span>
-    <span class="n">robots_open</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">robotstxt_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">))</span>
-    <span class="n">robots_text</span> <span class="o">=</span> <span class="n">robots_open</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">robots_text</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
-                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;comment&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()])</span>
+    <span class="k">if</span> <span class="n">output_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">output_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.jl&#39;</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Please specify a file with a `.jl` extension.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">robotstxt_url</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">_robots_multi</span><span class="p">(</span><span class="n">robotstxt_url</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Getting: &#39;</span> <span class="o">+</span> <span class="n">robotstxt_url</span><span class="p">)</span>
+            <span class="n">robots_open</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">robotstxt_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">))</span>
+            <span class="n">robots_text</span> <span class="o">=</span> <span class="n">robots_open</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">robots_text</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
+                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;comment&#39;</span><span class="p">,</span>
+                                      <span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span>
+                                           <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">split</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()])</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;directive&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">])</span>
+            <span class="n">etag_lastmod</span> <span class="o">=</span> <span class="p">{</span><span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">):</span> <span class="n">val</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">header</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">robots_open</span><span class="o">.</span><span class="n">getheaders</span><span class="p">()</span>
+                            <span class="k">if</span> <span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;etag&#39;</span><span class="p">,</span> <span class="s1">&#39;last-modified&#39;</span><span class="p">]}</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">etag_lastmod</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;last_modified&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+                <span class="n">df</span><span class="p">[</span><span class="s1">&#39;robotstxt_last_modified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;last_modified&#39;</span><span class="p">])</span>
+                <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;last_modified&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;errors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)]})</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;robotstxt_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">robotstxt_url</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;download_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">output_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">,</span>
+                                      <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                      <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;iso&#39;</span><span class="p">))</span>
+                <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">df</span></div>
+
+
+<span class="k">def</span> <span class="nf">_robots_multi</span><span class="p">(</span><span class="n">robots_url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">to_do</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">robotsurl</span> <span class="ow">in</span> <span class="n">robots_url_list</span><span class="p">:</span>
+            <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">robotstxt_to_df</span><span class="p">,</span> <span class="n">robotsurl</span><span class="p">)</span>
+            <span class="n">to_do</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future</span><span class="p">)</span>
+        <span class="n">done_iter</span> <span class="o">=</span> <span class="n">futures</span><span class="o">.</span><span class="n">as_completed</span><span class="p">(</span><span class="n">to_do</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">done_iter</span><span class="p">:</span>
+            <span class="n">future_result</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">output_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">future_result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">,</span>
+                                                     <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                     <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;iso&#39;</span><span class="p">))</span>
+                    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">split</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()])</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;directive&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">])</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;robotstxt_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">robotstxt_url</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;download_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">df</span></div>
+                <span class="n">final_df</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future_result</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">output_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">final_df</span>
 
 
 <div class="viewcode-block" id="robotstxt_test"><a class="viewcode-back" href="../../advertools.robotstxt.html#advertools.robotstxt.robotstxt_test">[docs]</a><span class="k">def</span> <span class="nf">robotstxt_test</span><span class="p">(</span><span class="n">robotstxt_url</span><span class="p">,</span> <span class="n">user_agents</span><span class="p">,</span> <span class="n">urls</span><span class="p">):</span>
@@ -461,20 +569,25 @@
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Elias Dabbas
+        &#169; Copyright 2021, Elias Dabbas.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -482,7 +595,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

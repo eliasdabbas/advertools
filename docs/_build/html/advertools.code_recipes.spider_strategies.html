@@ -1,41 +1,44 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes &mdash;  Python</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" href="advertools.serp.html" />
+    <link rel="next" title="Parse and Analyze Crawl Logs in a Dataframe" href="advertools.logs.html" />
     <link rel="prev" title="🕷 Python SEO Crawler / Spider" href="advertools.spider.html" /> 
 </head>
 
@@ -77,6 +80,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -106,18 +110,20 @@
 <li class="toctree-l2"><a class="reference internal" href="#how-can-i-dis-obey-robots-txt-rules">How can I (dis)obey robots.txt rules?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-do-i-set-my-user-agent-while-crawling">How do I set my User-agent while crawling?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-can-i-control-the-number-of-concurrent-requests-while-crawling">How can I control the number of concurrent requests while crawling?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#how-can-i-slow-down-the-crawling-so-i-don-t-hit-the-websites-servers-too-hard">How can I slow down the crawling so I don’t hit the websites’ servers too hard?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-slow-down-the-crawling-so-i-don-t-hit-the-websites-servers-too-hard">How can I slow down the crawling so I don't hit the websites' servers too hard?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-can-i-set-multiple-settings-to-the-same-crawl-job">How can I set multiple settings to the same crawl job?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#i-want-to-crawl-a-list-of-pages-follow-links-from-those-pages-but-only-to-a-certain-specified-depth">I want to crawl a list of pages, follow links from those pages, but only to a certain specified depth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice">How do I pause/resume crawling, while making sure I don’t crawl the same page twice?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice">How do I pause/resume crawling, while making sure I don't crawl the same page twice?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xpath-expressions-for-custom-extraction">XPath expressions for custom extraction</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Crawl Logs Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
@@ -137,6 +143,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -171,18 +178,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/advertools.code_recipes.spider_strategies.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -211,7 +220,7 @@ them.</p>
 <p>Simply provide that list as the first argument, for the <code class="docutils literal notranslate"><span class="pre">url_list</span></code> parameter,
 and make sure that <code class="docutils literal notranslate"><span class="pre">follow_links=False</span></code>, which is the default. This simply
 crawls the given pages, and stops when done.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="kn">as</span> <span class="nn">adv</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://example.com/page_1&#39;</span><span class="p">,</span>
 <span class="gp">... </span>            <span class="s1">&#39;https://example.com/page_2&#39;</span><span class="p">,</span>
 <span class="gp">... </span>            <span class="s1">&#39;https://example.com/page_3&#39;</span><span class="p">,</span>
@@ -219,7 +228,7 @@ crawls the given pages, and stops when done.</p>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span>
 <span class="gp">... </span>          <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
-<span class="gp">... </span>          <span class="n">follow_links</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">... </span>          <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -229,29 +238,29 @@ crawls the given pages, and stops when done.</p>
 parameter. If not provided, it defaults to the domains of the URLs in
 <code class="docutils literal notranslate"><span class="pre">url_list</span></code>. When the crawler goes through the pages of <cite>example.com</cite>, it
 follows links to discover pages. If it finds pages on <cite>help.exmaple.com</cite> it
-won’t crawl them (it’s a different domain). The solution, therefore, is to
+won't crawl them (it's a different domain). The solution, therefore, is to
 provide a list of domains to the <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code> parameter. Make sure you
 also include the original domain, in this case <cite>example.com</cite>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
 <span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
-<span class="gp">... </span>          <span class="n">follow_links</span><span class="o">=</span><span class="bp">True</span>
+<span class="gp">... </span>          <span class="n">follow_links</span><span class="o">=</span><span class="kc">True</span>
 <span class="gp">... </span>          <span class="n">allowed_domains</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;help.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;community.example.com&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="how-can-i-save-a-copy-of-the-logs-of-my-crawl-for-auditing-them-later">
 <h2>How can I save a copy of the logs of my crawl for auditing them later?<a class="headerlink" href="#how-can-i-save-a-copy-of-the-logs-of-my-crawl-for-auditing-them-later" title="Permalink to this headline">¶</a></h2>
-<p>It’s usually good to keep a copy of the logs of all your crawls to check for
+<p>It's usually good to keep a copy of the logs of all your crawls to check for
 errors, exceptions, stats, etc.
 Pass a path of the file where you want the logs to be saved, in a dictionary to
 the <code class="docutils literal notranslate"><span class="pre">cutom_settings</span></code> parameter.
 A good practice for consistency is to give the same name to the <code class="docutils literal notranslate"><span class="pre">output_file</span></code>
 and log file (with a different extension) for easier retreival. For example:</p>
 <div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">output_file</span></code>: ‘website_name_crawl_1.jl’</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">LOG_FILE</span></code>: ‘website_name_crawl_1.log’ (.txt can also work)</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">output_file</span></code>: ‘website_name_crawl_2.jl’</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">LOG_FILE</span></code>: ‘website_name_crawl_2.log’</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">output_file</span></code>: 'website_name_crawl_1.jl'</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">LOG_FILE</span></code>: 'website_name_crawl_1.log' (.txt can also work)</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">output_file</span></code>: 'website_name_crawl_2.jl'</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">LOG_FILE</span></code>: 'website_name_crawl_2.log'</div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
 <span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;LOG_FILE&#39;</span><span class="p">:</span> <span class="s1">&#39;example_crawl_1.log&#39;</span><span class="p">})</span>
@@ -264,11 +273,11 @@ and log file (with a different extension) for easier retreival. For example:</p>
 they mostly have descriptive names:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_ERRORCOUNT</span></code>: You don’t want to wait three hours for a
+<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_ERRORCOUNT</span></code>: You don't want to wait three hours for a
 crawl to finish, only to discover that you had errors all over the place.
 Set a certain number of errors to trigger the crawler to stop, so you can
 investigate the issue.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_ITEMCOUNT</span></code>: Anything scraped from a page is an “item”, h1,
+<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_ITEMCOUNT</span></code>: Anything scraped from a page is an &quot;item&quot;, h1,
 title , meta_desc, etc. Set the crawler to stop after getting a certain
 number of items if you want that.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_PAGECOUNT</span></code>: Stop the crawler after a certain number of
@@ -292,7 +301,7 @@ check the results of crawls without doing that. You can set the
 <code class="docutils literal notranslate"><span class="pre">ROBOTSTXT_OBEY</span></code> setting under <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
 <span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
-<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ROBOTSTXT_OBEY&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">})</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ROBOTSTXT_OBEY&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
@@ -312,7 +321,7 @@ check the results of crawls without doing that. You can set the
 <h2>How can I control the number of concurrent requests while crawling?<a class="headerlink" href="#how-can-i-control-the-number-of-concurrent-requests-while-crawling" title="Permalink to this headline">¶</a></h2>
 <p>Some servers are set for high sensitivity to automated and/or concurrent
 requests, that you can quickly be blocked/banned. You also want to be polite
-and not kill those servers, don’t you?</p>
+and not kill those servers, don't you?</p>
 <p>There are several ways to set that under the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter.
 The available keys are the following:</p>
 <div class="line-block">
@@ -328,7 +337,7 @@ The available keys are the following:</p>
 </div>
 </div>
 <div class="section" id="how-can-i-slow-down-the-crawling-so-i-don-t-hit-the-websites-servers-too-hard">
-<h2>How can I slow down the crawling so I don’t hit the websites’ servers too hard?<a class="headerlink" href="#how-can-i-slow-down-the-crawling-so-i-don-t-hit-the-websites-servers-too-hard" title="Permalink to this headline">¶</a></h2>
+<h2>How can I slow down the crawling so I don't hit the websites' servers too hard?<a class="headerlink" href="#how-can-i-slow-down-the-crawling-so-i-don-t-hit-the-websites-servers-too-hard" title="Permalink to this headline">¶</a></h2>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">DOWNLOAD_DELAY</span></code> setting and set the interval to be waited before
 downloading consecutive pages from the same website (in seconds).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
@@ -358,19 +367,19 @@ of 1 would follow links one level after the provided URLs in <code class="docuti
 </div>
 </div>
 <div class="section" id="how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice">
-<h2>How do I pause/resume crawling, while making sure I don’t crawl the same page twice?<a class="headerlink" href="#how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice" title="Permalink to this headline">¶</a></h2>
+<h2>How do I pause/resume crawling, while making sure I don't crawl the same page twice?<a class="headerlink" href="#how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice" title="Permalink to this headline">¶</a></h2>
 <p>There are several reasons why you might want to do this:</p>
 <ul class="simple">
 <li><p>You want to mainly crawl the updates to the site (you already crawled the site).</p></li>
-<li><p>The site is very big, and can’t be crawled quickly.</p></li>
-<li><p>You are not in a hurry, and you also don’t want to hit the servers hard, so
+<li><p>The site is very big, and can't be crawled quickly.</p></li>
+<li><p>You are not in a hurry, and you also don't want to hit the servers hard, so
 you run your crawl across days for example.</p></li>
 <li><p>As an emergency measure (connection lost, battery died, etc.) you can start
 where you left off</p></li>
 </ul>
 <p>Handling this is extremely simple, and all you have to do is simply provide a
 path to a new folder. Make sure it is new and empty, and make sure to only use
-it for the same crawl job reruns. That’s all you have to worry about. The
+it for the same crawl job reruns. That's all you have to worry about. The
 <code class="docutils literal notranslate"><span class="pre">JOBDIR</span></code> setting handles this.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span>
 <span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
@@ -383,9 +392,192 @@ you used a custom setting option to stop the crawl after a certain number of
 pages, seconds, etc.</p>
 <p>The second time you want to run this, you simply run the exact same command
 again. If you check the folder that was created you can see a few files that
-manage the process. You don’t need to worry about any of it. But make sure that
-folder doesn’t get changed manually, rerun the same command as many times as
+manage the process. You don't need to worry about any of it. But make sure that
+folder doesn't get changed manually, rerun the same command as many times as
 you need, and the crawler should handle de-duplication for you.</p>
+</div>
+<div class="section" id="xpath-expressions-for-custom-extraction">
+<h2>XPath expressions for custom extraction<a class="headerlink" href="#xpath-expressions-for-custom-extraction" title="Permalink to this headline">¶</a></h2>
+<p>The following are some expressions you might find useful in your crawling,
+whether you use <code class="docutils literal notranslate"><span class="pre">advertools</span></code> or not. The first column indicates whether or
+not the respective expression is used by default by the <code class="docutils literal notranslate"><span class="pre">advertools</span></code> crawler.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 9%" />
+<col style="width: 30%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Used by advertools</p></th>
+<th class="head"><p>Suggested Name</p></th>
+<th class="head"><p>XPath Expression</p></th>
+<th class="head"><p>What it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>title</p></td>
+<td><p>//title/text()</p></td>
+<td><p>Extract the text of title tags</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>meta_desc</p></td>
+<td><p>//meta[&#64;name='description']/&#64;content</p></td>
+<td><p>Extract the content attribute of the meta tag which has the name 'description'</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>viewport</p></td>
+<td><p>//meta[&#64;name='viewport']/&#64;content</p></td>
+<td><p>Extract the content attribute of the meta tag which has the name 'viewport</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>charset</p></td>
+<td><p>//meta[&#64;charset]/&#64;charset</p></td>
+<td><p>Get the meta tag that has the attribute 'charset', extract the charset attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>h1</p></td>
+<td><p>//h1/text()</p></td>
+<td><p>Get the h1 tags, extract their text</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>h2</p></td>
+<td><p>//h2/text()</p></td>
+<td><p>Get the h2 tags, extract their text</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>h3</p></td>
+<td><p>//h3/text()</p></td>
+<td><p>Get the h3 tags, extract their text</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>h4</p></td>
+<td><p>//h4/text()</p></td>
+<td><p>Get the h4 tags, extract their text</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>h5</p></td>
+<td><p>//h5/text()</p></td>
+<td><p>Get the h5 tags, extract their text</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>h6</p></td>
+<td><p>//h6/text()</p></td>
+<td><p>Get the h6 tags, extract their text</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>canonical</p></td>
+<td><p>//link[&#64;rel='canonical']/&#64;href</p></td>
+<td><p>Get the link elements with the rel attribute 'canonical', extract their href attributes</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>alt_href</p></td>
+<td><p>//link[&#64;rel='alternate']/&#64;href</p></td>
+<td><p>Get the link elements with the rel attribute 'alternate', extract their href attributes</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>alt_hreflang</p></td>
+<td><p>//link[&#64;rel='alternate']/&#64;hreflang</p></td>
+<td><p>Get the link elements with the rel attribute 'alternate', extract their hreflang attributes</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>og_props</p></td>
+<td><p>//meta[starts-with(&#64;property, 'og:')]/&#64;property</p></td>
+<td><p>Extract all properties of meta tags whos property attribute starts with 'og:' (OpenGraph)</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>og_content</p></td>
+<td><p>//meta[starts-with(&#64;property, 'og:')]/&#64;content</p></td>
+<td><p>Extract the content of meta tags whos property attribute starts with 'og:' (OpenGraph)</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>twtr_names</p></td>
+<td><p>//meta[starts-with(&#64;name, 'twitter:')]/&#64;name</p></td>
+<td><p>Get meta tags who's name starts with 'twitter:' and extract their name attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>twtr_content</p></td>
+<td><p>//meta[starts-with(&#64;name, 'twitter:')]/&#64;content</p></td>
+<td><p>Get meta tags who's name starts with 'twitter:' and extract their content attribute</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>iframe_src</p></td>
+<td><p><a class="reference external" href="mailto://iframe/&#37;&#52;&#48;src">//iframe/<span>&#64;</span>src</a></p></td>
+<td><p>Get the iframes, and extract their src attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>False</p></td>
+<td><p>gtm_script</p></td>
+<td><p>//script[contains(&#64;src, 'googletagmanager.com/gtm.js?id=')]/&#64;src</p></td>
+<td><p>Get the script where the src attribute contains googletagmanager.com/gtm.js?id= and extract its src attribute</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>gtm_noscript</p></td>
+<td><p>//iframe[contains(&#64;src, 'googletagmanager.com/ns.html?id=')]/&#64;src</p></td>
+<td><p>Get the iframes where the src attribute contains googletagmanager.com/ns.html?id= and extract the src attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>False</p></td>
+<td><p>link_rel_rel</p></td>
+<td><p>//link[&#64;rel]/&#64;rel</p></td>
+<td><p>Get all the link elements that have a rel attribute, extract the rel attributes</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>link_rel_href</p></td>
+<td><p>//link[&#64;rel]/&#64;href</p></td>
+<td><p>Get all the link elements that have a rel attribute, extract the href attributes</p></td>
+</tr>
+<tr class="row-even"><td><p>False</p></td>
+<td><p>link_rel_stylesheet</p></td>
+<td><p>//link[&#64;rel='stylesheet']/&#64;href</p></td>
+<td><p>Get all the link elements that have a stylesheet attribute, extract their href attribute</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>css_links</p></td>
+<td><p>//link[contains(&#64;href, '.css')]/&#64;href</p></td>
+<td><p>Get the link elements where the href attribute contains .css, extract their href attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>footer_links_text</p></td>
+<td><p>//footer//a/text()</p></td>
+<td><p>From the footer, extract the anchor text of links</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>footer_links_href</p></td>
+<td><p><a class="reference external" href="mailto://footer//a/&#37;&#52;&#48;href">//footer//a/<span>&#64;</span>href</a></p></td>
+<td><p>From the footer, extract all the links</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>header_links_text</p></td>
+<td><p>//header//a/text()</p></td>
+<td><p>From the header, extract the anchor text of links</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>header_links_href</p></td>
+<td><p><a class="reference external" href="mailto://header//a/&#37;&#52;&#48;href">//header//a/<span>&#64;</span>href</a></p></td>
+<td><p>From the header, extract all the links</p></td>
+</tr>
+<tr class="row-even"><td><p>False</p></td>
+<td><p>js_script_src</p></td>
+<td><p>//script[&#64;type='text/javascript']/&#64;src</p></td>
+<td><p>From script tags where the type is text/javascript, extract the src of the script(s)</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>js_script_text</p></td>
+<td><p>//script[&#64;type='text/javascript']/text()</p></td>
+<td><p>From script tags where the type is text/javascript, extract the text of the script(s)</p></td>
+</tr>
+<tr class="row-even"><td><p>False</p></td>
+<td><p>script_src</p></td>
+<td><p><a class="reference external" href="mailto://script//&#37;&#52;&#48;src">//script//<span>&#64;</span>src</a></p></td>
+<td><p>Get the src attribute of any &lt;script&gt; tag</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>canonical_parent</p></td>
+<td><p>name(//link[&#64;rel='canonical']/..)</p></td>
+<td><p>Get the name of the parent of the link element that has a rel attribute 'canonical'</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
     <script type="application/ld+json">
@@ -490,29 +682,29 @@ you need, and the crawler should handle de-duplication for you.</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="advertools.serp.html" class="btn btn-neutral float-right" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="advertools.spider.html" class="btn btn-neutral float-left" title="🕷 Python SEO Crawler / Spider" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="advertools.logs.html" class="btn btn-neutral float-right" title="Parse and Analyze Crawl Logs in a Dataframe" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="advertools.spider.html" class="btn btn-neutral float-left" title="🕷 Python SEO Crawler / Spider" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Elias Dabbas
+        &#169; Copyright 2021, Elias Dabbas.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -520,7 +712,6 @@ you need, and the crawler should handle de-duplication for you.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

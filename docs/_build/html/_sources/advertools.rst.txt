@@ -21,6 +21,7 @@ Submodules
    advertools.extract
    advertools.knowledge_graph
    advertools.kw_generate
+   advertools.logs
    advertools.regex
    advertools.robotstxt
    advertools.serp

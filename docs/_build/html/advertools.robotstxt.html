@@ -1,38 +1,41 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>🤖 robots.txt Tester for Large Scale Testing &mdash;  Python</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Download, Parse, and Analyze XML Sitemaps" href="advertools.sitemaps.html" />
@@ -77,6 +80,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -103,12 +107,13 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Crawl Logs Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
@@ -128,6 +133,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -162,18 +168,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>🤖 robots.txt Tester for Large Scale Testing</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/advertools.robotstxt.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -199,28 +207,38 @@ ideally, you want to be able to run the check for a large number of pages with
 every possible combination with user-agents!</p>
 <p>To get the robots.txt file into an easily readable format, you can use the
 <a class="reference internal" href="#advertools.robotstxt.robotstxt_to_df" title="advertools.robotstxt.robotstxt_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_to_df()</span></code></a> function to get it in a DataFrame.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.google.com/robots.txt&#39;</span><span class="p">)</span>
-<span class="go">      directive                             content                      robotstxt_url                    download_date</span>
-<span class="go">0    User-agent                                   *  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="go">1      Disallow                             /search  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="go">2         Allow                       /search/about  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="go">3         Allow                      /search/static  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="go">4         Allow              /search/howsearchworks  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="go">..          ...                                 ...                                ...                              ...</span>
-<span class="go">277  User-agent                          Twitterbot  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="go">278       Allow                             /imgres  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="go">279  User-agent                 facebookexternalhit  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="go">280       Allow                             /imgres  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="go">281     Sitemap  https://www.google.com/sitemap.xml  https://www.google.com/robots.txt 2020-06-01 14:05:16.068031+00:00</span>
-<span class="go">[282 rows x 4 columns]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.amazon.com/robots.txt&#39;</span><span class="p">)</span>
+<span class="go">       directive                                            content         robotstxt_last_modified                                   etag                            robotstxt_url                          download_date</span>
+<span class="go">0         User-agent                                                  *   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">1           Disallow                  /exec/obidos/account-access-login   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">2           Disallow                          /exec/obidos/change-style   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">4           Disallow                        /exec/obidos/handle-buy-box   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">138         Disallow                     /gp/help/customer/express/c2c/   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">139         Disallow                                          /slp/*/b$   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">140         Disallow      /hz/contact-us/ajax/initiate-trusted-contact/   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">141       User-agent                                         EtaoSpider   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">142         Disallow                                                  /   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
 </pre></div>
 </div>
 <p>The returned DataFrame contains columns for directives, their content, the URL
-of the robots.txt file, as well as the date it was downloaded.
-Under the <cite>directive</cite> column you can see the main commands; Allow, Disallow,
-Sitemap, Crawl-delay, User-agent, and so on. The <cite>content</cite> column contains the
-details of each of those directives (the pattern to disallow, the sitemap URL,
-etc.)</p>
+of the robots.txt file, as well as the date it was downloaded.</p>
+<ul class="simple">
+<li><p><cite>directive</cite>: The main commands. Allow, Disallow, Sitemap, Crawl-delay,
+User-agent, and so on.</p></li>
+<li><p><cite>content</cite>: The details of each of the directives</p></li>
+<li><p><cite>robotstxt_last_modified</cite>: The date when the robots.txt file was last modified
+(if availabe)</p></li>
+<li><p><cite>etag</cite>: The entity tag of the response header, if provided.</p></li>
+<li><p><cite>robotstxt_url</cite>: The URL of the robots.txt file.</p></li>
+<li><p><cite>download_date</cite>: The date and time when the file was downloaded.</p></li>
+</ul>
 <p>As for testing, the <a class="reference internal" href="#advertools.robotstxt.robotstxt_test" title="advertools.robotstxt.robotstxt_test"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_test()</span></code></a> function runs a test for a given
 robots.txt file, checking which of the provided user-agents can fetch which of
 the provided URLs, paths, or patterns.</p>
@@ -306,7 +324,7 @@ user-agents that it contains.</p>
 </pre></div>
 </div>
 <p>Quite a long list!</p>
-<p>As a small and quick test, I’m interested in checking the home page, a random
+<p>As a small and quick test, I'm interested in checking the home page, a random
 profile page (/bbc), groups and hashtags pages.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">urls_to_test</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;/bbc&#39;</span><span class="p">,</span> <span class="s1">&#39;/groups&#39;</span><span class="p">,</span> <span class="s1">&#39;/hashtag/&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fb_test</span> <span class="o">=</span> <span class="n">robotstxt_test</span><span class="p">(</span><span class="s1">&#39;https://www.facebook.com/robots.txt&#39;</span><span class="p">,</span>
@@ -330,7 +348,7 @@ profile page (/bbc), groups and hashtags pages.</p>
 <p>For twenty user-agents and four URLs each, we received a total of eighty test
 results. You can immediately see that all user-agents not listed (denoted by
 <cite>*</cite> are not allowed to fetch any of the provided URLs).</p>
-<p>Let’s see who is and who is not allowed to fetch the home page.</p>
+<p>Let's see who is and who is not allowed to fetch the home page.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fb_test</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;url_path== &quot;/&quot;&#39;</span><span class="p">)</span>
 <span class="go">                          robotstxt_url           user_agent  url_path  can_fetch</span>
 <span class="go">2   https://www.facebook.com/robots.txt                    *         /      False</span>
@@ -355,23 +373,8 @@ results. You can immediately see that all user-agents not listed (denoted by
 <span class="go">76  https://www.facebook.com/robots.txt                teoma         /       True</span>
 </pre></div>
 </div>
-<p>I’ll leave it to you to figure out why LinkedIn and Pinterest are not allowed
+<p>I'll leave it to you to figure out why LinkedIn and Pinterest are not allowed
 to crawl the home page but Google and Apple are, because I have no clue!</p>
-<dl class="py function">
-<dt id="advertools.robotstxt.robotstxt_to_df">
-<code class="sig-name descname">robotstxt_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">robotstxt_url</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_to_df" title="Permalink to this definition">¶</a></dt>
-<dd><p>Download the contents of <code class="docutils literal notranslate"><span class="pre">robotstxt_url</span></code> into a DataFrame</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>robotstxt_url</strong> (<em>url</em>) – The URL of the robots.txt file</p>
-</dd>
-<dt class="field-even">Returns DataFrame robotstxt_df</dt>
-<dd class="field-even"><p>A DataFrame containing directives, their
-content, the URL and time of download</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py function">
 <dt id="advertools.robotstxt.robotstxt_test">
 <code class="sig-name descname">robotstxt_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">robotstxt_url</span></em>, <em class="sig-param"><span class="n">user_agents</span></em>, <em class="sig-param"><span class="n">urls</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_test" title="Permalink to this definition">¶</a></dt>
@@ -400,14 +403,74 @@ checked and the results returned in one DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>robotstxt_url</strong> (<em>url</em>) – The URL of robotx.txt file</p></li>
-<li><p><strong>user_agents</strong> (<em>str</em><em>,</em><em>list</em>) – One or more user agents</p></li>
-<li><p><strong>urls</strong> (<em>str</em><em>,</em><em>list</em>) – One or more paths (relative) or URLs (absolute) to
+<li><p><strong>robotstxt_url</strong> (<em>url</em>) -- The URL of robotx.txt file</p></li>
+<li><p><strong>user_agents</strong> (<em>str</em><em>,</em><em>list</em>) -- One or more user agents</p></li>
+<li><p><strong>urls</strong> (<em>str</em><em>,</em><em>list</em>) -- One or more paths (relative) or URLs (absolute) to
 check</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return DataFrame robotstxt_test_df</dt>
 <dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="advertools.robotstxt.robotstxt_to_df">
+<code class="sig-name descname">robotstxt_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">robotstxt_url</span></em>, <em class="sig-param"><span class="n">output_file</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download the contents of <code class="docutils literal notranslate"><span class="pre">robotstxt_url</span></code> into a DataFrame</p>
+<p>You can also use it to download multiple robots files by passing a list of
+URLs.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.twitter.com/robots.txt&#39;</span><span class="p">)</span>
+<span class="go">     directive content                       robotstxt_url                     download_date</span>
+<span class="go">0   User-agent           *  https://www.twitter.com/robots.txt      2020-09-27 21:57:23.702814+00:00</span>
+<span class="go">1     Disallow           /  https://www.twitter.com/robots.txt      2020-09-27 21:57:23.702814+00:00</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">([</span><span class="s1">&#39;https://www.google.com/robots.txt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="s1">&#39;https://www.twitter.com/robots.txt&#39;</span><span class="p">])</span>
+<span class="go">       directive                                 content        robotstxt_last_modified                            robotstxt_url                         download_date</span>
+<span class="go">0     User-agent                                       *      2021-01-11 21:00:00+00:00        https://www.google.com/robots.txt      2021-01-16 14:08:50.087985+00:00</span>
+<span class="go">1       Disallow                                 /search      2021-01-11 21:00:00+00:00        https://www.google.com/robots.txt      2021-01-16 14:08:50.087985+00:00</span>
+<span class="go">2          Allow                           /search/about      2021-01-11 21:00:00+00:00        https://www.google.com/robots.txt      2021-01-16 14:08:50.087985+00:00</span>
+<span class="go">3          Allow                          /search/static      2021-01-11 21:00:00+00:00        https://www.google.com/robots.txt      2021-01-16 14:08:50.087985+00:00</span>
+<span class="go">4          Allow                  /search/howsearchworks      2021-01-11 21:00:00+00:00        https://www.google.com/robots.txt      2021-01-16 14:08:50.087985+00:00</span>
+<span class="go">283   User-agent                     facebookexternalhit      2021-01-11 21:00:00+00:00        https://www.google.com/robots.txt      2021-01-16 14:08:50.087985+00:00</span>
+<span class="go">284        Allow                                 /imgres      2021-01-11 21:00:00+00:00        https://www.google.com/robots.txt      2021-01-16 14:08:50.087985+00:00</span>
+<span class="go">285      Sitemap      https://www.google.com/sitemap.xml      2021-01-11 21:00:00+00:00        https://www.google.com/robots.txt      2021-01-16 14:08:50.087985+00:00</span>
+<span class="go">286   User-agent                                       *                            NaT       https://www.twitter.com/robots.txt      2021-01-16 14:08:50.468588+00:00</span>
+<span class="go">287     Disallow                                       /                            NaT       https://www.twitter.com/robots.txt      2021-01-16 14:08:50.468588+00:00</span>
+</pre></div>
+</div>
+<p>For research purposes and if you want to download more than ~500 files, you
+might want to use <code class="docutils literal notranslate"><span class="pre">output_file</span></code> to save results as they are downloaded.
+The file extension should be &quot;.jl&quot;, and robots files are appended to that
+file as soon as they are downloaded, in case you lose your connection, or
+maybe your patience!</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">([</span><span class="s1">&#39;https://example.com/robots.txt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="s1">&#39;https://example.com/robots.txt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="s1">&#39;https://example.com/robots.txt&#39;</span><span class="p">],</span>
+<span class="gp">... </span>                <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;robots_output_file.jl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To open the file as a DataFrame:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">robotsfiles_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;robots_output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>robotstxt_url</strong> (<em>url</em>) -- One or more URLs of the robots.txt file(s)</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) -- Optional file path to save the robots.txt files,
+mainly useful for downloading &gt; 500 files. The
+files are appended as soon as they are downloaded.
+Only &quot;.jl&quot; extensions are supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns DataFrame robotstxt_df</dt>
+<dd class="field-even"><p>A DataFrame containing directives, their
+content, the URL and time of download</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -419,29 +482,29 @@ check</p></li>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="advertools.sitemaps.html" class="btn btn-neutral float-right" title="Download, Parse, and Analyze XML Sitemaps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="advertools.ad_from_string.html" class="btn btn-neutral float-left" title="Create Ads Using Long Descriptive Text (top-down approach)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="advertools.sitemaps.html" class="btn btn-neutral float-right" title="Download, Parse, and Analyze XML Sitemaps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="advertools.ad_from_string.html" class="btn btn-neutral float-left" title="Create Ads Using Long Descriptive Text (top-down approach)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Elias Dabbas
+        &#169; Copyright 2021, Elias Dabbas.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -449,7 +512,6 @@ check</p></li>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

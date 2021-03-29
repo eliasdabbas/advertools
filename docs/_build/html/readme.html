@@ -1,38 +1,41 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>advertools: productivity &amp; analysis tools to scale your online marketing &mdash;  Python</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Generate Keywords for SEM Campaigns" href="advertools.kw_generate.html" />
@@ -77,6 +80,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -99,12 +103,13 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Crawl Logs Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
@@ -124,6 +129,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -158,18 +164,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li><code class="docutils literal notranslate"><span class="pre">advertools</span></code>: productivity &amp; analysis tools to scale your online marketing</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/readme.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -192,7 +200,7 @@
 <div class="line-block">
 <div class="line">🎊 <strong>New:</strong> <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.spider.html">SEO crawler</a>
 now extracts JSON-LD canonical, alternate href, alternate hreflang, OpenGraph, and Twitter cards if available on pages</div>
-<div class="line">🎉 <strong>New:</strong> <code class="docutils literal notranslate"><span class="pre">knowledge_graph</span></code> Function for <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.knowledge_graph.html">connecting to Google’s Knowledge Graph Data API</a></div>
+<div class="line">🎉 <strong>New:</strong> <code class="docutils literal notranslate"><span class="pre">knowledge_graph</span></code> Function for <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.knowledge_graph.html">connecting to Google's Knowledge Graph Data API</a></div>
 <div class="line">🎉 <strong>Faster:</strong> <code class="docutils literal notranslate"><span class="pre">sitemap_to_df</span></code> Function for <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.sitemaps.html">downloading &amp; parsing XML sitemaps</a> into DataFrames, is much faster now</div>
 </div>
 <div class="section" id="advertools-productivity-analysis-tools-to-scale-your-online-marketing">
@@ -228,7 +236,7 @@ Once you have this done, you can focus on management and analysis. More importan
 once you know that you can set this up in an easy way, you know you can focus
 on more strategic issues. In practical terms you need two main tables to get started:</p>
 <ul class="simple">
-<li><p>Keywords: You can <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.kw_generate.html">generate keywords</a> (note I didn’t say research)  with the
+<li><p>Keywords: You can <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.kw_generate.html">generate keywords</a> (note I didn't say research)  with the
 <cite>kw_generate</cite> function.</p></li>
 <li><p>Ads: There are two approaches that you can use:</p>
 <ul>
@@ -243,7 +251,7 @@ helps you accomplish that.</p></li>
 </li>
 <li><p>Tutorials and additional resources</p>
 <ul>
-<li><p><a class="reference external" href="https://www.datacamp.com/community/tutorials/sem-data-science">Setting a full SEM campaign</a> for DataCamp’s website tutorial</p></li>
+<li><p><a class="reference external" href="https://www.datacamp.com/community/tutorials/sem-data-science">Setting a full SEM campaign</a> for DataCamp's website tutorial</p></li>
 <li><p>Project to practice <a class="reference external" href="https://www.datacamp.com/projects/400">generating SEM keywords with Python</a> on DataCamp</p></li>
 <li><p><a class="reference external" href="https://www.semrush.com/blog/setting-up-search-engine-marketing-campaigns-on-large-scale/">Setting up SEM campaigns on a large scale</a> tutorial on SEMrush</p></li>
 <li><p>Visual <a class="reference external" href="https://www.dashboardom.com/advertools">tool to generate keywords</a> online based on the <cite>kw_generate</cite> function</p></li>
@@ -267,7 +275,7 @@ status code, reponse and request headers, etc.)</p></li>
 <li><p>CSS and XPath selectors: You probably have more specific needs in mind, so
 you can easily pass any selectors to be extracted in addition to the
 standard elements being extracted</p></li>
-<li><p>Custom settings: full access to Scrapy’s settings, allowing you to better
+<li><p>Custom settings: full access to Scrapy's settings, allowing you to better
 control the crawling behavior (set custom headers, user agent, stop spider
 after x pages, seconds, megabytes, save crawl logs, run jobs at intervals
 where you can stop and resume your crawls, which is ideal for large crawls
@@ -285,7 +293,7 @@ An essential part of any SEO analysis is to check XML sitemaps. This is a
 simple function with which you can download one or more sitemaps (by
 providing the URL for a robots.txt file, a sitemap file, or a sitemap index</p></li>
 <li><p><a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.serp.html">SERP importer and parser for Google &amp; YouTube</a>
-Connect to Google’s API and get the search data you want. Multiple search
+Connect to Google's API and get the search data you want. Multiple search
 parameters supported, all in one function call, and all results returned in a
 DataFrame</p></li>
 <li><p>Tutorials and additional resources</p>
@@ -319,7 +327,7 @@ extracts, XML sitemaps and so on. <code class="docutils literal notranslate"><sp
 easily readable DataFrames.</p></li>
 <li><p><a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.emoji.html">Emoji</a>
 Produced with one click, extremely expressive, highly diverse (3k+ emoji),
-and very popular, it’s important to capture what people are trying to communicate
+and very popular, it's important to capture what people are trying to communicate
 with emoji. Extracting emoji, get their names, groups, and sub-groups is
 possible. The full emoji database is also available for convenience, as well
 as an <code class="docutils literal notranslate"><span class="pre">emoji_search</span></code> function in case you want some ideas for your next
@@ -351,7 +359,7 @@ by default</p></li>
 <li><p>DataFrame results: APIs send you back data in a formats that need to be
 parsed and cleaned so you can more easily start your analysis. This is also
 handled automatically</p></li>
-<li><p>Multiple requests: in YouTube’s case you might want to request data for the
+<li><p>Multiple requests: in YouTube's case you might want to request data for the
 same query across several countries, languages, channels, etc. You can
 specify them all in one request and get the product of all the requests in
 one response</p></li>
@@ -390,29 +398,29 @@ autocomplete to discover other options:</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="advertools.kw_generate.html" class="btn btn-neutral float-right" title="Generate Keywords for SEM Campaigns" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="index.html" class="btn btn-neutral float-left" title="advertools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="advertools.kw_generate.html" class="btn btn-neutral float-right" title="Generate Keywords for SEM Campaigns" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="advertools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Elias Dabbas
+        &#169; Copyright 2021, Elias Dabbas.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -420,7 +428,6 @@ autocomplete to discover other options:</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -1,39 +1,42 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <meta content="Convert a long descriptive text into a text ad, by splitting it according to whichever template you want." lang="en" name="description" xml:lang="en" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Create Ads Using Long Descriptive Text (top-down approach) &mdash;  Python</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="🤖 robots.txt Tester for Large Scale Testing" href="advertools.robotstxt.html" />
@@ -78,6 +81,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -105,12 +109,13 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Crawl Logs Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
@@ -130,6 +135,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -164,18 +170,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Create Ads Using Long Descriptive Text (top-down approach)</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/advertools.ad_from_string.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -194,7 +202,7 @@
 <p>Many times you have long descriptive text about your products, especially on
 their respective landing pages. The allowed length of text ads has become
 considerably long on many platforms. On Google Ads for example, you have slots
-of 30, 30, 30, 90, and 90 characters, for a total of 270. That’s more than
+of 30, 30, 30, 90, and 90 characters, for a total of 270. That's more than
 enough space to talk about the main features of your product.</p>
 <p>The question is, how do you utilize that long description text that has all the
 details that you want, and make sure it fits correctly within the limits given
@@ -211,7 +219,7 @@ based on the ad format and the platform you are using.</p>
 on the landing pages of each product.</p>
 </dd>
 <dt id="term-slots">slots</dt><dd><p>The lengths that you want to split into. Note that although the default
-uses Google Ads’ text ad template, you can change it to any other
+uses Google Ads' text ad template, you can change it to any other
 group of slots, with more or fewer slots of different lengths.</p>
 </dd>
 <dt id="term-sep">sep</dt><dd><p>The separator by which to split the text. The default is <code class="xref py py-attr docutils literal notranslate"><span class="pre">None</span></code>
@@ -236,7 +244,7 @@ one element more than the provided slots to ensure consistency.</p>
 <span class="go">130</span>
 </pre></div>
 </div>
-<p>Now let’s see how this same description can be utilized in different scenarios</p>
+<p>Now let's see how this same description can be utilized in different scenarios</p>
 <div class="section" id="google-text-ads">
 <h2>Google Text Ads<a class="headerlink" href="#google-text-ads" title="Permalink to this headline">¶</a></h2>
 <p>Since this is shorter than the default Google values, you will get extra empty
@@ -286,7 +294,7 @@ end up having an extra space that is not used:</p>
 </div>
 <dl class="py function">
 <dt id="advertools.ad_from_string.ad_from_string">
-<code class="sig-name descname">ad_from_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">slots</span><span class="o">=</span><span class="default_value">30, 30, 30, 90, 90, 15, 15</span></em>, <em class="sig-param"><span class="n">sep</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">capitalize</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ad_from_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">slots</span><span class="o">=</span><span class="default_value">(30, 30, 30, 90, 90, 15, 15)</span></em>, <em class="sig-param"><span class="n">sep</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">capitalize</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert string <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> to an ad by splitting it into groups of words.
 Each group would have a length of at most the allowed length for that slot.</p>
 <p>If the total length of <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> exceeds the total allowed length, all
@@ -295,11 +303,11 @@ returned list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<em>str</em>) – a string of characters, with no restrictions on length</p></li>
-<li><p><strong>slots</strong> (<em>list</em>) – an iterable of integers for the maximum lengths for
+<li><p><strong>s</strong> (<em>str</em>) -- a string of characters, with no restrictions on length</p></li>
+<li><p><strong>slots</strong> (<em>list</em>) -- an iterable of integers for the maximum lengths for
 each slot</p></li>
-<li><p><strong>sep</strong> (<em>str</em>) – character(s) by which to split <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code></p></li>
-<li><p><strong>capitalize</strong> (<em>bool</em>) – whether or not to capitalize each word after
+<li><p><strong>sep</strong> (<em>str</em>) -- character(s) by which to split <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code></p></li>
+<li><p><strong>capitalize</strong> (<em>bool</em>) -- whether or not to capitalize each word after
 grouping. Setting it as False would not change the
 capitalization of the input string</p></li>
 </ul>
@@ -342,29 +350,29 @@ capitalization of the input string</p></li>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="advertools.robotstxt.html" class="btn btn-neutral float-right" title="🤖 robots.txt Tester for Large Scale Testing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="advertools.ad_create.html" class="btn btn-neutral float-left" title="Create Ads on a Large Scale" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="advertools.robotstxt.html" class="btn btn-neutral float-right" title="🤖 robots.txt Tester for Large Scale Testing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="advertools.ad_create.html" class="btn btn-neutral float-left" title="Create Ads on a Large Scale" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Elias Dabbas
+        &#169; Copyright 2021, Elias Dabbas.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -372,7 +380,6 @@ capitalization of the input string</p></li>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

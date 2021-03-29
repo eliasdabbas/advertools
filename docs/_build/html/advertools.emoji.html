@@ -1,43 +1,46 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <meta content="The full emoji database, an emoji regular expression, and emoji search functionality in a Python module." lang="en" name="description" xml:lang="en" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Emoji: Extract, Analyze, and Get Insights &mdash;  Python</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Extract structured entities from text lists" href="advertools.extract.html" />
-    <link rel="prev" title="Split, Parse, and Analyze URLs" href="advertools.urlytics.html" /> 
+    <link rel="prev" title="Split, Parse, and Analyze URL Structure" href="advertools.urlytics.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -78,6 +81,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -100,12 +104,13 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Crawl Logs Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
@@ -125,6 +130,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -159,18 +165,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Emoji: Extract, Analyze, and Get Insights</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/advertools.emoji.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -196,7 +204,7 @@ emoji from text.</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">EMOJI_ENTRIES</span></code></p></td>
-<td><p>A dictionary of the full emoji list together with unicode code points, textual name, group, and sub-group. Based on v13.0 <a class="reference external" href="https://unicode.org/Public/emoji/13.0/emoji-test.txt">https://unicode.org/Public/emoji/13.0/emoji-test.txt</a></p></td>
+<td><p>A dictionary of the full emoji list together with unicode code points, textual name, group, and sub-group. Based on v13.1 <a class="reference external" href="https://unicode.org/Public/emoji/13.1/emoji-test.txt">https://unicode.org/Public/emoji/13.1/emoji-test.txt</a></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">emoji_df</span></code></p></td>
 <td><p>The same dictionary as a pandas DataFrame</p></td>
@@ -213,6 +221,39 @@ emoji from text.</p>
 </tbody>
 </table>
 <dl class="py function">
+<dt id="advertools.emoji.emoji_search">
+<code class="sig-name descname">emoji_search</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">regex</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/emoji.html#emoji_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.emoji.emoji_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a DataFrame of all emoji entries where any description contains
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">regex</span></code>.</p>
+<p>&quot;description&quot; can be the name of the emoji, its group, or sub-group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>regex</strong> (<em>str</em>) -- regular expression (case insensitive)</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;dog&#39;</span><span class="p">)</span>
+<span class="go">          codepoint           status  emoji          name             group      sub_group</span>
+<span class="go">0             1F436  fully-qualified     🐶      dog face  Animals &amp; Nature   animal-mammal</span>
+<span class="go">1             1F415  fully-qualified     🐕           dog  Animals &amp; Nature   animal-mammal</span>
+<span class="go">2             1F9AE  fully-qualified     🦮     guide dog  Animals &amp; Nature   animal-mammal</span>
+<span class="go">3  1F415 200D 1F9BA  fully-qualified   🐕‍🦺   service dog  Animals &amp; Nature    animal-mammal</span>
+<span class="go">4             1F32D  fully-qualified     🌭       hot dog      Food &amp; Drink    food-prepared</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blue</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="go">  codepoint           status emoji                name               group     sub_group</span>
+<span class="go">0     1F499  fully-qualified     💙          blue heart  Smileys &amp; Emotion       emotion</span>
+<span class="go">1     1FAD0  fully-qualified     🫐         blueberries       Food &amp; Drink    food-fruit</span>
+<span class="go">2     1F4D8  fully-qualified     📘           blue book            Objects    book-paper</span>
+<span class="go">3     1F535  fully-qualified     🔵         blue circle            Symbols     geometric</span>
+<span class="go">4     1F7E6  fully-qualified     🟦         blue square            Symbols     geometric</span>
+<span class="go">5     1F537  fully-qualified     🔷  large blue diamond            Symbols     geometric</span>
+<span class="go">6     1F539  fully-qualified     🔹  small blue diamond            Symbols     geometric</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt id="advertools.emoji.extract_emoji">
 <code class="sig-name descname">extract_emoji</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/emoji.html#extract_emoji"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.emoji.extract_emoji" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a summary dictionary about emoji in <code class="docutils literal notranslate"><span class="pre">text_list</span></code></p>
@@ -220,7 +261,7 @@ emoji from text.</p>
 ones, and more.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>text_list</strong> (<em>list</em>) – A list of text strings.</p>
+<dd class="field-odd"><p><strong>text_list</strong> (<em>list</em>) -- A list of text strings.</p>
 </dd>
 <dt class="field-even">Returns summary</dt>
 <dd class="field-even"><p>A dictionary with various stats about emoji</p>
@@ -295,39 +336,6 @@ list if none exist</p>
 </div>
 </dd></dl>
 
-<dl class="py function">
-<dt id="advertools.emoji.emoji_search">
-<code class="sig-name descname">emoji_search</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">regex</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/emoji.html#emoji_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.emoji.emoji_search" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a DataFrame of all emoji entries where any description contains
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">regex</span></code>.</p>
-<p>“description” can be the name of the emoji, its group, or sub-group.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>regex</strong> (<em>str</em>) – regular expression (case insensitive)</p>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;dog&#39;</span><span class="p">)</span>
-<span class="go">          codepoint           status  emoji          name             group      sub_group</span>
-<span class="go">0             1F436  fully-qualified     🐶      dog face  Animals &amp; Nature   animal-mammal</span>
-<span class="go">1             1F415  fully-qualified     🐕           dog  Animals &amp; Nature   animal-mammal</span>
-<span class="go">2             1F9AE  fully-qualified     🦮     guide dog  Animals &amp; Nature   animal-mammal</span>
-<span class="go">3  1F415 200D 1F9BA  fully-qualified   🐕‍🦺   service dog  Animals &amp; Nature    animal-mammal</span>
-<span class="go">4             1F32D  fully-qualified     🌭       hot dog      Food &amp; Drink    food-prepared</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blue</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
-<span class="go">  codepoint           status emoji                name               group     sub_group</span>
-<span class="go">0     1F499  fully-qualified     💙          blue heart  Smileys &amp; Emotion       emotion</span>
-<span class="go">1     1FAD0  fully-qualified     🫐         blueberries       Food &amp; Drink    food-fruit</span>
-<span class="go">2     1F4D8  fully-qualified     📘           blue book            Objects    book-paper</span>
-<span class="go">3     1F535  fully-qualified     🔵         blue circle            Symbols     geometric</span>
-<span class="go">4     1F7E6  fully-qualified     🟦         blue square            Symbols     geometric</span>
-<span class="go">5     1F537  fully-qualified     🔷  large blue diamond            Symbols     geometric</span>
-<span class="go">6     1F539  fully-qualified     🔹  small blue diamond            Symbols     geometric</span>
-</pre></div>
-</div>
-</dd></dl>
-
 </div>
 
 
@@ -335,29 +343,29 @@ list if none exist</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="advertools.extract.html" class="btn btn-neutral float-right" title="Extract structured entities from text lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="advertools.urlytics.html" class="btn btn-neutral float-left" title="Split, Parse, and Analyze URLs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="advertools.extract.html" class="btn btn-neutral float-right" title="Extract structured entities from text lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="advertools.urlytics.html" class="btn btn-neutral float-left" title="Split, Parse, and Analyze URL Structure" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Elias Dabbas
+        &#169; Copyright 2021, Elias Dabbas.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -365,7 +373,6 @@ list if none exist</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

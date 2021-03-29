@@ -1,39 +1,42 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <meta content="Word count on an absolute and a weighted basis. An important starting point in text analysis and mining for any text list that comes with descriptive stats (pageviews, sales, bounces, sessions, etc)." lang="en" name="description" xml:lang="en" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Text Analysis &mdash;  Python</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Tokenize Words (N-grams)" href="advertools.word_tokenize.html" />
@@ -78,6 +81,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -100,12 +104,13 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Crawl Logs Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
@@ -131,6 +136,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -165,18 +171,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Text Analysis</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/advertools.word_frequency.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -194,13 +202,13 @@
 <span id="word-frequency"></span><h1>Text Analysis<a class="headerlink" href="#text-analysis" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="absolute-and-weighted-word-count">
 <h2>Absolute and Weighted Word Count<a class="headerlink" href="#absolute-and-weighted-word-count" title="Permalink to this headline">¶</a></h2>
-<p>When analyzing a corpus of documents (I’ll simply call it a text list), one of
+<p>When analyzing a corpus of documents (I'll simply call it a text list), one of
 the main tasks to accomplish to start text mining is to first count the words.
 While there are many text mining techniques and approaches, the
 <a class="reference internal" href="#advertools.word_frequency.word_frequency" title="advertools.word_frequency.word_frequency"><code class="xref py py-func docutils literal notranslate"><span class="pre">word_frequency()</span></code></a> function works mainly by counting words in a text list.
-A “word” is defined as a sequence of characters split by whitespace(s), and
+A &quot;word&quot; is defined as a sequence of characters split by whitespace(s), and
 stripped of non-word characters (commas, dots, quotation marks, etc.).
-A “word” is actually a phrase consisting of one word, but you have the option
+A &quot;word&quot; is actually a phrase consisting of one word, but you have the option
 of getting phrases that have two words, or more. This can be done simply
 by providing a value for the <code class="xref py py-attr docutils literal notranslate"><span class="pre">phrase_len</span></code> parameter.</p>
 <div class="section" id="absolute-vs-weighted-frequency">
@@ -212,15 +220,15 @@ contain. Numbers can be pageviews, shares, likes, retweets, sales, bounces,
 sales, etc. Since we have numbers to quantify those phrases, we can improve our
 counting by taking into consideration the number list that comes with the text
 list.</p>
-<p>For example, if you have an e-commerce site that has two products, let’s say
+<p>For example, if you have an e-commerce site that has two products, let's say
 you have bags and shoes, then your products are split 50:50 between bags and
 shoes.
 But what if you learn that shoes generate 80% of your sales?
 Although shoes form half your products, they generate 80% of your revenue. So
 the <em>weighted count</em> of your products is 80:20.</p>
-<p>Let’s say two people post two different posts on a social media platform. One
-of them says, “It’s raining”, and the other says, “It’s snowing”. As in the
-above example, the content is split 50:50 between “raining” and “snowing”, but
+<p>Let's say two people post two different posts on a social media platform. One
+of them says, &quot;It's raining&quot;, and the other says, &quot;It's snowing&quot;. As in the
+above example, the content is split 50:50 between &quot;raining&quot; and &quot;snowing&quot;, but
 we get a much more informative picture if we get the number of followers of
 each of those accounts (or the number of shares, likes, etc.). If one of them
 has a thousand followers, and other has a million (which is typical on social
@@ -230,7 +238,7 @@ then you get a completely different picture about your dataset.</p>
 <a class="reference internal" href="#advertools.word_frequency.word_frequency" title="advertools.word_frequency.word_frequency"><code class="xref py py-func docutils literal notranslate"><span class="pre">word_frequency()</span></code></a> function can provide insight on hidden trends especially
 in large datasets, and when the sentences or phrases are also longer then a
 word or two each.</p>
-<p>Let’s take a look at how to use the <a class="reference internal" href="#advertools.word_frequency.word_frequency" title="advertools.word_frequency.word_frequency"><code class="xref py py-func docutils literal notranslate"><span class="pre">word_frequency()</span></code></a> function, and what
+<p>Let's take a look at how to use the <a class="reference internal" href="#advertools.word_frequency.word_frequency" title="advertools.word_frequency.word_frequency"><code class="xref py py-func docutils literal notranslate"><span class="pre">word_frequency()</span></code></a> function, and what
 the available parameters and options are.</p>
 <dl class="glossary">
 <dt id="term-text_list">text_list</dt><dd><p>The list of phrases or documents that you want to analyze. Here are
@@ -265,13 +273,13 @@ hashtags, mentions, questions, emoji, currencies, and more.</p>
 </dd>
 <dt id="term-rm_words">rm_words</dt><dd><p>A list of words to remove and ignore from the count. Known as
 stop-words these are the most frequently used words in a language,
-the most used, but don’t add much meaning to the content (a, and, of,
+the most used, but don't add much meaning to the content (a, and, of,
 the, if, etc.). By default a set of English stopwords is provided
 (which you can check and possibly may want to modify), or run
 <code class="docutils literal notranslate"><span class="pre">adv.stopwords.keys()</span></code> to get a list of all the available stopwords
 in the available languages.
-In some cases (like page titles for example), you might get “words”
-that need to be removed as well, like the pipe “|” character for
+In some cases (like page titles for example), you might get &quot;words&quot;
+that need to be removed as well, like the pipe &quot;|&quot; character for
 example.</p>
 </dd>
 <dt id="term-extra_info">extra_info</dt><dd><p>The returned DataFrame contains the default columns
@@ -328,20 +336,20 @@ in <code class="xref py py-attr docutils literal notranslate"><span class="pre">
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text_list</strong> (<em>list</em>) – Typically short phrases, but could be any list of
+<li><p><strong>text_list</strong> (<em>list</em>) -- Typically short phrases, but could be any list of
 full blown documents. Usually, you would use this
 to analyze tweets, book titles, URLs, etc.</p></li>
-<li><p><strong>num_list</strong> (<em>list</em>) – A list of numbers with the same length as
+<li><p><strong>num_list</strong> (<em>list</em>) -- A list of numbers with the same length as
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code>, describing a certain attribute of
-these ‘documents’; views, retweets, sales, etc.</p></li>
-<li><p><strong>regex</strong> (<em>str</em>) – The regex used to split words. Doesn’t need changing
+these 'documents'; views, retweets, sales, etc.</p></li>
+<li><p><strong>regex</strong> (<em>str</em>) -- The regex used to split words. Doesn't need changing
 in most cases.</p></li>
-<li><p><strong>phrase_len</strong> (<em>int</em>) – the length in words of each token the
+<li><p><strong>phrase_len</strong> (<em>int</em>) -- the length in words of each token the
 text is split into, defaults to 1.</p></li>
-<li><p><strong>rm_words</strong> (<em>set</em>) – Words to remove from the list a.k.a ‘stop-words’.
+<li><p><strong>rm_words</strong> (<em>set</em>) -- Words to remove from the list a.k.a 'stop-words'.
 The default uses. To get all available languages
 run <code class="docutils literal notranslate"><span class="pre">adv.stopwords.keys()</span></code></p></li>
-<li><p><strong>extra_info</strong> (<em>bool</em>) – Whether or not to give additional metrics about
+<li><p><strong>extra_info</strong> (<em>bool</em>) -- Whether or not to give additional metrics about
 the frequencies</p></li>
 </ul>
 </dd>
@@ -363,9 +371,9 @@ the frequencies</p></li>
 <span class="go">4  banana         1       100      100.0</span>
 </pre></div>
 </div>
-<p>Although “kiwi” occurred twice <code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_freq</span></code>, and “apple” occurred three
-times, the phrases in which “kiwi” appear have a total score of 500,
-so it beats “apple” on <code class="xref py py-attr docutils literal notranslate"><span class="pre">wtd_freq</span></code> even though “apple” wins on
+<p>Although &quot;kiwi&quot; occurred twice <code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_freq</span></code>, and &quot;apple&quot; occurred three
+times, the phrases in which &quot;kiwi&quot; appear have a total score of 500,
+so it beats &quot;apple&quot; on <code class="xref py py-attr docutils literal notranslate"><span class="pre">wtd_freq</span></code> even though &quot;apple&quot; wins on
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">abs_freq</span></code>. You can sort by any of the columns of course.
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">rel_value</span></code> shows the value per occurrence of each word, as you can
 see, it is simply obtained by dividing <code class="xref py py-attr docutils literal notranslate"><span class="pre">wtd_freq</span></code> by
@@ -384,7 +392,7 @@ see, it is simply obtained by dividing <code class="xref py py-attr docutils lit
 <span class="gp">... </span><span class="s1">&#39;i love the color black&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Setting <code class="xref py py-attr docutils literal notranslate"><span class="pre">phrase_len</span></code> to 2, “words” become two-word phrases instead.
+<p>Setting <code class="xref py py-attr docutils literal notranslate"><span class="pre">phrase_len</span></code> to 2, &quot;words&quot; become two-word phrases instead.
 Note that we are setting <code class="xref py py-attr docutils literal notranslate"><span class="pre">rm_words</span></code> to the empty list so we can keep
 the stopwords and see if that makes sense:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word_frequency</span><span class="p">(</span><span class="n">text_list2</span><span class="p">,</span> <span class="n">phrase_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rm_words</span><span class="o">=</span><span class="p">[])</span>
@@ -424,29 +432,29 @@ the stopwords and see if that makes sense:</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="advertools.word_tokenize.html" class="btn btn-neutral float-right" title="Tokenize Words (N-grams)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="advertools.stopwords.html" class="btn btn-neutral float-left" title="Stopwords in Several Languages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="advertools.word_tokenize.html" class="btn btn-neutral float-right" title="Tokenize Words (N-grams)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="advertools.stopwords.html" class="btn btn-neutral float-left" title="Stopwords in Several Languages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Elias Dabbas
+        &#169; Copyright 2021, Elias Dabbas.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -454,7 +462,6 @@ the stopwords and see if that makes sense:</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
