@@ -37,6 +37,10 @@ def test_gz_sitemap():
 def test_sitemap_index():
     result = sitemap_to_df(sitemap_index_url)
     assert isinstance(result, pd.core.frame.DataFrame)
+    assert 'errors' in result
+    errors = {'WARNING: Sitemap contains a link to itself',
+              'HTTP Error 404: Not Found'}
+    assert errors.issubset(result['errors'])
     assert all([col in result
                for col in ['loc', 'download_date', 'sitemap']])
 
