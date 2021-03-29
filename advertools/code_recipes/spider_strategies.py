@@ -253,10 +253,12 @@ False                 link_rel_rel         //link[@rel]/@rel                    
 False                 link_rel_href        //link[@rel]/@href                                                 Get all the link elements that have a rel attribute, extract the href attributes
 False                 link_rel_stylesheet  //link[@rel='stylesheet']/@href                                    Get all the link elements that have a stylesheet attribute, extract their href attribute
 False                 css_links            //link[contains(@href, '.css')]/@href                              Get the link elements where the href attribute contains .css, extract their href attribute
-True                  footer_links_text    //footer//a/text()                                                 From the footer, extract the anchor text of links
-True                  footer_links_href    //footer//a/@href                                                  From the footer, extract all the links
+True                  nav_links_text       //nav//a/text()                                                    From the nav element, extract the anchor text of links
+True                  nav_links_href       //nav//a/@href                                                     From the nav element, extract all the links
 True                  header_links_text    //header//a/text()                                                 From the header, extract the anchor text of links
 True                  header_links_href    //header//a/@href                                                  From the header, extract all the links
+True                  footer_links_text    //footer//a/text()                                                 From the footer, extract the anchor text of links
+True                  footer_links_href    //footer//a/@href                                                  From the footer, extract all the links
 False                 js_script_src        //script[@type='text/javascript']/@src                             From script tags where the type is text/javascript, extract the src of the script(s)
 False                 js_script_text       //script[@type='text/javascript']/text()                           From script tags where the type is text/javascript, extract the text of the script(s)
 False                 script_src           //script//@src                                                     Get the src attribute of any <script> tag
