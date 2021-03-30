@@ -192,6 +192,7 @@ to crawl the home page but Google and Apple are, because I have no clue!
 """
 __all__ = ['robotstxt_to_df', 'robotstxt_test']
 
+import gzip
 import logging
 from concurrent import futures
 from urllib.request import Request, urlopen
@@ -203,6 +204,8 @@ import pandas as pd
 from advertools import __version__ as version
 
 headers = {'User-Agent': 'advertools-' + version}
+
+gzip_start_bytes = b'\x1f\x8b'
 
 logging.basicConfig(level=logging.INFO)
 
@@ -265,25 +268,32 @@ def robotstxt_to_df(robotstxt_url, output_file=None):
         try:
             logging.info(msg='Getting: ' + robotstxt_url)
             robots_open = urlopen(Request(robotstxt_url, headers=headers))
-            robots_text = robots_open.readlines()
+            robots_read = robots_open.read()
+            if robots_read.startswith(gzip_start_bytes):
+                data = gzip.decompress(robots_read)
+                robots_text = data.decode('utf-8-sig').splitlines()
+            else:
+                robots_text = robots_read.decode('utf-8-sig').splitlines()
             lines = []
             for line in robots_text:
                 if line.strip():
-                    if line.decode('utf-8-sig').strip().startswith('#'):
+                    if line.strip().startswith('#'):
                         lines.append(['comment',
-                                      (line.decode('utf-8-sig')
-                                           .replace('#', '').strip())])
+                                      (line.replace('#', '').strip())])
                     else:
-                        split = line.decode('utf-8-sig').split(':', maxsplit=1)
+                        split = line.split(':', maxsplit=1)
                         lines.append([split[0].strip(), split[1].strip()])
             df = pd.DataFrame(lines, columns=['directive', 'content'])
-            etag_lastmod = {header.lower().replace('-', '_'): val.strip('"')
-                            for header, val in robots_open.getheaders()
-                            if header.lower() in ['etag', 'last-modified']}
-            df = df.assign(**etag_lastmod)
-            if 'last_modified' in df:
-                df['robotstxt_last_modified'] = pd.to_datetime(df['last_modified'])
-                del df['last_modified']
+            try:
+                etag_lastmod = {header.lower().replace('-', '_'): val.strip('"')
+                                for header, val in robots_open.getheaders()
+                                if header.lower() in ['etag', 'last-modified']}
+                df = df.assign(**etag_lastmod)
+                if 'last_modified' in df:
+                    df['robotstxt_last_modified'] = pd.to_datetime(df['last_modified'])
+                    del df['last_modified']
+            except AttributeError:
+                pass
         except Exception as e:
             df = pd.DataFrame({'errors': [str(e)]})
         df['robotstxt_url'] = robotstxt_url
