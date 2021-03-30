@@ -3,6 +3,35 @@
 
 Import Search Engine Results Pages (SERPs) for Google and YouTube
 =================================================================
+Analyzing a single SERP is like getting one person to fill out a questionnaire
+and calling it a survey.
+
+Just like surveys, SERPs need to be collected in large-enough numbers that are
+representative of the industry/market you want to understand. This is the main
+feature of the ``serp_`` functions. They allow you to get the SERPs for a list
+of queries, across several dimensions (like country, search type, start
+position, and so on).
+
+There are many parameters that can be used, and you can supply a list for each.
+The function will get the SERPs for the *product* of all those lists. For
+example, let's say you you provide the following arguments to the
+:func:`serp_goog` function:
+
+* `q`: ['serp tools', 'best serp tools', 'serp tool reviews']
+* `gl`: ['us', 'ca', 'uk', 'au', 'nz']
+* `start`: [1, 11, 21]
+
+The function will produce:
+3 (queries) x 5 (countries) x 3 (start positions) = 45 requests
+
+You typically get ten results each, so in this case you would get 450 rows of
+data.
+
+All this is done in with one line of code. The result is a single DataFrame
+with a row for each result, and columns for each attribute (title, snippet,
+etc.), as well as meta data columns, like `queryTime` and the parameters you
+selected (`q`, `gl`, and `start` in this case).
+
 
 Before being able to run queries using :func:`serp_goog`, you will need to set
 up some credentials as follows (you don't need a custom search engine for
