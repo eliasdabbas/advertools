@@ -2,13 +2,55 @@
 Change Log - advertools
 =======================
 
-Unreleased
-----------
+0.11.0 (2021-31-03)
+-------------------
 
 * Added
     - New parameter `recursive` for ``sitemap_to_df`` to control whether or not
-      to get all sub sitemaps (default), or to only get the current one
-    - Strategies and recipes for crawling and scraping
+      to get all sub sitemaps (default), or to only get the current
+      (sitemapindex) one.
+    - New columns for ``sitemap_to_df``: ``sitemap_size_mb``
+      (1 MB = 1,024x1,024 bytes), and ``sitemap_last_modified`` and ``etag``
+      (if available).
+    - Option to request multiple robots.txt files with ``robotstxt_to_df``.
+    - Option to save downloaded robots DataFrame(s) to a file with
+      ``robotstxt_to_df`` using the new parameter ``output_file``.
+    - Two new columns for ``robotstxt_to_df``: ``robotstxt_last_modified`` and
+      ``etag`` (if available).
+    - Raise `ValueError` in ``crawl`` if ``css_selectors`` or
+      ``xpath_selectors`` contain any of the default crawl column headers
+    - New XPath code recipes for custom extraction.
+    - New function ``crawllogs_to_df`` which converts crawl logs to a DataFrame
+      provided they were saved while using the ``crawl`` function.
+    - New columns in ``crawl``: `viewport`, `charset`, all `h` headings
+      (whichever is available), nav, header and footer links and text, if
+      available.
+    - Crawl errors don't stop crawling anymore, and the error message is
+      included in the output file under a new `errors` and/or `jsonld_errors`
+      column(s).
+    - In case of having JSON-LD errors, errors are reported in their respective
+      column, and the remainder of the page is scraped.
+
+* Changed
+    - Removed column prefix `resp_meta_` from columns containing it
+    - Redirect URLs and reasons are separated by '@@' for consistency with
+      other multiple-value columns
+    - Links extracted while crawling are not unique any more (all links are
+      extracted).
+    - Emoji data updated with v13.1.
+    - Heading tags are scraped even if they are empty, e.g. <h2></h2>.
+    - Default user agent for crawling is now advertools/VERSION.
+
+* Fixed
+    - Handle sitemap index files that contain links to themselves, with an
+      error message included in the final DataFrame
+    - Error in robots.txt files caused by comments preceded by whitespace
+    - Zipped robots.txt files causing a parsing issue
+    - Crawl issues on some Linux systems when providing a long list of URLs
+
+* Removed
+    - Columns from the ``crawl`` output: `url_redirected_to`, `links_fragment`
+
 
 0.10.7 (2020-09-18)
 -------------------
