@@ -1,10 +1,10 @@
 """
 .. _robotstxt:
 
-🤖 robots.txt Tester for Large Scale Testing
-============================================
+🤖 Analyze and Test robots.txt Files on a Large Scale
+=====================================================
 
-Even though they are tiny in size, robots.txt files contain potent information
+Even though they are tiny in size, robots.txt files contain potent instructions
 that can block major sections of your site, which is what they are supposed to
 do. Only sometimes you might make the mistake of blocking the wrong section.
 
@@ -42,12 +42,34 @@ of the robots.txt file, as well as the date it was downloaded.
 *  `directive`: The main commands. Allow, Disallow, Sitemap, Crawl-delay,
    User-agent, and so on.
 *  `content`: The details of each of the directives
-*  `robotstxt_last_modified`: The date when the robots.txt file was last modified
-   (if availabe)
+*  `robotstxt_last_modified`: The date when the robots.txt file was last
+   modified, if provided.
 *  `etag`: The entity tag of the response header, if provided.
 *  `robotstxt_url`: The URL of the robots.txt file.
 *  `download_date`: The date and time when the file was downloaded.
 
+Alternatively, you can provide a list of robots URLs if you want to download
+them all in one go. This might be interesting if:
+
+* You are analyzing an industry and want to keep an eye on many different
+  websites.
+* You are analyzing a website with many sub-domains, and want to get all the
+  robots files together.
+* You are trying to understand a company that has many websites under
+  different domains and sub-domains.
+
+In this case you simply provide a list of URLs instead of a single one.
+
+An optional parameter ``output_file`` is also available in case you are
+requesting hundreds of files. The supported format is `.jl`. This saves the
+downloaded files by appending them to the file, so it is also useful if you
+think the process is going to take long and might loose your connection for
+example.
+
+>>> robotstxt_to_df(['https://example.com/robots.txt',
+...                  'https://community.example.com/robots.txt',
+...                  'https://shop.example.com/robots.txt'],
+...                   output_file='example_robots.jl')
 
 As for testing, the :func:`robotstxt_test` function runs a test for a given
 robots.txt file, checking which of the provided user-agents can fetch which of
