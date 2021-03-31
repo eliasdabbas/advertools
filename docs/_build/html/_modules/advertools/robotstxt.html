@@ -191,10 +191,10 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">.. _robotstxt:</span>
 
-<span class="sd">🤖 robots.txt Tester for Large Scale Testing</span>
-<span class="sd">============================================</span>
+<span class="sd">🤖 Analyze and Test robots.txt Files on a Large Scale</span>
+<span class="sd">=====================================================</span>
 
-<span class="sd">Even though they are tiny in size, robots.txt files contain potent information</span>
+<span class="sd">Even though they are tiny in size, robots.txt files contain potent instructions</span>
 <span class="sd">that can block major sections of your site, which is what they are supposed to</span>
 <span class="sd">do. Only sometimes you might make the mistake of blocking the wrong section.</span>
 
@@ -232,12 +232,34 @@
 <span class="sd">*  `directive`: The main commands. Allow, Disallow, Sitemap, Crawl-delay,</span>
 <span class="sd">   User-agent, and so on.</span>
 <span class="sd">*  `content`: The details of each of the directives</span>
-<span class="sd">*  `robotstxt_last_modified`: The date when the robots.txt file was last modified</span>
-<span class="sd">   (if availabe)</span>
+<span class="sd">*  `robotstxt_last_modified`: The date when the robots.txt file was last</span>
+<span class="sd">   modified, if provided.</span>
 <span class="sd">*  `etag`: The entity tag of the response header, if provided.</span>
 <span class="sd">*  `robotstxt_url`: The URL of the robots.txt file.</span>
 <span class="sd">*  `download_date`: The date and time when the file was downloaded.</span>
 
+<span class="sd">Alternatively, you can provide a list of robots URLs if you want to download</span>
+<span class="sd">them all in one go. This might be interesting if:</span>
+
+<span class="sd">* You are analyzing an industry and want to keep an eye on many different</span>
+<span class="sd">  websites.</span>
+<span class="sd">* You are analyzing a website with many sub-domains, and want to get all the</span>
+<span class="sd">  robots files together.</span>
+<span class="sd">* You are trying to understand a company that has many websites under</span>
+<span class="sd">  different domains and sub-domains.</span>
+
+<span class="sd">In this case you simply provide a list of URLs instead of a single one.</span>
+
+<span class="sd">An optional parameter ``output_file`` is also available in case you are</span>
+<span class="sd">requesting hundreds of files. The supported format is `.jl`. This saves the</span>
+<span class="sd">downloaded files by appending them to the file, so it is also useful if you</span>
+<span class="sd">think the process is going to take long and might loose your connection for</span>
+<span class="sd">example.</span>
+
+<span class="sd">&gt;&gt;&gt; robotstxt_to_df([&#39;https://example.com/robots.txt&#39;,</span>
+<span class="sd">...                  &#39;https://community.example.com/robots.txt&#39;,</span>
+<span class="sd">...                  &#39;https://shop.example.com/robots.txt&#39;],</span>
+<span class="sd">...                   output_file=&#39;example_robots.jl&#39;)</span>
 
 <span class="sd">As for testing, the :func:`robotstxt_test` function runs a test for a given</span>
 <span class="sd">robots.txt file, checking which of the provided user-agents can fetch which of</span>
@@ -382,6 +404,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;robotstxt_to_df&#39;</span><span class="p">,</span> <span class="s1">&#39;robotstxt_test&#39;</span><span class="p">]</span>
 
+<span class="kn">import</span> <span class="nn">gzip</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">concurrent</span> <span class="kn">import</span> <span class="n">futures</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
@@ -393,6 +416,8 @@
 <span class="kn">from</span> <span class="nn">advertools</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">version</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;advertools-&#39;</span> <span class="o">+</span> <span class="n">version</span><span class="p">}</span>
+
+<span class="n">gzip_start_bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x1f\x8b</span><span class="s1">&#39;</span>
 
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
@@ -455,25 +480,32 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Getting: &#39;</span> <span class="o">+</span> <span class="n">robotstxt_url</span><span class="p">)</span>
             <span class="n">robots_open</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">robotstxt_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">))</span>
-            <span class="n">robots_text</span> <span class="o">=</span> <span class="n">robots_open</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+            <span class="n">robots_read</span> <span class="o">=</span> <span class="n">robots_open</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">robots_read</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">gzip_start_bytes</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">robots_read</span><span class="p">)</span>
+                <span class="n">robots_text</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">robots_text</span> <span class="o">=</span> <span class="n">robots_read</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
             <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">robots_text</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
                         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;comment&#39;</span><span class="p">,</span>
-                                      <span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span>
-                                           <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())])</span>
+                                      <span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())])</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">split</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="n">split</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
                         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()])</span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;directive&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">])</span>
-            <span class="n">etag_lastmod</span> <span class="o">=</span> <span class="p">{</span><span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">):</span> <span class="n">val</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
-                            <span class="k">for</span> <span class="n">header</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">robots_open</span><span class="o">.</span><span class="n">getheaders</span><span class="p">()</span>
-                            <span class="k">if</span> <span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;etag&#39;</span><span class="p">,</span> <span class="s1">&#39;last-modified&#39;</span><span class="p">]}</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">etag_lastmod</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s1">&#39;last_modified&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
-                <span class="n">df</span><span class="p">[</span><span class="s1">&#39;robotstxt_last_modified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;last_modified&#39;</span><span class="p">])</span>
-                <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;last_modified&#39;</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">etag_lastmod</span> <span class="o">=</span> <span class="p">{</span><span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">):</span> <span class="n">val</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="n">header</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">robots_open</span><span class="o">.</span><span class="n">getheaders</span><span class="p">()</span>
+                                <span class="k">if</span> <span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;etag&#39;</span><span class="p">,</span> <span class="s1">&#39;last-modified&#39;</span><span class="p">]}</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">etag_lastmod</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s1">&#39;last_modified&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+                    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;robotstxt_last_modified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;last_modified&#39;</span><span class="p">])</span>
+                    <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;last_modified&#39;</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;errors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)]})</span>
         <span class="n">df</span><span class="p">[</span><span class="s1">&#39;robotstxt_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">robotstxt_url</span>

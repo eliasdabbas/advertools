@@ -193,6 +193,35 @@
 
 <span class="sd">Import Search Engine Results Pages (SERPs) for Google and YouTube</span>
 <span class="sd">=================================================================</span>
+<span class="sd">Analyzing a single SERP is like getting one person to fill out a questionnaire</span>
+<span class="sd">and calling it a survey.</span>
+
+<span class="sd">Just like surveys, SERPs need to be collected in large-enough numbers that are</span>
+<span class="sd">representative of the industry/market you want to understand. This is the main</span>
+<span class="sd">feature of the ``serp_`` functions. They allow you to get the SERPs for a list</span>
+<span class="sd">of queries, across several dimensions (like country, search type, start</span>
+<span class="sd">position, and so on).</span>
+
+<span class="sd">There are many parameters that can be used, and you can supply a list for each.</span>
+<span class="sd">The function will get the SERPs for the *product* of all those lists. For</span>
+<span class="sd">example, let&#39;s say you you provide the following arguments to the</span>
+<span class="sd">:func:`serp_goog` function:</span>
+
+<span class="sd">* `q`: [&#39;serp tools&#39;, &#39;best serp tools&#39;, &#39;serp tool reviews&#39;]</span>
+<span class="sd">* `gl`: [&#39;us&#39;, &#39;ca&#39;, &#39;uk&#39;, &#39;au&#39;, &#39;nz&#39;]</span>
+<span class="sd">* `start`: [1, 11, 21]</span>
+
+<span class="sd">The function will produce:</span>
+<span class="sd">3 (queries) x 5 (countries) x 3 (start positions) = 45 requests</span>
+
+<span class="sd">You typically get ten results each, so in this case you would get 450 rows of</span>
+<span class="sd">data.</span>
+
+<span class="sd">All this is done in with one line of code. The result is a single DataFrame</span>
+<span class="sd">with a row for each result, and columns for each attribute (title, snippet,</span>
+<span class="sd">etc.), as well as meta data columns, like `queryTime` and the parameters you</span>
+<span class="sd">selected (`q`, `gl`, and `start` in this case).</span>
+
 
 <span class="sd">Before being able to run queries using :func:`serp_goog`, you will need to set</span>
 <span class="sd">up some credentials as follows (you don&#39;t need a custom search engine for</span>

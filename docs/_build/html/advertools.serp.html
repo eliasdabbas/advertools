@@ -40,7 +40,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Import and Analyze Knowledge Graph Results on a Large Scale" href="advertools.knowledge_graph.html" />
-    <link rel="prev" title="Parse and Analyze Crawl Logs in a Dataframe" href="advertools.logs.html" /> 
+    <link rel="prev" title="Parse and Analyze Crawl Logs in a Dataframe (experimental)" href="advertools.logs.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -194,6 +194,30 @@
             
   <span class="target" id="module-advertools.serp"></span><div class="section" id="import-search-engine-results-pages-serps-for-google-and-youtube">
 <span id="serp"></span><h1>Import Search Engine Results Pages (SERPs) for Google and YouTube<a class="headerlink" href="#import-search-engine-results-pages-serps-for-google-and-youtube" title="Permalink to this headline">¶</a></h1>
+<p>Analyzing a single SERP is like getting one person to fill out a questionnaire
+and calling it a survey.</p>
+<p>Just like surveys, SERPs need to be collected in large-enough numbers that are
+representative of the industry/market you want to understand. This is the main
+feature of the <code class="docutils literal notranslate"><span class="pre">serp_</span></code> functions. They allow you to get the SERPs for a list
+of queries, across several dimensions (like country, search type, start
+position, and so on).</p>
+<p>There are many parameters that can be used, and you can supply a list for each.
+The function will get the SERPs for the <em>product</em> of all those lists. For
+example, let's say you you provide the following arguments to the
+<a class="reference internal" href="#advertools.serp.serp_goog" title="advertools.serp.serp_goog"><code class="xref py py-func docutils literal notranslate"><span class="pre">serp_goog()</span></code></a> function:</p>
+<ul class="simple">
+<li><p><cite>q</cite>: ['serp tools', 'best serp tools', 'serp tool reviews']</p></li>
+<li><p><cite>gl</cite>: ['us', 'ca', 'uk', 'au', 'nz']</p></li>
+<li><p><cite>start</cite>: [1, 11, 21]</p></li>
+</ul>
+<p>The function will produce:
+3 (queries) x 5 (countries) x 3 (start positions) = 45 requests</p>
+<p>You typically get ten results each, so in this case you would get 450 rows of
+data.</p>
+<p>All this is done in with one line of code. The result is a single DataFrame
+with a row for each result, and columns for each attribute (title, snippet,
+etc.), as well as meta data columns, like <cite>queryTime</cite> and the parameters you
+selected (<cite>q</cite>, <cite>gl</cite>, and <cite>start</cite> in this case).</p>
 <p>Before being able to run queries using <a class="reference internal" href="#advertools.serp.serp_goog" title="advertools.serp.serp_goog"><code class="xref py py-func docutils literal notranslate"><span class="pre">serp_goog()</span></code></a>, you will need to set
 up some credentials as follows (you don't need a custom search engine for
 <a class="reference internal" href="#advertools.serp.serp_youtube" title="advertools.serp.serp_youtube"><code class="xref py py-func docutils literal notranslate"><span class="pre">serp_youtube()</span></code></a>):</p>
@@ -696,7 +720,7 @@ no spaces.</p>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="advertools.knowledge_graph.html" class="btn btn-neutral float-right" title="Import and Analyze Knowledge Graph Results on a Large Scale" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="advertools.logs.html" class="btn btn-neutral float-left" title="Parse and Analyze Crawl Logs in a Dataframe" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.logs.html" class="btn btn-neutral float-left" title="Parse and Analyze Crawl Logs in a Dataframe (experimental)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>🤖 robots.txt Tester for Large Scale Testing &mdash;  Python</title>
+  <title>🤖 Analyze and Test robots.txt Files on a Large Scale &mdash;  Python</title>
   
 
   
@@ -176,7 +176,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>🤖 robots.txt Tester for Large Scale Testing</li>
+      <li>🤖 Analyze and Test robots.txt Files on a Large Scale</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -195,9 +195,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <span class="target" id="module-advertools.robotstxt"></span><div class="section" id="robots-txt-tester-for-large-scale-testing">
-<span id="robotstxt"></span><h1>🤖 robots.txt Tester for Large Scale Testing<a class="headerlink" href="#robots-txt-tester-for-large-scale-testing" title="Permalink to this headline">¶</a></h1>
-<p>Even though they are tiny in size, robots.txt files contain potent information
+  <span class="target" id="module-advertools.robotstxt"></span><div class="section" id="analyze-and-test-robots-txt-files-on-a-large-scale">
+<span id="robotstxt"></span><h1>🤖 Analyze and Test robots.txt Files on a Large Scale<a class="headerlink" href="#analyze-and-test-robots-txt-files-on-a-large-scale" title="Permalink to this headline">¶</a></h1>
+<p>Even though they are tiny in size, robots.txt files contain potent instructions
 that can block major sections of your site, which is what they are supposed to
 do. Only sometimes you might make the mistake of blocking the wrong section.</p>
 <p>So it is very important to check if certain pages (or groups of pages) are
@@ -233,12 +233,34 @@ of the robots.txt file, as well as the date it was downloaded.</p>
 <li><p><cite>directive</cite>: The main commands. Allow, Disallow, Sitemap, Crawl-delay,
 User-agent, and so on.</p></li>
 <li><p><cite>content</cite>: The details of each of the directives</p></li>
-<li><p><cite>robotstxt_last_modified</cite>: The date when the robots.txt file was last modified
-(if availabe)</p></li>
+<li><p><cite>robotstxt_last_modified</cite>: The date when the robots.txt file was last
+modified, if provided.</p></li>
 <li><p><cite>etag</cite>: The entity tag of the response header, if provided.</p></li>
 <li><p><cite>robotstxt_url</cite>: The URL of the robots.txt file.</p></li>
 <li><p><cite>download_date</cite>: The date and time when the file was downloaded.</p></li>
 </ul>
+<p>Alternatively, you can provide a list of robots URLs if you want to download
+them all in one go. This might be interesting if:</p>
+<ul class="simple">
+<li><p>You are analyzing an industry and want to keep an eye on many different
+websites.</p></li>
+<li><p>You are analyzing a website with many sub-domains, and want to get all the
+robots files together.</p></li>
+<li><p>You are trying to understand a company that has many websites under
+different domains and sub-domains.</p></li>
+</ul>
+<p>In this case you simply provide a list of URLs instead of a single one.</p>
+<p>An optional parameter <code class="docutils literal notranslate"><span class="pre">output_file</span></code> is also available in case you are
+requesting hundreds of files. The supported format is <cite>.jl</cite>. This saves the
+downloaded files by appending them to the file, so it is also useful if you
+think the process is going to take long and might loose your connection for
+example.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">([</span><span class="s1">&#39;https://example.com/robots.txt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="s1">&#39;https://community.example.com/robots.txt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="s1">&#39;https://shop.example.com/robots.txt&#39;</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;example_robots.jl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>As for testing, the <a class="reference internal" href="#advertools.robotstxt.robotstxt_test" title="advertools.robotstxt.robotstxt_test"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_test()</span></code></a> function runs a test for a given
 robots.txt file, checking which of the provided user-agents can fetch which of
 the provided URLs, paths, or patterns.</p>
