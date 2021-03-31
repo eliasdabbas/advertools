@@ -1,8 +1,8 @@
 """
 .. _logs:
 
-Parse and Analyze Crawl Logs in a Dataframe
-===========================================
+Parse and Analyze Crawl Logs in a Dataframe (experimental)
+==========================================================
 
 While crawling with the :func:`crawl` function, the process produces logs for
 every page crawled, scraped, redirected, and even blocked by robots.txt rules.
