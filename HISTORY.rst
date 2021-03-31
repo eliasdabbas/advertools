@@ -38,7 +38,7 @@ Change Log - advertools
     - Links extracted while crawling are not unique any more (all links are
       extracted).
     - Emoji data updated with v13.1.
-    - Heading tags are scraped even if they are empty, e.g. <h2></h2>.
+    - Heading tags are scraped even if they are empty.
     - Default user agent for crawling is now advertools/VERSION.
 
 * Fixed
