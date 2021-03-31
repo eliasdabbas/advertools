@@ -8,7 +8,7 @@ def full_local_path(folder, file):
     return os.path.abspath(tests_dir + file)
 
 
-def test_crwallogs_returns_df():
+def test_crawllogs_returns_df():
     for logfile in os.listdir('tests/data/logs_testing'):
         result = crawllogs_to_df(full_local_path('logs_testing', logfile))
         assert isinstance(result, pd.core.frame.DataFrame)
