@@ -18,9 +18,9 @@
         :target: https://bit.ly/3hEWZCe
 
 | 🎊 **New:** `SEO crawler <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
-  now extracts JSON-LD canonical, alternate href, alternate hreflang, OpenGraph, and Twitter cards if available on pages
-| 🎉 **New:** ``knowledge_graph`` Function for `connecting to Google's Knowledge Graph Data API <https://advertools.readthedocs.io/en/master/advertools.knowledge_graph.html>`_
-| 🎉 **Faster:** ``sitemap_to_df`` Function for `downloading & parsing XML sitemaps <https://advertools.readthedocs.io/en/master/advertools.sitemaps.html>`_ into DataFrames, is much faster now
+  now extracts links and anchor text from <nav>, <header>, and <footer> elements if available
+| 🎉 **New:** ``crawllogs_to_df`` Function for `analyzing the logs of the crawling process <https://advertools.readthedocs.io/en/master/advertools.logs.html>`_
+| 🎉 **Faster:** ``robotstxt_to_df`` can `download multiple robots.txt files in one go <https://advertools.readthedocs.io/en/master/advertools.robotstxt.html>`_
 
 
 ``advertools``: productivity & analysis tools to scale your online marketing
@@ -44,7 +44,7 @@ next 124,538 keywords for an upcoming campaign, by the end of the week!
 ``advertools`` is a Python package that can hopefully make that part of your job a little easier.
 
 Installation
-~~~~~~~~~~~~
+------------
 
 .. code:: bash
 
@@ -201,7 +201,7 @@ for this:
 
 
 Conventions
-~~~~~~~~~~~
+-----------
 
 Function names mostly start with the object you are working on, so you can use
 autocomplete to discover other options:
