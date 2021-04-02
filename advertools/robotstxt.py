@@ -289,7 +289,8 @@ def robotstxt_to_df(robotstxt_url, output_file=None):
     else:
         try:
             logging.info(msg='Getting: ' + robotstxt_url)
-            robots_open = urlopen(Request(robotstxt_url, headers=headers))
+            robots_open = urlopen(Request(robotstxt_url, headers=headers),
+                                  timeout=45)
             robots_read = robots_open.read()
             if robots_read.startswith(gzip_start_bytes):
                 data = gzip.decompress(robots_read)
@@ -318,7 +319,7 @@ def robotstxt_to_df(robotstxt_url, output_file=None):
                 pass
         except Exception as e:
             df = pd.DataFrame({'errors': [str(e)]})
-        df['robotstxt_url'] = robotstxt_url
+        df['robotstxt_url'] = [robots_open.url] if df.empty else robots_open.url
         df['download_date'] = pd.Timestamp.now(tz='UTC')
         if output_file is not None:
             with open(output_file, 'a') as file:
@@ -332,7 +333,7 @@ def robotstxt_to_df(robotstxt_url, output_file=None):
 
 def _robots_multi(robots_url_list, output_file=None):
     final_df = pd.DataFrame()
-    with futures.ThreadPoolExecutor(max_workers=16) as executor:
+    with futures.ThreadPoolExecutor(max_workers=24) as executor:
         to_do = []
         for robotsurl in robots_url_list:
             future = executor.submit(robotstxt_to_df, robotsurl)
