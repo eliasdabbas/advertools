@@ -319,7 +319,10 @@ def robotstxt_to_df(robotstxt_url, output_file=None):
                 pass
         except Exception as e:
             df = pd.DataFrame({'errors': [str(e)]})
-        df['robotstxt_url'] = [robots_open.url] if df.empty else robots_open.url
+        try:
+            df['robotstxt_url'] = [robots_open.url] if df.empty else robots_open.url
+        except UnboundLocalError:
+            df['robotstxt_url'] = [robotstxt_url] if df.empty else robotstxt_url
         df['download_date'] = pd.Timestamp.now(tz='UTC')
         if output_file is not None:
             with open(output_file, 'a') as file:
