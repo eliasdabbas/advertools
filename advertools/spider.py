@@ -89,6 +89,12 @@ jsonld_*          JSON-LD data if available. In case multiple snippets occur,
                   so the numbering starts with "1", starting from the second
                   snippet. The same applies to OG and Twitter cards.
 h1...h6           `<h1>` through `<h6>` tag(s), whichever is available
+links_url         The URLs of the links on the page
+links_text        The link text (anchor text)
+links_nofollow    Boolean, whether or not the link is a nofllow link. Note that
+                  this only tells if the link itself contains a rel="nofollow"
+                  attribute. The page might indicate "nofollow" using meta
+                  robots or X-Robots-Tag, which you have to check separately.
 nav_links_text    The anchor text of all links in the `<nav>` tag if
                   available
 nav_links_url     The links in the `<nav>` tag if available
@@ -112,12 +118,6 @@ depth             The depth of the current URL, relative to the first URLs
                   where crawling started. The first pages to be crawled have a
                   depth of zero, pages linked from there, a depth of one, etc.
 status            Response status (200, 404, etc.)
-links_url         The URLs of the links on the page
-links_text        The link text (anchor text)
-links_nofollow    Boolean, whether or not the link is a nofllow link. Note that
-                  this only tells if the link itself contains a rel="nofollow"
-                  attribute. The page might indicate "nofollow" using meta
-                  robots or X-Robots-Tag, which you have to check separately.
 img_src           The ``src`` attribute of images
 img_alt           The ``alt`` attribute if available or an empty string
 ip_address        IP address
@@ -344,12 +344,14 @@ user_agent = f'advertools/{adv_version}'
 
 BODY_TEXT_SELECTOR = '//body//span//text() | //body//p//text() | //body//li//text()'
 
+
 def get_max_cmd_len():
     system = platform.system()
     cmd_dict = {'Windows': 7000, 'Linux': 100000, 'Darwin': 100000}
     if system in cmd_dict:
         return cmd_dict[system]
     return 6000
+
 
 MAX_CMD_LENGTH = get_max_cmd_len()
 
@@ -358,6 +360,9 @@ formatter.DROPPEDMSG = "Dropped: %(exception)s"
 formatter.DOWNLOADERRORMSG_LONG = "Error downloading %(request)s"
 
 le = LinkExtractor(unique=False)
+le_nav = LinkExtractor(unique=False, restrict_xpaths='//nav')
+le_header = LinkExtractor(unique=False, restrict_xpaths='//header')
+le_footer = LinkExtractor(unique=False, restrict_xpaths='//footer')
 
 crawl_headers = {
     'url',
@@ -514,6 +519,9 @@ class SEOSitemapSpider(Spider):
 
     def parse(self, response):
         links = le.extract_links(response)
+        nav_links = le_nav.extract_links(response)
+        header_links = le_header.extract_links(response)
+        footer_links = le_footer.extract_links(response)
         if self.css_selectors:
             css_selectors = {key: '@@'.join(response.css('{}'.format(val)).getall())
                              for key, val in self.css_selectors.items()}
@@ -566,43 +574,10 @@ class SEOSitemapSpider(Spider):
             self.logger.exception(' '.join([str(e), str(response.status),
                                             response.url]))
         page_content = _extract_content(response, **tags_xpaths)
-        navlinks = response.xpath('//nav//a')
-        if navlinks:
-            nav_links = {
-                'nav_links_url': '@@'.join(link.xpath('@href').get(default='')
-                                           for link in navlinks),
-                'nav_links_text': '@@'.join(link.xpath('text()').get(default='')
-                                            for link in navlinks)
-            }
-        else:
-            nav_links = {}
-        hlinks = response.xpath('//header//a')
-        if hlinks:
-            header_links = {
-                'header_links_url': '@@'.join(link.xpath('@href').get(default='')
-                                              for link in hlinks),
-                'header_links_text': '@@'.join(link.xpath('text()').get(default='')
-                                               for link in hlinks)
-            }
-        else:
-            header_links = {}
-        flinks = response.xpath('//footer//a')
-        if flinks:
-            footer_links = {
-                'footer_links_url': '@@'.join(link.xpath('@href').get(default='')
-                                              for link in flinks),
-                'footer_links_text': '@@'.join(link.xpath('text()').get(default='')
-                                               for link in flinks)
-            }
-        else:
-            footer_links = {}
 
         yield dict(
             url=response.request.url,
             **page_content,
-            **nav_links,
-            **header_links,
-            **footer_links,
             **open_graph,
             **twtr_card,
             **jsonld,
@@ -616,6 +591,13 @@ class SEOSitemapSpider(Spider):
             links_url='@@'.join(link.url for link in links),
             links_text='@@'.join(link.text for link in links),
             links_nofollow='@@'.join(str(link.nofollow) for link in links),
+            nav_links_url='@@'.join(link.url for link in nav_links),
+            nav_links_text='@@'.join(link.text for link in nav_links),
+            header_links_url='@@'.join(link.url for link in header_links),
+            header_links_text='@@'.join(link.text for link in header_links),
+            footer_links_url='@@'.join(link.url for link in footer_links),
+            footer_links_text='@@'.join(link.text for link in footer_links),
+
             img_src='@@'.join([im.attrib.get('src') or ''
                                for im in response.css('img')]),
             img_alt='@@'.join([im.attrib.get('alt') or ''
