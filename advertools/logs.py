@@ -65,8 +65,54 @@ The DataFrame might contain the following columns:
 
 """
 import re
+from tempfile import TemporaryDirectory
+from pathlib import Path
 
 import pandas as pd
+
+log_formats = {
+    'common': '^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)',
+    'combined': '^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"',
+}
+
+log_columns = {
+    'common': ['client', 'userid', 'datetime', 'method', 'request', 'status', 'size'],
+    'combined': ['client', 'userid', 'datetime', 'method', 'request', 'status', 'size', 'referer', 'user_agent'],
+}
+
+
+def logs_to_df(log_file, output_file, errors_file, format='common', columns=None):
+    if not output_file.endswith('.parquet'):
+        raise ValueError("Please provide a file path with a `.parquet` extension.")
+    regex = log_formats[format]
+    columns = columns or log_columns[format]
+    with TemporaryDirectory() as tempdir:
+        tempdir_name = Path(tempdir)
+        with open(log_file) as source_file:
+            linenumber = 0
+            parsed_lines = []
+            for line in source_file:
+                try:
+                    log_line = re.findall(regex, line)[0]
+                    parsed_lines.append(log_line)
+                except Exception as e:
+                    with open(errors_file, 'at') as err:
+                        print((line, str(e)), file=err)
+                    continue
+                linenumber += 1
+                if linenumber % 250_000 == 0:
+                    print(f'Parsed {linenumber:,>15} lines.', end='\r')
+                    df = pd.DataFrame(parsed_lines, columns=columns)
+                    df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
+                    parsed_lines.clear()
+            else:
+                df = pd.DataFrame(parsed_lines, columns=columns)
+                df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
+                parsed_lines.clear()
+            pd.read_parquet(tempdir_name).to_parquet(output_file)
+
+    final_df = pd.read_parquet(output_file)
+    return final_df
 
 
 def crawllogs_to_df(logs_file_path):
