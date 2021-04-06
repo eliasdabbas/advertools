@@ -64,6 +64,7 @@ The DataFrame might contain the following columns:
 * `blocked_urls`: The URLs that were not crawled due to robots.txt rules.
 
 """
+import os
 import re
 from tempfile import TemporaryDirectory
 from pathlib import Path
@@ -71,48 +72,60 @@ from pathlib import Path
 import pandas as pd
 
 log_formats = {
-    'common': '^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)',
-    'combined': '^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"',
+    'common': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
+    'combined': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"',
 }
 
-log_columns = {
-    'common': ['client', 'userid', 'datetime', 'method', 'request', 'status', 'size'],
-    'combined': ['client', 'userid', 'datetime', 'method', 'request', 'status', 'size', 'referer', 'user_agent'],
+log_fields = {
+    'common': ['client', 'userid', 'datetime', 'method', 'request', 'status',
+               'size'],
+    'combined': ['client', 'userid', 'datetime', 'method', 'request', 'status',
+                 'size', 'referer', 'user_agent'],
 }
 
 
-def logs_to_df(log_file, output_file, errors_file, format='common', columns=None):
+def logs_to_df(log_file, output_file, errors_file, log_format='common',
+               fields=None):
     if not output_file.endswith('.parquet'):
-        raise ValueError("Please provide a file path with a `.parquet` extension.")
-    regex = log_formats[format]
-    columns = columns or log_columns[format]
+        raise ValueError("Please provide an `output_file` with a `.parquet` "
+                         "extension.")
+    for file in [output_file, errors_file]:
+        if os.path.exists(file):
+            raise ValueError(f"The file '{file}' already exists. "
+                             "Please rename it, delete it, or choose another "
+                             "file name/path.")
+
+    regex = log_formats.get(log_format) or log_format
+    columns = fields or log_fields[log_format]
     with TemporaryDirectory() as tempdir:
         tempdir_name = Path(tempdir)
         with open(log_file) as source_file:
             linenumber = 0
             parsed_lines = []
             for line in source_file:
+                linenumber += 1
                 try:
                     log_line = re.findall(regex, line)[0]
                     parsed_lines.append(log_line)
                 except Exception as e:
                     with open(errors_file, 'at') as err:
-                        print((line, str(e)), file=err)
-                    continue
-                linenumber += 1
+                        print(line, str(e), sep='@@', file=err)
+                    pass
                 if linenumber % 250_000 == 0:
-                    print(f'Parsed {linenumber:,>15} lines.', end='\r')
+                    print(f'Parsed {linenumber:>15,} lines.', end='\r')
                     df = pd.DataFrame(parsed_lines, columns=columns)
                     df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
                     parsed_lines.clear()
             else:
+                print(f'Parsed {linenumber:>15,} lines.', end='\r')
                 df = pd.DataFrame(parsed_lines, columns=columns)
                 df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
-                parsed_lines.clear()
-            pd.read_parquet(tempdir_name).to_parquet(output_file)
-
-    final_df = pd.read_parquet(output_file)
-    return final_df
+            final_df = pd.read_parquet(tempdir_name)
+            final_df['status'] = final_df['status'].astype('category')
+            final_df['method'] = final_df['method'].astype('category')
+            final_df['size'] = pd.to_numeric(final_df['size'],
+                                             downcast='signed')
+            final_df.to_parquet(output_file)
 
 
 def crawllogs_to_df(logs_file_path):
