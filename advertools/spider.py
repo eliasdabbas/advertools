@@ -593,10 +593,13 @@ class SEOSitemapSpider(Spider):
             links_nofollow='@@'.join(str(link.nofollow) for link in links),
             nav_links_url='@@'.join(link.url for link in nav_links),
             nav_links_text='@@'.join(link.text for link in nav_links),
+            nav_links_nofollow='@@'.join(str(link.nofollow) for link in nav_links),
             header_links_url='@@'.join(link.url for link in header_links),
             header_links_text='@@'.join(link.text for link in header_links),
+            header_links_nofollow='@@'.join(str(link.nofollow) for link in header_links),
             footer_links_url='@@'.join(link.url for link in footer_links),
             footer_links_text='@@'.join(link.text for link in footer_links),
+            footer_links_nofollow='@@'.join(str(link.nofollow) for link in footer_links),
 
             img_src='@@'.join([im.attrib.get('src') or ''
                                for im in response.css('img')]),
