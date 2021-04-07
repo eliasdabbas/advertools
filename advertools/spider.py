@@ -328,6 +328,7 @@ import scrapy
 
 from scrapy.spiders import Spider
 from scrapy.linkextractors import LinkExtractor
+from scrapy.utils.response import get_base_url
 from scrapy import Request
 import scrapy.logformatter as formatter
 import advertools as adv
@@ -359,10 +360,30 @@ formatter.SCRAPEDMSG = "Scraped from %(src)s"
 formatter.DROPPEDMSG = "Dropped: %(exception)s"
 formatter.DOWNLOADERRORMSG_LONG = "Error downloading %(request)s"
 
-le = LinkExtractor(unique=False)
-le_nav = LinkExtractor(unique=False, restrict_xpaths='//nav')
-le_header = LinkExtractor(unique=False, restrict_xpaths='//header')
-le_footer = LinkExtractor(unique=False, restrict_xpaths='//footer')
+
+class MyLinkExtractor(LinkExtractor):
+    def extract_links(self, response):
+        base_url = get_base_url(response)
+        if self.restrict_xpaths:
+            docs = [
+                subdoc
+                for x in self.restrict_xpaths
+                for subdoc in response.xpath(x)
+            ]
+        else:
+            docs = [response.selector]
+        all_links = []
+        for doc in docs:
+            links = self._extract_links(doc, response.url, response.encoding,
+                                        base_url)
+            all_links.extend(self._process_links(links))
+        return all_links
+
+
+le = MyLinkExtractor(unique=False)
+le_nav = MyLinkExtractor(unique=False, restrict_xpaths='//nav')
+le_header = MyLinkExtractor(unique=False, restrict_xpaths='//header')
+le_footer = MyLinkExtractor(unique=False, restrict_xpaths='//footer')
 
 crawl_headers = {
     'url',

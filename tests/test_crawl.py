@@ -21,6 +21,11 @@ crawl('file://' + links_file, 'links_crawl.jl',
       custom_settings={'ROBOTSTXT_OBEY': False})
 crawl_df = pd.read_json('links_crawl.jl', lines=True)
 
+dup_links_filed = os.path.abspath('tests/data/crawl_testing/duplicate_links.html')
+crawl('file://' + dup_links_filed, 'dup_links_crawl.jl',
+      custom_settings={'ROBOTSTXT_OBEY': False})
+dup_crawl_df = pd.read_json('dup_links_crawl.jl', lines=True)
+
 
 def test_link_columns_all_exist():
     assert set(links_columns).difference(crawl_df.columns.tolist()) == set()
@@ -43,4 +48,25 @@ def test_all_links_have_nofollow():
             .all().all())
 
 
+dup_links_test = ['https://example_a.com',
+                  'https://example_a.com',
+                  'https://example_a.com',
+                  'https://example_a.com',
+                  'https://example_a.com',
+                  'https://example.com']
+
+dup_text_test = ['Link Text A',
+                 'Link Text A',
+                 'Link Text A',
+                 'Link Text B',
+                 'Link Text C',
+                 'Link Other']
+
+
+def test_duplicate_links_counted_propery():
+    assert dup_crawl_df['links_url'].str.split('@@')[0] == dup_links_test
+    assert dup_crawl_df['links_text'].str.split('@@')[0] == dup_text_test
+
+
 os.remove('links_crawl.jl')
+os.remove('dup_links_crawl.jl')
