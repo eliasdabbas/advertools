@@ -48,12 +48,8 @@ def test_all_links_have_nofollow():
             .all().all())
 
 
-dup_links_test = ['https://example_a.com',
-                  'https://example_a.com',
-                  'https://example_a.com',
-                  'https://example_a.com',
-                  'https://example_a.com',
-                  'https://example.com']
+dup_links_test = (['https://example_a.com' for i in range(5)] +
+                  ['https://example.com'])
 
 dup_text_test = ['Link Text A',
                  'Link Text A',
@@ -62,10 +58,13 @@ dup_text_test = ['Link Text A',
                  'Link Text C',
                  'Link Other']
 
+dup_nf_test = ['True'] + ['False' for i in range(5)]
+
 
 def test_duplicate_links_counted_propery():
     assert dup_crawl_df['links_url'].str.split('@@')[0] == dup_links_test
     assert dup_crawl_df['links_text'].str.split('@@')[0] == dup_text_test
+    assert dup_crawl_df['links_nofollow'].str.split('@@')[0] == dup_nf_test
 
 
 os.remove('links_crawl.jl')
