@@ -36,4 +36,11 @@ def test_extract_h_tags():
     assert crawl_df['h2'].str.split('@@').explode().iloc[1] == ''
 
 
+def test_all_links_have_nofollow():
+    assert (crawl_df
+            .filter(regex='nofollow')
+            .apply(lambda s: s.str.contains("True"))
+            .all().all())
+
+
 os.remove('links_crawl.jl')
