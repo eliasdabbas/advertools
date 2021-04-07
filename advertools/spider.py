@@ -543,6 +543,45 @@ class SEOSitemapSpider(Spider):
         nav_links = le_nav.extract_links(response)
         header_links = le_header.extract_links(response)
         footer_links = le_footer.extract_links(response)
+
+        if links:
+            parsed_links = dict(
+                links_url='@@'.join(link.url for link in links),
+                links_text='@@'.join(link.text for link in links),
+                links_nofollow='@@'.join(str(link.nofollow) for link in links),
+            )
+        else:
+            parsed_links = {}
+        if nav_links:
+            parsed_nav_links = dict(
+                nav_links_url='@@'.join(link.url for link in nav_links),
+                nav_links_text='@@'.join(link.text for link in nav_links),
+                nav_links_nofollow='@@'.join(str(link.nofollow)
+                                             for link in nav_links),
+            )
+        else:
+            parsed_nav_links = {}
+        if header_links:
+            parsed_header_links = dict(
+                header_links_url='@@'.join(link.url
+                                           for link in header_links),
+                header_links_text='@@'.join(link.text
+                                            for link in header_links),
+                header_links_nofollow='@@'.join(str(link.nofollow)
+                                                for link in header_links),
+            )
+        else:
+            parsed_header_links = {}
+        if footer_links:
+            parsed_footer_links = dict(
+                footer_links_url='@@'.join(link.url for link in footer_links),
+                footer_links_text='@@'.join(link.text
+                                            for link in footer_links),
+                footer_links_nofollow='@@'.join(str(link.nofollow)
+                                                for link in footer_links),
+            )
+        else:
+            parsed_footer_links = {}
         if self.css_selectors:
             css_selectors = {key: '@@'.join(response.css('{}'.format(val)).getall())
                              for key, val in self.css_selectors.items()}
@@ -609,18 +648,10 @@ class SEOSitemapSpider(Spider):
             **{k: '@@'.join(str(val) for val in v) if isinstance(v, list)
                else v for k, v in response.meta.items()},
             status=response.status,
-            links_url='@@'.join(link.url for link in links),
-            links_text='@@'.join(link.text for link in links),
-            links_nofollow='@@'.join(str(link.nofollow) for link in links),
-            nav_links_url='@@'.join(link.url for link in nav_links),
-            nav_links_text='@@'.join(link.text for link in nav_links),
-            nav_links_nofollow='@@'.join(str(link.nofollow) for link in nav_links),
-            header_links_url='@@'.join(link.url for link in header_links),
-            header_links_text='@@'.join(link.text for link in header_links),
-            header_links_nofollow='@@'.join(str(link.nofollow) for link in header_links),
-            footer_links_url='@@'.join(link.url for link in footer_links),
-            footer_links_text='@@'.join(link.text for link in footer_links),
-            footer_links_nofollow='@@'.join(str(link.nofollow) for link in footer_links),
+            **parsed_links,
+            **parsed_nav_links,
+            **parsed_header_links,
+            **parsed_footer_links,
 
             img_src='@@'.join([im.attrib.get('src') or ''
                                for im in response.css('img')]),
