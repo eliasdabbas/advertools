@@ -2,7 +2,17 @@
 Change Log - advertools
 =======================
 
-0.11.0 (2021-31-03)
+0.11.1 (2021-04-09)
+-------------------
+
+* Added
+    - The `nofollow` attribute for nav, header, and footer links.
+
+* Fixed
+    - Timeout error while downloading robots.txt files.
+    - Make extracting nav, header, and footer links consistent with all links.
+
+0.11.0 (2021-03-31)
 -------------------
 
 * Added
