@@ -12,7 +12,7 @@ from advertools.emoji import *
 from advertools.extract import *
 from advertools.knowledge_graph import knowledge_graph
 from advertools.kw_generate import *
-from advertools.logs import crawllogs_to_df
+from advertools.logs import logs_to_df, crawllogs_to_df
 from advertools.regex import *
 from advertools.robotstxt import *
 from advertools.sitemaps import sitemap_to_df
