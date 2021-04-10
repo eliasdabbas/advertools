@@ -73,7 +73,7 @@ import pandas as pd
 
 log_formats = {
     'common': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
-    'combined': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"',
+    'combined': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"$',
 }
 
 log_fields = {
@@ -121,10 +121,13 @@ def logs_to_df(log_file, output_file, errors_file, log_format='common',
                 df = pd.DataFrame(parsed_lines, columns=columns)
                 df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
             final_df = pd.read_parquet(tempdir_name)
-            final_df['status'] = final_df['status'].astype('category')
-            final_df['method'] = final_df['method'].astype('category')
-            final_df['size'] = pd.to_numeric(final_df['size'],
-                                             downcast='signed')
+            try:
+                final_df['status'] = final_df['status'].astype('category')
+                final_df['method'] = final_df['method'].astype('category')
+                final_df['size'] = pd.to_numeric(final_df['size'],
+                                                 downcast='signed')
+            except KeyError:
+                pass
             final_df.to_parquet(output_file)
 
 
