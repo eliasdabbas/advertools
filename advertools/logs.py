@@ -109,7 +109,8 @@ def logs_to_df(log_file, output_file, errors_file, log_format='common',
                     parsed_lines.append(log_line)
                 except Exception as e:
                     with open(errors_file, 'at') as err:
-                        print(line, str(e), sep='@@', file=err)
+                        err_line = line[:-1] if line.endswith('\n') else line
+                        print(err_line + '@@' + str(e), file=err)
                     pass
                 if linenumber % 250_000 == 0:
                     print(f'Parsed {linenumber:>15,} lines.', end='\r')
