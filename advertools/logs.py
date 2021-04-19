@@ -1,6 +1,60 @@
 """
 .. _logs:
 
+Log File Analysis
+=================
+
+Logs contain very detailed information about events happening on servers.
+And the extra details that they provide, comes with additional complexity that
+we need to handle ourselves. A pageview may contain many log lines, and a
+session can consist of several pageviews.
+
+Another important characterisitic of log files is that their are usualy not
+big.
+They are massive.
+
+So, we also need to cater for their large size, as well as rapid changes.
+
+TL;DR
+
+>>> import advertools as adv
+>>> adv.logs_to_df(log_file='access.log',
+...                output_file='access_logs.parquet',
+...                errors_file='log_errors.txt',
+...                log_format='common',
+...                fields=None)
+
+* ``log_file``: The path to the log file you are trying to analyze.
+* ``output_file``: The path to where you want the parsed and compressed file
+  to be saved. Only the `parquet` format is supported.
+* ``errors_file``: You will almost certainly have log lines that don't conform
+  to the format that you have, so all lines that weren't properly parsed would
+  go to this file. This file also contains the error messages, so you know what
+  went wrong, and how you might fix it. In some cases, you might simply take
+  these "errors" and parse them again. They might not be error, but lines in a
+  different format.
+* ``log_format``: The format in which you logs were formatted. Logs can (and
+  are) formatted in many ways, and there is no right or wrong way. However,
+  there are defaults, and a few popular formats that most servers use. This
+  means it is likely that your file is in one of the popular formats. This
+  parameter can take any one of the pre-defined formats, or a regular
+  expression that you provide. This means that you can parse any log format (as
+  long as lines are single lines, and not formatted in JSON).
+* ``fields``: If you selected one of the supported formats, then there is no
+  need to provide a value for this parameter. You have to provide a list of
+  fields in case you provide a custom (regex) format. The fields will become
+  the names of the columns of the resulting DataFrame, so you can distinguish
+  between them (client, time, status code, response size, etc.)
+
+Supported Log Formats
+---------------------
+
+* `common`
+* `combined` (a.k.a "extended")
+* `common_with_vhost`
+
+
+
 Parse and Analyze Crawl Logs in a Dataframe (experimental)
 ==========================================================
 
@@ -74,6 +128,7 @@ import pandas as pd
 log_formats = {
     'common': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
     'combined': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"$',
+    'common_with_vhost': r'^(?P<vhost>\S+) (?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$'
 }
 
 log_fields = {
@@ -81,6 +136,9 @@ log_fields = {
                'size'],
     'combined': ['client', 'userid', 'datetime', 'method', 'request', 'status',
                  'size', 'referer', 'user_agent'],
+    'common_with_vhost': ['virtual_host', 'client', 'userid', 'datetime',
+                          'method', 'request', 'status', 'size'],
+
 }
 
 
