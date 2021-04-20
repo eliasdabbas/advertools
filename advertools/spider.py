@@ -703,9 +703,9 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
                                  crawl. This ensures that the crawler does not
                                  attempt to crawl the whole web. If not
                                  specified, it defaults to the domains of the
-                                 URLs provided in ``url_list``. You can use it
-                                 for sub-domains if you want them to be crawled
-                                 as they will not be crawled if not specified.
+                                 URLs provided in ``url_list`` and all their 
+                                 sub-domains. You can also specify a list of
+                                 sub-domains, if you want to only crawl those.
     :Examples:
 
     Crawl a website and let the crawler discover as many pages as available
