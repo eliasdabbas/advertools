@@ -18,23 +18,19 @@ To get the robots.txt file into an easily readable format, you can use the
 :func:`robotstxt_to_df` function to get it in a DataFrame.
 
 >>> robotstxt_to_df('https://www.amazon.com/robots.txt')
-       directive                                            content	    robotstxt_last_modified	                              etag	                      robotstxt_url	                     download_date
-0	  User-agent	                                              *	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-1	    Disallow	              /exec/obidos/account-access-login	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-2	    Disallow	                      /exec/obidos/change-style	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-3	    Disallow	                      /exec/obidos/flex-sign-in	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-4	    Disallow	                    /exec/obidos/handle-buy-box	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-138	    Disallow	                 /gp/help/customer/express/c2c/	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-139	    Disallow	                                      /slp/*/b$	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-140	    Disallow	  /hz/contact-us/ajax/initiate-trusted-contact/	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-141	  User-agent	                                     EtaoSpider	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
-142	    Disallow	                                              /	  2020-10-09 22:39:49+00:00	  8e5277c97035c645b89ceb97cdb8c619	  https://www.amazon.com/robots.txt	  2021-01-16 15:41:10.803866+00:00
+      directive    content                                        etag                                robotstxt_last_modified    robotstxt_url                      download_date
+   0  User-agent   *                                              "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
+   1  Disallow     /exec/obidos/account-access-login              "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
+   2  Disallow     /exec/obidos/change-style                      "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
+   3  Disallow     /exec/obidos/flex-sign-in                      "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
+   4  Disallow     /exec/obidos/handle-buy-box                    "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
+ ...    ...                 ...                                                 ...                              ...                           ...                                 ...
+ 138  Disallow     /gp/help/customer/express/c2c/                 "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
+ 139  Disallow     /slp/*/b$                                      "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
+ 140  Disallow     /hz/contact-us/ajax/initiate-trusted-contact/  "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
+ 141  User-agent   EtaoSpider                                     "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
+ 142  Disallow     /                                              "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
+
 
 The returned DataFrame contains columns for directives, their content, the URL
 of the robots.txt file, as well as the date it was downloaded.
@@ -111,20 +107,19 @@ robots.txt Testing Approach
 4. Run the :func:`robotstxt_test` function
 
 >>> fb_robots = robotstxt_to_df('https://www.facebook.com/robots.txt')
->>> fb_robots
-      directive                                            content                        robotstxt_url                    download_date
-0       comment  Notice: Collection of data on Facebook through...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
-1       comment  prohibited unless you have express written per...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
-2       comment  and may only be conducted for the limited purp...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
-3       comment                                        permission.  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
-4       comment  See: http://www.facebook.com/apps/site_scrapin...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
-..          ...                                                ...                                  ...                              ...
-461       Allow                         /ajax/bootloader-endpoint/  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
-462       Allow  /ajax/pagelet/generic.php/PagePostsSectionPagelet  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
-463       Allow                                      /safetycheck/  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
-464  User-agent                                                  *  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
-465    Disallow                                                  /  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00
-[466 rows x 4 columns]
+      directive    content                                                              robotstxt_url                        download_date
+   0  comment      Notice: Collection of data on Facebook through automated means is    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
+   1  comment      prohibited unless you have express written permission from Facebook  https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
+   2  comment      and may only be conducted for the limited purpose contained in said  https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
+   3  comment      permission.                                                          https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
+   4  comment      See: http://www.facebook.com/apps/site_scraping_tos_terms.php        https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
+ ...    ...                                ...                                                         ...                                 ...
+ 480  Allow        /ajax/bootloader-endpoint/                                           https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
+ 481  Allow        /ajax/pagelet/generic.php/PagePostsSectionPagelet                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
+ 482  Allow        /safetycheck/                                                        https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
+ 483  User-agent   *                                                                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
+ 484  Disallow     /                                                                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
+[484 rows x 4 columns]
 
 Now that we have downloaded the file, we can easily extract the list of
 user-agents that it contains.
