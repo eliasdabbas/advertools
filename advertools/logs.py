@@ -38,8 +38,8 @@ If you run it this way, all logs will be saved to the file you chose,
 Now, you can use the :func:`crawllogs_to_df` function to open the logs in a
 DataFrame:
 
->>> import pandas as pd
->>> logs_df = pd.read_csv('example.log')
+>>> import advertools as adv
+>>> logs_df = adv.crallogs_to_df('example.log')
 
 
 The DataFrame might contain the following columns:
