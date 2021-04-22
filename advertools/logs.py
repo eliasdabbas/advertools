@@ -39,7 +39,7 @@ Now, you can use the :func:`crawllogs_to_df` function to open the logs in a
 DataFrame:
 
 >>> import advertools as adv
->>> logs_df = adv.crallogs_to_df('example.log')
+>>> logs_df = adv.crawllogs_to_df('example.log')
 
 
 The DataFrame might contain the following columns:
