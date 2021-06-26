@@ -48,6 +48,11 @@ def test_all_links_have_nofollow():
             .all().all())
 
 
+def test_image_tags_available():
+    assert [col in crawl_df for col in ['img_src', 'img_alt',
+                                        'img_height', 'img_width']]                          
+
+
 dup_links_test = (['https://example_a.com' for i in range(5)] +
                   ['https://example.com'])
 

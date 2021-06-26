@@ -323,6 +323,7 @@ import json
 import platform
 import subprocess
 
+from functools import reduce
 from urllib.parse import urlparse
 import scrapy
 
@@ -344,6 +345,24 @@ spider_path = adv.__path__[0] + '/spider.py'
 user_agent = f'advertools/{adv_version}'
 
 BODY_TEXT_SELECTOR = '//body//span//text() | //body//p//text() | //body//li//text()'
+
+_IMG_ATTRS = {'alt', 'crossorigin', 'height', 'ismap', 'loading', 'longdesc',
+              'referrerpolicy', 'sizes', 'src', 'srcset', 'usemap', 'width'}
+
+
+def _extract_images(response):
+    page_has_images = response.xpath('//img')
+    if page_has_images:
+        img_attributes = reduce(set.union,
+                                [set(x.attrib.keys())
+                                for x in page_has_images])
+        img_attributes = img_attributes.intersection(_IMG_ATTRS)
+        d = dict()
+        for im_attr in img_attributes:
+            d['img_' + im_attr] = '@@'.join([im.attrib.get(im_attr) or ''
+                                            for im in response.xpath('//img')])
+        return d
+    return {}
 
 
 def get_max_cmd_len():
@@ -543,6 +562,7 @@ class SEOSitemapSpider(Spider):
         nav_links = le_nav.extract_links(response)
         header_links = le_header.extract_links(response)
         footer_links = le_footer.extract_links(response)
+        images = _extract_images(response)
 
         if links:
             parsed_links = dict(
@@ -652,11 +672,7 @@ class SEOSitemapSpider(Spider):
             **parsed_nav_links,
             **parsed_header_links,
             **parsed_footer_links,
-
-            img_src='@@'.join([im.attrib.get('src') or ''
-                               for im in response.css('img')]),
-            img_alt='@@'.join([im.attrib.get('alt') or ''
-                               for im in response.css('img')]),
+            **images,
             ip_address=str(response.ip_address),
             crawl_time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
             **{'resp_headers_' + k: v
