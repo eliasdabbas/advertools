@@ -2,6 +2,15 @@
 Change Log - advertools
 =======================
 
+Unreleased
+-------------------
+
+* Added
+    - Crawler extracts all available ``img`` attributes: 'alt', 'crossorigin',
+      'height', 'ismap', 'loading', 'longdesc', 'referrerpolicy', 'sizes',
+      'src', 'srcset', 'usemap',  and 'width' (excluding global HTML attributes
+      like ``style`` and ``draggable``).
+
 0.11.1 (2021-04-09)
 -------------------
 
