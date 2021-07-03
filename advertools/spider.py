@@ -528,6 +528,7 @@ def _extract_content(resp, **tags_xpaths):
 class SEOSitemapSpider(Spider):
     name = 'seo_spider'
     follow_links = False
+    skip_url_params = False
     css_selectors = {}
     xpath_selectors = {}
     custom_settings = {
@@ -537,12 +538,13 @@ class SEOSitemapSpider(Spider):
     }
 
     def __init__(self, url_list=None, allowed_domains=None,
-                 css_selectors=None, xpath_selectors=None,
-                 follow_links=False, *args, **kwargs):
+                 skip_url_params=None, css_selectors=None,
+                 xpath_selectors=None, follow_links=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.start_urls = json.loads(json.dumps(url_list.split(',')))
         self.allowed_domains = json.loads(json.dumps(allowed_domains.split(',')))
         self.follow_links = eval(json.loads(json.dumps(follow_links)))
+        self.skip_url_params = eval(json.loads(json.dumps(skip_url_params)))
         self.css_selectors = eval(json.loads(json.dumps(css_selectors)))
         self.xpath_selectors = eval(json.loads(json.dumps(xpath_selectors)))
 
@@ -684,12 +686,16 @@ class SEOSitemapSpider(Spider):
             next_pages = [link.url for link in links]
             if next_pages:
                 for page in next_pages:
-                    yield Request(page, callback=self.parse,
-                                  errback=self.errback)
+                    if self.skip_url_params and urlparse(page).query:
+                        continue
+                    else:
+                        yield Request(page, callback=self.parse,
+                                      errback=self.errback)
 
 
-def crawl(url_list, output_file, follow_links=False, css_selectors=None,
-          xpath_selectors=None, custom_settings=None, allowed_domains=None):
+def crawl(url_list, output_file, follow_links=False, skip_url_params=False,
+          css_selectors=None, xpath_selectors=None, custom_settings=None,
+          allowed_domains=None):
     """
     Crawl a website's URLs based on the given :attr:`url_list`
 
@@ -701,6 +707,8 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
                             your file ends with ".jl", e.g. `output_file.jl`.
     :param bool follow_links: Defaults to False. Whether or not to follow links
                               on crawled pages.
+    :param bool skip_url_params: Whether or not to skip URLs that contain
+                                 parameters. Defaults to False.
     :param dict css_selectors: A dictionary mapping names to CSS selectors. The
                                names will become column headers, and the
                                selectors will be used to extract the required
@@ -781,6 +789,7 @@ def crawl(url_list, output_file, follow_links=False, css_selectors=None,
                '-a', 'url_list=' + ','.join(url_list),
                '-a', 'allowed_domains=' + ','.join(allowed_domains),
                '-a', 'follow_links=' + str(follow_links),
+               '-a', 'skip_url_params=' + str(skip_url_params),
                '-a', 'css_selectors=' + str(css_selectors),
                '-a', 'xpath_selectors=' + str(xpath_selectors),
                '-o', output_file] + settings_list
