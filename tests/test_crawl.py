@@ -1,3 +1,4 @@
+from advertools import regex
 import os
 
 import pytest
@@ -5,9 +6,9 @@ from advertools.spider import crawl
 import pandas as pd
 
 links_columns = {
-    'links_url': 12,
-    'links_text': 12,
-    'links_nofollow': 12,
+    'links_url': 14,
+    'links_text': 14,
+    'links_nofollow': 14,
     'nav_links_url': 3,
     'nav_links_text': 3,
     'header_links_url': 3,
@@ -27,12 +28,20 @@ crawl('file://' + links_file, 'follow_url_params.jl',
       follow_links=True, skip_url_params=False)
 follow_url_params_df = pd.read_json('follow_url_params.jl', lines=True)
 
+def follow_url_params_followed():
+    assert follow_url_params_df['url'].str.contains('?', regex=False).any()
+
 crawl('file://' + links_file, 'dont_follow_url_params.jl',
       allowed_domains=[links_file, 'example.com'],
       custom_settings={'ROBOTSTXT_OBEY': False},
       follow_links=True, skip_url_params=True)
 dont_follow_url_params_df = pd.read_json('dont_follow_url_params.jl',
                                          lines=True)
+
+
+def dont_follow_url_params_not_followed():
+    assert not dont_follow_url_params_df['url'].str.contains('?', regex=False).all()
+
 
 dup_links_file = os.path.abspath('tests/data/crawl_testing/duplicate_links.html')
 crawl('file://' + dup_links_file, 'dup_links_crawl.jl',
@@ -95,3 +104,4 @@ def test_non_existent_links_are_NA():
 os.remove('links_crawl.jl')
 os.remove('dup_links_crawl.jl')
 os.remove('follow_url_params.jl')
+os.remove('dont_follow_url_params.jl')
