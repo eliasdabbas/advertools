@@ -21,6 +21,19 @@ crawl('file://' + links_file, 'links_crawl.jl',
       custom_settings={'ROBOTSTXT_OBEY': False})
 crawl_df = pd.read_json('links_crawl.jl', lines=True)
 
+crawl('file://' + links_file, 'follow_url_params.jl',
+      allowed_domains=[links_file, 'example.com'],
+      custom_settings={'ROBOTSTXT_OBEY': False},
+      follow_links=True, skip_url_params=False)
+follow_url_params_df = pd.read_json('follow_url_params.jl', lines=True)
+
+crawl('file://' + links_file, 'dont_follow_url_params.jl',
+      allowed_domains=[links_file, 'example.com'],
+      custom_settings={'ROBOTSTXT_OBEY': False},
+      follow_links=True, skip_url_params=True)
+dont_follow_url_params_df = pd.read_json('dont_follow_url_params.jl',
+                                         lines=True)
+
 dup_links_file = os.path.abspath('tests/data/crawl_testing/duplicate_links.html')
 crawl('file://' + dup_links_file, 'dup_links_crawl.jl',
       custom_settings={'ROBOTSTXT_OBEY': False})
@@ -81,3 +94,4 @@ def test_non_existent_links_are_NA():
 
 os.remove('links_crawl.jl')
 os.remove('dup_links_crawl.jl')
+os.remove('follow_url_params.jl')
