@@ -10,6 +10,9 @@ Unreleased
       'height', 'ismap', 'loading', 'longdesc', 'referrerpolicy', 'sizes',
       'src', 'srcset', 'usemap',  and 'width' (excluding global HTML attributes
       like ``style`` and ``draggable``).
+    - New parameter for the ``crawl`` function ``skip_url_params``: Defaults to
+      True, consistent with previous behavior, with the ability to not
+      follow/crawl links containing any URL parameters.
 
 0.11.1 (2021-04-09)
 -------------------
