@@ -1,4 +1,3 @@
-from advertools import regex
 import os
 
 import pytest
@@ -28,8 +27,10 @@ crawl('file://' + links_file, 'follow_url_params.jl',
       follow_links=True, skip_url_params=False)
 follow_url_params_df = pd.read_json('follow_url_params.jl', lines=True)
 
+
 def follow_url_params_followed():
     assert follow_url_params_df['url'].str.contains('?', regex=False).any()
+
 
 crawl('file://' + links_file, 'dont_follow_url_params.jl',
       allowed_domains=[links_file, 'example.com'],
@@ -40,10 +41,12 @@ dont_follow_url_params_df = pd.read_json('dont_follow_url_params.jl',
 
 
 def dont_follow_url_params_not_followed():
-    assert not dont_follow_url_params_df['url'].str.contains('?', regex=False).all()
+    assert not dont_follow_url_params_df['url'].str.contains('?',
+                                                             regex=False).all()
 
 
-dup_links_file = os.path.abspath('tests/data/crawl_testing/duplicate_links.html')
+file_path = 'tests/data/crawl_testing/duplicate_links.html'
+dup_links_file = os.path.abspath(file_path)
 crawl('file://' + dup_links_file, 'dup_links_crawl.jl',
       custom_settings={'ROBOTSTXT_OBEY': False})
 dup_crawl_df = pd.read_json('dup_links_crawl.jl', lines=True)
@@ -72,7 +75,14 @@ def test_all_links_have_nofollow():
 
 def test_image_tags_available():
     assert [col in crawl_df for col in ['img_src', 'img_alt',
-                                        'img_height', 'img_width']]                          
+                                        'img_height', 'img_width']]
+
+
+def test_all_img_attrs_have_same_length():
+    assert (crawl_df
+            .filter(regex='img_')
+            .apply(lambda s: s.str.split('@@').str.len())
+            .apply(set, axis=1)[0].__len__()) == 1
 
 
 dup_links_test = (['https://example_a.com' for i in range(5)] +
