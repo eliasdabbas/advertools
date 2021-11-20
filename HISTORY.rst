@@ -14,6 +14,10 @@ Unreleased
       True, consistent with previous behavior, with the ability to not
       follow/crawl links containing any URL parameters.
 
+* Changed
+    - Query parameter columns in ``url_to_df`` DataFrame are now sorted by how
+      full the columns are (the percentage of values that are not `NA`)
+ 
 0.11.1 (2021-04-09)
 -------------------
 
