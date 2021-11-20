@@ -165,9 +165,14 @@ def url_to_df(urls, decode=True):
                          .sort_values(ascending=False).index)
       query_df = query_df[sorted_q_params]
       df = df.drop(query_df.columns, axis=1)
-    dirs_df = df.filter(regex='dir_')
+    dirs_df = df.filter(regex='^dir_')
     if not dirs_df.empty:
-        df = df.drop(dirs_df.columns, axis=1)
+      df = df.drop(dirs_df.columns, axis=1)
+      dirs_df = (dirs_df
+                 .assign(resource=dirs_df
+                 .fillna(method='ffill', axis=1)
+                 .iloc[:, -1:]
+                 .squeeze()))
     df = pd.concat([df, dirs_df, query_df], axis=1)
     df.insert(0, 'url', [decode(url) for url in urls])
     return df

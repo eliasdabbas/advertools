@@ -41,6 +41,9 @@ def test_domainpath_fragrel_full():
     query_set = {'query_one', 'query_three'}
     assert query_set.intersection(result.columns) == query_set
 
+def test_no_path_has_no_resource():
+    result = url_to_df(domain_query)
+    assert 'resource' not in result
 
 def test_all():
     result = url_to_df([domain, domain_path, path_rel, domain_query,
@@ -48,6 +51,7 @@ def test_all():
     assert len(result) == 9
     assert 'port' in result
     assert 'hostname' in result
+    assert 'resource' in result
 
 def test_all():
     result = url_to_df([domain, domain_path, path_rel, domain_query,
