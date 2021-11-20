@@ -118,7 +118,7 @@ The ideal case for the `path` part of the URL is to be split into directories
 of equal length across the dataset, having the right data in the right columns
 and `NA` otherwise. Or, splitting the dataset and analyzing separately.
 """
-from urllib.parse import urlsplit, parse_qs, unquote
+from urllib.parse import parse_qs, unquote, urlsplit
 
 import pandas as pd
 
@@ -159,7 +159,12 @@ def url_to_df(urls, decode=True):
 
     query_df = df.filter(regex='query_')
     if not query_df.empty:
-        df = df.drop(query_df.columns, axis=1)
+      sorted_q_params = (query_df
+                         .notna()
+                         .mean()
+                         .sort_values(ascending=False).index)
+      query_df = query_df[sorted_q_params]
+      df = df.drop(query_df.columns, axis=1)
     dirs_df = df.filter(regex='dir_')
     if not dirs_df.empty:
         df = df.drop(dirs_df.columns, axis=1)

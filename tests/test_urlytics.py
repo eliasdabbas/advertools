@@ -12,6 +12,10 @@ fragment = 'https://example.com/#fragment'
 fragment_rel = '/#fragment_rel'
 full = 'ftp://example.com:20/cat/sub_cat?one=10&three=30#frag_2'
 
+ordered_q_param_urls = ['https://example.com?a=a&b=b&c=c',
+                        'https://example.com?b=b&c=c',
+                        'https://example.com?c=c',
+                        'https://example.com?a=a&c=c']
 
 def test_urltodf_convert_str_tolist():
     result = url_to_df('https://www.example.com')
@@ -44,3 +48,16 @@ def test_all():
     assert len(result) == 9
     assert 'port' in result
     assert 'hostname' in result
+
+def test_all():
+    result = url_to_df([domain, domain_path, path_rel, domain_query,
+                        domain_query_rel, port, fragment, fragment_rel, full])
+
+def test_query_params_are_ordered_by_fullness():
+    result = url_to_df(ordered_q_param_urls)
+    query_df = result.filter(regex='^query_')
+    sorted_q_params = (query_df
+                       .notna()
+                       .mean()
+                       .sort_values(ascending=False).index)
+    assert (query_df.columns == sorted_q_params).all()
