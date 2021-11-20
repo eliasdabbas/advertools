@@ -1,8 +1,8 @@
 import os
 
+import pandas as pd
 import pytest
 from advertools.spider import crawl
-import pandas as pd
 
 links_columns = {
     'links_url': 14,
