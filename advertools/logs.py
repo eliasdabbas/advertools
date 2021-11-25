@@ -5,7 +5,7 @@ Log File Analysis
 =================
 
 Logs contain very detailed information about events happening on servers.
-And the extra details that they provide, comes with additional complexity that
+And the extra details that they provide, come with additional complexity that
 we need to handle ourselves. A pageview may contain many log lines, and a
 session can consist of several pageviews.
 
@@ -31,8 +31,8 @@ TL;DR
   to the format that you have, so all lines that weren't properly parsed would
   go to this file. This file also contains the error messages, so you know what
   went wrong, and how you might fix it. In some cases, you might simply take
-  these "errors" and parse them again. They might not be error, but lines in a
-  different format.
+  these "errors" and parse them again. They might not be reall errorr, but
+  lines in a different format.
 * ``log_format``: The format in which you logs were formatted. Logs can (and
   are) formatted in many ways, and there is no right or wrong way. However,
   there are defaults, and a few popular formats that most servers use. This
@@ -120,8 +120,8 @@ The DataFrame might contain the following columns:
 """
 import os
 import re
-from tempfile import TemporaryDirectory
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import pandas as pd
 
@@ -147,7 +147,7 @@ log_fields = {
 }
 
 
-def logs_to_df(log_file, output_file, errors_file, log_format='common',
+def logs_to_df(log_file, output_file, errors_file, log_format,
                fields=None):
     if not output_file.endswith('.parquet'):
         raise ValueError("Please provide an `output_file` with a `.parquet` "
