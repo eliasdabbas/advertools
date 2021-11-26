@@ -2,17 +2,22 @@
 Change Log - advertools
 =======================
 
-Unreleased
+0.12.0 (2021-11-27)
 -------------------
 
 * Added
+    - New function ``logs_to_df``: Convert a log file of any non-JSON format
+      into a pandas DataFrame and save it to a `parquet` file. This also
+      compresses the file to a much smaller size.
     - Crawler extracts all available ``img`` attributes: 'alt', 'crossorigin',
       'height', 'ismap', 'loading', 'longdesc', 'referrerpolicy', 'sizes',
       'src', 'srcset', 'usemap',  and 'width' (excluding global HTML attributes
       like ``style`` and ``draggable``).
     - New parameter for the ``crawl`` function ``skip_url_params``: Defaults to
-      True, consistent with previous behavior, with the ability to not
+      False, consistent with previous behavior, with the ability to not
       follow/crawl links containing any URL parameters.
+    - New column for ``url_to_df`` "last_dir": Extract the value in the last
+      directory for each of the URLs.
 
 * Changed
     - Query parameter columns in ``url_to_df`` DataFrame are now sorted by how
