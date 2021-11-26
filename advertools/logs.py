@@ -142,13 +142,12 @@ log_fields = {
                           'method', 'request', 'status', 'size'],
     'nginx_error': ['datetime', 'level', 'process_id', 'thread_id', 'counter',
                     'message'],
-    'apache_error': ['datetime', 'level', 'process_id', 'file', 'status', 'client', 'message'],
-
+    'apache_error': ['datetime', 'level', 'process_id', 'file', 'status',
+                     'client', 'message'],
 }
 
 
-def logs_to_df(log_file, output_file, errors_file, log_format,
-               fields=None):
+def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
     if not output_file.endswith('.parquet'):
         raise ValueError("Please provide an `output_file` with a `.parquet` "
                          "extension.")
@@ -173,7 +172,8 @@ def logs_to_df(log_file, output_file, errors_file, log_format,
                 except Exception as e:
                     with open(errors_file, 'at') as err:
                         err_line = line[:-1] if line.endswith('\n') else line
-                        print(err_line + '@@' + str(e), file=err)
+                        print('@@'.join([str(linenumber), err_line, str(e)]),
+                              file=err)
                     pass
                 if linenumber % 250_000 == 0:
                     print(f'Parsed {linenumber:>15,} lines.', end='\r')
