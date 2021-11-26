@@ -4,10 +4,10 @@
 Log File Analysis
 =================
 
-Logs contain very detailed information about events happening on servers.
+Logs contain very detailed information about events happening on computers.
 And the extra details that they provide, come with additional complexity that
 we need to handle ourselves. A pageview may contain many log lines, and a
-session can consist of several pageviews.
+session can consist of several pageviews for example.
 
 Another important characterisitic of log files is that their are usualy not
 big.
@@ -31,8 +31,8 @@ TL;DR
   to the format that you have, so all lines that weren't properly parsed would
   go to this file. This file also contains the error messages, so you know what
   went wrong, and how you might fix it. In some cases, you might simply take
-  these "errors" and parse them again. They might not be reall errorr, but
-  lines in a different format.
+  these "errors" and parse them again. They might not be really errors, but
+  lines in a different format, or temporary debug messages.
 * ``log_format``: The format in which you logs were formatted. Logs can (and
   are) formatted in many ways, and there is no right or wrong way. However,
   there are defaults, and a few popular formats that most servers use. This
@@ -52,6 +52,8 @@ Supported Log Formats
 * `common`
 * `combined` (a.k.a "extended")
 * `common_with_vhost`
+* `nginx_error`
+* `apache_error`
 
 
 
@@ -125,7 +127,7 @@ from tempfile import TemporaryDirectory
 
 import pandas as pd
 
-log_formats = {
+LOG_FORMATS = {
     'common': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
     'combined': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"$',
     'common_with_vhost': r'^(?P<vhost>\S+) (?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
@@ -133,7 +135,7 @@ log_formats = {
     'apache_error': r'^(?P<datetime>\[[^\]]+\]) (?P<level>\[[^\]]+\]) \[pid (?P<pid>\d+)\] (?P<file>\S+):(?P<status> \S+| ):? \[client (?P<client>\S+)\] (?P<message>.*)',
 }
 
-log_fields = {
+LOG_FIELDS = {
     'common': ['client', 'userid', 'datetime', 'method', 'request', 'status',
                'size'],
     'combined': ['client', 'userid', 'datetime', 'method', 'request', 'status',
@@ -157,8 +159,8 @@ def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
                              "Please rename it, delete it, or choose another "
                              "file name/path.")
 
-    regex = log_formats.get(log_format) or log_format
-    columns = fields or log_fields[log_format]
+    regex = LOG_FORMATS.get(log_format) or log_format
+    columns = fields or LOG_FIELDS[log_format]
     with TemporaryDirectory() as tempdir:
         tempdir_name = Path(tempdir)
         with open(log_file) as source_file:
