@@ -1,8 +1,69 @@
 """
 .. _logs:
 
-Parse and Analyze Crawl Logs in a Dataframe (experimental)
-==========================================================
+Log File Analysis (experimental)
+================================
+
+Logs contain very detailed information about events happening on computers.
+And the extra details that they provide, come with additional complexity that
+we need to handle ourselves. A pageview may contain many log lines, and a
+session can consist of several pageviews for example.
+
+Another important characterisitic of log files is that their are usualy not
+big.
+They are massive.
+
+So, we also need to cater for their large size, as well as rapid changes.
+
+TL;DR
+
+>>> import advertools as adv
+>>> import pandas as pd
+>>> adv.logs_to_df(log_file='access.log',
+...                output_file='access_logs.parquet',
+...                errors_file='log_errors.csv',
+...                log_format='common',
+...                fields=None)
+>>> logs_df = pd.read_parquet('access_logs.parquet')
+
+How to run the :func:`logs_to_df` function:
+-------------------------------------------
+
+* ``log_file``: The path to the log file you are trying to analyze.
+* ``output_file``: The path to where you want the parsed and compressed file
+  to be saved. Only the `parquet` format is supported.
+* ``errors_file``: You will almost certainly have log lines that don't conform
+  to the format that you have, so all lines that weren't properly parsed would
+  go to this file. This file also contains the error messages, so you know what
+  went wrong, and how you might fix it. In some cases, you might simply take
+  these "errors" and parse them again. They might not be really errors, but
+  lines in a different format, or temporary debug messages.
+* ``log_format``: The format in which your logs were formatted. Logs can (and
+  are) formatted in many ways, and there is no right or wrong way. However,
+  there are defaults, and a few popular formats that most servers use. It is
+  likely that your file is in one of the popular formats. This parameter can
+  take any one of the pre-defined formats, for example "common", or "extended",
+  or a regular expression that you provide. This means that you can parse any
+  log format (as long as lines are single lines, and not formatted in JSON).
+* ``fields``: If you selected one of the supported formats, then there is no
+  need to provide a value for this parameter. You have to provide a list of
+  fields in case you provide a custom (regex) format. The fields will become
+  the names of the columns of the resulting DataFrame, so you can distinguish
+  between them (client, time, status code, response size, etc.)
+
+Supported Log Formats
+---------------------
+
+* `common`
+* `combined` (a.k.a "extended")
+* `common_with_vhost`
+* `nginx_error`
+* `apache_error`
+
+
+
+Parse and Analyze Crawl Logs in a Dataframe
+===========================================
 
 While crawling with the :func:`crawl` function, the process produces logs for
 every page crawled, scraped, redirected, and even blocked by robots.txt rules.
@@ -64,9 +125,116 @@ The DataFrame might contain the following columns:
 * `blocked_urls`: The URLs that were not crawled due to robots.txt rules.
 
 """
+import os
 import re
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import pandas as pd
+
+LOG_FORMATS = {
+    'common': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
+    'combined': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"$',
+    'common_with_vhost': r'^(?P<vhost>\S+) (?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
+    'nginx_error': r'^(?P<datetime>\d{4}/\d\d/\d\d \d\d:\d\d:\d\d) \[(?P<level>[^\]]+)\] (?P<pid>\d+)#(?P<tid>\d+): (?P<counter>\*\d+ | )?(?P<message>.*)',
+    'apache_error': r'^(?P<datetime>\[[^\]]+\]) (?P<level>\[[^\]]+\]) \[pid (?P<pid>\d+)\] (?P<file>\S+):(?P<status> \S+| ):? \[client (?P<client>\S+)\] (?P<message>.*)',
+}
+
+LOG_FIELDS = {
+    'common': ['client', 'userid', 'datetime', 'method', 'request', 'status',
+               'size'],
+    'combined': ['client', 'userid', 'datetime', 'method', 'request', 'status',
+                 'size', 'referer', 'user_agent'],
+    'common_with_vhost': ['virtual_host', 'client', 'userid', 'datetime',
+                          'method', 'request', 'status', 'size'],
+    'nginx_error': ['datetime', 'level', 'process_id', 'thread_id', 'counter',
+                    'message'],
+    'apache_error': ['datetime', 'level', 'process_id', 'file', 'status',
+                     'client', 'message'],
+}
+
+
+def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
+    """Parse and compress any log file into a DataFrame format.
+
+    Convert a log file to a `parquet` file in a DataFrame format, and save all
+    errors (or lines not conformig to the chosen log format) into a separate
+    ``errors_file`` text file. Any non-JSON log format is possible, provided
+    you have the right regex for it. A few default ones are provided and can be
+    used. Check out ``adv.LOG_FORMATS`` and ``adv.LOG_FIELDS`` for the
+    available formats and fields.
+
+    >>> import advertools as adv
+    >>> import pandas as pd
+    >>> adv.logs_to_df(log_file='access.log',
+    ...                output_file='access_logs.parquet',
+    ...                errors_file='log_errors.csv',
+    ...                log_format='common',
+    ...                fields=None)
+    >>> logs_df = pd.read_parquet('access_logs.parquet')
+
+    You can now analyze ``logs_df`` as a normal pandas DataFrame.
+
+    :param str log_file: The path to the log file.
+    :param str output_file: The path to the desired output file. Must have a
+                            ".parquet" extension, and must not have the same
+                            path as an existing file. 
+    :param str errors_file: The path where the parsing errors are stored. Any
+                            text format works, CSV is recommended to easily
+                            open it with any CSV reader with the separator as 
+                            "@@".
+    :param str log_format: Either the name of one of the supported log formats,
+                           or a regex of your own format.
+    :param str fields: A list of fields, which will become the names of columns
+                       in ``output_file``. Only required if you provide a
+                       custom (regex) ``log_format``.
+
+    """
+    if not output_file.endswith('.parquet'):
+        raise ValueError("Please provide an `output_file` with a `.parquet` "
+                         "extension.")
+    for file in [output_file, errors_file]:
+        if os.path.exists(file):
+            raise ValueError(f"The file '{file}' already exists. "
+                             "Please rename it, delete it, or choose another "
+                             "file name/path.")
+
+    regex = LOG_FORMATS.get(log_format) or log_format
+    columns = fields or LOG_FIELDS[log_format]
+    with TemporaryDirectory() as tempdir:
+        tempdir_name = Path(tempdir)
+        with open(log_file) as source_file:
+            linenumber = 0
+            parsed_lines = []
+            for line in source_file:
+                linenumber += 1
+                try:
+                    log_line = re.findall(regex, line)[0]
+                    parsed_lines.append(log_line)
+                except Exception as e:
+                    with open(errors_file, 'at') as err:
+                        err_line = line[:-1] if line.endswith('\n') else line
+                        print('@@'.join([str(linenumber), err_line, str(e)]),
+                              file=err)
+                    pass
+                if linenumber % 250_000 == 0:
+                    print(f'Parsed {linenumber:>15,} lines.', end='\r')
+                    df = pd.DataFrame(parsed_lines, columns=columns)
+                    df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
+                    parsed_lines.clear()
+            else:
+                print(f'Parsed {linenumber:>15,} lines.', end='\r')
+                df = pd.DataFrame(parsed_lines, columns=columns)
+                df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
+            final_df = pd.read_parquet(tempdir_name)
+            try:
+                final_df['status'] = final_df['status'].astype('category')
+                final_df['method'] = final_df['method'].astype('category')
+                final_df['size'] = pd.to_numeric(final_df['size'],
+                                                 downcast='signed')
+            except KeyError:
+                pass
+            final_df.to_parquet(output_file)
 
 
 def crawllogs_to_df(logs_file_path):
@@ -88,6 +256,7 @@ def crawllogs_to_df(logs_file_path):
                   follow_links=True,
                   custom_settings={'LOG_FILE': 'example.log'})
     >>> logs_df = adv.crawl_logs_to_df('example.log')
+
 
     :param str logs_file_path: The path to the logs file.
 

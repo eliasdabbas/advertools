@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Parse and Analyze Crawl Logs in a Dataframe (experimental) &mdash;  Python</title>
+  <title>Log File Analysis (experimental) &mdash;  Python</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.10.7
+                0.11.0
               </div>
             
           
@@ -103,7 +103,12 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Crawl Logs Analysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Log File Analysis (experimental)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-run-the-logs-to-df-function">How to run the <code class="xref py py-func docutils literal notranslate"><span class="pre">logs_to_df()</span></code> function:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supported-log-formats">Supported Log Formats</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
@@ -172,7 +177,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Parse and Analyze Crawl Logs in a Dataframe (experimental)</li>
+      <li>Log File Analysis (experimental)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -191,8 +196,66 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <span class="target" id="module-advertools.logs"></span><div class="section" id="parse-and-analyze-crawl-logs-in-a-dataframe-experimental">
-<span id="logs"></span><h1>Parse and Analyze Crawl Logs in a Dataframe (experimental)<a class="headerlink" href="#parse-and-analyze-crawl-logs-in-a-dataframe-experimental" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-advertools.logs"></span><div class="section" id="log-file-analysis-experimental">
+<span id="logs"></span><h1>Log File Analysis (experimental)<a class="headerlink" href="#log-file-analysis-experimental" title="Permalink to this headline">¶</a></h1>
+<p>Logs contain very detailed information about events happening on computers.
+And the extra details that they provide, come with additional complexity that
+we need to handle ourselves. A pageview may contain many log lines, and a
+session can consist of several pageviews for example.</p>
+<p>Another important characterisitic of log files is that their are usualy not
+big.
+They are massive.</p>
+<p>So, we also need to cater for their large size, as well as rapid changes.</p>
+<p>TL;DR</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">logs_to_df</span><span class="p">(</span><span class="n">log_file</span><span class="o">=</span><span class="s1">&#39;access.log&#39;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;access_logs.parquet&#39;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">errors_file</span><span class="o">=</span><span class="s1">&#39;log_errors.csv&#39;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">log_format</span><span class="o">=</span><span class="s1">&#39;common&#39;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;access_logs.parquet&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="how-to-run-the-logs-to-df-function">
+<h2>How to run the <a class="reference internal" href="#advertools.logs.logs_to_df" title="advertools.logs.logs_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">logs_to_df()</span></code></a> function:<a class="headerlink" href="#how-to-run-the-logs-to-df-function" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">log_file</span></code>: The path to the log file you are trying to analyze.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_file</span></code>: The path to where you want the parsed and compressed file
+to be saved. Only the <cite>parquet</cite> format is supported.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">errors_file</span></code>: You will almost certainly have log lines that don't conform
+to the format that you have, so all lines that weren't properly parsed would
+go to this file. This file also contains the error messages, so you know what
+went wrong, and how you might fix it. In some cases, you might simply take
+these &quot;errors&quot; and parse them again. They might not be really errors, but
+lines in a different format, or temporary debug messages.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">log_format</span></code>: The format in which your logs were formatted. Logs can (and
+are) formatted in many ways, and there is no right or wrong way. However,
+there are defaults, and a few popular formats that most servers use. It is
+likely that your file is in one of the popular formats. This parameter can
+take any one of the pre-defined formats, for example &quot;common&quot;, or &quot;extended&quot;,
+or a regular expression that you provide. This means that you can parse any
+log format (as long as lines are single lines, and not formatted in JSON).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fields</span></code>: If you selected one of the supported formats, then there is no
+need to provide a value for this parameter. You have to provide a list of
+fields in case you provide a custom (regex) format. The fields will become
+the names of the columns of the resulting DataFrame, so you can distinguish
+between them (client, time, status code, response size, etc.)</p></li>
+</ul>
+</div>
+<div class="section" id="supported-log-formats">
+<h2>Supported Log Formats<a class="headerlink" href="#supported-log-formats" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><cite>common</cite></p></li>
+<li><p><cite>combined</cite> (a.k.a &quot;extended&quot;)</p></li>
+<li><p><cite>common_with_vhost</cite></p></li>
+<li><p><cite>nginx_error</cite></p></li>
+<li><p><cite>apache_error</cite></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="parse-and-analyze-crawl-logs-in-a-dataframe">
+<h1>Parse and Analyze Crawl Logs in a Dataframe<a class="headerlink" href="#parse-and-analyze-crawl-logs-in-a-dataframe" title="Permalink to this headline">¶</a></h1>
 <p>While crawling with the <code class="xref py py-func docutils literal notranslate"><span class="pre">crawl()</span></code> function, the process produces logs for
 every page crawled, scraped, redirected, and even blocked by robots.txt rules.</p>
 <p>By default, those logs are can be seen on the command line as their default
@@ -274,6 +337,48 @@ Crawling errors are also interesting, and can be found in rows where
 </dd>
 <dt class="field-even">Returns DataFrame crawl_logs_df</dt>
 <dd class="field-even"><p>A DataFrame summarizing the logs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="advertools.logs.logs_to_df">
+<code class="sig-name descname">logs_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">log_file</span></em>, <em class="sig-param"><span class="n">output_file</span></em>, <em class="sig-param"><span class="n">errors_file</span></em>, <em class="sig-param"><span class="n">log_format</span></em>, <em class="sig-param"><span class="n">fields</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/logs.html#logs_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.logs.logs_to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse and compress any log file into a DataFrame format.</p>
+<p>Convert a log file to a <cite>parquet</cite> file in a DataFrame format, and save all
+errors (or lines not conformig to the chosen log format) into a separate
+<code class="docutils literal notranslate"><span class="pre">errors_file</span></code> text file. Any non-JSON log format is possible, provided
+you have the right regex for it. A few default ones are provided and can be
+used. Check out <code class="docutils literal notranslate"><span class="pre">adv.LOG_FORMATS</span></code> and <code class="docutils literal notranslate"><span class="pre">adv.LOG_FIELDS</span></code> for the
+available formats and fields.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">logs_to_df</span><span class="p">(</span><span class="n">log_file</span><span class="o">=</span><span class="s1">&#39;access.log&#39;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;access_logs.parquet&#39;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">errors_file</span><span class="o">=</span><span class="s1">&#39;log_errors.csv&#39;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">log_format</span><span class="o">=</span><span class="s1">&#39;common&#39;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;access_logs.parquet&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can now analyze <code class="docutils literal notranslate"><span class="pre">logs_df</span></code> as a normal pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_file</strong> (<em>str</em>) -- The path to the log file.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) -- The path to the desired output file. Must have a
+&quot;.parquet&quot; extension, and must not have the same
+path as an existing file.</p></li>
+<li><p><strong>errors_file</strong> (<em>str</em>) -- The path where the parsing errors are stored. Any
+text format works, CSV is recommended to easily
+open it with any CSV reader with the separator as 
+&quot;&#64;&#64;&quot;.</p></li>
+<li><p><strong>log_format</strong> (<em>str</em>) -- Either the name of one of the supported log formats,
+or a regex of your own format.</p></li>
+<li><p><strong>fields</strong> (<em>str</em>) -- A list of fields, which will become the names of columns
+in <code class="docutils literal notranslate"><span class="pre">output_file</span></code>. Only required if you provide a
+custom (regex) <code class="docutils literal notranslate"><span class="pre">log_format</span></code>.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
