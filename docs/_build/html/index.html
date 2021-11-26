@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.10.7
+                0.11.0
               </div>
             
           
@@ -105,7 +105,8 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Crawl Logs Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
@@ -299,7 +300,12 @@ life a little easier.</p>
 <li class="toctree-l2"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html#xpath-expressions-for-custom-extraction">XPath expressions for custom extraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Crawl Logs Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advertools.logs.html#how-to-run-the-logs-to-df-function">How to run the <code class="xref py py-func docutils literal notranslate"><span class="pre">logs_to_df()</span></code> function:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advertools.logs.html#supported-log-formats">Supported Log Formats</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="advertools.knowledge_graph.html#account-setup">Account Setup</a></li>
@@ -404,7 +410,12 @@ life a little easier.</p>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="advertools.kw_generate.html">Generate Keywords for SEM Campaigns</a></li>
-<li class="toctree-l4"><a class="reference internal" href="advertools.logs.html">Parse and Analyze Crawl Logs in a Dataframe (experimental)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="advertools.logs.html#how-to-run-the-logs-to-df-function">How to run the <code class="xref py py-func docutils literal notranslate"><span class="pre">logs_to_df()</span></code> function:</a></li>
+<li class="toctree-l5"><a class="reference internal" href="advertools.logs.html#supported-log-formats">Supported Log Formats</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l4"><a class="reference internal" href="advertools.regex.html">Regular Expressions for Extracting Structured Entities</a></li>
 <li class="toctree-l4"><a class="reference internal" href="advertools.robotstxt.html">🤖 Analyze and Test robots.txt Files on a Large Scale</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="advertools.robotstxt.html#user-agents">User-agents</a></li>
@@ -462,33 +473,33 @@ life a little easier.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="include_changelog.html#change-log-advertools">Change Log - advertools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#unreleased">Unreleased</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id1">0.10.7 (2020-09-18)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id2">0.10.6 (2020-06-30)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id3">0.10.5 (2020-06-14)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id4">0.10.4 (2020-06-07)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id5">0.10.3 (2020-06-03)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id6">0.10.2 (2020-05-25)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id7">0.10.1 (2020-05-23)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id8">0.10.0 (2020-05-21)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id9">0.9.1 (2020-05-19)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id10">0.9.0 (2020-04-03)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id11">0.8.1 (2020-02-08)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id12">0.8.0 (2020-02-02)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id13">0.7.3 (2019-04-17)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id14">0.7.2 (2019-03-29)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id15">0.7.1 (2019-03-26)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id16">0.7.0 (2019-03-26)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id17">0.6.0 (2019-02-11)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id18">0.5.3 (2019-01-31)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id19">0.5.2 (2018-12-01)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id20">0.5.1 (2018-11-06)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id21">0.5.0 (2018-11-04)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id22">0.4.1 (2018-10-13)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id23">0.4.0 (2018-10-08)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id24">0.3.0 (2018-08-14)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id25">0.2.0 (2018-07-06)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id26">0.1.0 (2018-07-02)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id1">0.11.0 (2021-31-03)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id2">0.10.7 (2020-09-18)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id3">0.10.6 (2020-06-30)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id4">0.10.5 (2020-06-14)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id5">0.10.4 (2020-06-07)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id6">0.10.3 (2020-06-03)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id7">0.10.2 (2020-05-25)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id8">0.10.1 (2020-05-23)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id9">0.10.0 (2020-05-21)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id10">0.9.1 (2020-05-19)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id11">0.9.0 (2020-04-03)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id12">0.8.1 (2020-02-08)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id13">0.8.0 (2020-02-02)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id14">0.7.3 (2019-04-17)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id15">0.7.2 (2019-03-29)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id16">0.7.1 (2019-03-26)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id17">0.7.0 (2019-03-26)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id18">0.6.0 (2019-02-11)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id19">0.5.3 (2019-01-31)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id20">0.5.2 (2018-12-01)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id21">0.5.1 (2018-11-06)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id22">0.5.0 (2018-11-04)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id23">0.4.1 (2018-10-13)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id24">0.4.0 (2018-10-08)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id25">0.3.0 (2018-08-14)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id26">0.2.0 (2018-07-06)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_changelog.html#id27">0.1.0 (2018-07-02)</a></li>
 </ul>
 </li>
 </ul>

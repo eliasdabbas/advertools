@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.10.7
+                0.11.0
               </div>
             
           
@@ -101,7 +101,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Crawl Logs Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis (experimental)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
@@ -191,8 +192,69 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">.. _logs:</span>
 
-<span class="sd">Parse and Analyze Crawl Logs in a Dataframe (experimental)</span>
-<span class="sd">==========================================================</span>
+<span class="sd">Log File Analysis (experimental)</span>
+<span class="sd">================================</span>
+
+<span class="sd">Logs contain very detailed information about events happening on computers.</span>
+<span class="sd">And the extra details that they provide, come with additional complexity that</span>
+<span class="sd">we need to handle ourselves. A pageview may contain many log lines, and a</span>
+<span class="sd">session can consist of several pageviews for example.</span>
+
+<span class="sd">Another important characterisitic of log files is that their are usualy not</span>
+<span class="sd">big.</span>
+<span class="sd">They are massive.</span>
+
+<span class="sd">So, we also need to cater for their large size, as well as rapid changes.</span>
+
+<span class="sd">TL;DR</span>
+
+<span class="sd">&gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">&gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">&gt;&gt;&gt; adv.logs_to_df(log_file=&#39;access.log&#39;,</span>
+<span class="sd">...                output_file=&#39;access_logs.parquet&#39;,</span>
+<span class="sd">...                errors_file=&#39;log_errors.csv&#39;,</span>
+<span class="sd">...                log_format=&#39;common&#39;,</span>
+<span class="sd">...                fields=None)</span>
+<span class="sd">&gt;&gt;&gt; logs_df = pd.read_parquet(&#39;access_logs.parquet&#39;)</span>
+
+<span class="sd">How to run the :func:`logs_to_df` function:</span>
+<span class="sd">-------------------------------------------</span>
+
+<span class="sd">* ``log_file``: The path to the log file you are trying to analyze.</span>
+<span class="sd">* ``output_file``: The path to where you want the parsed and compressed file</span>
+<span class="sd">  to be saved. Only the `parquet` format is supported.</span>
+<span class="sd">* ``errors_file``: You will almost certainly have log lines that don&#39;t conform</span>
+<span class="sd">  to the format that you have, so all lines that weren&#39;t properly parsed would</span>
+<span class="sd">  go to this file. This file also contains the error messages, so you know what</span>
+<span class="sd">  went wrong, and how you might fix it. In some cases, you might simply take</span>
+<span class="sd">  these &quot;errors&quot; and parse them again. They might not be really errors, but</span>
+<span class="sd">  lines in a different format, or temporary debug messages.</span>
+<span class="sd">* ``log_format``: The format in which your logs were formatted. Logs can (and</span>
+<span class="sd">  are) formatted in many ways, and there is no right or wrong way. However,</span>
+<span class="sd">  there are defaults, and a few popular formats that most servers use. It is</span>
+<span class="sd">  likely that your file is in one of the popular formats. This parameter can</span>
+<span class="sd">  take any one of the pre-defined formats, for example &quot;common&quot;, or &quot;extended&quot;,</span>
+<span class="sd">  or a regular expression that you provide. This means that you can parse any</span>
+<span class="sd">  log format (as long as lines are single lines, and not formatted in JSON).</span>
+<span class="sd">* ``fields``: If you selected one of the supported formats, then there is no</span>
+<span class="sd">  need to provide a value for this parameter. You have to provide a list of</span>
+<span class="sd">  fields in case you provide a custom (regex) format. The fields will become</span>
+<span class="sd">  the names of the columns of the resulting DataFrame, so you can distinguish</span>
+<span class="sd">  between them (client, time, status code, response size, etc.)</span>
+
+<span class="sd">Supported Log Formats</span>
+<span class="sd">---------------------</span>
+
+<span class="sd">* `common`</span>
+<span class="sd">* `combined` (a.k.a &quot;extended&quot;)</span>
+<span class="sd">* `common_with_vhost`</span>
+<span class="sd">* `nginx_error`</span>
+<span class="sd">* `apache_error`</span>
+
+
+
+<span class="sd">Parse and Analyze Crawl Logs in a Dataframe</span>
+<span class="sd">===========================================</span>
 
 <span class="sd">While crawling with the :func:`crawl` function, the process produces logs for</span>
 <span class="sd">every page crawled, scraped, redirected, and even blocked by robots.txt rules.</span>
@@ -254,9 +316,116 @@
 <span class="sd">* `blocked_urls`: The URLs that were not crawled due to robots.txt rules.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">TemporaryDirectory</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">LOG_FORMATS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;common&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-)$&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;combined&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-) &quot;(?P&lt;referrer&gt;[^&quot;]*)&quot; &quot;(?P&lt;useragent&gt;[^&quot;]*)&quot;$&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;common_with_vhost&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;vhost&gt;\S+) (?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-)$&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;nginx_error&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;datetime&gt;\d</span><span class="si">{4}</span><span class="s1">/\d\d/\d\d \d\d:\d\d:\d\d) \[(?P&lt;level&gt;[^\]]+)\] (?P&lt;pid&gt;\d+)#(?P&lt;tid&gt;\d+): (?P&lt;counter&gt;\*\d+ | )?(?P&lt;message&gt;.*)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;apache_error&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;datetime&gt;\[[^\]]+\]) (?P&lt;level&gt;\[[^\]]+\]) \[pid (?P&lt;pid&gt;\d+)\] (?P&lt;file&gt;\S+):(?P&lt;status&gt; \S+| ):? \[client (?P&lt;client&gt;\S+)\] (?P&lt;message&gt;.*)&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">LOG_FIELDS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;common&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;client&#39;</span><span class="p">,</span> <span class="s1">&#39;userid&#39;</span><span class="p">,</span> <span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;request&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;size&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;combined&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;client&#39;</span><span class="p">,</span> <span class="s1">&#39;userid&#39;</span><span class="p">,</span> <span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;request&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;size&#39;</span><span class="p">,</span> <span class="s1">&#39;referer&#39;</span><span class="p">,</span> <span class="s1">&#39;user_agent&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;common_with_vhost&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;virtual_host&#39;</span><span class="p">,</span> <span class="s1">&#39;client&#39;</span><span class="p">,</span> <span class="s1">&#39;userid&#39;</span><span class="p">,</span> <span class="s1">&#39;datetime&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;request&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;nginx_error&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;process_id&#39;</span><span class="p">,</span> <span class="s1">&#39;thread_id&#39;</span><span class="p">,</span> <span class="s1">&#39;counter&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;message&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;apache_error&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;process_id&#39;</span><span class="p">,</span> <span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;client&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">],</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="logs_to_df"><a class="viewcode-back" href="../../advertools.logs.html#advertools.logs.logs_to_df">[docs]</a><span class="k">def</span> <span class="nf">logs_to_df</span><span class="p">(</span><span class="n">log_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">errors_file</span><span class="p">,</span> <span class="n">log_format</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Parse and compress any log file into a DataFrame format.</span>
+
+<span class="sd">    Convert a log file to a `parquet` file in a DataFrame format, and save all</span>
+<span class="sd">    errors (or lines not conformig to the chosen log format) into a separate</span>
+<span class="sd">    ``errors_file`` text file. Any non-JSON log format is possible, provided</span>
+<span class="sd">    you have the right regex for it. A few default ones are provided and can be</span>
+<span class="sd">    used. Check out ``adv.LOG_FORMATS`` and ``adv.LOG_FIELDS`` for the</span>
+<span class="sd">    available formats and fields.</span>
+
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; adv.logs_to_df(log_file=&#39;access.log&#39;,</span>
+<span class="sd">    ...                output_file=&#39;access_logs.parquet&#39;,</span>
+<span class="sd">    ...                errors_file=&#39;log_errors.csv&#39;,</span>
+<span class="sd">    ...                log_format=&#39;common&#39;,</span>
+<span class="sd">    ...                fields=None)</span>
+<span class="sd">    &gt;&gt;&gt; logs_df = pd.read_parquet(&#39;access_logs.parquet&#39;)</span>
+
+<span class="sd">    You can now analyze ``logs_df`` as a normal pandas DataFrame.</span>
+
+<span class="sd">    :param str log_file: The path to the log file.</span>
+<span class="sd">    :param str output_file: The path to the desired output file. Must have a</span>
+<span class="sd">                            &quot;.parquet&quot; extension, and must not have the same</span>
+<span class="sd">                            path as an existing file. </span>
+<span class="sd">    :param str errors_file: The path where the parsing errors are stored. Any</span>
+<span class="sd">                            text format works, CSV is recommended to easily</span>
+<span class="sd">                            open it with any CSV reader with the separator as </span>
+<span class="sd">                            &quot;@@&quot;.</span>
+<span class="sd">    :param str log_format: Either the name of one of the supported log formats,</span>
+<span class="sd">                           or a regex of your own format.</span>
+<span class="sd">    :param str fields: A list of fields, which will become the names of columns</span>
+<span class="sd">                       in ``output_file``. Only required if you provide a</span>
+<span class="sd">                       custom (regex) ``log_format``.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">output_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.parquet&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please provide an `output_file` with a `.parquet` &quot;</span>
+                         <span class="s2">&quot;extension.&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="p">[</span><span class="n">output_file</span><span class="p">,</span> <span class="n">errors_file</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The file &#39;</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&#39; already exists. &quot;</span>
+                             <span class="s2">&quot;Please rename it, delete it, or choose another &quot;</span>
+                             <span class="s2">&quot;file name/path.&quot;</span><span class="p">)</span>
+
+    <span class="n">regex</span> <span class="o">=</span> <span class="n">LOG_FORMATS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">log_format</span><span class="p">)</span> <span class="ow">or</span> <span class="n">log_format</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="n">fields</span> <span class="ow">or</span> <span class="n">LOG_FIELDS</span><span class="p">[</span><span class="n">log_format</span><span class="p">]</span>
+    <span class="k">with</span> <span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tempdir</span><span class="p">:</span>
+        <span class="n">tempdir_name</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempdir</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">source_file</span><span class="p">:</span>
+            <span class="n">linenumber</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">parsed_lines</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_file</span><span class="p">:</span>
+                <span class="n">linenumber</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">log_line</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">line</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">parsed_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_line</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">errors_file</span><span class="p">,</span> <span class="s1">&#39;at&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                        <span class="n">err_line</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">line</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">linenumber</span><span class="p">),</span> <span class="n">err_line</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)]),</span>
+                              <span class="n">file</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
+                    <span class="k">pass</span>
+                <span class="k">if</span> <span class="n">linenumber</span> <span class="o">%</span> <span class="mi">250_000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Parsed </span><span class="si">{</span><span class="n">linenumber</span><span class="si">:</span><span class="s1">&gt;15,</span><span class="si">}</span><span class="s1"> lines.&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">parsed_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+                    <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">tempdir_name</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;file_</span><span class="si">{</span><span class="n">linenumber</span><span class="si">}</span><span class="s1">.parquet&#39;</span><span class="p">)</span>
+                    <span class="n">parsed_lines</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Parsed </span><span class="si">{</span><span class="n">linenumber</span><span class="si">:</span><span class="s1">&gt;15,</span><span class="si">}</span><span class="s1"> lines.&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">parsed_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">tempdir_name</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;file_</span><span class="si">{</span><span class="n">linenumber</span><span class="si">}</span><span class="s1">.parquet&#39;</span><span class="p">)</span>
+            <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">tempdir_name</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+                <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+                <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">],</span>
+                                                 <span class="n">downcast</span><span class="o">=</span><span class="s1">&#39;signed&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">final_df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="crawllogs_to_df"><a class="viewcode-back" href="../../advertools.logs.html#advertools.logs.crawllogs_to_df">[docs]</a><span class="k">def</span> <span class="nf">crawllogs_to_df</span><span class="p">(</span><span class="n">logs_file_path</span><span class="p">):</span>
@@ -278,6 +447,7 @@
 <span class="sd">                  follow_links=True,</span>
 <span class="sd">                  custom_settings={&#39;LOG_FILE&#39;: &#39;example.log&#39;})</span>
 <span class="sd">    &gt;&gt;&gt; logs_df = adv.crawl_logs_to_df(&#39;example.log&#39;)</span>
+
 
 <span class="sd">    :param str logs_file_path: The path to the logs file.</span>
 

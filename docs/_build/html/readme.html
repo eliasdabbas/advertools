@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.10.7
+                0.11.0
               </div>
             
           
@@ -103,7 +103,8 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Crawl Logs Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
@@ -199,9 +200,9 @@
 <a class="reference external image-reference" href="https://bit.ly/3hEWZCe"><img alt="https://badges.gitter.im/advertools/community.svg" src="https://badges.gitter.im/advertools/community.svg" /></a>
 <div class="line-block">
 <div class="line">🎊 <strong>New:</strong> <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.spider.html">SEO crawler</a>
-now extracts JSON-LD canonical, alternate href, alternate hreflang, OpenGraph, and Twitter cards if available on pages</div>
-<div class="line">🎉 <strong>New:</strong> <code class="docutils literal notranslate"><span class="pre">knowledge_graph</span></code> Function for <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.knowledge_graph.html">connecting to Google's Knowledge Graph Data API</a></div>
-<div class="line">🎉 <strong>Faster:</strong> <code class="docutils literal notranslate"><span class="pre">sitemap_to_df</span></code> Function for <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.sitemaps.html">downloading &amp; parsing XML sitemaps</a> into DataFrames, is much faster now</div>
+now extracts links and anchor text from &lt;nav&gt;, &lt;header&gt;, and &lt;footer&gt; elements if available</div>
+<div class="line">🎉 <strong>New:</strong> <code class="docutils literal notranslate"><span class="pre">crawllogs_to_df</span></code> Function for <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.logs.html">analyzing the logs of the crawling process</a></div>
+<div class="line">🎉 <strong>Faster:</strong> <code class="docutils literal notranslate"><span class="pre">robotstxt_to_df</span></code> can <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.robotstxt.html">download multiple robots.txt files in one go</a></div>
 </div>
 <div class="section" id="advertools-productivity-analysis-tools-to-scale-your-online-marketing">
 <h1><code class="docutils literal notranslate"><span class="pre">advertools</span></code>: productivity &amp; analysis tools to scale your online marketing<a class="headerlink" href="#advertools-productivity-analysis-tools-to-scale-your-online-marketing" title="Permalink to this headline">¶</a></h1>
@@ -227,8 +228,9 @@ next 124,538 keywords for an upcoming campaign, by the end of the week!</p>
 pip3 install advertools
 </pre></div>
 </div>
+</div>
 <div class="section" id="sem-campaigns">
-<h3>SEM Campaigns<a class="headerlink" href="#sem-campaigns" title="Permalink to this headline">¶</a></h3>
+<h2>SEM Campaigns<a class="headerlink" href="#sem-campaigns" title="Permalink to this headline">¶</a></h2>
 <p>The most important thing to achieve in SEM is a proper mapping between the
 three main elements of a search campaign</p>
 <p><strong>Keywords</strong> (the intention) -&gt; <strong>Ads</strong> (your promise) -&gt; <strong>Landing Pages</strong> (your delivery of the promise)
@@ -260,7 +262,7 @@ helps you accomplish that.</p></li>
 </ul>
 </div>
 <div class="section" id="seo">
-<h3>SEO<a class="headerlink" href="#seo" title="Permalink to this headline">¶</a></h3>
+<h2>SEO<a class="headerlink" href="#seo" title="Permalink to this headline">¶</a></h2>
 <p>Probably the most comprehensive online marketing area that is both technical
 (crawling, indexing, rendering, redirects, etc.) and non-technical (content
 creation, link building, outreach, etc.). Here are some tools that can help
@@ -311,7 +313,7 @@ some examples on how you might tackle such data</p></li>
 </ul>
 </div>
 <div class="section" id="text-content-analysis-for-seo-social-media">
-<h3>Text &amp; Content Analysis (for SEO &amp; Social Media)<a class="headerlink" href="#text-content-analysis-for-seo-social-media" title="Permalink to this headline">¶</a></h3>
+<h2>Text &amp; Content Analysis (for SEO &amp; Social Media)<a class="headerlink" href="#text-content-analysis-for-seo-social-media" title="Permalink to this headline">¶</a></h2>
 <p>URLs, page titles, tweets, video descriptions, comments, hashtags are some
 exmaples of the types of text we deal with. <code class="docutils literal notranslate"><span class="pre">advertools</span></code> provides a few
 options for text analysis</p>
@@ -347,7 +349,7 @@ An introductory article on SEMrush</p></li>
 </ul>
 </div>
 <div class="section" id="social-media">
-<h3>Social Media<a class="headerlink" href="#social-media" title="Permalink to this headline">¶</a></h3>
+<h2>Social Media<a class="headerlink" href="#social-media" title="Permalink to this headline">¶</a></h2>
 <p>In addition to the text analysis techniques provided, you can also connect to
 the Twitter and YouTube data APIs. The main benefits of using <code class="docutils literal notranslate"><span class="pre">advertools</span></code>
 for this:</p>
@@ -371,7 +373,6 @@ one response</p></li>
 <li><p><a class="reference external" href="https://www.kaggle.com/eliasdabbas/extract-entities-from-social-media-posts">Analyzing 131k tweets</a> by European Football clubs tutorial on Kaggle</p></li>
 <li><p>An overview of the <a class="reference external" href="https://www.kaggle.com/eliasdabbas/youtube-data-api">YouTube data API with Python</a></p></li>
 </ul>
-</div>
 </div>
 <div class="section" id="conventions">
 <h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h2>
