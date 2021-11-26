@@ -27,13 +27,20 @@ understand:
 The main function here is :func:`url_to_df`, which as the name suggests,
 converts URLs to DataFrames.
 
->>> urls ['https://net.location.com/path_1/path_2?price=10&color=blue#frag_1',
-...       'https://net.location.com/path_1/path_2?price=15&color=red#frag_2']
+>>> urls = ['https://netloc.com/path_1/path_2?price=10&color=blue#frag_1',
+...         'https://netloc.com/path_1/path_2?price=15&color=red#frag_2',
+...         'https://netloc.com/path_1/path_2/path_3?size=sm&color=blue#frag_1',
+...         'https://netloc.com/path_1?price=10&color=blue']
 >>> url_to_df(urls)
-	                                                              url  scheme	          netloc	          path	                 query	fragment     dir_1	 dir_2	query_price	query_color
-0	https://net.location.com/path_1/path_2?price=10&color=blue#frag_1	https	net.location.com	/path_1/path_2	   price=10&color=blue	  frag_1	path_1	path_2	         10	       blue
-1	 https://net.location.com/path_1/path_2?price=15&color=red#frag_2	https	net.location.com	/path_1/path_2	    price=15&color=red	  frag_2	path_1	path_2	         15	        red
 
+====  =================================================================  ========  ==========  =====================  ===================  ==========  =======  =======  =======  ==========  =============  =============  ============
+  ..  url                                                                scheme    netloc      path                   query                fragment    dir_1    dir_2    dir_3    last_dir    query_color      query_price  query_size
+====  =================================================================  ========  ==========  =====================  ===================  ==========  =======  =======  =======  ==========  =============  =============  ============
+   0  https://netloc.com/path_1/path_2?price=10&color=blue#frag_1        https     netloc.com  /path_1/path_2         price=10&color=blue  frag_1      path_1   path_2   nan      path_2      blue                      10  nan
+   1  https://netloc.com/path_1/path_2?price=15&color=red#frag_2         https     netloc.com  /path_1/path_2         price=15&color=red   frag_2      path_1   path_2   nan      path_2      red                       15  nan
+   2  https://netloc.com/path_1/path_2/path_3?size=sm&color=blue#frag_1  https     netloc.com  /path_1/path_2/path_3  size=sm&color=blue   frag_1      path_1   path_2   path_3   path_3      blue                     nan  sm
+   3  https://netloc.com/path_1?price=10&color=blue                      https     netloc.com  /path_1                price=10&color=blue              path_1   nan      nan      path_1      blue                      10  nan
+====  =================================================================  ========  ==========  =====================  ===================  ==========  =======  =======  =======  ==========  =============  =============  ============
 
 * **url**: The original URLs are listed as a reference. They are decoded for
   easier reading, and you can set ``decode=False`` if you want to retain the
@@ -45,8 +52,14 @@ converts URLs to DataFrames.
 * **netloc**: The network location is the sub-domain (optional) together with
   the domain and top-level domain and/or the country domain.
 * **path**: The slug of the URL, excluding the query parameters and fragments
-  if any. The path is also split in to directories `dir_1, dir_2, dir_3...` to
+  if any. The path is also split into directories ``dir_1/dir_2/dir_3/...`` to
   make it easier to categorize and analyze the URLs.
+* **last_dir**: The last directory of each of the URLs. This is usually the
+  part that contains information about the page itself (blog post title,
+  product name, etc.) with previous directories providing meta data (category,
+  sub-category, author name, etc.). In many cases you don't have all URLs with
+  the same number of directories, so they end up unaligned. This extracts all
+  ``last_dir``s in one column.
 * **query**: If query parameters are available they are given in this column,
   but more importantly they are parsed and included in separate columns, where
   each parameter has its own column (with the keys being the names). As in the
@@ -102,7 +115,7 @@ three main situations that you can encounter while analyzing directories.
   replace/insert values to make them consistent, and get them to a state
   similar to the first example.
 
-* **URLs of different types**: In many cases you will find that sites having
+* **URLs of different types**: In many cases you will find that sites have
   different types of pages with completely different roles on the site.
 
     * /blog/post-1-title.html
@@ -169,7 +182,7 @@ def url_to_df(urls, decode=True):
     if not dirs_df.empty:
       df = df.drop(dirs_df.columns, axis=1)
       dirs_df = (dirs_df
-                 .assign(resource=dirs_df
+                 .assign(last_dir=dirs_df
                  .fillna(method='ffill', axis=1)
                  .iloc[:, -1:]
                  .squeeze()))
