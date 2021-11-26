@@ -118,8 +118,10 @@ depth             The depth of the current URL, relative to the first URLs
                   where crawling started. The first pages to be crawled have a
                   depth of zero, pages linked from there, a depth of one, etc.
 status            Response status (200, 404, etc.)
-img_src           The ``src`` attribute of images
-img_alt           The ``alt`` attribute if available or an empty string
+img_*             All available ``<img>`` tag attributes. 'alt', 'crossorigin',
+                  'height', 'ismap', 'loading', 'longdesc', 'referrerpolicy',
+                  'sizes', 'src', 'srcset', 'usemap',  and 'width' (excluding
+                  global HTML attributes like ``style`` and ``draggable``)
 ip_address        IP address
 crawl_time        Date and time the page was crawled
 resp_headers_*    All available response headers (last modified, server, etc.)
@@ -318,26 +320,28 @@ for the full details.
 
 """
 import datetime
-import logging
 import json
+import logging
 import platform
 import subprocess
-
 from functools import reduce
 from urllib.parse import urlparse
-import scrapy
 
-from scrapy.spiders import Spider
-from scrapy.linkextractors import LinkExtractor
-from scrapy.utils.response import get_base_url
-from scrapy import Request
-import scrapy.logformatter as formatter
-import advertools as adv
 import pandas as pd
+import scrapy
+import scrapy.logformatter as formatter
+from scrapy import Request
+from scrapy.linkextractors import LinkExtractor
+from scrapy.spiders import Spider
+from scrapy.utils.response import get_base_url
+
+import advertools as adv
+
 if int(pd.__version__[0]) >= 1:
     from pandas import json_normalize
 else:
     from pandas.io.json import json_normalize
+
 from advertools import __version__ as adv_version
 
 spider_path = adv.__path__[0] + '/spider.py'
