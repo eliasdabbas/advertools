@@ -17,6 +17,7 @@ requirements = [
     'pyasn1',
     'scrapy',
     'twython',
+    'pyarrow',
 ]
 
 setup_requirements = [
