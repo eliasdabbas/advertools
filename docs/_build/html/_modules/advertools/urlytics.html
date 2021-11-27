@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.11.0
+                0.11.1
               </div>
             
           
@@ -218,13 +218,20 @@
 <span class="sd">The main function here is :func:`url_to_df`, which as the name suggests,</span>
 <span class="sd">converts URLs to DataFrames.</span>
 
-<span class="sd">&gt;&gt;&gt; urls [&#39;https://net.location.com/path_1/path_2?price=10&amp;color=blue#frag_1&#39;,</span>
-<span class="sd">...       &#39;https://net.location.com/path_1/path_2?price=15&amp;color=red#frag_2&#39;]</span>
+<span class="sd">&gt;&gt;&gt; urls = [&#39;https://netloc.com/path_1/path_2?price=10&amp;color=blue#frag_1&#39;,</span>
+<span class="sd">...         &#39;https://netloc.com/path_1/path_2?price=15&amp;color=red#frag_2&#39;,</span>
+<span class="sd">...         &#39;https://netloc.com/path_1/path_2/path_3?size=sm&amp;color=blue#frag_1&#39;,</span>
+<span class="sd">...         &#39;https://netloc.com/path_1?price=10&amp;color=blue&#39;]</span>
 <span class="sd">&gt;&gt;&gt; url_to_df(urls)</span>
-<span class="sd">	                                                              url  scheme	          netloc	          path	                 query	fragment     dir_1	 dir_2	query_price	query_color</span>
-<span class="sd">0	https://net.location.com/path_1/path_2?price=10&amp;color=blue#frag_1	https	net.location.com	/path_1/path_2	   price=10&amp;color=blue	  frag_1	path_1	path_2	         10	       blue</span>
-<span class="sd">1	 https://net.location.com/path_1/path_2?price=15&amp;color=red#frag_2	https	net.location.com	/path_1/path_2	    price=15&amp;color=red	  frag_2	path_1	path_2	         15	        red</span>
 
+<span class="sd">====  =================================================================  ========  ==========  =====================  ===================  ==========  =======  =======  =======  ==========  =============  =============  ============</span>
+<span class="sd">  ..  url                                                                scheme    netloc      path                   query                fragment    dir_1    dir_2    dir_3    last_dir    query_color      query_price  query_size</span>
+<span class="sd">====  =================================================================  ========  ==========  =====================  ===================  ==========  =======  =======  =======  ==========  =============  =============  ============</span>
+<span class="sd">   0  https://netloc.com/path_1/path_2?price=10&amp;color=blue#frag_1        https     netloc.com  /path_1/path_2         price=10&amp;color=blue  frag_1      path_1   path_2   nan      path_2      blue                      10  nan</span>
+<span class="sd">   1  https://netloc.com/path_1/path_2?price=15&amp;color=red#frag_2         https     netloc.com  /path_1/path_2         price=15&amp;color=red   frag_2      path_1   path_2   nan      path_2      red                       15  nan</span>
+<span class="sd">   2  https://netloc.com/path_1/path_2/path_3?size=sm&amp;color=blue#frag_1  https     netloc.com  /path_1/path_2/path_3  size=sm&amp;color=blue   frag_1      path_1   path_2   path_3   path_3      blue                     nan  sm</span>
+<span class="sd">   3  https://netloc.com/path_1?price=10&amp;color=blue                      https     netloc.com  /path_1                price=10&amp;color=blue              path_1   nan      nan      path_1      blue                      10  nan</span>
+<span class="sd">====  =================================================================  ========  ==========  =====================  ===================  ==========  =======  =======  =======  ==========  =============  =============  ============</span>
 
 <span class="sd">* **url**: The original URLs are listed as a reference. They are decoded for</span>
 <span class="sd">  easier reading, and you can set ``decode=False`` if you want to retain the</span>
@@ -236,8 +243,14 @@
 <span class="sd">* **netloc**: The network location is the sub-domain (optional) together with</span>
 <span class="sd">  the domain and top-level domain and/or the country domain.</span>
 <span class="sd">* **path**: The slug of the URL, excluding the query parameters and fragments</span>
-<span class="sd">  if any. The path is also split in to directories `dir_1, dir_2, dir_3...` to</span>
+<span class="sd">  if any. The path is also split into directories ``dir_1/dir_2/dir_3/...`` to</span>
 <span class="sd">  make it easier to categorize and analyze the URLs.</span>
+<span class="sd">* **last_dir**: The last directory of each of the URLs. This is usually the</span>
+<span class="sd">  part that contains information about the page itself (blog post title,</span>
+<span class="sd">  product name, etc.) with previous directories providing meta data (category,</span>
+<span class="sd">  sub-category, author name, etc.). In many cases you don&#39;t have all URLs with</span>
+<span class="sd">  the same number of directories, so they end up unaligned. This extracts all</span>
+<span class="sd">  ``last_dir``s in one column.</span>
 <span class="sd">* **query**: If query parameters are available they are given in this column,</span>
 <span class="sd">  but more importantly they are parsed and included in separate columns, where</span>
 <span class="sd">  each parameter has its own column (with the keys being the names). As in the</span>
@@ -293,7 +306,7 @@
 <span class="sd">  replace/insert values to make them consistent, and get them to a state</span>
 <span class="sd">  similar to the first example.</span>
 
-<span class="sd">* **URLs of different types**: In many cases you will find that sites having</span>
+<span class="sd">* **URLs of different types**: In many cases you will find that sites have</span>
 <span class="sd">  different types of pages with completely different roles on the site.</span>
 
 <span class="sd">    * /blog/post-1-title.html</span>
@@ -309,7 +322,7 @@
 <span class="sd">of equal length across the dataset, having the right data in the right columns</span>
 <span class="sd">and `NA` otherwise. Or, splitting the dataset and analyzing separately.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlsplit</span><span class="p">,</span> <span class="n">parse_qs</span><span class="p">,</span> <span class="n">unquote</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">parse_qs</span><span class="p">,</span> <span class="n">unquote</span><span class="p">,</span> <span class="n">urlsplit</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
@@ -350,10 +363,20 @@
 
     <span class="n">query_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s1">&#39;query_&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">query_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">query_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">dirs_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s1">&#39;dir_&#39;</span><span class="p">)</span>
+      <span class="n">sorted_q_params</span> <span class="o">=</span> <span class="p">(</span><span class="n">query_df</span>
+                         <span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+                         <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+                         <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+      <span class="n">query_df</span> <span class="o">=</span> <span class="n">query_df</span><span class="p">[</span><span class="n">sorted_q_params</span><span class="p">]</span>
+      <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">query_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dirs_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s1">&#39;^dir_&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">dirs_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">dirs_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">dirs_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">dirs_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">dirs_df</span>
+                 <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">last_dir</span><span class="o">=</span><span class="n">dirs_df</span>
+                 <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ffill&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                 <span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
+                 <span class="o">.</span><span class="n">squeeze</span><span class="p">()))</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">dirs_df</span><span class="p">,</span> <span class="n">query_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">decode</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">df</span></div>

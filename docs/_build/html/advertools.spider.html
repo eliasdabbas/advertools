@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.11.0
+                0.11.1
               </div>
             
           
@@ -313,61 +313,6 @@ snippet. The same applies to OG and Twitter cards.</p></td>
 <tr class="row-odd"><td><p>h1...h6</p></td>
 <td><p><cite>&lt;h1&gt;</cite> through <cite>&lt;h6&gt;</cite> tag(s), whichever is available</p></td>
 </tr>
-<tr class="row-even"><td><p>nav_links_text</p></td>
-<td><p>The anchor text of all links in the <cite>&lt;nav&gt;</cite> tag if
-available</p></td>
-</tr>
-<tr class="row-odd"><td><p>nav_links_url</p></td>
-<td><p>The links in the <cite>&lt;nav&gt;</cite> tag if available</p></td>
-</tr>
-<tr class="row-even"><td><p>header_links_text</p></td>
-<td><p>The anchor text of all links in the <cite>&lt;header&gt;</cite> tag if
-available</p></td>
-</tr>
-<tr class="row-odd"><td><p>header_links_url</p></td>
-<td><p>The links in the <cite>&lt;header&gt;</cite> tag if available</p></td>
-</tr>
-<tr class="row-even"><td><p>footer_links_text</p></td>
-<td><p>The anchor text of all links in the <cite>&lt;footer&gt;</cite> tag if
-available</p></td>
-</tr>
-<tr class="row-odd"><td><p>footer_links_url</p></td>
-<td><p>The links in the <cite>&lt;footer&gt;</cite> tag if available</p></td>
-</tr>
-<tr class="row-even"><td><p>body_text</p></td>
-<td><p>The text in the &lt;p&gt;, &lt;span&gt;, and &lt;li&gt; tags within &lt;body&gt;</p></td>
-</tr>
-<tr class="row-odd"><td><p>size</p></td>
-<td><p>The page size in bytes</p></td>
-</tr>
-<tr class="row-even"><td><p>download_latency</p></td>
-<td><p>The amount of time it took to get the page HTML, in seconds.</p></td>
-</tr>
-<tr class="row-odd"><td><p>download_timout</p></td>
-<td><p>The amount of time (in secs) that the downloader will wait
-before timing out. Defaults to 180.</p></td>
-</tr>
-<tr class="row-even"><td><p>redirect_times</p></td>
-<td><p>The number of times the pages was redirected if available</p></td>
-</tr>
-<tr class="row-odd"><td><p>redirect_ttl</p></td>
-<td><p>The default maximum number of redirects the crawler allows</p></td>
-</tr>
-<tr class="row-even"><td><p>redirect_urls</p></td>
-<td><p>The chain of URLs from the requested URL to the one actually
-fetched</p></td>
-</tr>
-<tr class="row-odd"><td><p>redirect_reasons</p></td>
-<td><p>The type of redirection(s) 301, 302, etc.</p></td>
-</tr>
-<tr class="row-even"><td><p>depth</p></td>
-<td><p>The depth of the current URL, relative to the first URLs
-where crawling started. The first pages to be crawled have a
-depth of zero, pages linked from there, a depth of one, etc.</p></td>
-</tr>
-<tr class="row-odd"><td><p>status</p></td>
-<td><p>Response status (200, 404, etc.)</p></td>
-</tr>
 <tr class="row-even"><td><p>links_url</p></td>
 <td><p>The URLs of the links on the page</p></td>
 </tr>
@@ -380,22 +325,77 @@ this only tells if the link itself contains a rel=&quot;nofollow&quot;
 attribute. The page might indicate &quot;nofollow&quot; using meta
 robots or X-Robots-Tag, which you have to check separately.</p></td>
 </tr>
-<tr class="row-odd"><td><p>img_src</p></td>
-<td><p>The <code class="docutils literal notranslate"><span class="pre">src</span></code> attribute of images</p></td>
+<tr class="row-odd"><td><p>nav_links_text</p></td>
+<td><p>The anchor text of all links in the <cite>&lt;nav&gt;</cite> tag if
+available</p></td>
 </tr>
-<tr class="row-even"><td><p>img_alt</p></td>
-<td><p>The <code class="docutils literal notranslate"><span class="pre">alt</span></code> attribute if available or an empty string</p></td>
+<tr class="row-even"><td><p>nav_links_url</p></td>
+<td><p>The links in the <cite>&lt;nav&gt;</cite> tag if available</p></td>
 </tr>
-<tr class="row-odd"><td><p>ip_address</p></td>
+<tr class="row-odd"><td><p>header_links_text</p></td>
+<td><p>The anchor text of all links in the <cite>&lt;header&gt;</cite> tag if
+available</p></td>
+</tr>
+<tr class="row-even"><td><p>header_links_url</p></td>
+<td><p>The links in the <cite>&lt;header&gt;</cite> tag if available</p></td>
+</tr>
+<tr class="row-odd"><td><p>footer_links_text</p></td>
+<td><p>The anchor text of all links in the <cite>&lt;footer&gt;</cite> tag if
+available</p></td>
+</tr>
+<tr class="row-even"><td><p>footer_links_url</p></td>
+<td><p>The links in the <cite>&lt;footer&gt;</cite> tag if available</p></td>
+</tr>
+<tr class="row-odd"><td><p>body_text</p></td>
+<td><p>The text in the &lt;p&gt;, &lt;span&gt;, and &lt;li&gt; tags within &lt;body&gt;</p></td>
+</tr>
+<tr class="row-even"><td><p>size</p></td>
+<td><p>The page size in bytes</p></td>
+</tr>
+<tr class="row-odd"><td><p>download_latency</p></td>
+<td><p>The amount of time it took to get the page HTML, in seconds.</p></td>
+</tr>
+<tr class="row-even"><td><p>download_timout</p></td>
+<td><p>The amount of time (in secs) that the downloader will wait
+before timing out. Defaults to 180.</p></td>
+</tr>
+<tr class="row-odd"><td><p>redirect_times</p></td>
+<td><p>The number of times the pages was redirected if available</p></td>
+</tr>
+<tr class="row-even"><td><p>redirect_ttl</p></td>
+<td><p>The default maximum number of redirects the crawler allows</p></td>
+</tr>
+<tr class="row-odd"><td><p>redirect_urls</p></td>
+<td><p>The chain of URLs from the requested URL to the one actually
+fetched</p></td>
+</tr>
+<tr class="row-even"><td><p>redirect_reasons</p></td>
+<td><p>The type of redirection(s) 301, 302, etc.</p></td>
+</tr>
+<tr class="row-odd"><td><p>depth</p></td>
+<td><p>The depth of the current URL, relative to the first URLs
+where crawling started. The first pages to be crawled have a
+depth of zero, pages linked from there, a depth of one, etc.</p></td>
+</tr>
+<tr class="row-even"><td><p>status</p></td>
+<td><p>Response status (200, 404, etc.)</p></td>
+</tr>
+<tr class="row-odd"><td><p>img_*</p></td>
+<td><p>All available <code class="docutils literal notranslate"><span class="pre">&lt;img&gt;</span></code> tag attributes. 'alt', 'crossorigin',
+'height', 'ismap', 'loading', 'longdesc', 'referrerpolicy',
+'sizes', 'src', 'srcset', 'usemap',  and 'width' (excluding
+global HTML attributes like <code class="docutils literal notranslate"><span class="pre">style</span></code> and <code class="docutils literal notranslate"><span class="pre">draggable</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p>ip_address</p></td>
 <td><p>IP address</p></td>
 </tr>
-<tr class="row-even"><td><p>crawl_time</p></td>
+<tr class="row-odd"><td><p>crawl_time</p></td>
 <td><p>Date and time the page was crawled</p></td>
 </tr>
-<tr class="row-odd"><td><p>resp_headers_*</p></td>
+<tr class="row-even"><td><p>resp_headers_*</p></td>
 <td><p>All available response headers (last modified, server, etc.)</p></td>
 </tr>
-<tr class="row-even"><td><p>request_headers_*</p></td>
+<tr class="row-odd"><td><p>request_headers_*</p></td>
 <td><p>All available request headers (user-agent, encoding, etc.)</p></td>
 </tr>
 </tbody>
@@ -573,7 +573,7 @@ with code examples and explanations.</p>
 for the full details.</p>
 <dl class="py function">
 <dt id="advertools.spider.crawl">
-<code class="sig-name descname">crawl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url_list</span></em>, <em class="sig-param"><span class="n">output_file</span></em>, <em class="sig-param"><span class="n">follow_links</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">css_selectors</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xpath_selectors</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_settings</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">allowed_domains</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.spider.crawl" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">crawl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url_list</span></em>, <em class="sig-param"><span class="n">output_file</span></em>, <em class="sig-param"><span class="n">follow_links</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">skip_url_params</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">css_selectors</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xpath_selectors</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_settings</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">allowed_domains</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.spider.crawl" title="Permalink to this definition">¶</a></dt>
 <dd><p>Crawl a website's URLs based on the given <code class="xref py py-attr docutils literal notranslate"><span class="pre">url_list</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -586,6 +586,8 @@ is supported to allow for dynamic values. Make sure
 your file ends with &quot;.jl&quot;, e.g. <cite>output_file.jl</cite>.</p></li>
 <li><p><strong>follow_links</strong> (<em>bool</em>) -- Defaults to False. Whether or not to follow links
 on crawled pages.</p></li>
+<li><p><strong>skip_url_params</strong> (<em>bool</em>) -- Whether or not to skip URLs that contain
+parameters. Defaults to False.</p></li>
 <li><p><strong>css_selectors</strong> (<em>dict</em>) -- A dictionary mapping names to CSS selectors. The
 names will become column headers, and the
 selectors will be used to extract the required
@@ -604,9 +606,9 @@ documentation.</p></li>
 crawl. This ensures that the crawler does not
 attempt to crawl the whole web. If not
 specified, it defaults to the domains of the
-URLs provided in <code class="docutils literal notranslate"><span class="pre">url_list</span></code>. You can use it
-for sub-domains if you want them to be crawled
-as they will not be crawled if not specified.</p></li>
+URLs provided in <code class="docutils literal notranslate"><span class="pre">url_list</span></code> and all their 
+sub-domains. You can also specify a list of
+sub-domains, if you want to only crawl those.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Examples</dt>

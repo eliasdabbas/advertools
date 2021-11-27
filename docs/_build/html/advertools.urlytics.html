@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.11.0
+                0.11.1
               </div>
             
           
@@ -219,14 +219,110 @@ splitting it further can help in giving a better perspective on the dataset.</p>
 </ul>
 <p>The main function here is <a class="reference internal" href="#advertools.urlytics.url_to_df" title="advertools.urlytics.url_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">url_to_df()</span></code></a>, which as the name suggests,
 converts URLs to DataFrames.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">urls</span> <span class="p">[</span><span class="s1">&#39;https://net.location.com/path_1/path_2?price=10&amp;color=blue#frag_1&#39;</span><span class="p">,</span>
-<span class="gp">... </span>      <span class="s1">&#39;https://net.location.com/path_1/path_2?price=15&amp;color=red#frag_2&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://netloc.com/path_1/path_2?price=10&amp;color=blue#frag_1&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;https://netloc.com/path_1/path_2?price=15&amp;color=red#frag_2&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;https://netloc.com/path_1/path_2/path_3?size=sm&amp;color=blue#frag_1&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s1">&#39;https://netloc.com/path_1?price=10&amp;color=blue&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">url_to_df</span><span class="p">(</span><span class="n">urls</span><span class="p">)</span>
-<span class="go">                                                                      url  scheme                 netloc                  path                   query  fragment     dir_1       dir_2  query_price     query_color</span>
-<span class="go">0       https://net.location.com/path_1/path_2?price=10&amp;color=blue#frag_1       https   net.location.com        /path_1/path_2     price=10&amp;color=blue    frag_1        path_1  path_2           10            blue</span>
-<span class="go">1        https://net.location.com/path_1/path_2?price=15&amp;color=red#frag_2       https   net.location.com        /path_1/path_2      price=15&amp;color=red    frag_2        path_1  path_2           15             red</span>
 </pre></div>
 </div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 32%" />
+<col style="width: 4%" />
+<col style="width: 5%" />
+<col style="width: 10%" />
+<col style="width: 9%" />
+<col style="width: 5%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 5%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>url</p></th>
+<th class="head"><p>scheme</p></th>
+<th class="head"><p>netloc</p></th>
+<th class="head"><p>path</p></th>
+<th class="head"><p>query</p></th>
+<th class="head"><p>fragment</p></th>
+<th class="head"><p>dir_1</p></th>
+<th class="head"><p>dir_2</p></th>
+<th class="head"><p>dir_3</p></th>
+<th class="head"><p>last_dir</p></th>
+<th class="head"><p>query_color</p></th>
+<th class="head"><p>query_price</p></th>
+<th class="head"><p>query_size</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://netloc.com/path_1/path_2?price=10&amp;color=blue#frag_1">https://netloc.com/path_1/path_2?price=10&amp;color=blue#frag_1</a></p></td>
+<td><p>https</p></td>
+<td><p>netloc.com</p></td>
+<td><p>/path_1/path_2</p></td>
+<td><p>price=10&amp;color=blue</p></td>
+<td><p>frag_1</p></td>
+<td><p>path_1</p></td>
+<td><p>path_2</p></td>
+<td><p>nan</p></td>
+<td><p>path_2</p></td>
+<td><p>blue</p></td>
+<td><p>10</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://netloc.com/path_1/path_2?price=15&amp;color=red#frag_2">https://netloc.com/path_1/path_2?price=15&amp;color=red#frag_2</a></p></td>
+<td><p>https</p></td>
+<td><p>netloc.com</p></td>
+<td><p>/path_1/path_2</p></td>
+<td><p>price=15&amp;color=red</p></td>
+<td><p>frag_2</p></td>
+<td><p>path_1</p></td>
+<td><p>path_2</p></td>
+<td><p>nan</p></td>
+<td><p>path_2</p></td>
+<td><p>red</p></td>
+<td><p>15</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://netloc.com/path_1/path_2/path_3?size=sm&amp;color=blue#frag_1">https://netloc.com/path_1/path_2/path_3?size=sm&amp;color=blue#frag_1</a></p></td>
+<td><p>https</p></td>
+<td><p>netloc.com</p></td>
+<td><p>/path_1/path_2/path_3</p></td>
+<td><p>size=sm&amp;color=blue</p></td>
+<td><p>frag_1</p></td>
+<td><p>path_1</p></td>
+<td><p>path_2</p></td>
+<td><p>path_3</p></td>
+<td><p>path_3</p></td>
+<td><p>blue</p></td>
+<td><p>nan</p></td>
+<td><p>sm</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://netloc.com/path_1?price=10&amp;color=blue">https://netloc.com/path_1?price=10&amp;color=blue</a></p></td>
+<td><p>https</p></td>
+<td><p>netloc.com</p></td>
+<td><p>/path_1</p></td>
+<td><p>price=10&amp;color=blue</p></td>
+<td></td>
+<td><p>path_1</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>path_1</p></td>
+<td><p>blue</p></td>
+<td><p>10</p></td>
+<td><p>nan</p></td>
+</tr>
+</tbody>
+</table>
 <ul class="simple">
 <li><p><strong>url</strong>: The original URLs are listed as a reference. They are decoded for
 easier reading, and you can set <code class="docutils literal notranslate"><span class="pre">decode=False</span></code> if you want to retain the
@@ -238,8 +334,14 @@ well.</p></li>
 <li><p><strong>netloc</strong>: The network location is the sub-domain (optional) together with
 the domain and top-level domain and/or the country domain.</p></li>
 <li><p><strong>path</strong>: The slug of the URL, excluding the query parameters and fragments
-if any. The path is also split in to directories <cite>dir_1, dir_2, dir_3...</cite> to
+if any. The path is also split into directories <code class="docutils literal notranslate"><span class="pre">dir_1/dir_2/dir_3/...</span></code> to
 make it easier to categorize and analyze the URLs.</p></li>
+<li><p><strong>last_dir</strong>: The last directory of each of the URLs. This is usually the
+part that contains information about the page itself (blog post title,
+product name, etc.) with previous directories providing meta data (category,
+sub-category, author name, etc.). In many cases you don't have all URLs with
+the same number of directories, so they end up unaligned. This extracts all
+<a href="#id1"><span class="problematic" id="id2">``</span></a>last_dir``s in one column.</p></li>
 <li><p><strong>query</strong>: If query parameters are available they are given in this column,
 but more importantly they are parsed and included in separate columns, where
 each parameter has its own column (with the keys being the names). As in the
@@ -296,7 +398,7 @@ have the right rules and patterns, you might create special columns or
 replace/insert values to make them consistent, and get them to a state
 similar to the first example.</p>
 </li>
-<li><p><strong>URLs of different types</strong>: In many cases you will find that sites having
+<li><p><strong>URLs of different types</strong>: In many cases you will find that sites have
 different types of pages with completely different roles on the site.</p>
 <blockquote>
 <div><ul class="simple">

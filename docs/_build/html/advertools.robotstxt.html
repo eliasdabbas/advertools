@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.11.0
+                0.11.1
               </div>
             
           
@@ -209,23 +209,18 @@ every possible combination with user-agents!</p>
 <p>To get the robots.txt file into an easily readable format, you can use the
 <a class="reference internal" href="#advertools.robotstxt.robotstxt_to_df" title="advertools.robotstxt.robotstxt_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_to_df()</span></code></a> function to get it in a DataFrame.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.amazon.com/robots.txt&#39;</span><span class="p">)</span>
-<span class="go">       directive                                            content         robotstxt_last_modified                                   etag                            robotstxt_url                          download_date</span>
-<span class="go">0         User-agent                                                  *   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">1           Disallow                  /exec/obidos/account-access-login   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">2           Disallow                          /exec/obidos/change-style   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">3           Disallow                          /exec/obidos/flex-sign-in   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">4           Disallow                        /exec/obidos/handle-buy-box   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">138         Disallow                     /gp/help/customer/express/c2c/   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">139         Disallow                                          /slp/*/b$   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">140         Disallow      /hz/contact-us/ajax/initiate-trusted-contact/   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">141       User-agent                                         EtaoSpider   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
-<span class="go">142         Disallow                                                  /   2020-10-09 22:39:49+00:00       8e5277c97035c645b89ceb97cdb8c619        https://www.amazon.com/robots.txt       2021-01-16 15:41:10.803866+00:00</span>
+<span class="go">      directive    content                                        etag                                robotstxt_last_modified    robotstxt_url                      download_date</span>
+<span class="go">   0  User-agent   *                                              &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
+<span class="go">   1  Disallow     /exec/obidos/account-access-login              &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
+<span class="go">   2  Disallow     /exec/obidos/change-style                      &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
+<span class="go">   3  Disallow     /exec/obidos/flex-sign-in                      &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
+<span class="go">   4  Disallow     /exec/obidos/handle-buy-box                    &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
+<span class="go"> ...    ...                 ...                                                 ...                              ...                           ...                                 ...</span>
+<span class="go"> 138  Disallow     /gp/help/customer/express/c2c/                 &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
+<span class="go"> 139  Disallow     /slp/*/b$                                      &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
+<span class="go"> 140  Disallow     /hz/contact-us/ajax/initiate-trusted-contact/  &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
+<span class="go"> 141  User-agent   EtaoSpider                                     &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
+<span class="go"> 142  Disallow     /                                              &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
 </pre></div>
 </div>
 <p>The returned DataFrame contains columns for directives, their content, the URL
@@ -301,20 +296,19 @@ checking the rules that apply to it should take care of the rest.</p></li>
 <li><p>Run the <a class="reference internal" href="#advertools.robotstxt.robotstxt_test" title="advertools.robotstxt.robotstxt_test"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_test()</span></code></a> function</p></li>
 </ol>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fb_robots</span> <span class="o">=</span> <span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.facebook.com/robots.txt&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fb_robots</span>
-<span class="go">      directive                                            content                        robotstxt_url                    download_date</span>
-<span class="go">0       comment  Notice: Collection of data on Facebook through...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
-<span class="go">1       comment  prohibited unless you have express written per...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
-<span class="go">2       comment  and may only be conducted for the limited purp...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
-<span class="go">3       comment                                        permission.  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
-<span class="go">4       comment  See: http://www.facebook.com/apps/site_scrapin...  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
-<span class="go">..          ...                                                ...                                  ...                              ...</span>
-<span class="go">461       Allow                         /ajax/bootloader-endpoint/  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
-<span class="go">462       Allow  /ajax/pagelet/generic.php/PagePostsSectionPagelet  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
-<span class="go">463       Allow                                      /safetycheck/  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
-<span class="go">464  User-agent                                                  *  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
-<span class="go">465    Disallow                                                  /  https://www.facebook.com/robots.txt 2020-05-31 20:12:47.576281+00:00</span>
-<span class="go">[466 rows x 4 columns]</span>
+<span class="go">      directive    content                                                              robotstxt_url                        download_date</span>
+<span class="go">   0  comment      Notice: Collection of data on Facebook through automated means is    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
+<span class="go">   1  comment      prohibited unless you have express written permission from Facebook  https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
+<span class="go">   2  comment      and may only be conducted for the limited purpose contained in said  https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
+<span class="go">   3  comment      permission.                                                          https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
+<span class="go">   4  comment      See: http://www.facebook.com/apps/site_scraping_tos_terms.php        https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
+<span class="go"> ...    ...                                ...                                                         ...                                 ...</span>
+<span class="go"> 480  Allow        /ajax/bootloader-endpoint/                                           https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
+<span class="go"> 481  Allow        /ajax/pagelet/generic.php/PagePostsSectionPagelet                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
+<span class="go"> 482  Allow        /safetycheck/                                                        https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
+<span class="go"> 483  User-agent   *                                                                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
+<span class="go"> 484  Disallow     /                                                                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
+<span class="go">[484 rows x 4 columns]</span>
 </pre></div>
 </div>
 <p>Now that we have downloaded the file, we can easily extract the list of
