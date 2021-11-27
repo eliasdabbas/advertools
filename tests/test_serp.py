@@ -4,12 +4,11 @@ from itertools import product
 
 import pandas as pd
 import pytest
-
-from advertools.serp import (serp_goog, serp_youtube, SERP_GOOG_VALID_VALS,
-                             SERP_YTUBE_VALID_VALS, youtube_channel_details,
-                             youtube_video_details, YOUTUBE_VID_CATEGORY_IDS,
-                             YOUTUBE_TOPIC_IDS, _dict_product,
-                             set_logging_level)
+from advertools.serp import (SERP_GOOG_VALID_VALS, SERP_YTUBE_VALID_VALS,
+                             YOUTUBE_TOPIC_IDS, YOUTUBE_VID_CATEGORY_IDS,
+                             _dict_product, serp_goog, serp_youtube,
+                             set_logging_level, youtube_channel_details,
+                             youtube_video_details)
 
 goog_cse_cx = os.environ.get('GOOG_CSE_CX')
 goog_cse_key = os.environ.get('GOOG_CSE_KEY')
@@ -122,9 +121,11 @@ def test_serp_youtube_return_correct_result():
 def test_serp_youtube_handles_no_search_results():
     q = 'aquerythatdoesntgetrezultssss'
     result = serp_youtube(q=q, key=youtube_key,
-                          relevanceLanguage='ar')
+                          relevanceLanguage='ar',
+                          channelId='UCN1Q_Z0QgTKMimCv6G0IkKQ')
     assert len(result) == 1
     assert result['q'].values[0] == q
+    assert result['rank'].isna().values[0]
 
 
 @skip_api_tests
