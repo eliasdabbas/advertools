@@ -1,9 +1,6 @@
 .. image:: https://img.shields.io/pypi/v/advertools.svg
         :target: https://pypi.python.org/pypi/advertools
 
-.. image:: https://img.shields.io/travis/eliasdabbas/advertools.svg
-        :target: https://travis-ci.org/eliasdabbas/advertools
-
 .. image:: https://readthedocs.org/projects/advertools/badge/?version=latest
         :target: https://advertools.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
@@ -17,10 +14,9 @@
 .. image:: https://badges.gitter.im/advertools/community.svg
         :target: https://bit.ly/3hEWZCe
 
+| 🎉 **New:** ``logs_to_df`` Function for `analyzing log files <https://advertools.readthedocs.io/en/master/advertools.logs.html>`_
 | 🎊 **New:** `SEO crawler <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
-  now extracts links and anchor text from <nav>, <header>, and <footer> elements if available
-| 🎉 **New:** ``crawllogs_to_df`` Function for `analyzing the logs of the crawling process <https://advertools.readthedocs.io/en/master/advertools.logs.html>`_
-| 🎉 **Faster:** ``robotstxt_to_df`` can `download multiple robots.txt files in one go <https://advertools.readthedocs.io/en/master/advertools.robotstxt.html>`_
+  has a new option of skipping URL parameters (doesn't follow any URL containing a parameter)
 
 
 ``advertools``: productivity & analysis tools to scale your online marketing
@@ -216,4 +212,4 @@ autocomplete to discover other options:
 | ``serp_``: get search engine results pages in a DataFrame, currently available: Google and YouTube
 | ``crawl``: a function you will probably use a lot if you do SEO
 | ``*_to_df``: a set of convenience functions for converting to DataFrames
-  (XML sitemaps, robots.txt files, and lists of URLs)
+  (log files, XML sitemaps, robots.txt files, and lists of URLs)
