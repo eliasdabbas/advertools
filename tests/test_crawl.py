@@ -20,12 +20,14 @@ links_file = os.path.abspath('tests/data/crawl_testing/test_content.html')
 crawl('file://' + links_file, 'links_crawl.jl',
       custom_settings={'ROBOTSTXT_OBEY': False})
 crawl_df = pd.read_json('links_crawl.jl', lines=True)
+os.remove('links_crawl.jl')
 
 crawl('file://' + links_file, 'follow_url_params.jl',
       allowed_domains=[links_file, 'example.com'],
       custom_settings={'ROBOTSTXT_OBEY': False},
       follow_links=True, skip_url_params=False)
 follow_url_params_df = pd.read_json('follow_url_params.jl', lines=True)
+os.remove('follow_url_params.jl')
 
 
 def follow_url_params_followed():
@@ -43,6 +45,7 @@ dont_follow_url_params_df = pd.read_json('dont_follow_url_params.jl',
 def dont_follow_url_params_not_followed():
     assert not dont_follow_url_params_df['url'].str.contains('?',
                                                              regex=False).all()
+os.remove('dont_follow_url_params.jl')
 
 
 file_path = 'tests/data/crawl_testing/duplicate_links.html'
@@ -50,7 +53,7 @@ dup_links_file = os.path.abspath(file_path)
 crawl('file://' + dup_links_file, 'dup_links_crawl.jl',
       custom_settings={'ROBOTSTXT_OBEY': False})
 dup_crawl_df = pd.read_json('dup_links_crawl.jl', lines=True)
-
+os.remove('dup_links_crawl.jl')
 
 def test_link_columns_all_exist():
     assert set(links_columns).difference(crawl_df.columns.tolist()) == set()
@@ -110,8 +113,19 @@ def test_non_existent_links_are_NA():
     assert 'header_links_url' not in dup_crawl_df
     assert 'footer_links_url' not in dup_crawl_df
 
+broken_links_file = os.path.abspath('tests/data/crawl_testing/broken_links.html')
 
-os.remove('links_crawl.jl')
-os.remove('dup_links_crawl.jl')
-os.remove('follow_url_params.jl')
-os.remove('dont_follow_url_params.jl')
+crawl('file://' + broken_links_file, 'broken_links_crawl.jl',
+      follow_links=True)
+
+def test_broken_links_are_reported():
+    broken_links_df = pd.read_json('broken_links_crawl.jl', lines=True)
+    assert 'errors' in broken_links_df
+    os.remove('broken_links_crawl.jl')
+
+def test_crawling_bad_url_directly_is_handled():
+    crawl(['wrong_url', 'https://example.com'], 'bad_url.jl')
+    bad_url_df = pd.read_json('bad_url.jl', lines=True)
+    assert len(bad_url_df) == 1
+    assert bad_url_df['url'][0] == 'https://example.com'
+    os.remove('bad_url.jl')

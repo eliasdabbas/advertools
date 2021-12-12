@@ -359,7 +359,7 @@ def _extract_images(response):
     if page_has_images:
         img_attributes = reduce(set.union,
                                 [set(x.attrib.keys())
-                                for x in page_has_images])
+                                 for x in page_has_images])
         img_attributes = img_attributes.intersection(_IMG_ATTRS)
         d = dict()
         for im_attr in img_attributes:
@@ -554,7 +554,10 @@ class SEOSitemapSpider(Spider):
 
     def start_requests(self):
         for url in self.start_urls:
-            yield Request(url, callback=self.parse, errback=self.errback)
+            try:
+                yield Request(url, callback=self.parse, errback=self.errback)
+            except Exception as e:
+                self.logger.error(repr(e))
 
     def errback(self, failure):
         if not failure.check(scrapy.exceptions.IgnoreRequest):
