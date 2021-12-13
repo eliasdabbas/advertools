@@ -115,12 +115,13 @@ def test_non_existent_links_are_NA():
 
 broken_links_file = os.path.abspath('tests/data/crawl_testing/broken_links.html')
 
-crawl('file://' + broken_links_file, 'broken_links_crawl.jl',
+crawl(['file://' + broken_links_file, 'wrong_url'], 'broken_links_crawl.jl',
       follow_links=True)
 
 def test_broken_links_are_reported():
     broken_links_df = pd.read_json('broken_links_crawl.jl', lines=True)
     assert 'errors' in broken_links_df
+    assert 'wrong_url' not in broken_links_df['url']
     os.remove('broken_links_crawl.jl')
 
 def test_crawling_bad_url_directly_is_handled():
