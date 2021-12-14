@@ -286,6 +286,9 @@ def crawllogs_to_df(logs_file_path):
     error_level_regex = time_middleware_level_error  + '(.*)? (\d\d\d) (http.*)'
     error_level_cols = ['time', 'middleware', 'level', 'message', 'status', 'url']
 
+    generic_error_regex = time_middleware_level_error + '(.*)'
+    generic_error_cols = ['time', 'middleware', 'level', 'message']
+
     filtered_lines = []
     crawled_lines = []
     scraped_lines = []
@@ -293,6 +296,7 @@ def crawllogs_to_df(logs_file_path):
     blocked_lines = []
     error_lines = []
     error_lvl_lines = []
+    generic_error_lines = []
 
     with open(logs_file_path) as file:
         for line in file:
@@ -310,6 +314,8 @@ def crawllogs_to_df(logs_file_path):
                 error_lines.append(re.findall(error_regex, line)[0])
             if re.findall(error_level_regex, line):
                 error_lvl_lines.append(re.findall(error_level_regex, line)[0])
+            if re.findall(generic_error_regex, line):
+                generic_error_lines.append(re.findall(generic_error_regex, line)[0])
 
     final_df = pd.concat([
         pd.DataFrame(filtered_lines, columns=filtered_cols),
@@ -319,6 +325,7 @@ def crawllogs_to_df(logs_file_path):
         pd.DataFrame(blocked_lines, columns=blocked_cols),
         pd.DataFrame(error_lines, columns=error_cols),
         pd.DataFrame(error_lvl_lines, columns=error_level_cols),
+        pd.DataFrame(generic_error_lines, columns=generic_error_cols),
     ])
 
     final_df['time'] = pd.to_datetime(final_df['time'])
