@@ -2,8 +2,14 @@
 Change Log - advertools
 =======================
 
-0.12.0 (2021-11-27)
+0.12.3 (2021-11-27)
 -------------------
+
+* Fixed
+    - Crawler stops when provided with bad URLs in list mode.
+
+0.12.0,1,2 (2021-11-27)
+-----------------------
 
 * Added
     - New function ``logs_to_df``: Convert a log file of any non-JSON format
