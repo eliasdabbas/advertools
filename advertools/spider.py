@@ -323,9 +323,10 @@ import datetime
 import json
 import logging
 import platform
+import re
 import subprocess
 from functools import reduce
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse, urlsplit
 
 import pandas as pd
 import scrapy
@@ -353,6 +354,35 @@ BODY_TEXT_SELECTOR = '//body//span//text() | //body//p//text() | //body//li//tex
 _IMG_ATTRS = {'alt', 'crossorigin', 'height', 'ismap', 'loading', 'longdesc',
               'referrerpolicy', 'sizes', 'src', 'srcset', 'usemap', 'width'}
 
+
+def _crawl_or_not(url,
+                  exclude_url_params=None,
+                  include_url_params=None,
+                  exclude_url_regex=None,
+                  include_url_regex=None):
+    qs = parse_qs(urlsplit(url).query)
+    supplied_conditions = []
+    if exclude_url_params is not None:
+        if exclude_url_params is True and qs:
+            return False
+        if exclude_url_params is True and not qs:
+            pass
+        else:
+            exclude_params_in_url = not bool(set(exclude_url_params).intersection(qs))
+            supplied_conditions.append(exclude_params_in_url)
+
+    if include_url_params is not None:
+        include_params_in_url = bool(set(include_url_params).intersection(qs))
+        supplied_conditions.append(include_params_in_url)
+
+    if exclude_url_regex is not None:
+        exclude_pattern_matched = not bool(re.findall(exclude_url_regex, url))
+        supplied_conditions.append(exclude_pattern_matched)
+
+    if include_url_regex is not None:
+        include_pattern_matched = bool(re.findall(include_url_regex, url))
+        supplied_conditions.append(include_pattern_matched)
+    return all(supplied_conditions)
 
 def _extract_images(response):
     page_has_images = response.xpath('//img')
@@ -541,14 +571,27 @@ class SEOSitemapSpider(Spider):
         'HTTPERROR_ALLOW_ALL': True,
     }
 
-    def __init__(self, url_list=None, allowed_domains=None,
-                 skip_url_params=None, css_selectors=None,
-                 xpath_selectors=None, follow_links=False, *args, **kwargs):
+
+    def __init__(self, url_list, follow_links=False,
+                 allowed_domains=None,
+                 exclude_url_params=None,
+                 include_url_params=None,
+                 exclude_url_regex=None,
+                 include_url_regex=None,
+                 css_selectors=None,
+                 xpath_selectors=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.start_urls = json.loads(json.dumps(url_list.split(',')))
         self.allowed_domains = json.loads(json.dumps(allowed_domains.split(',')))
         self.follow_links = eval(json.loads(json.dumps(follow_links)))
-        self.skip_url_params = eval(json.loads(json.dumps(skip_url_params)))
+        self.exclude_url_params = eval(json.loads(json.dumps(exclude_url_params)))
+        self.include_url_params = eval(json.loads(json.dumps(include_url_params)))
+        self.exclude_url_regex = str(json.loads(json.dumps(exclude_url_regex)))
+        if self.exclude_url_regex == "None":
+            self.exclude_url_regex = None
+        self.include_url_regex = str(json.loads(json.dumps(include_url_regex)))
+        if self.include_url_regex == "None":
+            self.include_url_regex = None
         self.css_selectors = eval(json.loads(json.dumps(css_selectors)))
         self.xpath_selectors = eval(json.loads(json.dumps(xpath_selectors)))
 
@@ -572,6 +615,12 @@ class SEOSitemapSpider(Spider):
         header_links = le_header.extract_links(response)
         footer_links = le_footer.extract_links(response)
         images = _extract_images(response)
+        print('#'*33)
+        print('exclude_url_params:', self.exclude_url_params)
+        print('include_url_params:', self.include_url_params)
+        print('exclude_url_regex:', self.exclude_url_regex)
+        print('include_url_regex:', self.include_url_regex)
+        print('#'*33)
 
         if links:
             parsed_links = dict(
@@ -693,16 +742,27 @@ class SEOSitemapSpider(Spider):
             next_pages = [link.url for link in links]
             if next_pages:
                 for page in next_pages:
-                    if self.skip_url_params and urlparse(page).query:
-                        continue
-                    else:
+                    cond = _crawl_or_not(
+                        page,
+                        exclude_url_params=self.exclude_url_params,
+                        include_url_params=self.include_url_params,
+                        exclude_url_regex=self.exclude_url_regex,
+                        include_url_regex=self.include_url_regex)
+                    if cond:
                         yield Request(page, callback=self.parse,
                                       errback=self.errback)
+                    # if self.skip_url_params and urlparse(page).query:
+                    #     continue
 
 
-def crawl(url_list, output_file, follow_links=False, skip_url_params=False,
+def crawl(url_list, output_file, follow_links=False,
+          allowed_domains=None,
+          exclude_url_params=None,
+          include_url_params=None,
+          exclude_url_regex=None,
+          include_url_regex=None,
           css_selectors=None, xpath_selectors=None, custom_settings=None,
-          allowed_domains=None):
+          ):
     """
     Crawl a website's URLs based on the given :attr:`url_list`
 
@@ -786,6 +846,18 @@ def crawl(url_list, output_file, follow_links=False, skip_url_params=False,
                              "{}".format(sorted(crawl_headers)))
     if allowed_domains is None:
         allowed_domains = {urlparse(url).netloc for url in url_list}
+    if exclude_url_params is not None and include_url_params is not None:
+        common_params = set(exclude_url_params).intersection(include_url_params)
+        if common_params:
+            raise ValueError(f"Please make sure you don't include and exclude"
+                             f"the same parameters.\n"
+                             f"Common parameters entered: {','.join(common_params)}")
+    if include_url_regex is not None and exclude_url_regex is not None:
+        if include_url_regex == exclude_url_regex:
+            raise ValueError(f"Please make sure you don't include and exclude"
+                             f"the same regex pattern.\n"
+                             f"You entered '{include_url_regex}'.")
+
     settings_list = []
     if custom_settings is not None:
         for key, val in custom_settings.items():
@@ -796,7 +868,10 @@ def crawl(url_list, output_file, follow_links=False, skip_url_params=False,
                '-a', 'url_list=' + ','.join(url_list),
                '-a', 'allowed_domains=' + ','.join(allowed_domains),
                '-a', 'follow_links=' + str(follow_links),
-               '-a', 'skip_url_params=' + str(skip_url_params),
+               '-a', 'exclude_url_params=' + str(exclude_url_params),
+               '-a', 'include_url_params=' + str(include_url_params),
+               '-a', 'exclude_url_regex=' + str(exclude_url_regex),
+               '-a', 'include_url_regex=' + str(include_url_regex),
                '-a', 'css_selectors=' + str(css_selectors),
                '-a', 'xpath_selectors=' + str(xpath_selectors),
                '-o', output_file] + settings_list
