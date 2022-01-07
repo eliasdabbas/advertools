@@ -318,24 +318,26 @@ for the full details.
 
 """
 import datetime
-import logging
 import json
+import logging
 import platform
 import subprocess
-
 from urllib.parse import urlparse
-import scrapy
 
-from scrapy.spiders import Spider
-from scrapy.linkextractors import LinkExtractor
-from scrapy import Request
-import scrapy.logformatter as formatter
-import advertools as adv
 import pandas as pd
+import scrapy
+import scrapy.logformatter as formatter
+from scrapy import Request
+from scrapy.linkextractors import LinkExtractor
+from scrapy.spiders import Spider
+
+import advertools as adv
+
 if int(pd.__version__[0]) >= 1:
     from pandas import json_normalize
 else:
     from pandas.io.json import json_normalize
+
 from advertools import __version__ as adv_version
 
 spider_path = adv.__path__[0] + '/spider.py'
