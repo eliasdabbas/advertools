@@ -106,7 +106,6 @@ class HeadersSpider(Spider):
                else v for k, v in response.meta.items()},
             'protocol': response.protocol,
             'body': response.text or None,
-            'ip_address': response.ip_address,
             **{'resp_headers_' + k: v
                for k, v in response.headers.to_unicode_dict().items()},
             **{'request_headers_' + k: v
