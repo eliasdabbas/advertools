@@ -25,24 +25,24 @@ os.remove('links_crawl.jl')
 crawl('file://' + links_file, 'follow_url_params.jl',
       allowed_domains=[links_file, 'example.com'],
       custom_settings={'ROBOTSTXT_OBEY': False},
-      follow_links=True, skip_url_params=False)
+      follow_links=True)
 follow_url_params_df = pd.read_json('follow_url_params.jl', lines=True)
 os.remove('follow_url_params.jl')
 
 
-def follow_url_params_followed():
+def test_follow_url_params_followed():
     assert follow_url_params_df['url'].str.contains('?', regex=False).any()
 
 
 crawl('file://' + links_file, 'dont_follow_url_params.jl',
       allowed_domains=[links_file, 'example.com'],
       custom_settings={'ROBOTSTXT_OBEY': False},
-      follow_links=True, skip_url_params=True)
+      follow_links=True, exclude_url_params=True)
 dont_follow_url_params_df = pd.read_json('dont_follow_url_params.jl',
                                          lines=True)
 
 
-def dont_follow_url_params_not_followed():
+def test_dont_follow_url_params_not_followed():
     assert not dont_follow_url_params_df['url'].str.contains('?',
                                                              regex=False).all()
 os.remove('dont_follow_url_params.jl')
