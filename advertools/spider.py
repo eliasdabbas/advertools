@@ -615,12 +615,6 @@ class SEOSitemapSpider(Spider):
         header_links = le_header.extract_links(response)
         footer_links = le_footer.extract_links(response)
         images = _extract_images(response)
-        print('#'*33)
-        print('exclude_url_params:', self.exclude_url_params)
-        print('include_url_params:', self.include_url_params)
-        print('exclude_url_regex:', self.exclude_url_regex)
-        print('include_url_regex:', self.include_url_regex)
-        print('#'*33)
 
         if links:
             parsed_links = dict(
@@ -847,21 +841,28 @@ def crawl(url_list, output_file, follow_links=False,
     if allowed_domains is None:
         allowed_domains = {urlparse(url).netloc for url in url_list}
     if exclude_url_params is not None and include_url_params is not None:
+        if exclude_url_params is True:
+            raise ValueError("Please make sure you don't exclude and include "
+                             "parameters at the same time.")
         common_params = set(exclude_url_params).intersection(include_url_params)
         if common_params:
-            raise ValueError(f"Please make sure you don't include and exclude"
+            raise ValueError(f"Please make sure you don't include and exclude "
                              f"the same parameters.\n"
-                             f"Common parameters entered: {','.join(common_params)}")
+                             f"Common parameters entered: "
+                             f"{', '.join(common_params)}")
     if include_url_regex is not None and exclude_url_regex is not None:
         if include_url_regex == exclude_url_regex:
-            raise ValueError(f"Please make sure you don't include and exclude"
+            raise ValueError(f"Please make sure you don't include and exclude "
                              f"the same regex pattern.\n"
                              f"You entered '{include_url_regex}'.")
 
     settings_list = []
     if custom_settings is not None:
         for key, val in custom_settings.items():
-            setting = '='.join([key, str(val)])
+            if isinstance(val, dict):
+                setting = '='.join([key, json.dumps(val)])
+            else:
+                setting = '='.join([key, str(val)])
             settings_list.extend(['-s', setting])
 
     command = ['scrapy', 'runspider', spider_path,
