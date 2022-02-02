@@ -168,7 +168,10 @@ def crawl_headers(url_list, output_file,  custom_settings=None):
     settings_list = []
     if custom_settings is not None:
         for key, val in custom_settings.items():
-            setting = '='.join([key, str(val)])
+            if isinstance(val, dict):
+                setting = '='.join([key, json.dumps(val)])
+            else:
+                setting = '='.join([key, str(val)])
             settings_list.extend(['-s', setting])
 
     command = ['scrapy', 'runspider', header_spider_path,
