@@ -107,7 +107,7 @@ def reverse_dns_lookup(ip_list, max_workers=60):
                 .value_counts()
                 .reset_index())
     count_df.columns = ['ip_address', 'count']
-    count_df['cum_cont'] = count_df['count'].cumsum()
+    count_df['cum_count'] = count_df['count'].cumsum()
     count_df['perc'] = count_df['count'].div(count_df['count'].sum())
     count_df['cum_perc'] = count_df['perc'].cumsum()
 
