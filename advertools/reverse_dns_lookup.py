@@ -2,9 +2,6 @@
 .. _reverse_dns_lookup:
 
 
-Reverse DNS Lookup
-==================
-
 Getting the host name of a list of IP addresses can be useful in verifying
 the authenticity of those IP addresses. You typically want to do this as part
 of a :ref:`log file analysis <logs>` pipeline. In this case you have requests
@@ -20,6 +17,7 @@ What the :func:`reverse_dns_lookup` function does, is simply like running the
     $ host 66.249.80.0
     0.80.249.66.in-addr.arpa domain name pointer google-proxy-66-249-80-0.google.com.
 
+
 Because you usually have a large number of duplicated IP addresses that you
 want to check, this function makes the process practical and efficient, in
 comparison to running the command thousands of times from the comand line.
@@ -29,21 +27,21 @@ addresses that you have. Make sure to **keep the duplicates**, because the
 function does that for you, as well as provide counts and some statistics on
 the frequency of the IPs:
 
-.. code-block:: python
-
-    
     >>> ip_list = ['66.249.66.194', '66.249.66.194', '66.249.66.194',
     ...            '66.249.66.91', '66.249.66.91', '130.185.74.243',
     ...            '31.56.96.51', '5.211.97.39']
     >>> import advertools as adv
     >>> adv.reverse_dns_lookup([ip_list])
-        ip_address        count    cum_count    perc    cum_perc  hostname                           aliaslist                    ipaddrlist      errors
-    --  --------------  -------  -----------  ------  ----------  ---------------------------------  ---------------------------  --------------  ----------------------
-    0  66.249.66.194         3            3   0.375       0.375  crawl-66-249-66-194.googlebot.com  194.66.249.66.in-addr.arpa   66.249.66.194
-    1  66.249.66.91          2            5   0.25        0.625  crawl-66-249-66-91.googlebot.com   91.66.249.66.in-addr.arpa    66.249.66.91
-    2  130.185.74.243        1            6   0.125       0.75   mail.garda.ir                      243.74.185.130.in-addr.arpa  130.185.74.243
-    3  31.56.96.51           1            7   0.125       0.875  31-56-96-51.shatel.ir              51.96.56.31.in-addr.arpa     31.56.96.51
-    4  5.211.97.39           1            8   0.125       1                                                                                      [Errno 1] Unknown host
+
+    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
+      ..  ip_address        count    cum_count    perc    cum_perc  hostname                           aliaslist                    ipaddrlist      errors
+    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
+       0  66.249.66.194         3            3   0.375       0.375  crawl-66-249-66-194.googlebot.com  194.66.249.66.in-addr.arpa   66.249.66.194
+       1  66.249.66.91          2            5   0.25        0.625  crawl-66-249-66-91.googlebot.com   91.66.249.66.in-addr.arpa    66.249.66.91
+       2  130.185.74.243        1            6   0.125       0.75   mail.garda.ir                      243.74.185.130.in-addr.arpa  130.185.74.243
+       3  31.56.96.51           1            7   0.125       0.875  31-56-96-51.shatel.ir              51.96.56.31.in-addr.arpa     31.56.96.51
+       4  5.211.97.39           1            8   0.125       1                                                                                      [Errno 1] Unknown host
+    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
 
 As you can see, in addition to getting hostnames, aliaslist, and ipaddrlist for
 the IPs you supplied, you also get counts (absolute and cumulative) as well as
@@ -77,8 +75,10 @@ def reverse_dns_lookup(ip_list, max_workers=60):
     and helps in getting the information very fast. It is basically the
     equivalent of running the `host` command on the command line many times:
 
-    $ `host 66.249.80.0`
-    0.80.249.66.in-addr.arpa domain name pointer google-proxy-66-249-80-0.google.com.
+    .. code-block:: bash
+
+        $ host 66.249.80.0
+        0.80.249.66.in-addr.arpa domain name pointer google-proxy-66-249-80-0.google.com.
 
     You also get a simple report about the counts of the IPs to get an overview
     of the top ones:
@@ -88,14 +88,17 @@ def reverse_dns_lookup(ip_list, max_workers=60):
     ...            '66.249.66.91', '66.249.66.91', '130.185.74.243',
     ...            '31.56.96.51', '5.211.97.39']
     >>> adv.reverse_dns_lookup([ip_list])
-        ip_address        count    cum_count    perc    cum_perc  hostname                           aliaslist                    ipaddrlist      errors
-    --  --------------  -------  -----------  ------  ----------  ---------------------------------  ---------------------------  --------------  ----------------------
-    0  66.249.66.194         3            3   0.375       0.375  crawl-66-249-66-194.googlebot.com  194.66.249.66.in-addr.arpa   66.249.66.194
-    1  66.249.66.91          2            5   0.25        0.625  crawl-66-249-66-91.googlebot.com   91.66.249.66.in-addr.arpa    66.249.66.91
-    2  130.185.74.243        1            6   0.125       0.75   mail.garda.ir                      243.74.185.130.in-addr.arpa  130.185.74.243
-    3  31.56.96.51           1            7   0.125       0.875  31-56-96-51.shatel.ir              51.96.56.31.in-addr.arpa     31.56.96.51
-    4  5.211.97.39           1            8   0.125       1                                                                                      [Errno 1] Unknown host
-    
+
+    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
+      ..  ip_address        count    cum_count    perc    cum_perc  hostname                           aliaslist                    ipaddrlist      errors
+    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
+       0  66.249.66.194         3            3   0.375       0.375  crawl-66-249-66-194.googlebot.com  194.66.249.66.in-addr.arpa   66.249.66.194
+       1  66.249.66.91          2            5   0.25        0.625  crawl-66-249-66-91.googlebot.com   91.66.249.66.in-addr.arpa    66.249.66.91
+       2  130.185.74.243        1            6   0.125       0.75   mail.garda.ir                      243.74.185.130.in-addr.arpa  130.185.74.243
+       3  31.56.96.51           1            7   0.125       0.875  31-56-96-51.shatel.ir              51.96.56.31.in-addr.arpa     31.56.96.51
+       4  5.211.97.39           1            8   0.125       1                                                                                      [Errno 1] Unknown host
+    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
+
     :param list ip_list: a list of IP addresses.
     :param int max_workers: The maximum number of workers ot use for multi
                             processing.
