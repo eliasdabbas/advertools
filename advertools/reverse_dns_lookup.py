@@ -22,7 +22,7 @@ Because you usually have a large number of duplicated IP addresses that you
 want to check, this function makes the process practical and efficient, in
 comparison to running the command thousands of times from the comand line.
 
-Running the function is very simply, you simply supply a list of the IP
+Running the function is very simple, you simply supply a list of the IP
 addresses that you have. Make sure to **keep the duplicates**, because the
 function does that for you, as well as provide counts and some statistics on
 the frequency of the IPs:
@@ -31,7 +31,7 @@ the frequency of the IPs:
     ...            '66.249.66.91', '66.249.66.91', '130.185.74.243',
     ...            '31.56.96.51', '5.211.97.39']
     >>> import advertools as adv
-    >>> adv.reverse_dns_lookup([ip_list])
+    >>> adv.reverse_dns_lookup(ip_list)
 
     ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
       ..  ip_address        count    cum_count    perc    cum_perc  hostname                           aliaslist                    ipaddrlist      errors
@@ -71,7 +71,7 @@ def reverse_dns_lookup(ip_list, max_workers=60):
     """Return the hostname, aliaslist, and ipaddrlist for a list of IP
     addresses.
 
-    This is mainly useful for a long list of (typically) duplicated IP adresses
+    This is mainly useful for a long list of typically duplicated IP adresses
     and helps in getting the information very fast. It is basically the
     equivalent of running the `host` command on the command line many times:
 
@@ -100,7 +100,7 @@ def reverse_dns_lookup(ip_list, max_workers=60):
     ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
 
     :param list ip_list: a list of IP addresses.
-    :param int max_workers: The maximum number of workers ot use for multi
+    :param int max_workers: The maximum number of workers to use for multi
                             processing.
     """
     socket.setdefaulttimeout(8)
