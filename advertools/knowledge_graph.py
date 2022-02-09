@@ -82,8 +82,9 @@ You can also see that we get the types under which this result falls, in the
 also see, everything is a "Thing". This is the top element in the type
 hierarchy under which everything belongs.
 
-Like :func:`serp_goog` and :func:`serp_youtube`, this funcion works in the same
-manner, creating, sending, and aggregating the product of the arguments passed
+Like the :ref:`Google SERP <serp>` and :ref:`YouTube SERP <serp>`, functions
+this funcion works in the same manner, creating, sending, and aggregating the
+product of the arguments passed
 to it.
 
 For example if you run
@@ -136,8 +137,8 @@ different contexts.
 import logging
 from concurrent import futures
 
-import requests
 import pandas as pd
+import requests
 
 from advertools.serp import _dict_product
 
