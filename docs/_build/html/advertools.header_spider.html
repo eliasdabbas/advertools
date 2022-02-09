@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🕷 Python Status Code Checker with Response Headers &mdash;  Python</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Log File Analysis (experimental)" href="advertools.logs.html" />
+    <link rel="prev" title="🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes" href="advertools.code_recipes.spider_strategies.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> advertools
+          </a>
+              <div class="version">
+                0.13.0.rc1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>🕷 Python Status Code Checker with Response Headers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/advertools.header_spider.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <span class="target" id="module-advertools.header_spider"></span><section id="python-status-code-checker-with-response-headers">
+<span id="crawl-headers"></span><h1>🕷 Python Status Code Checker with Response Headers<a class="headerlink" href="#python-status-code-checker-with-response-headers" title="Permalink to this headline"></a></h1>
+<p>A mini crawler that only makes <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> requests to a known list of URLs. It
+uses <a class="reference external" href="https://docs.scrapy.org/en/latest">Scrapy</a> under the hood, which means
+you get all its power in a simplified interface for a simple and specific
+use-case.</p>
+<p>The <a class="reference internal" href="#advertools.header_spider.crawl_headers" title="advertools.header_spider.crawl_headers"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawl_headers()</span></code></a> function can be used to make those requests for
+various quality assurance and analysis reasons. Since <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> requests don't
+download the whole page, this makes the crawling super light on servers, and
+makes the process very fast.</p>
+<p>The function is straight-forward and easy to use, you basically need a list of
+URLs and a file path where you want to save the output (in <cite>.jl</cite> format):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl_headers</span><span class="p">(</span><span class="n">URL_LIST</span><span class="p">,</span> <span class="s1">&#39;output_file.jl&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">headers_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Optionally, you can customize the crawling behavior with the optional
+<code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter. Please check the
+<a class="reference external" href="_crawl_strategies">crawl strategies</a> page for tips on how you can do that.</p>
+<p>Here are some of the common reasons for using a <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> crawler:</p>
+<ul class="simple">
+<li><p><strong>Checking status codes:</strong> One of the most important maintenance tasks you
+should be doing continuously. It's very easy to set up an automated script
+the checks status codes for a few hundred or thousand URLs on a periodic
+basis. You can easily build some rules and alerts based on the status codes
+you get.</p></li>
+<li><p><strong>Status codes of page elements:</strong> Yes, your page returns a 200 OK status,
+but what about all the elements/components of the page? Images, links
+(internal and external), hreflang, canonical, URLs in metatags, script URLs,
+URLs in various structured data elements like Twitter, OpenGraph, and
+JSON-LD are some of the most important ones to check as well.</p></li>
+<li><p><strong>Getting search engine directives:</strong> Those directives can be set using meta
+tags as well as response headers. This crawler gets all available response
+headers so you can check for search engine-specific ones, like <cite>noindex</cite> for
+example.</p></li>
+<li><p><strong>Getting image sizes:</strong> You might want to crawl a list of image URLs and get
+their meta data. The response header <cite>Content-Length</cite> contains the length of
+the page in bytes. With images, it contains the size of the image. This can
+be an extremely efficient way of analyzing image sizes (and other meta data)
+without having to download those images, which could consume a lot of
+bandwidth. Lookout for the column <code class="docutils literal notranslate"><span class="pre">resp_headers_content-length</span></code>.</p></li>
+<li><p><strong>Getting image types:</strong> The <code class="docutils literal notranslate"><span class="pre">resp_headers_content-type</span></code> gives you an
+indication on the type of content of the page (or image when crawling image
+URLs); <cite>text/html</cite>, <cite>image/jpeg</cite> and <cite>image/png</cite> are some such content types.</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HeadersSpider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">scrapy.spiders.Spider</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider.custom_settings">
+<span class="sig-name descname"><span class="pre">custom_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'HTTPERROR_ALLOW_ALL':</span> <span class="pre">True,</span> <span class="pre">'ROBOTSTXT_OBEY':</span> <span class="pre">True,</span> <span class="pre">'USER_AGENT':</span> <span class="pre">'advertools/0.13.0.rc1'}</span></em><a class="headerlink" href="#advertools.header_spider.HeadersSpider.custom_settings" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider.errback">
+<span class="sig-name descname"><span class="pre">errback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">failure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider.errback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider.errback" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'headers_spider'</span></em><a class="headerlink" href="#advertools.header_spider.HeadersSpider.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider.parse" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider.start_requests">
+<span class="sig-name descname"><span class="pre">start_requests</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider.start_requests"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider.start_requests" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="advertools.header_spider.crawl_headers">
+<span class="sig-name descname"><span class="pre">crawl_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#crawl_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.crawl_headers" title="Permalink to this definition"></a></dt>
+<dd><p>Crawl a list of URLs using the HEAD method.</p>
+<p>This function helps in analyzing a set of URLs by getting status codes,
+download latency, all response headers and a few other meta data about the
+crawled URLs.</p>
+<p>Sine the full page is not downloaded, these requests are very light on
+servers and it is super-fast. You can modify the speed of course through
+various settings.</p>
+<p>Typically status code checking is an on-going task that needs to be done
+and managed. Automated alerts can be easily created based on certain status
+codes. Another interesting piece of the information is the <cite>Content-Length</cite>
+response header. This gives you the size of the response body without
+having to download the whole page. It can also be very interesting with
+image URLs. Downloading all images can really be expensive and time
+consuming. Being able to get image sizes without having to download them
+can help a lot in making decisions about optimizing those images.
+Several other data can be interesting to analyze, depending on what
+response headers you get.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url_list</strong> (<em>url</em><em>,</em><em>list</em>) -- One or more URLs to crawl. If <code class="docutils literal notranslate"><span class="pre">follow_links</span></code>
+is True, the crawler will start with these URLs and
+follow all links on pages recursively.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) -- The path to the output of the crawl. Jsonlines only
+is supported to allow for dynamic values. Make sure
+your file ends with &quot;.jl&quot;, e.g. <cite>output_file.jl</cite>.</p></li>
+<li><p><strong>custom_settings</strong> (<em>dict</em>) -- A dictionary of optional custom settings that
+you might want to add to the spider's
+functionality. There are over 170 settings for
+all kinds of options. For details please
+refer to the <a class="reference external" href="https://docs.scrapy.org/en/latest/topics/settings.html">spider settings</a>
+documentation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Examples</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://exmaple.com/A&#39;</span><span class="p">,</span> <span class="s1">&#39;https://exmaple.com/B&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;https://exmaple.com/C&#39;</span><span class="p">,</span> <span class="s1">&#39;https://exmaple.com/D&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="s1">&#39;https://exmaple.com/E&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl_headers</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="s1">&#39;output_file.jl&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawl_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="advertools.code_recipes.spider_strategies.html" class="btn btn-neutral float-left" title="🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.logs.html" class="btn btn-neutral float-right" title="Log File Analysis (experimental)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elias Dabbas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

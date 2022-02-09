@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>advertools.header_spider &mdash;  Python</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx-thebe.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="../../_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> advertools
+          </a>
+              <div class="version">
+                0.13.0.rc1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">About advertools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis (experimental)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">advertools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>advertools.header_spider</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for advertools.header_spider</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. _crawl_headers:</span>
+
+<span class="sd">🕷 Python Status Code Checker with Response Headers</span>
+<span class="sd">===================================================</span>
+
+<span class="sd">A mini crawler that only makes ``HEAD`` requests to a known list of URLs. It</span>
+<span class="sd">uses `Scrapy &lt;https://docs.scrapy.org/en/latest&gt;`_ under the hood, which means</span>
+<span class="sd">you get all its power in a simplified interface for a simple and specific</span>
+<span class="sd">use-case.</span>
+
+<span class="sd">The :func:`crawl_headers` function can be used to make those requests for</span>
+<span class="sd">various quality assurance and analysis reasons. Since ``HEAD`` requests don&#39;t</span>
+<span class="sd">download the whole page, this makes the crawling super light on servers, and</span>
+<span class="sd">makes the process very fast.</span>
+
+<span class="sd">The function is straight-forward and easy to use, you basically need a list of</span>
+<span class="sd">URLs and a file path where you want to save the output (in `.jl` format):</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawl_headers(URL_LIST, &#39;output_file.jl&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; headers_df = pd.read_json(&#39;output_file.jl&#39;, lines=True)</span>
+
+<span class="sd">Optionally, you can customize the crawling behavior with the optional</span>
+<span class="sd">``custom_settings`` parameter. Please check the</span>
+<span class="sd">`crawl strategies &lt;_crawl_strategies&gt;`_ page for tips on how you can do that.</span>
+
+<span class="sd">Here are some of the common reasons for using a ``HEAD`` crawler:</span>
+
+<span class="sd">* **Checking status codes:** One of the most important maintenance tasks you</span>
+<span class="sd">  should be doing continuously. It&#39;s very easy to set up an automated script</span>
+<span class="sd">  the checks status codes for a few hundred or thousand URLs on a periodic</span>
+<span class="sd">  basis. You can easily build some rules and alerts based on the status codes</span>
+<span class="sd">  you get.</span>
+<span class="sd">* **Status codes of page elements:** Yes, your page returns a 200 OK status,</span>
+<span class="sd">  but what about all the elements/components of the page? Images, links</span>
+<span class="sd">  (internal and external), hreflang, canonical, URLs in metatags, script URLs,</span>
+<span class="sd">  URLs in various structured data elements like Twitter, OpenGraph, and</span>
+<span class="sd">  JSON-LD are some of the most important ones to check as well.</span>
+<span class="sd">* **Getting search engine directives:** Those directives can be set using meta</span>
+<span class="sd">  tags as well as response headers. This crawler gets all available response</span>
+<span class="sd">  headers so you can check for search engine-specific ones, like `noindex` for</span>
+<span class="sd">  example.</span>
+<span class="sd">* **Getting image sizes:** You might want to crawl a list of image URLs and get</span>
+<span class="sd">  their meta data. The response header `Content-Length` contains the length of</span>
+<span class="sd">  the page in bytes. With images, it contains the size of the image. This can</span>
+<span class="sd">  be an extremely efficient way of analyzing image sizes (and other meta data)</span>
+<span class="sd">  without having to download those images, which could consume a lot of</span>
+<span class="sd">  bandwidth. Lookout for the column ``resp_headers_content-length``.</span>
+<span class="sd">* **Getting image types:** The ``resp_headers_content-type`` gives you an</span>
+<span class="sd">  indication on the type of content of the page (or image when crawling image</span>
+<span class="sd">  URLs); `text/html`, `image/jpeg` and `image/png` are some such content types.</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scrapy</span>
+<span class="kn">from</span> <span class="nn">scrapy</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Spider</span>
+
+<span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="kn">from</span> <span class="nn">advertools</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">adv_version</span>
+<span class="kn">from</span> <span class="nn">advertools.spider</span> <span class="kn">import</span> <span class="n">MAX_CMD_LENGTH</span><span class="p">,</span> <span class="n">_split_long_urllist</span>
+
+<span class="n">header_spider_path</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/header_spider.py&#39;</span>
+
+<span class="n">user_agent</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;advertools/</span><span class="si">{</span><span class="n">adv_version</span><span class="si">}</span><span class="s1">&#39;</span>
+
+
+<div class="viewcode-block" id="HeadersSpider"><a class="viewcode-back" href="../../advertools.header_spider.html#advertools.header_spider.HeadersSpider">[docs]</a><span class="k">class</span> <span class="nc">HeadersSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;headers_spider&#39;</span>
+    <span class="n">custom_settings</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;USER_AGENT&#39;</span><span class="p">:</span> <span class="n">user_agent</span><span class="p">,</span>
+        <span class="s1">&#39;ROBOTSTXT_OBEY&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;HTTPERROR_ALLOW_ALL&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_urls</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">url_list</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="HeadersSpider.start_requests"><a class="viewcode-back" href="../../advertools.header_spider.html#advertools.header_spider.HeadersSpider.start_requests">[docs]</a>    <span class="k">def</span> <span class="nf">start_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_urls</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">,</span> <span class="n">errback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">errback</span><span class="p">,</span>
+                              <span class="n">method</span><span class="o">=</span><span class="s1">&#39;HEAD&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="HeadersSpider.errback"><a class="viewcode-back" href="../../advertools.header_spider.html#advertools.header_spider.HeadersSpider.errback">[docs]</a>    <span class="k">def</span> <span class="nf">errback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failure</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">failure</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">IgnoreRequest</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">failure</span><span class="p">))</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">failure</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+                   <span class="s1">&#39;crawl_time&#39;</span><span class="p">:</span> <span class="n">now</span><span class="p">,</span>
+                   <span class="s1">&#39;errors&#39;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">failure</span><span class="p">)}</span></div>
+
+<div class="viewcode-block" id="HeadersSpider.parse"><a class="viewcode-back" href="../../advertools.header_spider.html#advertools.header_spider.HeadersSpider.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="p">{</span>
+            <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+            <span class="s1">&#39;crawl_time&#39;</span><span class="p">:</span> <span class="n">now</span><span class="p">,</span>
+            <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
+            <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">v</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+               <span class="k">else</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+            <span class="s1">&#39;protocol&#39;</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">protocol</span><span class="p">,</span>
+            <span class="s1">&#39;body&#39;</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="o">**</span><span class="p">{</span><span class="s1">&#39;resp_headers_&#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+               <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">to_unicode_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+            <span class="o">**</span><span class="p">{</span><span class="s1">&#39;request_headers_&#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+               <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">to_unicode_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+        <span class="p">}</span></div></div>
+
+
+<div class="viewcode-block" id="crawl_headers"><a class="viewcode-back" href="../../advertools.header_spider.html#advertools.header_spider.crawl_headers">[docs]</a><span class="k">def</span> <span class="nf">crawl_headers</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span>  <span class="n">custom_settings</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Crawl a list of URLs using the HEAD method.</span>
+
+<span class="sd">    This function helps in analyzing a set of URLs by getting status codes,</span>
+<span class="sd">    download latency, all response headers and a few other meta data about the</span>
+<span class="sd">    crawled URLs.</span>
+
+<span class="sd">    Sine the full page is not downloaded, these requests are very light on</span>
+<span class="sd">    servers and it is super-fast. You can modify the speed of course through</span>
+<span class="sd">    various settings.</span>
+
+<span class="sd">    Typically status code checking is an on-going task that needs to be done</span>
+<span class="sd">    and managed. Automated alerts can be easily created based on certain status</span>
+<span class="sd">    codes. Another interesting piece of the information is the `Content-Length`</span>
+<span class="sd">    response header. This gives you the size of the response body without</span>
+<span class="sd">    having to download the whole page. It can also be very interesting with</span>
+<span class="sd">    image URLs. Downloading all images can really be expensive and time</span>
+<span class="sd">    consuming. Being able to get image sizes without having to download them</span>
+<span class="sd">    can help a lot in making decisions about optimizing those images.</span>
+<span class="sd">    Several other data can be interesting to analyze, depending on what</span>
+<span class="sd">    response headers you get.</span>
+
+
+<span class="sd">    :param url,list url_list: One or more URLs to crawl. If ``follow_links``</span>
+<span class="sd">                          is True, the crawler will start with these URLs and</span>
+<span class="sd">                          follow all links on pages recursively.</span>
+<span class="sd">    :param str output_file: The path to the output of the crawl. Jsonlines only</span>
+<span class="sd">                            is supported to allow for dynamic values. Make sure</span>
+<span class="sd">                            your file ends with &quot;.jl&quot;, e.g. `output_file.jl`.</span>
+<span class="sd">    :param dict custom_settings: A dictionary of optional custom settings that</span>
+<span class="sd">                                 you might want to add to the spider&#39;s</span>
+<span class="sd">                                 functionality. There are over 170 settings for</span>
+<span class="sd">                                 all kinds of options. For details please</span>
+<span class="sd">                                 refer to the `spider settings &lt;https://docs.scrapy.org/en/latest/topics/settings.html&gt;`_</span>
+<span class="sd">                                 documentation.</span>
+<span class="sd">    :Examples:</span>
+
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; url_list = [&#39;https://exmaple.com/A&#39;, &#39;https://exmaple.com/B&#39;,</span>
+<span class="sd">    ... &#39;https://exmaple.com/C&#39;, &#39;https://exmaple.com/D&#39;,</span>
+<span class="sd">    ... &#39;https://exmaple.com/E&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; adv.crawl_headers(url_list, &#39;output_file.jl&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; crawl_df = pd.read_json(&#39;output_file.jl&#39;, lines=True)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">url_list</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">output_file</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;jl&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please make sure your output_file ends with &#39;.jl&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                         <span class="s2">&quot;For example:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">output_file</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.jl&quot;</span><span class="p">)</span>
+    <span class="n">settings_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">custom_settings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">custom_settings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">setting</span> <span class="o">=</span> <span class="s1">&#39;=&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">val</span><span class="p">)])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">setting</span> <span class="o">=</span> <span class="s1">&#39;=&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)])</span>
+            <span class="n">settings_list</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="n">setting</span><span class="p">])</span>
+
+    <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;scrapy&#39;</span><span class="p">,</span> <span class="s1">&#39;runspider&#39;</span><span class="p">,</span> <span class="n">header_spider_path</span><span class="p">,</span>
+               <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;url_list=&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">url_list</span><span class="p">),</span>
+               <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">output_file</span><span class="p">]</span> <span class="o">+</span> <span class="n">settings_list</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">url_list</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">MAX_CMD_LENGTH</span><span class="p">:</span>
+        <span class="n">split_urls</span> <span class="o">=</span> <span class="n">_split_long_urllist</span><span class="p">(</span><span class="n">url_list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">u_list</span> <span class="ow">in</span> <span class="n">split_urls</span><span class="p">:</span>
+            <span class="n">command</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;url_list=&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">u_list</span><span class="p">)</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elias Dabbas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

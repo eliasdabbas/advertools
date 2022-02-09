@@ -19,10 +19,12 @@ Submodules
    advertools.ad_from_string
    advertools.emoji
    advertools.extract
+   advertools.header_spider
    advertools.knowledge_graph
    advertools.kw_generate
    advertools.logs
    advertools.regex
+   advertools.reverse_dns_lookup
    advertools.robotstxt
    advertools.serp
    advertools.sitemaps

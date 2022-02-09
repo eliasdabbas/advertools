@@ -1,74 +1,45 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Import and Analyze Knowledge Graph Results on a Large Scale &mdash;  Python</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Split, Parse, and Analyze URL Structure" href="advertools.urlytics.html" />
     <link rel="prev" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" href="advertools.serp.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> advertools
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                0.12.0
+                0.13.0.rc1
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -76,35 +47,26 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEM</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEO</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Google's Knowledge Graph</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#account-setup">Account Setup</a></li>
@@ -112,7 +74,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
@@ -121,83 +83,42 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Social Media</span></p>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">advertools</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Import and Analyze Knowledge Graph Results on a Large Scale</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/advertools.knowledge_graph.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <span class="target" id="module-advertools.knowledge_graph"></span><div class="section" id="import-and-analyze-knowledge-graph-results-on-a-large-scale">
-<span id="knowledge-graph"></span><h1>Import and Analyze Knowledge Graph Results on a Large Scale<a class="headerlink" href="#import-and-analyze-knowledge-graph-results-on-a-large-scale" title="Permalink to this headline">¶</a></h1>
+             
+  <span class="target" id="module-advertools.knowledge_graph"></span><section id="import-and-analyze-knowledge-graph-results-on-a-large-scale">
+<span id="knowledge-graph"></span><h1>Import and Analyze Knowledge Graph Results on a Large Scale<a class="headerlink" href="#import-and-analyze-knowledge-graph-results-on-a-large-scale" title="Permalink to this headline"></a></h1>
 <p>If <a class="reference internal" href="advertools.serp.html#serp"><span class="std std-ref">analyzing SERPs</span></a> is the first step in understanding your
 rankings on search engines, then analyzing the knowledge graph can be thought
 of as step zero.</p>
@@ -214,16 +135,16 @@ product should not form a critical dependence on this API.</p>
 <p>It's not clear whether this is from a technical reliability or a content
 correctness point of view, but it is what the docs mention. So please keep this
 in mind when using it.</p>
-<div class="section" id="account-setup">
-<h2>Account Setup<a class="headerlink" href="#account-setup" title="Permalink to this headline">¶</a></h2>
+<section id="account-setup">
+<h2>Account Setup<a class="headerlink" href="#account-setup" title="Permalink to this headline"></a></h2>
 <p>In order to be able to send requests, you will need to <a class="reference external" href="https://console.developers.google.com/">create a project</a>, <a class="reference external" href="https://console.developers.google.com/billing">set up billing</a>, and <a class="reference external" href="https://console.developers.google.com/apis/library">activate the knowledge
 graph API</a> for your
 project. You will then need to <a class="reference external" href="https://console.developers.google.com/apis/credentials">create credentials</a> (API Key).
 Once you have that, you can use it as your <code class="docutils literal notranslate"><span class="pre">key</span></code> parameter when running
 requests, as shown below.</p>
-</div>
-<div class="section" id="how-to-use-google-s-knowledge-graph-api">
-<h2>How to use Google's Knowledge Graph API<a class="headerlink" href="#how-to-use-google-s-knowledge-graph-api" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="how-to-use-google-s-knowledge-graph-api">
+<h2>How to use Google's Knowledge Graph API<a class="headerlink" href="#how-to-use-google-s-knowledge-graph-api" title="Permalink to this headline"></a></h2>
 <p>What is &quot;google&quot;? Is it a search engine, a company, a brand, a very large
 number? What else is it?</p>
 <p>And if it is all of those things, what is the relative ranking of each? What
@@ -262,8 +183,9 @@ an email application, a mapping application, and so on, as you can see in the
 <cite>result.&#64;type</cite> column. Multiple types show the type inheritance, and as you can
 also see, everything is a &quot;Thing&quot;. This is the top element in the type
 hierarchy under which everything belongs.</p>
-<p>Like <code class="xref py py-func docutils literal notranslate"><span class="pre">serp_goog()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">serp_youtube()</span></code>, this funcion works in the same
-manner, creating, sending, and aggregating the product of the arguments passed
+<p>Like the <a class="reference internal" href="advertools.serp.html#serp"><span class="std std-ref">Google SERP</span></a> and <a class="reference internal" href="advertools.serp.html#serp"><span class="std std-ref">YouTube SERP</span></a>, functions
+this funcion works in the same manner, creating, sending, and aggregating the
+product of the arguments passed
 to it.</p>
 <p>For example if you run</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">knowledge_graph</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;google&#39;</span><span class="p">,</span> <span class="s1">&#39;bing&#39;</span><span class="p">],</span> <span class="n">languages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">,</span> <span class="s1">&#39;de&#39;</span><span class="p">])</span>
@@ -308,8 +230,8 @@ languages.</p>
 <p>It's interesting to see how the same word can mean different things in
 different contexts.</p>
 <dl class="py function">
-<dt id="advertools.knowledge_graph.knowledge_graph">
-<code class="sig-name descname">knowledge_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">query</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ids</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">languages</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">types</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/knowledge_graph.html#knowledge_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.knowledge_graph.knowledge_graph" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.knowledge_graph.knowledge_graph">
+<span class="sig-name descname"><span class="pre">knowledge_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/knowledge_graph.html#knowledge_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.knowledge_graph.knowledge_graph" title="Permalink to this definition"></a></dt>
 <dd><p>Query Google's Knowledge Graph with any combination of parameters.</p>
 <p>Note that Google's documentation states that &quot;This API is not suitable for
 use as a production-critical service.&quot; So please keep this in mind.</p>
@@ -341,55 +263,57 @@ a higher chance of timing out.</p></li>
 <p><a class="reference external" href="https://developers.google.com/knowledge-graph/reference/rest/v1">https://developers.google.com/knowledge-graph/reference/rest/v1</a></p>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="advertools.urlytics.html" class="btn btn-neutral float-right" title="Split, Parse, and Analyze URL Structure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="advertools.serp.html" class="btn btn-neutral float-left" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.urlytics.html" class="btn btn-neutral float-right" title="Split, Parse, and Analyze URL Structure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Elias Dabbas.
-
-    </p>
+    <p>&#169; Copyright 2021, Elias Dabbas.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

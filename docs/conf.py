@@ -14,6 +14,7 @@
 #
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath('..'))
 
 import sphinx_rtd_theme
@@ -47,6 +48,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
     'sphinx_rtd_theme',
+    'sphinx_thebe',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -180,3 +182,9 @@ texinfo_documents = [
 smartquotes = False
 
 # -- Extension configuration -------------------------------------------------
+
+thebe_config = {
+   "always_load": True,
+   "repository_url": "https://github.com/eliasdabbas/adv_docs_thebe",
+   "repository_branch": "main",
+}

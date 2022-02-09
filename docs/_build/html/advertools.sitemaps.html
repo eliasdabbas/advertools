@@ -1,75 +1,46 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  <meta content="Download one or multiple XML sitemaps into a pandas DataFrame with Python. You can download URLs from a regular sitemap, or from a sitemap index file." lang="en" name="description" xml:lang="en" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Download one or multiple XML sitemaps into a pandas DataFrame with Python. You can download URLs from a regular sitemap, or from a sitemap index file." lang="en" name="description" xml:lang="en" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Download, Parse, and Analyze XML Sitemaps &mdash;  Python</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="🕷 Python SEO Crawler / Spider" href="advertools.spider.html" />
     <link rel="prev" title="🤖 Analyze and Test robots.txt Files on a Large Scale" href="advertools.robotstxt.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> advertools
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                0.12.0
+                0.13.0.rc1
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -77,28 +48,17 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEM</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEO</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">XML Sitemaps</a><ul>
@@ -110,12 +70,14 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
@@ -124,83 +86,42 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Social Media</span></p>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">advertools</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Download, Parse, and Analyze XML Sitemaps</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/advertools.sitemaps.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <span class="target" id="module-advertools.sitemaps"></span><div class="section" id="download-parse-and-analyze-xml-sitemaps">
-<span id="sitemaps"></span><h1>Download, Parse, and Analyze XML Sitemaps<a class="headerlink" href="#download-parse-and-analyze-xml-sitemaps" title="Permalink to this headline">¶</a></h1>
+             
+  <span class="target" id="module-advertools.sitemaps"></span><section id="download-parse-and-analyze-xml-sitemaps">
+<span id="sitemaps"></span><h1>Download, Parse, and Analyze XML Sitemaps<a class="headerlink" href="#download-parse-and-analyze-xml-sitemaps" title="Permalink to this headline"></a></h1>
 <p>One of the fastest and easiest ways to get insights on a website's content is
 to simply download its XML sitemap(s).</p>
 <p>Sitemaps are also important SEO tools as they reveal a lot of information about
@@ -226,8 +147,8 @@ modified, if provided.</p></li>
 (1MB = 1,024 x 1,024 bytes)</p></li>
 <li><p><cite>download_date</cite>: The datetime when the sitemap was downloaded.</p></li>
 </ul>
-<div class="section" id="sitemap-index">
-<h2>Sitemap Index<a class="headerlink" href="#sitemap-index" title="Permalink to this headline">¶</a></h2>
+<section id="sitemap-index">
+<h2>Sitemap Index<a class="headerlink" href="#sitemap-index" title="Permalink to this headline"></a></h2>
 <p>Large websites typically have a sitmeapindex file, which contains links to all
 other regular sitemaps that belong to the site. The <a class="reference internal" href="#advertools.sitemaps.sitemap_to_df" title="advertools.sitemaps.sitemap_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">sitemap_to_df()</span></code></a>
 function retreives all sub-sitemaps recursively by default.
@@ -244,9 +165,9 @@ and set <cite>recursive=False</cite> to get all available sitemap index files.</
 </div>
 <p>Let's now go through a quick example of what can be done with sitemaps. We can
 start by getting one of the BBC's sitemaps.</p>
-</div>
-<div class="section" id="regular-xml-sitemaps">
-<h2>Regular XML Sitemaps<a class="headerlink" href="#regular-xml-sitemaps" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="regular-xml-sitemaps">
+<h2>Regular XML Sitemaps<a class="headerlink" href="#regular-xml-sitemaps" title="Permalink to this headline"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span> <span class="o">=</span> <span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="go">                                                                                    loc                     lastmod                                                            sitemap                                etag            sitemap_last_modified          sitemap_size_mb                         download_date</span>
@@ -436,9 +357,9 @@ sitemaps. If an image column in a news sitemap contains multiple images,
 only the last one is retreived. The same applies for any other sitemap that
 has a tag with multiple values.</p>
 </div>
-</div>
-<div class="section" id="news-sitemaps">
-<h2>News Sitemaps<a class="headerlink" href="#news-sitemaps" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="news-sitemaps">
+<h2>News Sitemaps<a class="headerlink" href="#news-sitemaps" title="Permalink to this headline"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nyt_news</span> <span class="o">=</span> <span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.nytimes.com/sitemaps/new/news.xml.gz&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nyt_news</span>
 <span class="go">                                                                                                  loc                           lastmod       publication_name publication_language      news_publication_date                                                                      news_title                                                                                                                                                                                              news_keywords                   image                                                                                                                                                                       image_loc                                              sitemap                                etag        sitemap_last_modified      sitemap_size_mb                         download_date</span>
@@ -455,9 +376,9 @@ has a tag with multiple values.</p>
 <span class="go">[741 rows x 13 columns]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="video-sitemaps">
-<h2>Video Sitemaps<a class="headerlink" href="#video-sitemaps" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="video-sitemaps">
+<h2>Video Sitemaps<a class="headerlink" href="#video-sitemaps" title="Permalink to this headline"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wired_video</span> <span class="o">=</span> <span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.wired.com/video/sitemap.xml&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">wired_video</span>
 <span class="go">                                                                                  loc                                                                                                                                                                                         video_thumbnail_loc                                         video_title                                                                                                                             video_description                                                                                          video_content_loc  video_duration       video_publication_date                                   sitemap                                   etag         sitemap_size_mb                         download_date</span>
@@ -475,8 +396,8 @@ has a tag with multiple values.</p>
 </pre></div>
 </div>
 <dl class="py function">
-<dt id="advertools.sitemaps.sitemap_to_df">
-<code class="sig-name descname">sitemap_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sitemap_url</span></em>, <em class="sig-param"><span class="n">max_workers</span><span class="o">=</span><span class="default_value">8</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.sitemaps.sitemap_to_df">
+<span class="sig-name descname"><span class="pre">sitemap_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sitemap_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieve all URLs and other available tags of a sitemap(s) and put them in
 a DataFrame.</p>
 <p>You can also pass the URL of a sitemap index, or a link to a robots.txt
@@ -510,55 +431,57 @@ sitemaps).</p>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="advertools.spider.html" class="btn btn-neutral float-right" title="🕷 Python SEO Crawler / Spider" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="advertools.robotstxt.html" class="btn btn-neutral float-left" title="🤖 Analyze and Test robots.txt Files on a Large Scale" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.spider.html" class="btn btn-neutral float-right" title="🕷 Python SEO Crawler / Spider" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Elias Dabbas.
-
-    </p>
+    <p>&#169; Copyright 2021, Elias Dabbas.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

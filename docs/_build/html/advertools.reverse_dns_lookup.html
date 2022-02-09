@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reverse DNS Lookup in Bulk &mdash;  Python</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" href="advertools.serp.html" />
+    <link rel="prev" title="Log File Analysis (experimental)" href="advertools.logs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> advertools
+          </a>
+              <div class="version">
+                0.13.0.rc1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reverse DNS Lookup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Reverse DNS Lookup in Bulk</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/advertools.reverse_dns_lookup.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-advertools.reverse_dns_lookup">
+<span id="reverse-dns-lookup-in-bulk"></span><h1>Reverse DNS Lookup in Bulk<a class="headerlink" href="#module-advertools.reverse_dns_lookup" title="Permalink to this headline"></a></h1>
+<p id="reverse-dns-lookup">Getting the host name of a list of IP addresses can be useful in verifying
+the authenticity of those IP addresses. You typically want to do this as part
+of a <a class="reference internal" href="advertools.logs.html#logs"><span class="std std-ref">log file analysis</span></a> pipeline. In this case you have requests
+made to your server claiming to be of a certain user agent/bot name. Performing
+a <a class="reference internal" href="#advertools.reverse_dns_lookup.reverse_dns_lookup" title="advertools.reverse_dns_lookup.reverse_dns_lookup"><code class="xref py py-func docutils literal notranslate"><span class="pre">reverse_dns_lookup()</span></code></a> on those IP addresses, will get you the actual
+host name that they belong to.</p>
+<p>What the <a class="reference internal" href="#advertools.reverse_dns_lookup.reverse_dns_lookup" title="advertools.reverse_dns_lookup.reverse_dns_lookup"><code class="xref py py-func docutils literal notranslate"><span class="pre">reverse_dns_lookup()</span></code></a> function does, is simply like running the
+<cite>host</cite> command from the command line, but on a massive scale:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ host <span class="m">66</span>.249.80.0
+<span class="m">0</span>.80.249.66.in-addr.arpa domain name pointer google-proxy-66-249-80-0.google.com.
+</pre></div>
+</div>
+<p>Because you usually have a large number of duplicated IP addresses that you
+want to check, this function makes the process practical and efficient, in
+comparison to running the command thousands of times from the comand line.</p>
+<p>Running the function is very simple, you simply supply a list of the IP
+addresses that you have. Make sure to <strong>keep the duplicates</strong>, because the
+function does that for you, as well as provide counts and some statistics on
+the frequency of the IPs:</p>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ip_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;130.185.74.243&#39;</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="s1">&#39;31.56.96.51&#39;</span><span class="p">,</span> <span class="s1">&#39;5.211.97.39&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">reverse_dns_lookup</span><span class="p">(</span><span class="n">ip_list</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 9%" />
+<col style="width: 5%" />
+<col style="width: 7%" />
+<col style="width: 4%" />
+<col style="width: 7%" />
+<col style="width: 22%" />
+<col style="width: 18%" />
+<col style="width: 9%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>ip_address</p></th>
+<th class="head"><p>count</p></th>
+<th class="head"><p>cum_count</p></th>
+<th class="head"><p>perc</p></th>
+<th class="head"><p>cum_perc</p></th>
+<th class="head"><p>hostname</p></th>
+<th class="head"><p>aliaslist</p></th>
+<th class="head"><p>ipaddrlist</p></th>
+<th class="head"><p>errors</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>66.249.66.194</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>0.375</p></td>
+<td><p>0.375</p></td>
+<td><p>crawl-66-249-66-194.googlebot.com</p></td>
+<td><p>194.66.249.66.in-addr.arpa</p></td>
+<td><p>66.249.66.194</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>66.249.66.91</p></td>
+<td><p>2</p></td>
+<td><p>5</p></td>
+<td><p>0.25</p></td>
+<td><p>0.625</p></td>
+<td><p>crawl-66-249-66-91.googlebot.com</p></td>
+<td><p>91.66.249.66.in-addr.arpa</p></td>
+<td><p>66.249.66.91</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>130.185.74.243</p></td>
+<td><p>1</p></td>
+<td><p>6</p></td>
+<td><p>0.125</p></td>
+<td><p>0.75</p></td>
+<td><p>mail.garda.ir</p></td>
+<td><p>243.74.185.130.in-addr.arpa</p></td>
+<td><p>130.185.74.243</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>31.56.96.51</p></td>
+<td><p>1</p></td>
+<td><p>7</p></td>
+<td><p>0.125</p></td>
+<td><p>0.875</p></td>
+<td><p>31-56-96-51.shatel.ir</p></td>
+<td><p>51.96.56.31.in-addr.arpa</p></td>
+<td><p>31.56.96.51</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>5.211.97.39</p></td>
+<td><p>1</p></td>
+<td><p>8</p></td>
+<td><p>0.125</p></td>
+<td><p>1</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>[Errno 1] Unknown host</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>As you can see, in addition to getting hostnames, aliaslist, and ipaddrlist for
+the IPs you supplied, you also get counts (absolute and cumulative) as well as
+percentages (absolute and cumulative). This can give you a good overview of
+the relative importance of each IP, and can help focus attention on them as
+needed.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="advertools.reverse_dns_lookup.reverse_dns_lookup">
+<span class="sig-name descname"><span class="pre">reverse_dns_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/reverse_dns_lookup.html#reverse_dns_lookup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.reverse_dns_lookup.reverse_dns_lookup" title="Permalink to this definition"></a></dt>
+<dd><p>Return the hostname, aliaslist, and ipaddrlist for a list of IP
+addresses.</p>
+<p>This is mainly useful for a long list of typically duplicated IP adresses
+and helps in getting the information very fast. It is basically the
+equivalent of running the <cite>host</cite> command on the command line many times:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ host <span class="m">66</span>.249.80.0
+<span class="m">0</span>.80.249.66.in-addr.arpa domain name pointer google-proxy-66-249-80-0.google.com.
+</pre></div>
+</div>
+<p>You also get a simple report about the counts of the IPs to get an overview
+of the top ones:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ip_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;130.185.74.243&#39;</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="s1">&#39;31.56.96.51&#39;</span><span class="p">,</span> <span class="s1">&#39;5.211.97.39&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">reverse_dns_lookup</span><span class="p">([</span><span class="n">ip_list</span><span class="p">])</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 9%" />
+<col style="width: 5%" />
+<col style="width: 7%" />
+<col style="width: 4%" />
+<col style="width: 7%" />
+<col style="width: 22%" />
+<col style="width: 18%" />
+<col style="width: 9%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>ip_address</p></th>
+<th class="head"><p>count</p></th>
+<th class="head"><p>cum_count</p></th>
+<th class="head"><p>perc</p></th>
+<th class="head"><p>cum_perc</p></th>
+<th class="head"><p>hostname</p></th>
+<th class="head"><p>aliaslist</p></th>
+<th class="head"><p>ipaddrlist</p></th>
+<th class="head"><p>errors</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>66.249.66.194</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>0.375</p></td>
+<td><p>0.375</p></td>
+<td><p>crawl-66-249-66-194.googlebot.com</p></td>
+<td><p>194.66.249.66.in-addr.arpa</p></td>
+<td><p>66.249.66.194</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>66.249.66.91</p></td>
+<td><p>2</p></td>
+<td><p>5</p></td>
+<td><p>0.25</p></td>
+<td><p>0.625</p></td>
+<td><p>crawl-66-249-66-91.googlebot.com</p></td>
+<td><p>91.66.249.66.in-addr.arpa</p></td>
+<td><p>66.249.66.91</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>130.185.74.243</p></td>
+<td><p>1</p></td>
+<td><p>6</p></td>
+<td><p>0.125</p></td>
+<td><p>0.75</p></td>
+<td><p>mail.garda.ir</p></td>
+<td><p>243.74.185.130.in-addr.arpa</p></td>
+<td><p>130.185.74.243</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>31.56.96.51</p></td>
+<td><p>1</p></td>
+<td><p>7</p></td>
+<td><p>0.125</p></td>
+<td><p>0.875</p></td>
+<td><p>31-56-96-51.shatel.ir</p></td>
+<td><p>51.96.56.31.in-addr.arpa</p></td>
+<td><p>31.56.96.51</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>5.211.97.39</p></td>
+<td><p>1</p></td>
+<td><p>8</p></td>
+<td><p>0.125</p></td>
+<td><p>1</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>[Errno 1] Unknown host</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ip_list</strong> (<em>list</em>) -- a list of IP addresses.</p></li>
+<li><p><strong>max_workers</strong> (<em>int</em>) -- The maximum number of workers to use for multi
+processing.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="advertools.logs.html" class="btn btn-neutral float-left" title="Log File Analysis (experimental)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.serp.html" class="btn btn-neutral float-right" title="Import Search Engine Results Pages (SERPs) for Google and YouTube" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elias Dabbas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

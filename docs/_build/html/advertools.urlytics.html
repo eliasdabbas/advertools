@@ -1,74 +1,45 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Split, Parse, and Analyze URL Structure &mdash;  Python</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Emoji: Extract, Analyze, and Get Insights" href="advertools.emoji.html" />
     <link rel="prev" title="Import and Analyze Knowledge Graph Results on a Large Scale" href="advertools.knowledge_graph.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> advertools
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                0.12.0
+                0.13.0.rc1
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -76,39 +47,30 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEM</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEO</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">URL Structure Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#query-parameters">Query Parameters</a></li>
@@ -121,83 +83,42 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Social Media</span></p>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">advertools</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Split, Parse, and Analyze URL Structure</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/advertools.urlytics.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <span class="target" id="module-advertools.urlytics"></span><div class="section" id="split-parse-and-analyze-url-structure">
-<span id="urlytics"></span><h1>Split, Parse, and Analyze URL Structure<a class="headerlink" href="#split-parse-and-analyze-url-structure" title="Permalink to this headline">¶</a></h1>
+             
+  <span class="target" id="module-advertools.urlytics"></span><section id="split-parse-and-analyze-url-structure">
+<span id="urlytics"></span><h1>Split, Parse, and Analyze URL Structure<a class="headerlink" href="#split-parse-and-analyze-url-structure" title="Permalink to this headline"></a></h1>
 <p>Extracting information from URLs can be a little tedious, yet very important.
 Using the standard for URLs we can extract a lot of information in a fairly
 structured manner.</p>
@@ -360,15 +281,15 @@ unusual, but it happens.</p></li>
 <li><p><strong>hostname and port</strong>: If available a column for ports will be shown, and if
 the hostname is different from <cite>netloc</cite> it would also have its own column.</p></li>
 </ul>
-<div class="section" id="query-parameters">
-<h2>Query Parameters<a class="headerlink" href="#query-parameters" title="Permalink to this headline">¶</a></h2>
+<section id="query-parameters">
+<h2>Query Parameters<a class="headerlink" href="#query-parameters" title="Permalink to this headline"></a></h2>
 <p>The great thing about parameters is that the names are descriptive (mostly!)
 and once given a certain column you can easily understand what data they
 contain. Once this is done, you can sort the products by price, filter by
 destination, get the red and blue items, and so on.</p>
-</div>
-<div class="section" id="the-url-path-directories">
-<h2>The URL Path (Directories):<a class="headerlink" href="#the-url-path-directories" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="the-url-path-directories">
+<h2>The URL Path (Directories):<a class="headerlink" href="#the-url-path-directories" title="Permalink to this headline"></a></h2>
 <p>Here things are not as straightforward, and there is no way to know what the
 first or second directory is supposed to indicate. In general, I can think of
 three main situations that you can encounter while analyzing directories.</p>
@@ -417,8 +338,8 @@ for community content for example.</p>
 of equal length across the dataset, having the right data in the right columns
 and <cite>NA</cite> otherwise. Or, splitting the dataset and analyzing separately.</p>
 <dl class="py function">
-<dt id="advertools.urlytics.url_to_df">
-<code class="sig-name descname">url_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">urls</span></em>, <em class="sig-param"><span class="n">decode</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/urlytics.html#url_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.urlytics.url_to_df" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.urlytics.url_to_df">
+<span class="sig-name descname"><span class="pre">url_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/urlytics.html#url_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.urlytics.url_to_df" title="Permalink to this definition"></a></dt>
 <dd><p>Split the given URLs into their components to a DataFrame.</p>
 <p>Each column will have its own component, and query parameters and
 directories will also be parsed and given special columns each.</p>
@@ -435,55 +356,57 @@ directories will also be parsed and given special columns each.</p>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="advertools.emoji.html" class="btn btn-neutral float-right" title="Emoji: Extract, Analyze, and Get Insights" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="advertools.knowledge_graph.html" class="btn btn-neutral float-left" title="Import and Analyze Knowledge Graph Results on a Large Scale" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.emoji.html" class="btn btn-neutral float-right" title="Emoji: Extract, Analyze, and Get Insights" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Elias Dabbas.
-
-    </p>
+    <p>&#169; Copyright 2021, Elias Dabbas.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

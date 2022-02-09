@@ -1,75 +1,46 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  <meta content="Retrieve Twitter API data with a set of Python functions. Get Multiple results on a large scale and in a single pandas DataFrame." lang="en" name="description" xml:lang="en" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Retrieve Twitter API data with a set of Python functions. Get Multiple results on a large scale and in a single pandas DataFrame." lang="en" name="description" xml:lang="en" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Twitter Data API &mdash;  Python</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="YouTube Data API" href="advertools.youtube.html" />
     <link rel="prev" title="Tokenize Words (N-grams)" href="advertools.word_tokenize.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> advertools
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                0.12.0
+                0.13.0.rc1
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -77,39 +48,30 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEM</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEO</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
@@ -118,7 +80,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Social Media</span></p>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Twitter Data API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#authentication">Authentication</a></li>
@@ -127,78 +89,37 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">advertools</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Twitter Data API</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/advertools.twitter.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <span class="target" id="module-advertools.twitter"></span><div class="section" id="twitter-data-api">
-<span id="twitter"></span><h1>Twitter Data API<a class="headerlink" href="#twitter-data-api" title="Permalink to this headline">¶</a></h1>
+             
+  <span class="target" id="module-advertools.twitter"></span><section id="twitter-data-api">
+<span id="twitter"></span><h1>Twitter Data API<a class="headerlink" href="#twitter-data-api" title="Permalink to this headline"></a></h1>
 <p>Easily connect to the Twitter API and start your analysis immediately.</p>
 <p>Main Features:</p>
 <p>1 <strong>Get the results in a DataFrame</strong>: With the exception of three functions
@@ -220,8 +141,8 @@ influential/credible they are.</p>
 <p>4 <strong>Documentation</strong>: All available parameters are included in the function
 signatures, to make it easier to explore interactively, as well as
 descriptions of the parameters imported from the Twitter documentation.</p>
-<div class="section" id="authentication">
-<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h2>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline"></a></h2>
 <p>Before starting you will have to create an app through
 <a class="reference external" href="https://developer.twitter.com/">developer.twitter.com</a>, and then you can get
 your authentication keys from your dashboard. Then you can authenticate as
@@ -246,18 +167,18 @@ will get tweets that are 140 characters long.</p>
 <p>When you have tweets and user data in the DataFrame, the column names would be
 prepended with <code class="docutils literal notranslate"><span class="pre">tweet_</span></code> and <code class="docutils literal notranslate"><span class="pre">user_</span></code> to make it clear what the data belong
 to.</p>
-</div>
-<div class="section" id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h2>
 <dl class="py function">
-<dt id="advertools.twitter.authenticate">
-<code class="sig-name descname">authenticate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#authenticate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.authenticate" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.authenticate">
+<span class="sig-name descname"><span class="pre">authenticate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#authenticate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.authenticate" title="Permalink to this definition"></a></dt>
 <dd><p>Used internally, please use set_auth_params for authentication.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_application_rate_limit_status">
-<code class="sig-name descname">get_application_rate_limit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">consumed_only</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_application_rate_limit_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_application_rate_limit_status" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_application_rate_limit_status">
+<span class="sig-name descname"><span class="pre">get_application_rate_limit_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">consumed_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_application_rate_limit_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_application_rate_limit_status" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns the current rate limits for methods belonging to the</dt><dd><p>specified resource families.</p>
 </dd>
@@ -272,15 +193,15 @@ have been consumed. Otherwise returns the full list.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_available_trends">
-<code class="sig-name descname">get_available_trends</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_available_trends"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_available_trends" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_available_trends">
+<span class="sig-name descname"><span class="pre">get_available_trends</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_available_trends"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_available_trends" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the locations that Twitter has trending topic information for.</p>
 <p><a class="reference external" href="https://developer.twitter.com/en/docs/trends/locations-with-trending-topics/api-reference/get-trends-available">https://developer.twitter.com/en/docs/trends/locations-with-trending-topics/api-reference/get-trends-available</a></p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_favorites">
-<code class="sig-name descname">get_favorites</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">since_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_entities</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tweet_mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_favorites"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_favorites" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_favorites">
+<span class="sig-name descname"><span class="pre">get_favorites</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_favorites"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_favorites" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns the 20 most recent Tweets favorited by the authenticating</dt><dd><p>or specified user.</p>
 </dd>
@@ -312,8 +233,8 @@ Tweets that contain over 140 characters</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_followers_ids">
-<code class="sig-name descname">get_followers_ids</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cursor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stringify_ids</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_followers_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_followers_ids" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_followers_ids">
+<span class="sig-name descname"><span class="pre">get_followers_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stringify_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_followers_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_followers_ids" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns a cursored collection of user IDs for every user</dt><dd><p>following the specified user.</p>
 </dd>
@@ -343,8 +264,8 @@ returned as strings instead. More about Twitter IDs.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_followers_list">
-<code class="sig-name descname">get_followers_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cursor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">skip_status</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_user_entities</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_followers_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_followers_list" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_followers_list">
+<span class="sig-name descname"><span class="pre">get_followers_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_user_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_followers_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_followers_list" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns a cursored collection of user objects for users</dt><dd><p>following the specified user.</p>
 </dd>
@@ -374,8 +295,8 @@ node will not be included when set to False.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_friends_ids">
-<code class="sig-name descname">get_friends_ids</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cursor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stringify_ids</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_friends_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_friends_ids" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_friends_ids">
+<span class="sig-name descname"><span class="pre">get_friends_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stringify_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_friends_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_friends_ids" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns a cursored collection of user IDs for every user the</dt><dd><p>specified user is following (otherwise known as their &quot;friends&quot;).</p>
 </dd>
@@ -405,8 +326,8 @@ returned as strings instead. More about Twitter IDs.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_friends_list">
-<code class="sig-name descname">get_friends_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cursor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">skip_status</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_user_entities</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_friends_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_friends_list" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_friends_list">
+<span class="sig-name descname"><span class="pre">get_friends_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_user_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_friends_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_friends_list" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns a cursored collection of user objects for every user the</dt><dd><p>specified user is following (otherwise known as their &quot;friends&quot;).</p>
 </dd>
@@ -435,8 +356,8 @@ node will not be included when set to False.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_home_timeline">
-<code class="sig-name descname">get_home_timeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">since_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trim_user</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">exclude_replies</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_entities</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tweet_mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_home_timeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_home_timeline" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_home_timeline">
+<span class="sig-name descname"><span class="pre">get_home_timeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_replies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_home_timeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_home_timeline" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns a collection of the most recent Tweets and retweets</dt><dd><p>posted by the authenticating user and the users they follow.</p>
 </dd>
@@ -472,8 +393,8 @@ Tweets that contain over 140 characters</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_list_members">
-<code class="sig-name descname">get_list_members</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">slug</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">owner_screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">owner_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cursor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_entities</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">skip_status</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_members"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_list_members" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_list_members">
+<span class="sig-name descname"><span class="pre">get_list_members</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_members"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_list_members" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the members of the specified list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -504,8 +425,8 @@ included in the returned user objects.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_list_memberships">
-<code class="sig-name descname">get_list_memberships</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cursor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filter_to_owned_lists</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_memberships"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_list_memberships" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_list_memberships">
+<span class="sig-name descname"><span class="pre">get_list_memberships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_to_owned_lists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_memberships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_list_memberships" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the lists the specified user has been added to.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -532,8 +453,8 @@ screen_name is a member of.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_list_statuses">
-<code class="sig-name descname">get_list_statuses</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">slug</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">owner_screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">owner_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">since_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_entities</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_rts</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tweet_mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_statuses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_list_statuses" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_list_statuses">
+<span class="sig-name descname"><span class="pre">get_list_statuses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_rts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_statuses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_list_statuses" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a timeline of tweets authored by members of the specified list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -573,8 +494,8 @@ Tweets that contain over 140 characters</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_list_subscribers">
-<code class="sig-name descname">get_list_subscribers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">slug</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">owner_screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">owner_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cursor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_entities</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">skip_status</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_subscribers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_list_subscribers" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_list_subscribers">
+<span class="sig-name descname"><span class="pre">get_list_subscribers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_subscribers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_list_subscribers" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the subscribers of the specified list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -608,8 +529,8 @@ included in the returned user objects.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_list_subscriptions">
-<code class="sig-name descname">get_list_subscriptions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cursor</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_subscriptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_list_subscriptions" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_list_subscriptions">
+<span class="sig-name descname"><span class="pre">get_list_subscriptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_list_subscriptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_list_subscriptions" title="Permalink to this definition"></a></dt>
 <dd><p>Obtain a collection of the lists the specified user is subscribed to.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -633,8 +554,8 @@ Cursoring for more information.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_mentions_timeline">
-<code class="sig-name descname">get_mentions_timeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">since_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trim_user</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_entities</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tweet_mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_mentions_timeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_mentions_timeline" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_mentions_timeline">
+<span class="sig-name descname"><span class="pre">get_mentions_timeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_mentions_timeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_mentions_timeline" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns the 20 most recent mentions (tweets containing a users's</dt><dd><p>&#64;screen_name) for the authenticating user.</p>
 </dd>
@@ -665,8 +586,8 @@ Tweets that contain over 140 characters</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_place_trends">
-<code class="sig-name descname">get_place_trends</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ids</span></em>, <em class="sig-param"><span class="n">exclude</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_place_trends"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_place_trends" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_place_trends">
+<span class="sig-name descname"><span class="pre">get_place_trends</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_place_trends"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_place_trends" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns the top 10 trending topics for a specific WOEID, if</dt><dd><p>trending information is available for it.</p>
 </dd>
@@ -688,8 +609,8 @@ all hashtags from the trends list.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_retweeters_ids">
-<code class="sig-name descname">get_retweeters_ids</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cursor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stringify_ids</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_retweeters_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_retweeters_ids" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_retweeters_ids">
+<span class="sig-name descname"><span class="pre">get_retweeters_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stringify_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_retweeters_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_retweeters_ids" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns a collection of up to 100 user IDs belonging to users who</dt><dd><p>have retweeted the tweet specified by the <code class="docutils literal notranslate"><span class="pre">id</span></code> parameter.
 It's better to use get_retweets because passing a count &gt; 100
@@ -722,8 +643,8 @@ returned as strings instead.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_retweets">
-<code class="sig-name descname">get_retweets</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em>, <em class="sig-param"><span class="n">trim_user</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tweet_mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_retweets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_retweets" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_retweets">
+<span class="sig-name descname"><span class="pre">get_retweets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_retweets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_retweets" title="Permalink to this definition"></a></dt>
 <dd><p>Returns up to 100 of the first retweets of a given tweet.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -742,8 +663,8 @@ Tweets that contain over 140 characters</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_supported_languages">
-<code class="sig-name descname">get_supported_languages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_supported_languages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_supported_languages" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_supported_languages">
+<span class="sig-name descname"><span class="pre">get_supported_languages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_supported_languages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_supported_languages" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns the list of languages supported by Twitter along with</dt><dd><p>their ISO 639-1 code.</p>
 </dd>
@@ -752,8 +673,8 @@ Tweets that contain over 140 characters</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.get_user_timeline">
-<code class="sig-name descname">get_user_timeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">since_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trim_user</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">exclude_replies</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_rts</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tweet_mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_user_timeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.get_user_timeline" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.get_user_timeline">
+<span class="sig-name descname"><span class="pre">get_user_timeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_replies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_rts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#get_user_timeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.get_user_timeline" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns a collection of the most recent Tweets posted by the user</dt><dd><p>indicated by the <code class="docutils literal notranslate"><span class="pre">screen_name</span></code> or <code class="docutils literal notranslate"><span class="pre">user_id</span></code> parameters.</p>
 </dd>
@@ -795,8 +716,8 @@ Tweets that contain over 140 characters</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.lookup_status">
-<code class="sig-name descname">lookup_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em>, <em class="sig-param"><span class="n">include_entities</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trim_user</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">map</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_ext_alt_text</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_card_uri</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tweet_mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#lookup_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.lookup_status" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.lookup_status">
+<span class="sig-name descname"><span class="pre">lookup_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_ext_alt_text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_card_uri</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#lookup_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.lookup_status" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns fully-hydrated tweet objects for up to 100 tweets per</dt><dd><p>request, as specified by comma-separated values passed to the <code class="docutils literal notranslate"><span class="pre">id</span></code>
 parameter.</p>
@@ -832,8 +753,8 @@ Tweets that contain over 140 characters</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.lookup_user">
-<code class="sig-name descname">lookup_user</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">user_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_entities</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tweet_mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#lookup_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.lookup_user" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.lookup_user">
+<span class="sig-name descname"><span class="pre">lookup_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#lookup_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.lookup_user" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns fully-hydrated user objects for up to 100 users per request,</dt><dd><p>as specified by comma-separated values passed to the <code class="docutils literal notranslate"><span class="pre">user_id</span></code> and/or
 <code class="docutils literal notranslate"><span class="pre">screen_name</span></code> parameters.</p>
@@ -860,13 +781,13 @@ Tweets that contain over 140 characters</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.make_dataframe">
-<code class="sig-name descname">make_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#make_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.make_dataframe" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.make_dataframe">
+<span class="sig-name descname"><span class="pre">make_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#make_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.make_dataframe" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.retweeted_of_me">
-<code class="sig-name descname">retweeted_of_me</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">since_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trim_user</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_entities</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_user_entities</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tweet_mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#retweeted_of_me"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.retweeted_of_me" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.retweeted_of_me">
+<span class="sig-name descname"><span class="pre">retweeted_of_me</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_user_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#retweeted_of_me"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.retweeted_of_me" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns the most recent tweets authored by the authenticating user</dt><dd><p>that have been retweeted by others.</p>
 </dd>
@@ -899,8 +820,8 @@ Tweets that contain over 140 characters</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.search">
-<code class="sig-name descname">search</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">geocode</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">locale</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">result_type</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">until</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">since_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_entities</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tweet_mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.search" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.search">
+<span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geocode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">until</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.search" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a collection of relevant Tweets matching a specified query.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1047,8 +968,8 @@ positive attitude.</p></td>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.search_users">
-<code class="sig-name descname">search_users</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">page</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_entities</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#search_users"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.search_users" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.search_users">
+<span class="sig-name descname"><span class="pre">search_users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#search_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.search_users" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Provides a simple, relevance-based search interface to public user</dt><dd><p>accounts on Twitter.</p>
 </dd>
@@ -1068,8 +989,8 @@ included in embedded Tweet objects when set to False .</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.set_auth_params">
-<code class="sig-name descname">set_auth_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">app_key</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">app_secret</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">oauth_token</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">oauth_token_secret</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">access_token</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">token_type</span><span class="o">=</span><span class="default_value">'bearer'</span></em>, <em class="sig-param"><span class="n">oauth_version</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">api_version</span><span class="o">=</span><span class="default_value">'1.1'</span></em>, <em class="sig-param"><span class="n">client_args</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auth_endpoint</span><span class="o">=</span><span class="default_value">'authenticate'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#set_auth_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.set_auth_params" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.set_auth_params">
+<span class="sig-name descname"><span class="pre">set_auth_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth_token_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bearer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth_version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_endpoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'authenticate'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#set_auth_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.set_auth_params" title="Permalink to this definition"></a></dt>
 <dd><p>The main function for authentication. 
 Needs to be called once in a session.</p>
 <p>First you need to create a developer account and app:
@@ -1079,8 +1000,8 @@ Needs to be called once in a session.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.show_lists">
-<code class="sig-name descname">show_lists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">reverse</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#show_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.show_lists" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.show_lists">
+<span class="sig-name descname"><span class="pre">show_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#show_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.show_lists" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Returns all lists the authenticating or specified user subscribes to,</dt><dd><p>including their own.</p>
 </dd>
@@ -1105,8 +1026,8 @@ parameter works.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.twitter.show_owned_lists">
-<code class="sig-name descname">show_owned_lists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">screen_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cursor</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#show_owned_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.twitter.show_owned_lists" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.twitter.show_owned_lists">
+<span class="sig-name descname"><span class="pre">show_owned_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/twitter.html#show_owned_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.twitter.show_owned_lists" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the lists owned by the specified Twitter user.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1129,55 +1050,57 @@ Cursoring for more information.</p></li>
 <p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships">https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships</a></p>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="advertools.youtube.html" class="btn btn-neutral float-right" title="YouTube Data API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="advertools.word_tokenize.html" class="btn btn-neutral float-left" title="Tokenize Words (N-grams)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.youtube.html" class="btn btn-neutral float-right" title="YouTube Data API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Elias Dabbas.
-
-    </p>
+    <p>&#169; Copyright 2021, Elias Dabbas.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

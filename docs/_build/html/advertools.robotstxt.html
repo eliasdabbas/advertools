@@ -1,74 +1,45 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>🤖 Analyze and Test robots.txt Files on a Large Scale &mdash;  Python</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Download, Parse, and Analyze XML Sitemaps" href="advertools.sitemaps.html" />
     <link rel="prev" title="Create Ads Using Long Descriptive Text (top-down approach)" href="advertools.ad_from_string.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> advertools
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                0.12.0
+                0.13.0.rc1
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -76,28 +47,17 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEM</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEO</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">robots.txt</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#user-agents">User-agents</a></li>
@@ -107,12 +67,14 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
@@ -121,83 +83,42 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Social Media</span></p>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">advertools</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>🤖 Analyze and Test robots.txt Files on a Large Scale</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/advertools.robotstxt.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <span class="target" id="module-advertools.robotstxt"></span><div class="section" id="analyze-and-test-robots-txt-files-on-a-large-scale">
-<span id="robotstxt"></span><h1>🤖 Analyze and Test robots.txt Files on a Large Scale<a class="headerlink" href="#analyze-and-test-robots-txt-files-on-a-large-scale" title="Permalink to this headline">¶</a></h1>
+             
+  <span class="target" id="module-advertools.robotstxt"></span><section id="analyze-and-test-robots-txt-files-on-a-large-scale">
+<span id="robotstxt"></span><h1>🤖 Analyze and Test robots.txt Files on a Large Scale<a class="headerlink" href="#analyze-and-test-robots-txt-files-on-a-large-scale" title="Permalink to this headline"></a></h1>
 <p>Even though they are tiny in size, robots.txt files contain potent instructions
 that can block major sections of your site, which is what they are supposed to
 do. Only sometimes you might make the mistake of blocking the wrong section.</p>
@@ -275,8 +196,8 @@ rules for different user-agents.</p></li>
 <li><p>Developer or site owner about to make large changes</p></li>
 <li><p>Interest in strategies of certain companies</p></li>
 </ul>
-<div class="section" id="user-agents">
-<h2>User-agents<a class="headerlink" href="#user-agents" title="Permalink to this headline">¶</a></h2>
+<section id="user-agents">
+<h2>User-agents<a class="headerlink" href="#user-agents" title="Permalink to this headline"></a></h2>
 <p>In reality there are only two groups of user-agents that you need to worry
 about:</p>
 <ul class="simple">
@@ -286,9 +207,9 @@ check whether or not they are blocked from fetching a certain URL
 <li><p><code class="docutils literal notranslate"><span class="pre">*</span></code> all other user-agents: The <code class="docutils literal notranslate"><span class="pre">*</span></code> includes all other user-agents, so
 checking the rules that apply to it should take care of the rest.</p></li>
 </ul>
-</div>
-<div class="section" id="robots-txt-testing-approach">
-<h2>robots.txt Testing Approach<a class="headerlink" href="#robots-txt-testing-approach" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="robots-txt-testing-approach">
+<h2>robots.txt Testing Approach<a class="headerlink" href="#robots-txt-testing-approach" title="Permalink to this headline"></a></h2>
 <ol class="arabic simple">
 <li><p>Get the robots.txt file that you are interested in</p></li>
 <li><p>Extract the user-agents from it</p></li>
@@ -393,8 +314,8 @@ results. You can immediately see that all user-agents not listed (denoted by
 <p>I'll leave it to you to figure out why LinkedIn and Pinterest are not allowed
 to crawl the home page but Google and Apple are, because I have no clue!</p>
 <dl class="py function">
-<dt id="advertools.robotstxt.robotstxt_test">
-<code class="sig-name descname">robotstxt_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">robotstxt_url</span></em>, <em class="sig-param"><span class="n">user_agents</span></em>, <em class="sig-param"><span class="n">urls</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_test" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.robotstxt.robotstxt_test">
+<span class="sig-name descname"><span class="pre">robotstxt_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robotstxt_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_test" title="Permalink to this definition"></a></dt>
 <dd><p>Given a <code class="xref py py-attr docutils literal notranslate"><span class="pre">robotstxt_url</span></code> check which of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">user_agents</span></code> is
 allowed to fetch which of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">urls</span></code>.</p>
 <p>All the combinations of <code class="xref py py-attr docutils literal notranslate"><span class="pre">user_agents</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">urls</span></code> will be
@@ -432,8 +353,8 @@ check</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="advertools.robotstxt.robotstxt_to_df">
-<code class="sig-name descname">robotstxt_to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">robotstxt_url</span></em>, <em class="sig-param"><span class="n">output_file</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_to_df" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="advertools.robotstxt.robotstxt_to_df">
+<span class="sig-name descname"><span class="pre">robotstxt_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robotstxt_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_to_df" title="Permalink to this definition"></a></dt>
 <dd><p>Download the contents of <code class="docutils literal notranslate"><span class="pre">robotstxt_url</span></code> into a DataFrame</p>
 <p>You can also use it to download multiple robots files by passing a list of
 URLs.</p>
@@ -491,55 +412,57 @@ content, the URL and time of download</p>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="advertools.sitemaps.html" class="btn btn-neutral float-right" title="Download, Parse, and Analyze XML Sitemaps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="advertools.ad_from_string.html" class="btn btn-neutral float-left" title="Create Ads Using Long Descriptive Text (top-down approach)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.sitemaps.html" class="btn btn-neutral float-right" title="Download, Parse, and Analyze XML Sitemaps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Elias Dabbas.
-
-    </p>
+    <p>&#169; Copyright 2021, Elias Dabbas.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

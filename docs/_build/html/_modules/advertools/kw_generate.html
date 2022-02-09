@@ -1,72 +1,42 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>advertools.kw_generate &mdash;  Python</title>
-  
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx-thebe.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="../../_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../../index.html" class="icon icon-home"> advertools
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                0.12.0
+                0.13.0.rc1
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -74,39 +44,30 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../readme.html">About advertools</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEM</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.kw_generate.html">Generate SEM Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
 </ul>
-<p class="caption"><span class="caption-text">SEO</span></p>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.robotstxt.html">robots.txt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis (experimental)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.urlytics.html">URL Structure Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
@@ -115,79 +76,40 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Social Media</span></p>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data API</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Index &amp; Change Log</span></p>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">advertools</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../index.html">Module code</a> &raquo;</li>
-        
       <li>advertools.kw_generate</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for advertools.kw_generate</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">.. _kw_generate:</span>
@@ -246,24 +168,38 @@
 <span class="sd">possible combinations (order doesn&#39;t matter) and/or permutations (order</span>
 <span class="sd">matters) and get a ready-to-use table to upload and start running the campaign.</span>
 
-<span class="sd">&gt;&gt;&gt; products = [&#39;enginering&#39;, &#39;graphic design&#39;, &#39;marketing&#39;]</span>
-<span class="sd">&gt;&gt;&gt; words = [&#39;jobs&#39;, &#39;careers&#39;, &#39;vacancies&#39;, &#39;full time&#39;, &#39;part time&#39;]</span>
-<span class="sd">&gt;&gt;&gt; adv.kw_generate(products, words)</span>
-<span class="sd">         Campaign    Ad Group                             Keyword    Criterion Type               Labels</span>
-<span class="sd">0    SEM_Campaign  Enginering                     enginering jobs             Exact                 Jobs</span>
-<span class="sd">1    SEM_Campaign  Enginering                     enginering jobs            Phrase                 Jobs</span>
-<span class="sd">2    SEM_Campaign  Enginering                   +enginering +jobs             Broad                 Jobs</span>
-<span class="sd">3    SEM_Campaign  Enginering                  enginering careers             Exact              Careers</span>
-<span class="sd">4    SEM_Campaign  Enginering                  enginering careers            Phrase              Careers</span>
-<span class="sd">..            ...         ...                                 ...              ...                  ...</span>
-<span class="sd">625  SEM_Campaign   Marketing       part time vacancies marketing            Phrase   Part Time;Vacancies</span>
-<span class="sd">626  SEM_Campaign   Marketing   +part +time +vacancies +marketing             Broad   Part Time;Vacancies</span>
-<span class="sd">627  SEM_Campaign   Marketing       part time full time marketing             Exact   Part Time;Full Time</span>
-<span class="sd">628  SEM_Campaign   Marketing       part time full time marketing            Phrase   Part Time;Full Time</span>
-<span class="sd">629  SEM_Campaign   Marketing  +part +time +full +time +marketing             Broad   Part Time;Full Time</span>
-<span class="sd">[630 rows x 5 columns]</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
 
-<span class="sd">And we&#39;re done!</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    import advertools as adv</span>
+<span class="sd">    </span>
+<span class="sd">    products = [&#39;enginering&#39;, &#39;graphic design&#39;, &#39;marketing&#39;]</span>
+<span class="sd">    words = [&#39;jobs&#39;, &#39;careers&#39;, &#39;vacancies&#39;, &#39;full time&#39;, &#39;part time&#39;]</span>
+<span class="sd">    </span>
+<span class="sd">    kw_df = adv.kw_generate(products, words)</span>
+<span class="sd">    kw_df</span>
+
+
+<span class="sd">.. code-block::</span>
+
+<span class="sd">             Campaign    Ad Group                             Keyword    Criterion Type               Labels</span>
+<span class="sd">    0    SEM_Campaign  Enginering                     enginering jobs             Exact                 Jobs</span>
+<span class="sd">    1    SEM_Campaign  Enginering                     enginering jobs            Phrase                 Jobs</span>
+<span class="sd">    2    SEM_Campaign  Enginering                   +enginering +jobs             Broad                 Jobs</span>
+<span class="sd">    3    SEM_Campaign  Enginering                  enginering careers             Exact              Careers</span>
+<span class="sd">    4    SEM_Campaign  Enginering                  enginering careers            Phrase              Careers</span>
+<span class="sd">    ..            ...         ...                                 ...              ...                  ...</span>
+<span class="sd">    625  SEM_Campaign   Marketing       part time vacancies marketing            Phrase   Part Time;Vacancies</span>
+<span class="sd">    626  SEM_Campaign   Marketing   +part +time +vacancies +marketing             Broad   Part Time;Vacancies</span>
+<span class="sd">    627  SEM_Campaign   Marketing       part time full time marketing             Exact   Part Time;Full Time</span>
+<span class="sd">    628  SEM_Campaign   Marketing       part time full time marketing            Phrase   Part Time;Full Time</span>
+<span class="sd">    629  SEM_Campaign   Marketing  +part +time +full +time +marketing             Broad   Part Time;Full Time</span>
+<span class="sd">    [630 rows x 5 columns]</span>
+
 
 <span class="sd">Check the :func:`kw_generate` function for more options and details.</span>
 <span class="sd">Once you have your keywords done, you can start creating ads using either the</span>
@@ -275,7 +211,7 @@
            <span class="s1">&#39;kw_phrase&#39;</span><span class="p">]</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">permutations</span><span class="p">,</span> <span class="n">combinations</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span><span class="p">,</span> <span class="n">permutations</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
@@ -460,46 +396,30 @@
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Elias Dabbas.
-
-    </p>
+    <p>&#169; Copyright 2021, Elias Dabbas.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

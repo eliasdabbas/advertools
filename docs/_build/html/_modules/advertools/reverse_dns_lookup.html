@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>advertools.reverse_dns_lookup &mdash;  Python</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx-thebe.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="../../_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> advertools
+          </a>
+              <div class="version">
+                0.13.0.rc1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">About advertools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis (experimental)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">advertools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>advertools.reverse_dns_lookup</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for advertools.reverse_dns_lookup</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. _reverse_dns_lookup:</span>
+
+
+<span class="sd">Getting the host name of a list of IP addresses can be useful in verifying</span>
+<span class="sd">the authenticity of those IP addresses. You typically want to do this as part</span>
+<span class="sd">of a :ref:`log file analysis &lt;logs&gt;` pipeline. In this case you have requests</span>
+<span class="sd">made to your server claiming to be of a certain user agent/bot name. Performing</span>
+<span class="sd">a :func:`reverse_dns_lookup` on those IP addresses, will get you the actual</span>
+<span class="sd">host name that they belong to.</span>
+
+<span class="sd">What the :func:`reverse_dns_lookup` function does, is simply like running the</span>
+<span class="sd">`host` command from the command line, but on a massive scale:</span>
+
+<span class="sd">.. code-block:: bash</span>
+
+<span class="sd">    $ host 66.249.80.0</span>
+<span class="sd">    0.80.249.66.in-addr.arpa domain name pointer google-proxy-66-249-80-0.google.com.</span>
+
+
+<span class="sd">Because you usually have a large number of duplicated IP addresses that you</span>
+<span class="sd">want to check, this function makes the process practical and efficient, in</span>
+<span class="sd">comparison to running the command thousands of times from the comand line.</span>
+
+<span class="sd">Running the function is very simple, you simply supply a list of the IP</span>
+<span class="sd">addresses that you have. Make sure to **keep the duplicates**, because the</span>
+<span class="sd">function does that for you, as well as provide counts and some statistics on</span>
+<span class="sd">the frequency of the IPs:</span>
+
+<span class="sd">    &gt;&gt;&gt; ip_list = [&#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;,</span>
+<span class="sd">    ...            &#39;66.249.66.91&#39;, &#39;66.249.66.91&#39;, &#39;130.185.74.243&#39;,</span>
+<span class="sd">    ...            &#39;31.56.96.51&#39;, &#39;5.211.97.39&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; adv.reverse_dns_lookup(ip_list)</span>
+
+<span class="sd">    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================</span>
+<span class="sd">      ..  ip_address        count    cum_count    perc    cum_perc  hostname                           aliaslist                    ipaddrlist      errors</span>
+<span class="sd">    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================</span>
+<span class="sd">       0  66.249.66.194         3            3   0.375       0.375  crawl-66-249-66-194.googlebot.com  194.66.249.66.in-addr.arpa   66.249.66.194</span>
+<span class="sd">       1  66.249.66.91          2            5   0.25        0.625  crawl-66-249-66-91.googlebot.com   91.66.249.66.in-addr.arpa    66.249.66.91</span>
+<span class="sd">       2  130.185.74.243        1            6   0.125       0.75   mail.garda.ir                      243.74.185.130.in-addr.arpa  130.185.74.243</span>
+<span class="sd">       3  31.56.96.51           1            7   0.125       0.875  31-56-96-51.shatel.ir              51.96.56.31.in-addr.arpa     31.56.96.51</span>
+<span class="sd">       4  5.211.97.39           1            8   0.125       1                                                                                      [Errno 1] Unknown host</span>
+<span class="sd">    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================</span>
+
+<span class="sd">As you can see, in addition to getting hostnames, aliaslist, and ipaddrlist for</span>
+<span class="sd">the IPs you supplied, you also get counts (absolute and cumulative) as well as</span>
+<span class="sd">percentages (absolute and cumulative). This can give you a good overview of</span>
+<span class="sd">the relative importance of each IP, and can help focus attention on them as</span>
+<span class="sd">needed.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">from</span> <span class="nn">concurrent</span> <span class="kn">import</span> <span class="n">futures</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">system</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_single_request</span><span class="p">(</span><span class="n">ip</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">hostname</span><span class="p">,</span> <span class="n">aliaslist</span><span class="p">,</span> <span class="n">ipaddrlist</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyaddr</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ip</span><span class="p">,</span> <span class="n">hostname</span><span class="p">,</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">aliaslist</span><span class="p">),</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ipaddrlist</span><span class="p">)]</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ip</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)]</span>
+
+
+<div class="viewcode-block" id="reverse_dns_lookup"><a class="viewcode-back" href="../../advertools.reverse_dns_lookup.html#advertools.reverse_dns_lookup.reverse_dns_lookup">[docs]</a><span class="k">def</span> <span class="nf">reverse_dns_lookup</span><span class="p">(</span><span class="n">ip_list</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the hostname, aliaslist, and ipaddrlist for a list of IP</span>
+<span class="sd">    addresses.</span>
+
+<span class="sd">    This is mainly useful for a long list of typically duplicated IP adresses</span>
+<span class="sd">    and helps in getting the information very fast. It is basically the</span>
+<span class="sd">    equivalent of running the `host` command on the command line many times:</span>
+
+<span class="sd">    .. code-block:: bash</span>
+
+<span class="sd">        $ host 66.249.80.0</span>
+<span class="sd">        0.80.249.66.in-addr.arpa domain name pointer google-proxy-66-249-80-0.google.com.</span>
+
+<span class="sd">    You also get a simple report about the counts of the IPs to get an overview</span>
+<span class="sd">    of the top ones:</span>
+
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; ip_list = [&#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;,</span>
+<span class="sd">    ...            &#39;66.249.66.91&#39;, &#39;66.249.66.91&#39;, &#39;130.185.74.243&#39;,</span>
+<span class="sd">    ...            &#39;31.56.96.51&#39;, &#39;5.211.97.39&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; adv.reverse_dns_lookup([ip_list])</span>
+
+<span class="sd">    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================</span>
+<span class="sd">      ..  ip_address        count    cum_count    perc    cum_perc  hostname                           aliaslist                    ipaddrlist      errors</span>
+<span class="sd">    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================</span>
+<span class="sd">       0  66.249.66.194         3            3   0.375       0.375  crawl-66-249-66-194.googlebot.com  194.66.249.66.in-addr.arpa   66.249.66.194</span>
+<span class="sd">       1  66.249.66.91          2            5   0.25        0.625  crawl-66-249-66-91.googlebot.com   91.66.249.66.in-addr.arpa    66.249.66.91</span>
+<span class="sd">       2  130.185.74.243        1            6   0.125       0.75   mail.garda.ir                      243.74.185.130.in-addr.arpa  130.185.74.243</span>
+<span class="sd">       3  31.56.96.51           1            7   0.125       0.875  31-56-96-51.shatel.ir              51.96.56.31.in-addr.arpa     31.56.96.51</span>
+<span class="sd">       4  5.211.97.39           1            8   0.125       1                                                                                      [Errno 1] Unknown host</span>
+<span class="sd">    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================</span>
+
+<span class="sd">    :param list ip_list: a list of IP addresses.</span>
+<span class="sd">    :param int max_workers: The maximum number of workers to use for multi</span>
+<span class="sd">                            processing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">socket</span><span class="o">.</span><span class="n">setdefaulttimeout</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;Windows&#39;</span><span class="p">:</span>
+        <span class="n">max_workers</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="n">max_workers</span><span class="p">)</span>
+    <span class="n">count_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ip_list</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">reset_index</span><span class="p">())</span>
+    <span class="n">count_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ip_address&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">]</span>
+    <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;cum_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;perc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;cum_perc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;perc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+
+    <span class="n">hosts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">ip</span><span class="p">,</span> <span class="n">host</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ip_list</span><span class="p">,</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_single_request</span><span class="p">,</span>
+                                                  <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;ip_address&#39;</span><span class="p">])):</span>
+            <span class="n">hosts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">hosts</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ip&#39;</span><span class="p">,</span> <span class="s1">&#39;hostname&#39;</span><span class="p">,</span> <span class="s1">&#39;aliaslist&#39;</span><span class="p">,</span>
+                                      <span class="s1">&#39;ipaddrlist&#39;</span><span class="p">,</span> <span class="s1">&#39;errors&#39;</span><span class="p">])</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">count_df</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;ip_address&#39;</span><span class="p">,</span>
+                        <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;ip&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;ip&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">final_df</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elias Dabbas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
