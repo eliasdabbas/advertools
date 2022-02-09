@@ -67,7 +67,7 @@ def _single_request(ip):
         return [ip, None, None, None, str(e)]
 
 
-def reverse_dns_lookup(ip_list, max_workers=60):
+def reverse_dns_lookup(ip_list, max_workers=160):
     """Return the hostname, aliaslist, and ipaddrlist for a list of IP
     addresses.
 
@@ -104,8 +104,6 @@ def reverse_dns_lookup(ip_list, max_workers=60):
                             processing.
     """
     socket.setdefaulttimeout(8)
-    if system == 'Windows':
-        max_workers = min(60, max_workers)
     count_df = (pd.Series(ip_list)
                 .value_counts()
                 .reset_index())
@@ -115,10 +113,15 @@ def reverse_dns_lookup(ip_list, max_workers=60):
     count_df['cum_perc'] = count_df['perc'].cumsum()
 
     hosts = []
-    with futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
-        for ip, host in zip(ip_list, executor.map(_single_request,
-                                                  count_df['ip_address'])):
-            hosts.append(host)
+    if system == 'Darwin':
+        with futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+            for ip, host in zip(ip_list, executor.map(_single_request,
+                                                      count_df['ip_address'])):
+                hosts.append(host)
+    else:
+        with futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+            for host in executor.map(_single_request, count_df['ip_address']):
+                hosts.append(host)
 
     df = pd.DataFrame(hosts, columns=['ip', 'hostname', 'aliaslist',
                                       'ipaddrlist', 'errors'])
