@@ -9,29 +9,50 @@ scale. For products in a similar category you typically want to use the same
 ads, but only replace the product name, "Get the latest <product> now", and
 replace `product` as many times as you have ads.
 
->>> products = ['Dubai', 'Tokyo', 'Singapore']
->>> adv.ad_create(template='5-star Hotels in {}',
-...               replacements=products,
-...               max_len=30,
-...               fallback='Great Cities')
-['5-star Hotels In Dubai',
- '5-star Hotels In Tokyo',
- '5-star Hotels In Singapore']
+.. thebe-button::
+    Run this code
+
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    import advertools as adv
+
+    products = ['Dubai', 'Tokyo', 'Singapore']
+    adv.ad_create(template='5-star Hotels in {}',
+                  replacements=products,
+                  max_len=30,
+                  fallback='Great Cities')
+
+.. code-block::
+
+    ['5-star Hotels In Dubai',
+    '5-star Hotels In Tokyo',
+    '5-star Hotels In Singapore']
 
 An important thing to to watch out for, is long product names. Since text ads
 have limits on each slot, you need to make sure you don't exceed that limit.
 For this you need to provide a `fallback` text in case the product name is
 longer than `max_len`.
 
->>> products = ['Dubai', 'Tokyo', 'Singapore', 'Llanfairpwllgwyngyll']
->>> adv.ad_create(template='5-star Hotels in {}',
-...               replacements=products,
-...               max_len=30,
-...               fallback='Great Cities')
-['5-star Hotels In Dubai',
- '5-star Hotels In Tokyo',
- '5-star Hotels In Singapore',
- '5-star Hotels In Great Cities']
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    products = ['Lisbon', 'Porto', 'Algarve', 'Freixo de Espada à Cinta']
+    adv.ad_create(template='5-star Hotels in {}',
+                  replacements=products,
+                  max_len=30,
+                  fallback='Portugal')
+
+.. code-block::
+
+    ['5-star Hotels In Lisbon',
+    '5-star Hotels In Porto',
+    '5-star Hotels In Algarve',
+    '5-star Hotels In Portugal']
 
 """
 import string
