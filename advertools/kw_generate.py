@@ -55,24 +55,36 @@ Now what we can do is use the `kw_generate` function to come up with all
 possible combinations (order doesn't matter) and/or permutations (order
 matters) and get a ready-to-use table to upload and start running the campaign.
 
->>> products = ['enginering', 'graphic design', 'marketing']
->>> words = ['jobs', 'careers', 'vacancies', 'full time', 'part time']
->>> adv.kw_generate(products, words)
-         Campaign    Ad Group                             Keyword    Criterion Type               Labels
-0    SEM_Campaign  Enginering                     enginering jobs             Exact                 Jobs
-1    SEM_Campaign  Enginering                     enginering jobs            Phrase                 Jobs
-2    SEM_Campaign  Enginering                   +enginering +jobs             Broad                 Jobs
-3    SEM_Campaign  Enginering                  enginering careers             Exact              Careers
-4    SEM_Campaign  Enginering                  enginering careers            Phrase              Careers
-..            ...         ...                                 ...              ...                  ...
-625  SEM_Campaign   Marketing       part time vacancies marketing            Phrase   Part Time;Vacancies
-626  SEM_Campaign   Marketing   +part +time +vacancies +marketing             Broad   Part Time;Vacancies
-627  SEM_Campaign   Marketing       part time full time marketing             Exact   Part Time;Full Time
-628  SEM_Campaign   Marketing       part time full time marketing            Phrase   Part Time;Full Time
-629  SEM_Campaign   Marketing  +part +time +full +time +marketing             Broad   Part Time;Full Time
-[630 rows x 5 columns]
+.. thebe-button::
+    Run this code
 
-And we're done!
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    products = ['enginering', 'graphic design', 'marketing']
+    words = ['jobs', 'careers', 'vacancies', 'full time', 'part time']
+    import advertools as adv
+    kw_df = adv.kw_generate(products, words)
+    kw_df
+
+
+.. code-block::
+
+             Campaign    Ad Group                             Keyword    Criterion Type               Labels
+    0    SEM_Campaign  Enginering                     enginering jobs             Exact                 Jobs
+    1    SEM_Campaign  Enginering                     enginering jobs            Phrase                 Jobs
+    2    SEM_Campaign  Enginering                   +enginering +jobs             Broad                 Jobs
+    3    SEM_Campaign  Enginering                  enginering careers             Exact              Careers
+    4    SEM_Campaign  Enginering                  enginering careers            Phrase              Careers
+    ..            ...         ...                                 ...              ...                  ...
+    625  SEM_Campaign   Marketing       part time vacancies marketing            Phrase   Part Time;Vacancies
+    626  SEM_Campaign   Marketing   +part +time +vacancies +marketing             Broad   Part Time;Vacancies
+    627  SEM_Campaign   Marketing       part time full time marketing             Exact   Part Time;Full Time
+    628  SEM_Campaign   Marketing       part time full time marketing            Phrase   Part Time;Full Time
+    629  SEM_Campaign   Marketing  +part +time +full +time +marketing             Broad   Part Time;Full Time
+    [630 rows x 5 columns]
+
 
 Check the :func:`kw_generate` function for more options and details.
 Once you have your keywords done, you can start creating ads using either the
@@ -84,7 +96,7 @@ __all__ = ['kw_broad', 'kw_exact', 'kw_generate', 'kw_modified',
            'kw_phrase']
 
 import re
-from itertools import permutations, combinations
+from itertools import combinations, permutations
 
 import pandas as pd
 
