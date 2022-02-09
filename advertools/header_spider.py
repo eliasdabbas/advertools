@@ -35,6 +35,11 @@ Here are some of the common reasons for using a ``HEAD`` crawler:
   the checks status codes for a few hundred or thousand URLs on a periodic
   basis. You can easily build some rules and alerts based on the status codes
   you get.
+* **Status codes of page elements:** Yes, your page returns a 200 OK status,
+  but what about all the elements/components of the page? Images, links
+  (internal and external), hreflang, canonical, URLs in metatags, script URLs,
+  URLs in various structured data elements like Twitter, OpenGraph, and
+  JSON-LD are some of the most important ones to check as well.
 * **Getting search engine directives:** Those directives can be set using meta
   tags as well as response headers. This crawler gets all available response
   headers so you can check for search engine-specific ones, like `noindex` for
