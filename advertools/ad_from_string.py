@@ -60,9 +60,18 @@ This is to ensure that the remainder of the text is not lost if it is longer,
 so you know what is missing. In case you have shorter text, you will still have
 one element more than the provided slots to ensure consistency.
 
->>> desc_text = "Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping now."
->>> len(desc_text)
-130
+.. thebe-button::
+    Run this code
+
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    import advertools as adv
+    desc_text = "Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping now."
+    len(desc_text)  # 130
+
+
 
 Now let's see how this same description can be utilized in different scenarios
 
@@ -72,15 +81,21 @@ Google Text Ads
 Since this is shorter than the default Google values, you will get extra empty
 slots (with an additional last one).
 
->>> ad_from_string(desc_text)  # default values (Google text ads)
-['Get the latest gadget online.',
- 'The GX12 model comes with 13',
- 'things that do a lot of good',
- 'stuff for your health. Start shopping now.',
- '',
- '',
- '',
- '']
+.. code-block::
+    :class: thebe, thebe-init
+
+    adv.ad_from_string(desc_text)  # default values (Google text ads)
+
+.. code-block::
+
+    ['Get the latest gadget online.',
+    'The GX12 model comes with 13',
+    'things that do a lot of good',
+    'stuff for your health. Start shopping now.',
+    '',
+    '',
+    '',
+    '']
 
 Facebook Feed Ads
 ^^^^^^^^^^^^^^^^^
@@ -88,20 +103,32 @@ Facebook Feed Ads
 In this case, it is also shorter than the default value, so you get an extra
 space.
 
->>> ad_from_string(desc_text, [125, 25, 30])  # Facebook feed ads
-['Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping',
- 'now.',
- '',
- '']
+.. code-block::
+    :class: thebe, thebe-init
+
+    adv.ad_from_string(desc_text, [125, 25, 30])  # Facebook feed ads
+
+.. code-block:
+
+    ['Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping',
+    'now.',
+    '',
+    '']
 
 Since it might not look good having just one word in the second slot, and an
 empty last one, you might want to change it as follows:
 
->>> ad_from_string(desc_text, [90, 25, 30])
-['Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good',
- 'stuff for your health.',
- 'Start shopping now.',
- '']
+.. code-block::
+    :class: thebe, thebe-init
+
+    adv.ad_from_string(desc_text, [90, 25, 30])
+
+.. code-block::
+
+    ['Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good',
+    'stuff for your health.',
+    'Start shopping now.',
+    '']
 
 
 Facebook Instant Article Ad
@@ -109,10 +136,16 @@ Facebook Instant Article Ad
 Here is a case where our text is longer than the provided limitations, so we
 end up having an extra space that is not used:
 
->>> ad_from_string(desc_text, [25, 30])  # Facebook instant article ad
-['Get the latest gadget',
- 'online. The GX12 model comes',
- 'with 13 things that do a lot of good stuff for your health. Start shopping now.']
+.. code-block::
+    :class: thebe, thebe-init
+
+    adv.ad_from_string(desc_text, [25, 30])  # Facebook instant article ad
+
+.. code-block::
+
+    ['Get the latest gadget',
+    'online. The GX12 model comes',
+    'with 13 things that do a lot of good stuff for your health. Start shopping now.']
 """
 import string
 
