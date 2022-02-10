@@ -24,7 +24,7 @@ comparison to running the command thousands of times from the comand line.
 
 Running the function is very simple, you simply supply a list of the IP
 addresses that you have. Make sure to **keep the duplicates**, because the
-function does that for you, as well as provide counts and some statistics on
+function handles that for you, as well as provide counts and some statistics on
 the frequency of the IPs:
 
     >>> ip_list = ['66.249.66.194', '66.249.66.194', '66.249.66.194',
@@ -58,6 +58,7 @@ import pandas as pd
 
 system = platform.system()
 
+_default_max_workders = 60 if system == 'Darwin' else 600
 
 def _single_request(ip):
     try:
@@ -67,7 +68,7 @@ def _single_request(ip):
         return [ip, None, None, None, str(e)]
 
 
-def reverse_dns_lookup(ip_list, max_workers=160):
+def reverse_dns_lookup(ip_list, max_workers=_default_max_workders):
     """Return the hostname, aliaslist, and ipaddrlist for a list of IP
     addresses.
 
