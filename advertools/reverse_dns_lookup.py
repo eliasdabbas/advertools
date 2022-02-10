@@ -60,6 +60,7 @@ system = platform.system()
 
 _default_max_workders = 60 if system == 'Darwin' else 600
 
+
 def _single_request(ip):
     try:
         hostname, aliaslist, ipaddrlist = socket.gethostbyaddr(ip)

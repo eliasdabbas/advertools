@@ -35,7 +35,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="../../index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.0.rc1
+                0.13.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -137,7 +137,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <span class="sd">Running the function is very simple, you simply supply a list of the IP</span>
 <span class="sd">addresses that you have. Make sure to **keep the duplicates**, because the</span>
-<span class="sd">function does that for you, as well as provide counts and some statistics on</span>
+<span class="sd">function handles that for you, as well as provide counts and some statistics on</span>
 <span class="sd">the frequency of the IPs:</span>
 
 <span class="sd">    &gt;&gt;&gt; ip_list = [&#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;,</span>
@@ -171,6 +171,8 @@ const thebe_selector_output = ".output, .cell_output"
 
 <span class="n">system</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
 
+<span class="n">_default_max_workders</span> <span class="o">=</span> <span class="mi">60</span> <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;Darwin&#39;</span> <span class="k">else</span> <span class="mi">600</span>
+
 
 <span class="k">def</span> <span class="nf">_single_request</span><span class="p">(</span><span class="n">ip</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
@@ -180,7 +182,7 @@ const thebe_selector_output = ".output, .cell_output"
         <span class="k">return</span> <span class="p">[</span><span class="n">ip</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)]</span>
 
 
-<div class="viewcode-block" id="reverse_dns_lookup"><a class="viewcode-back" href="../../advertools.reverse_dns_lookup.html#advertools.reverse_dns_lookup.reverse_dns_lookup">[docs]</a><span class="k">def</span> <span class="nf">reverse_dns_lookup</span><span class="p">(</span><span class="n">ip_list</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
+<div class="viewcode-block" id="reverse_dns_lookup"><a class="viewcode-back" href="../../advertools.reverse_dns_lookup.html#advertools.reverse_dns_lookup.reverse_dns_lookup">[docs]</a><span class="k">def</span> <span class="nf">reverse_dns_lookup</span><span class="p">(</span><span class="n">ip_list</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="n">_default_max_workders</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the hostname, aliaslist, and ipaddrlist for a list of IP</span>
 <span class="sd">    addresses.</span>
 
@@ -217,8 +219,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">                            processing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">socket</span><span class="o">.</span><span class="n">setdefaulttimeout</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;Windows&#39;</span><span class="p">:</span>
-        <span class="n">max_workers</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="n">max_workers</span><span class="p">)</span>
     <span class="n">count_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ip_list</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
                 <span class="o">.</span><span class="n">reset_index</span><span class="p">())</span>
@@ -228,10 +228,15 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;cum_perc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;perc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
 
     <span class="n">hosts</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">ip</span><span class="p">,</span> <span class="n">host</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ip_list</span><span class="p">,</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_single_request</span><span class="p">,</span>
-                                                  <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;ip_address&#39;</span><span class="p">])):</span>
-            <span class="n">hosts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ip</span><span class="p">,</span> <span class="n">host</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ip_list</span><span class="p">,</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_single_request</span><span class="p">,</span>
+                                                      <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;ip_address&#39;</span><span class="p">])):</span>
+                <span class="n">hosts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">host</span> <span class="ow">in</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_single_request</span><span class="p">,</span> <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;ip_address&#39;</span><span class="p">]):</span>
+                <span class="n">hosts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
 
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">hosts</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ip&#39;</span><span class="p">,</span> <span class="s1">&#39;hostname&#39;</span><span class="p">,</span> <span class="s1">&#39;aliaslist&#39;</span><span class="p">,</span>
                                       <span class="s1">&#39;ipaddrlist&#39;</span><span class="p">,</span> <span class="s1">&#39;errors&#39;</span><span class="p">])</span>

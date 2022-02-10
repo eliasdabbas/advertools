@@ -35,7 +35,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="../../index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.0.rc1
+                0.13.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -285,20 +285,20 @@ const thebe_selector_output = ".output, .cell_output"
 
     <span class="n">query_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s1">&#39;query_&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">query_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-      <span class="n">sorted_q_params</span> <span class="o">=</span> <span class="p">(</span><span class="n">query_df</span>
-                         <span class="o">.</span><span class="n">notna</span><span class="p">()</span>
-                         <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-                         <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-      <span class="n">query_df</span> <span class="o">=</span> <span class="n">query_df</span><span class="p">[</span><span class="n">sorted_q_params</span><span class="p">]</span>
-      <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">query_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">sorted_q_params</span> <span class="o">=</span> <span class="p">(</span><span class="n">query_df</span>
+                           <span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+                           <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+                           <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">query_df</span> <span class="o">=</span> <span class="n">query_df</span><span class="p">[</span><span class="n">sorted_q_params</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">query_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">dirs_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s1">&#39;^dir_&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">dirs_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-      <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">dirs_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-      <span class="n">dirs_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">dirs_df</span>
-                 <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">last_dir</span><span class="o">=</span><span class="n">dirs_df</span>
-                 <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ffill&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-                 <span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
-                 <span class="o">.</span><span class="n">squeeze</span><span class="p">()))</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">dirs_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">dirs_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">dirs_df</span>
+                   <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">last_dir</span><span class="o">=</span><span class="n">dirs_df</span>
+                   <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ffill&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                   <span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
+                   <span class="o">.</span><span class="n">squeeze</span><span class="p">()))</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">dirs_df</span><span class="p">,</span> <span class="n">query_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">decode</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">df</span></div>

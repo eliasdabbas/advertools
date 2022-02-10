@@ -39,7 +39,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.0.rc1
+                0.13.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -161,9 +161,9 @@ will always return a list of length six.</p>
 <p>This is to ensure that the remainder of the text is not lost if it is longer,
 so you know what is missing. In case you have shorter text, you will still have
 one element more than the provided slots to ensure consistency.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">desc_text</span> <span class="o">=</span> <span class="s2">&quot;Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping now.&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">desc_text</span><span class="p">)</span>
-<span class="go">130</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="n">desc_text</span> <span class="o">=</span> <span class="s2">&quot;Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping now.&quot;</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">desc_text</span><span class="p">)</span>  <span class="c1"># 130</span>
 </pre></div>
 </div>
 <p>Now let's see how this same description can be utilized in different scenarios</p>
@@ -171,15 +171,17 @@ one element more than the provided slots to ensure consistency.</p>
 <h2>Google Text Ads<a class="headerlink" href="#google-text-ads" title="Permalink to this headline"></a></h2>
 <p>Since this is shorter than the default Google values, you will get extra empty
 slots (with an additional last one).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">desc_text</span><span class="p">)</span>  <span class="c1"># default values (Google text ads)</span>
-<span class="go">[&#39;Get the latest gadget online.&#39;,</span>
-<span class="go"> &#39;The GX12 model comes with 13&#39;,</span>
-<span class="go"> &#39;things that do a lot of good&#39;,</span>
-<span class="go"> &#39;stuff for your health. Start shopping now.&#39;,</span>
-<span class="go"> &#39;&#39;,</span>
-<span class="go"> &#39;&#39;,</span>
-<span class="go"> &#39;&#39;,</span>
-<span class="go"> &#39;&#39;]</span>
+<div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">desc_text</span><span class="p">)</span>  <span class="c1"># default values (Google text ads)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;Get the latest gadget online.&#39;</span><span class="p">,</span>
+<span class="s1">&#39;The GX12 model comes with 13&#39;</span><span class="p">,</span>
+<span class="s1">&#39;things that do a lot of good&#39;</span><span class="p">,</span>
+<span class="s1">&#39;stuff for your health. Start shopping now.&#39;</span><span class="p">,</span>
+<span class="s1">&#39;&#39;</span><span class="p">,</span>
+<span class="s1">&#39;&#39;</span><span class="p">,</span>
+<span class="s1">&#39;&#39;</span><span class="p">,</span>
+<span class="s1">&#39;&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </section>
@@ -187,20 +189,18 @@ slots (with an additional last one).</p>
 <h2>Facebook Feed Ads<a class="headerlink" href="#facebook-feed-ads" title="Permalink to this headline"></a></h2>
 <p>In this case, it is also shorter than the default value, so you get an extra
 space.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">desc_text</span><span class="p">,</span> <span class="p">[</span><span class="mi">125</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>  <span class="c1"># Facebook feed ads</span>
-<span class="go">[&#39;Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping&#39;,</span>
-<span class="go"> &#39;now.&#39;,</span>
-<span class="go"> &#39;&#39;,</span>
-<span class="go"> &#39;&#39;]</span>
+<div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">desc_text</span><span class="p">,</span> <span class="p">[</span><span class="mi">125</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>  <span class="c1"># Facebook feed ads</span>
 </pre></div>
 </div>
 <p>Since it might not look good having just one word in the second slot, and an
 empty last one, you might want to change it as follows:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">desc_text</span><span class="p">,</span> <span class="p">[</span><span class="mi">90</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
-<span class="go">[&#39;Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good&#39;,</span>
-<span class="go"> &#39;stuff for your health.&#39;,</span>
-<span class="go"> &#39;Start shopping now.&#39;,</span>
-<span class="go"> &#39;&#39;]</span>
+<div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">desc_text</span><span class="p">,</span> <span class="p">[</span><span class="mi">90</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good&#39;</span><span class="p">,</span>
+<span class="s1">&#39;stuff for your health.&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Start shopping now.&#39;</span><span class="p">,</span>
+<span class="s1">&#39;&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </section>
@@ -208,10 +208,12 @@ empty last one, you might want to change it as follows:</p>
 <h2>Facebook Instant Article Ad<a class="headerlink" href="#facebook-instant-article-ad" title="Permalink to this headline"></a></h2>
 <p>Here is a case where our text is longer than the provided limitations, so we
 end up having an extra space that is not used:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">desc_text</span><span class="p">,</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>  <span class="c1"># Facebook instant article ad</span>
-<span class="go">[&#39;Get the latest gadget&#39;,</span>
-<span class="go"> &#39;online. The GX12 model comes&#39;,</span>
-<span class="go"> &#39;with 13 things that do a lot of good stuff for your health. Start shopping now.&#39;]</span>
+<div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">desc_text</span><span class="p">,</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>  <span class="c1"># Facebook instant article ad</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;Get the latest gadget&#39;</span><span class="p">,</span>
+<span class="s1">&#39;online. The GX12 model comes&#39;</span><span class="p">,</span>
+<span class="s1">&#39;with 13 things that do a lot of good stuff for your health. Start shopping now.&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <dl class="py function">

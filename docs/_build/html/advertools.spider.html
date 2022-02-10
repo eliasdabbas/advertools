@@ -38,7 +38,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.0.rc1
+                0.13.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -70,7 +70,12 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l3"><a class="reference internal" href="#google-analytics-google-search-console">Google Analytics / Google Search Console</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#css-and-xpath-selectors">CSS and XPath Selectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-extraction-with-css-and-xpath-selectors">Custom Extraction with CSS and XPath Selectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customizing-the-crawling-behavior-while-following-links">Customizing the Crawling Behavior while Following Links</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#url-query-parameters">URL Query Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#url-regex-patterns">URL Regex Patterns</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#spider-custom-settings-and-additional-functionality">Spider Custom Settings and Additional Functionality</a></li>
 </ul>
 </li>
@@ -394,8 +399,8 @@ It's important to note that you have to set this parameter if you want to only
 crawl certain sub-domains.</p>
 </section>
 </section>
-<section id="css-and-xpath-selectors">
-<h2>CSS and XPath Selectors<a class="headerlink" href="#css-and-xpath-selectors" title="Permalink to this headline"></a></h2>
+<section id="custom-extraction-with-css-and-xpath-selectors">
+<h2>Custom Extraction with CSS and XPath Selectors<a class="headerlink" href="#custom-extraction-with-css-and-xpath-selectors" title="Permalink to this headline"></a></h2>
 <p>The above approaches are generic, and are useful for exploratory SEO audits
 and the output is helpful for most cases.</p>
 <p>But what if you want to extract special elements that are not included in the
@@ -444,6 +449,68 @@ will need to append <cite>/text()</cite> or <cite>/&#64;href</cite> to the selec
 <span class="gp">... </span>                           <span class="s1">&#39;sidebar_links_url&#39;</span><span class="p">:</span> <span class="s1">&#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/@href&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
+</section>
+<section id="customizing-the-crawling-behavior-while-following-links">
+<h2>Customizing the Crawling Behavior while Following Links<a class="headerlink" href="#customizing-the-crawling-behavior-while-following-links" title="Permalink to this headline"></a></h2>
+<p>If you set <code class="docutils literal notranslate"><span class="pre">follow_links=True</span></code> you might want to restrict this option for a
+more customized crawl. This means you can decide whether to include or exclude
+certain links based on certain conditions based on URL parameters and/or URL
+regex patterns.</p>
+<section id="url-query-parameters">
+<h3>URL Query Parameters<a class="headerlink" href="#url-query-parameters" title="Permalink to this headline"></a></h3>
+<p>Two options are available for this:</p>
+<p>1. <code class="docutils literal notranslate"><span class="pre">exclude_url_params</span></code>: By providing a list of URL parameters, any link that
+contains any of the parameters will not be followed. For example if you set
+this option to ['price', 'country'], and the page currently being crawled
+contains three links:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>/shoes/model_a?price=10&amp;country=us</strong>: Contains both parameters, will not be followed.</p></li>
+<li><p><strong>/shoes/model_a?price=10</strong>: Contains one of the parameters, will not be followed.</p></li>
+<li><p><strong>/shoes/model_b?color=black</strong>: Contains &quot;color&quot; which was not listed, will be followed</p></li>
+</ul>
+</div></blockquote>
+<p>To make this efficient, and in case you want to skip all links that contain any
+parameter, you can set this option to <code class="docutils literal notranslate"><span class="pre">True</span></code>, and any link that contains any
+URL parameter will not be followed <code class="docutils literal notranslate"><span class="pre">exclude_url_params=True</span></code></p>
+<p>2. <code class="docutils literal notranslate"><span class="pre">include_url_params</span></code>: Similarly, you can choose the parameters that links
+should contain in order for them to be followed. If a link contains any of the
+listed parameters, that link will be followed. Even though this option is
+straightforward, it might give you unexpected results. If you set the
+parameters to include as ['price'] for example, and you start crawling from a
+page that doesn't have any link containing that parameter, crawling will stop.
+Yet, the website might have many links with that parameter. Please keep this in
+mind, and remember that reasoning about the exclude option is easier than the
+include option for this reason/example.</p>
+</section>
+<section id="url-regex-patterns">
+<h3>URL Regex Patterns<a class="headerlink" href="#url-regex-patterns" title="Permalink to this headline"></a></h3>
+<p>You might want even more granular control over which links to follow, and might
+be interested in other URL properties than their query parameters. You have two
+simple options to include/exclude links based on whether they match a certain
+regex pattern.</p>
+<p>1. <code class="docutils literal notranslate"><span class="pre">exclude_url_regex</span></code>: Enter a regex, and the links will be checked if they
+match it. If they do, they will not be followed, if not they will.</p>
+<p>2. <code class="docutils literal notranslate"><span class="pre">include_url_regex</span></code>: This is similar but tells the crawler which links to
+follow, based on whether or not they match the regex. This option also has the
+same potentially tricky behavior like the <code class="docutils literal notranslate"><span class="pre">include_url_params</span></code> option.</p>
+<p>Here is a simple example showing how you might control following links using
+all four options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+
+          <span class="c1"># don&#39;t follow links containing any of these parameters:</span>
+          <span class="n">exclude_url_params</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;region&#39;</span><span class="p">],</span>
+          <span class="c1"># follow links containing any of these parameters:</span>
+          <span class="n">include_url_params</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span>
+          <span class="c1"># don&#39;t follow links that contain the pattern &quot;/fr/&quot; or &quot;/de/&quot;:</span>
+          <span class="n">exclude_url_regex</span><span class="o">=</span><span class="s1">&#39;/fr/|/de/&#39;</span><span class="p">,</span>
+          <span class="c1"># follow links that contain the pattern &quot;/shop/&quot;:</span>
+          <span class="n">include_url_regex</span><span class="o">=</span><span class="s1">&#39;/shop/&#39;</span>
+          <span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="spider-custom-settings-and-additional-functionality">
 <h2>Spider Custom Settings and Additional Functionality<a class="headerlink" href="#spider-custom-settings-and-additional-functionality" title="Permalink to this headline"></a></h2>
@@ -507,8 +574,23 @@ is supported to allow for dynamic values. Make sure
 your file ends with &quot;.jl&quot;, e.g. <cite>output_file.jl</cite>.</p></li>
 <li><p><strong>follow_links</strong> (<em>bool</em>) -- Defaults to False. Whether or not to follow links
 on crawled pages.</p></li>
-<li><p><strong>skip_url_params</strong> (<em>bool</em>) -- Whether or not to skip URLs that contain
-parameters. Defaults to False.</p></li>
+<li><p><strong>exclude_url_params</strong> (<em>list</em><em>,</em><em>bool</em>) -- A list of URL parameters to exclude
+while following links. If a link
+contains any of those parameters,
+don't follow it. Setting it to
+<code class="docutils literal notranslate"><span class="pre">False</span></code> will exclude links
+containing any parameter.</p></li>
+<li><p><strong>include_url_params</strong> (<em>list</em>) -- A list of URL parameters to include while
+following links. If a link contains any of
+those parameters, follow it. Having the
+same parmeters to include and exclude
+raises an error.</p></li>
+<li><p><strong>exclude_url_regex</strong> (<em>str</em>) -- A regular expression of a URL pattern to
+exclude while following links. If a link
+matches the regex don't follow it.</p></li>
+<li><p><strong>include_url_regex</strong> (<em>str</em>) -- A regular expression of a URL pattern to
+include while following links. If a link
+matches the regex follow it.</p></li>
 <li><p><strong>css_selectors</strong> (<em>dict</em>) -- A dictionary mapping names to CSS selectors. The
 names will become column headers, and the
 selectors will be used to extract the required

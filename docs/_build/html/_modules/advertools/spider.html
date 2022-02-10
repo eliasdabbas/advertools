@@ -35,7 +35,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="../../index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.0.rc1
+                0.13.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -322,8 +322,8 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">It&#39;s important to note that you have to set this parameter if you want to only</span>
 <span class="sd">crawl certain sub-domains.</span>
 
-<span class="sd">CSS and XPath Selectors</span>
-<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">Custom Extraction with CSS and XPath Selectors</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
 <span class="sd">The above approaches are generic, and are useful for exploratory SEO audits</span>
 <span class="sd">and the output is helpful for most cases.</span>
@@ -377,6 +377,76 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">...           &#39;output_file.jl&#39;,</span>
 <span class="sd">...           xpath_selectors={&#39;sidebar_links&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/text()&#39;,</span>
 <span class="sd">...                            &#39;sidebar_links_url&#39;: &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;toctree-l1&quot;, &quot; &quot; ))]//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;internal&quot;, &quot; &quot; ))]/@href&#39;})</span>
+
+<span class="sd">Customizing the Crawling Behavior while Following Links</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">If you set ``follow_links=True`` you might want to restrict this option for a</span>
+<span class="sd">more customized crawl. This means you can decide whether to include or exclude</span>
+<span class="sd">certain links based on certain conditions based on URL parameters and/or URL</span>
+<span class="sd">regex patterns.</span>
+
+<span class="sd">URL Query Parameters</span>
+<span class="sd">--------------------</span>
+
+<span class="sd">Two options are available for this:</span>
+
+<span class="sd">1. ``exclude_url_params``: By providing a list of URL parameters, any link that</span>
+<span class="sd">contains any of the parameters will not be followed. For example if you set</span>
+<span class="sd">this option to [&#39;price&#39;, &#39;country&#39;], and the page currently being crawled</span>
+<span class="sd">contains three links:</span>
+
+<span class="sd">  * **/shoes/model_a?price=10&amp;country=us**: Contains both parameters, will not be followed.</span>
+<span class="sd">  * **/shoes/model_a?price=10**: Contains one of the parameters, will not be followed.</span>
+<span class="sd">  * **/shoes/model_b?color=black**: Contains &quot;color&quot; which was not listed, will be followed</span>
+
+<span class="sd">To make this efficient, and in case you want to skip all links that contain any</span>
+<span class="sd">parameter, you can set this option to ``True``, and any link that contains any</span>
+<span class="sd">URL parameter will not be followed ``exclude_url_params=True``</span>
+
+
+<span class="sd">2. ``include_url_params``: Similarly, you can choose the parameters that links</span>
+<span class="sd">should contain in order for them to be followed. If a link contains any of the</span>
+<span class="sd">listed parameters, that link will be followed. Even though this option is</span>
+<span class="sd">straightforward, it might give you unexpected results. If you set the</span>
+<span class="sd">parameters to include as [&#39;price&#39;] for example, and you start crawling from a</span>
+<span class="sd">page that doesn&#39;t have any link containing that parameter, crawling will stop.</span>
+<span class="sd">Yet, the website might have many links with that parameter. Please keep this in</span>
+<span class="sd">mind, and remember that reasoning about the exclude option is easier than the</span>
+<span class="sd">include option for this reason/example.</span>
+
+<span class="sd">URL Regex Patterns</span>
+<span class="sd">------------------</span>
+
+<span class="sd">You might want even more granular control over which links to follow, and might</span>
+<span class="sd">be interested in other URL properties than their query parameters. You have two</span>
+<span class="sd">simple options to include/exclude links based on whether they match a certain</span>
+<span class="sd">regex pattern.</span>
+
+<span class="sd">1. ``exclude_url_regex``: Enter a regex, and the links will be checked if they</span>
+<span class="sd">match it. If they do, they will not be followed, if not they will.</span>
+
+<span class="sd">2. ``include_url_regex``: This is similar but tells the crawler which links to</span>
+<span class="sd">follow, based on whether or not they match the regex. This option also has the</span>
+<span class="sd">same potentially tricky behavior like the ``include_url_params`` option.</span>
+
+<span class="sd">Here is a simple example showing how you might control following links using</span>
+<span class="sd">all four options:</span>
+
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    import advertools as adv</span>
+<span class="sd">    adv.crawl(&#39;https://example.com&#39;, &#39;output_file.jl&#39;, follow_links=True,</span>
+
+<span class="sd">              # don&#39;t follow links containing any of these parameters:</span>
+<span class="sd">              exclude_url_params=[&#39;price&#39;, &#39;region&#39;],</span>
+<span class="sd">              # follow links containing any of these parameters:</span>
+<span class="sd">              include_url_params=[&#39;source&#39;],</span>
+<span class="sd">              # don&#39;t follow links that contain the pattern &quot;/fr/&quot; or &quot;/de/&quot;:</span>
+<span class="sd">              exclude_url_regex=&#39;/fr/|/de/&#39;,</span>
+<span class="sd">              # follow links that contain the pattern &quot;/shop/&quot;:</span>
+<span class="sd">              include_url_regex=&#39;/shop/&#39;</span>
+<span class="sd">              )</span>
 
 <span class="sd">Spider Custom Settings and Additional Functionality</span>
 <span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
@@ -881,8 +951,23 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">                            your file ends with &quot;.jl&quot;, e.g. `output_file.jl`.</span>
 <span class="sd">    :param bool follow_links: Defaults to False. Whether or not to follow links</span>
 <span class="sd">                              on crawled pages.</span>
-<span class="sd">    :param bool skip_url_params: Whether or not to skip URLs that contain</span>
-<span class="sd">                                 parameters. Defaults to False.</span>
+<span class="sd">    :param list,bool exclude_url_params: A list of URL parameters to exclude</span>
+<span class="sd">                                         while following links. If a link</span>
+<span class="sd">                                         contains any of those parameters,</span>
+<span class="sd">                                         don&#39;t follow it. Setting it to</span>
+<span class="sd">                                         ``False`` will exclude links</span>
+<span class="sd">                                         containing any parameter.</span>
+<span class="sd">    :param list include_url_params: A list of URL parameters to include while</span>
+<span class="sd">                                    following links. If a link contains any of</span>
+<span class="sd">                                    those parameters, follow it. Having the</span>
+<span class="sd">                                    same parmeters to include and exclude</span>
+<span class="sd">                                    raises an error.</span>
+<span class="sd">    :param str exclude_url_regex: A regular expression of a URL pattern to</span>
+<span class="sd">                                  exclude while following links. If a link</span>
+<span class="sd">                                  matches the regex don&#39;t follow it.</span>
+<span class="sd">    :param str include_url_regex: A regular expression of a URL pattern to</span>
+<span class="sd">                                  include while following links. If a link</span>
+<span class="sd">                                  matches the regex follow it.</span>
 <span class="sd">    :param dict css_selectors: A dictionary mapping names to CSS selectors. The</span>
 <span class="sd">                               names will become column headers, and the</span>
 <span class="sd">                               selectors will be used to extract the required</span>
