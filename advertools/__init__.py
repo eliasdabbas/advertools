@@ -1,9 +1,9 @@
 
-"""Top-level package for advertools."""
+"""Digital Marketing productivity and analysis tools."""
 
 __author__ = """Elias Dabbas"""
 __email__ = 'eliasdabbas@gmail.com'
-__version__ = '0.13.0.rc2'
+__version__ = '0.13.0'
 
 from advertools.ad_create import ad_create
 from advertools.ad_from_string import ad_from_string
