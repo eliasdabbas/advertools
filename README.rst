@@ -14,9 +14,10 @@
 .. image:: https://badges.gitter.im/advertools/community.svg
         :target: https://bit.ly/3hEWZCe
 
-| 🎉 **New:** ``logs_to_df`` Function for `analyzing log files <https://advertools.readthedocs.io/en/master/advertools.logs.html>`_
+| 🎉 **New:** ``crawl_headers`` Function for `crawling a known list of URLs with the HEAD method only <https://advertools.readthedocs.io/en/master/advertools.header_spider.html>`_
 | 🎊 **New:** `SEO crawler <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
-  has a new option of skipping URL parameters (doesn't follow any URL containing a parameter)
+  has new options for following links, include/exclude URL params and/or URL regex.
+| 🎉 **New:** ``reverse_dns_lookup`` Function for `getting host information on a list of IP addresses <https://advertools.readthedocs.io/en/master/advertools.reverse_dns_lookup.html>`_
 
 
 ``advertools``: productivity & analysis tools to scale your online marketing
@@ -31,10 +32,10 @@ sheets, you might be running large scale automated platforms with
 sophisticated algorithms, or somewhere in between. In any case your job
 is all about working with data.
 
-As a data scientist you don’t spend most of your time producing cool
+As a data scientist you don't spend most of your time producing cool
 visualizations or finding great insights. The majority of your time is spent
 wrangling with URLs, figuring out how to stitch together two tables, hoping
-that the dates, won’t break, without you knowing, or trying to generate the
+that the dates, won't break, without you knowing, or trying to generate the
 next 124,538 keywords for an upcoming campaign, by the end of the week!
 
 ``advertools`` is a Python package that can hopefully make that part of your job a little easier.
@@ -74,6 +75,7 @@ on more strategic issues. In practical terms you need two main tables to get sta
 
 * Tutorials and additional resources
 
+  * Get started with `Data Science for Digital Marketing and SEO/SEM <https://www.oncrawl.com/technical-seo/data-science-seo-digital-marketing-guide-beginners/>`_
   * `Setting a full SEM campaign <https://www.datacamp.com/community/tutorials/sem-data-science>`_ for DataCamp's website tutorial
   * Project to practice `generating SEM keywords with Python <https://www.datacamp.com/projects/400>`_ on DataCamp
   * `Setting up SEM campaigns on a large scale <https://www.semrush.com/blog/setting-up-search-engine-marketing-campaigns-on-large-scale/>`_ tutorial on SEMrush
