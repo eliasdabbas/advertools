@@ -2,6 +2,28 @@
 Change Log - advertools
 =======================
 
+0.13.0 (2022-02-10)
+-------------------
+
+* Added
+    - New function ``crawl_headers``: A crawler that only makes `HEAD` requests
+      to a known list of URLs.
+    - New function ``reverse_dns_lookup``: A way to get host information for a
+      large list of IP addresses concurrently.
+    - New options for crawling: `exclude_url_params`, `include_url_params`,
+      `exclude_url_regex`, and `include_url_regex` for controlling which links to
+      follow while crawling.
+
+* Fixed
+    - Any ``custom_settings`` options given to the ``crawl`` function that were
+      defined using a dictionary can now be set without issues. There was an
+      issue if those options were not strings.
+
+* Changed
+    - The `skip_url_params` option was removed and replaced with the more
+      versatile ``exclude_url_params``, which accepts either ``True`` or a list
+      of URL parameters to exclude while following links.
+
 0.12.3 (2021-11-27)
 -------------------
 
