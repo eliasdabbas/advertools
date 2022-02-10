@@ -209,8 +209,8 @@ default to only the domains in the ``url_list`` and their sub-domains if any.
 It's important to note that you have to set this parameter if you want to only
 crawl certain sub-domains.
 
-CSS and XPath Selectors
-^^^^^^^^^^^^^^^^^^^^^^^
+Custom Extraction with CSS and XPath Selectors
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The above approaches are generic, and are useful for exploratory SEO audits
 and the output is helpful for most cases.
@@ -264,6 +264,76 @@ Or, instead of ``css_selectors`` you can add a similar dictionary for the
 ...           'output_file.jl',
 ...           xpath_selectors={'sidebar_links': '//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]/text()',
 ...                            'sidebar_links_url': '//*[contains(concat( " ", @class, " " ), concat( " ", "toctree-l1", " " ))]//*[contains(concat( " ", @class, " " ), concat( " ", "internal", " " ))]/@href'})
+
+Customizing the Crawling Behavior while Following Links
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you set ``follow_links=True`` you might want to restrict this option for a
+more customized crawl. This means you can decide whether to include or exclude
+certain links based on certain conditions based on URL parameters and/or URL
+regex patterns.
+
+URL Query Parameters
+--------------------
+
+Two options are available for this:
+
+1. ``exclude_url_params``: By providing a list of URL parameters, any link that
+contains any of the parameters will not be followed. For example if you set
+this option to ['price', 'country'], and the page currently being crawled
+contains three links:
+
+  * **/shoes/model_a?price=10&country=us**: Contains both parameters, will not be followed.
+  * **/shoes/model_a?price=10**: Contains one of the parameters, will not be followed.
+  * **/shoes/model_b?color=black**: Contains "color" which was not listed, will be followed
+
+To make this efficient, and in case you want to skip all links that contain any
+parameter, you can set this option to ``True``, and any link that contains any
+URL parameter will not be followed ``exclude_url_params=True``
+
+
+2. ``include_url_params``: Similarly, you can choose the parameters that links
+should contain in order for them to be followed. If a link contains any of the
+listed parameters, that link will be followed. Even though this option is
+straightforward, it might give you unexpected results. If you set the
+parameters to include as ['price'] for example, and you start crawling from a
+page that doesn't have any link containing that parameter, crawling will stop.
+Yet, the website might have many links with that parameter. Please keep this in
+mind, and remember that reasoning about the exclude option is easier than the
+include option for this reason/example.
+
+URL Regex Patterns
+------------------
+
+You might want even more granular control over which links to follow, and might
+be interested in other URL properties than their query parameters. You have two
+simple options to include/exclude links based on whether they match a certain
+regex pattern.
+
+1. ``exclude_url_regex``: Enter a regex, and the links will be checked if they
+match it. If they do, they will not be followed, if not they will.
+
+2. ``include_url_regex``: This is similar but tells the crawler which links to
+follow, based on whether or not they match the regex. This option also has the
+same potentially tricky behavior like the ``include_url_params`` option.
+
+Here is a simple example showing how you might control following links using
+all four options:
+
+.. code-block::
+
+    import advertools as adv
+    adv.crawl('https://example.com', 'output_file.jl', follow_links=True,
+
+              # don't follow links containing any of these parameters:
+              exclude_url_params=['price', 'region'],
+              # follow links containing any of these parameters:
+              include_url_params=['source'],
+              # don't follow links that contain the pattern "/fr/" or "/de/":
+              exclude_url_regex='/fr/|/de/',
+              # follow links that contain the pattern "/shop/":
+              include_url_regex='/shop/'
+              )
 
 Spider Custom Settings and Additional Functionality
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -768,8 +838,23 @@ def crawl(url_list, output_file, follow_links=False,
                             your file ends with ".jl", e.g. `output_file.jl`.
     :param bool follow_links: Defaults to False. Whether or not to follow links
                               on crawled pages.
-    :param bool skip_url_params: Whether or not to skip URLs that contain
-                                 parameters. Defaults to False.
+    :param list,bool exclude_url_params: A list of URL parameters to exclude
+                                         while following links. If a link
+                                         contains any of those parameters,
+                                         don't follow it. Setting it to
+                                         ``False`` will exclude links
+                                         containing any parameter.
+    :param list include_url_params: A list of URL parameters to include while
+                                    following links. If a link contains any of
+                                    those parameters, follow it. Having the
+                                    same parmeters to include and exclude
+                                    raises an error.
+    :param str exclude_url_regex: A regular expression of a URL pattern to
+                                  exclude while following links. If a link
+                                  matches the regex don't follow it.
+    :param str include_url_regex: A regular expression of a URL pattern to
+                                  include while following links. If a link
+                                  matches the regex follow it.
     :param dict css_selectors: A dictionary mapping names to CSS selectors. The
                                names will become column headers, and the
                                selectors will be used to extract the required
