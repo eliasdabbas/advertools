@@ -81,6 +81,9 @@ Google Text Ads
 Since this is shorter than the default Google values, you will get extra empty
 slots (with an additional last one).
 
+.. thebe-button::
+    Run this code
+
 .. code-block::
     :class: thebe, thebe-init
 
@@ -103,6 +106,9 @@ Facebook Feed Ads
 In this case, it is also shorter than the default value, so you get an extra
 space.
 
+.. thebe-button::
+    Run this code
+
 .. code-block::
     :class: thebe, thebe-init
 
@@ -117,6 +123,9 @@ space.
 
 Since it might not look good having just one word in the second slot, and an
 empty last one, you might want to change it as follows:
+
+.. thebe-button::
+    Run this code
 
 .. code-block::
     :class: thebe, thebe-init
@@ -135,6 +144,9 @@ Facebook Instant Article Ad
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Here is a case where our text is longer than the provided limitations, so we
 end up having an extra space that is not used:
+
+.. thebe-button::
+    Run this code
 
 .. code-block::
     :class: thebe, thebe-init
