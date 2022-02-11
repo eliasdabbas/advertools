@@ -15,6 +15,88 @@ emoji from text.
 :func:`emoji_search`      A function for searching across names, groups, and sub-groups to find emoji based on your keywords of choice.
 :class:`EMOJI_RAW`        A regular expression to extract the full list. See here on how it was developed: https://www.kaggle.com/eliasdabbas/how-to-create-a-python-regex-to-extract-emoji
 =======================   ====================================================================
+
+
+Emoji Search
+------------
+
+You can search the whole emoji database with the :func:`emoji_search` function:
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    import advertools as adv
+
+    vegetable_emoji = adv.emoji_search('vegetable')
+    vegetable_emoji.head()
+
+====  ===========  ===============  =======  ===========  ============  ==============
+  ..  codepoint    status           emoji    name         group         sub_group
+====  ===========  ===============  =======  ===========  ============  ==============
+   0  1F951        fully-qualified  🥑       avocado      Food & Drink  food-vegetable
+   1  1F346        fully-qualified  🍆       eggplant     Food & Drink  food-vegetable
+   2  1F954        fully-qualified  🥔       potato       Food & Drink  food-vegetable
+   3  1F955        fully-qualified  🥕       carrot       Food & Drink  food-vegetable
+   4  1F33D        fully-qualified  🌽       ear of corn  Food & Drink  food-vegetable
+====  ===========  ===============  =======  ===========  ============  ==============
+
+Keep in mind that the search uses regular expression, and results might not be
+exactly what you expect.
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    love_emoji = adv.emoji_search('love')
+    love_emoji
+
+
+====  ===========  ===============  =======  ========================================  =================  ====================
+  ..  codepoint    status           emoji    name                                      group              sub_group
+====  ===========  ===============  =======  ========================================  =================  ====================
+   0  1F48C        fully-qualified  💌       love letter                               Smileys & Emotion  emotion
+   1  1F91F        fully-qualified  🤟       love-you gesture                          People & Body      hand-fingers-partial
+   2  1F91F 1F3FB  fully-qualified  🤟🏻     love-you gesture: light skin tone         People & Body      hand-fingers-partial
+   3  1F91F 1F3FC  fully-qualified  🤟🏼     love-you gesture: medium-light skin tone  People & Body      hand-fingers-partial
+   4  1F91F 1F3FD  fully-qualified  🤟🏽     love-you gesture: medium skin tone        People & Body      hand-fingers-partial
+   5  1F91F 1F3FE  fully-qualified  🤟🏾     love-you gesture: medium-dark skin tone   People & Body      hand-fingers-partial
+   6  1F91F 1F3FF  fully-qualified  🤟🏿     love-you gesture: dark skin tone          People & Body      hand-fingers-partial
+   7  1F340        fully-qualified  🍀       four leaf clover                          Animals & Nature   plant-other
+   8  1F3E9        fully-qualified  🏩       love hotel                                Travel & Places    place-building
+   9  1F94A        fully-qualified  🥊       boxing glove                              Activities         sport
+  10  1F9E4        fully-qualified  🧤       gloves                                    Objects            clothing
+  11  1F1F8 1F1EE  fully-qualified  🇸🇮       flag: Slovenia                            Flags              country-flag
+====  ===========  ===============  =======  ========================================  =================  ====================
+
+Extract Emoji from Text
+-----------------------
+
+Many times you might have some social media text, or any regular text
+containing emoji that you want to analyze. The :func:`extract_emoji` function
+does that, and returns useful information about the extracted emoji. You can
+play around with the following sample text list, modify it, and explore the
+different stats, and information about the extracted emoji:
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    text_list = ['I feel like playing basketball 🏀',
+                 'I like playing football ⚽⚽',
+                 'Not feeling like sports today']
+
+    emoji_summary = adv.extract_emoji(text_list)
+    print(emoji_summary.keys())
+
+
+
 """
 __all__ = ['emoji_df', 'extract_emoji', 'emoji_search']
 
@@ -22,7 +104,6 @@ import re
 from collections import Counter, namedtuple
 
 import pandas as pd
-
 
 EmojiEntry = namedtuple('EmojiEntry', ['codepoint', 'status', 'emoji','name', 'group', 'sub_group'])
 
@@ -4725,22 +4806,23 @@ def extract_emoji(text_list):
 
 
 def emoji_search(regex):
-    """Return a DataFrame of all emoji entries where any description contains
-    :attr:`regex`.
+    """Return a DataFrame of all emoji entries that match :attr:`regex`.
 
-    "description" can be the name of the emoji, its group, or sub-group.
+    The search is run on the name of the emoji, its group, and sub-group.
 
     :param str regex: regular expression (case insensitive)
 
-    >>> emoji_search('dog')
-              codepoint           status  emoji          name             group      sub_group
-    0             1F436  fully-qualified     🐶      dog face  Animals & Nature   animal-mammal
-    1             1F415  fully-qualified     🐕           dog  Animals & Nature   animal-mammal
-    2             1F9AE  fully-qualified     🦮     guide dog  Animals & Nature   animal-mammal
-    3  1F415 200D 1F9BA  fully-qualified   🐕‍🦺   service dog  Animals & Nature    animal-mammal
+    >>> import advertools as adv
+    >>> adv.emoji_search('dog')
+              codepoint           status  emoji          name             group        sub_group
+    0             1F436  fully-qualified     🐶      dog face  Animals & Nature    animal-mammal
+    1             1F415  fully-qualified     🐕           dog  Animals & Nature    animal-mammal
+    2             1F9AE  fully-qualified     🦮     guide dog  Animals & Nature    animal-mammal
+    3  1F415 200D 1F9BA  fully-qualified     🐕‍🦺   service dog  Animals & Nature    animal-mammal
     4             1F32D  fully-qualified     🌭       hot dog      Food & Drink    food-prepared
 
     >>> blue = adv.emoji_search('blue')
+    >>> blue
       codepoint           status emoji                name               group     sub_group
     0     1F499  fully-qualified     💙          blue heart  Smileys & Emotion       emotion
     1     1FAD0  fully-qualified     🫐         blueberries       Food & Drink    food-fruit
