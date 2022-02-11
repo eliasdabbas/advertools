@@ -134,12 +134,13 @@ comparison to running the command thousands of times from the comand line.</p>
 addresses that you have. Make sure to <strong>keep the duplicates</strong>, because the
 function handles that for you, as well as provide counts and some statistics on
 the frequency of the IPs:</p>
-<blockquote>
-<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ip_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span>
-<span class="gp">... </span>           <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;130.185.74.243&#39;</span><span class="p">,</span>
-<span class="gp">... </span>           <span class="s1">&#39;31.56.96.51&#39;</span><span class="p">,</span> <span class="s1">&#39;5.211.97.39&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">reverse_dns_lookup</span><span class="p">(</span><span class="n">ip_list</span><span class="p">)</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="n">ip_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;130.185.74.243&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;31.56.96.51&#39;</span><span class="p">,</span> <span class="s1">&#39;5.211.97.39&#39;</span><span class="p">]</span>
+
+<span class="n">host_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">reverse_dns_lookup</span><span class="p">(</span><span class="n">ip_list</span><span class="p">)</span>
+<span class="n">host_df</span>
 </pre></div>
 </div>
 <table class="docutils align-default">
@@ -226,7 +227,6 @@ the frequency of the IPs:</p>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
 <p>As you can see, in addition to getting hostnames, aliaslist, and ipaddrlist for
 the IPs you supplied, you also get counts (absolute and cumulative) as well as
 percentages (absolute and cumulative). This can give you a good overview of

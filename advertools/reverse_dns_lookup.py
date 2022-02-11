@@ -27,21 +27,30 @@ addresses that you have. Make sure to **keep the duplicates**, because the
 function handles that for you, as well as provide counts and some statistics on
 the frequency of the IPs:
 
-    >>> ip_list = ['66.249.66.194', '66.249.66.194', '66.249.66.194',
-    ...            '66.249.66.91', '66.249.66.91', '130.185.74.243',
-    ...            '31.56.96.51', '5.211.97.39']
-    >>> import advertools as adv
-    >>> adv.reverse_dns_lookup(ip_list)
+.. thebe-button::
+    Run this code
 
-    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
-      ..  ip_address        count    cum_count    perc    cum_perc  hostname                           aliaslist                    ipaddrlist      errors
-    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
-       0  66.249.66.194         3            3   0.375       0.375  crawl-66-249-66-194.googlebot.com  194.66.249.66.in-addr.arpa   66.249.66.194
-       1  66.249.66.91          2            5   0.25        0.625  crawl-66-249-66-91.googlebot.com   91.66.249.66.in-addr.arpa    66.249.66.91
-       2  130.185.74.243        1            6   0.125       0.75   mail.garda.ir                      243.74.185.130.in-addr.arpa  130.185.74.243
-       3  31.56.96.51           1            7   0.125       0.875  31-56-96-51.shatel.ir              51.96.56.31.in-addr.arpa     31.56.96.51
-       4  5.211.97.39           1            8   0.125       1                                                                                      [Errno 1] Unknown host
-    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
+.. code-block::
+    :class: thebe, thebe-init
+
+    import advertools as adv
+    ip_list = ['66.249.66.194', '66.249.66.194', '66.249.66.194',
+               '66.249.66.91', '66.249.66.91', '130.185.74.243',
+               '31.56.96.51', '5.211.97.39']
+
+    host_df = adv.reverse_dns_lookup(ip_list)
+    host_df
+
+
+====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
+  ..  ip_address        count    cum_count    perc    cum_perc  hostname                           aliaslist                    ipaddrlist      errors
+====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
+   0  66.249.66.194         3            3   0.375       0.375  crawl-66-249-66-194.googlebot.com  194.66.249.66.in-addr.arpa   66.249.66.194
+   1  66.249.66.91          2            5   0.25        0.625  crawl-66-249-66-91.googlebot.com   91.66.249.66.in-addr.arpa    66.249.66.91
+   2  130.185.74.243        1            6   0.125       0.75   mail.garda.ir                      243.74.185.130.in-addr.arpa  130.185.74.243
+   3  31.56.96.51           1            7   0.125       0.875  31-56-96-51.shatel.ir              51.96.56.31.in-addr.arpa     31.56.96.51
+   4  5.211.97.39           1            8   0.125       1                                                                                      [Errno 1] Unknown host
+====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
 
 As you can see, in addition to getting hostnames, aliaslist, and ipaddrlist for
 the IPs you supplied, you also get counts (absolute and cumulative) as well as

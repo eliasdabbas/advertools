@@ -125,12 +125,312 @@ download the whole page, this makes the crawling super light on servers, and
 makes the process very fast.</p>
 <p>The function is straight-forward and easy to use, you basically need a list of
 URLs and a file path where you want to save the output (in <cite>.jl</cite> format):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl_headers</span><span class="p">(</span><span class="n">URL_LIST</span><span class="p">,</span> <span class="s1">&#39;output_file.jl&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">headers_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://advertools.readthedocs.io&#39;</span><span class="p">,</span> <span class="s1">&#39;https://adver.tools&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;https://www.dashboardom.com&#39;</span><span class="p">,</span> <span class="s1">&#39;https://povertydata.org&#39;</span><span class="p">]</span>
+<span class="n">adv</span><span class="o">.</span><span class="n">crawl_headers</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="s1">&#39;output_file.jl&#39;</span><span class="p">)</span>
+<span class="n">headers_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">headers_df</span>
 </pre></div>
 </div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 0%" />
+<col style="width: 3%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 2%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 0%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 5%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 2%" />
+<col style="width: 1%" />
+<col style="width: 6%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 3%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 3%" />
+<col style="width: 2%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 3%" />
+<col style="width: 2%" />
+<col style="width: 1%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 6%" />
+<col style="width: 2%" />
+<col style="width: 3%" />
+<col style="width: 1%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>url</p></th>
+<th class="head"><p>crawl_time</p></th>
+<th class="head"><p>status</p></th>
+<th class="head"><p>download_timeout</p></th>
+<th class="head"><p>download_slot</p></th>
+<th class="head"><p>download_latency</p></th>
+<th class="head"><p>depth</p></th>
+<th class="head"><p>protocol</p></th>
+<th class="head"><p>body</p></th>
+<th class="head"><p>resp_headers_content-length</p></th>
+<th class="head"><p>resp_headers_server</p></th>
+<th class="head"><p>resp_headers_date</p></th>
+<th class="head"><p>resp_headers_content-type</p></th>
+<th class="head"><p>resp_headers_content-encoding</p></th>
+<th class="head"><p>request_headers_accept</p></th>
+<th class="head"><p>request_headers_accept-language</p></th>
+<th class="head"><p>request_headers_user-agent</p></th>
+<th class="head"><p>request_headers_accept-encoding</p></th>
+<th class="head"><p>resp_headers_vary</p></th>
+<th class="head"><p>redirect_times</p></th>
+<th class="head"><p>redirect_ttl</p></th>
+<th class="head"><p>redirect_urls</p></th>
+<th class="head"><p>redirect_reasons</p></th>
+<th class="head"><p>resp_headers_x-amz-id-2</p></th>
+<th class="head"><p>resp_headers_x-amz-request-id</p></th>
+<th class="head"><p>resp_headers_last-modified</p></th>
+<th class="head"><p>resp_headers_etag</p></th>
+<th class="head"><p>resp_headers_x-served</p></th>
+<th class="head"><p>resp_headers_x-backend</p></th>
+<th class="head"><p>resp_headers_x-rtd-project</p></th>
+<th class="head"><p>resp_headers_x-rtd-version</p></th>
+<th class="head"><p>resp_headers_x-rtd-path</p></th>
+<th class="head"><p>resp_headers_x-rtd-domain</p></th>
+<th class="head"><p>resp_headers_x-rtd-version-method</p></th>
+<th class="head"><p>resp_headers_x-rtd-project-method</p></th>
+<th class="head"><p>resp_headers_referrer-policy</p></th>
+<th class="head"><p>resp_headers_permissions-policy</p></th>
+<th class="head"><p>resp_headers_strict-transport-security</p></th>
+<th class="head"><p>resp_headers_cf-cache-status</p></th>
+<th class="head"><p>resp_headers_age</p></th>
+<th class="head"><p>resp_headers_expires</p></th>
+<th class="head"><p>resp_headers_cache-control</p></th>
+<th class="head"><p>resp_headers_expect-ct</p></th>
+<th class="head"><p>resp_headers_cf-ray</p></th>
+<th class="head"><p>resp_headers_alt-svc</p></th>
+<th class="head"><p>resp_headers_via</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://adver.tools">https://adver.tools</a></p></td>
+<td><p>2022-02-11 02:32:26</p></td>
+<td><p>200</p></td>
+<td><p>180</p></td>
+<td><p>adver.tools</p></td>
+<td><p>0.0270483</p></td>
+<td><p>0</p></td>
+<td><p>HTTP/1.1</p></td>
+<td><p>nan</p></td>
+<td><p>0</p></td>
+<td><p>nginx/1.18.0 (Ubuntu)</p></td>
+<td><p>Fri, 11 Feb 2022 02:32:26 GMT</p></td>
+<td><p>text/html; charset=utf-8</p></td>
+<td><p>gzip</p></td>
+<td><p>text/html,application/xhtml+xml,application/xml;q=0.9,...;q=0.8</p></td>
+<td><p>en</p></td>
+<td><p>advertools/0.13.0.rc2</p></td>
+<td><p>gzip, deflate</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://povertydata.org">https://povertydata.org</a></p></td>
+<td><p>2022-02-11 02:32:26</p></td>
+<td><p>200</p></td>
+<td><p>180</p></td>
+<td><p>povertydata.org</p></td>
+<td><p>0.06442</p></td>
+<td><p>0</p></td>
+<td><p>HTTP/1.1</p></td>
+<td><p>nan</p></td>
+<td><p>13270</p></td>
+<td><p>nginx/1.18.0 (Ubuntu)</p></td>
+<td><p>Fri, 11 Feb 2022 02:32:26 GMT</p></td>
+<td><p>text/html; charset=utf-8</p></td>
+<td><p>gzip</p></td>
+<td><p>text/html,application/xhtml+xml,application/xml;q=0.9,...;q=0.8</p></td>
+<td><p>en</p></td>
+<td><p>advertools/0.13.0.rc2</p></td>
+<td><p>gzip, deflate</p></td>
+<td><p>Accept-Encoding</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://advertools.readthedocs.io/en/master/">https://advertools.readthedocs.io/en/master/</a></p></td>
+<td><p>2022-02-11 02:32:26</p></td>
+<td><p>200</p></td>
+<td><p>180</p></td>
+<td><p>advertools.readthedocs.io</p></td>
+<td><p>0.0271282</p></td>
+<td><p>0</p></td>
+<td><p>HTTP/1.1</p></td>
+<td><p>nan</p></td>
+<td><p>0</p></td>
+<td><p>cloudflare</p></td>
+<td><p>Fri, 11 Feb 2022 02:32:26 GMT</p></td>
+<td><p>text/html</p></td>
+<td><p>gzip</p></td>
+<td><p>text/html,application/xhtml+xml,application/xml;q=0.9,...;q=0.8</p></td>
+<td><p>en</p></td>
+<td><p>advertools/0.13.0.rc2</p></td>
+<td><p>gzip, deflate</p></td>
+<td><p>Accept-Encoding</p></td>
+<td><p>1</p></td>
+<td><p>19</p></td>
+<td><p><a class="reference external" href="https://advertools.readthedocs.io">https://advertools.readthedocs.io</a></p></td>
+<td><p>302</p></td>
+<td><p>rNKT7MYjJ7hcnSvbnZg9qdqizeFfTx9YtZ3/gwNLj8M99yumuCgdd6YTm/iBMO9hrZTAi/iYl50=</p></td>
+<td><p>EE0DJX6Z511TGX88</p></td>
+<td><p>Thu, 10 Feb 2022 17:04:27 GMT</p></td>
+<td><p>W/&quot;14c904a172315a4922f4d28948b916c2&quot;</p></td>
+<td><p>Nginx-Proxito-Sendfile</p></td>
+<td><p>web-i-0710e93d610dd8c3e</p></td>
+<td><p>advertools</p></td>
+<td><p>master</p></td>
+<td><p>/proxito/html/advertools/master/index.html</p></td>
+<td><p>advertools.readthedocs.io</p></td>
+<td><p>path</p></td>
+<td><p>subdomain</p></td>
+<td><p>no-referrer-when-downgrade</p></td>
+<td><p>interest-cohort=()</p></td>
+<td><p>max-age=31536000; includeSubDomains; preload</p></td>
+<td><p>HIT</p></td>
+<td><p>1083</p></td>
+<td><p>Fri, 11 Feb 2022 04:32:26 GMT</p></td>
+<td><p>public, max-age=7200</p></td>
+<td><p>max-age=604800, report-uri=&quot;<a class="reference external" href="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct">https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct</a>&quot;</p></td>
+<td><p>6dba2aae6b424107-PRG</p></td>
+<td><p>h3=&quot;:443&quot;; ma=86400, h3-29=&quot;:443&quot;; ma=86400</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://www.dashboardom.com">https://www.dashboardom.com</a></p></td>
+<td><p>2022-02-11 02:32:26</p></td>
+<td><p>200</p></td>
+<td><p>180</p></td>
+<td><p>www.dashboardom.com</p></td>
+<td><p>0.118614</p></td>
+<td><p>0</p></td>
+<td><p>HTTP/1.1</p></td>
+<td><p>nan</p></td>
+<td><p>26837</p></td>
+<td><p>gunicorn/19.9.0</p></td>
+<td><p>Fri, 11 Feb 2022 02:32:26 GMT</p></td>
+<td><p>text/html; charset=utf-8</p></td>
+<td><p>nan</p></td>
+<td><p>text/html,application/xhtml+xml,application/xml;q=0.9,...;q=0.8</p></td>
+<td><p>en</p></td>
+<td><p>advertools/0.13.0.rc2</p></td>
+<td><p>gzip, deflate</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>1.1 vegur</p></td>
+</tr>
+</tbody>
+</table>
 <p>Optionally, you can customize the crawling behavior with the optional
 <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter. Please check the
 <a class="reference external" href="_crawl_strategies">crawl strategies</a> page for tips on how you can do that.</p>
@@ -233,8 +533,8 @@ documentation.</p></li>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://exmaple.com/A&#39;</span><span class="p">,</span> <span class="s1">&#39;https://exmaple.com/B&#39;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s1">&#39;https://exmaple.com/C&#39;</span><span class="p">,</span> <span class="s1">&#39;https://exmaple.com/D&#39;</span><span class="p">,</span>
-<span class="gp">... </span><span class="s1">&#39;https://exmaple.com/E&#39;</span><span class="p">]</span>
+<span class="gp">... </span>            <span class="s1">&#39;https://exmaple.com/C&#39;</span><span class="p">,</span> <span class="s1">&#39;https://exmaple.com/D&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s1">&#39;https://exmaple.com/E&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl_headers</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="s1">&#39;output_file.jl&#39;</span><span class="p">)</span>
