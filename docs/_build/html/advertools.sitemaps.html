@@ -168,55 +168,164 @@ start by getting one of the BBC's sitemaps.</p>
 </section>
 <section id="regular-xml-sitemaps">
 <h2>Regular XML Sitemaps<a class="headerlink" href="#regular-xml-sitemaps" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span> <span class="o">=</span> <span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="go">                                                                                    loc                     lastmod                                                            sitemap                                etag            sitemap_last_modified          sitemap_size_mb                         download_date</span>
-<span class="go">0            https://www.bbc.com/arabic/middleeast/2009/06/090620_as_iraq_explosion_tc2   2009-06-20 14:10:48+00:00       https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml    5f78c818962d9c3656960a852a1fd9a5        2020-05-27 14:38:31+00:00       7.6312408447265625      2021-01-16 20:16:34.403337+00:00</span>
-<span class="go">1                   https://www.bbc.com/arabic/middleeast/2009/06/090620_iraq_blast_tc2   2009-06-20 21:07:43+00:00       https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml    5f78c818962d9c3656960a852a1fd9a5        2020-05-27 14:38:31+00:00       7.6312408447265625      2021-01-16 20:16:34.403337+00:00</span>
-<span class="go">2                   https://www.bbc.com/arabic/business/2009/06/090622_me_worldbank_tc2   2009-06-22 12:41:48+00:00       https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml    5f78c818962d9c3656960a852a1fd9a5        2020-05-27 14:38:31+00:00       7.6312408447265625      2021-01-16 20:16:34.403337+00:00</span>
-<span class="go">3         https://www.bbc.com/arabic/multimedia/2009/06/090624_me_inpictures_brazil_tc2   2009-06-24 15:27:24+00:00       https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml    5f78c818962d9c3656960a852a1fd9a5        2020-05-27 14:38:31+00:00       7.6312408447265625      2021-01-16 20:16:34.403337+00:00</span>
-<span class="go">4                            https://www.bbc.com/arabic/business/2009/06/090618_tomtest   2009-06-18 15:32:54+00:00       https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml    5f78c818962d9c3656960a852a1fd9a5        2020-05-27 14:38:31+00:00       7.6312408447265625      2021-01-16 20:16:34.403337+00:00</span>
-<span class="go">5             https://www.bbc.com/arabic/multimedia/2009/06/090625_sf_tamim_verdict_tc2   2009-06-25 09:46:39+00:00       https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml    5f78c818962d9c3656960a852a1fd9a5        2020-05-27 14:38:31+00:00       7.6312408447265625      2021-01-16 20:16:34.403337+00:00</span>
-<span class="go">6              https://www.bbc.com/arabic/middleeast/2009/06/090623_iz_cairo_russia_tc2   2009-06-23 13:10:56+00:00       https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml    5f78c818962d9c3656960a852a1fd9a5        2020-05-27 14:38:31+00:00       7.6312408447265625      2021-01-16 20:16:34.403337+00:00</span>
-<span class="go">7                      https://www.bbc.com/arabic/sports/2009/06/090622_me_egypt_us_tc2   2009-06-22 15:37:07+00:00       https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml    5f78c818962d9c3656960a852a1fd9a5        2020-05-27 14:38:31+00:00       7.6312408447265625      2021-01-16 20:16:34.403337+00:00</span>
-<span class="go">8                     https://www.bbc.com/arabic/sports/2009/06/090624_mz_wimbledon_tc2   2009-06-24 13:57:18+00:00       https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml    5f78c818962d9c3656960a852a1fd9a5        2020-05-27 14:38:31+00:00       7.6312408447265625      2021-01-16 20:16:34.403337+00:00</span>
-<span class="go">9           https://www.bbc.com/arabic/worldnews/2009/06/090623_mz_leaders_lifespan_tc2   2009-06-23 13:24:23+00:00       https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml    5f78c818962d9c3656960a852a1fd9a5        2020-05-27 14:38:31+00:00       7.6312408447265625      2021-01-16 20:16:34.403337+00:00</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+
+<span class="n">bbc_sitemap</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml&#39;</span><span class="p">)</span>
+<span class="n">bbc_sitemap</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span><span class="o">.</span><span class="n">shape</span>
-<span class="go">(49999, 7)</span>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 1%" />
+<col style="width: 28%" />
+<col style="width: 9%" />
+<col style="width: 22%" />
+<col style="width: 12%" />
+<col style="width: 9%" />
+<col style="width: 6%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>loc</p></th>
+<th class="head"><p>lastmod</p></th>
+<th class="head"><p>sitemap</p></th>
+<th class="head"><p>etag</p></th>
+<th class="head"><p>sitemap_last_modified</p></th>
+<th class="head"><p>sitemap_size_mb</p></th>
+<th class="head"><p>download_date</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/middleeast/2009/06/090620_as_iraq_explosion_tc2">https://www.bbc.com/arabic/middleeast/2009/06/090620_as_iraq_explosion_tc2</a></p></td>
+<td><p>2009-06-20 14:10:48+00:00</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml">https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml</a></p></td>
+<td><p>e7e15811c65f406f89f89fe10aef29f5</p></td>
+<td><p>2021-11-05 20:52:56+00:00</p></td>
+<td><p>7.63124</p></td>
+<td><p>2022-02-12 01:37:39.461037+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/middleeast/2009/06/090620_iraq_blast_tc2">https://www.bbc.com/arabic/middleeast/2009/06/090620_iraq_blast_tc2</a></p></td>
+<td><p>2009-06-20 21:07:43+00:00</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml">https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml</a></p></td>
+<td><p>e7e15811c65f406f89f89fe10aef29f5</p></td>
+<td><p>2021-11-05 20:52:56+00:00</p></td>
+<td><p>7.63124</p></td>
+<td><p>2022-02-12 01:37:39.461037+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/business/2009/06/090622_me_worldbank_tc2">https://www.bbc.com/arabic/business/2009/06/090622_me_worldbank_tc2</a></p></td>
+<td><p>2009-06-22 12:41:48+00:00</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml">https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml</a></p></td>
+<td><p>e7e15811c65f406f89f89fe10aef29f5</p></td>
+<td><p>2021-11-05 20:52:56+00:00</p></td>
+<td><p>7.63124</p></td>
+<td><p>2022-02-12 01:37:39.461037+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/multimedia/2009/06/090624_me_inpictures_brazil_tc2">https://www.bbc.com/arabic/multimedia/2009/06/090624_me_inpictures_brazil_tc2</a></p></td>
+<td><p>2009-06-24 15:27:24+00:00</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml">https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml</a></p></td>
+<td><p>e7e15811c65f406f89f89fe10aef29f5</p></td>
+<td><p>2021-11-05 20:52:56+00:00</p></td>
+<td><p>7.63124</p></td>
+<td><p>2022-02-12 01:37:39.461037+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/business/2009/06/090618_tomtest">https://www.bbc.com/arabic/business/2009/06/090618_tomtest</a></p></td>
+<td><p>2009-06-18 15:32:54+00:00</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml">https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml</a></p></td>
+<td><p>e7e15811c65f406f89f89fe10aef29f5</p></td>
+<td><p>2021-11-05 20:52:56+00:00</p></td>
+<td><p>7.63124</p></td>
+<td><p>2022-02-12 01:37:39.461037+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/multimedia/2009/06/090625_sf_tamim_verdict_tc2">https://www.bbc.com/arabic/multimedia/2009/06/090625_sf_tamim_verdict_tc2</a></p></td>
+<td><p>2009-06-25 09:46:39+00:00</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml">https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml</a></p></td>
+<td><p>e7e15811c65f406f89f89fe10aef29f5</p></td>
+<td><p>2021-11-05 20:52:56+00:00</p></td>
+<td><p>7.63124</p></td>
+<td><p>2022-02-12 01:37:39.461037+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/middleeast/2009/06/090623_iz_cairo_russia_tc2">https://www.bbc.com/arabic/middleeast/2009/06/090623_iz_cairo_russia_tc2</a></p></td>
+<td><p>2009-06-23 13:10:56+00:00</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml">https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml</a></p></td>
+<td><p>e7e15811c65f406f89f89fe10aef29f5</p></td>
+<td><p>2021-11-05 20:52:56+00:00</p></td>
+<td><p>7.63124</p></td>
+<td><p>2022-02-12 01:37:39.461037+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/sports/2009/06/090622_me_egypt_us_tc2">https://www.bbc.com/arabic/sports/2009/06/090622_me_egypt_us_tc2</a></p></td>
+<td><p>2009-06-22 15:37:07+00:00</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml">https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml</a></p></td>
+<td><p>e7e15811c65f406f89f89fe10aef29f5</p></td>
+<td><p>2021-11-05 20:52:56+00:00</p></td>
+<td><p>7.63124</p></td>
+<td><p>2022-02-12 01:37:39.461037+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/sports/2009/06/090624_mz_wimbledon_tc2">https://www.bbc.com/arabic/sports/2009/06/090624_mz_wimbledon_tc2</a></p></td>
+<td><p>2009-06-24 13:57:18+00:00</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml">https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml</a></p></td>
+<td><p>e7e15811c65f406f89f89fe10aef29f5</p></td>
+<td><p>2021-11-05 20:52:56+00:00</p></td>
+<td><p>7.63124</p></td>
+<td><p>2022-02-12 01:37:39.461037+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/worldnews/2009/06/090623_mz_leaders_lifespan_tc2">https://www.bbc.com/arabic/worldnews/2009/06/090623_mz_leaders_lifespan_tc2</a></p></td>
+<td><p>2009-06-23 13:24:23+00:00</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml">https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml</a></p></td>
+<td><p>e7e15811c65f406f89f89fe10aef29f5</p></td>
+<td><p>2021-11-05 20:52:56+00:00</p></td>
+<td><p>7.63124</p></td>
+<td><p>2022-02-12 01:37:39.461037+00:00</p></td>
+</tr>
+</tbody>
+</table>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">bbc_sitemap</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bbc_sitemap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span><span class="o">.</span><span class="n">dtypes</span>
-<span class="go">loc                                   object</span>
-<span class="go">lastmod                  datetime64[ns, UTC]</span>
-<span class="go">sitemap                               object</span>
-<span class="go">etag                                  object</span>
-<span class="go">sitemap_last_modified    datetime64[ns, UTC]</span>
-<span class="go">sitemap_size_mb                      float64</span>
-<span class="go">download_date            datetime64[ns, UTC]</span>
-<span class="go">dtype: object</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">49999</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+
+<span class="n">loc</span>                                   <span class="nb">object</span>
+<span class="n">lastmod</span>                  <span class="n">datetime64</span><span class="p">[</span><span class="n">ns</span><span class="p">,</span> <span class="n">UTC</span><span class="p">]</span>
+<span class="n">sitemap</span>                               <span class="nb">object</span>
+<span class="n">etag</span>                                  <span class="nb">object</span>
+<span class="n">sitemap_last_modified</span>    <span class="n">datetime64</span><span class="p">[</span><span class="n">ns</span><span class="p">,</span> <span class="n">UTC</span><span class="p">]</span>
+<span class="n">sitemap_size_mb</span>                      <span class="n">float64</span>
+<span class="n">download_date</span>            <span class="n">datetime64</span><span class="p">[</span><span class="n">ns</span><span class="p">,</span> <span class="n">UTC</span><span class="p">]</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="nb">object</span>
 </pre></div>
 </div>
 <p>Since <code class="docutils literal notranslate"><span class="pre">lastmod</span></code> is a <code class="docutils literal notranslate"><span class="pre">datetime</span></code> object, we can easily use it for various
 time-related operations.
 Here we look at how many articles have been published (last modified) per year.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;lastmod&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-<span class="go">lastmod</span>
-<span class="go">2008-12-31 00:00:00+00:00     2261</span>
-<span class="go">2009-12-31 00:00:00+00:00    47225</span>
-<span class="go">2010-12-31 00:00:00+00:00        0</span>
-<span class="go">2011-12-31 00:00:00+00:00        0</span>
-<span class="go">2012-12-31 00:00:00+00:00        0</span>
-<span class="go">2013-12-31 00:00:00+00:00        0</span>
-<span class="go">2014-12-31 00:00:00+00:00        0</span>
-<span class="go">2015-12-31 00:00:00+00:00        0</span>
-<span class="go">2016-12-31 00:00:00+00:00        0</span>
-<span class="go">2017-12-31 00:00:00+00:00        0</span>
-<span class="go">2018-12-31 00:00:00+00:00        0</span>
-<span class="go">2019-12-31 00:00:00+00:00      481</span>
-<span class="go">2020-12-31 00:00:00+00:00       32</span>
-<span class="go">Freq: A-DEC, Name: loc, dtype: int64</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bbc_sitemap</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;lastmod&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lastmod</span>
+<span class="mi">2008</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>     <span class="mi">2287</span>
+<span class="mi">2009</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mi">47603</span>
+<span class="mi">2010</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>        <span class="mi">0</span>
+<span class="mi">2011</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>        <span class="mi">0</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>        <span class="mi">0</span>
+<span class="mi">2013</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>        <span class="mi">0</span>
+<span class="mi">2014</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>        <span class="mi">0</span>
+<span class="mi">2015</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>        <span class="mi">0</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>        <span class="mi">0</span>
+<span class="mi">2017</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>        <span class="mi">0</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>        <span class="mi">0</span>
+<span class="mi">2019</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>       <span class="mi">99</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>       <span class="mi">10</span>
+<span class="n">Freq</span><span class="p">:</span> <span class="n">A</span><span class="o">-</span><span class="n">DEC</span><span class="p">,</span> <span class="n">Name</span><span class="p">:</span> <span class="n">loc</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
 </pre></div>
 </div>
 <p>As the majority are in 2009 with a few in other years, it seems these were
@@ -225,126 +334,330 @@ URLs contain date information, which can be compared to <code class="docutils li
 there is a difference between them).</p>
 <p>We can take a look at a sample of the URLs to get the URL template that they
 use.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="go">[&#39;https://www.bbc.com/russian/rolling_news/2009/06/090628_rn_pakistani_soldiries_ambush&#39;,</span>
-<span class="go"> &#39;https://www.bbc.com/urdu/pakistan/2009/04/090421_mqm_speaks_rza&#39;,</span>
-<span class="go"> &#39;https://www.bbc.com/arabic/middleeast/2009/07/090723_ae_silwan_tc2&#39;,</span>
-<span class="go"> &#39;https://www.bbc.com/portuguese/noticias/2009/07/090729_iraquerefenbritsfn&#39;,</span>
-<span class="go"> &#39;https://www.bbc.com/portuguese/noticias/2009/06/090623_egitomilitaresfn&#39;,</span>
-<span class="go"> &#39;https://www.bbc.com/portuguese/noticias/2009/03/090302_gazaconferenciaml&#39;,</span>
-<span class="go"> &#39;https://www.bbc.com/portuguese/noticias/2009/07/090715_hillary_iran_cq&#39;,</span>
-<span class="go"> &#39;https://www.bbc.com/vietnamese/culture/2009/04/090409_machienhuu_revisiting&#39;,</span>
-<span class="go"> &#39;https://www.bbc.com/portuguese/noticias/2009/05/090524_paquistaoupdateg&#39;,</span>
-<span class="go"> &#39;https://www.bbc.com/arabic/worldnews/2009/06/090629_om_pakistan_report_tc2&#39;]</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bbc_sitemap</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;https://www.bbc.com/russian/rolling_news/2009/06/090628_rn_pakistani_soldiries_ambush&#39;</span><span class="p">,</span>
+<span class="s1">&#39;https://www.bbc.com/urdu/pakistan/2009/04/090421_mqm_speaks_rza&#39;</span><span class="p">,</span>
+<span class="s1">&#39;https://www.bbc.com/arabic/middleeast/2009/07/090723_ae_silwan_tc2&#39;</span><span class="p">,</span>
+<span class="s1">&#39;https://www.bbc.com/portuguese/noticias/2009/07/090729_iraquerefenbritsfn&#39;</span><span class="p">,</span>
+<span class="s1">&#39;https://www.bbc.com/portuguese/noticias/2009/06/090623_egitomilitaresfn&#39;</span><span class="p">,</span>
+<span class="s1">&#39;https://www.bbc.com/portuguese/noticias/2009/03/090302_gazaconferenciaml&#39;</span><span class="p">,</span>
+<span class="s1">&#39;https://www.bbc.com/portuguese/noticias/2009/07/090715_hillary_iran_cq&#39;</span><span class="p">,</span>
+<span class="s1">&#39;https://www.bbc.com/vietnamese/culture/2009/04/090409_machienhuu_revisiting&#39;</span><span class="p">,</span>
+<span class="s1">&#39;https://www.bbc.com/portuguese/noticias/2009/05/090524_paquistaoupdateg&#39;</span><span class="p">,</span>
+<span class="s1">&#39;https://www.bbc.com/arabic/worldnews/2009/06/090629_om_pakistan_report_tc2&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>It seems the pattern is</p>
 <blockquote>
 <div><p><strong>https://www.bbc.com/{language}/{topic}/{YYYY}/{MM}/{YYMMDD_article_title}</strong></p>
 </div></blockquote>
-<p>This is quite a rich structure, full of useful information. We can easily count
-how many articles they have by language, by splitting by &quot;/&quot; and getting the
-elements at index three, and counting them.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
-<span class="go">russian       14022</span>
-<span class="go">persian       10968</span>
-<span class="go">portuguese     5403</span>
-<span class="go">urdu           5068</span>
-<span class="go">mundo          5065</span>
-<span class="go">vietnamese     3561</span>
-<span class="go">arabic         2984</span>
-<span class="go">hindi          1677</span>
-<span class="go">turkce          706</span>
-<span class="go">ukchina         545</span>
-<span class="go">Name: loc, dtype: int64</span>
+<p>This is quite a rich structure, full of useful information. We can
+<a class="reference internal" href="advertools.urlytics.html#urlytics"><span class="std std-ref">analyze the URL structure</span></a> using the <code class="docutils literal notranslate"><span class="pre">url_to_df</span></code> function:</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">url_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">url_to_df</span><span class="p">(</span><span class="n">bbc_sitemap</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">])</span>
+<span class="n">url_df</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 27%" />
+<col style="width: 3%" />
+<col style="width: 4%" />
+<col style="width: 20%" />
+<col style="width: 2%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 11%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>url</p></th>
+<th class="head"><p>scheme</p></th>
+<th class="head"><p>netloc</p></th>
+<th class="head"><p>path</p></th>
+<th class="head"><p>query</p></th>
+<th class="head"><p>fragment</p></th>
+<th class="head"><p>dir_1</p></th>
+<th class="head"><p>dir_2</p></th>
+<th class="head"><p>dir_3</p></th>
+<th class="head"><p>dir_4</p></th>
+<th class="head"><p>dir_5</p></th>
+<th class="head"><p>dir_6</p></th>
+<th class="head"><p>dir_7</p></th>
+<th class="head"><p>last_dir</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/middleeast/2009/06/090620_as_iraq_explosion_tc2">https://www.bbc.com/arabic/middleeast/2009/06/090620_as_iraq_explosion_tc2</a></p></td>
+<td><p>https</p></td>
+<td><p>www.bbc.com</p></td>
+<td><p>/arabic/middleeast/2009/06/090620_as_iraq_explosion_tc2</p></td>
+<td></td>
+<td></td>
+<td><p>arabic</p></td>
+<td><p>middleeast</p></td>
+<td><p>2009</p></td>
+<td><p>06</p></td>
+<td><p>090620_as_iraq_explosion_tc2</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>090620_as_iraq_explosion_tc2</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/middleeast/2009/06/090620_iraq_blast_tc2">https://www.bbc.com/arabic/middleeast/2009/06/090620_iraq_blast_tc2</a></p></td>
+<td><p>https</p></td>
+<td><p>www.bbc.com</p></td>
+<td><p>/arabic/middleeast/2009/06/090620_iraq_blast_tc2</p></td>
+<td></td>
+<td></td>
+<td><p>arabic</p></td>
+<td><p>middleeast</p></td>
+<td><p>2009</p></td>
+<td><p>06</p></td>
+<td><p>090620_iraq_blast_tc2</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>090620_iraq_blast_tc2</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/business/2009/06/090622_me_worldbank_tc2">https://www.bbc.com/arabic/business/2009/06/090622_me_worldbank_tc2</a></p></td>
+<td><p>https</p></td>
+<td><p>www.bbc.com</p></td>
+<td><p>/arabic/business/2009/06/090622_me_worldbank_tc2</p></td>
+<td></td>
+<td></td>
+<td><p>arabic</p></td>
+<td><p>business</p></td>
+<td><p>2009</p></td>
+<td><p>06</p></td>
+<td><p>090622_me_worldbank_tc2</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>090622_me_worldbank_tc2</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/multimedia/2009/06/090624_me_inpictures_brazil_tc2">https://www.bbc.com/arabic/multimedia/2009/06/090624_me_inpictures_brazil_tc2</a></p></td>
+<td><p>https</p></td>
+<td><p>www.bbc.com</p></td>
+<td><p>/arabic/multimedia/2009/06/090624_me_inpictures_brazil_tc2</p></td>
+<td></td>
+<td></td>
+<td><p>arabic</p></td>
+<td><p>multimedia</p></td>
+<td><p>2009</p></td>
+<td><p>06</p></td>
+<td><p>090624_me_inpictures_brazil_tc2</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>090624_me_inpictures_brazil_tc2</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/arabic/business/2009/06/090618_tomtest">https://www.bbc.com/arabic/business/2009/06/090618_tomtest</a></p></td>
+<td><p>https</p></td>
+<td><p>www.bbc.com</p></td>
+<td><p>/arabic/business/2009/06/090618_tomtest</p></td>
+<td></td>
+<td></td>
+<td><p>arabic</p></td>
+<td><p>business</p></td>
+<td><p>2009</p></td>
+<td><p>06</p></td>
+<td><p>090618_tomtest</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>090618_tomtest</p></td>
+</tr>
+<tr class="row-odd"><td><p>49994</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/vietnamese/world/2009/08/090831_dalailamataiwan">https://www.bbc.com/vietnamese/world/2009/08/090831_dalailamataiwan</a></p></td>
+<td><p>https</p></td>
+<td><p>www.bbc.com</p></td>
+<td><p>/vietnamese/world/2009/08/090831_dalailamataiwan</p></td>
+<td></td>
+<td></td>
+<td><p>vietnamese</p></td>
+<td><p>world</p></td>
+<td><p>2009</p></td>
+<td><p>08</p></td>
+<td><p>090831_dalailamataiwan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>090831_dalailamataiwan</p></td>
+</tr>
+<tr class="row-even"><td><p>49995</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/vietnamese/world/2009/09/090901_putin_regret_pact">https://www.bbc.com/vietnamese/world/2009/09/090901_putin_regret_pact</a></p></td>
+<td><p>https</p></td>
+<td><p>www.bbc.com</p></td>
+<td><p>/vietnamese/world/2009/09/090901_putin_regret_pact</p></td>
+<td></td>
+<td></td>
+<td><p>vietnamese</p></td>
+<td><p>world</p></td>
+<td><p>2009</p></td>
+<td><p>09</p></td>
+<td><p>090901_putin_regret_pact</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>090901_putin_regret_pact</p></td>
+</tr>
+<tr class="row-odd"><td><p>49996</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/vietnamese/culture/2009/09/090901_tiananmen_movie">https://www.bbc.com/vietnamese/culture/2009/09/090901_tiananmen_movie</a></p></td>
+<td><p>https</p></td>
+<td><p>www.bbc.com</p></td>
+<td><p>/vietnamese/culture/2009/09/090901_tiananmen_movie</p></td>
+<td></td>
+<td></td>
+<td><p>vietnamese</p></td>
+<td><p>culture</p></td>
+<td><p>2009</p></td>
+<td><p>09</p></td>
+<td><p>090901_tiananmen_movie</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>090901_tiananmen_movie</p></td>
+</tr>
+<tr class="row-even"><td><p>49997</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/vietnamese/pictures/2009/08/090830_ugc_ddh_sand">https://www.bbc.com/vietnamese/pictures/2009/08/090830_ugc_ddh_sand</a></p></td>
+<td><p>https</p></td>
+<td><p>www.bbc.com</p></td>
+<td><p>/vietnamese/pictures/2009/08/090830_ugc_ddh_sand</p></td>
+<td></td>
+<td></td>
+<td><p>vietnamese</p></td>
+<td><p>pictures</p></td>
+<td><p>2009</p></td>
+<td><p>08</p></td>
+<td><p>090830_ugc_ddh_sand</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>090830_ugc_ddh_sand</p></td>
+</tr>
+<tr class="row-odd"><td><p>49998</p></td>
+<td><p><a class="reference external" href="https://www.bbc.com/vietnamese/business/2009/09/090901_japecontask">https://www.bbc.com/vietnamese/business/2009/09/090901_japecontask</a></p></td>
+<td><p>https</p></td>
+<td><p>www.bbc.com</p></td>
+<td><p>/vietnamese/business/2009/09/090901_japecontask</p></td>
+<td></td>
+<td></td>
+<td><p>vietnamese</p></td>
+<td><p>business</p></td>
+<td><p>2009</p></td>
+<td><p>09</p></td>
+<td><p>090901_japecontask</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>090901_japecontask</p></td>
+</tr>
+</tbody>
+</table>
+<p>It seems that the <code class="docutils literal notranslate"><span class="pre">dir_1</span></code> is where they have the language information, so we
+can easily count how many articles they have per language:</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">url_df</span><span class="p">[</span><span class="s1">&#39;dir_1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">russian</span>       <span class="mi">14022</span>
+<span class="n">persian</span>       <span class="mi">10968</span>
+<span class="n">portuguese</span>     <span class="mi">5403</span>
+<span class="n">urdu</span>           <span class="mi">5068</span>
+<span class="n">mundo</span>          <span class="mi">5065</span>
+<span class="n">vietnamese</span>     <span class="mi">3561</span>
+<span class="n">arabic</span>         <span class="mi">2984</span>
+<span class="n">hindi</span>          <span class="mi">1677</span>
+<span class="n">turkce</span>          <span class="mi">706</span>
+<span class="n">ukchina</span>         <span class="mi">545</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">dir_1</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
 </pre></div>
 </div>
 <p>We can also get a subset of articles written in a certain language, and see how
 many articles they publish per month, week, year, etc.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">bbc_sitemap</span><span class="p">[</span><span class="n">bbc_sitemap</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span>
-<span class="gp">... </span> <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;/russian/&#39;</span><span class="p">)]</span>
-<span class="gp">... </span> <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;lastmod&#39;</span><span class="p">)</span>
-<span class="gp">... </span> <span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
-<span class="go">lastmod</span>
-<span class="go">2009-04-30 00:00:00+00:00    1506</span>
-<span class="go">2009-05-31 00:00:00+00:00    2910</span>
-<span class="go">2009-06-30 00:00:00+00:00    3021</span>
-<span class="go">2009-07-31 00:00:00+00:00    3250</span>
-<span class="go">2009-08-31 00:00:00+00:00    2769</span>
-<span class="go">                             ...</span>
-<span class="go">2019-09-30 00:00:00+00:00       8</span>
-<span class="go">2019-10-31 00:00:00+00:00      17</span>
-<span class="go">2019-11-30 00:00:00+00:00      11</span>
-<span class="go">2019-12-31 00:00:00+00:00      24</span>
-<span class="go">2020-01-31 00:00:00+00:00       6</span>
-<span class="go">Freq: M, Name: loc, Length: 130, dtype: int64</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">bbc_sitemap</span><span class="p">[</span><span class="n">bbc_sitemap</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span>
+ <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;/russian/&#39;</span><span class="p">)]</span>
+ <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;lastmod&#39;</span><span class="p">)</span>
+ <span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>The fifth element after splitting URLs is the topic or category of the article.
-We can do the same and count the values.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bbc_sitemap</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[:</span><span class="mi">30</span><span class="p">]</span>
-<span class="go">rolling_news          9044</span>
-<span class="go">world                 5050</span>
-<span class="go">noticias              4224</span>
-<span class="go">iran                  3682</span>
-<span class="go">pakistan              2103</span>
-<span class="go">afghanistan           1959</span>
-<span class="go">multimedia            1657</span>
-<span class="go">internacional         1555</span>
-<span class="go">sport                 1350</span>
-<span class="go">international         1293</span>
-<span class="go">india                 1285</span>
-<span class="go">america_latina        1274</span>
-<span class="go">business              1204</span>
-<span class="go">cultura_sociedad       913</span>
-<span class="go">middleeast             874</span>
-<span class="go">worldnews              872</span>
-<span class="go">russia                 841</span>
-<span class="go">radio                  769</span>
-<span class="go">science                755</span>
-<span class="go">football               674</span>
-<span class="go">arts                   664</span>
-<span class="go">ciencia_tecnologia     627</span>
-<span class="go">entertainment          621</span>
-<span class="go">simp                   545</span>
-<span class="go">vietnam                539</span>
-<span class="go">economia               484</span>
-<span class="go">haberler               424</span>
-<span class="go">interactivity          411</span>
-<span class="go">help                   354</span>
-<span class="go">ciencia                308</span>
-<span class="go">Name: loc, dtype: int64</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lastmod</span>
+<span class="mi">2009</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">30</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mi">1506</span>
+<span class="mi">2009</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mi">2910</span>
+<span class="mi">2009</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">30</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mi">3021</span>
+<span class="mi">2009</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mi">3250</span>
+<span class="mi">2009</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mi">2769</span>
+                             <span class="o">...</span>
+<span class="mi">2019</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">30</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>       <span class="mi">8</span>
+<span class="mi">2019</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>      <span class="mi">17</span>
+<span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">30</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>      <span class="mi">11</span>
+<span class="mi">2019</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>      <span class="mi">24</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">31</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>       <span class="mi">6</span>
+<span class="n">Freq</span><span class="p">:</span> <span class="n">M</span><span class="p">,</span> <span class="n">Name</span><span class="p">:</span> <span class="n">loc</span><span class="p">,</span> <span class="n">Length</span><span class="p">:</span> <span class="mi">130</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
 </pre></div>
 </div>
-<p>Finally, we can take the last element after splitting, which contains the slugs
+<p>The topic or category of the article seems to be in <code class="docutils literal notranslate"><span class="pre">dir_2</span></code> for which we can
+do the same and count the values.</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">url_df</span><span class="p">[</span><span class="s1">&#39;dir_2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[:</span><span class="mi">20</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rolling_news</span>        <span class="mi">9044</span>
+<span class="n">world</span>               <span class="mi">5050</span>
+<span class="n">noticias</span>            <span class="mi">4224</span>
+<span class="n">iran</span>                <span class="mi">3682</span>
+<span class="n">pakistan</span>            <span class="mi">2103</span>
+<span class="n">afghanistan</span>         <span class="mi">1959</span>
+<span class="n">multimedia</span>          <span class="mi">1657</span>
+<span class="n">internacional</span>       <span class="mi">1555</span>
+<span class="n">sport</span>               <span class="mi">1350</span>
+<span class="n">international</span>       <span class="mi">1293</span>
+<span class="n">india</span>               <span class="mi">1285</span>
+<span class="n">america_latina</span>      <span class="mi">1274</span>
+<span class="n">business</span>            <span class="mi">1204</span>
+<span class="n">cultura_sociedad</span>     <span class="mi">913</span>
+<span class="n">middleeast</span>           <span class="mi">874</span>
+<span class="n">worldnews</span>            <span class="mi">872</span>
+<span class="n">russia</span>               <span class="mi">841</span>
+<span class="n">radio</span>                <span class="mi">769</span>
+<span class="n">science</span>              <span class="mi">755</span>
+<span class="n">football</span>             <span class="mi">674</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">dir_2</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</pre></div>
+</div>
+<p>There is much more you can do, and a lot depends on the URL structure, which
+you have to explore and run the right operation.</p>
+<p>For example, we can use the <code class="docutils literal notranslate"><span class="pre">last_dir</span></code> column which contains the slugs
 of the articles, replace underscores with spaces, split, concatenate all, put
 in a <code class="docutils literal notranslate"><span class="pre">pd.Series</span></code> and count the values. This way we see how many times each
-word occurred in an article.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">bbc_sitemap</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="gp">... </span>   <span class="p">)</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">value_counts</span><span class="p">()[:</span><span class="mi">15</span><span class="p">])</span>
-<span class="go">rn        8808</span>
-<span class="go">tc2       3153</span>
-<span class="go">iran      1534</span>
-<span class="go">video      973</span>
-<span class="go">obama      882</span>
-<span class="go">us         862</span>
-<span class="go">china      815</span>
-<span class="go">ir88       727</span>
-<span class="go">russia     683</span>
-<span class="go">si         640</span>
-<span class="go">np         638</span>
-<span class="go">afghan     632</span>
-<span class="go">ka         565</span>
-<span class="go">an         556</span>
-<span class="go">iraq       554</span>
-<span class="go">dtype: int64</span>
+word occurred in an article. The same code can also be run after filtering for
+articles in a particular language to get a more meaningful list of words.</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">url_df</span><span class="p">[</span><span class="s1">&#39;last_dir&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[:</span><span class="mi">20</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rn</span>          <span class="mi">8808</span>
+<span class="n">tc2</span>         <span class="mi">3153</span>
+<span class="n">iran</span>        <span class="mi">1534</span>
+<span class="n">video</span>        <span class="mi">973</span>
+<span class="n">obama</span>        <span class="mi">882</span>
+<span class="n">us</span>           <span class="mi">862</span>
+<span class="n">china</span>        <span class="mi">815</span>
+<span class="n">ir88</span>         <span class="mi">727</span>
+<span class="n">russia</span>       <span class="mi">683</span>
+<span class="n">si</span>           <span class="mi">640</span>
+<span class="n">np</span>           <span class="mi">638</span>
+<span class="n">afghan</span>       <span class="mi">632</span>
+<span class="n">ka</span>           <span class="mi">565</span>
+<span class="n">an</span>           <span class="mi">556</span>
+<span class="n">iraq</span>         <span class="mi">554</span>
+<span class="n">pakistan</span>     <span class="mi">547</span>
+<span class="n">nh</span>           <span class="mi">533</span>
+<span class="n">cq</span>           <span class="mi">520</span>
+<span class="n">zs</span>           <span class="mi">510</span>
+<span class="n">ra</span>           <span class="mi">491</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">last_dir</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
 </pre></div>
 </div>
 <p>This was a quick overview and data preparation for a sample sitemap. Once you
@@ -360,41 +673,446 @@ has a tag with multiple values.</p>
 </section>
 <section id="news-sitemaps">
 <h2>News Sitemaps<a class="headerlink" href="#news-sitemaps" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nyt_news</span> <span class="o">=</span> <span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.nytimes.com/sitemaps/new/news.xml.gz&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nyt_news</span>
-<span class="go">                                                                                                  loc                           lastmod       publication_name publication_language      news_publication_date                                                                      news_title                                                                                                                                                                                              news_keywords                   image                                                                                                                                                                       image_loc                                              sitemap                                etag        sitemap_last_modified      sitemap_size_mb                         download_date</span>
-<span class="go">0                                   https://www.nytimes.com/live/2021/01/16/us/inauguration-day-biden     2021-01-16 20:22:56+00:00         The New York Times                   en       2021-01-16T13:58:07Z    Biden Inauguration, Trump Approval Rating and Protests: Live Weekend Updates                                                                                                                                                                                                        nan                     nan                                                                                                                                                                                 nan     https://www.nytimes.com/sitemaps/new/news.xml.gz        5bfc0575bbabef04ced9f8e33e05fdcd        2021-01-16 20:23:13+00:00       0.6700353622436523      2021-01-16 20:23:59.469793+00:00</span>
-<span class="go">1                  https://www.nytimes.com/live/2021/01/16/science/nasa-space-launch-rocket-fire-test     2021-01-16 20:18:17+00:00         The New York Times                   en       2021-01-16T20:15:56Z                                  Live: NASA’s Space Launch System Hot-Fire Test                                                                                                                                                                                                        nan                     nan                                                                                                                                                                                 nan     https://www.nytimes.com/sitemaps/new/news.xml.gz        5bfc0575bbabef04ced9f8e33e05fdcd        2021-01-16 20:23:13+00:00       0.6700353622436523      2021-01-16 20:23:59.469793+00:00</span>
-<span class="go">2         https://www.nytimes.com/interactive/2020/obituaries/people-died-coronavirus-obituaries.html     2021-01-16 20:17:36+00:00         The New York Times                en-US       2020-04-16T22:28:14Z                                                                Those We’ve Lost                                                                                                                                                               Deaths (Obituaries), Coronavirus (2019-nCoV)                                                                       https://static01.nyt.com/images/2020/12/01/obituaries/25Houser/merlin_180391827_78fe8f74-0a8e-43c9-bc96-51859d84c2a5-articleLarge.jpg     https://www.nytimes.com/sitemaps/new/news.xml.gz        5bfc0575bbabef04ced9f8e33e05fdcd        2021-01-16 20:23:13+00:00       0.6700353622436523      2021-01-16 20:23:59.469793+00:00</span>
-<span class="go">3                     https://www.nytimes.com/2021/01/16/opinion/coronavirus-biden-vaccine-covid.html     2021-01-16 20:13:19+00:00         The New York Times                en-US       2021-01-16T19:30:07Z                                             Joe Biden Actually Has a Covid Plan                                           Coronavirus (2019-nCoV), Contact Tracing (Public Health), Vaccination and Immunization, United States Politics and Government, Biden, Joseph R Jr, United States                                                                 https://static01.nyt.com/images/2021/01/17/opinion/16pandemic1-print/merlin_173210889_b98256be-c87b-4a48-b3ab-14c0c064e33f-articleLarge.jpg     https://www.nytimes.com/sitemaps/new/news.xml.gz        5bfc0575bbabef04ced9f8e33e05fdcd        2021-01-16 20:23:13+00:00       0.6700353622436523      2021-01-16 20:23:59.469793+00:00</span>
-<span class="go">4                                  https://www.nytimes.com/2021/01/13/opinion/capitol-attack-war.html     2021-01-16 20:06:43+00:00         The New York Times                   en       2021-01-13T10:06:54Z                                         Why the Capitol Riot Reminded Me of War                                                                                                      Storming of the US Capitol (Jan, 2021), Video Recordings, Downloads and Streaming, Iraq War (2003-11)                                                                                                          https://static01.nyt.com/images/2021/01/18/opinion/sunday/18Ackermann/13Ackermann-articleLarge.jpg     https://www.nytimes.com/sitemaps/new/news.xml.gz        5bfc0575bbabef04ced9f8e33e05fdcd        2021-01-16 20:23:13+00:00       0.6700353622436523      2021-01-16 20:23:59.469793+00:00</span>
-<span class="go">5                          https://www.nytimes.com/interactive/2020/us/wyoming-coronavirus-cases.html     2021-01-16 20:01:26+00:00         The New York Times                en-US       2020-04-01T15:47:57Z                                          Wyoming Coronavirus Map and Case Count                                                                                                                                                            Coronavirus (2019-nCoV), Wyoming, Disease Rates                                             https://static01.nyt.com/images/2020/03/29/us/wyoming-coronavirus-cases-promo-1585539595289/wyoming-coronavirus-cases-promo-1585539595289-articleLarge-v117.png     https://www.nytimes.com/sitemaps/new/news.xml.gz        5bfc0575bbabef04ced9f8e33e05fdcd        2021-01-16 20:23:13+00:00       0.6700353622436523      2021-01-16 20:23:59.469793+00:00</span>
-<span class="go">6                                https://www.nytimes.com/interactive/2020/world/coronavirus-maps.html     2021-01-16 20:01:21+00:00         The New York Times                en-US       2020-01-28T22:57:20Z                             Coronavirus World Map: Tracking the Global Outbreak    Coronavirus (2019-nCoV), Epidemics, Centers for Disease Control and Prevention, Johns Hopkins University, Wuhan (China), China, United States, Australia, Singapore, Disease Rates, Deaths (Fatalities)                                       https://static01.nyt.com/images/2020/09/29/us/china-wuhan-coronavirus-maps-promo-1601396059552/china-wuhan-coronavirus-maps-promo-1601396059552-articleLarge-v354.png     https://www.nytimes.com/sitemaps/new/news.xml.gz        5bfc0575bbabef04ced9f8e33e05fdcd        2021-01-16 20:23:13+00:00       0.6700353622436523      2021-01-16 20:23:59.469793+00:00</span>
-<span class="go">7                        https://www.nytimes.com/interactive/2020/us/wisconsin-coronavirus-cases.html     2021-01-16 20:01:16+00:00         The New York Times                en-US       2020-04-01T15:47:54Z                                        Wisconsin Coronavirus Map and Case Count                                                                                                                                                          Coronavirus (2019-nCoV), Wisconsin, Disease Rates                                         https://static01.nyt.com/images/2020/03/29/us/wisconsin-coronavirus-cases-promo-1585539580772/wisconsin-coronavirus-cases-promo-1585539580772-articleLarge-v118.png     https://www.nytimes.com/sitemaps/new/news.xml.gz        5bfc0575bbabef04ced9f8e33e05fdcd        2021-01-16 20:23:13+00:00       0.6700353622436523      2021-01-16 20:23:59.469793+00:00</span>
-<span class="go">8                    https://www.nytimes.com/interactive/2020/us/west-virginia-coronavirus-cases.html     2021-01-16 20:01:12+00:00         The New York Times                en-US       2020-04-01T15:47:51Z                                    West Virginia Coronavirus Map and Case Count                                                                                                                                                      Coronavirus (2019-nCoV), West Virginia, Disease Rates                                 https://static01.nyt.com/images/2020/03/29/us/west-virginia-coronavirus-cases-promo-1585539566313/west-virginia-coronavirus-cases-promo-1585539566313-articleLarge-v118.png     https://www.nytimes.com/sitemaps/new/news.xml.gz        5bfc0575bbabef04ced9f8e33e05fdcd        2021-01-16 20:23:13+00:00       0.6700353622436523      2021-01-16 20:23:59.469793+00:00</span>
-<span class="go">9                       https://www.nytimes.com/interactive/2020/us/washington-coronavirus-cases.html     2021-01-16 20:01:07+00:00         The New York Times                en-US       2020-04-01T15:47:47Z                                       Washington Coronavirus Map and Case Count                                                                                                                                                 Coronavirus (2019-nCoV), Washington (State), Disease Rates                                       https://static01.nyt.com/images/2020/03/29/us/washington-coronavirus-cases-promo-1585539550650/washington-coronavirus-cases-promo-1585539550650-articleLarge-v116.png     https://www.nytimes.com/sitemaps/new/news.xml.gz        5bfc0575bbabef04ced9f8e33e05fdcd        2021-01-16 20:23:13+00:00       0.6700353622436523      2021-01-16 20:23:59.469793+00:00</span>
-<span class="go">[741 rows x 13 columns]</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nyt_news</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.nytimes.com/sitemaps/new/news.xml.gz&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nyt_news</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c1"># (5085, 16)</span>
+<span class="n">nyt_news</span>
 </pre></div>
 </div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 1%" />
+<col style="width: 13%" />
+<col style="width: 3%" />
+<col style="width: 1%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 11%" />
+<col style="width: 16%" />
+<col style="width: 1%" />
+<col style="width: 23%" />
+<col style="width: 7%" />
+<col style="width: 4%" />
+<col style="width: 3%" />
+<col style="width: 2%" />
+<col style="width: 4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>loc</p></th>
+<th class="head"><p>lastmod</p></th>
+<th class="head"><p>news</p></th>
+<th class="head"><p>news_publication</p></th>
+<th class="head"><p>publication_name</p></th>
+<th class="head"><p>publication_language</p></th>
+<th class="head"><p>news_publication_date</p></th>
+<th class="head"><p>news_title</p></th>
+<th class="head"><p>news_keywords</p></th>
+<th class="head"><p>image</p></th>
+<th class="head"><p>image_loc</p></th>
+<th class="head"><p>sitemap</p></th>
+<th class="head"><p>etag</p></th>
+<th class="head"><p>sitemap_last_modified</p></th>
+<th class="head"><p>sitemap_size_mb</p></th>
+<th class="head"><p>download_date</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/interactive/2021/us/ottawa-ohio-covid-cases.html">https://www.nytimes.com/interactive/2021/us/ottawa-ohio-covid-cases.html</a></p></td>
+<td><p>2022-02-12 00:00:00+00:00</p></td>
+<td></td>
+<td></td>
+<td><p>The New York Times</p></td>
+<td><p>en</p></td>
+<td><p>2021-01-27T17:00:00Z</p></td>
+<td><p>Ottawa County, Ohio Covid Case and Exposure Risk Tracker</p></td>
+<td><p>Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates</p></td>
+<td></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2020/03/29/us/ohio-coronavirus-cases-promo-1585539358901/ohio-coronavirus-cases-promo-1585539358901-articleLarge-v274.png">https://static01.nyt.com/images/2020/03/29/us/ohio-coronavirus-cases-promo-1585539358901/ohio-coronavirus-cases-promo-1585539358901-articleLarge-v274.png</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/sitemaps/new/news-6.xml.gz">https://www.nytimes.com/sitemaps/new/news-6.xml.gz</a></p></td>
+<td><p>0cff645fbb74c21791568b78a888967d</p></td>
+<td><p>2022-02-12 20:17:31+00:00</p></td>
+<td><p>0.0774069</p></td>
+<td><p>2022-02-12 20:18:39.744247+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/interactive/2021/us/hopewell-virginia-covid-cases.html">https://www.nytimes.com/interactive/2021/us/hopewell-virginia-covid-cases.html</a></p></td>
+<td><p>2022-02-12 00:00:00+00:00</p></td>
+<td></td>
+<td></td>
+<td><p>The New York Times</p></td>
+<td><p>en</p></td>
+<td><p>2021-01-27T17:00:00Z</p></td>
+<td><p>Hopewell, Virginia Covid Case and Exposure Risk Tracker</p></td>
+<td><p>Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates</p></td>
+<td></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2020/03/29/us/virginia-coronavirus-cases-promo-1585539536519/virginia-coronavirus-cases-promo-1585539536519-articleLarge-v271.png">https://static01.nyt.com/images/2020/03/29/us/virginia-coronavirus-cases-promo-1585539536519/virginia-coronavirus-cases-promo-1585539536519-articleLarge-v271.png</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/sitemaps/new/news-6.xml.gz">https://www.nytimes.com/sitemaps/new/news-6.xml.gz</a></p></td>
+<td><p>0cff645fbb74c21791568b78a888967d</p></td>
+<td><p>2022-02-12 20:17:31+00:00</p></td>
+<td><p>0.0774069</p></td>
+<td><p>2022-02-12 20:18:39.744247+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/interactive/2021/us/box-butte-nebraska-covid-cases.html">https://www.nytimes.com/interactive/2021/us/box-butte-nebraska-covid-cases.html</a></p></td>
+<td><p>2022-02-12 00:00:00+00:00</p></td>
+<td></td>
+<td></td>
+<td><p>The New York Times</p></td>
+<td><p>en</p></td>
+<td><p>2021-01-27T17:00:00Z</p></td>
+<td><p>Box Butte County, Nebraska Covid Case and Exposure Risk Tracker</p></td>
+<td><p>Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates</p></td>
+<td></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2020/03/29/us/nebraska-coronavirus-cases-promo-1585539237156/nebraska-coronavirus-cases-promo-1585539237156-articleLarge-v281.png">https://static01.nyt.com/images/2020/03/29/us/nebraska-coronavirus-cases-promo-1585539237156/nebraska-coronavirus-cases-promo-1585539237156-articleLarge-v281.png</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/sitemaps/new/news-6.xml.gz">https://www.nytimes.com/sitemaps/new/news-6.xml.gz</a></p></td>
+<td><p>0cff645fbb74c21791568b78a888967d</p></td>
+<td><p>2022-02-12 20:17:31+00:00</p></td>
+<td><p>0.0774069</p></td>
+<td><p>2022-02-12 20:18:39.744247+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/interactive/2021/us/stearns-minnesota-covid-cases.html">https://www.nytimes.com/interactive/2021/us/stearns-minnesota-covid-cases.html</a></p></td>
+<td><p>2022-02-12 00:00:00+00:00</p></td>
+<td></td>
+<td></td>
+<td><p>The New York Times</p></td>
+<td><p>en</p></td>
+<td><p>2021-01-27T17:00:00Z</p></td>
+<td><p>Stearns County, Minnesota Covid Case and Exposure Risk Tracker</p></td>
+<td><p>Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates</p></td>
+<td></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2020/03/29/us/minnesota-coronavirus-cases-promo-1585539172701/minnesota-coronavirus-cases-promo-1585539172701-articleLarge-v282.png">https://static01.nyt.com/images/2020/03/29/us/minnesota-coronavirus-cases-promo-1585539172701/minnesota-coronavirus-cases-promo-1585539172701-articleLarge-v282.png</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/sitemaps/new/news-6.xml.gz">https://www.nytimes.com/sitemaps/new/news-6.xml.gz</a></p></td>
+<td><p>0cff645fbb74c21791568b78a888967d</p></td>
+<td><p>2022-02-12 20:17:31+00:00</p></td>
+<td><p>0.0774069</p></td>
+<td><p>2022-02-12 20:18:39.744247+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/interactive/2021/us/benton-iowa-covid-cases.html">https://www.nytimes.com/interactive/2021/us/benton-iowa-covid-cases.html</a></p></td>
+<td><p>2022-02-12 00:00:00+00:00</p></td>
+<td></td>
+<td></td>
+<td><p>The New York Times</p></td>
+<td><p>en</p></td>
+<td><p>2021-01-27T17:00:00Z</p></td>
+<td><p>Benton County, Iowa Covid Case and Exposure Risk Tracker</p></td>
+<td><p>Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates</p></td>
+<td></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2020/03/29/us/iowa-coronavirus-cases-promo-1585539039190/iowa-coronavirus-cases-promo-1585539039190-articleLarge-v286.png">https://static01.nyt.com/images/2020/03/29/us/iowa-coronavirus-cases-promo-1585539039190/iowa-coronavirus-cases-promo-1585539039190-articleLarge-v286.png</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/sitemaps/new/news-6.xml.gz">https://www.nytimes.com/sitemaps/new/news-6.xml.gz</a></p></td>
+<td><p>0cff645fbb74c21791568b78a888967d</p></td>
+<td><p>2022-02-12 20:17:31+00:00</p></td>
+<td><p>0.0774069</p></td>
+<td><p>2022-02-12 20:18:39.744247+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>5080</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/interactive/2021/us/hodgeman-kansas-covid-cases.html">https://www.nytimes.com/interactive/2021/us/hodgeman-kansas-covid-cases.html</a></p></td>
+<td><p>2022-02-12 00:00:00+00:00</p></td>
+<td></td>
+<td></td>
+<td><p>The New York Times</p></td>
+<td><p>en</p></td>
+<td><p>2021-01-27T17:00:00Z</p></td>
+<td><p>Hodgeman County, Kansas Covid Case and Exposure Risk Tracker</p></td>
+<td><p>Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates</p></td>
+<td></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2020/03/29/us/kansas-coronavirus-cases-promo-1585539054298/kansas-coronavirus-cases-promo-1585539054298-articleLarge-v285.png">https://static01.nyt.com/images/2020/03/29/us/kansas-coronavirus-cases-promo-1585539054298/kansas-coronavirus-cases-promo-1585539054298-articleLarge-v285.png</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/sitemaps/new/news-2.xml.gz">https://www.nytimes.com/sitemaps/new/news-2.xml.gz</a></p></td>
+<td><p>f53301c8286f9bf59ef297f0232dcfc1</p></td>
+<td><p>2022-02-12 20:17:31+00:00</p></td>
+<td><p>0.914107</p></td>
+<td><p>2022-02-12 20:18:39.995323+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>5081</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/interactive/2021/us/miller-georgia-covid-cases.html">https://www.nytimes.com/interactive/2021/us/miller-georgia-covid-cases.html</a></p></td>
+<td><p>2022-02-12 00:00:00+00:00</p></td>
+<td></td>
+<td></td>
+<td><p>The New York Times</p></td>
+<td><p>en</p></td>
+<td><p>2021-01-27T17:00:00Z</p></td>
+<td><p>Miller County, Georgia Covid Case and Exposure Risk Tracker</p></td>
+<td><p>Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates</p></td>
+<td></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2020/03/29/us/georgia-coronavirus-cases-promo-1585538956622/georgia-coronavirus-cases-promo-1585538956622-articleLarge-v290.png">https://static01.nyt.com/images/2020/03/29/us/georgia-coronavirus-cases-promo-1585538956622/georgia-coronavirus-cases-promo-1585538956622-articleLarge-v290.png</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/sitemaps/new/news-2.xml.gz">https://www.nytimes.com/sitemaps/new/news-2.xml.gz</a></p></td>
+<td><p>f53301c8286f9bf59ef297f0232dcfc1</p></td>
+<td><p>2022-02-12 20:17:31+00:00</p></td>
+<td><p>0.914107</p></td>
+<td><p>2022-02-12 20:18:39.995323+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>5082</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/interactive/2020/11/03/us/elections/results-west-virginia-house-district-1.html">https://www.nytimes.com/interactive/2020/11/03/us/elections/results-west-virginia-house-district-1.html</a></p></td>
+<td><p>2022-02-12 00:00:00+00:00</p></td>
+<td></td>
+<td></td>
+<td><p>The New York Times</p></td>
+<td><p>en</p></td>
+<td><p>2020-11-03T17:00:00Z</p></td>
+<td><p>West Virginia First Congressional District Results: David McKinley vs. Natalie Cline</p></td>
+<td><p>Elections, Presidential Election of 2020, United States, internal-election-open, House of Representatives, West Virginia</p></td>
+<td></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2020/11/03/us/elections/eln-promo-race-west-virginia-house-1WINNER-mckinleyd/eln-promo-race-west-virginia-house-1WINNER-mckinleyd-articleLarge.png">https://static01.nyt.com/images/2020/11/03/us/elections/eln-promo-race-west-virginia-house-1WINNER-mckinleyd/eln-promo-race-west-virginia-house-1WINNER-mckinleyd-articleLarge.png</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/sitemaps/new/news-2.xml.gz">https://www.nytimes.com/sitemaps/new/news-2.xml.gz</a></p></td>
+<td><p>f53301c8286f9bf59ef297f0232dcfc1</p></td>
+<td><p>2022-02-12 20:17:31+00:00</p></td>
+<td><p>0.914107</p></td>
+<td><p>2022-02-12 20:18:39.995323+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>5083</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/interactive/2020/11/03/us/elections/results-maine-senate.html">https://www.nytimes.com/interactive/2020/11/03/us/elections/results-maine-senate.html</a></p></td>
+<td><p>2022-02-12 00:00:00+00:00</p></td>
+<td></td>
+<td></td>
+<td><p>The New York Times</p></td>
+<td><p>en</p></td>
+<td><p>2020-11-03T17:00:00Z</p></td>
+<td><p>Maine Senate Results: Susan Collins Defeats Sara Gideon</p></td>
+<td><p>Elections, Presidential Election of 2020, United States, internal-election-open, Senate, Maine</p></td>
+<td></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2020/11/03/us/elections/eln-promo-race-maine-senateWINNER-collinss/eln-promo-race-maine-senateWINNER-collinss-articleLarge.png">https://static01.nyt.com/images/2020/11/03/us/elections/eln-promo-race-maine-senateWINNER-collinss/eln-promo-race-maine-senateWINNER-collinss-articleLarge.png</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/sitemaps/new/news-2.xml.gz">https://www.nytimes.com/sitemaps/new/news-2.xml.gz</a></p></td>
+<td><p>f53301c8286f9bf59ef297f0232dcfc1</p></td>
+<td><p>2022-02-12 20:17:31+00:00</p></td>
+<td><p>0.914107</p></td>
+<td><p>2022-02-12 20:18:39.995323+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>5084</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/interactive/2021/us/randolph-missouri-covid-cases.html">https://www.nytimes.com/interactive/2021/us/randolph-missouri-covid-cases.html</a></p></td>
+<td><p>2022-02-12 00:00:00+00:00</p></td>
+<td></td>
+<td></td>
+<td><p>The New York Times</p></td>
+<td><p>en</p></td>
+<td><p>2021-01-27T17:00:00Z</p></td>
+<td><p>Randolph County, Missouri Covid Case and Exposure Risk Tracker</p></td>
+<td><p>Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates</p></td>
+<td></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2020/03/29/us/missouri-coronavirus-cases-promo-1585539206866/missouri-coronavirus-cases-promo-1585539206866-articleLarge-v282.png">https://static01.nyt.com/images/2020/03/29/us/missouri-coronavirus-cases-promo-1585539206866/missouri-coronavirus-cases-promo-1585539206866-articleLarge-v282.png</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/sitemaps/new/news-2.xml.gz">https://www.nytimes.com/sitemaps/new/news-2.xml.gz</a></p></td>
+<td><p>f53301c8286f9bf59ef297f0232dcfc1</p></td>
+<td><p>2022-02-12 20:17:31+00:00</p></td>
+<td><p>0.914107</p></td>
+<td><p>2022-02-12 20:18:39.995323+00:00</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="video-sitemaps">
 <h2>Video Sitemaps<a class="headerlink" href="#video-sitemaps" title="Permalink to this headline"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wired_video</span> <span class="o">=</span> <span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.wired.com/video/sitemap.xml&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wired_video</span>
-<span class="go">                                                                                  loc                                                                                                                                                                                         video_thumbnail_loc                                         video_title                                                                                                                             video_description                                                                                          video_content_loc  video_duration       video_publication_date                                   sitemap                                   etag         sitemap_size_mb                         download_date</span>
-<span class="go">0                      https://www.wired.com/video/watch/behind-the-scenes-with-jj-abrams                      http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040164/wired_behind-the-scenes-with-jj-abrams.jpg                      Behind the Scenes with J.J. Abrams              Wired magazine teams up with J.J. Abrams for the May issue. Look in on the creative process with J.J. and the edit and design teams.                                           http://dp8hsntg6do36.cloudfront.net/5171b42ac2b4c00dd0c1ff9e/low.mp4                 205    2009-04-20T00:00:00+00:00       https://www.wired.com/video/sitemap.xml         W/4eecc23d353856e29d6dae1ce42b43ba      2.2617597579956055      2021-01-16 20:43:37.992796+00:00</span>
-<span class="go">1               https://www.wired.com/video/watch/trip-hop-pioneer-tricky-sweet-and-naive               http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040238/wired_trip-hop-pioneer-tricky-sweet-and-naive.jpg                Trip-Hop Pioneer Tricky: Sweet and Naive                                                    Tricky, of Massive Attack fame, shows Wired.com the ropes on becoming a musician and producer.                                           http://dp8hsntg6do36.cloudfront.net/5171b424c2b4c00dd0c1fe4e/low.mp4                 267    2009-04-18T00:00:00+00:00       https://www.wired.com/video/sitemap.xml         W/4eecc23d353856e29d6dae1ce42b43ba      2.2617597579956055      2021-01-16 20:43:37.992796+00:00</span>
-<span class="go">2                             https://www.wired.com/video/watch/trash-foils-diamond-heist                             http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1464291637/wired_trash-foils-diamond-heist.jpg                               Trash Foils Diamond Heist                                                                                                                         Trash Foils Diamond Heist                                           http://dp8hsntg6do36.cloudfront.net/5171b424c2b4c00dd0c1fe3c/low.mp4                 278    2009-03-12T04:00:00+00:00       https://www.wired.com/video/sitemap.xml         W/4eecc23d353856e29d6dae1ce42b43ba      2.2617597579956055      2021-01-16 20:43:37.992796+00:00</span>
-<span class="go">3         https://www.wired.com/video/watch/the-toxic-cloud-emitting-portable-dry-ice-mak         http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040172/wired_the-toxic-cloud-emitting-portable-dry-ice-mak.jpg         The Toxic Cloud-Emitting Portable Dry Ice Maker                                                                                        The Toxic Cloud-Emitting Portable Dry Ice Maker in action.                                           http://dp8hsntg6do36.cloudfront.net/5171b424c2b4c00dd0c1fe42/low.mp4                  31    2009-02-11T00:00:00+00:00       https://www.wired.com/video/sitemap.xml         W/4eecc23d353856e29d6dae1ce42b43ba      2.2617597579956055      2021-01-16 20:43:37.992796+00:00</span>
-<span class="go">4                         https://www.wired.com/video/watch/chef-ferran-adria-of-el-bulli                         http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1368475899/wired_chef-ferran-adria-of-el-bulli.jpg                           Chef Ferran Adria of El Bulli                                                                         Ferran Adria on why the knife is the most essential tool in your kitchen.                                           http://dp8hsntg6do36.cloudfront.net/5171b42ec2b4c00dd0c20064/low.mp4                  72    2008-11-25T00:00:00+00:00       https://www.wired.com/video/sitemap.xml         W/4eecc23d353856e29d6dae1ce42b43ba      2.2617597579956055      2021-01-16 20:43:37.992796+00:00</span>
-<span class="go">5                             https://www.wired.com/video/watch/how-to-make-wired-origami                             http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040170/wired_how-to-make-wired-origami.jpg                               How To Make Wired Origami                                                                       Robert Lang explains how to fold the Wired issue 16.07 origami splash page.                                           http://dp8hsntg6do36.cloudfront.net/5171b3cbc2b4c00dd0c1e969/low.mp4                 150    2008-09-23T00:00:00+00:00       https://www.wired.com/video/sitemap.xml         W/4eecc23d353856e29d6dae1ce42b43ba      2.2617597579956055      2021-01-16 20:43:37.992796+00:00</span>
-<span class="go">6                                 https://www.wired.com/video/watch/clover-coffee-machine                                 http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040152/wired_clover-coffee-machine.jpg                                   Clover Coffee Machine                                               Wired.com takes a look at the &#39;Clover&#39;, an $11,000 coffee machine hand-built by Stanford engineers.                                           http://dp8hsntg6do36.cloudfront.net/5171b42ec2b4c00dd0c2005b/low.mp4                 147    2008-09-23T00:00:00+00:00       https://www.wired.com/video/sitemap.xml         W/4eecc23d353856e29d6dae1ce42b43ba      2.2617597579956055      2021-01-16 20:43:37.992796+00:00</span>
-<span class="go">7                             https://www.wired.com/video/watch/original-wargames-trailer                             http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1464291813/wired_original-wargames-trailer.jpg                               Original WarGames Trailer                                                                                                                         Original WarGames Trailer                                           http://dp8hsntg6do36.cloudfront.net/5171b427c2b4c00dd0c1fee7/low.mp4                 140    2008-07-21T04:00:00+00:00       https://www.wired.com/video/sitemap.xml         W/4eecc23d353856e29d6dae1ce42b43ba      2.2617597579956055      2021-01-16 20:43:37.992796+00:00</span>
-<span class="go">8                                     https://www.wired.com/video/watch/rock-band-trailer                                     http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1464292286/wired_rock-band-trailer.jpg                                       Rock Band Trailer                                                                                                                                 Rock Band Trailer                                           http://dp8hsntg6do36.cloudfront.net/5171b431c2b4c00dd0c20100/low.mp4                  70    2007-09-14T04:00:00+00:00       https://www.wired.com/video/sitemap.xml         W/4eecc23d353856e29d6dae1ce42b43ba      2.2617597579956055      2021-01-16 20:43:37.992796+00:00</span>
-<span class="go">9                                  https://www.wired.com/video/watch/arrival-full-trailer                                  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1471366897/wired_arrival-full-trailer.jpg                                ‘Arrival’ — Full Trailer         Louise Banks (Amy Adams) must learn to communicate with aliens to save humanity in the new film from ‘Sicario’ director Denis Villeneuve.       http://dp8hsntg6do36.cloudfront.net/57b344f4fd2e614f99000014/1a74100f-bc1b-4279-b677-5efc301785d9low.mp4                 145    2003-10-22T04:00:00+00:00       https://www.wired.com/video/sitemap.xml         W/4eecc23d353856e29d6dae1ce42b43ba      2.2617597579956055      2021-01-16 20:43:37.992796+00:00</span>
-<span class="go">[2343 rows x 11 columns]</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wired_video</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.wired.com/video/sitemap.xml&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">wired_video</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c1"># (2955, 14)</span>
+<span class="n">wired_video</span>
 </pre></div>
 </div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 0%" />
+<col style="width: 10%" />
+<col style="width: 1%" />
+<col style="width: 22%" />
+<col style="width: 7%" />
+<col style="width: 31%" />
+<col style="width: 10%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 1%" />
+<col style="width: 4%" />
+<col style="width: 3%" />
+<col style="width: 2%" />
+<col style="width: 3%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>loc</p></th>
+<th class="head"><p>video</p></th>
+<th class="head"><p>video_thumbnail_loc</p></th>
+<th class="head"><p>video_title</p></th>
+<th class="head"><p>video_description</p></th>
+<th class="head"><p>video_content_loc</p></th>
+<th class="head"><p>video_duration</p></th>
+<th class="head"><p>video_publication_date</p></th>
+<th class="head"><p>video_expiration_date</p></th>
+<th class="head"><p>lastmod</p></th>
+<th class="head"><p>sitemap</p></th>
+<th class="head"><p>etag</p></th>
+<th class="head"><p>sitemap_size_mb</p></th>
+<th class="head"><p>download_date</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/watch/autocomplete-inverviews-owen-wilson-answers-the-webs-most-searched-questions">https://www.wired.com/video/watch/autocomplete-inverviews-owen-wilson-answers-the-webs-most-searched-questions</a></p></td>
+<td></td>
+<td><p><a class="reference external" href="http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644595412/wired_autocomplete-inverviews-owen-wilson-answers-the-webs-most-searched-questions.jpg">http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644595412/wired_autocomplete-inverviews-owen-wilson-answers-the-webs-most-searched-questions.jpg</a></p></td>
+<td><p>Autocomplete Interview - Owen Wilson Answers The Web’s Most Searched Questions</p></td>
+<td><p>Owen Wilson takes the WIRED Autocomplete Interview and answers the internet's most searched questions about himself. How did Owen Wilson break his nose? How many movies is he in with Ben Stiller? Is Owen in every Wes Anderson movie? Is he a good skateboarder? Owen answers all these questions and much more!</p></td>
+<td><p><a class="reference external" href="http://dp8hsntg6do36.cloudfront.net/62067f085577c277dd9acf42/39687acb-505b-4c69-94f1-afaa7cb5e636low.mp4">http://dp8hsntg6do36.cloudfront.net/62067f085577c277dd9acf42/39687acb-505b-4c69-94f1-afaa7cb5e636low.mp4</a></p></td>
+<td><p>645</p></td>
+<td><p>2022-02-11T17:00:00+00:00</p></td>
+<td><p>nan</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/sitemap.xml">https://www.wired.com/video/sitemap.xml</a></p></td>
+<td><p>W/90b11f47f8b2ab57cb180cbd3c6f06f9</p></td>
+<td><p>2.86199</p></td>
+<td><p>2022-02-12 20:24:55.841851+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/watch/wired-news-and-science-samsung-s22">https://www.wired.com/video/watch/wired-news-and-science-samsung-s22</a></p></td>
+<td></td>
+<td><p><a class="reference external" href="http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644418652/wired_wired-news-and-science-samsung-s22.jpg">http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644418652/wired_wired-news-and-science-samsung-s22.jpg</a></p></td>
+<td><p>Currents - Samsung S22 Ultra Explained in 3 Minutes</p></td>
+<td><p>Julian Chokkattu, Reviews Editor for WIRED, walks us through a few of the Samsung S22 Ultra's new features.</p></td>
+<td><p><a class="reference external" href="http://dp8hsntg6do36.cloudfront.net/6203cd7b5577c23d19622259/fe546b9b-a320-4883-9cbd-0d790f23c36dlow.mp4">http://dp8hsntg6do36.cloudfront.net/6203cd7b5577c23d19622259/fe546b9b-a320-4883-9cbd-0d790f23c36dlow.mp4</a></p></td>
+<td><p>184</p></td>
+<td><p>2022-02-10T17:00:00+00:00</p></td>
+<td><p>nan</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/sitemap.xml">https://www.wired.com/video/sitemap.xml</a></p></td>
+<td><p>W/90b11f47f8b2ab57cb180cbd3c6f06f9</p></td>
+<td><p>2.86199</p></td>
+<td><p>2022-02-12 20:24:55.841851+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/watch/first-look-samsung-galaxy-unpacked-2022">https://www.wired.com/video/watch/first-look-samsung-galaxy-unpacked-2022</a></p></td>
+<td></td>
+<td><p><a class="reference external" href="http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644381627/wired_first-look-samsung-galaxy-unpacked-2022.jpg">http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644381627/wired_first-look-samsung-galaxy-unpacked-2022.jpg</a></p></td>
+<td><p>First Look: Samsung Galaxy Unpacked 2022</p></td>
+<td><p>Samsung has debuted three new smartphones—the Galaxy S22 Ultra, S22+, S22—and three Android tablets in various sizes at Samsung Unpacked 2022. WIRED's Julian Chokkattu takes a look at the newest features.</p></td>
+<td><p><a class="reference external" href="http://dp8hsntg6do36.cloudfront.net/620345a15577c23d46622256/d74930cf-11e1-466e-b023-1d9b91664204low.mp4">http://dp8hsntg6do36.cloudfront.net/620345a15577c23d46622256/d74930cf-11e1-466e-b023-1d9b91664204low.mp4</a></p></td>
+<td><p>373</p></td>
+<td><p>2022-02-09T15:00:00+00:00</p></td>
+<td><p>nan</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/sitemap.xml">https://www.wired.com/video/sitemap.xml</a></p></td>
+<td><p>W/90b11f47f8b2ab57cb180cbd3c6f06f9</p></td>
+<td><p>2.86199</p></td>
+<td><p>2022-02-12 20:24:55.841851+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/watch/reinventing-with-data">https://www.wired.com/video/watch/reinventing-with-data</a></p></td>
+<td></td>
+<td><p><a class="reference external" href="http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1642801328/wired_reinventing-with-data.jpg">http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1642801328/wired_reinventing-with-data.jpg</a></p></td>
+<td><p>Reinventing With Data | WIRED Brand Lab</p></td>
+<td><p>Produced by WIRED Brand Lab with AWS | What can the Seattle Seahawks winning strategy teach businesses?
+Swami Sivasubramanian, VP of AI at Amazon Web Services helps us to understand how the Seattle Seahawks are using data and AI to remain a top performing team in the NFL, and how their process of data capture, storage, and machine learning to gain strategic insights is a model for making better business decision across industries.</p></td>
+<td><p><a class="reference external" href="http://dp8hsntg6do36.cloudfront.net/619bd9be1d75db41adee6b58/d4889b15-4f34-41b0-b935-0c79465a9793low.mp4">http://dp8hsntg6do36.cloudfront.net/619bd9be1d75db41adee6b58/d4889b15-4f34-41b0-b935-0c79465a9793low.mp4</a></p></td>
+<td><p>292</p></td>
+<td><p>2022-02-09T13:00:00+00:00</p></td>
+<td><p>nan</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/sitemap.xml">https://www.wired.com/video/sitemap.xml</a></p></td>
+<td><p>W/90b11f47f8b2ab57cb180cbd3c6f06f9</p></td>
+<td><p>2.86199</p></td>
+<td><p>2022-02-12 20:24:55.841851+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/watch/seth-rogen-answers-the-webs-most-searched-questions">https://www.wired.com/video/watch/seth-rogen-answers-the-webs-most-searched-questions</a></p></td>
+<td></td>
+<td><p><a class="reference external" href="http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644335726/wired_seth-rogen-answers-the-webs-most-searched-questions.jpg">http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644335726/wired_seth-rogen-answers-the-webs-most-searched-questions.jpg</a></p></td>
+<td><p>Autocomplete Interview - Seth Rogen Answers The Web’s Most Searched Questions</p></td>
+<td><p>&quot;Pam &amp;amp; Tommy&quot; star Seth Rogen takes the WIRED Autocomplete Interview once again and answers the internet's most searched questions about himself. Who does Seth Rogen look like? Does Seth have a podcast? Does he sell pottery? Does he celebrate Christmas? Does he play Call of Duty?</p>
+<p>Pam &amp;amp; Tommy premieres February 2 on Hulu (finale on March 9)</p>
+</td>
+<td><p><a class="reference external" href="http://dp8hsntg6do36.cloudfront.net/6201430a1d75db06ae1f62e8/488ed635-91d0-4281-9e64-34be9bf74f00low.mp4">http://dp8hsntg6do36.cloudfront.net/6201430a1d75db06ae1f62e8/488ed635-91d0-4281-9e64-34be9bf74f00low.mp4</a></p></td>
+<td><p>635</p></td>
+<td><p>2022-02-08T17:00:00+00:00</p></td>
+<td><p>nan</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/sitemap.xml">https://www.wired.com/video/sitemap.xml</a></p></td>
+<td><p>W/90b11f47f8b2ab57cb180cbd3c6f06f9</p></td>
+<td><p>2.86199</p></td>
+<td><p>2022-02-12 20:24:55.841851+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>2950</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/genres/how-to">https://www.wired.com/video/genres/how-to</a></p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/sitemap.xml">https://www.wired.com/video/sitemap.xml</a></p></td>
+<td><p>W/90b11f47f8b2ab57cb180cbd3c6f06f9</p></td>
+<td><p>2.86199</p></td>
+<td><p>2022-02-12 20:24:55.841851+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>2951</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/genres/movies-tv">https://www.wired.com/video/genres/movies-tv</a></p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/sitemap.xml">https://www.wired.com/video/sitemap.xml</a></p></td>
+<td><p>W/90b11f47f8b2ab57cb180cbd3c6f06f9</p></td>
+<td><p>2.86199</p></td>
+<td><p>2022-02-12 20:24:55.841851+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>2952</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/genres/events">https://www.wired.com/video/genres/events</a></p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/sitemap.xml">https://www.wired.com/video/sitemap.xml</a></p></td>
+<td><p>W/90b11f47f8b2ab57cb180cbd3c6f06f9</p></td>
+<td><p>2.86199</p></td>
+<td><p>2022-02-12 20:24:55.841851+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>2953</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/genres/promotion">https://www.wired.com/video/genres/promotion</a></p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/sitemap.xml">https://www.wired.com/video/sitemap.xml</a></p></td>
+<td><p>W/90b11f47f8b2ab57cb180cbd3c6f06f9</p></td>
+<td><p>2.86199</p></td>
+<td><p>2022-02-12 20:24:55.841851+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>2954</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/genres/transportation">https://www.wired.com/video/genres/transportation</a></p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://www.wired.com/video/sitemap.xml">https://www.wired.com/video/sitemap.xml</a></p></td>
+<td><p>W/90b11f47f8b2ab57cb180cbd3c6f06f9</p></td>
+<td><p>2.86199</p></td>
+<td><p>2022-02-12 20:24:55.841851+00:00</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.sitemaps.sitemap_to_df">
 <span class="sig-name descname"><span class="pre">sitemap_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sitemap_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Permalink to this definition"></a></dt>

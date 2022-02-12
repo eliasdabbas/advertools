@@ -122,50 +122,57 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">ads, but only replace the product name, &quot;Get the latest &lt;product&gt; now&quot;, and</span>
 <span class="sd">replace `product` as many times as you have ads.</span>
 
-<span class="sd">.. thebe-button::</span>
-<span class="sd">    Run this code</span>
+<span class="sd">.. container:: thebe</span>
+
+<span class="sd">    .. thebe-button::</span>
+<span class="sd">        Run this code</span>
 
 
-<span class="sd">.. code-block::</span>
-<span class="sd">    :class: thebe, thebe-init</span>
+<span class="sd">    .. code-block::</span>
+<span class="sd">        :class: thebe, thebe-init</span>
 
-<span class="sd">    import advertools as adv</span>
+<span class="sd">        import advertools as adv</span>
 
-<span class="sd">    products = [&#39;Dubai&#39;, &#39;Tokyo&#39;, &#39;Singapore&#39;]</span>
-<span class="sd">    adv.ad_create(template=&#39;5-star Hotels in {}&#39;,</span>
-<span class="sd">                  replacements=products,</span>
-<span class="sd">                  max_len=30,</span>
-<span class="sd">                  fallback=&#39;Great Cities&#39;)</span>
+<span class="sd">        products = [&#39;Dubai&#39;, &#39;Tokyo&#39;, &#39;Singapore&#39;]</span>
+<span class="sd">        adv.ad_create(template=&#39;5-star Hotels in {}&#39;,</span>
+<span class="sd">                    replacements=products,</span>
+<span class="sd">                    max_len=30,</span>
+<span class="sd">                    fallback=&#39;Great Cities&#39;)</span>
 
-<span class="sd">.. code-block::</span>
+<span class="sd">    .. container:: output</span>
 
-<span class="sd">    [&#39;5-star Hotels In Dubai&#39;,</span>
-<span class="sd">    &#39;5-star Hotels In Tokyo&#39;,</span>
-<span class="sd">    &#39;5-star Hotels In Singapore&#39;]</span>
+<span class="sd">        .. code-block::</span>
+
+<span class="sd">            [&#39;5-star Hotels In Dubai&#39;,</span>
+<span class="sd">            &#39;5-star Hotels In Tokyo&#39;,</span>
+<span class="sd">            &#39;5-star Hotels In Singapore&#39;]</span>
 
 <span class="sd">An important thing to to watch out for, is long product names. Since text ads</span>
 <span class="sd">have limits on each slot, you need to make sure you don&#39;t exceed that limit.</span>
 <span class="sd">For this you need to provide a `fallback` text in case the product name is</span>
 <span class="sd">longer than `max_len`.</span>
 
-<span class="sd">.. thebe-button::</span>
-<span class="sd">    Run this code</span>
+<span class="sd">.. container:: thebe</span>
 
-<span class="sd">.. code-block::</span>
-<span class="sd">    :class: thebe, thebe-init</span>
+<span class="sd">    .. thebe-button::</span>
+<span class="sd">        Run this code</span>
 
-<span class="sd">    products = [&#39;Lisbon&#39;, &#39;Porto&#39;, &#39;Algarve&#39;, &#39;Freixo de Espada à Cinta&#39;]</span>
-<span class="sd">    adv.ad_create(template=&#39;5-star Hotels in {}&#39;,</span>
-<span class="sd">                  replacements=products,</span>
-<span class="sd">                  max_len=30,</span>
-<span class="sd">                  fallback=&#39;Portugal&#39;)</span>
+<span class="sd">    .. code-block::</span>
+<span class="sd">        :class: thebe, thebe-init</span>
 
-<span class="sd">.. code-block::</span>
+<span class="sd">        products = [&#39;Lisbon&#39;, &#39;Porto&#39;, &#39;Algarve&#39;, &#39;Freixo de Espada à Cinta&#39;]</span>
+<span class="sd">        adv.ad_create(template=&#39;5-star Hotels in {}&#39;,</span>
+<span class="sd">                    replacements=products,</span>
+<span class="sd">                    max_len=30,</span>
+<span class="sd">                    fallback=&#39;Portugal&#39;)</span>
+<span class="sd">    .. container:: output</span>
 
-<span class="sd">    [&#39;5-star Hotels In Lisbon&#39;,</span>
-<span class="sd">    &#39;5-star Hotels In Porto&#39;,</span>
-<span class="sd">    &#39;5-star Hotels In Algarve&#39;,</span>
-<span class="sd">    &#39;5-star Hotels In Portugal&#39;]</span>
+<span class="sd">        .. code-block::</span>
+
+<span class="sd">            [&#39;5-star Hotels In Lisbon&#39;,</span>
+<span class="sd">            &#39;5-star Hotels In Porto&#39;,</span>
+<span class="sd">            &#39;5-star Hotels In Algarve&#39;,</span>
+<span class="sd">            &#39;5-star Hotels In Portugal&#39;]</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">string</span>

@@ -115,7 +115,7 @@ const thebe_selector_output = ".output, .cell_output"
              
   <section id="module-advertools.reverse_dns_lookup">
 <span id="reverse-dns-lookup-in-bulk"></span><h1>Reverse DNS Lookup in Bulk<a class="headerlink" href="#module-advertools.reverse_dns_lookup" title="Permalink to this headline"></a></h1>
-<p id="reverse-dns-lookup">Getting the host name of a list of IP addresses can be useful in verifying
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script><p>Getting the host name of a list of IP addresses can be useful in verifying
 the authenticity of those IP addresses. You typically want to do this as part
 of a <a class="reference internal" href="advertools.logs.html#logs"><span class="std std-ref">log file analysis</span></a> pipeline. In this case you have requests
 made to your server claiming to be of a certain user agent/bot name. Performing
@@ -134,14 +134,16 @@ comparison to running the command thousands of times from the comand line.</p>
 addresses that you have. Make sure to <strong>keep the duplicates</strong>, because the
 function handles that for you, as well as provide counts and some statistics on
 the frequency of the IPs:</p>
+<div class="thebe docutils container">
 <button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="n">ip_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.194&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;130.185.74.243&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;31.56.96.51&#39;</span><span class="p">,</span> <span class="s1">&#39;5.211.97.39&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;66.249.66.91&#39;</span><span class="p">,</span> <span class="s1">&#39;130.185.74.243&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;31.56.96.51&#39;</span><span class="p">,</span> <span class="s1">&#39;5.211.97.39&#39;</span><span class="p">]</span>
 
 <span class="n">host_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">reverse_dns_lookup</span><span class="p">(</span><span class="n">ip_list</span><span class="p">)</span>
 <span class="n">host_df</span>
 </pre></div>
+</div>
 </div>
 <table class="docutils align-default">
 <colgroup>

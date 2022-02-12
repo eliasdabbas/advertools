@@ -114,6 +114,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">.. _reverse_dns_lookup:</span>
 
+<span class="sd">.. raw:: html</span>
+
+<span class="sd">    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js&quot;&gt;&lt;/script&gt;</span>
 
 <span class="sd">Getting the host name of a list of IP addresses can be useful in verifying</span>
 <span class="sd">the authenticity of those IP addresses. You typically want to do this as part</span>
@@ -140,19 +143,21 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">function handles that for you, as well as provide counts and some statistics on</span>
 <span class="sd">the frequency of the IPs:</span>
 
-<span class="sd">.. thebe-button::</span>
-<span class="sd">    Run this code</span>
+<span class="sd">.. container:: thebe</span>
 
-<span class="sd">.. code-block::</span>
-<span class="sd">    :class: thebe, thebe-init</span>
+<span class="sd">    .. thebe-button::</span>
+<span class="sd">        Run this code</span>
 
-<span class="sd">    import advertools as adv</span>
-<span class="sd">    ip_list = [&#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;,</span>
-<span class="sd">               &#39;66.249.66.91&#39;, &#39;66.249.66.91&#39;, &#39;130.185.74.243&#39;,</span>
-<span class="sd">               &#39;31.56.96.51&#39;, &#39;5.211.97.39&#39;]</span>
+<span class="sd">    .. code-block::</span>
+<span class="sd">        :class: thebe, thebe-init</span>
 
-<span class="sd">    host_df = adv.reverse_dns_lookup(ip_list)</span>
-<span class="sd">    host_df</span>
+<span class="sd">        import advertools as adv</span>
+<span class="sd">        ip_list = [&#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;,</span>
+<span class="sd">                &#39;66.249.66.91&#39;, &#39;66.249.66.91&#39;, &#39;130.185.74.243&#39;,</span>
+<span class="sd">                &#39;31.56.96.51&#39;, &#39;5.211.97.39&#39;]</span>
+
+<span class="sd">        host_df = adv.reverse_dns_lookup(ip_list)</span>
+<span class="sd">        host_df</span>
 
 
 <span class="sd">====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================</span>

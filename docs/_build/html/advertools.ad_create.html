@@ -120,36 +120,44 @@ const thebe_selector_output = ".output, .cell_output"
 scale. For products in a similar category you typically want to use the same
 ads, but only replace the product name, &quot;Get the latest &lt;product&gt; now&quot;, and
 replace <cite>product</cite> as many times as you have ads.</p>
+<div class="thebe docutils container">
 <button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 
 <span class="n">products</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Dubai&#39;</span><span class="p">,</span> <span class="s1">&#39;Tokyo&#39;</span><span class="p">,</span> <span class="s1">&#39;Singapore&#39;</span><span class="p">]</span>
 <span class="n">adv</span><span class="o">.</span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;5-star Hotels in </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
-              <span class="n">replacements</span><span class="o">=</span><span class="n">products</span><span class="p">,</span>
-              <span class="n">max_len</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-              <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;Great Cities&#39;</span><span class="p">)</span>
+            <span class="n">replacements</span><span class="o">=</span><span class="n">products</span><span class="p">,</span>
+            <span class="n">max_len</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+            <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;Great Cities&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="output docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;5-star Hotels In Dubai&#39;</span><span class="p">,</span>
 <span class="s1">&#39;5-star Hotels In Tokyo&#39;</span><span class="p">,</span>
 <span class="s1">&#39;5-star Hotels In Singapore&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
+</div>
+</div>
 <p>An important thing to to watch out for, is long product names. Since text ads
 have limits on each slot, you need to make sure you don't exceed that limit.
 For this you need to provide a <cite>fallback</cite> text in case the product name is
 longer than <cite>max_len</cite>.</p>
+<div class="thebe docutils container">
 <button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">products</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Lisbon&#39;</span><span class="p">,</span> <span class="s1">&#39;Porto&#39;</span><span class="p">,</span> <span class="s1">&#39;Algarve&#39;</span><span class="p">,</span> <span class="s1">&#39;Freixo de Espada à Cinta&#39;</span><span class="p">]</span>
 <span class="n">adv</span><span class="o">.</span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;5-star Hotels in </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
-              <span class="n">replacements</span><span class="o">=</span><span class="n">products</span><span class="p">,</span>
-              <span class="n">max_len</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-              <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;Portugal&#39;</span><span class="p">)</span>
+            <span class="n">replacements</span><span class="o">=</span><span class="n">products</span><span class="p">,</span>
+            <span class="n">max_len</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+            <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;Portugal&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="output docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;5-star Hotels In Lisbon&#39;</span><span class="p">,</span>
 <span class="s1">&#39;5-star Hotels In Porto&#39;</span><span class="p">,</span>
 <span class="s1">&#39;5-star Hotels In Algarve&#39;</span><span class="p">,</span>
 <span class="s1">&#39;5-star Hotels In Portugal&#39;</span><span class="p">]</span>
 </pre></div>
+</div>
+</div>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.ad_create.ad_create">

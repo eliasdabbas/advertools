@@ -74,7 +74,11 @@ const thebe_selector_output = ".output, .cell_output"
 <p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Emoji Tools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Emoji Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#emoji-search">Emoji Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extract-emoji-from-text">Extract Emoji from Text</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
@@ -142,27 +146,241 @@ emoji from text.</p>
 </tr>
 </tbody>
 </table>
+<section id="emoji-search">
+<h2>Emoji Search<a class="headerlink" href="#emoji-search" title="Permalink to this headline"></a></h2>
+<p>You can search the whole emoji database with the <a class="reference internal" href="#advertools.emoji.emoji_search" title="advertools.emoji.emoji_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">emoji_search()</span></code></a> function:</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+
+<span class="n">vegetable_emoji</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;vegetable&#39;</span><span class="p">)</span>
+<span class="n">vegetable_emoji</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 15%" />
+<col style="width: 20%" />
+<col style="width: 9%" />
+<col style="width: 15%" />
+<col style="width: 16%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>codepoint</p></th>
+<th class="head"><p>status</p></th>
+<th class="head"><p>emoji</p></th>
+<th class="head"><p>name</p></th>
+<th class="head"><p>group</p></th>
+<th class="head"><p>sub_group</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1F951</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🥑</p></td>
+<td><p>avocado</p></td>
+<td><p>Food &amp; Drink</p></td>
+<td><p>food-vegetable</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1F346</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🍆</p></td>
+<td><p>eggplant</p></td>
+<td><p>Food &amp; Drink</p></td>
+<td><p>food-vegetable</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>1F954</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🥔</p></td>
+<td><p>potato</p></td>
+<td><p>Food &amp; Drink</p></td>
+<td><p>food-vegetable</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>1F955</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🥕</p></td>
+<td><p>carrot</p></td>
+<td><p>Food &amp; Drink</p></td>
+<td><p>food-vegetable</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>1F33D</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🌽</p></td>
+<td><p>ear of corn</p></td>
+<td><p>Food &amp; Drink</p></td>
+<td><p>food-vegetable</p></td>
+</tr>
+</tbody>
+</table>
+<p>Keep in mind that the search uses regular expression, and results might not be
+exactly what you expect.</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">love_emoji</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;love&#39;</span><span class="p">)</span>
+<span class="n">love_emoji</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 10%" />
+<col style="width: 13%" />
+<col style="width: 6%" />
+<col style="width: 35%" />
+<col style="width: 15%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>codepoint</p></th>
+<th class="head"><p>status</p></th>
+<th class="head"><p>emoji</p></th>
+<th class="head"><p>name</p></th>
+<th class="head"><p>group</p></th>
+<th class="head"><p>sub_group</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1F48C</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>💌</p></td>
+<td><p>love letter</p></td>
+<td><p>Smileys &amp; Emotion</p></td>
+<td><p>emotion</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1F91F</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🤟</p></td>
+<td><p>love-you gesture</p></td>
+<td><p>People &amp; Body</p></td>
+<td><p>hand-fingers-partial</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>1F91F 1F3FB</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🤟🏻</p></td>
+<td><p>love-you gesture: light skin tone</p></td>
+<td><p>People &amp; Body</p></td>
+<td><p>hand-fingers-partial</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>1F91F 1F3FC</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🤟🏼</p></td>
+<td><p>love-you gesture: medium-light skin tone</p></td>
+<td><p>People &amp; Body</p></td>
+<td><p>hand-fingers-partial</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>1F91F 1F3FD</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🤟🏽</p></td>
+<td><p>love-you gesture: medium skin tone</p></td>
+<td><p>People &amp; Body</p></td>
+<td><p>hand-fingers-partial</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>1F91F 1F3FE</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🤟🏾</p></td>
+<td><p>love-you gesture: medium-dark skin tone</p></td>
+<td><p>People &amp; Body</p></td>
+<td><p>hand-fingers-partial</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>1F91F 1F3FF</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🤟🏿</p></td>
+<td><p>love-you gesture: dark skin tone</p></td>
+<td><p>People &amp; Body</p></td>
+<td><p>hand-fingers-partial</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>1F340</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🍀</p></td>
+<td><p>four leaf clover</p></td>
+<td><p>Animals &amp; Nature</p></td>
+<td><p>plant-other</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>1F3E9</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🏩</p></td>
+<td><p>love hotel</p></td>
+<td><p>Travel &amp; Places</p></td>
+<td><p>place-building</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>1F94A</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🥊</p></td>
+<td><p>boxing glove</p></td>
+<td><p>Activities</p></td>
+<td><p>sport</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>1F9E4</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🧤</p></td>
+<td><p>gloves</p></td>
+<td><p>Objects</p></td>
+<td><p>clothing</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>1F1F8 1F1EE</p></td>
+<td><p>fully-qualified</p></td>
+<td><p>🇸🇮</p></td>
+<td><p>flag: Slovenia</p></td>
+<td><p>Flags</p></td>
+<td><p>country-flag</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="extract-emoji-from-text">
+<h2>Extract Emoji from Text<a class="headerlink" href="#extract-emoji-from-text" title="Permalink to this headline"></a></h2>
+<p>Many times you might have some social media text, or any regular text
+containing emoji that you want to analyze. The <a class="reference internal" href="#advertools.emoji.extract_emoji" title="advertools.emoji.extract_emoji"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_emoji()</span></code></a> function
+does that, and returns useful information about the extracted emoji. You can
+play around with the following sample text list, modify it, and explore the
+different stats, and information about the extracted emoji:</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I feel like playing basketball 🏀&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;I like playing football ⚽⚽&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Not feeling like sports today&#39;</span><span class="p">]</span>
+
+<span class="n">emoji_summary</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">extract_emoji</span><span class="p">(</span><span class="n">text_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">emoji_summary</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.emoji.emoji_search">
 <span class="sig-name descname"><span class="pre">emoji_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/emoji.html#emoji_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.emoji.emoji_search" title="Permalink to this definition"></a></dt>
-<dd><p>Return a DataFrame of all emoji entries where any description contains
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">regex</span></code>.</p>
-<p>&quot;description&quot; can be the name of the emoji, its group, or sub-group.</p>
+<dd><p>Return a DataFrame of all emoji entries that match <code class="xref py py-attr docutils literal notranslate"><span class="pre">regex</span></code>.</p>
+<p>The search is run on the name of the emoji, its group, and sub-group.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>regex</strong> (<em>str</em>) -- regular expression (case insensitive)</p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;dog&#39;</span><span class="p">)</span>
-<span class="go">          codepoint           status  emoji          name             group      sub_group</span>
-<span class="go">0             1F436  fully-qualified     🐶      dog face  Animals &amp; Nature   animal-mammal</span>
-<span class="go">1             1F415  fully-qualified     🐕           dog  Animals &amp; Nature   animal-mammal</span>
-<span class="go">2             1F9AE  fully-qualified     🦮     guide dog  Animals &amp; Nature   animal-mammal</span>
-<span class="go">3  1F415 200D 1F9BA  fully-qualified   🐕‍🦺   service dog  Animals &amp; Nature    animal-mammal</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;dog&#39;</span><span class="p">)</span>
+<span class="go">          codepoint           status  emoji          name             group        sub_group</span>
+<span class="go">0             1F436  fully-qualified     🐶      dog face  Animals &amp; Nature    animal-mammal</span>
+<span class="go">1             1F415  fully-qualified     🐕           dog  Animals &amp; Nature    animal-mammal</span>
+<span class="go">2             1F9AE  fully-qualified     🦮     guide dog  Animals &amp; Nature    animal-mammal</span>
+<span class="go">3  1F415 200D 1F9BA  fully-qualified     🐕‍🦺   service dog  Animals &amp; Nature    animal-mammal</span>
 <span class="go">4             1F32D  fully-qualified     🌭       hot dog      Food &amp; Drink    food-prepared</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blue</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blue</span>
 <span class="go">  codepoint           status emoji                name               group     sub_group</span>
 <span class="go">0     1F499  fully-qualified     💙          blue heart  Smileys &amp; Emotion       emotion</span>
 <span class="go">1     1FAD0  fully-qualified     🫐         blueberries       Food &amp; Drink    food-fruit</span>
@@ -258,6 +476,7 @@ list if none exist</p>
 </div>
 </dd></dl>
 
+</section>
 </section>
 
     <script type="text/x-thebe-config">

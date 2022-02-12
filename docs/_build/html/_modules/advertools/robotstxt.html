@@ -125,34 +125,46 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">blocked for a certain user-agent by a certain robots.txt file. Ideally, you</span>
 <span class="sd">would want to run the same check for all possible user-agents. Even more</span>
 <span class="sd">ideally, you want to be able to run the check for a large number of pages with</span>
-<span class="sd">every possible combination with user-agents!</span>
+<span class="sd">every possible combination with user-agents.</span>
 
 <span class="sd">To get the robots.txt file into an easily readable format, you can use the</span>
 <span class="sd">:func:`robotstxt_to_df` function to get it in a DataFrame.</span>
 
-<span class="sd">&gt;&gt;&gt; robotstxt_to_df(&#39;https://www.amazon.com/robots.txt&#39;)</span>
-<span class="sd">      directive    content                                        etag                                robotstxt_last_modified    robotstxt_url                      download_date</span>
-<span class="sd">   0  User-agent   *                                              &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="sd">   1  Disallow     /exec/obidos/account-access-login              &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="sd">   2  Disallow     /exec/obidos/change-style                      &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="sd">   3  Disallow     /exec/obidos/flex-sign-in                      &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="sd">   4  Disallow     /exec/obidos/handle-buy-box                    &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="sd"> ...    ...                 ...                                                 ...                              ...                           ...                                 ...</span>
-<span class="sd"> 138  Disallow     /gp/help/customer/express/c2c/                 &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="sd"> 139  Disallow     /slp/*/b$                                      &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="sd"> 140  Disallow     /hz/contact-us/ajax/initiate-trusted-contact/  &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="sd"> 141  User-agent   EtaoSpider                                     &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="sd"> 142  Disallow     /                                              &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
 
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    import advertools as adv</span>
+
+<span class="sd">    amazon = adv.robotstxt_to_df(&#39;https://www.amazon.com/robots.txt&#39;)</span>
+<span class="sd">    amazon</span>
+
+<span class="sd">====  ===========  =================================  ==================================  =========================  =================================  ================================</span>
+<span class="sd">  ..  directive    content                            etag                                robotstxt_last_modified    robotstxt_url                      download_date</span>
+<span class="sd">====  ===========  =================================  ==================================  =========================  =================================  ================================</span>
+<span class="sd">   0  User-agent   \*                                 &quot;a850165d925db701988daf7ead7492d3&quot;  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00</span>
+<span class="sd">   1  Disallow     /exec/obidos/account-access-login  &quot;a850165d925db701988daf7ead7492d3&quot;  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00</span>
+<span class="sd">   2  Disallow     /exec/obidos/change-style          &quot;a850165d925db701988daf7ead7492d3&quot;  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00</span>
+<span class="sd">   3  Disallow     /exec/obidos/flex-sign-in          &quot;a850165d925db701988daf7ead7492d3&quot;  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00</span>
+<span class="sd">   4  Disallow     /exec/obidos/handle-buy-box        &quot;a850165d925db701988daf7ead7492d3&quot;  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00</span>
+<span class="sd"> ...  ...          ...                                ...                                 ...                        ...                                ...</span>
+<span class="sd"> 146  Disallow     /hp/video/mystuff                  &quot;a850165d925db701988daf7ead7492d3&quot;  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00</span>
+<span class="sd"> 147  Disallow     /gp/video/profiles                 &quot;a850165d925db701988daf7ead7492d3&quot;  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00</span>
+<span class="sd"> 148  Disallow     /hp/video/profiles                 &quot;a850165d925db701988daf7ead7492d3&quot;  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00</span>
+<span class="sd"> 149  User-agent   EtaoSpider                         &quot;a850165d925db701988daf7ead7492d3&quot;  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00</span>
+<span class="sd"> 150  Disallow     /                                  &quot;a850165d925db701988daf7ead7492d3&quot;  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00</span>
+<span class="sd">====  ===========  =================================  ==================================  =========================  =================================  ================================</span>
 
 <span class="sd">The returned DataFrame contains columns for directives, their content, the URL</span>
 <span class="sd">of the robots.txt file, as well as the date it was downloaded.</span>
 
 <span class="sd">*  `directive`: The main commands. Allow, Disallow, Sitemap, Crawl-delay,</span>
 <span class="sd">   User-agent, and so on.</span>
-<span class="sd">*  `content`: The details of each of the directives</span>
+<span class="sd">*  `content`: The details of each of the directives.</span>
 <span class="sd">*  `robotstxt_last_modified`: The date when the robots.txt file was last</span>
-<span class="sd">   modified, if provided.</span>
+<span class="sd">   modified, if provided (according the response header Last-modified).</span>
 <span class="sd">*  `etag`: The entity tag of the response header, if provided.</span>
 <span class="sd">*  `robotstxt_url`: The URL of the robots.txt file.</span>
 <span class="sd">*  `download_date`: The date and time when the file was downloaded.</span>
@@ -164,29 +176,72 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">  websites.</span>
 <span class="sd">* You are analyzing a website with many sub-domains, and want to get all the</span>
 <span class="sd">  robots files together.</span>
-<span class="sd">* You are trying to understand a company that has many websites under</span>
-<span class="sd">  different domains and sub-domains.</span>
+<span class="sd">* You are trying to understand a company that has many websites under different</span>
+<span class="sd">  domains and sub-domains.</span>
 
 <span class="sd">In this case you simply provide a list of URLs instead of a single one.</span>
 
-<span class="sd">An optional parameter ``output_file`` is also available in case you are</span>
-<span class="sd">requesting hundreds of files. The supported format is `.jl`. This saves the</span>
-<span class="sd">downloaded files by appending them to the file, so it is also useful if you</span>
-<span class="sd">think the process is going to take long and might loose your connection for</span>
-<span class="sd">example.</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
 
-<span class="sd">&gt;&gt;&gt; robotstxt_to_df([&#39;https://example.com/robots.txt&#39;,</span>
-<span class="sd">...                  &#39;https://community.example.com/robots.txt&#39;,</span>
-<span class="sd">...                  &#39;https://shop.example.com/robots.txt&#39;],</span>
-<span class="sd">...                   output_file=&#39;example_robots.jl&#39;)</span>
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
 
-<span class="sd">As for testing, the :func:`robotstxt_test` function runs a test for a given</span>
-<span class="sd">robots.txt file, checking which of the provided user-agents can fetch which of</span>
-<span class="sd">the provided URLs, paths, or patterns.</span>
+<span class="sd">    robots_urls = [&#39;https://www.google.com/robots.txt&#39;,</span>
+<span class="sd">                   &#39;https://twitter.com/robots.txt&#39;,</span>
+<span class="sd">                   &#39;https://facebook.com/robots.txt&#39;]</span>
 
-<span class="sd">&gt;&gt;&gt; robotstxt_test(&#39;https://www.example.com/robots.txt&#39;,</span>
-<span class="sd">...                useragents=[&#39;Googlebot&#39;, &#39;baiduspider&#39;, &#39;Bingbot&#39;]</span>
-<span class="sd">...                urls=[&#39;/&#39;, &#39;/hello&#39;, &#39;/some-page.html&#39;]])</span>
+<span class="sd">    googtwfb = adv.robotstxt_to_df(robots_urls)</span>
+
+<span class="sd">    # How many lines does each robots file have?</span>
+<span class="sd">    googtwfb.groupby(&#39;robotstxt_url&#39;)[&#39;directive&#39;].count()</span>
+
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    robotstxt_url</span>
+<span class="sd">    https://facebook.com/robots.txt      541</span>
+<span class="sd">    https://twitter.com/robots.txt       108</span>
+<span class="sd">    https://www.google.com/robots.txt    289</span>
+<span class="sd">    Name: directive, dtype: int64</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    # Display the first five rows of each of the robots files:</span>
+<span class="sd">    googtwfb.groupby(&#39;robotstxt_url&#39;).head()</span>
+
+<span class="sd">====  ===========  ===================================================================  =========================  =================================  ================================</span>
+<span class="sd">  ..  directive    content                                                              robotstxt_last_modified    robotstxt_url                      download_date</span>
+<span class="sd">====  ===========  ===================================================================  =========================  =================================  ================================</span>
+<span class="sd">   0  User-agent   \*                                                                   2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00</span>
+<span class="sd">   1  Disallow     /search                                                              2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00</span>
+<span class="sd">   2  Allow        /search/about                                                        2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00</span>
+<span class="sd">   3  Allow        /search/static                                                       2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00</span>
+<span class="sd">   4  Allow        /search/howsearchworks                                               2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00</span>
+<span class="sd"> 289  comment      Google Search Engine Robot                                           NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00</span>
+<span class="sd"> 290  comment      ==========================                                           NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00</span>
+<span class="sd"> 291  User-agent   Googlebot                                                            NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00</span>
+<span class="sd"> 292  Allow        /?_escaped_fragment_                                                 NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00</span>
+<span class="sd"> 293  Allow        /\*?lang=                                                            NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00</span>
+<span class="sd"> 397  comment      Notice: Collection of data on Facebook through automated means is    NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00</span>
+<span class="sd"> 398  comment      prohibited unless you have express written permission from Facebook  NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00</span>
+<span class="sd"> 399  comment      and may only be conducted for the limited purpose contained in said  NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00</span>
+<span class="sd"> 400  comment      permission.                                                          NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00</span>
+<span class="sd"> 401  comment      See: http://www.facebook.com/apps/site_scraping_tos_terms.php        NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00</span>
+<span class="sd">====  ===========  ===================================================================  =========================  =================================  ================================</span>
+
+<span class="sd">Bulk ``robots.txt`` Tester</span>
+<span class="sd">--------------------------</span>
+
+<span class="sd">This tester is designed to work on a large scale. The :func:`robotstxt_test`</span>
+<span class="sd">function runs a test for a given robots.txt file, checking which of the</span>
+<span class="sd">provided user-agents can fetch which of the provided URLs, paths, or patterns.</span>
+
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    robotstxt_test(&#39;https://www.example.com/robots.txt&#39;,</span>
+<span class="sd">                   useragents=[&#39;Googlebot&#39;, &#39;baiduspider&#39;, &#39;Bingbot&#39;]</span>
+<span class="sd">                   urls=[&#39;/&#39;, &#39;/hello&#39;, &#39;/some-page.html&#39;]])</span>
 
 <span class="sd">As a result, you get a DataFrame with a row for each combination of</span>
 <span class="sd">(user-agent, URL) indicating whether or not that particular user-agent can</span>
@@ -219,74 +274,101 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">3. Specify the URLs you are interested in testing</span>
 <span class="sd">4. Run the :func:`robotstxt_test` function</span>
 
-<span class="sd">&gt;&gt;&gt; fb_robots = robotstxt_to_df(&#39;https://www.facebook.com/robots.txt&#39;)</span>
-<span class="sd">      directive    content                                                              robotstxt_url                        download_date</span>
-<span class="sd">   0  comment      Notice: Collection of data on Facebook through automated means is    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="sd">   1  comment      prohibited unless you have express written permission from Facebook  https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="sd">   2  comment      and may only be conducted for the limited purpose contained in said  https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="sd">   3  comment      permission.                                                          https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="sd">   4  comment      See: http://www.facebook.com/apps/site_scraping_tos_terms.php        https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="sd"> ...    ...                                ...                                                         ...                                 ...</span>
-<span class="sd"> 480  Allow        /ajax/bootloader-endpoint/                                           https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="sd"> 481  Allow        /ajax/pagelet/generic.php/PagePostsSectionPagelet                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="sd"> 482  Allow        /safetycheck/                                                        https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="sd"> 483  User-agent   *                                                                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="sd"> 484  Disallow     /                                                                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="sd">[484 rows x 4 columns]</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    fb_robots = adv.robotstxt_to_df(&#39;https://www.facebook.com/robots.txt&#39;)</span>
+<span class="sd">    fb_robots</span>
+
+<span class="sd">====  ===========  ===================================================================  ===================================  ================================</span>
+<span class="sd">  ..  directive    content                                                              robotstxt_url                        download_date</span>
+<span class="sd">====  ===========  ===================================================================  ===================================  ================================</span>
+<span class="sd">   0  comment      Notice: Collection of data on Facebook through automated means is    https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00</span>
+<span class="sd">   1  comment      prohibited unless you have express written permission from Facebook  https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00</span>
+<span class="sd">   2  comment      and may only be conducted for the limited purpose contained in said  https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00</span>
+<span class="sd">   3  comment      permission.                                                          https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00</span>
+<span class="sd">   4  comment      See: http://www.facebook.com/apps/site_scraping_tos_terms.php        https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00</span>
+<span class="sd"> ...  ...          ...                                                                  ...                                  ...                           </span>
+<span class="sd"> 536  Allow        /ajax/pagelet/generic.php/PagePostsSectionPagelet                    https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00</span>
+<span class="sd"> 537  Allow        /careers/                                                            https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00</span>
+<span class="sd"> 538  Allow        /safetycheck/                                                        https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00</span>
+<span class="sd"> 539  User-agent   *                                                                    https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00</span>
+<span class="sd"> 540  Disallow     /                                                                    https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00</span>
+<span class="sd">====  ===========  ===================================================================  ===================================  ================================</span>
+
 
 <span class="sd">Now that we have downloaded the file, we can easily extract the list of</span>
 <span class="sd">user-agents that it contains.</span>
 
-<span class="sd">&gt;&gt;&gt; fb_useragents = (fb_robots</span>
-<span class="sd">...                  [fb_robots[&#39;directive&#39;]==&#39;User-agent&#39;]</span>
-<span class="sd">...                  [&#39;content&#39;].drop_duplicates()</span>
-<span class="sd">...                  .tolist())</span>
-<span class="sd">&gt;&gt;&gt; fb_useragents</span>
-<span class="sd">[&#39;Applebot&#39;,</span>
-<span class="sd"> &#39;baiduspider&#39;,</span>
-<span class="sd"> &#39;Bingbot&#39;,</span>
-<span class="sd"> &#39;Discordbot&#39;,</span>
-<span class="sd"> &#39;facebookexternalhit&#39;,</span>
-<span class="sd"> &#39;Googlebot&#39;,</span>
-<span class="sd"> &#39;Googlebot-Image&#39;,</span>
-<span class="sd"> &#39;ia_archiver&#39;,</span>
-<span class="sd"> &#39;LinkedInBot&#39;,</span>
-<span class="sd"> &#39;msnbot&#39;,</span>
-<span class="sd"> &#39;Naverbot&#39;,</span>
-<span class="sd"> &#39;Pinterestbot&#39;,</span>
-<span class="sd"> &#39;seznambot&#39;,</span>
-<span class="sd"> &#39;Slurp&#39;,</span>
-<span class="sd"> &#39;teoma&#39;,</span>
-<span class="sd"> &#39;TelegramBot&#39;,</span>
-<span class="sd"> &#39;Twitterbot&#39;,</span>
-<span class="sd"> &#39;Yandex&#39;,</span>
-<span class="sd"> &#39;Yeti&#39;,</span>
-<span class="sd"> &#39;*&#39;]</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
 
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    fb_useragents = (fb_robots</span>
+<span class="sd">                     [fb_robots[&#39;directive&#39;]==&#39;User-agent&#39;]</span>
+<span class="sd">                     [&#39;content&#39;].drop_duplicates()</span>
+<span class="sd">                    .tolist())</span>
+<span class="sd">    fb_useragents</span>
+
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    [&#39;Applebot&#39;,</span>
+<span class="sd">     &#39;baiduspider&#39;,</span>
+<span class="sd">     &#39;Bingbot&#39;,</span>
+<span class="sd">     &#39;Discordbot&#39;,</span>
+<span class="sd">     &#39;facebookexternalhit&#39;,</span>
+<span class="sd">     &#39;Googlebot&#39;,</span>
+<span class="sd">     &#39;Googlebot-Image&#39;,</span>
+<span class="sd">     &#39;ia_archiver&#39;,</span>
+<span class="sd">     &#39;LinkedInBot&#39;,</span>
+<span class="sd">     &#39;msnbot&#39;,</span>
+<span class="sd">     &#39;Naverbot&#39;,</span>
+<span class="sd">     &#39;Pinterestbot&#39;,</span>
+<span class="sd">     &#39;seznambot&#39;,</span>
+<span class="sd">     &#39;Slurp&#39;,</span>
+<span class="sd">     &#39;teoma&#39;,</span>
+<span class="sd">     &#39;TelegramBot&#39;,</span>
+<span class="sd">     &#39;Twitterbot&#39;,</span>
+<span class="sd">     &#39;Yandex&#39;,</span>
+<span class="sd">     &#39;Yeti&#39;,</span>
+<span class="sd">     &#39;*&#39;]</span>
 
 <span class="sd">Quite a long list!</span>
 
 <span class="sd">As a small and quick test, I&#39;m interested in checking the home page, a random</span>
 <span class="sd">profile page (/bbc), groups and hashtags pages.</span>
 
-<span class="sd">&gt;&gt;&gt; urls_to_test = [&#39;/&#39;, &#39;/bbc&#39;, &#39;/groups&#39;, &#39;/hashtag/&#39;]</span>
-<span class="sd">&gt;&gt;&gt; fb_test = robotstxt_test(&#39;https://www.facebook.com/robots.txt&#39;,</span>
-<span class="sd">...                          fb_useragents, urls_to_test)</span>
-<span class="sd">&gt;&gt;&gt; fb_test</span>
-<span class="sd">                          robotstxt_url user_agent   url_path  can_fetch</span>
-<span class="sd">0   https://www.facebook.com/robots.txt          *       /bbc      False</span>
-<span class="sd">1   https://www.facebook.com/robots.txt          *    /groups      False</span>
-<span class="sd">2   https://www.facebook.com/robots.txt          *          /      False</span>
-<span class="sd">3   https://www.facebook.com/robots.txt          *  /hashtag/      False</span>
-<span class="sd">4   https://www.facebook.com/robots.txt   Applebot          /       True</span>
-<span class="sd">..                                  ...        ...        ...        ...</span>
-<span class="sd">75  https://www.facebook.com/robots.txt  seznambot    /groups       True</span>
-<span class="sd">76  https://www.facebook.com/robots.txt      teoma          /       True</span>
-<span class="sd">77  https://www.facebook.com/robots.txt      teoma  /hashtag/      False</span>
-<span class="sd">78  https://www.facebook.com/robots.txt      teoma       /bbc       True</span>
-<span class="sd">79  https://www.facebook.com/robots.txt      teoma    /groups       True</span>
-<span class="sd">[80 rows x 4 columns]</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
 
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    urls_to_test = [&#39;/&#39;, &#39;/bbc&#39;, &#39;/groups&#39;, &#39;/hashtag/&#39;]</span>
+<span class="sd">    fb_test = robotstxt_test(&#39;https://www.facebook.com/robots.txt&#39;,</span>
+<span class="sd">                             fb_useragents, urls_to_test)</span>
+<span class="sd">    fb_test</span>
+
+<span class="sd">====  ===================================  ============  ==========  ===========</span>
+<span class="sd">  ..  robotstxt_url                        user_agent    url_path    can_fetch</span>
+<span class="sd">====  ===================================  ============  ==========  ===========</span>
+<span class="sd">   0  https://www.facebook.com/robots.txt  \*            /           False</span>
+<span class="sd">   1  https://www.facebook.com/robots.txt  \*            /bbc        False</span>
+<span class="sd">   2  https://www.facebook.com/robots.txt  \*            /groups     False</span>
+<span class="sd">   3  https://www.facebook.com/robots.txt  \*            /hashtag/   False</span>
+<span class="sd">   4  https://www.facebook.com/robots.txt  Applebot      /           True</span>
+<span class="sd">  ..                                  ...           ...         ...          ...</span>
+<span class="sd">  75  https://www.facebook.com/robots.txt  seznambot     /hashtag/   True</span>
+<span class="sd">  76  https://www.facebook.com/robots.txt  teoma         /           True</span>
+<span class="sd">  77  https://www.facebook.com/robots.txt  teoma         /bbc        True</span>
+<span class="sd">  78  https://www.facebook.com/robots.txt  teoma         /groups     True</span>
+<span class="sd">  79  https://www.facebook.com/robots.txt  teoma         /hashtag/   True</span>
+<span class="sd">====  ===================================  ============  ==========  ===========</span>
 
 <span class="sd">For twenty user-agents and four URLs each, we received a total of eighty test</span>
 <span class="sd">results. You can immediately see that all user-agents not listed (denoted by</span>
@@ -294,28 +376,34 @@ const thebe_selector_output = ".output, .cell_output"
 
 <span class="sd">Let&#39;s see who is and who is not allowed to fetch the home page.</span>
 
-<span class="sd">&gt;&gt;&gt; fb_test.query(&#39;url_path== &quot;/&quot;&#39;)</span>
-<span class="sd">                          robotstxt_url           user_agent  url_path  can_fetch</span>
-<span class="sd">2   https://www.facebook.com/robots.txt                    *         /      False</span>
-<span class="sd">4   https://www.facebook.com/robots.txt             Applebot         /       True</span>
-<span class="sd">9   https://www.facebook.com/robots.txt              Bingbot         /       True</span>
-<span class="sd">14  https://www.facebook.com/robots.txt           Discordbot         /      False</span>
-<span class="sd">18  https://www.facebook.com/robots.txt            Googlebot         /       True</span>
-<span class="sd">21  https://www.facebook.com/robots.txt      Googlebot-Image         /       True</span>
-<span class="sd">26  https://www.facebook.com/robots.txt          LinkedInBot         /      False</span>
-<span class="sd">30  https://www.facebook.com/robots.txt             Naverbot         /       True</span>
-<span class="sd">35  https://www.facebook.com/robots.txt         Pinterestbot         /      False</span>
-<span class="sd">39  https://www.facebook.com/robots.txt                Slurp         /       True</span>
-<span class="sd">43  https://www.facebook.com/robots.txt          TelegramBot         /      False</span>
-<span class="sd">47  https://www.facebook.com/robots.txt           Twitterbot         /       True</span>
-<span class="sd">48  https://www.facebook.com/robots.txt               Yandex         /       True</span>
-<span class="sd">55  https://www.facebook.com/robots.txt                 Yeti         /       True</span>
-<span class="sd">57  https://www.facebook.com/robots.txt          baiduspider         /       True</span>
-<span class="sd">60  https://www.facebook.com/robots.txt  facebookexternalhit         /      False</span>
-<span class="sd">64  https://www.facebook.com/robots.txt          ia_archiver         /      False</span>
-<span class="sd">68  https://www.facebook.com/robots.txt               msnbot         /       True</span>
-<span class="sd">74  https://www.facebook.com/robots.txt            seznambot         /       True</span>
-<span class="sd">76  https://www.facebook.com/robots.txt                teoma         /       True</span>
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    fb_test.query(&#39;url_path== &quot;/&quot;&#39;)</span>
+
+<span class="sd">====  ===================================  ===================  ==========  ===========</span>
+<span class="sd">  ..  robotstxt_url                        user_agent           url_path    can_fetch</span>
+<span class="sd">====  ===================================  ===================  ==========  ===========</span>
+<span class="sd">   0  https://www.facebook.com/robots.txt  \*                   /           False</span>
+<span class="sd">   4  https://www.facebook.com/robots.txt  Applebot             /           True</span>
+<span class="sd">   8  https://www.facebook.com/robots.txt  Bingbot              /           True</span>
+<span class="sd">  12  https://www.facebook.com/robots.txt  Discordbot           /           False</span>
+<span class="sd">  16  https://www.facebook.com/robots.txt  Googlebot            /           True</span>
+<span class="sd">  20  https://www.facebook.com/robots.txt  Googlebot-Image      /           True</span>
+<span class="sd">  24  https://www.facebook.com/robots.txt  LinkedInBot          /           False</span>
+<span class="sd">  28  https://www.facebook.com/robots.txt  Naverbot             /           True</span>
+<span class="sd">  32  https://www.facebook.com/robots.txt  Pinterestbot         /           False</span>
+<span class="sd">  36  https://www.facebook.com/robots.txt  Slurp                /           True</span>
+<span class="sd">  40  https://www.facebook.com/robots.txt  TelegramBot          /           False</span>
+<span class="sd">  44  https://www.facebook.com/robots.txt  Twitterbot           /           True</span>
+<span class="sd">  48  https://www.facebook.com/robots.txt  Yandex               /           True</span>
+<span class="sd">  52  https://www.facebook.com/robots.txt  Yeti                 /           True</span>
+<span class="sd">  56  https://www.facebook.com/robots.txt  baiduspider          /           True</span>
+<span class="sd">  60  https://www.facebook.com/robots.txt  facebookexternalhit  /           False</span>
+<span class="sd">  64  https://www.facebook.com/robots.txt  ia_archiver          /           False</span>
+<span class="sd">  68  https://www.facebook.com/robots.txt  msnbot               /           True</span>
+<span class="sd">  72  https://www.facebook.com/robots.txt  seznambot            /           True</span>
+<span class="sd">  76  https://www.facebook.com/robots.txt  teoma                /           True</span>
+<span class="sd">====  ===================================  ===================  ==========  ===========</span>
 
 <span class="sd">I&#39;ll leave it to you to figure out why LinkedIn and Pinterest are not allowed</span>
 <span class="sd">to crawl the home page but Google and Apple are, because I have no clue!</span>
@@ -325,11 +413,11 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="kn">import</span> <span class="nn">gzip</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">concurrent</span> <span class="kn">import</span> <span class="n">futures</span>
-<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
 
-<span class="kn">from</span> <span class="nn">protego</span> <span class="kn">import</span> <span class="n">Protego</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">protego</span> <span class="kn">import</span> <span class="n">Protego</span>
 
 <span class="kn">from</span> <span class="nn">advertools</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">version</span>
 

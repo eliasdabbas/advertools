@@ -169,53 +169,83 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">Regular XML Sitemaps</span>
 <span class="sd">--------------------</span>
 
-<span class="sd">&gt;&gt;&gt; bbc_sitemap = sitemap_to_df(&#39;https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml&#39;)</span>
-<span class="sd">&gt;&gt;&gt; bbc_sitemap.head(10)</span>
-<span class="sd">	                                                                            loc	                    lastmod	                                                       sitemap	                              etag	      sitemap_last_modified	     sitemap_size_mb	                     download_date</span>
-<span class="sd">0	     https://www.bbc.com/arabic/middleeast/2009/06/090620_as_iraq_explosion_tc2	  2009-06-20 14:10:48+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00</span>
-<span class="sd">1	            https://www.bbc.com/arabic/middleeast/2009/06/090620_iraq_blast_tc2	  2009-06-20 21:07:43+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00</span>
-<span class="sd">2	            https://www.bbc.com/arabic/business/2009/06/090622_me_worldbank_tc2	  2009-06-22 12:41:48+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00</span>
-<span class="sd">3	  https://www.bbc.com/arabic/multimedia/2009/06/090624_me_inpictures_brazil_tc2	  2009-06-24 15:27:24+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00</span>
-<span class="sd">4	                     https://www.bbc.com/arabic/business/2009/06/090618_tomtest	  2009-06-18 15:32:54+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00</span>
-<span class="sd">5	      https://www.bbc.com/arabic/multimedia/2009/06/090625_sf_tamim_verdict_tc2	  2009-06-25 09:46:39+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00</span>
-<span class="sd">6	       https://www.bbc.com/arabic/middleeast/2009/06/090623_iz_cairo_russia_tc2	  2009-06-23 13:10:56+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00</span>
-<span class="sd">7	               https://www.bbc.com/arabic/sports/2009/06/090622_me_egypt_us_tc2	  2009-06-22 15:37:07+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00</span>
-<span class="sd">8	              https://www.bbc.com/arabic/sports/2009/06/090624_mz_wimbledon_tc2	  2009-06-24 13:57:18+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00</span>
-<span class="sd">9	    https://www.bbc.com/arabic/worldnews/2009/06/090623_mz_leaders_lifespan_tc2	  2009-06-23 13:24:23+00:00	  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml	  5f78c818962d9c3656960a852a1fd9a5	  2020-05-27 14:38:31+00:00	  7.6312408447265625	  2021-01-16 20:16:34.403337+00:00</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
 
-<span class="sd">&gt;&gt;&gt; bbc_sitemap.shape</span>
-<span class="sd">(49999, 7)</span>
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
 
-<span class="sd">&gt;&gt;&gt; bbc_sitemap.dtypes</span>
-<span class="sd">loc                                   object</span>
-<span class="sd">lastmod                  datetime64[ns, UTC]</span>
-<span class="sd">sitemap                               object</span>
-<span class="sd">etag                                  object</span>
-<span class="sd">sitemap_last_modified    datetime64[ns, UTC]</span>
-<span class="sd">sitemap_size_mb                      float64</span>
-<span class="sd">download_date            datetime64[ns, UTC]</span>
-<span class="sd">dtype: object</span>
+<span class="sd">    import advertools as adv</span>
+<span class="sd">    </span>
+<span class="sd">    bbc_sitemap = adv.sitemap_to_df(&#39;https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml&#39;)</span>
+<span class="sd">    bbc_sitemap.head(10)</span>
+
+<span class="sd">====  =============================================================================  =========================  ============================================================  ================================  =========================  =================  ================================</span>
+<span class="sd">  ..  loc                                                                            lastmod                    sitemap                                                       etag                              sitemap_last_modified        sitemap_size_mb  download_date</span>
+<span class="sd">====  =============================================================================  =========================  ============================================================  ================================  =========================  =================  ================================</span>
+<span class="sd">   0  https://www.bbc.com/arabic/middleeast/2009/06/090620_as_iraq_explosion_tc2     2009-06-20 14:10:48+00:00  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml  e7e15811c65f406f89f89fe10aef29f5  2021-11-05 20:52:56+00:00            7.63124  2022-02-12 01:37:39.461037+00:00</span>
+<span class="sd">   1  https://www.bbc.com/arabic/middleeast/2009/06/090620_iraq_blast_tc2            2009-06-20 21:07:43+00:00  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml  e7e15811c65f406f89f89fe10aef29f5  2021-11-05 20:52:56+00:00            7.63124  2022-02-12 01:37:39.461037+00:00</span>
+<span class="sd">   2  https://www.bbc.com/arabic/business/2009/06/090622_me_worldbank_tc2            2009-06-22 12:41:48+00:00  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml  e7e15811c65f406f89f89fe10aef29f5  2021-11-05 20:52:56+00:00            7.63124  2022-02-12 01:37:39.461037+00:00</span>
+<span class="sd">   3  https://www.bbc.com/arabic/multimedia/2009/06/090624_me_inpictures_brazil_tc2  2009-06-24 15:27:24+00:00  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml  e7e15811c65f406f89f89fe10aef29f5  2021-11-05 20:52:56+00:00            7.63124  2022-02-12 01:37:39.461037+00:00</span>
+<span class="sd">   4  https://www.bbc.com/arabic/business/2009/06/090618_tomtest                     2009-06-18 15:32:54+00:00  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml  e7e15811c65f406f89f89fe10aef29f5  2021-11-05 20:52:56+00:00            7.63124  2022-02-12 01:37:39.461037+00:00</span>
+<span class="sd">   5  https://www.bbc.com/arabic/multimedia/2009/06/090625_sf_tamim_verdict_tc2      2009-06-25 09:46:39+00:00  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml  e7e15811c65f406f89f89fe10aef29f5  2021-11-05 20:52:56+00:00            7.63124  2022-02-12 01:37:39.461037+00:00</span>
+<span class="sd">   6  https://www.bbc.com/arabic/middleeast/2009/06/090623_iz_cairo_russia_tc2       2009-06-23 13:10:56+00:00  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml  e7e15811c65f406f89f89fe10aef29f5  2021-11-05 20:52:56+00:00            7.63124  2022-02-12 01:37:39.461037+00:00</span>
+<span class="sd">   7  https://www.bbc.com/arabic/sports/2009/06/090622_me_egypt_us_tc2               2009-06-22 15:37:07+00:00  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml  e7e15811c65f406f89f89fe10aef29f5  2021-11-05 20:52:56+00:00            7.63124  2022-02-12 01:37:39.461037+00:00</span>
+<span class="sd">   8  https://www.bbc.com/arabic/sports/2009/06/090624_mz_wimbledon_tc2              2009-06-24 13:57:18+00:00  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml  e7e15811c65f406f89f89fe10aef29f5  2021-11-05 20:52:56+00:00            7.63124  2022-02-12 01:37:39.461037+00:00</span>
+<span class="sd">   9  https://www.bbc.com/arabic/worldnews/2009/06/090623_mz_leaders_lifespan_tc2    2009-06-23 13:24:23+00:00  https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml  e7e15811c65f406f89f89fe10aef29f5  2021-11-05 20:52:56+00:00            7.63124  2022-02-12 01:37:39.461037+00:00</span>
+<span class="sd">====  =============================================================================  =========================  ============================================================  ================================  =========================  =================  ================================</span>
+
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    print(bbc_sitemap.shape)</span>
+<span class="sd">    print(bbc_sitemap.dtypes)</span>
+<span class="sd">    </span>
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    (49999, 7)</span>
+
+<span class="sd">    loc                                   object</span>
+<span class="sd">    lastmod                  datetime64[ns, UTC]</span>
+<span class="sd">    sitemap                               object</span>
+<span class="sd">    etag                                  object</span>
+<span class="sd">    sitemap_last_modified    datetime64[ns, UTC]</span>
+<span class="sd">    sitemap_size_mb                      float64</span>
+<span class="sd">    download_date            datetime64[ns, UTC]</span>
+<span class="sd">    dtype: object</span>
 
 <span class="sd">Since ``lastmod`` is a ``datetime`` object, we can easily use it for various</span>
 <span class="sd">time-related operations.</span>
 <span class="sd">Here we look at how many articles have been published (last modified) per year.</span>
 
-<span class="sd">&gt;&gt;&gt; bbc_sitemap.set_index(&#39;lastmod&#39;).resample(&#39;A&#39;)[&#39;loc&#39;].count()</span>
-<span class="sd">lastmod</span>
-<span class="sd">2008-12-31 00:00:00+00:00     2261</span>
-<span class="sd">2009-12-31 00:00:00+00:00    47225</span>
-<span class="sd">2010-12-31 00:00:00+00:00        0</span>
-<span class="sd">2011-12-31 00:00:00+00:00        0</span>
-<span class="sd">2012-12-31 00:00:00+00:00        0</span>
-<span class="sd">2013-12-31 00:00:00+00:00        0</span>
-<span class="sd">2014-12-31 00:00:00+00:00        0</span>
-<span class="sd">2015-12-31 00:00:00+00:00        0</span>
-<span class="sd">2016-12-31 00:00:00+00:00        0</span>
-<span class="sd">2017-12-31 00:00:00+00:00        0</span>
-<span class="sd">2018-12-31 00:00:00+00:00        0</span>
-<span class="sd">2019-12-31 00:00:00+00:00      481</span>
-<span class="sd">2020-12-31 00:00:00+00:00       32</span>
-<span class="sd">Freq: A-DEC, Name: loc, dtype: int64</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    bbc_sitemap.set_index(&#39;lastmod&#39;).resample(&#39;A&#39;)[&#39;loc&#39;].count()</span>
+
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    lastmod</span>
+<span class="sd">    2008-12-31 00:00:00+00:00     2287</span>
+<span class="sd">    2009-12-31 00:00:00+00:00    47603</span>
+<span class="sd">    2010-12-31 00:00:00+00:00        0</span>
+<span class="sd">    2011-12-31 00:00:00+00:00        0</span>
+<span class="sd">    2012-12-31 00:00:00+00:00        0</span>
+<span class="sd">    2013-12-31 00:00:00+00:00        0</span>
+<span class="sd">    2014-12-31 00:00:00+00:00        0</span>
+<span class="sd">    2015-12-31 00:00:00+00:00        0</span>
+<span class="sd">    2016-12-31 00:00:00+00:00        0</span>
+<span class="sd">    2017-12-31 00:00:00+00:00        0</span>
+<span class="sd">    2018-12-31 00:00:00+00:00        0</span>
+<span class="sd">    2019-12-31 00:00:00+00:00       99</span>
+<span class="sd">    2020-12-31 00:00:00+00:00       10</span>
+<span class="sd">    Freq: A-DEC, Name: loc, dtype: int64</span>
 
 <span class="sd">As the majority are in 2009 with a few in other years, it seems these were</span>
 <span class="sd">later updated, but we would have to check to verify (in this special case BBC&#39;s</span>
@@ -225,127 +255,188 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">We can take a look at a sample of the URLs to get the URL template that they</span>
 <span class="sd">use.</span>
 
-<span class="sd">&gt;&gt;&gt; bbc_sitemap[&#39;loc&#39;].sample(10).tolist()</span>
-<span class="sd">[&#39;https://www.bbc.com/russian/rolling_news/2009/06/090628_rn_pakistani_soldiries_ambush&#39;,</span>
-<span class="sd"> &#39;https://www.bbc.com/urdu/pakistan/2009/04/090421_mqm_speaks_rza&#39;,</span>
-<span class="sd"> &#39;https://www.bbc.com/arabic/middleeast/2009/07/090723_ae_silwan_tc2&#39;,</span>
-<span class="sd"> &#39;https://www.bbc.com/portuguese/noticias/2009/07/090729_iraquerefenbritsfn&#39;,</span>
-<span class="sd"> &#39;https://www.bbc.com/portuguese/noticias/2009/06/090623_egitomilitaresfn&#39;,</span>
-<span class="sd"> &#39;https://www.bbc.com/portuguese/noticias/2009/03/090302_gazaconferenciaml&#39;,</span>
-<span class="sd"> &#39;https://www.bbc.com/portuguese/noticias/2009/07/090715_hillary_iran_cq&#39;,</span>
-<span class="sd"> &#39;https://www.bbc.com/vietnamese/culture/2009/04/090409_machienhuu_revisiting&#39;,</span>
-<span class="sd"> &#39;https://www.bbc.com/portuguese/noticias/2009/05/090524_paquistaoupdateg&#39;,</span>
-<span class="sd"> &#39;https://www.bbc.com/arabic/worldnews/2009/06/090629_om_pakistan_report_tc2&#39;]</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    bbc_sitemap[&#39;loc&#39;].sample(10).tolist()</span>
+
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    [&#39;https://www.bbc.com/russian/rolling_news/2009/06/090628_rn_pakistani_soldiries_ambush&#39;,</span>
+<span class="sd">    &#39;https://www.bbc.com/urdu/pakistan/2009/04/090421_mqm_speaks_rza&#39;,</span>
+<span class="sd">    &#39;https://www.bbc.com/arabic/middleeast/2009/07/090723_ae_silwan_tc2&#39;,</span>
+<span class="sd">    &#39;https://www.bbc.com/portuguese/noticias/2009/07/090729_iraquerefenbritsfn&#39;,</span>
+<span class="sd">    &#39;https://www.bbc.com/portuguese/noticias/2009/06/090623_egitomilitaresfn&#39;,</span>
+<span class="sd">    &#39;https://www.bbc.com/portuguese/noticias/2009/03/090302_gazaconferenciaml&#39;,</span>
+<span class="sd">    &#39;https://www.bbc.com/portuguese/noticias/2009/07/090715_hillary_iran_cq&#39;,</span>
+<span class="sd">    &#39;https://www.bbc.com/vietnamese/culture/2009/04/090409_machienhuu_revisiting&#39;,</span>
+<span class="sd">    &#39;https://www.bbc.com/portuguese/noticias/2009/05/090524_paquistaoupdateg&#39;,</span>
+<span class="sd">    &#39;https://www.bbc.com/arabic/worldnews/2009/06/090629_om_pakistan_report_tc2&#39;]</span>
 
 <span class="sd">It seems the pattern is</span>
 
 <span class="sd">    **https://www.bbc.com/{language}/{topic}/{YYYY}/{MM}/{YYMMDD_article_title}**</span>
 
-<span class="sd">This is quite a rich structure, full of useful information. We can easily count</span>
-<span class="sd">how many articles they have by language, by splitting by &quot;/&quot; and getting the</span>
-<span class="sd">elements at index three, and counting them.</span>
+<span class="sd">This is quite a rich structure, full of useful information. We can</span>
+<span class="sd">:ref:`analyze the URL structure &lt;urlytics&gt;` using the ``url_to_df`` function:</span>
 
-<span class="sd">&gt;&gt;&gt; bbc_sitemap[&#39;loc&#39;].str.split(&#39;/&#39;).str[3].value_counts()</span>
-<span class="sd">russian       14022</span>
-<span class="sd">persian       10968</span>
-<span class="sd">portuguese     5403</span>
-<span class="sd">urdu           5068</span>
-<span class="sd">mundo          5065</span>
-<span class="sd">vietnamese     3561</span>
-<span class="sd">arabic         2984</span>
-<span class="sd">hindi          1677</span>
-<span class="sd">turkce          706</span>
-<span class="sd">ukchina         545</span>
-<span class="sd">Name: loc, dtype: int64</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    url_df = adv.url_to_df(bbc_sitemap[&#39;loc&#39;])</span>
+<span class="sd">    url_df</span>
+
+<span class="sd">=====  =============================================================================  ========  ===========  ==========================================================  =======  ==========  ==========  ==========  =======  =======  ===============================  =======  =======  ===============================</span>
+<span class="sd">   ..  url                                                                            scheme    netloc       path                                                        query    fragment    dir_1       dir_2         dir_3    dir_4  dir_5                              dir_6    dir_7  last_dir</span>
+<span class="sd">=====  =============================================================================  ========  ===========  ==========================================================  =======  ==========  ==========  ==========  =======  =======  ===============================  =======  =======  ===============================</span>
+<span class="sd">    0  https://www.bbc.com/arabic/middleeast/2009/06/090620_as_iraq_explosion_tc2     https     www.bbc.com  /arabic/middleeast/2009/06/090620_as_iraq_explosion_tc2                          arabic      middleeast     2009       06  090620_as_iraq_explosion_tc2         nan      nan  090620_as_iraq_explosion_tc2</span>
+<span class="sd">    1  https://www.bbc.com/arabic/middleeast/2009/06/090620_iraq_blast_tc2            https     www.bbc.com  /arabic/middleeast/2009/06/090620_iraq_blast_tc2                                 arabic      middleeast     2009       06  090620_iraq_blast_tc2                nan      nan  090620_iraq_blast_tc2</span>
+<span class="sd">    2  https://www.bbc.com/arabic/business/2009/06/090622_me_worldbank_tc2            https     www.bbc.com  /arabic/business/2009/06/090622_me_worldbank_tc2                                 arabic      business       2009       06  090622_me_worldbank_tc2              nan      nan  090622_me_worldbank_tc2</span>
+<span class="sd">    3  https://www.bbc.com/arabic/multimedia/2009/06/090624_me_inpictures_brazil_tc2  https     www.bbc.com  /arabic/multimedia/2009/06/090624_me_inpictures_brazil_tc2                       arabic      multimedia     2009       06  090624_me_inpictures_brazil_tc2      nan      nan  090624_me_inpictures_brazil_tc2</span>
+<span class="sd">    4  https://www.bbc.com/arabic/business/2009/06/090618_tomtest                     https     www.bbc.com  /arabic/business/2009/06/090618_tomtest                                          arabic      business       2009       06  090618_tomtest                       nan      nan  090618_tomtest</span>
+<span class="sd">49994  https://www.bbc.com/vietnamese/world/2009/08/090831_dalailamataiwan            https     www.bbc.com  /vietnamese/world/2009/08/090831_dalailamataiwan                                 vietnamese  world          2009       08  090831_dalailamataiwan               nan      nan  090831_dalailamataiwan</span>
+<span class="sd">49995  https://www.bbc.com/vietnamese/world/2009/09/090901_putin_regret_pact          https     www.bbc.com  /vietnamese/world/2009/09/090901_putin_regret_pact                               vietnamese  world          2009       09  090901_putin_regret_pact             nan      nan  090901_putin_regret_pact</span>
+<span class="sd">49996  https://www.bbc.com/vietnamese/culture/2009/09/090901_tiananmen_movie          https     www.bbc.com  /vietnamese/culture/2009/09/090901_tiananmen_movie                               vietnamese  culture        2009       09  090901_tiananmen_movie               nan      nan  090901_tiananmen_movie</span>
+<span class="sd">49997  https://www.bbc.com/vietnamese/pictures/2009/08/090830_ugc_ddh_sand            https     www.bbc.com  /vietnamese/pictures/2009/08/090830_ugc_ddh_sand                                 vietnamese  pictures       2009       08  090830_ugc_ddh_sand                  nan      nan  090830_ugc_ddh_sand</span>
+<span class="sd">49998  https://www.bbc.com/vietnamese/business/2009/09/090901_japecontask             https     www.bbc.com  /vietnamese/business/2009/09/090901_japecontask                                  vietnamese  business       2009       09  090901_japecontask                   nan      nan  090901_japecontask</span>
+<span class="sd">=====  =============================================================================  ========  ===========  ==========================================================  =======  ==========  ==========  ==========  =======  =======  ===============================  =======  =======  ===============================</span>
+
+<span class="sd">It seems that the ``dir_1`` is where they have the language information, so we</span>
+<span class="sd">can easily count how many articles they have per language:</span>
+
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    url_df[&#39;dir_1&#39;].value_counts()</span>
+
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    russian       14022</span>
+<span class="sd">    persian       10968</span>
+<span class="sd">    portuguese     5403</span>
+<span class="sd">    urdu           5068</span>
+<span class="sd">    mundo          5065</span>
+<span class="sd">    vietnamese     3561</span>
+<span class="sd">    arabic         2984</span>
+<span class="sd">    hindi          1677</span>
+<span class="sd">    turkce          706</span>
+<span class="sd">    ukchina         545</span>
+<span class="sd">    Name: dir_1, dtype: int64</span>
 
 <span class="sd">We can also get a subset of articles written in a certain language, and see how</span>
 <span class="sd">many articles they publish per month, week, year, etc.</span>
 
-<span class="sd">&gt;&gt;&gt; (bbc_sitemap[bbc_sitemap[&#39;loc&#39;]</span>
-<span class="sd">...  .str.contains(&#39;/russian/&#39;)]</span>
-<span class="sd">...  .set_index(&#39;lastmod&#39;)</span>
-<span class="sd">...  .resample(&#39;M&#39;)[&#39;loc&#39;].count())</span>
-<span class="sd">lastmod</span>
-<span class="sd">2009-04-30 00:00:00+00:00    1506</span>
-<span class="sd">2009-05-31 00:00:00+00:00    2910</span>
-<span class="sd">2009-06-30 00:00:00+00:00    3021</span>
-<span class="sd">2009-07-31 00:00:00+00:00    3250</span>
-<span class="sd">2009-08-31 00:00:00+00:00    2769</span>
-<span class="sd">                             ...</span>
-<span class="sd">2019-09-30 00:00:00+00:00       8</span>
-<span class="sd">2019-10-31 00:00:00+00:00      17</span>
-<span class="sd">2019-11-30 00:00:00+00:00      11</span>
-<span class="sd">2019-12-31 00:00:00+00:00      24</span>
-<span class="sd">2020-01-31 00:00:00+00:00       6</span>
-<span class="sd">Freq: M, Name: loc, Length: 130, dtype: int64</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
 
-<span class="sd">The fifth element after splitting URLs is the topic or category of the article.</span>
-<span class="sd">We can do the same and count the values.</span>
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
 
-<span class="sd">&gt;&gt;&gt; bbc_sitemap[&#39;loc&#39;].str.split(&#39;/&#39;).str[4].value_counts()[:30]</span>
-<span class="sd">rolling_news          9044</span>
-<span class="sd">world                 5050</span>
-<span class="sd">noticias              4224</span>
-<span class="sd">iran                  3682</span>
-<span class="sd">pakistan              2103</span>
-<span class="sd">afghanistan           1959</span>
-<span class="sd">multimedia            1657</span>
-<span class="sd">internacional         1555</span>
-<span class="sd">sport                 1350</span>
-<span class="sd">international         1293</span>
-<span class="sd">india                 1285</span>
-<span class="sd">america_latina        1274</span>
-<span class="sd">business              1204</span>
-<span class="sd">cultura_sociedad       913</span>
-<span class="sd">middleeast             874</span>
-<span class="sd">worldnews              872</span>
-<span class="sd">russia                 841</span>
-<span class="sd">radio                  769</span>
-<span class="sd">science                755</span>
-<span class="sd">football               674</span>
-<span class="sd">arts                   664</span>
-<span class="sd">ciencia_tecnologia     627</span>
-<span class="sd">entertainment          621</span>
-<span class="sd">simp                   545</span>
-<span class="sd">vietnam                539</span>
-<span class="sd">economia               484</span>
-<span class="sd">haberler               424</span>
-<span class="sd">interactivity          411</span>
-<span class="sd">help                   354</span>
-<span class="sd">ciencia                308</span>
-<span class="sd">Name: loc, dtype: int64</span>
+<span class="sd">    (bbc_sitemap[bbc_sitemap[&#39;loc&#39;]</span>
+<span class="sd">     .str.contains(&#39;/russian/&#39;)]</span>
+<span class="sd">     .set_index(&#39;lastmod&#39;)</span>
+<span class="sd">     .resample(&#39;M&#39;)[&#39;loc&#39;].count())</span>
 
-<span class="sd">Finally, we can take the last element after splitting, which contains the slugs</span>
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    lastmod</span>
+<span class="sd">    2009-04-30 00:00:00+00:00    1506</span>
+<span class="sd">    2009-05-31 00:00:00+00:00    2910</span>
+<span class="sd">    2009-06-30 00:00:00+00:00    3021</span>
+<span class="sd">    2009-07-31 00:00:00+00:00    3250</span>
+<span class="sd">    2009-08-31 00:00:00+00:00    2769</span>
+<span class="sd">                                 ...</span>
+<span class="sd">    2019-09-30 00:00:00+00:00       8</span>
+<span class="sd">    2019-10-31 00:00:00+00:00      17</span>
+<span class="sd">    2019-11-30 00:00:00+00:00      11</span>
+<span class="sd">    2019-12-31 00:00:00+00:00      24</span>
+<span class="sd">    2020-01-31 00:00:00+00:00       6</span>
+<span class="sd">    Freq: M, Name: loc, Length: 130, dtype: int64</span>
+
+<span class="sd">The topic or category of the article seems to be in ``dir_2`` for which we can</span>
+<span class="sd">do the same and count the values.</span>
+
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    url_df[&#39;dir_2&#39;].value_counts()[:20]</span>
+
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    rolling_news        9044</span>
+<span class="sd">    world               5050</span>
+<span class="sd">    noticias            4224</span>
+<span class="sd">    iran                3682</span>
+<span class="sd">    pakistan            2103</span>
+<span class="sd">    afghanistan         1959</span>
+<span class="sd">    multimedia          1657</span>
+<span class="sd">    internacional       1555</span>
+<span class="sd">    sport               1350</span>
+<span class="sd">    international       1293</span>
+<span class="sd">    india               1285</span>
+<span class="sd">    america_latina      1274</span>
+<span class="sd">    business            1204</span>
+<span class="sd">    cultura_sociedad     913</span>
+<span class="sd">    middleeast           874</span>
+<span class="sd">    worldnews            872</span>
+<span class="sd">    russia               841</span>
+<span class="sd">    radio                769</span>
+<span class="sd">    science              755</span>
+<span class="sd">    football             674</span>
+<span class="sd">    Name: dir_2, dtype: int64</span>
+
+<span class="sd">There is much more you can do, and a lot depends on the URL structure, which</span>
+<span class="sd">you have to explore and run the right operation.</span>
+
+<span class="sd">For example, we can use the ``last_dir`` column which contains the slugs</span>
 <span class="sd">of the articles, replace underscores with spaces, split, concatenate all, put</span>
 <span class="sd">in a ``pd.Series`` and count the values. This way we see how many times each</span>
-<span class="sd">word occurred in an article.</span>
+<span class="sd">word occurred in an article. The same code can also be run after filtering for</span>
+<span class="sd">articles in a particular language to get a more meaningful list of words.</span>
 
-<span class="sd">&gt;&gt;&gt; (pd.Series(</span>
-<span class="sd">...     bbc_sitemap[&#39;loc&#39;]</span>
-<span class="sd">...     .str.split(&#39;/&#39;)</span>
-<span class="sd">...     .str[-1]</span>
-<span class="sd">...     .str.replace(&#39;_&#39;, &#39; &#39;)</span>
-<span class="sd">...     .str.cat(sep=&#39; &#39;)</span>
-<span class="sd">...     .split()</span>
-<span class="sd">...    )</span>
-<span class="sd">...     .value_counts()[:15])</span>
-<span class="sd">rn        8808</span>
-<span class="sd">tc2       3153</span>
-<span class="sd">iran      1534</span>
-<span class="sd">video      973</span>
-<span class="sd">obama      882</span>
-<span class="sd">us         862</span>
-<span class="sd">china      815</span>
-<span class="sd">ir88       727</span>
-<span class="sd">russia     683</span>
-<span class="sd">si         640</span>
-<span class="sd">np         638</span>
-<span class="sd">afghan     632</span>
-<span class="sd">ka         565</span>
-<span class="sd">an         556</span>
-<span class="sd">iraq       554</span>
-<span class="sd">dtype: int64</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
 
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    url_df[&#39;last_dir&#39;].str.split(&#39;_&#39;).str[1:].explode().value_counts()[:20]</span>
+
+<span class="sd">.. code-block::</span>
+
+<span class="sd">    rn          8808</span>
+<span class="sd">    tc2         3153</span>
+<span class="sd">    iran        1534</span>
+<span class="sd">    video        973</span>
+<span class="sd">    obama        882</span>
+<span class="sd">    us           862</span>
+<span class="sd">    china        815</span>
+<span class="sd">    ir88         727</span>
+<span class="sd">    russia       683</span>
+<span class="sd">    si           640</span>
+<span class="sd">    np           638</span>
+<span class="sd">    afghan       632</span>
+<span class="sd">    ka           565</span>
+<span class="sd">    an           556</span>
+<span class="sd">    iraq         554</span>
+<span class="sd">    pakistan     547</span>
+<span class="sd">    nh           533</span>
+<span class="sd">    cq           520</span>
+<span class="sd">    zs           510</span>
+<span class="sd">    ra           491</span>
+<span class="sd">    Name: last_dir, dtype: int64</span>
 
 <span class="sd">This was a quick overview and data preparation for a sample sitemap. Once you</span>
 <span class="sd">are familiar with the sitemap&#39;s structure, you can more easily start analyzing</span>
@@ -362,48 +453,74 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">News Sitemaps</span>
 <span class="sd">-------------</span>
 
-<span class="sd">&gt;&gt;&gt; nyt_news = sitemap_to_df(&#39;https://www.nytimes.com/sitemaps/new/news.xml.gz&#39;)</span>
-<span class="sd">&gt;&gt;&gt; nyt_news</span>
-<span class="sd">	                                                                                          loc              	        lastmod       publication_name publication_language	 news_publication_date	                                                                    news_title	                                                                                                                                                                                            news_keywords	            image                                                                                                                                                                    	image_loc                                              sitemap	                              etag        sitemap_last_modified	     sitemap_size_mb	                     download_date</span>
-<span class="sd">0	                            https://www.nytimes.com/live/2021/01/16/us/inauguration-day-biden	  2021-01-16 20:22:56+00:00	    The New York Times                   en	  2021-01-16T13:58:07Z	  Biden Inauguration, Trump Approval Rating and Protests: Live Weekend Updates	                                                                                                                                                                                                      nan	              nan	                                                                                                                                                                          nan	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00</span>
-<span class="sd">1	           https://www.nytimes.com/live/2021/01/16/science/nasa-space-launch-rocket-fire-test	  2021-01-16 20:18:17+00:00	    The New York Times                   en	  2021-01-16T20:15:56Z	                                Live: NASA’s Space Launch System Hot-Fire Test	                                                                                                                                                                                                      nan	              nan	                                                                                                                                                                          nan	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00</span>
-<span class="sd">2	  https://www.nytimes.com/interactive/2020/obituaries/people-died-coronavirus-obituaries.html	  2021-01-16 20:17:36+00:00	    The New York Times                en-US	  2020-04-16T22:28:14Z	                                                              Those We’ve Lost	                                                                                                                                                             Deaths (Obituaries), Coronavirus (2019-nCoV)	                 	                                        https://static01.nyt.com/images/2020/12/01/obituaries/25Houser/merlin_180391827_78fe8f74-0a8e-43c9-bc96-51859d84c2a5-articleLarge.jpg	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00</span>
-<span class="sd">3	              https://www.nytimes.com/2021/01/16/opinion/coronavirus-biden-vaccine-covid.html	  2021-01-16 20:13:19+00:00	    The New York Times                en-US	  2021-01-16T19:30:07Z	                                           Joe Biden Actually Has a Covid Plan	                                         Coronavirus (2019-nCoV), Contact Tracing (Public Health), Vaccination and Immunization, United States Politics and Government, Biden, Joseph R Jr, United States	                 	                                  https://static01.nyt.com/images/2021/01/17/opinion/16pandemic1-print/merlin_173210889_b98256be-c87b-4a48-b3ab-14c0c064e33f-articleLarge.jpg	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00</span>
-<span class="sd">4	                           https://www.nytimes.com/2021/01/13/opinion/capitol-attack-war.html	  2021-01-16 20:06:43+00:00	    The New York Times                   en	  2021-01-13T10:06:54Z	                                       Why the Capitol Riot Reminded Me of War	                                                                                                    Storming of the US Capitol (Jan, 2021), Video Recordings, Downloads and Streaming, Iraq War (2003-11)	                 	                                                                           https://static01.nyt.com/images/2021/01/18/opinion/sunday/18Ackermann/13Ackermann-articleLarge.jpg	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00</span>
-<span class="sd">5	                   https://www.nytimes.com/interactive/2020/us/wyoming-coronavirus-cases.html	  2021-01-16 20:01:26+00:00	    The New York Times                en-US	  2020-04-01T15:47:57Z	                                        Wyoming Coronavirus Map and Case Count	                                                                                                                                                          Coronavirus (2019-nCoV), Wyoming, Disease Rates	                 	              https://static01.nyt.com/images/2020/03/29/us/wyoming-coronavirus-cases-promo-1585539595289/wyoming-coronavirus-cases-promo-1585539595289-articleLarge-v117.png	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00</span>
-<span class="sd">6	                         https://www.nytimes.com/interactive/2020/world/coronavirus-maps.html	  2021-01-16 20:01:21+00:00	    The New York Times                en-US	  2020-01-28T22:57:20Z	                           Coronavirus World Map: Tracking the Global Outbreak	  Coronavirus (2019-nCoV), Epidemics, Centers for Disease Control and Prevention, Johns Hopkins University, Wuhan (China), China, United States, Australia, Singapore, Disease Rates, Deaths (Fatalities)	                 	        https://static01.nyt.com/images/2020/09/29/us/china-wuhan-coronavirus-maps-promo-1601396059552/china-wuhan-coronavirus-maps-promo-1601396059552-articleLarge-v354.png	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00</span>
-<span class="sd">7	                 https://www.nytimes.com/interactive/2020/us/wisconsin-coronavirus-cases.html	  2021-01-16 20:01:16+00:00	    The New York Times                en-US	  2020-04-01T15:47:54Z	                                      Wisconsin Coronavirus Map and Case Count	                                                                                                                                                        Coronavirus (2019-nCoV), Wisconsin, Disease Rates	                 	          https://static01.nyt.com/images/2020/03/29/us/wisconsin-coronavirus-cases-promo-1585539580772/wisconsin-coronavirus-cases-promo-1585539580772-articleLarge-v118.png	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00</span>
-<span class="sd">8	             https://www.nytimes.com/interactive/2020/us/west-virginia-coronavirus-cases.html	  2021-01-16 20:01:12+00:00	    The New York Times                en-US	  2020-04-01T15:47:51Z	                                  West Virginia Coronavirus Map and Case Count	                                                                                                                                                    Coronavirus (2019-nCoV), West Virginia, Disease Rates	                 	  https://static01.nyt.com/images/2020/03/29/us/west-virginia-coronavirus-cases-promo-1585539566313/west-virginia-coronavirus-cases-promo-1585539566313-articleLarge-v118.png	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00</span>
-<span class="sd">9	                https://www.nytimes.com/interactive/2020/us/washington-coronavirus-cases.html	  2021-01-16 20:01:07+00:00	    The New York Times                en-US	  2020-04-01T15:47:47Z	                                     Washington Coronavirus Map and Case Count	                                                                                                                                               Coronavirus (2019-nCoV), Washington (State), Disease Rates	                 	        https://static01.nyt.com/images/2020/03/29/us/washington-coronavirus-cases-promo-1585539550650/washington-coronavirus-cases-promo-1585539550650-articleLarge-v116.png	  https://www.nytimes.com/sitemaps/new/news.xml.gz	  5bfc0575bbabef04ced9f8e33e05fdcd	  2021-01-16 20:23:13+00:00	  0.6700353622436523	  2021-01-16 20:23:59.469793+00:00</span>
-<span class="sd">[741 rows x 13 columns]</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    nyt_news = adv.sitemap_to_df(&#39;https://www.nytimes.com/sitemaps/new/news.xml.gz&#39;)</span>
+<span class="sd">    print(nyt_news.shape)</span>
+<span class="sd">    # (5085, 16)</span>
+<span class="sd">    nyt_news</span>
+
+<span class="sd">====  =======================================================================================================  =========================  ======  ==================  ==================  ======================  =======================  ====================================================================================  ========================================================================================================================  =======  ==================================================================================================================================================================================  ==================================================  ================================  =========================  =================  ================================</span>
+<span class="sd">  ..  loc                                                                                                      lastmod                    news    news_publication    publication_name    publication_language    news_publication_date    news_title                                                                            news_keywords                                                                                                             image    image_loc                                                                                                                                                                           sitemap                                             etag                              sitemap_last_modified        sitemap_size_mb  download_date</span>
+<span class="sd">====  =======================================================================================================  =========================  ======  ==================  ==================  ======================  =======================  ====================================================================================  ========================================================================================================================  =======  ==================================================================================================================================================================================  ==================================================  ================================  =========================  =================  ================================</span>
+<span class="sd">   0  https://www.nytimes.com/interactive/2021/us/ottawa-ohio-covid-cases.html                                 2022-02-12 00:00:00+00:00                              The New York Times  en                      2021-01-27T17:00:00Z     Ottawa County, Ohio Covid Case and Exposure Risk Tracker                              Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates                                            https://static01.nyt.com/images/2020/03/29/us/ohio-coronavirus-cases-promo-1585539358901/ohio-coronavirus-cases-promo-1585539358901-articleLarge-v274.png                           https://www.nytimes.com/sitemaps/new/news-6.xml.gz  0cff645fbb74c21791568b78a888967d  2022-02-12 20:17:31+00:00          0.0774069  2022-02-12 20:18:39.744247+00:00</span>
+<span class="sd">   1  https://www.nytimes.com/interactive/2021/us/hopewell-virginia-covid-cases.html                           2022-02-12 00:00:00+00:00                              The New York Times  en                      2021-01-27T17:00:00Z     Hopewell, Virginia Covid Case and Exposure Risk Tracker                               Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates                                            https://static01.nyt.com/images/2020/03/29/us/virginia-coronavirus-cases-promo-1585539536519/virginia-coronavirus-cases-promo-1585539536519-articleLarge-v271.png                   https://www.nytimes.com/sitemaps/new/news-6.xml.gz  0cff645fbb74c21791568b78a888967d  2022-02-12 20:17:31+00:00          0.0774069  2022-02-12 20:18:39.744247+00:00</span>
+<span class="sd">   2  https://www.nytimes.com/interactive/2021/us/box-butte-nebraska-covid-cases.html                          2022-02-12 00:00:00+00:00                              The New York Times  en                      2021-01-27T17:00:00Z     Box Butte County, Nebraska Covid Case and Exposure Risk Tracker                       Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates                                            https://static01.nyt.com/images/2020/03/29/us/nebraska-coronavirus-cases-promo-1585539237156/nebraska-coronavirus-cases-promo-1585539237156-articleLarge-v281.png                   https://www.nytimes.com/sitemaps/new/news-6.xml.gz  0cff645fbb74c21791568b78a888967d  2022-02-12 20:17:31+00:00          0.0774069  2022-02-12 20:18:39.744247+00:00</span>
+<span class="sd">   3  https://www.nytimes.com/interactive/2021/us/stearns-minnesota-covid-cases.html                           2022-02-12 00:00:00+00:00                              The New York Times  en                      2021-01-27T17:00:00Z     Stearns County, Minnesota Covid Case and Exposure Risk Tracker                        Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates                                            https://static01.nyt.com/images/2020/03/29/us/minnesota-coronavirus-cases-promo-1585539172701/minnesota-coronavirus-cases-promo-1585539172701-articleLarge-v282.png                 https://www.nytimes.com/sitemaps/new/news-6.xml.gz  0cff645fbb74c21791568b78a888967d  2022-02-12 20:17:31+00:00          0.0774069  2022-02-12 20:18:39.744247+00:00</span>
+<span class="sd">   4  https://www.nytimes.com/interactive/2021/us/benton-iowa-covid-cases.html                                 2022-02-12 00:00:00+00:00                              The New York Times  en                      2021-01-27T17:00:00Z     Benton County, Iowa Covid Case and Exposure Risk Tracker                              Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates                                            https://static01.nyt.com/images/2020/03/29/us/iowa-coronavirus-cases-promo-1585539039190/iowa-coronavirus-cases-promo-1585539039190-articleLarge-v286.png                           https://www.nytimes.com/sitemaps/new/news-6.xml.gz  0cff645fbb74c21791568b78a888967d  2022-02-12 20:17:31+00:00          0.0774069  2022-02-12 20:18:39.744247+00:00</span>
+<span class="sd">5080  https://www.nytimes.com/interactive/2021/us/hodgeman-kansas-covid-cases.html                             2022-02-12 00:00:00+00:00                              The New York Times  en                      2021-01-27T17:00:00Z     Hodgeman County, Kansas Covid Case and Exposure Risk Tracker                          Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates                                            https://static01.nyt.com/images/2020/03/29/us/kansas-coronavirus-cases-promo-1585539054298/kansas-coronavirus-cases-promo-1585539054298-articleLarge-v285.png                       https://www.nytimes.com/sitemaps/new/news-2.xml.gz  f53301c8286f9bf59ef297f0232dcfc1  2022-02-12 20:17:31+00:00          0.914107   2022-02-12 20:18:39.995323+00:00</span>
+<span class="sd">5081  https://www.nytimes.com/interactive/2021/us/miller-georgia-covid-cases.html                              2022-02-12 00:00:00+00:00                              The New York Times  en                      2021-01-27T17:00:00Z     Miller County, Georgia Covid Case and Exposure Risk Tracker                           Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates                                            https://static01.nyt.com/images/2020/03/29/us/georgia-coronavirus-cases-promo-1585538956622/georgia-coronavirus-cases-promo-1585538956622-articleLarge-v290.png                     https://www.nytimes.com/sitemaps/new/news-2.xml.gz  f53301c8286f9bf59ef297f0232dcfc1  2022-02-12 20:17:31+00:00          0.914107   2022-02-12 20:18:39.995323+00:00</span>
+<span class="sd">5082  https://www.nytimes.com/interactive/2020/11/03/us/elections/results-west-virginia-house-district-1.html  2022-02-12 00:00:00+00:00                              The New York Times  en                      2020-11-03T17:00:00Z     West Virginia First Congressional District Results: David McKinley vs. Natalie Cline  Elections, Presidential Election of 2020, United States, internal-election-open, House of Representatives, West Virginia           https://static01.nyt.com/images/2020/11/03/us/elections/eln-promo-race-west-virginia-house-1WINNER-mckinleyd/eln-promo-race-west-virginia-house-1WINNER-mckinleyd-articleLarge.png  https://www.nytimes.com/sitemaps/new/news-2.xml.gz  f53301c8286f9bf59ef297f0232dcfc1  2022-02-12 20:17:31+00:00          0.914107   2022-02-12 20:18:39.995323+00:00</span>
+<span class="sd">5083  https://www.nytimes.com/interactive/2020/11/03/us/elections/results-maine-senate.html                    2022-02-12 00:00:00+00:00                              The New York Times  en                      2020-11-03T17:00:00Z     Maine Senate Results: Susan Collins Defeats Sara Gideon                               Elections, Presidential Election of 2020, United States, internal-election-open, Senate, Maine                                     https://static01.nyt.com/images/2020/11/03/us/elections/eln-promo-race-maine-senateWINNER-collinss/eln-promo-race-maine-senateWINNER-collinss-articleLarge.png                      https://www.nytimes.com/sitemaps/new/news-2.xml.gz  f53301c8286f9bf59ef297f0232dcfc1  2022-02-12 20:17:31+00:00          0.914107   2022-02-12 20:18:39.995323+00:00</span>
+<span class="sd">5084  https://www.nytimes.com/interactive/2021/us/randolph-missouri-covid-cases.html                           2022-02-12 00:00:00+00:00                              The New York Times  en                      2021-01-27T17:00:00Z     Randolph County, Missouri Covid Case and Exposure Risk Tracker                        Coronavirus (2019-nCoV), States (US), Deaths (Fatalities), United States, Disease Rates                                            https://static01.nyt.com/images/2020/03/29/us/missouri-coronavirus-cases-promo-1585539206866/missouri-coronavirus-cases-promo-1585539206866-articleLarge-v282.png                   https://www.nytimes.com/sitemaps/new/news-2.xml.gz  f53301c8286f9bf59ef297f0232dcfc1  2022-02-12 20:17:31+00:00          0.914107   2022-02-12 20:18:39.995323+00:00</span>
+<span class="sd">====  =======================================================================================================  =========================  ======  ==================  ==================  ======================  =======================  ====================================================================================  ========================================================================================================================  =======  ==================================================================================================================================================================================  ==================================================  ================================  =========================  =================  ================================</span>
 
 <span class="sd">Video Sitemaps</span>
 <span class="sd">--------------</span>
 
-<span class="sd">&gt;&gt;&gt; wired_video = sitemap_to_df(&#39;https://www.wired.com/video/sitemap.xml&#39;)</span>
-<span class="sd">&gt;&gt;&gt; wired_video</span>
-<span class="sd">                                                                                  loc                                                                                                                                                                                         video_thumbnail_loc                                         video_title                                                                                                                             video_description                                                                                          video_content_loc  video_duration       video_publication_date                                   sitemap                                   etag         sitemap_size_mb                         download_date</span>
-<span class="sd">0	               https://www.wired.com/video/watch/behind-the-scenes-with-jj-abrams	               http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040164/wired_behind-the-scenes-with-jj-abrams.jpg	               Behind the Scenes with J.J. Abrams	       Wired magazine teams up with J.J. Abrams for the May issue. Look in on the creative process with J.J. and the edit and design teams.	                                      http://dp8hsntg6do36.cloudfront.net/5171b42ac2b4c00dd0c1ff9e/low.mp4	           205	  2009-04-20T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00</span>
-<span class="sd">1	        https://www.wired.com/video/watch/trip-hop-pioneer-tricky-sweet-and-naive	        http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040238/wired_trip-hop-pioneer-tricky-sweet-and-naive.jpg	         Trip-Hop Pioneer Tricky: Sweet and Naive	                                             Tricky, of Massive Attack fame, shows Wired.com the ropes on becoming a musician and producer.	                                      http://dp8hsntg6do36.cloudfront.net/5171b424c2b4c00dd0c1fe4e/low.mp4	           267	  2009-04-18T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00</span>
-<span class="sd">2	                      https://www.wired.com/video/watch/trash-foils-diamond-heist	                      http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1464291637/wired_trash-foils-diamond-heist.jpg	                        Trash Foils Diamond Heist	                                                                                                                  Trash Foils Diamond Heist	                                      http://dp8hsntg6do36.cloudfront.net/5171b424c2b4c00dd0c1fe3c/low.mp4	           278	  2009-03-12T04:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00</span>
-<span class="sd">3	  https://www.wired.com/video/watch/the-toxic-cloud-emitting-portable-dry-ice-mak	  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040172/wired_the-toxic-cloud-emitting-portable-dry-ice-mak.jpg	  The Toxic Cloud-Emitting Portable Dry Ice Maker	                                                                                 The Toxic Cloud-Emitting Portable Dry Ice Maker in action.	                                      http://dp8hsntg6do36.cloudfront.net/5171b424c2b4c00dd0c1fe42/low.mp4	            31	  2009-02-11T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00</span>
-<span class="sd">4	                  https://www.wired.com/video/watch/chef-ferran-adria-of-el-bulli	                  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1368475899/wired_chef-ferran-adria-of-el-bulli.jpg	                    Chef Ferran Adria of El Bulli	                                                                  Ferran Adria on why the knife is the most essential tool in your kitchen.	                                      http://dp8hsntg6do36.cloudfront.net/5171b42ec2b4c00dd0c20064/low.mp4	            72	  2008-11-25T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00</span>
-<span class="sd">5	                      https://www.wired.com/video/watch/how-to-make-wired-origami	                      http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040170/wired_how-to-make-wired-origami.jpg	                        How To Make Wired Origami	                                                                Robert Lang explains how to fold the Wired issue 16.07 origami splash page.	                                      http://dp8hsntg6do36.cloudfront.net/5171b3cbc2b4c00dd0c1e969/low.mp4	           150	  2008-09-23T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00</span>
-<span class="sd">6	                          https://www.wired.com/video/watch/clover-coffee-machine	                          http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1389040152/wired_clover-coffee-machine.jpg	                            Clover Coffee Machine	                                        Wired.com takes a look at the &#39;Clover&#39;, an $11,000 coffee machine hand-built by Stanford engineers.	                                      http://dp8hsntg6do36.cloudfront.net/5171b42ec2b4c00dd0c2005b/low.mp4	           147	  2008-09-23T00:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00</span>
-<span class="sd">7	                      https://www.wired.com/video/watch/original-wargames-trailer	                      http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1464291813/wired_original-wargames-trailer.jpg	                        Original WarGames Trailer	                                                                                                                  Original WarGames Trailer	                                      http://dp8hsntg6do36.cloudfront.net/5171b427c2b4c00dd0c1fee7/low.mp4	           140	  2008-07-21T04:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00</span>
-<span class="sd">8	                              https://www.wired.com/video/watch/rock-band-trailer	                              http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1464292286/wired_rock-band-trailer.jpg	                                Rock Band Trailer	                                                                                                                          Rock Band Trailer	                                      http://dp8hsntg6do36.cloudfront.net/5171b431c2b4c00dd0c20100/low.mp4	            70	  2007-09-14T04:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00</span>
-<span class="sd">9	                           https://www.wired.com/video/watch/arrival-full-trailer	                           http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1471366897/wired_arrival-full-trailer.jpg	                         ‘Arrival’ — Full Trailer	  Louise Banks (Amy Adams) must learn to communicate with aliens to save humanity in the new film from ‘Sicario’ director Denis Villeneuve.	  http://dp8hsntg6do36.cloudfront.net/57b344f4fd2e614f99000014/1a74100f-bc1b-4279-b677-5efc301785d9low.mp4	           145	  2003-10-22T04:00:00+00:00	  https://www.wired.com/video/sitemap.xml	  W/4eecc23d353856e29d6dae1ce42b43ba	  2.2617597579956055	  2021-01-16 20:43:37.992796+00:00</span>
-<span class="sd">[2343 rows x 11 columns]</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    wired_video = adv.sitemap_to_df(&#39;https://www.wired.com/video/sitemap.xml&#39;)</span>
+<span class="sd">    print(wired_video.shape)</span>
+<span class="sd">    # (2955, 14)</span>
+<span class="sd">    wired_video</span>
+
+<span class="sd">====  ==============================================================================================================  =======  ======================================================================================================================================================================================================================================  ==============================================================================  ==========================================================================================================================================================================================================================================================================================================================================  ========================================================================================================  ================  =========================  =======================  =========  =======================================  ==================================  =================  ================================</span>
+<span class="sd">  ..  loc                                                                                                             video    video_thumbnail_loc                                                                                                                                                                                                                     video_title                                                                     video_description                                                                                                                                                                                                                                                                                                                           video_content_loc                                                                                           video_duration  video_publication_date       video_expiration_date  lastmod    sitemap                                  etag                                  sitemap_size_mb  download_date</span>
+<span class="sd">====  ==============================================================================================================  =======  ======================================================================================================================================================================================================================================  ==============================================================================  ==========================================================================================================================================================================================================================================================================================================================================  ========================================================================================================  ================  =========================  =======================  =========  =======================================  ==================================  =================  ================================</span>
+<span class="sd">   0  https://www.wired.com/video/watch/autocomplete-inverviews-owen-wilson-answers-the-webs-most-searched-questions           http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644595412/wired_autocomplete-inverviews-owen-wilson-answers-the-webs-most-searched-questions.jpg  Autocomplete Interview - Owen Wilson Answers The Web’s Most Searched Questions  Owen Wilson takes the WIRED Autocomplete Interview and answers the internet&#39;s most searched questions about himself. How did Owen Wilson break his nose? How many movies is he in with Ben Stiller? Is Owen in every Wes Anderson movie? Is he a good skateboarder? Owen answers all these questions and much more!                         http://dp8hsntg6do36.cloudfront.net/62067f085577c277dd9acf42/39687acb-505b-4c69-94f1-afaa7cb5e636low.mp4               645  2022-02-11T17:00:00+00:00                      nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
+<span class="sd">   1  https://www.wired.com/video/watch/wired-news-and-science-samsung-s22                                                     http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644418652/wired_wired-news-and-science-samsung-s22.jpg                                            Currents - Samsung S22 Ultra Explained in 3 Minutes                             Julian Chokkattu, Reviews Editor for WIRED, walks us through a few of the Samsung S22 Ultra&#39;s new features.                                                                                                                                                                                                                                 http://dp8hsntg6do36.cloudfront.net/6203cd7b5577c23d19622259/fe546b9b-a320-4883-9cbd-0d790f23c36dlow.mp4               184  2022-02-10T17:00:00+00:00                      nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
+<span class="sd">   2  https://www.wired.com/video/watch/first-look-samsung-galaxy-unpacked-2022                                                http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644381627/wired_first-look-samsung-galaxy-unpacked-2022.jpg                                       First Look: Samsung Galaxy Unpacked 2022                                        Samsung has debuted three new smartphones—the Galaxy S22 Ultra, S22+, S22—and three Android tablets in various sizes at Samsung Unpacked 2022. WIRED&#39;s Julian Chokkattu takes a look at the newest features.                                                                                                                                http://dp8hsntg6do36.cloudfront.net/620345a15577c23d46622256/d74930cf-11e1-466e-b023-1d9b91664204low.mp4               373  2022-02-09T15:00:00+00:00                      nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
+<span class="sd">   3  https://www.wired.com/video/watch/reinventing-with-data                                                                  http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1642801328/wired_reinventing-with-data.jpg                                                         Reinventing With Data | WIRED Brand Lab                                         Produced by WIRED Brand Lab with AWS | What can the Seattle Seahawks winning strategy teach businesses?                                                                                                                                                                                                                                     http://dp8hsntg6do36.cloudfront.net/619bd9be1d75db41adee6b58/d4889b15-4f34-41b0-b935-0c79465a9793low.mp4               292  2022-02-09T13:00:00+00:00                      nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
+<span class="sd">                                                                                                                                                                                                                                                                                                                                                                                                                                                       Swami Sivasubramanian, VP of AI at Amazon Web Services helps us to understand how the Seattle Seahawks are using data and AI to remain a top performing team in the NFL, and how their process of data capture, storage, and machine learning to gain strategic insights is a model for making better business decision across industries.</span>
+<span class="sd">   4  https://www.wired.com/video/watch/seth-rogen-answers-the-webs-most-searched-questions                                    http://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_180,q_80,w_320/v1644335726/wired_seth-rogen-answers-the-webs-most-searched-questions.jpg                           Autocomplete Interview - Seth Rogen Answers The Web’s Most Searched Questions   &quot;Pam &amp;amp; Tommy&quot; star Seth Rogen takes the WIRED Autocomplete Interview once again and answers the internet&#39;s most searched questions about himself. Who does Seth Rogen look like? Does Seth have a podcast? Does he sell pottery? Does he celebrate Christmas? Does he play Call of Duty?                                                http://dp8hsntg6do36.cloudfront.net/6201430a1d75db06ae1f62e8/488ed635-91d0-4281-9e64-34be9bf74f00low.mp4               635  2022-02-08T17:00:00+00:00                      nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
+
+<span class="sd">                                                                                                                                                                                                                                                                                                                                                                                                                                                       Pam &amp;amp; Tommy premieres February 2 on Hulu (finale on March 9)</span>
+<span class="sd">2950  https://www.wired.com/video/genres/how-to                                                                       nan      nan                                                                                                                                                                                                                                     nan                                                                             nan                                                                                                                                                                                                                                                                                                                                         nan                                                                                                                    nan  nan                                            nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
+<span class="sd">2951  https://www.wired.com/video/genres/movies-tv                                                                    nan      nan                                                                                                                                                                                                                                     nan                                                                             nan                                                                                                                                                                                                                                                                                                                                         nan                                                                                                                    nan  nan                                            nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
+<span class="sd">2952  https://www.wired.com/video/genres/events                                                                       nan      nan                                                                                                                                                                                                                                     nan                                                                             nan                                                                                                                                                                                                                                                                                                                                         nan                                                                                                                    nan  nan                                            nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
+<span class="sd">2953  https://www.wired.com/video/genres/promotion                                                                    nan      nan                                                                                                                                                                                                                                     nan                                                                             nan                                                                                                                                                                                                                                                                                                                                         nan                                                                                                                    nan  nan                                            nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
+<span class="sd">2954  https://www.wired.com/video/genres/transportation                                                               nan      nan                                                                                                                                                                                                                                     nan                                                                             nan                                                                                                                                                                                                                                                                                                                                         nan                                                                                                                    nan  nan                                            nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
+<span class="sd">====  ==============================================================================================================  =======  ======================================================================================================================================================================================================================================  ==============================================================================  ==========================================================================================================================================================================================================================================================================================================================================  ========================================================================================================  ================  =========================  =======================  =========  =======================================  ==================================  =================  ================================</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">gzip</span> <span class="kn">import</span> <span class="n">GzipFile</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">concurrent</span> <span class="kn">import</span> <span class="n">futures</span>
+<span class="kn">from</span> <span class="nn">gzip</span> <span class="kn">import</span> <span class="n">GzipFile</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
 <span class="kn">from</span> <span class="nn">xml.etree</span> <span class="kn">import</span> <span class="n">ElementTree</span>
-<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">advertools</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">version</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 

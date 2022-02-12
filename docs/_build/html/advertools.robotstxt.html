@@ -60,6 +60,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p class="caption" role="heading"><span class="caption-text">SEO</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">robots.txt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bulk-robots-txt-tester">Bulk <code class="docutils literal notranslate"><span class="pre">robots.txt</span></code> Tester</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#user-agents">User-agents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#robots-txt-testing-approach">robots.txt Testing Approach</a></li>
 </ul>
@@ -126,32 +127,134 @@ do. Only sometimes you might make the mistake of blocking the wrong section.</p>
 blocked for a certain user-agent by a certain robots.txt file. Ideally, you
 would want to run the same check for all possible user-agents. Even more
 ideally, you want to be able to run the check for a large number of pages with
-every possible combination with user-agents!</p>
+every possible combination with user-agents.</p>
 <p>To get the robots.txt file into an easily readable format, you can use the
 <a class="reference internal" href="#advertools.robotstxt.robotstxt_to_df" title="advertools.robotstxt.robotstxt_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_to_df()</span></code></a> function to get it in a DataFrame.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.amazon.com/robots.txt&#39;</span><span class="p">)</span>
-<span class="go">      directive    content                                        etag                                robotstxt_last_modified    robotstxt_url                      download_date</span>
-<span class="go">   0  User-agent   *                                              &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="go">   1  Disallow     /exec/obidos/account-access-login              &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="go">   2  Disallow     /exec/obidos/change-style                      &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="go">   3  Disallow     /exec/obidos/flex-sign-in                      &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="go">   4  Disallow     /exec/obidos/handle-buy-box                    &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="go"> ...    ...                 ...                                                 ...                              ...                           ...                                 ...</span>
-<span class="go"> 138  Disallow     /gp/help/customer/express/c2c/                 &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="go"> 139  Disallow     /slp/*/b$                                      &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="go"> 140  Disallow     /hz/contact-us/ajax/initiate-trusted-contact/  &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="go"> 141  User-agent   EtaoSpider                                     &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
-<span class="go"> 142  Disallow     /                                              &quot;8e5277c97035c645b89ceb97cdb8c619&quot;  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+
+<span class="n">amazon</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.amazon.com/robots.txt&#39;</span><span class="p">)</span>
+<span class="n">amazon</span>
 </pre></div>
 </div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 6%" />
+<col style="width: 19%" />
+<col style="width: 20%" />
+<col style="width: 15%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>directive</p></th>
+<th class="head"><p>content</p></th>
+<th class="head"><p>etag</p></th>
+<th class="head"><p>robotstxt_last_modified</p></th>
+<th class="head"><p>robotstxt_url</p></th>
+<th class="head"><p>download_date</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>User-agent</p></td>
+<td><p>*</p></td>
+<td><p>&quot;a850165d925db701988daf7ead7492d3&quot;</p></td>
+<td><p>2021-10-28 17:51:39+00:00</p></td>
+<td><p><a class="reference external" href="https://www.amazon.com/robots.txt">https://www.amazon.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:33:03.200689+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Disallow</p></td>
+<td><p>/exec/obidos/account-access-login</p></td>
+<td><p>&quot;a850165d925db701988daf7ead7492d3&quot;</p></td>
+<td><p>2021-10-28 17:51:39+00:00</p></td>
+<td><p><a class="reference external" href="https://www.amazon.com/robots.txt">https://www.amazon.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:33:03.200689+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Disallow</p></td>
+<td><p>/exec/obidos/change-style</p></td>
+<td><p>&quot;a850165d925db701988daf7ead7492d3&quot;</p></td>
+<td><p>2021-10-28 17:51:39+00:00</p></td>
+<td><p><a class="reference external" href="https://www.amazon.com/robots.txt">https://www.amazon.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:33:03.200689+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>Disallow</p></td>
+<td><p>/exec/obidos/flex-sign-in</p></td>
+<td><p>&quot;a850165d925db701988daf7ead7492d3&quot;</p></td>
+<td><p>2021-10-28 17:51:39+00:00</p></td>
+<td><p><a class="reference external" href="https://www.amazon.com/robots.txt">https://www.amazon.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:33:03.200689+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>Disallow</p></td>
+<td><p>/exec/obidos/handle-buy-box</p></td>
+<td><p>&quot;a850165d925db701988daf7ead7492d3&quot;</p></td>
+<td><p>2021-10-28 17:51:39+00:00</p></td>
+<td><p><a class="reference external" href="https://www.amazon.com/robots.txt">https://www.amazon.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:33:03.200689+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+</tr>
+<tr class="row-even"><td><p>146</p></td>
+<td><p>Disallow</p></td>
+<td><p>/hp/video/mystuff</p></td>
+<td><p>&quot;a850165d925db701988daf7ead7492d3&quot;</p></td>
+<td><p>2021-10-28 17:51:39+00:00</p></td>
+<td><p><a class="reference external" href="https://www.amazon.com/robots.txt">https://www.amazon.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:33:03.200689+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>147</p></td>
+<td><p>Disallow</p></td>
+<td><p>/gp/video/profiles</p></td>
+<td><p>&quot;a850165d925db701988daf7ead7492d3&quot;</p></td>
+<td><p>2021-10-28 17:51:39+00:00</p></td>
+<td><p><a class="reference external" href="https://www.amazon.com/robots.txt">https://www.amazon.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:33:03.200689+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>148</p></td>
+<td><p>Disallow</p></td>
+<td><p>/hp/video/profiles</p></td>
+<td><p>&quot;a850165d925db701988daf7ead7492d3&quot;</p></td>
+<td><p>2021-10-28 17:51:39+00:00</p></td>
+<td><p><a class="reference external" href="https://www.amazon.com/robots.txt">https://www.amazon.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:33:03.200689+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>149</p></td>
+<td><p>User-agent</p></td>
+<td><p>EtaoSpider</p></td>
+<td><p>&quot;a850165d925db701988daf7ead7492d3&quot;</p></td>
+<td><p>2021-10-28 17:51:39+00:00</p></td>
+<td><p><a class="reference external" href="https://www.amazon.com/robots.txt">https://www.amazon.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:33:03.200689+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>150</p></td>
+<td><p>Disallow</p></td>
+<td><p>/</p></td>
+<td><p>&quot;a850165d925db701988daf7ead7492d3&quot;</p></td>
+<td><p>2021-10-28 17:51:39+00:00</p></td>
+<td><p><a class="reference external" href="https://www.amazon.com/robots.txt">https://www.amazon.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:33:03.200689+00:00</p></td>
+</tr>
+</tbody>
+</table>
 <p>The returned DataFrame contains columns for directives, their content, the URL
 of the robots.txt file, as well as the date it was downloaded.</p>
 <ul class="simple">
 <li><p><cite>directive</cite>: The main commands. Allow, Disallow, Sitemap, Crawl-delay,
 User-agent, and so on.</p></li>
-<li><p><cite>content</cite>: The details of each of the directives</p></li>
+<li><p><cite>content</cite>: The details of each of the directives.</p></li>
 <li><p><cite>robotstxt_last_modified</cite>: The date when the robots.txt file was last
-modified, if provided.</p></li>
+modified, if provided (according the response header Last-modified).</p></li>
 <li><p><cite>etag</cite>: The entity tag of the response header, if provided.</p></li>
 <li><p><cite>robotstxt_url</cite>: The URL of the robots.txt file.</p></li>
 <li><p><cite>download_date</cite>: The date and time when the file was downloaded.</p></li>
@@ -163,27 +266,165 @@ them all in one go. This might be interesting if:</p>
 websites.</p></li>
 <li><p>You are analyzing a website with many sub-domains, and want to get all the
 robots files together.</p></li>
-<li><p>You are trying to understand a company that has many websites under
-different domains and sub-domains.</p></li>
+<li><p>You are trying to understand a company that has many websites under different
+domains and sub-domains.</p></li>
 </ul>
 <p>In this case you simply provide a list of URLs instead of a single one.</p>
-<p>An optional parameter <code class="docutils literal notranslate"><span class="pre">output_file</span></code> is also available in case you are
-requesting hundreds of files. The supported format is <cite>.jl</cite>. This saves the
-downloaded files by appending them to the file, so it is also useful if you
-think the process is going to take long and might loose your connection for
-example.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">([</span><span class="s1">&#39;https://example.com/robots.txt&#39;</span><span class="p">,</span>
-<span class="gp">... </span>                 <span class="s1">&#39;https://community.example.com/robots.txt&#39;</span><span class="p">,</span>
-<span class="gp">... </span>                 <span class="s1">&#39;https://shop.example.com/robots.txt&#39;</span><span class="p">],</span>
-<span class="gp">... </span>                  <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;example_robots.jl&#39;</span><span class="p">)</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robots_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://www.google.com/robots.txt&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;https://twitter.com/robots.txt&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;https://facebook.com/robots.txt&#39;</span><span class="p">]</span>
+
+<span class="n">googtwfb</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">robotstxt_to_df</span><span class="p">(</span><span class="n">robots_urls</span><span class="p">)</span>
+
+<span class="c1"># How many lines does each robots file have?</span>
+<span class="n">googtwfb</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;robotstxt_url&#39;</span><span class="p">)[</span><span class="s1">&#39;directive&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>As for testing, the <a class="reference internal" href="#advertools.robotstxt.robotstxt_test" title="advertools.robotstxt.robotstxt_test"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_test()</span></code></a> function runs a test for a given
-robots.txt file, checking which of the provided user-agents can fetch which of
-the provided URLs, paths, or patterns.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_test</span><span class="p">(</span><span class="s1">&#39;https://www.example.com/robots.txt&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="n">useragents</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Googlebot&#39;</span><span class="p">,</span> <span class="s1">&#39;baiduspider&#39;</span><span class="p">,</span> <span class="s1">&#39;Bingbot&#39;</span><span class="p">]</span>
-<span class="gp">... </span>               <span class="n">urls</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;/hello&#39;</span><span class="p">,</span> <span class="s1">&#39;/some-page.html&#39;</span><span class="p">]])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robotstxt_url</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">facebook</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">robots</span><span class="o">.</span><span class="n">txt</span>      <span class="mi">541</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">twitter</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">robots</span><span class="o">.</span><span class="n">txt</span>       <span class="mi">108</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">google</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">robots</span><span class="o">.</span><span class="n">txt</span>    <span class="mi">289</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">directive</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</pre></div>
+</div>
+<div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display the first five rows of each of the robots files:</span>
+<span class="n">googtwfb</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;robotstxt_url&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 6%" />
+<col style="width: 39%" />
+<col style="width: 15%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>directive</p></th>
+<th class="head"><p>content</p></th>
+<th class="head"><p>robotstxt_last_modified</p></th>
+<th class="head"><p>robotstxt_url</p></th>
+<th class="head"><p>download_date</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>User-agent</p></td>
+<td><p>*</p></td>
+<td><p>2022-02-07 22:30:00+00:00</p></td>
+<td><p><a class="reference external" href="https://www.google.com/robots.txt">https://www.google.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.375724+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Disallow</p></td>
+<td><p>/search</p></td>
+<td><p>2022-02-07 22:30:00+00:00</p></td>
+<td><p><a class="reference external" href="https://www.google.com/robots.txt">https://www.google.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.375724+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Allow</p></td>
+<td><p>/search/about</p></td>
+<td><p>2022-02-07 22:30:00+00:00</p></td>
+<td><p><a class="reference external" href="https://www.google.com/robots.txt">https://www.google.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.375724+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>Allow</p></td>
+<td><p>/search/static</p></td>
+<td><p>2022-02-07 22:30:00+00:00</p></td>
+<td><p><a class="reference external" href="https://www.google.com/robots.txt">https://www.google.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.375724+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>Allow</p></td>
+<td><p>/search/howsearchworks</p></td>
+<td><p>2022-02-07 22:30:00+00:00</p></td>
+<td><p><a class="reference external" href="https://www.google.com/robots.txt">https://www.google.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.375724+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>289</p></td>
+<td><p>comment</p></td>
+<td><p>Google Search Engine Robot</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://twitter.com/robots.txt">https://twitter.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.461815+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>290</p></td>
+<td><p>comment</p></td>
+<td></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://twitter.com/robots.txt">https://twitter.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.461815+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>291</p></td>
+<td><p>User-agent</p></td>
+<td><p>Googlebot</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://twitter.com/robots.txt">https://twitter.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.461815+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>292</p></td>
+<td><p>Allow</p></td>
+<td><p>/?_escaped_fragment_</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://twitter.com/robots.txt">https://twitter.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.461815+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>293</p></td>
+<td><p>Allow</p></td>
+<td><p>/*?lang=</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://twitter.com/robots.txt">https://twitter.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.461815+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>397</p></td>
+<td><p>comment</p></td>
+<td><p>Notice: Collection of data on Facebook through automated means is</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://facebook.com/robots.txt">https://facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.474456+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>398</p></td>
+<td><p>comment</p></td>
+<td><p>prohibited unless you have express written permission from Facebook</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://facebook.com/robots.txt">https://facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.474456+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>399</p></td>
+<td><p>comment</p></td>
+<td><p>and may only be conducted for the limited purpose contained in said</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://facebook.com/robots.txt">https://facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.474456+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>400</p></td>
+<td><p>comment</p></td>
+<td><p>permission.</p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://facebook.com/robots.txt">https://facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.474456+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>401</p></td>
+<td><p>comment</p></td>
+<td><p>See: <a class="reference external" href="http://www.facebook.com/apps/site_scraping_tos_terms.php">http://www.facebook.com/apps/site_scraping_tos_terms.php</a></p></td>
+<td><p>NaT</p></td>
+<td><p><a class="reference external" href="https://facebook.com/robots.txt">https://facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-11 19:52:13.474456+00:00</p></td>
+</tr>
+</tbody>
+</table>
+<section id="bulk-robots-txt-tester">
+<h2>Bulk <code class="docutils literal notranslate"><span class="pre">robots.txt</span></code> Tester<a class="headerlink" href="#bulk-robots-txt-tester" title="Permalink to this headline"></a></h2>
+<p>This tester is designed to work on a large scale. The <a class="reference internal" href="#advertools.robotstxt.robotstxt_test" title="advertools.robotstxt.robotstxt_test"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_test()</span></code></a>
+function runs a test for a given robots.txt file, checking which of the
+provided user-agents can fetch which of the provided URLs, paths, or patterns.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robotstxt_test</span><span class="p">(</span><span class="s1">&#39;https://www.example.com/robots.txt&#39;</span><span class="p">,</span>
+               <span class="n">useragents</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Googlebot&#39;</span><span class="p">,</span> <span class="s1">&#39;baiduspider&#39;</span><span class="p">,</span> <span class="s1">&#39;Bingbot&#39;</span><span class="p">]</span>
+               <span class="n">urls</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;/hello&#39;</span><span class="p">,</span> <span class="s1">&#39;/some-page.html&#39;</span><span class="p">]])</span>
 </pre></div>
 </div>
 <p>As a result, you get a DataFrame with a row for each combination of
@@ -196,6 +437,7 @@ rules for different user-agents.</p></li>
 <li><p>Developer or site owner about to make large changes</p></li>
 <li><p>Interest in strategies of certain companies</p></li>
 </ul>
+</section>
 <section id="user-agents">
 <h2>User-agents<a class="headerlink" href="#user-agents" title="Permalink to this headline"></a></h2>
 <p>In reality there are only two groups of user-agents that you need to worry
@@ -216,101 +458,369 @@ checking the rules that apply to it should take care of the rest.</p></li>
 <li><p>Specify the URLs you are interested in testing</p></li>
 <li><p>Run the <a class="reference internal" href="#advertools.robotstxt.robotstxt_test" title="advertools.robotstxt.robotstxt_test"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_test()</span></code></a> function</p></li>
 </ol>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fb_robots</span> <span class="o">=</span> <span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.facebook.com/robots.txt&#39;</span><span class="p">)</span>
-<span class="go">      directive    content                                                              robotstxt_url                        download_date</span>
-<span class="go">   0  comment      Notice: Collection of data on Facebook through automated means is    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="go">   1  comment      prohibited unless you have express written permission from Facebook  https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="go">   2  comment      and may only be conducted for the limited purpose contained in said  https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="go">   3  comment      permission.                                                          https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="go">   4  comment      See: http://www.facebook.com/apps/site_scraping_tos_terms.php        https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="go"> ...    ...                                ...                                                         ...                                 ...</span>
-<span class="go"> 480  Allow        /ajax/bootloader-endpoint/                                           https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="go"> 481  Allow        /ajax/pagelet/generic.php/PagePostsSectionPagelet                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="go"> 482  Allow        /safetycheck/                                                        https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="go"> 483  User-agent   *                                                                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="go"> 484  Disallow     /                                                                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00</span>
-<span class="go">[484 rows x 4 columns]</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fb_robots</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.facebook.com/robots.txt&#39;</span><span class="p">)</span>
+<span class="n">fb_robots</span>
 </pre></div>
 </div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 7%" />
+<col style="width: 45%" />
+<col style="width: 23%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>directive</p></th>
+<th class="head"><p>content</p></th>
+<th class="head"><p>robotstxt_url</p></th>
+<th class="head"><p>download_date</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>comment</p></td>
+<td><p>Notice: Collection of data on Facebook through automated means is</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-12 00:48:58.951053+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>comment</p></td>
+<td><p>prohibited unless you have express written permission from Facebook</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-12 00:48:58.951053+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>comment</p></td>
+<td><p>and may only be conducted for the limited purpose contained in said</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-12 00:48:58.951053+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>comment</p></td>
+<td><p>permission.</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-12 00:48:58.951053+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>comment</p></td>
+<td><p>See: <a class="reference external" href="http://www.facebook.com/apps/site_scraping_tos_terms.php">http://www.facebook.com/apps/site_scraping_tos_terms.php</a></p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-12 00:48:58.951053+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+</tr>
+<tr class="row-even"><td><p>536</p></td>
+<td><p>Allow</p></td>
+<td><p>/ajax/pagelet/generic.php/PagePostsSectionPagelet</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-12 00:48:58.951053+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>537</p></td>
+<td><p>Allow</p></td>
+<td><p>/careers/</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-12 00:48:58.951053+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>538</p></td>
+<td><p>Allow</p></td>
+<td><p>/safetycheck/</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-12 00:48:58.951053+00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>539</p></td>
+<td><p>User-agent</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-12 00:48:58.951053+00:00</p></td>
+</tr>
+<tr class="row-even"><td><p>540</p></td>
+<td><p>Disallow</p></td>
+<td><p>/</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>2022-02-12 00:48:58.951053+00:00</p></td>
+</tr>
+</tbody>
+</table>
 <p>Now that we have downloaded the file, we can easily extract the list of
 user-agents that it contains.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fb_useragents</span> <span class="o">=</span> <span class="p">(</span><span class="n">fb_robots</span>
-<span class="gp">... </span>                 <span class="p">[</span><span class="n">fb_robots</span><span class="p">[</span><span class="s1">&#39;directive&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;User-agent&#39;</span><span class="p">]</span>
-<span class="gp">... </span>                 <span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
-<span class="gp">... </span>                 <span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fb_useragents</span>
-<span class="go">[&#39;Applebot&#39;,</span>
-<span class="go"> &#39;baiduspider&#39;,</span>
-<span class="go"> &#39;Bingbot&#39;,</span>
-<span class="go"> &#39;Discordbot&#39;,</span>
-<span class="go"> &#39;facebookexternalhit&#39;,</span>
-<span class="go"> &#39;Googlebot&#39;,</span>
-<span class="go"> &#39;Googlebot-Image&#39;,</span>
-<span class="go"> &#39;ia_archiver&#39;,</span>
-<span class="go"> &#39;LinkedInBot&#39;,</span>
-<span class="go"> &#39;msnbot&#39;,</span>
-<span class="go"> &#39;Naverbot&#39;,</span>
-<span class="go"> &#39;Pinterestbot&#39;,</span>
-<span class="go"> &#39;seznambot&#39;,</span>
-<span class="go"> &#39;Slurp&#39;,</span>
-<span class="go"> &#39;teoma&#39;,</span>
-<span class="go"> &#39;TelegramBot&#39;,</span>
-<span class="go"> &#39;Twitterbot&#39;,</span>
-<span class="go"> &#39;Yandex&#39;,</span>
-<span class="go"> &#39;Yeti&#39;,</span>
-<span class="go"> &#39;*&#39;]</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fb_useragents</span> <span class="o">=</span> <span class="p">(</span><span class="n">fb_robots</span>
+                 <span class="p">[</span><span class="n">fb_robots</span><span class="p">[</span><span class="s1">&#39;directive&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;User-agent&#39;</span><span class="p">]</span>
+                 <span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">fb_useragents</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;Applebot&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;baiduspider&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Bingbot&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Discordbot&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;facebookexternalhit&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Googlebot&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Googlebot-Image&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ia_archiver&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;LinkedInBot&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;msnbot&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Naverbot&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Pinterestbot&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;seznambot&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Slurp&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;teoma&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;TelegramBot&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Twitterbot&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Yandex&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Yeti&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;*&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Quite a long list!</p>
 <p>As a small and quick test, I'm interested in checking the home page, a random
 profile page (/bbc), groups and hashtags pages.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">urls_to_test</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;/bbc&#39;</span><span class="p">,</span> <span class="s1">&#39;/groups&#39;</span><span class="p">,</span> <span class="s1">&#39;/hashtag/&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fb_test</span> <span class="o">=</span> <span class="n">robotstxt_test</span><span class="p">(</span><span class="s1">&#39;https://www.facebook.com/robots.txt&#39;</span><span class="p">,</span>
-<span class="gp">... </span>                         <span class="n">fb_useragents</span><span class="p">,</span> <span class="n">urls_to_test</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fb_test</span>
-<span class="go">                          robotstxt_url user_agent   url_path  can_fetch</span>
-<span class="go">0   https://www.facebook.com/robots.txt          *       /bbc      False</span>
-<span class="go">1   https://www.facebook.com/robots.txt          *    /groups      False</span>
-<span class="go">2   https://www.facebook.com/robots.txt          *          /      False</span>
-<span class="go">3   https://www.facebook.com/robots.txt          *  /hashtag/      False</span>
-<span class="go">4   https://www.facebook.com/robots.txt   Applebot          /       True</span>
-<span class="go">..                                  ...        ...        ...        ...</span>
-<span class="go">75  https://www.facebook.com/robots.txt  seznambot    /groups       True</span>
-<span class="go">76  https://www.facebook.com/robots.txt      teoma          /       True</span>
-<span class="go">77  https://www.facebook.com/robots.txt      teoma  /hashtag/      False</span>
-<span class="go">78  https://www.facebook.com/robots.txt      teoma       /bbc       True</span>
-<span class="go">79  https://www.facebook.com/robots.txt      teoma    /groups       True</span>
-<span class="go">[80 rows x 4 columns]</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">urls_to_test</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;/bbc&#39;</span><span class="p">,</span> <span class="s1">&#39;/groups&#39;</span><span class="p">,</span> <span class="s1">&#39;/hashtag/&#39;</span><span class="p">]</span>
+<span class="n">fb_test</span> <span class="o">=</span> <span class="n">robotstxt_test</span><span class="p">(</span><span class="s1">&#39;https://www.facebook.com/robots.txt&#39;</span><span class="p">,</span>
+                         <span class="n">fb_useragents</span><span class="p">,</span> <span class="n">urls_to_test</span><span class="p">)</span>
+<span class="n">fb_test</span>
 </pre></div>
 </div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 49%" />
+<col style="width: 17%" />
+<col style="width: 14%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>robotstxt_url</p></th>
+<th class="head"><p>user_agent</p></th>
+<th class="head"><p>url_path</p></th>
+<th class="head"><p>can_fetch</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>*</p></td>
+<td><p>/</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>*</p></td>
+<td><p>/bbc</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>*</p></td>
+<td><p>/groups</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>*</p></td>
+<td><p>/hashtag/</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Applebot</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+</tr>
+<tr class="row-even"><td><p>75</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>seznambot</p></td>
+<td><p>/hashtag/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>76</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>teoma</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>77</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>teoma</p></td>
+<td><p>/bbc</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>78</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>teoma</p></td>
+<td><p>/groups</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>79</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>teoma</p></td>
+<td><p>/hashtag/</p></td>
+<td><p>True</p></td>
+</tr>
+</tbody>
+</table>
 <p>For twenty user-agents and four URLs each, we received a total of eighty test
 results. You can immediately see that all user-agents not listed (denoted by
 <cite>*</cite> are not allowed to fetch any of the provided URLs).</p>
 <p>Let's see who is and who is not allowed to fetch the home page.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fb_test</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;url_path== &quot;/&quot;&#39;</span><span class="p">)</span>
-<span class="go">                          robotstxt_url           user_agent  url_path  can_fetch</span>
-<span class="go">2   https://www.facebook.com/robots.txt                    *         /      False</span>
-<span class="go">4   https://www.facebook.com/robots.txt             Applebot         /       True</span>
-<span class="go">9   https://www.facebook.com/robots.txt              Bingbot         /       True</span>
-<span class="go">14  https://www.facebook.com/robots.txt           Discordbot         /      False</span>
-<span class="go">18  https://www.facebook.com/robots.txt            Googlebot         /       True</span>
-<span class="go">21  https://www.facebook.com/robots.txt      Googlebot-Image         /       True</span>
-<span class="go">26  https://www.facebook.com/robots.txt          LinkedInBot         /      False</span>
-<span class="go">30  https://www.facebook.com/robots.txt             Naverbot         /       True</span>
-<span class="go">35  https://www.facebook.com/robots.txt         Pinterestbot         /      False</span>
-<span class="go">39  https://www.facebook.com/robots.txt                Slurp         /       True</span>
-<span class="go">43  https://www.facebook.com/robots.txt          TelegramBot         /      False</span>
-<span class="go">47  https://www.facebook.com/robots.txt           Twitterbot         /       True</span>
-<span class="go">48  https://www.facebook.com/robots.txt               Yandex         /       True</span>
-<span class="go">55  https://www.facebook.com/robots.txt                 Yeti         /       True</span>
-<span class="go">57  https://www.facebook.com/robots.txt          baiduspider         /       True</span>
-<span class="go">60  https://www.facebook.com/robots.txt  facebookexternalhit         /      False</span>
-<span class="go">64  https://www.facebook.com/robots.txt          ia_archiver         /      False</span>
-<span class="go">68  https://www.facebook.com/robots.txt               msnbot         /       True</span>
-<span class="go">74  https://www.facebook.com/robots.txt            seznambot         /       True</span>
-<span class="go">76  https://www.facebook.com/robots.txt                teoma         /       True</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fb_test</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;url_path== &quot;/&quot;&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 44%" />
+<col style="width: 24%" />
+<col style="width: 13%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>robotstxt_url</p></th>
+<th class="head"><p>user_agent</p></th>
+<th class="head"><p>url_path</p></th>
+<th class="head"><p>can_fetch</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>*</p></td>
+<td><p>/</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Applebot</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Bingbot</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Discordbot</p></td>
+<td><p>/</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-even"><td><p>16</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Googlebot</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>20</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Googlebot-Image</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>24</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>LinkedInBot</p></td>
+<td><p>/</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-odd"><td><p>28</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Naverbot</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>32</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Pinterestbot</p></td>
+<td><p>/</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-odd"><td><p>36</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Slurp</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>40</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>TelegramBot</p></td>
+<td><p>/</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-odd"><td><p>44</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Twitterbot</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>48</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Yandex</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>52</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>Yeti</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>56</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>baiduspider</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>60</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>facebookexternalhit</p></td>
+<td><p>/</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-even"><td><p>64</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>ia_archiver</p></td>
+<td><p>/</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-odd"><td><p>68</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>msnbot</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>72</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>seznambot</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>76</p></td>
+<td><p><a class="reference external" href="https://www.facebook.com/robots.txt">https://www.facebook.com/robots.txt</a></p></td>
+<td><p>teoma</p></td>
+<td><p>/</p></td>
+<td><p>True</p></td>
+</tr>
+</tbody>
+</table>
 <p>I'll leave it to you to figure out why LinkedIn and Pinterest are not allowed
 to crawl the home page but Google and Apple are, because I have no clue!</p>
 <dl class="py function">
