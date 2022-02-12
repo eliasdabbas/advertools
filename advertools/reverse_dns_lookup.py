@@ -1,6 +1,9 @@
 """
 .. _reverse_dns_lookup:
 
+.. raw:: html
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
 Getting the host name of a list of IP addresses can be useful in verifying
 the authenticity of those IP addresses. You typically want to do this as part
@@ -27,19 +30,21 @@ addresses that you have. Make sure to **keep the duplicates**, because the
 function handles that for you, as well as provide counts and some statistics on
 the frequency of the IPs:
 
-.. thebe-button::
-    Run this code
+.. container:: thebe
 
-.. code-block::
-    :class: thebe, thebe-init
+    .. thebe-button::
+        Run this code
 
-    import advertools as adv
-    ip_list = ['66.249.66.194', '66.249.66.194', '66.249.66.194',
-               '66.249.66.91', '66.249.66.91', '130.185.74.243',
-               '31.56.96.51', '5.211.97.39']
+    .. code-block::
+        :class: thebe, thebe-init
 
-    host_df = adv.reverse_dns_lookup(ip_list)
-    host_df
+        import advertools as adv
+        ip_list = ['66.249.66.194', '66.249.66.194', '66.249.66.194',
+                '66.249.66.91', '66.249.66.91', '130.185.74.243',
+                '31.56.96.51', '5.211.97.39']
+
+        host_df = adv.reverse_dns_lookup(ip_list)
+        host_df
 
 
 ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
