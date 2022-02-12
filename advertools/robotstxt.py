@@ -12,34 +12,46 @@ So it is very important to check if certain pages (or groups of pages) are
 blocked for a certain user-agent by a certain robots.txt file. Ideally, you
 would want to run the same check for all possible user-agents. Even more
 ideally, you want to be able to run the check for a large number of pages with
-every possible combination with user-agents!
+every possible combination with user-agents.
 
 To get the robots.txt file into an easily readable format, you can use the
 :func:`robotstxt_to_df` function to get it in a DataFrame.
 
->>> robotstxt_to_df('https://www.amazon.com/robots.txt')
-      directive    content                                        etag                                robotstxt_last_modified    robotstxt_url                      download_date
-   0  User-agent   *                                              "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
-   1  Disallow     /exec/obidos/account-access-login              "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
-   2  Disallow     /exec/obidos/change-style                      "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
-   3  Disallow     /exec/obidos/flex-sign-in                      "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
-   4  Disallow     /exec/obidos/handle-buy-box                    "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
- ...    ...                 ...                                                 ...                              ...                           ...                                 ...
- 138  Disallow     /gp/help/customer/express/c2c/                 "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
- 139  Disallow     /slp/*/b$                                      "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
- 140  Disallow     /hz/contact-us/ajax/initiate-trusted-contact/  "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
- 141  User-agent   EtaoSpider                                     "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
- 142  Disallow     /                                              "8e5277c97035c645b89ceb97cdb8c619"  2020-10-09 22:39:49+00:00  https://www.amazon.com/robots.txt  2021-04-20 17:18:42.155107+00:00
+.. thebe-button::
+    Run this code
 
+.. code-block::
+    :class: thebe, thebe-init
+
+    import advertools as adv
+
+    amazon = adv.robotstxt_to_df('https://www.amazon.com/robots.txt')
+    amazon
+
+====  ===========  =================================  ==================================  =========================  =================================  ================================
+  ..  directive    content                            etag                                robotstxt_last_modified    robotstxt_url                      download_date
+====  ===========  =================================  ==================================  =========================  =================================  ================================
+   0  User-agent   \*                                 "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
+   1  Disallow     /exec/obidos/account-access-login  "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
+   2  Disallow     /exec/obidos/change-style          "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
+   3  Disallow     /exec/obidos/flex-sign-in          "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
+   4  Disallow     /exec/obidos/handle-buy-box        "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
+ ...  ...          ...                                ...                                 ...                        ...                                ...
+ 146  Disallow     /hp/video/mystuff                  "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
+ 147  Disallow     /gp/video/profiles                 "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
+ 148  Disallow     /hp/video/profiles                 "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
+ 149  User-agent   EtaoSpider                         "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
+ 150  Disallow     /                                  "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
+====  ===========  =================================  ==================================  =========================  =================================  ================================
 
 The returned DataFrame contains columns for directives, their content, the URL
 of the robots.txt file, as well as the date it was downloaded.
 
 *  `directive`: The main commands. Allow, Disallow, Sitemap, Crawl-delay,
    User-agent, and so on.
-*  `content`: The details of each of the directives
+*  `content`: The details of each of the directives.
 *  `robotstxt_last_modified`: The date when the robots.txt file was last
-   modified, if provided.
+   modified, if provided (according the response header Last-modified).
 *  `etag`: The entity tag of the response header, if provided.
 *  `robotstxt_url`: The URL of the robots.txt file.
 *  `download_date`: The date and time when the file was downloaded.
@@ -51,29 +63,72 @@ them all in one go. This might be interesting if:
   websites.
 * You are analyzing a website with many sub-domains, and want to get all the
   robots files together.
-* You are trying to understand a company that has many websites under
-  different domains and sub-domains.
+* You are trying to understand a company that has many websites under different
+  domains and sub-domains.
 
 In this case you simply provide a list of URLs instead of a single one.
 
-An optional parameter ``output_file`` is also available in case you are
-requesting hundreds of files. The supported format is `.jl`. This saves the
-downloaded files by appending them to the file, so it is also useful if you
-think the process is going to take long and might loose your connection for
-example.
+.. thebe-button::
+    Run this code
 
->>> robotstxt_to_df(['https://example.com/robots.txt',
-...                  'https://community.example.com/robots.txt',
-...                  'https://shop.example.com/robots.txt'],
-...                   output_file='example_robots.jl')
+.. code-block::
+    :class: thebe, thebe-init
 
-As for testing, the :func:`robotstxt_test` function runs a test for a given
-robots.txt file, checking which of the provided user-agents can fetch which of
-the provided URLs, paths, or patterns.
+    robots_urls = ['https://www.google.com/robots.txt',
+                   'https://twitter.com/robots.txt',
+                   'https://facebook.com/robots.txt']
 
->>> robotstxt_test('https://www.example.com/robots.txt',
-...                useragents=['Googlebot', 'baiduspider', 'Bingbot']
-...                urls=['/', '/hello', '/some-page.html']])
+    googtwfb = adv.robotstxt_to_df(robots_urls)
+
+    # How many lines does each robots file have?
+    googtwfb.groupby('robotstxt_url')['directive'].count()
+
+.. code-block::
+
+    robotstxt_url
+    https://facebook.com/robots.txt      541
+    https://twitter.com/robots.txt       108
+    https://www.google.com/robots.txt    289
+    Name: directive, dtype: int64
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    # Display the first five rows of each of the robots files:
+    googtwfb.groupby('robotstxt_url').head()
+
+====  ===========  ===================================================================  =========================  =================================  ================================
+  ..  directive    content                                                              robotstxt_last_modified    robotstxt_url                      download_date
+====  ===========  ===================================================================  =========================  =================================  ================================
+   0  User-agent   \*                                                                   2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
+   1  Disallow     /search                                                              2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
+   2  Allow        /search/about                                                        2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
+   3  Allow        /search/static                                                       2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
+   4  Allow        /search/howsearchworks                                               2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
+ 289  comment      Google Search Engine Robot                                           NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
+ 290  comment      ==========================                                           NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
+ 291  User-agent   Googlebot                                                            NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
+ 292  Allow        /?_escaped_fragment_                                                 NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
+ 293  Allow        /\*?lang=                                                            NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
+ 397  comment      Notice: Collection of data on Facebook through automated means is    NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00
+ 398  comment      prohibited unless you have express written permission from Facebook  NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00
+ 399  comment      and may only be conducted for the limited purpose contained in said  NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00
+ 400  comment      permission.                                                          NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00
+ 401  comment      See: http://www.facebook.com/apps/site_scraping_tos_terms.php        NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00
+====  ===========  ===================================================================  =========================  =================================  ================================
+
+Bulk ``robots.txt`` Tester
+--------------------------
+
+This tester is designed to work on a large scale. The :func:`robotstxt_test`
+function runs a test for a given robots.txt file, checking which of the
+provided user-agents can fetch which of the provided URLs, paths, or patterns.
+
+.. code-block::
+
+    robotstxt_test('https://www.example.com/robots.txt',
+                   useragents=['Googlebot', 'baiduspider', 'Bingbot']
+                   urls=['/', '/hello', '/some-page.html']])
 
 As a result, you get a DataFrame with a row for each combination of
 (user-agent, URL) indicating whether or not that particular user-agent can
@@ -106,74 +161,101 @@ robots.txt Testing Approach
 3. Specify the URLs you are interested in testing
 4. Run the :func:`robotstxt_test` function
 
->>> fb_robots = robotstxt_to_df('https://www.facebook.com/robots.txt')
-      directive    content                                                              robotstxt_url                        download_date
-   0  comment      Notice: Collection of data on Facebook through automated means is    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
-   1  comment      prohibited unless you have express written permission from Facebook  https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
-   2  comment      and may only be conducted for the limited purpose contained in said  https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
-   3  comment      permission.                                                          https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
-   4  comment      See: http://www.facebook.com/apps/site_scraping_tos_terms.php        https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
- ...    ...                                ...                                                         ...                                 ...
- 480  Allow        /ajax/bootloader-endpoint/                                           https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
- 481  Allow        /ajax/pagelet/generic.php/PagePostsSectionPagelet                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
- 482  Allow        /safetycheck/                                                        https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
- 483  User-agent   *                                                                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
- 484  Disallow     /                                                                    https://www.facebook.com/robots.txt  2021-04-20 17:30:46.571533+00:00
-[484 rows x 4 columns]
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    fb_robots = adv.robotstxt_to_df('https://www.facebook.com/robots.txt')
+    fb_robots
+
+====  ===========  ===================================================================  ===================================  ================================
+  ..  directive    content                                                              robotstxt_url                        download_date
+====  ===========  ===================================================================  ===================================  ================================
+   0  comment      Notice: Collection of data on Facebook through automated means is    https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
+   1  comment      prohibited unless you have express written permission from Facebook  https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
+   2  comment      and may only be conducted for the limited purpose contained in said  https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
+   3  comment      permission.                                                          https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
+   4  comment      See: http://www.facebook.com/apps/site_scraping_tos_terms.php        https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
+ ...  ...          ...                                                                  ...                                  ...                           
+ 536  Allow        /ajax/pagelet/generic.php/PagePostsSectionPagelet                    https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
+ 537  Allow        /careers/                                                            https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
+ 538  Allow        /safetycheck/                                                        https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
+ 539  User-agent   *                                                                    https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
+ 540  Disallow     /                                                                    https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
+====  ===========  ===================================================================  ===================================  ================================
+
 
 Now that we have downloaded the file, we can easily extract the list of
 user-agents that it contains.
 
->>> fb_useragents = (fb_robots
-...                  [fb_robots['directive']=='User-agent']
-...                  ['content'].drop_duplicates()
-...                  .tolist())
->>> fb_useragents
-['Applebot',
- 'baiduspider',
- 'Bingbot',
- 'Discordbot',
- 'facebookexternalhit',
- 'Googlebot',
- 'Googlebot-Image',
- 'ia_archiver',
- 'LinkedInBot',
- 'msnbot',
- 'Naverbot',
- 'Pinterestbot',
- 'seznambot',
- 'Slurp',
- 'teoma',
- 'TelegramBot',
- 'Twitterbot',
- 'Yandex',
- 'Yeti',
- '*']
+.. thebe-button::
+    Run this code
 
+.. code-block::
+    :class: thebe, thebe-init
+
+    fb_useragents = (fb_robots
+                     [fb_robots['directive']=='User-agent']
+                     ['content'].drop_duplicates()
+                    .tolist())
+    fb_useragents
+
+.. code-block::
+
+    ['Applebot',
+     'baiduspider',
+     'Bingbot',
+     'Discordbot',
+     'facebookexternalhit',
+     'Googlebot',
+     'Googlebot-Image',
+     'ia_archiver',
+     'LinkedInBot',
+     'msnbot',
+     'Naverbot',
+     'Pinterestbot',
+     'seznambot',
+     'Slurp',
+     'teoma',
+     'TelegramBot',
+     'Twitterbot',
+     'Yandex',
+     'Yeti',
+     '*']
 
 Quite a long list!
 
 As a small and quick test, I'm interested in checking the home page, a random
 profile page (/bbc), groups and hashtags pages.
 
->>> urls_to_test = ['/', '/bbc', '/groups', '/hashtag/']
->>> fb_test = robotstxt_test('https://www.facebook.com/robots.txt',
-...                          fb_useragents, urls_to_test)
->>> fb_test
-                          robotstxt_url user_agent   url_path  can_fetch
-0   https://www.facebook.com/robots.txt          *       /bbc      False
-1   https://www.facebook.com/robots.txt          *    /groups      False
-2   https://www.facebook.com/robots.txt          *          /      False
-3   https://www.facebook.com/robots.txt          *  /hashtag/      False
-4   https://www.facebook.com/robots.txt   Applebot          /       True
-..                                  ...        ...        ...        ...
-75  https://www.facebook.com/robots.txt  seznambot    /groups       True
-76  https://www.facebook.com/robots.txt      teoma          /       True
-77  https://www.facebook.com/robots.txt      teoma  /hashtag/      False
-78  https://www.facebook.com/robots.txt      teoma       /bbc       True
-79  https://www.facebook.com/robots.txt      teoma    /groups       True
-[80 rows x 4 columns]
+.. thebe-button::
+    Run this code
 
+.. code-block::
+    :class: thebe, thebe-init
+
+    urls_to_test = ['/', '/bbc', '/groups', '/hashtag/']
+    fb_test = robotstxt_test('https://www.facebook.com/robots.txt',
+                             fb_useragents, urls_to_test)
+    fb_test
+
+====  ===================================  ============  ==========  ===========
+  ..  robotstxt_url                        user_agent    url_path    can_fetch
+====  ===================================  ============  ==========  ===========
+   0  https://www.facebook.com/robots.txt  \*            /           False
+   1  https://www.facebook.com/robots.txt  \*            /bbc        False
+   2  https://www.facebook.com/robots.txt  \*            /groups     False
+   3  https://www.facebook.com/robots.txt  \*            /hashtag/   False
+   4  https://www.facebook.com/robots.txt  Applebot      /           True
+  ..                                  ...           ...         ...          ...
+  75  https://www.facebook.com/robots.txt  seznambot     /hashtag/   True
+  76  https://www.facebook.com/robots.txt  teoma         /           True
+  77  https://www.facebook.com/robots.txt  teoma         /bbc        True
+  78  https://www.facebook.com/robots.txt  teoma         /groups     True
+  79  https://www.facebook.com/robots.txt  teoma         /hashtag/   True
+====  ===================================  ============  ==========  ===========
 
 For twenty user-agents and four URLs each, we received a total of eighty test
 results. You can immediately see that all user-agents not listed (denoted by
@@ -181,28 +263,34 @@ results. You can immediately see that all user-agents not listed (denoted by
 
 Let's see who is and who is not allowed to fetch the home page.
 
->>> fb_test.query('url_path== "/"')
-                          robotstxt_url           user_agent  url_path  can_fetch
-2   https://www.facebook.com/robots.txt                    *         /      False
-4   https://www.facebook.com/robots.txt             Applebot         /       True
-9   https://www.facebook.com/robots.txt              Bingbot         /       True
-14  https://www.facebook.com/robots.txt           Discordbot         /      False
-18  https://www.facebook.com/robots.txt            Googlebot         /       True
-21  https://www.facebook.com/robots.txt      Googlebot-Image         /       True
-26  https://www.facebook.com/robots.txt          LinkedInBot         /      False
-30  https://www.facebook.com/robots.txt             Naverbot         /       True
-35  https://www.facebook.com/robots.txt         Pinterestbot         /      False
-39  https://www.facebook.com/robots.txt                Slurp         /       True
-43  https://www.facebook.com/robots.txt          TelegramBot         /      False
-47  https://www.facebook.com/robots.txt           Twitterbot         /       True
-48  https://www.facebook.com/robots.txt               Yandex         /       True
-55  https://www.facebook.com/robots.txt                 Yeti         /       True
-57  https://www.facebook.com/robots.txt          baiduspider         /       True
-60  https://www.facebook.com/robots.txt  facebookexternalhit         /      False
-64  https://www.facebook.com/robots.txt          ia_archiver         /      False
-68  https://www.facebook.com/robots.txt               msnbot         /       True
-74  https://www.facebook.com/robots.txt            seznambot         /       True
-76  https://www.facebook.com/robots.txt                teoma         /       True
+.. code-block::
+
+    fb_test.query('url_path== "/"')
+
+====  ===================================  ===================  ==========  ===========
+  ..  robotstxt_url                        user_agent           url_path    can_fetch
+====  ===================================  ===================  ==========  ===========
+   0  https://www.facebook.com/robots.txt  \*                   /           False
+   4  https://www.facebook.com/robots.txt  Applebot             /           True
+   8  https://www.facebook.com/robots.txt  Bingbot              /           True
+  12  https://www.facebook.com/robots.txt  Discordbot           /           False
+  16  https://www.facebook.com/robots.txt  Googlebot            /           True
+  20  https://www.facebook.com/robots.txt  Googlebot-Image      /           True
+  24  https://www.facebook.com/robots.txt  LinkedInBot          /           False
+  28  https://www.facebook.com/robots.txt  Naverbot             /           True
+  32  https://www.facebook.com/robots.txt  Pinterestbot         /           False
+  36  https://www.facebook.com/robots.txt  Slurp                /           True
+  40  https://www.facebook.com/robots.txt  TelegramBot          /           False
+  44  https://www.facebook.com/robots.txt  Twitterbot           /           True
+  48  https://www.facebook.com/robots.txt  Yandex               /           True
+  52  https://www.facebook.com/robots.txt  Yeti                 /           True
+  56  https://www.facebook.com/robots.txt  baiduspider          /           True
+  60  https://www.facebook.com/robots.txt  facebookexternalhit  /           False
+  64  https://www.facebook.com/robots.txt  ia_archiver          /           False
+  68  https://www.facebook.com/robots.txt  msnbot               /           True
+  72  https://www.facebook.com/robots.txt  seznambot            /           True
+  76  https://www.facebook.com/robots.txt  teoma                /           True
+====  ===================================  ===================  ==========  ===========
 
 I'll leave it to you to figure out why LinkedIn and Pinterest are not allowed
 to crawl the home page but Google and Apple are, because I have no clue!
@@ -212,11 +300,11 @@ __all__ = ['robotstxt_to_df', 'robotstxt_test']
 import gzip
 import logging
 from concurrent import futures
-from urllib.request import Request, urlopen
 from itertools import product
+from urllib.request import Request, urlopen
 
-from protego import Protego
 import pandas as pd
+from protego import Protego
 
 from advertools import __version__ as version
 
