@@ -10,8 +10,8 @@ analyzing content of social media posts, tweets, web pages, keywords, etc.
 Each list is accessible as part of a dictionary ``stopwords`` which is a normal
 Python dictionary.
 
-Available Languages
-^^^^^^^^^^^^^^^^^^^
+Stopword Languages
+^^^^^^^^^^^^^^^^^^
 
 * Arabic
 * Azerbaijani
@@ -54,23 +54,45 @@ Available Languages
 * Urdu
 * Vietnamese
 
->>> import advertools as adv
->>> sorted(adv.stopwords['english'])[:5]
-["a", "about", "above", "across", "after"]
+You can easily explore the available languages and get (and optionally modify)
+the stopwords by accessing the dictionary as follows:
 
->>> sorted(adv.stopwords['german'])[:5]
-["a", "ab", "aber", "ach", "acht"]
+.. thebe-button::
+    Run this code
 
-To get a list of all available languages, run
 
->>> adv.stopwords.keys()
-dict_keys(['arabic', 'azerbaijani', 'bengali', 'catalan', 'chinese',
-'croatian', 'danish', 'dutch', 'english', 'finnish', 'french',
-'german', 'greek', 'hebrew', 'hindi', 'hungarian', 'indonesian',
-'irish', 'italian', 'japanese', 'kazakh', 'nepali', 'norwegian',
-'persian', 'polish', 'portuguese', 'romanian', 'russian', 'sinhala',
-'spanish', 'swedish', 'tagalog', 'tamil', 'tatar', 'telugu', 'thai',
-'turkish', 'ukrainian', 'urdu', 'vietnamese'])
+.. code-block::
+    :class: thebe, thebe-init
+
+    import advertools as adv
+    adv.stopwords.keys()
+
+.. code-block::
+
+    dict_keys(['arabic', 'azerbaijani', 'bengali', 'catalan', 'chinese',
+    'croatian', 'danish', 'dutch', 'english', 'finnish', 'french',
+    'german', 'greek', 'hebrew', 'hindi', 'hungarian', 'indonesian',
+    'irish', 'italian', 'japanese', 'kazakh', 'nepali', 'norwegian',
+    'persian', 'polish', 'portuguese', 'romanian', 'russian', 'sinhala',
+    'spanish', 'swedish', 'tagalog', 'tamil', 'tatar', 'telugu', 'thai',
+    'turkish', 'ukrainian', 'urdu', 'vietnamese'])
+
+
+You can also access the stopwords of a certain language: 
+
+
+.. thebe-button::
+    Run this code
+
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    print(sorted(adv.stopwords['english'])[:5])
+
+    print(sorted(adv.stopwords['german'])[:5])
+
+
 
 .. rubric:: Footnotes
 
