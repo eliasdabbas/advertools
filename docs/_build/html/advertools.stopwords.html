@@ -65,7 +65,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis (experimental)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
@@ -77,7 +77,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Stop Words</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#available-languages">Available Languages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stopword-languages">Stopword Languages</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
@@ -123,8 +123,8 @@ const thebe_selector_output = ".output, .cell_output"
 analyzing content of social media posts, tweets, web pages, keywords, etc.</p>
 <p>Each list is accessible as part of a dictionary <code class="docutils literal notranslate"><span class="pre">stopwords</span></code> which is a normal
 Python dictionary.</p>
-<section id="available-languages">
-<h2>Available Languages<a class="headerlink" href="#available-languages" title="Permalink to this headline"></a></h2>
+<section id="stopword-languages">
+<h2>Stopword Languages<a class="headerlink" href="#stopword-languages" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Arabic</p></li>
 <li><p>Azerbaijani</p></li>
@@ -167,24 +167,25 @@ Python dictionary.</p>
 <li><p>Urdu</p></li>
 <li><p>Vietnamese</p></li>
 </ul>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">])[:</span><span class="mi">5</span><span class="p">]</span>
-<span class="go">[&quot;a&quot;, &quot;about&quot;, &quot;above&quot;, &quot;across&quot;, &quot;after&quot;]</span>
+<p>You can easily explore the available languages and get (and optionally modify)
+the stopwords by accessing the dictionary as follows:</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;german&#39;</span><span class="p">])[:</span><span class="mi">5</span><span class="p">]</span>
-<span class="go">[&quot;a&quot;, &quot;ab&quot;, &quot;aber&quot;, &quot;ach&quot;, &quot;acht&quot;]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dict_keys</span><span class="p">([</span><span class="s1">&#39;arabic&#39;</span><span class="p">,</span> <span class="s1">&#39;azerbaijani&#39;</span><span class="p">,</span> <span class="s1">&#39;bengali&#39;</span><span class="p">,</span> <span class="s1">&#39;catalan&#39;</span><span class="p">,</span> <span class="s1">&#39;chinese&#39;</span><span class="p">,</span>
+<span class="s1">&#39;croatian&#39;</span><span class="p">,</span> <span class="s1">&#39;danish&#39;</span><span class="p">,</span> <span class="s1">&#39;dutch&#39;</span><span class="p">,</span> <span class="s1">&#39;english&#39;</span><span class="p">,</span> <span class="s1">&#39;finnish&#39;</span><span class="p">,</span> <span class="s1">&#39;french&#39;</span><span class="p">,</span>
+<span class="s1">&#39;german&#39;</span><span class="p">,</span> <span class="s1">&#39;greek&#39;</span><span class="p">,</span> <span class="s1">&#39;hebrew&#39;</span><span class="p">,</span> <span class="s1">&#39;hindi&#39;</span><span class="p">,</span> <span class="s1">&#39;hungarian&#39;</span><span class="p">,</span> <span class="s1">&#39;indonesian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;irish&#39;</span><span class="p">,</span> <span class="s1">&#39;italian&#39;</span><span class="p">,</span> <span class="s1">&#39;japanese&#39;</span><span class="p">,</span> <span class="s1">&#39;kazakh&#39;</span><span class="p">,</span> <span class="s1">&#39;nepali&#39;</span><span class="p">,</span> <span class="s1">&#39;norwegian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;persian&#39;</span><span class="p">,</span> <span class="s1">&#39;polish&#39;</span><span class="p">,</span> <span class="s1">&#39;portuguese&#39;</span><span class="p">,</span> <span class="s1">&#39;romanian&#39;</span><span class="p">,</span> <span class="s1">&#39;russian&#39;</span><span class="p">,</span> <span class="s1">&#39;sinhala&#39;</span><span class="p">,</span>
+<span class="s1">&#39;spanish&#39;</span><span class="p">,</span> <span class="s1">&#39;swedish&#39;</span><span class="p">,</span> <span class="s1">&#39;tagalog&#39;</span><span class="p">,</span> <span class="s1">&#39;tamil&#39;</span><span class="p">,</span> <span class="s1">&#39;tatar&#39;</span><span class="p">,</span> <span class="s1">&#39;telugu&#39;</span><span class="p">,</span> <span class="s1">&#39;thai&#39;</span><span class="p">,</span>
+<span class="s1">&#39;turkish&#39;</span><span class="p">,</span> <span class="s1">&#39;ukrainian&#39;</span><span class="p">,</span> <span class="s1">&#39;urdu&#39;</span><span class="p">,</span> <span class="s1">&#39;vietnamese&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>To get a list of all available languages, run</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-<span class="go">dict_keys([&#39;arabic&#39;, &#39;azerbaijani&#39;, &#39;bengali&#39;, &#39;catalan&#39;, &#39;chinese&#39;,</span>
-<span class="go">&#39;croatian&#39;, &#39;danish&#39;, &#39;dutch&#39;, &#39;english&#39;, &#39;finnish&#39;, &#39;french&#39;,</span>
-<span class="go">&#39;german&#39;, &#39;greek&#39;, &#39;hebrew&#39;, &#39;hindi&#39;, &#39;hungarian&#39;, &#39;indonesian&#39;,</span>
-<span class="go">&#39;irish&#39;, &#39;italian&#39;, &#39;japanese&#39;, &#39;kazakh&#39;, &#39;nepali&#39;, &#39;norwegian&#39;,</span>
-<span class="go">&#39;persian&#39;, &#39;polish&#39;, &#39;portuguese&#39;, &#39;romanian&#39;, &#39;russian&#39;, &#39;sinhala&#39;,</span>
-<span class="go">&#39;spanish&#39;, &#39;swedish&#39;, &#39;tagalog&#39;, &#39;tamil&#39;, &#39;tatar&#39;, &#39;telugu&#39;, &#39;thai&#39;,</span>
-<span class="go">&#39;turkish&#39;, &#39;ukrainian&#39;, &#39;urdu&#39;, &#39;vietnamese&#39;])</span>
+<p>You can also access the stopwords of a certain language:</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">])[:</span><span class="mi">5</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;german&#39;</span><span class="p">])[:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
 <p class="rubric">Footnotes</p>

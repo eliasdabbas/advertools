@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Log File Analysis (experimental) &mdash;  Python</title>
+  <title>Log File Analysis &mdash;  Python</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
@@ -64,9 +64,10 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Log File Analysis (experimental)</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Log File Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-run-the-logs-to-df-function">How to run the <code class="xref py py-func docutils literal notranslate"><span class="pre">logs_to_df()</span></code> function:</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supported-log-formats">Supported Log Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#log-file-analysis-data-preparation">Log File Analysis - Data Preparation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
@@ -107,7 +108,7 @@ const thebe_selector_output = ".output, .cell_output"
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Log File Analysis (experimental)</li>
+      <li>Log File Analysis</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/advertools.logs.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -117,10 +118,10 @@ const thebe_selector_output = ".output, .cell_output"
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="module-advertools.logs"></span><section id="log-file-analysis-experimental">
-<span id="logs"></span><h1>Log File Analysis (experimental)<a class="headerlink" href="#log-file-analysis-experimental" title="Permalink to this headline"></a></h1>
+  <span class="target" id="module-advertools.logs"></span><section id="log-file-analysis">
+<span id="logs"></span><h1>Log File Analysis<a class="headerlink" href="#log-file-analysis" title="Permalink to this headline"></a></h1>
 <p>Logs contain very detailed information about events happening on computers.
-And the extra details that they provide, come with additional complexity that
+And the extra details that they provide come with additional complexity that
 we need to handle ourselves. A pageview may contain many log lines, and a
 session can consist of several pageviews for example.</p>
 <p>Another important characterisitic of log files is that their are usualy not
@@ -154,9 +155,9 @@ lines in a different format, or temporary debug messages.</p></li>
 are) formatted in many ways, and there is no right or wrong way. However,
 there are defaults, and a few popular formats that most servers use. It is
 likely that your file is in one of the popular formats. This parameter can
-take any one of the pre-defined formats, for example &quot;common&quot;, or &quot;extended&quot;,
-or a regular expression that you provide. This means that you can parse any
-log format (as long as lines are single lines, and not formatted in JSON).</p></li>
+take any one of the pre-defined formats, for example &quot;common&quot;, or &quot;combined&quot;,
+or a regular expression that you provide. This means that <strong>you can parse any
+log format</strong> (as long as lines are single lines, and not formatted in JSON).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">fields</span></code>: If you selected one of the supported formats, then there is no
 need to provide a value for this parameter. You have to provide a list of
 fields in case you provide a custom (regex) format. The fields will become
@@ -173,6 +174,3081 @@ between them (client, time, status code, response size, etc.)</p></li>
 <li><p><cite>nginx_error</cite></p></li>
 <li><p><cite>apache_error</cite></p></li>
 </ul>
+</section>
+<section id="log-file-analysis-data-preparation">
+<h2>Log File Analysis - Data Preparation<a class="headerlink" href="#log-file-analysis-data-preparation" title="Permalink to this headline"></a></h2>
+<p>We go through an example where we prepare the data for analysis, and here is
+the plan:</p>
+<ol class="arabic simple">
+<li><p>Parse the log file into a DataFrame saved to disk with a <cite>.parquet</cite>
+extension. A side effect is that your log file is also compress down to
+5% - 15% of its original size. It also makes it super efficient to query and
+analyze once in this format. Function used: <code class="docutils literal notranslate"><span class="pre">logs_to_df</span></code>.</p></li>
+<li><p>Convert data types as needed (optional): Most importantly converting the
+<cite>datetime</cite> column into a date object helps a lot in querying the data. Other
+possibilities include converting to categorical data types for more
+efficient storage and querying. Function used: <code class="docutils literal notranslate"><span class="pre">pandas.to_datetime</span></code>.</p></li>
+<li><p>Get the hostnames of the IP addresses of the clients sending requests.
+Function used:  <a class="reference internal" href="advertools.reverse_dns_lookup.html#reverse-dns-lookup"><span class="std std-ref">reverse_dns_lookup</span></a>. We can then
+easily add a <code class="docutils literal notranslate"><span class="pre">hostname</span></code> column to the original DataFrame.</p></li>
+<li><p>Parse and split URL columns into their respective components. Typically we
+have <code class="docutils literal notranslate"><span class="pre">request</span></code> which is the resource/URL requested, as well as <code class="docutils literal notranslate"><span class="pre">referer</span></code>
+, which shows us where the request was referred from. Function used: 
+<a class="reference internal" href="advertools.urlytics.html#urlytics"><span class="std std-ref">url_to_df</span></a>.</p></li>
+<li><p>Parse user agents if available. This allows us to analyze by user-agent
+family, operating system, bot/non-bot, version, and any other combination we
+want.</p></li>
+<li><p>Combine all data together, and save back to a new <cite>.parquet</cite> file, and start
+analyzing.</p></li>
+</ol>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span>!head data/sample_log.log
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">66.249.73.72</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Feb</span><span class="o">/</span><span class="mi">2022</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mi">53</span> <span class="o">+</span><span class="mi">0000</span><span class="p">]</span> <span class="s2">&quot;GET / HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="mi">1095</span> <span class="s2">&quot;-&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)&quot;</span>
+<span class="mf">109.237.103.118</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Feb</span><span class="o">/</span><span class="mi">2022</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">39</span> <span class="o">+</span><span class="mi">0000</span><span class="p">]</span> <span class="s2">&quot;GET /.env HTTP/1.1&quot;</span> <span class="mi">404</span> <span class="mi">209</span> <span class="s2">&quot;-&quot;</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36&quot;</span>
+<span class="mf">45.12.223.214</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Feb</span><span class="o">/</span><span class="mi">2022</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">45</span> <span class="o">+</span><span class="mi">0000</span><span class="p">]</span> <span class="s2">&quot;GET / HTTP/1.0&quot;</span> <span class="mi">200</span> <span class="mi">2240</span> <span class="s2">&quot;http://adver.tools/&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36&quot;</span>
+<span class="mf">51.68.77.249</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Feb</span><span class="o">/</span><span class="mi">2022</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mi">23</span> <span class="o">+</span><span class="mi">0000</span><span class="p">]</span> <span class="s2">&quot;GET /robots.txt HTTP/1.1&quot;</span> <span class="mi">404</span> <span class="mi">209</span> <span class="s2">&quot;-&quot;</span> <span class="s2">&quot;advertools/0.13.0&quot;</span>
+<span class="mf">51.68.77.249</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Feb</span><span class="o">/</span><span class="mi">2022</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mi">23</span> <span class="o">+</span><span class="mi">0000</span><span class="p">]</span> <span class="s2">&quot;HEAD / HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="mi">0</span> <span class="s2">&quot;-&quot;</span> <span class="s2">&quot;advertools/0.13.0&quot;</span>
+<span class="mf">192.241.211.176</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Feb</span><span class="o">/</span><span class="mi">2022</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">31</span><span class="p">:</span><span class="mi">16</span> <span class="o">+</span><span class="mi">0000</span><span class="p">]</span> <span class="s2">&quot;GET /login HTTP/1.1&quot;</span> <span class="mi">404</span> <span class="mi">209</span> <span class="s2">&quot;-&quot;</span> <span class="s2">&quot;Mozilla/5.0 zgrab/0.x&quot;</span>
+<span class="mf">66.249.73.69</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Feb</span><span class="o">/</span><span class="mi">2022</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">48</span><span class="p">:</span><span class="mi">56</span> <span class="o">+</span><span class="mi">0000</span><span class="p">]</span> <span class="s2">&quot;GET /robots.txt HTTP/1.1&quot;</span> <span class="mi">404</span> <span class="mi">209</span> <span class="s2">&quot;-&quot;</span> <span class="s2">&quot;Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)&quot;</span>
+<span class="mf">66.249.73.72</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Feb</span><span class="o">/</span><span class="mi">2022</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">48</span><span class="p">:</span><span class="mi">56</span> <span class="o">+</span><span class="mi">0000</span><span class="p">]</span> <span class="s2">&quot;GET /staging/urlytics/ HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="mi">520</span> <span class="s2">&quot;-&quot;</span> <span class="s2">&quot;Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)&quot;</span>
+<span class="mf">66.249.73.75</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Feb</span><span class="o">/</span><span class="mi">2022</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mi">38</span> <span class="o">+</span><span class="mi">0000</span><span class="p">]</span> <span class="s2">&quot;GET /staging/urlytics/_dash-component-suites/dash/html/dash_html_components.v2_0_0m1638886228.min.js HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="mi">154258</span> <span class="s2">&quot;http://www.adver.tools/staging/urlytics/&quot;</span> <span class="s2">&quot;Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Chrome/98.0.4758.80 Safari/537.36&quot;</span>
+<span class="mf">66.249.73.75</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Feb</span><span class="o">/</span><span class="mi">2022</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mi">39</span> <span class="o">+</span><span class="mi">0000</span><span class="p">]</span> <span class="s2">&quot;GET /staging/urlytics/_dash-layout HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="mi">2547</span> <span class="s2">&quot;http://www.adver.tools/staging/urlytics/&quot;</span> <span class="s2">&quot;Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Chrome/98.0.4758.80 Safari/537.36&quot;</span>
+</pre></div>
+</div>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">ua_parser</span> <span class="kn">import</span> <span class="n">user_agent_parser</span>
+<span class="kn">import</span> <span class="nn">ua_parser</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_columns</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">adv</span><span class="o">.</span><span class="n">logs_to_df</span><span class="p">(</span><span class="n">log_file</span><span class="o">=</span><span class="s1">&#39;data/sample_log.log&#39;</span><span class="p">,</span>
+               <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;data/adv_logs.parquet&#39;</span><span class="p">,</span>
+               <span class="n">errors_file</span><span class="o">=</span><span class="s1">&#39;data/adv_errors.txt&#39;</span><span class="p">,</span>
+               <span class="n">log_format</span><span class="o">=</span><span class="s1">&#39;combined&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Read the parquet file into a pandas DataFrame, and convert the <code class="docutils literal notranslate"><span class="pre">datetime</span></code>
+column into a datetime object.</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;data/adv_logs.parquet&#39;</span><span class="p">)</span>
+<span class="n">logs_df</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">logs_df</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">],</span>
+                                     <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">/%b/%Y:%H:%M:%S %z&#39;</span><span class="p">)</span>
+
+<span class="n">logs_df</span>
+</pre></div>
+</div>
+<p>Perform a reverse DNS lookup on the IP addresses in the <code class="docutils literal notranslate"><span class="pre">client</span></code> column:</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">time</span>
+<span class="n">host_df</span> <span class="o">=</span>  <span class="n">adv</span><span class="o">.</span><span class="n">reverse_dns_lookup</span><span class="p">(</span><span class="n">logs_df</span><span class="p">[</span><span class="s1">&#39;client&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Rows, columns: </span><span class="si">{</span><span class="n">host_df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">hots_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="c1"># Rows, columns: (1210, 9)</span>
+<span class="c1"># CPU times: user 745 ms, sys: 729 ms, total: 1.47 s</span>
+<span class="c1"># Wall time: 21.1 s</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 9%" />
+<col style="width: 4%" />
+<col style="width: 7%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 24%" />
+<col style="width: 17%" />
+<col style="width: 9%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>ip_address</p></th>
+<th class="head"><p>count</p></th>
+<th class="head"><p>cum_count</p></th>
+<th class="head"><p>perc</p></th>
+<th class="head"><p>cum_perc</p></th>
+<th class="head"><p>hostname</p></th>
+<th class="head"><p>aliaslist</p></th>
+<th class="head"><p>ipaddrlist</p></th>
+<th class="head"><p>errors</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>143.244.132.225</p></td>
+<td><p>426</p></td>
+<td><p>426</p></td>
+<td><p>0.0701004</p></td>
+<td><p>0.0701004</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>[Errno 1] Unknown host</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>45.146.164.110</p></td>
+<td><p>290</p></td>
+<td><p>716</p></td>
+<td><p>0.0477209</p></td>
+<td><p>0.117821</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>[Errno 1] Unknown host</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>46.177.196.171</p></td>
+<td><p>192</p></td>
+<td><p>908</p></td>
+<td><p>0.0315945</p></td>
+<td><p>0.149416</p></td>
+<td><p>ppp046177196171.access.hol.gr</p></td>
+<td><p>171.196.177.46.in-addr.arpa</p></td>
+<td><p>46.177.196.171</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>185.22.173.83</p></td>
+<td><p>182</p></td>
+<td><p>1090</p></td>
+<td><p>0.029949</p></td>
+<td><p>0.179365</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>[Errno 1] Unknown host</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>152.32.226.223</p></td>
+<td><p>171</p></td>
+<td><p>1261</p></td>
+<td><p>0.0281389</p></td>
+<td><p>0.207504</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>[Errno 1] Unknown host</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>94.200.35.174</p></td>
+<td><p>154</p></td>
+<td><p>1415</p></td>
+<td><p>0.0253415</p></td>
+<td><p>0.232845</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>[Errno 1] Unknown host</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>89.47.44.105</p></td>
+<td><p>130</p></td>
+<td><p>1545</p></td>
+<td><p>0.0213921</p></td>
+<td><p>0.254237</p></td>
+<td><p>ppp089047044105.access.hol.gr</p></td>
+<td><p>105.44.47.89.in-addr.arpa</p></td>
+<td><p>89.47.44.105</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>94.200.92.2</p></td>
+<td><p>119</p></td>
+<td><p>1664</p></td>
+<td><p>0.019582</p></td>
+<td><p>0.273819</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>[Errno 1] Unknown host</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>143.244.132.234</p></td>
+<td><p>113</p></td>
+<td><p>1777</p></td>
+<td><p>0.0185947</p></td>
+<td><p>0.292414</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>[Errno 1] Unknown host</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>217.100.98.101</p></td>
+<td><p>81</p></td>
+<td><p>1858</p></td>
+<td><p>0.0133289</p></td>
+<td><p>0.305743</p></td>
+<td><p>d9646265.static.ziggozakelijk.nl</p></td>
+<td><p>101.98.100.217.in-addr.arpa</p></td>
+<td><p>217.100.98.101</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>203.163.243.241</p></td>
+<td><p>79</p></td>
+<td><p>1937</p></td>
+<td><p>0.0129998</p></td>
+<td><p>0.318743</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>[Errno 1] Unknown host</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>66.249.73.135</p></td>
+<td><p>77</p></td>
+<td><p>2014</p></td>
+<td><p>0.0126707</p></td>
+<td><p>0.331414</p></td>
+<td><p>crawl-66-249-73-135.googlebot.com</p></td>
+<td><p>135.73.249.66.in-addr.arpa</p></td>
+<td><p>66.249.73.135</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>12</p></td>
+<td><p>194.163.179.92</p></td>
+<td><p>60</p></td>
+<td><p>2074</p></td>
+<td><p>0.00987329</p></td>
+<td><p>0.341287</p></td>
+<td><p>vmi660635.contaboserver.net</p></td>
+<td><p>92.179.163.194.in-addr.arpa</p></td>
+<td><p>194.163.179.92</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>13</p></td>
+<td><p>66.249.73.137</p></td>
+<td><p>58</p></td>
+<td><p>2132</p></td>
+<td><p>0.00954418</p></td>
+<td><p>0.350831</p></td>
+<td><p>crawl-66-249-73-137.googlebot.com</p></td>
+<td><p>137.73.249.66.in-addr.arpa</p></td>
+<td><p>66.249.73.137</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>14</p></td>
+<td><p>109.70.100.30</p></td>
+<td><p>58</p></td>
+<td><p>2190</p></td>
+<td><p>0.00954418</p></td>
+<td><p>0.360375</p></td>
+<td><p>tor-exit-anonymizer.appliedprivacy.net</p></td>
+<td><p>30.100.70.109.in-addr.arpa</p></td>
+<td><p>109.70.100.30</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Add a new <code class="docutils literal notranslate"><span class="pre">hostname</span></code> column, by matching IP adresses to their hostnames.</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ip_host_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">host_df</span><span class="p">[</span><span class="s1">&#39;ip_address&#39;</span><span class="p">],</span> <span class="n">host_df</span><span class="p">[</span><span class="s1">&#39;hostname&#39;</span><span class="p">]))</span>
+<span class="n">logs_df</span><span class="p">[</span><span class="s1">&#39;hostname&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">ip_host_dict</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span> <span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="n">logs_df</span><span class="p">[</span><span class="s1">&#39;client&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Split the request URLs into their components.</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">request_url_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">url_to_df</span><span class="p">(</span><span class="n">logs_df</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">])</span>
+<span class="n">request_url_df</span> <span class="o">=</span> <span class="n">request_url_df</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s1">&#39;request_&#39;</span><span class="p">)</span>
+<span class="n">request_url_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 0%" />
+<col style="width: 4%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 4%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 2%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 2%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 2%" />
+<col style="width: 1%" />
+<col style="width: 2%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>request_url</p></th>
+<th class="head"><p>request_scheme</p></th>
+<th class="head"><p>request_netloc</p></th>
+<th class="head"><p>request_path</p></th>
+<th class="head"><p>request_query</p></th>
+<th class="head"><p>request_fragment</p></th>
+<th class="head"><p>request_hostname</p></th>
+<th class="head"><p>request_port</p></th>
+<th class="head"><p>request_dir_1</p></th>
+<th class="head"><p>request_dir_2</p></th>
+<th class="head"><p>request_dir_3</p></th>
+<th class="head"><p>request_dir_4</p></th>
+<th class="head"><p>request_dir_5</p></th>
+<th class="head"><p>request_dir_6</p></th>
+<th class="head"><p>request_dir_7</p></th>
+<th class="head"><p>request_dir_8</p></th>
+<th class="head"><p>request_dir_9</p></th>
+<th class="head"><p>request_dir_10</p></th>
+<th class="head"><p>request_dir_11</p></th>
+<th class="head"><p>request_dir_12</p></th>
+<th class="head"><p>request_dir_13</p></th>
+<th class="head"><p>request_last_dir</p></th>
+<th class="head"><p>request_query_index</p></th>
+<th class="head"><p>request_query_s</p></th>
+<th class="head"><p>request_query_XDEBUG_SESSION_START</p></th>
+<th class="head"><p>request_query_function</p></th>
+<th class="head"><p>request_query_vars[0]</p></th>
+<th class="head"><p>request_query_vars[1][]</p></th>
+<th class="head"><p>request_query_file</p></th>
+<th class="head"><p>request_query_url</p></th>
+<th class="head"><p>request_query_a</p></th>
+<th class="head"><p>request_query_content</p></th>
+<th class="head"><p>request_query_wt</p></th>
+<th class="head"><p>request_query_action</p></th>
+<th class="head"><p>request_query_username</p></th>
+<th class="head"><p>request_query_psd</p></th>
+<th class="head"><p>request_query_dns</p></th>
+<th class="head"><p>request_query_step</p></th>
+<th class="head"><p>request_query_cmd</p></th>
+<th class="head"><p>request_query_lang</p></th>
+<th class="head"><p>request_query_option</p></th>
+<th class="head"><p>request_query_folderIds</p></th>
+<th class="head"><p>request_query_input_file</p></th>
+<th class="head"><p>request_query_currentsetting.htm</p></th>
+<th class="head"><p>request_query_type</p></th>
+<th class="head"><p>request_query_next_file</p></th>
+<th class="head"><p>request_query_curpath</p></th>
+<th class="head"><p>request_query_page</p></th>
+<th class="head"><p>request_query_id</p></th>
+<th class="head"><p>request_query_img</p></th>
+<th class="head"><p>request_query_panel</p></th>
+<th class="head"><p>request_query_todo</p></th>
+<th class="head"><p>request_query_code</p></th>
+<th class="head"><p>request_query_ref</p></th>
+<th class="head"><p>request_query_scopeName</p></th>
+<th class="head"><p>request_query_op</p></th>
+<th class="head"><p>request_query_controller</p></th>
+<th class="head"><p>request_query_q</p></th>
+<th class="head"><p>request_query_sb_category</p></th>
+<th class="head"><p>request_query_Email</p></th>
+<th class="head"><p>request_query_name</p></th>
+<th class="head"><p>request_query_abspath</p></th>
+<th class="head"><p>request_query_fn</p></th>
+<th class="head"><p>request_query_files</p></th>
+<th class="head"><p>request_query_thumb</p></th>
+<th class="head"><p>request_query_ACTION</p></th>
+<th class="head"><p>request_query_NOCONTINUE</p></th>
+<th class="head"><p>request_query_filepath</p></th>
+<th class="head"><p>request_query_file_link</p></th>
+<th class="head"><p>request_query_myPath</p></th>
+<th class="head"><p>request_query_adaptive-images-settings[source_file]</p></th>
+<th class="head"><p>request_query_aam-media</p></th>
+<th class="head"><p>request_query_cpabc_calendar_update</p></th>
+<th class="head"><p>request_query_term</p></th>
+<th class="head"><p>request_query_Itemid</p></th>
+<th class="head"><p>request_query_search_key</p></th>
+<th class="head"><p>request_query_short</p></th>
+<th class="head"><p>request_query_title</p></th>
+<th class="head"><p>request_query_Type</p></th>
+<th class="head"><p>request_query_format</p></th>
+<th class="head"><p>request_query_findcli</p></th>
+<th class="head"><p>request_query_v</p></th>
+<th class="head"><p>request_query_target</p></th>
+<th class="head"><p><a href="#id1"><span class="problematic" id="id2">request_query__</span></a></p></th>
+<th class="head"><p>request_query_albid</p></th>
+<th class="head"><p>request_query_pic</p></th>
+<th class="head"><p>request_query_path</p></th>
+<th class="head"><p>request_query_mode</p></th>
+<th class="head"><p>request_query_libpath</p></th>
+<th class="head"><p>request_query_srt</p></th>
+<th class="head"><p>request_query_redirect</p></th>
+<th class="head"><p>request_query_order</p></th>
+<th class="head"><p>request_query_item</p></th>
+<th class="head"><p>request_query_gid</p></th>
+<th class="head"><p>request_query_act</p></th>
+<th class="head"><p>request_query_rid</p></th>
+<th class="head"><p>request_query_service</p></th>
+<th class="head"><p>request_query_agent</p></th>
+<th class="head"><p>request_query_typeid</p></th>
+<th class="head"><p>request_query_dir</p></th>
+<th class="head"><p>request_query_stockCodeInternal</p></th>
+<th class="head"><p>request_query_site</p></th>
+<th class="head"><p>request_query_position</p></th>
+<th class="head"><p>request_query_fileName</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>/.env</p></td>
+<td></td>
+<td></td>
+<td><p>/.env</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>.env</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>.env</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>/robots.txt</p></td>
+<td></td>
+<td></td>
+<td><p>/robots.txt</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>robots.txt</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>robots.txt</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>/login</p></td>
+<td></td>
+<td></td>
+<td><p>/login</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>login</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>login</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>/robots.txt</p></td>
+<td></td>
+<td></td>
+<td><p>/robots.txt</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>robots.txt</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>robots.txt</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>/staging/urlytics/</p></td>
+<td></td>
+<td></td>
+<td><p>/staging/urlytics/</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>staging</p></td>
+<td><p>urlytics</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>urlytics</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>/staging/urlytics/_dash-component-suites/dash/html/dash_html_components.v2_0_0m1638886228.min.js</p></td>
+<td></td>
+<td></td>
+<td><p>/staging/urlytics/_dash-component-suites/dash/html/dash_html_components.v2_0_0m1638886228.min.js</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>staging</p></td>
+<td><p>urlytics</p></td>
+<td><p>_dash-component-suites</p></td>
+<td><p>dash</p></td>
+<td><p>html</p></td>
+<td><p>dash_html_components.v2_0_0m1638886228.min.js</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>dash_html_components.v2_0_0m1638886228.min.js</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>/staging/urlytics/_dash-layout</p></td>
+<td></td>
+<td></td>
+<td><p>/staging/urlytics/_dash-layout</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>staging</p></td>
+<td><p>urlytics</p></td>
+<td><p>_dash-layout</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>_dash-layout</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+</tbody>
+</table>
+<p>Do the some for the URLs in the <code class="docutils literal notranslate"><span class="pre">referer</span></code> column.</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">referer_url_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">url_to_df</span><span class="p">(</span><span class="n">logs_df</span><span class="p">[</span><span class="s1">&#39;referer&#39;</span><span class="p">])</span>
+<span class="n">referer_url_df</span> <span class="o">=</span> <span class="n">request_url_df</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s1">&#39;referer_&#39;</span><span class="p">)</span>
+<span class="n">referer_url_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 0%" />
+<col style="width: 3%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 3%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 2%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+<col style="width: 1%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>referer_request_url</p></th>
+<th class="head"><p>referer_request_scheme</p></th>
+<th class="head"><p>referer_request_netloc</p></th>
+<th class="head"><p>referer_request_path</p></th>
+<th class="head"><p>referer_request_query</p></th>
+<th class="head"><p>referer_request_fragment</p></th>
+<th class="head"><p>referer_request_hostname</p></th>
+<th class="head"><p>referer_request_port</p></th>
+<th class="head"><p>referer_request_dir_1</p></th>
+<th class="head"><p>referer_request_dir_2</p></th>
+<th class="head"><p>referer_request_dir_3</p></th>
+<th class="head"><p>referer_request_dir_4</p></th>
+<th class="head"><p>referer_request_dir_5</p></th>
+<th class="head"><p>referer_request_dir_6</p></th>
+<th class="head"><p>referer_request_dir_7</p></th>
+<th class="head"><p>referer_request_dir_8</p></th>
+<th class="head"><p>referer_request_dir_9</p></th>
+<th class="head"><p>referer_request_dir_10</p></th>
+<th class="head"><p>referer_request_dir_11</p></th>
+<th class="head"><p>referer_request_dir_12</p></th>
+<th class="head"><p>referer_request_dir_13</p></th>
+<th class="head"><p>referer_request_last_dir</p></th>
+<th class="head"><p>referer_request_query_index</p></th>
+<th class="head"><p>referer_request_query_s</p></th>
+<th class="head"><p>referer_request_query_XDEBUG_SESSION_START</p></th>
+<th class="head"><p>referer_request_query_function</p></th>
+<th class="head"><p>referer_request_query_vars[0]</p></th>
+<th class="head"><p>referer_request_query_vars[1][]</p></th>
+<th class="head"><p>referer_request_query_file</p></th>
+<th class="head"><p>referer_request_query_url</p></th>
+<th class="head"><p>referer_request_query_a</p></th>
+<th class="head"><p>referer_request_query_content</p></th>
+<th class="head"><p>referer_request_query_wt</p></th>
+<th class="head"><p>referer_request_query_action</p></th>
+<th class="head"><p>referer_request_query_username</p></th>
+<th class="head"><p>referer_request_query_psd</p></th>
+<th class="head"><p>referer_request_query_dns</p></th>
+<th class="head"><p>referer_request_query_step</p></th>
+<th class="head"><p>referer_request_query_cmd</p></th>
+<th class="head"><p>referer_request_query_lang</p></th>
+<th class="head"><p>referer_request_query_option</p></th>
+<th class="head"><p>referer_request_query_folderIds</p></th>
+<th class="head"><p>referer_request_query_input_file</p></th>
+<th class="head"><p>referer_request_query_currentsetting.htm</p></th>
+<th class="head"><p>referer_request_query_type</p></th>
+<th class="head"><p>referer_request_query_next_file</p></th>
+<th class="head"><p>referer_request_query_curpath</p></th>
+<th class="head"><p>referer_request_query_page</p></th>
+<th class="head"><p>referer_request_query_id</p></th>
+<th class="head"><p>referer_request_query_img</p></th>
+<th class="head"><p>referer_request_query_panel</p></th>
+<th class="head"><p>referer_request_query_todo</p></th>
+<th class="head"><p>referer_request_query_code</p></th>
+<th class="head"><p>referer_request_query_ref</p></th>
+<th class="head"><p>referer_request_query_scopeName</p></th>
+<th class="head"><p>referer_request_query_op</p></th>
+<th class="head"><p>referer_request_query_controller</p></th>
+<th class="head"><p>referer_request_query_q</p></th>
+<th class="head"><p>referer_request_query_sb_category</p></th>
+<th class="head"><p>referer_request_query_Email</p></th>
+<th class="head"><p>referer_request_query_name</p></th>
+<th class="head"><p>referer_request_query_abspath</p></th>
+<th class="head"><p>referer_request_query_fn</p></th>
+<th class="head"><p>referer_request_query_files</p></th>
+<th class="head"><p>referer_request_query_thumb</p></th>
+<th class="head"><p>referer_request_query_ACTION</p></th>
+<th class="head"><p>referer_request_query_NOCONTINUE</p></th>
+<th class="head"><p>referer_request_query_filepath</p></th>
+<th class="head"><p>referer_request_query_file_link</p></th>
+<th class="head"><p>referer_request_query_myPath</p></th>
+<th class="head"><p>referer_request_query_adaptive-images-settings[source_file]</p></th>
+<th class="head"><p>referer_request_query_aam-media</p></th>
+<th class="head"><p>referer_request_query_cpabc_calendar_update</p></th>
+<th class="head"><p>referer_request_query_term</p></th>
+<th class="head"><p>referer_request_query_Itemid</p></th>
+<th class="head"><p>referer_request_query_search_key</p></th>
+<th class="head"><p>referer_request_query_short</p></th>
+<th class="head"><p>referer_request_query_title</p></th>
+<th class="head"><p>referer_request_query_Type</p></th>
+<th class="head"><p>referer_request_query_format</p></th>
+<th class="head"><p>referer_request_query_findcli</p></th>
+<th class="head"><p>referer_request_query_v</p></th>
+<th class="head"><p>referer_request_query_target</p></th>
+<th class="head"><p><a href="#id1"><span class="problematic" id="id3">referer_request_query__</span></a></p></th>
+<th class="head"><p>referer_request_query_albid</p></th>
+<th class="head"><p>referer_request_query_pic</p></th>
+<th class="head"><p>referer_request_query_path</p></th>
+<th class="head"><p>referer_request_query_mode</p></th>
+<th class="head"><p>referer_request_query_libpath</p></th>
+<th class="head"><p>referer_request_query_srt</p></th>
+<th class="head"><p>referer_request_query_redirect</p></th>
+<th class="head"><p>referer_request_query_order</p></th>
+<th class="head"><p>referer_request_query_item</p></th>
+<th class="head"><p>referer_request_query_gid</p></th>
+<th class="head"><p>referer_request_query_act</p></th>
+<th class="head"><p>referer_request_query_rid</p></th>
+<th class="head"><p>referer_request_query_service</p></th>
+<th class="head"><p>referer_request_query_agent</p></th>
+<th class="head"><p>referer_request_query_typeid</p></th>
+<th class="head"><p>referer_request_query_dir</p></th>
+<th class="head"><p>referer_request_query_stockCodeInternal</p></th>
+<th class="head"><p>referer_request_query_site</p></th>
+<th class="head"><p>referer_request_query_position</p></th>
+<th class="head"><p>referer_request_query_fileName</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>/.env</p></td>
+<td></td>
+<td></td>
+<td><p>/.env</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>.env</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>.env</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>/robots.txt</p></td>
+<td></td>
+<td></td>
+<td><p>/robots.txt</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>robots.txt</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>robots.txt</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>/</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>/login</p></td>
+<td></td>
+<td></td>
+<td><p>/login</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>login</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>login</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>/robots.txt</p></td>
+<td></td>
+<td></td>
+<td><p>/robots.txt</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>robots.txt</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>robots.txt</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>/staging/urlytics/</p></td>
+<td></td>
+<td></td>
+<td><p>/staging/urlytics/</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>staging</p></td>
+<td><p>urlytics</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>urlytics</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>/staging/urlytics/_dash-component-suites/dash/html/dash_html_components.v2_0_0m1638886228.min.js</p></td>
+<td></td>
+<td></td>
+<td><p>/staging/urlytics/_dash-component-suites/dash/html/dash_html_components.v2_0_0m1638886228.min.js</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>staging</p></td>
+<td><p>urlytics</p></td>
+<td><p>_dash-component-suites</p></td>
+<td><p>dash</p></td>
+<td><p>html</p></td>
+<td><p>dash_html_components.v2_0_0m1638886228.min.js</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>dash_html_components.v2_0_0m1638886228.min.js</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>/staging/urlytics/_dash-layout</p></td>
+<td></td>
+<td></td>
+<td><p>/staging/urlytics/_dash-layout</p></td>
+<td></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>staging</p></td>
+<td><p>urlytics</p></td>
+<td><p>_dash-layout</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>_dash-layout</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+</tbody>
+</table>
+<p>Parse the <code class="docutils literal notranslate"><span class="pre">user_agent</span></code> column.</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ua_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">([</span><span class="n">user_agent_parser</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">ua</span><span class="p">)</span> <span class="k">for</span> <span class="n">ua</span> <span class="ow">in</span> <span class="n">logs_df</span><span class="p">[</span><span class="s1">&#39;user_agent&#39;</span><span class="p">]])</span>
+<span class="n">ua_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="s1">&#39;ua_&#39;</span> <span class="o">+</span> <span class="n">ua_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;user_agent\.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ua_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 1%" />
+<col style="width: 54%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 4%" />
+<col style="width: 4%" />
+<col style="width: 4%" />
+<col style="width: 4%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>ua_string</p></th>
+<th class="head"><p>ua_family</p></th>
+<th class="head"><p>ua_major</p></th>
+<th class="head"><p>ua_minor</p></th>
+<th class="head"><p>ua_patch</p></th>
+<th class="head"><p>ua_os.family</p></th>
+<th class="head"><p>ua_os.major</p></th>
+<th class="head"><p>ua_os.minor</p></th>
+<th class="head"><p>ua_os.patch</p></th>
+<th class="head"><p>ua_os.patch_minor</p></th>
+<th class="head"><p>ua_device.family</p></th>
+<th class="head"><p>ua_device.brand</p></th>
+<th class="head"><p>ua_device.model</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)</p></td>
+<td><p>Googlebot</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td></td>
+<td><p>Android</p></td>
+<td><p>6</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td></td>
+<td><p>Spider</p></td>
+<td><p>Spider</p></td>
+<td><p>Smartphone</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36</p></td>
+<td><p>Chrome</p></td>
+<td><p>81</p></td>
+<td><p>0</p></td>
+<td><p>4044</p></td>
+<td><p>Linux</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36</p></td>
+<td><p>Chrome</p></td>
+<td><p>90</p></td>
+<td><p>0</p></td>
+<td><p>4430</p></td>
+<td><p>Windows</p></td>
+<td><p>10</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>advertools/0.13.0</p></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>advertools/0.13.0</p></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Mozilla/5.0 zgrab/0.x</p></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)</p></td>
+<td><p>Googlebot</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Spider</p></td>
+<td><p>Spider</p></td>
+<td><p>Desktop</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)</p></td>
+<td><p>Googlebot</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Spider</p></td>
+<td><p>Spider</p></td>
+<td><p>Desktop</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Chrome/98.0.4758.80 Safari/537.36</p></td>
+<td><p>Googlebot</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Spider</p></td>
+<td><p>Spider</p></td>
+<td><p>Desktop</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Chrome/98.0.4758.80 Safari/537.36</p></td>
+<td><p>Googlebot</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td></td>
+<td><p>Other</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>Spider</p></td>
+<td><p>Spider</p></td>
+<td><p>Desktop</p></td>
+</tr>
+</tbody>
+</table>
+<p>Combine all data into one DataFrame and save to a new <cite>.parquet</cite> file.</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">logs_df</span><span class="p">,</span> <span class="n">request_url_df</span><span class="p">,</span> <span class="n">referer_url_df</span><span class="p">,</span> <span class="n">ua_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="s1">&#39;data/adv_logs_final.parquet&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;2.4&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Start the analysis.</p>
+<p>The advantage of using the parquet format is that the file doens't need to be
+loaded into memory, and can be queried from disk, just like querying a
+database. This means you only load the columns that you select, and the rows
+that satisfy certain conditions. For example we can load the
+<code class="docutils literal notranslate"><span class="pre">ua_device.family</span></code> and <code class="docutils literal notranslate"><span class="pre">ua_family</span></code> columns, and only the rows where
+<code class="docutils literal notranslate"><span class="pre">'ua_device.family',</span> <span class="pre">'==',</span> <span class="pre">'Spider'</span></code>. We then count the values in the
+<code class="docutils literal notranslate"><span class="pre">ua_family</span></code> column, and get the top bots accessing our website.</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">top_bots</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;data/adv_logs_final.parquet&#39;</span><span class="p">,</span>
+                <span class="n">filters</span><span class="o">=</span><span class="p">[</span>
+                    <span class="p">(</span><span class="s1">&#39;ua_device.family&#39;</span><span class="p">,</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="s1">&#39;Spider&#39;</span><span class="p">)</span>
+                <span class="p">],</span>
+                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ua_device.family&#39;</span><span class="p">,</span> <span class="s1">&#39;ua_family&#39;</span><span class="p">])[</span><span class="s1">&#39;ua_family&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">top_bots</span><span class="p">[:</span><span class="mi">15</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Googlebot</span>      <span class="mi">499</span>
+<span class="n">PetalBot</span>        <span class="mi">46</span>
+<span class="n">AhrefsBot</span>       <span class="mi">42</span>
+<span class="n">Chrome</span>          <span class="mi">29</span>
+<span class="n">YandexBot</span>       <span class="mi">29</span>
+<span class="n">LinkedInBot</span>     <span class="mi">23</span>
+<span class="n">Baiduspider</span>     <span class="mi">18</span>
+<span class="n">DotBot</span>          <span class="mi">17</span>
+<span class="n">Twitterbot</span>      <span class="mi">16</span>
+<span class="n">bingbot</span>         <span class="mi">12</span>
+<span class="n">MJ12bot</span>         <span class="mi">12</span>
+<span class="n">Java</span>            <span class="mi">10</span>
+<span class="n">Nutch</span>            <span class="mi">8</span>
+<span class="n">masscan</span>          <span class="mi">6</span>
+<span class="n">FacebookBot</span>      <span class="mi">4</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">ua_family</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</pre></div>
+</div>
+<p>Happy analyzing!</p>
 </section>
 </section>
 <section id="parse-and-analyze-crawl-logs-in-a-dataframe">
