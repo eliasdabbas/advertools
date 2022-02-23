@@ -23,7 +23,7 @@ from advertools import __version__ as adv_version
 # -- Project information -----------------------------------------------------
 
 project = 'advertools'
-copyright = '2021, Elias Dabbas'
+copyright = '2022, Elias Dabbas'
 author = 'Elias Dabbas'
 
 # The short X.Y version
@@ -74,8 +74,8 @@ language = None
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path .
 exclude_patterns = [
-#    '_build', 
-    'Thumbs.db', 
+#    '_build',
+    'Thumbs.db',
     '.DS_Store',
 ]
 

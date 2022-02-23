@@ -140,11 +140,13 @@ splitting it further can help in giving a better perspective on the dataset.</p>
 </ul>
 <p>The main function here is <a class="reference internal" href="#advertools.urlytics.url_to_df" title="advertools.urlytics.url_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">url_to_df()</span></code></a>, which as the name suggests,
 converts URLs to DataFrames.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://netloc.com/path_1/path_2?price=10&amp;color=blue#frag_1&#39;</span><span class="p">,</span>
-<span class="gp">... </span>        <span class="s1">&#39;https://netloc.com/path_1/path_2?price=15&amp;color=red#frag_2&#39;</span><span class="p">,</span>
-<span class="gp">... </span>        <span class="s1">&#39;https://netloc.com/path_1/path_2/path_3?size=sm&amp;color=blue#frag_1&#39;</span><span class="p">,</span>
-<span class="gp">... </span>        <span class="s1">&#39;https://netloc.com/path_1?price=10&amp;color=blue&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">url_to_df</span><span class="p">(</span><span class="n">urls</span><span class="p">)</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+
+<span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://netloc.com/path_1/path_2?price=10&amp;color=blue#frag_1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;https://netloc.com/path_1/path_2?price=15&amp;color=red#frag_2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;https://netloc.com/path_1/path_2/path_3?size=sm&amp;color=blue#frag_1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;https://netloc.com/path_1?price=10&amp;color=blue&#39;</span><span class="p">]</span>
+<span class="n">adv</span><span class="o">.</span><span class="n">url_to_df</span><span class="p">(</span><span class="n">urls</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils align-default">
@@ -244,6 +246,8 @@ converts URLs to DataFrames.</p>
 </tr>
 </tbody>
 </table>
+<p>ِA more elaborate exmaple on <a class="reference internal" href="advertools.sitemaps.html#sitemaps"><span class="std std-ref">how to analyze URLs</span></a> shows how you
+might use this function after obtaining a set of URLs.</p>
 <ul class="simple">
 <li><p><strong>url</strong>: The original URLs are listed as a reference. They are decoded for
 easier reading, and you can set <code class="docutils literal notranslate"><span class="pre">decode=False</span></code> if you want to retain the
@@ -389,7 +393,7 @@ directories will also be parsed and given special columns each.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, Elias Dabbas.</p>
+    <p>&#169; Copyright 2022, Elias Dabbas.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -39,15 +39,33 @@ return additional keys depending on the context.
 
 The recommended way of using:
 
->>> import advertools as adv
->>> text_list = ['This is the first #text.', 'Second #sentence is here.',
-... 'Hello, how are you?', 'This #sentence is the last #sentence']
->>> hashtag_summary = adv.extract_hashtags(text_list)
->>> hashtag_summary.keys()
-dict_keys(['hashtags', 'hashtags_flat', 'hashtag_counts', 'hashtag_freq',
-           'top_hashtags', 'overview'])
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    import advertools as adv
+
+    text_list = ['This is the first #text.', 'Second #sentence is here.',
+                 'Hello, how are you?', 'This #sentence is the last #sentence']
+    hashtag_summary = adv.extract_hashtags(text_list)
+    hashtag_summary.keys()
+
+.. code-block::
+
+    dict_keys(['hashtags', 'hashtags_flat', 'hashtag_counts', 'hashtag_freq',
+               'top_hashtags', 'overview'])
 
 Now you can start exploring:
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    hashtag_summary
 
 >>> hashtag_summary['overview']
 {'num_posts': 4,
@@ -66,6 +84,526 @@ Now you can start exploring:
 >>> hashtag_summary['top_hashtags']
 [('#sentence', 3), ('#text', 1)]
 
+Let's explore a proper dataset of tweets, which you can generate using one of
+the functions in the :ref:`twitter API <twitter>` module.
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    import advertools as adv
+    import pandas as pd
+
+    tweets = pd.read_csv('data/tweets.csv')
+    print(tweets.shape)
+    tweets.head()
+
+====  ================================================================================================================================================  =================
+  ..  tweet_text                                                                                                                                          followers_count
+====  ================================================================================================================================================  =================
+   0  @AERIALMAGZC @penguinnyyyyy you won't be afraid if I give you a real reason :D                                                                                  157
+   1  Vibing in the office to #Metallica when the boss is on a coffee break                                                                                          4687
+      #TheOffice https://t.co/U5vdYevvfe
+   2  I feel like Ann says she likes coffee and then gets drinks that are 99% sugar and 1% coffee https://t.co/HfuBV4v3aY                                             104
+   3  A venti iced coffee with four pumps of white mocha, sweet cream and caramel drizzle might just be my new favorite drink. Shout out to TikTok lol                126
+   4  I was never a coffee person until I had kids. ☕️ this cup is a life saver. https://t.co/Zo0CnVuiGj                                                             1595
+   5  Who's excited about our next Coffee Chat? We know we are!🥳                                                                                                    5004
+
+      We're also adding Representative John Bradford to this lineup to discuss redistricting in the area. You won't want to miss it!
+
+      RSVP: https://t.co/R3YNJjJCUG
+      Join the meeting: https://t.co/Ho4Kx7ZZ24 https://t.co/KfPdR3hupY
+   6  he paid for my coffee= husband💗                                                                                                                                165
+   7  It's nipply outside, and now I side too :)                                                                                                                        0
+      That sounds like blowjob in front of a fire and visit with coffee after :)
+      I'm still out of coffee
+      I could have green tea instead
+      Hahahahahahaha
+      I want to spend the morning pampering you ...
+   8  Good morning 😃🌞☀️ I hope everyone has a great Tuesday morning. Enjoy your day and coffee ☕️ ♥️❤️💕🥰😘                                                           189
+   9  @MarvinMilton2 I nearly choked on my coffee 🤪                                                                                                                 1160
+====  ================================================================================================================================================  =================
+
+Extract `#hashtags`
+-------------------
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    hashtag_summary = adv.extract_hashtags(tweets['tweet_text'])
+    hashtag_summary.keys()
+
+.. code-block::
+
+    dict_keys(['hashtags', 'hashtags_flat', 'hashtag_counts', 'hashtag_freq',
+            'top_hashtags', 'overview'])
+
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    hashtag_summary['overview']
+
+.. code-block::
+
+    {'num_posts': 2000,
+    'num_hashtags': 733,
+    'hashtags_per_post': 0.3665,
+    'unique_hashtags': 572}
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    [h for h in hashtag_summary['hashtags'] if h][:10]
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    hashtag_summary['top_hashtags'][:10]
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    hashtag_summary['hashtag_freq']
+
+
+Extract `@mentions`
+-------------------
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    mention_summary = adv.extract_mentions(tweets['tweet_text'])
+    mention_summary.keys()
+
+.. code-block::
+
+    dict_keys(['mentions', 'mentions_flat', 'mention_counts', 'mention_freq',
+               'top_mentions', 'overview'])
+
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    mention_summary['overview']
+
+.. code-block::
+
+    {'num_posts': 2000,
+    'num_mentions': 1346,
+    'mentions_per_post': 0.673,
+    'unique_mentions': 1132}
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    pd.DataFrame(zip(mention_summary['mentions'],
+                    mention_summary['mention_counts']),
+                 columns=['mentions', 'count'])
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    [h for h in mention_summary['mentions'] if h][:10]
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    mention_summary['top_mentions'][:10]
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    mention_summary['mention_freq']
+
+.. thebe-button::
+    Run this code
+
+
+Extract Currency  `$ ¢ £ ¤ ¥ ֏ ؋ ₲ ₵ ₸ ₹﹩ ￠ ￡ ￥ ￦ ₺ ₻ ₼ ₽ ₾ ₿ ﷼`
+---------------------------------------------------------------------
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    currency_summary = adv.extract_currency(tweets['tweet_text'])
+    currency_summary.keys()
+
+.. code-block::
+
+    dict_keys(['currency_symbols', 'currency_symbols_flat',
+               'currency_symbol_counts', 'currency_symbol_freq',
+               'top_currency_symbols', 'overview', 'currency_symbol_names',
+               'surrounding_text'])
+
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    currency_summary['overview']
+
+.. code-block::
+
+    {'num_posts': 2000,
+    'num_currency_symbols': 37,
+    'currency_symbols_per_post': 0.0185,
+    'unique_currency_symbols': 4}
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    currency_summary['top_currency_symbols']
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    [text for text in currency_summary['surrounding_text'] if text][:10]
+
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    [sym for sym in currency_summary['currency_symbol_names'] if sym][:10]
+
+
+Extract numbers `1234567890٠١٢٣٤٥٦٧٨٩㊺𑁛𐄍𐢪⓲𑁣𐄨𐤛`
+--------------------------------------------------
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    number_summary = adv.extract_numbers(tweets['tweet_text'])
+    number_summary.keys()
+
+.. code-block::
+
+    dict_keys(['numbers', 'numbers_flat', 'number_counts', 'number_freq',
+               'top_numbers', 'overview'])
+
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    number_summary['overview']
+
+.. code-block::
+
+    {'num_posts': 2000,
+    'num_numbers': 1727,
+    'numbers_per_post': 0.8635,
+    'unique_numbers': 257}
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    number_summary['number_freq']
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    pd.DataFrame({
+        'numbers': number_summary['numbers'],
+        'counts': number_summary['number_counts'],
+    }).head(20)
+
+
+Extract questions `? ¿ ; ՞ ؟ ፧ ᥅ ⁇ ⁈ ⁉ ⳺ ⳻ ⸮ ꘏ ꛷ ︖ ﹖ ？ 𑅃 𞥟 ʔ ‽`
+------------------------------------------------------------------
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    question_summary = adv.extract_questions(tweets['tweet_text'])
+    question_summary.keys()
+
+.. code-block::
+
+    dict_keys(['question_marks', 'question_marks_flat', 'question_mark_counts',
+               'question_mark_freq', 'top_question_marks', 'overview',
+               'question_mark_names', 'question_text'])
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    question_summary['overview']
+
+.. code-block::
+
+    {'num_posts': 2000,
+    'num_question_marks': 321,
+    'question_marks_per_post': 0.1605,
+    'unique_question_marks': 1}
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    question_summary['question_text'][:25]
+
+.. code-block::
+
+    [[],
+     [],
+     [],
+     [],
+     [],
+     ["Who's excited about our next Coffee Chat?"],
+     [],
+     [],
+     [],
+     [],
+     ['@ckaiserjr @perry_ron @LILGUYISBACK Is it okay if the hot water is flavored with coffee?'],
+     [],
+     [],
+     [],
+     [],
+     [],
+     [],
+     [],
+     [],
+     [],
+     ["You think if you do that you'll loose your followers ???"],
+     [],
+     [],
+     ['maybe more coffee will help?'],
+     []]
+
+
+Extract Exclamations `! ¡ ՜ ߹ ᥄ ‼ ⁈ ⁉ ︕ ﹗ ！ 𞥞`
+-------------------------------------------------
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    exclamation_summary = adv.extract_exclamations(tweets['tweet_text'])
+    exclamation_summary.keys()
+
+.. code-block::
+
+    dict_keys(['exclamation_marks', 'exclamation_marks_flat',
+               'exclamation_mark_counts', 'exclamation_mark_freq',
+               'top_exclamation_marks', 'overview', 'exclamation_mark_names',
+               'exclamation_text'])
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    exclamation_summary['overview']
+
+.. code-block::
+
+    {'num_posts': 2000,
+    'num_exclamation_marks': 563,
+    'exclamation_marks_per_post': 0.2815,
+    'unique_exclamation_marks': 2}
+
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    exclamation_summary['top_exclamation_marks']
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    exclamation_summary['exclamation_text'][:15]
+
+
+Extract Emoji 😂😭🥺🤣❤️✨🙏😍
+------------------------------
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    emoji_summary = adv.extract_emoji(tweets['tweet_text'])
+    emoji_summary.keys()
+
+.. code-block::
+
+    dict_keys(['emoji', 'emoji_text', 'emoji_flat', 'emoji_flat_text',
+               'emoji_counts', 'emoji_freq', 'top_emoji', 'top_emoji_text',
+               'top_emoji_groups', 'top_emoji_sub_groups', 'overview'])
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    emoji_summary['overview']
+
+.. code-block::
+
+    {'num_posts': 2000,
+    'num_emoji': 1149,
+    'emoji_per_post': 0.5745,
+    'unique_emoji': 279}
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    pd.DataFrame({
+        'emoji': emoji_summary['emoji'],
+        'emoji_name': emoji_summary['emoji_text']
+    })[:20]
+
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    emoji_summary['top_emoji'][:20]
+
+.. code-block::
+
+    [('☕', 159),
+     ('😭', 72),
+     ('😂', 64),
+     ('🤣', 49),
+     ('🔥', 32),
+     ('⬛', 21),
+     ('🟩', 16),
+     ('🥰', 15),
+     ('😍', 15),
+     ('❤️', 14),
+     ('🍩', 14),
+     ('😋', 13),
+     ('🥺', 13),
+     ('🤔', 13),
+     ('🥲', 13),
+     ('🙏', 12),
+     ('😅', 11),
+     ('💖', 11),
+     ('💜', 11),
+     ('😊', 10)]
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    emoji_summary['top_emoji_text'][:20]
+
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    emoji_summary['top_emoji_groups']
+
+.. code-block::
+
+    [('Smileys & Emotion', 601),
+    ('Food & Drink', 210),
+    ('People & Body', 97),
+    ('Symbols', 75),
+    ('Travel & Places', 67),
+    ('Animals & Nature', 33),
+    ('Objects', 29),
+    ('Activities', 26),
+    ('Flags', 11)]
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    emoji_summary['top_emoji_sub_groups']
+
 """
 __all__ = ['extract', 'extract_currency',
            'extract_exclamations', 'extract_hashtags',
@@ -74,12 +612,13 @@ __all__ = ['extract', 'extract_currency',
            ]
 
 import re
-from unicodedata import name
 from collections import Counter
+from unicodedata import name
 from urllib.parse import urlparse
+
 # from .emoji import EMOJI, EMOJI_ENTRIES
-from .regex import (MENTION, HASHTAG, CURRENCY, CURRENCY_RAW, EXCLAMATION,
-                    EXCLAMATION_MARK, QUESTION, QUESTION_MARK, URL)
+from .regex import (CURRENCY, CURRENCY_RAW, EXCLAMATION, EXCLAMATION_MARK,
+                    HASHTAG, MENTION, QUESTION, QUESTION_MARK, URL)
 
 
 def extract(text_list, regex, key_name, extracted=None, **kwargs):

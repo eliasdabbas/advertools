@@ -27,11 +27,20 @@ understand:
 The main function here is :func:`url_to_df`, which as the name suggests,
 converts URLs to DataFrames.
 
->>> urls = ['https://netloc.com/path_1/path_2?price=10&color=blue#frag_1',
-...         'https://netloc.com/path_1/path_2?price=15&color=red#frag_2',
-...         'https://netloc.com/path_1/path_2/path_3?size=sm&color=blue#frag_1',
-...         'https://netloc.com/path_1?price=10&color=blue']
->>> url_to_df(urls)
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    import advertools as adv
+
+    urls = ['https://netloc.com/path_1/path_2?price=10&color=blue#frag_1',
+            'https://netloc.com/path_1/path_2?price=15&color=red#frag_2',
+            'https://netloc.com/path_1/path_2/path_3?size=sm&color=blue#frag_1',
+            'https://netloc.com/path_1?price=10&color=blue']
+    adv.url_to_df(urls)
 
 ====  =================================================================  ========  ==========  =====================  ===================  ==========  =======  =======  =======  ==========  =============  =============  ============
   ..  url                                                                scheme    netloc      path                   query                fragment    dir_1    dir_2    dir_3    last_dir    query_color      query_price  query_size
@@ -41,6 +50,9 @@ converts URLs to DataFrames.
    2  https://netloc.com/path_1/path_2/path_3?size=sm&color=blue#frag_1  https     netloc.com  /path_1/path_2/path_3  size=sm&color=blue   frag_1      path_1   path_2   path_3   path_3      blue                     nan  sm
    3  https://netloc.com/path_1?price=10&color=blue                      https     netloc.com  /path_1                price=10&color=blue              path_1   nan      nan      path_1      blue                      10  nan
 ====  =================================================================  ========  ==========  =====================  ===================  ==========  =======  =======  =======  ==========  =============  =============  ============
+
+ِA more elaborate exmaple on :ref:`how to analyze URLs <sitemaps>` shows how you
+might use this function after obtaining a set of URLs.
 
 * **url**: The original URLs are listed as a reference. They are decoded for
   easier reading, and you can set ``decode=False`` if you want to retain the

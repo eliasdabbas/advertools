@@ -236,7 +236,7 @@ Do the same for the URLs in the ``referer`` column.
 ====  ========================================  ================  ================  ==================  ===============  ==================  ==================  ==============  ===============  ===============  ===============  ==================
    0  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
    1  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
-   2  http://adver.tools/                      http              adver.tools        /                                                                       nan             nan  nan              nan                          nan  nan
+   2  http://adver.tools/                       http              adver.tools       /                                                                       nan             nan  nan              nan                          nan  nan
    3  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
    4  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
    5  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
@@ -245,6 +245,7 @@ Do the same for the URLs in the ``referer`` column.
    8  http://www.adver.tools/staging/urlytics/  http              www.adver.tools   /staging/urlytics/                                                      nan             nan  staging          urlytics                     nan  urlytics
    9  http://www.adver.tools/staging/urlytics/  http              www.adver.tools   /staging/urlytics/                                                      nan             nan  staging          urlytics                     nan  urlytics
 ====  ========================================  ================  ================  ==================  ===============  ==================  ==================  ==============  ===============  ===============  ===============  ==================
+
 Parse the ``user_agent`` column.
 
 .. thebe-button::

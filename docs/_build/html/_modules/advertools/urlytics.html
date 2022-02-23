@@ -140,11 +140,20 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">The main function here is :func:`url_to_df`, which as the name suggests,</span>
 <span class="sd">converts URLs to DataFrames.</span>
 
-<span class="sd">&gt;&gt;&gt; urls = [&#39;https://netloc.com/path_1/path_2?price=10&amp;color=blue#frag_1&#39;,</span>
-<span class="sd">...         &#39;https://netloc.com/path_1/path_2?price=15&amp;color=red#frag_2&#39;,</span>
-<span class="sd">...         &#39;https://netloc.com/path_1/path_2/path_3?size=sm&amp;color=blue#frag_1&#39;,</span>
-<span class="sd">...         &#39;https://netloc.com/path_1?price=10&amp;color=blue&#39;]</span>
-<span class="sd">&gt;&gt;&gt; url_to_df(urls)</span>
+
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    import advertools as adv</span>
+
+<span class="sd">    urls = [&#39;https://netloc.com/path_1/path_2?price=10&amp;color=blue#frag_1&#39;,</span>
+<span class="sd">            &#39;https://netloc.com/path_1/path_2?price=15&amp;color=red#frag_2&#39;,</span>
+<span class="sd">            &#39;https://netloc.com/path_1/path_2/path_3?size=sm&amp;color=blue#frag_1&#39;,</span>
+<span class="sd">            &#39;https://netloc.com/path_1?price=10&amp;color=blue&#39;]</span>
+<span class="sd">    adv.url_to_df(urls)</span>
 
 <span class="sd">====  =================================================================  ========  ==========  =====================  ===================  ==========  =======  =======  =======  ==========  =============  =============  ============</span>
 <span class="sd">  ..  url                                                                scheme    netloc      path                   query                fragment    dir_1    dir_2    dir_3    last_dir    query_color      query_price  query_size</span>
@@ -154,6 +163,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">   2  https://netloc.com/path_1/path_2/path_3?size=sm&amp;color=blue#frag_1  https     netloc.com  /path_1/path_2/path_3  size=sm&amp;color=blue   frag_1      path_1   path_2   path_3   path_3      blue                     nan  sm</span>
 <span class="sd">   3  https://netloc.com/path_1?price=10&amp;color=blue                      https     netloc.com  /path_1                price=10&amp;color=blue              path_1   nan      nan      path_1      blue                      10  nan</span>
 <span class="sd">====  =================================================================  ========  ==========  =====================  ===================  ==========  =======  =======  =======  ==========  =============  =============  ============</span>
+
+<span class="sd">ِA more elaborate exmaple on :ref:`how to analyze URLs &lt;sitemaps&gt;` shows how you</span>
+<span class="sd">might use this function after obtaining a set of URLs.</span>
 
 <span class="sd">* **url**: The original URLs are listed as a reference. They are decoded for</span>
 <span class="sd">  easier reading, and you can set ``decode=False`` if you want to retain the</span>
@@ -311,7 +323,7 @@ const thebe_selector_output = ".output, .cell_output"
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, Elias Dabbas.</p>
+    <p>&#169; Copyright 2022, Elias Dabbas.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
