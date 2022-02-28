@@ -45,7 +45,7 @@ setup(
     description="Productivity and analysis tools for online marketing",
     entry_points={
         'console_scripts': [
-            'advertools=advertools.cli',
+            'advertools=advertools.cli:main',
         ],
     },
     install_requires=requirements,
@@ -60,6 +60,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/eliasdabbas/advertools',
-    version='0.14.0a1',
+    version='0.14.0a2',
     zip_safe=False,
 )
