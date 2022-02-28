@@ -43,11 +43,11 @@ setup(
         'Programming Language :: Python :: 3.9',
     ],
     description="Productivity and analysis tools for online marketing",
-#    entry_points={
-#        'console_scripts': [
-#            'advertest=advertest.cli:main',
-#        ],
-#    },
+    entry_points={
+        'console_scripts': [
+            'advertools=advertools.cli',
+        ],
+    },
     install_requires=requirements,
     license="MIT license",
     long_description=readme + '\n\n' + history,
