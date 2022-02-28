@@ -124,13 +124,63 @@ Below are all the columns of the returned DataFrame:
 :attr:`wtd_freq_perc_cum`  Cumulative weighted frequency percentage.
 =========================  ================================================
 
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    import advertools as adv
+    import pandas as pd
+    tweets = pd.read_csv('data/tweets.csv')
+    tweets
+
+====  ================================================================================================================================================  =================
+  ..  tweet_text                                                                                                                                          followers_count
+====  ================================================================================================================================================  =================
+   0  @AERIALMAGZC @penguinnyyyyy you won't be afraid if I give you a real reason :D                                                                                  157
+   1  Vibing in the office to #Metallica when the boss is on a coffee break                                                                                          4687
+      #TheOffice https://t.co/U5vdYevvfe
+   2  I feel like Ann says she likes coffee and then gets drinks that are 99% sugar and 1% coffee https://t.co/HfuBV4v3aY                                             104
+   3  A venti iced coffee with four pumps of white mocha, sweet cream and caramel drizzle might just be my new favorite drink. Shout out to TikTok lol                126
+   4  I was never a coffee person until I had kids. ☕️ this cup is a life saver. https://t.co/Zo0CnVuiGj                                                             1595
+   5  Who's excited about our next Coffee Chat? We know we are!🥳                                                                                                    5004
+
+      We're also adding Representative John Bradford to this lineup to discuss redistricting in the area. You won't want to miss it!
+
+      RSVP: https://t.co/R3YNJjJCUG
+      Join the meeting: https://t.co/Ho4Kx7ZZ24 https://t.co/KfPdR3hupY
+   6  he paid for my coffee= husband💗                                                                                                                                165
+   7  It's nipply outside, and now I side too :)                                                                                                                        0
+      That sounds like blowjob in front of a fire and visit with coffee after :)
+      I'm still out of coffee
+      I could have green tea instead
+      Hahahahahahaha
+      I want to spend the morning pampering you ...
+   8  Good morning 😃🌞☀️ I hope everyone has a great Tuesday morning. Enjoy your day and coffee ☕️ ♥️❤️💕🥰😘                                                           189
+   9  @MarvinMilton2 I nearly choked on my coffee 🤪                                                                                                                 1160
+====  ================================================================================================================================================  =================
+
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    word_freq = adv.word_frequency(text_list=tweets['tweet_text'],
+                                   num_list=tweets['followers_count'])
+
+    # try sorting by 'abs_freq', 'wtd_freq', and 'rel_value':
+    word_freq.sort_values(by='abs_freq', ascending=False).head(25)
+
 """
 import re
 from collections import defaultdict
 
-import advertools as adv
 import pandas as pd
 
+import advertools as adv
 from advertools.word_tokenize import word_tokenize
 
 

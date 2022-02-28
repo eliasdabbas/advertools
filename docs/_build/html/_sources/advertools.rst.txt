@@ -17,6 +17,7 @@ Submodules
 
    advertools.ad_create
    advertools.ad_from_string
+   advertools.cli
    advertools.emoji
    advertools.extract
    advertools.header_spider
