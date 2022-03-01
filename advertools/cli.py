@@ -9,8 +9,9 @@ pd.options.display.max_columns = None
 
 
 def main():
-    parser = argparse.ArgumentParser(prog='advertools',
-                                    epilog="advertools - digital marketing productivity and analysis".center(79, '='))
+    parser = argparse.ArgumentParser(
+        prog='advertools',
+        epilog="advertools - digital marketing productivity and analysis".center(79, '='))
     parser.add_argument('-v', '--version', action='version',
                         version=f'advertools {__version__}')
 
@@ -20,15 +21,18 @@ def main():
 
     # robots --------------------------
 
-
     def robots(args):
-        robots_df = adv.robotstxt_to_df(args.url)
+        if args.url:
+            robots_df = adv.robotstxt_to_df(args.url)
+        else:
+            robots_df = adv.robotstxt_to_df([line.strip() for line in args.file])
         robots_df.to_csv(args.output_file, index=False)
-
 
     robots_parser = subparsers.add_parser(
         'robots', description='Convert a robots.txt file to a table in a CSV file')
-    robots_parser.add_argument('-u', '--url', required=True, help='the URL of the robots.txt file')
+    robots_group = robots_parser.add_mutually_exclusive_group(required=True)
+    robots_group.add_argument('-u', '--url', help='the URL of the robots.txt file')
+    robots_group.add_argument('-f', '--file', type=open, help='the location of a text file containing a list of robots.txt URLs')
     robots_parser.add_argument('-o', '--output-file', required=True, help='where to save the file (csv)')
     robots_parser.set_defaults(func=robots)
 
@@ -98,26 +102,25 @@ def main():
     kwds_parser.add_argument('-o', '--output-file', required=True)
     kwds_parser.set_defaults(func=keywords)
 
-
     # logs --------------------------
 
     def logs(args):
         adv.logs_to_df(log_file=args.log_file,
-                    output_file=args.output_file,
-                    errors_file=args.errors_file,
-                    log_format=args.log_format,
-                    fields=args.fields)
+                       output_file=args.output_file,
+                       errors_file=args.errors_file,
+                       log_format=args.log_format,
+                       fields=args.fields)
         print(f'saved to {args.output_file}')
 
 
     logs_parser = subparsers.add_parser('logs')
-    logs_parser.add_argument('-f', '--log-file', type=open, required=True)
-    logs_parser.add_argument('-o', '--output-file', type=open, required=True)
-    logs_parser.add_argument('-e', '--errors-file', type=open, required=True)
+    logs_parser.add_argument('-f', '--log-file', type=str, required=True)
+    logs_parser.add_argument('-o', '--output-file', type=str, required=True)
+    logs_parser.add_argument('-e', '--errors-file', type=str, required=True)
     logs_parser.add_argument('-t', '--log-format', type=str, default='common')
     logs_parser.add_argument('-d', '--fields', type=str, nargs='*')
 
-    logs_parser.set_defaults(func=urls)
+    logs_parser.set_defaults(func=logs)
 
     # headers --------------------------
 
@@ -135,7 +138,12 @@ def main():
 
 
     def dns(args):
-        host_df = adv.reverse_dns_lookup(ip_list=args.ip_list, max_workers=1)
+        # use threads if actual OS is Darwin
+        import platform
+        if platform.system == 'Darwin':
+            adv.reverse_dns_lookup.__globals__['system'] = 'Linux'
+        ip_list = [line.strip() for line in args.ip_list]
+        host_df = adv.reverse_dns_lookup(ip_list=ip_list)
         host_df.to_csv(args.output_file, index=False)
         print(f'saved to {args.output_file}')
 
@@ -144,7 +152,6 @@ def main():
     dns_parser.add_argument('-p', '--ip-list', type=open, required=True)
     dns_parser.add_argument('-o', '--output-file', type=str, required=True)
     dns_parser.set_defaults(func=dns)
-
 
     return parser
 
