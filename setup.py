@@ -12,7 +12,6 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-#    'Click>=6.0',
     'pandas',
     'pyasn1',
     'scrapy',
@@ -46,6 +45,7 @@ setup(
     entry_points={
         'console_scripts': [
             'advertools=advertools.cli:main',
+            'adv=advertools.cli:main',
         ],
     },
     install_requires=requirements,
