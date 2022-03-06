@@ -4,8 +4,8 @@ from textwrap import dedent
 import pandas as pd
 
 import advertools as adv
+from _cli_rev_dns_lookup import _cli_reverse_dns_lookup
 from advertools import __version__
-from reverse_dns_lookup import _cli_reverse_dns_lookup
 
 pd.options.display.max_columns = None
 pd.options.display.width = 200
