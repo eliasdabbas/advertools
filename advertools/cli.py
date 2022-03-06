@@ -5,6 +5,7 @@ import pandas as pd
 
 import advertools as adv
 from advertools import __version__
+from reverse_dns_lookup import _cli_reverse_dns_lookup
 
 pd.options.display.max_columns = None
 pd.options.display.width = 200
@@ -51,7 +52,7 @@ def main():
                         version=f'advertools {__version__}')
 
     subparsers = parser.add_subparsers(
-        help='for help, run: `advertools <command> -h`')
+        help='for help select an argument and run: `advertools <argument> -h`')
 
     # robots --------------------------
 
@@ -67,23 +68,22 @@ def main():
         'robots',
         formatter_class=RawTextDefArgFormatter,
         epilog=epilog,
-        description='convert a robots.txt file to a table in a CSV file')
+        description='convert a robots.txt file (or list of file URLs by using the --file argument) to a table in a CSV file')
     robots_group = robots_parser.add_mutually_exclusive_group(required=True)
     robots_group.add_argument(
         '-u', '--url', help='the URL of the robots.txt file')
     robots_group.add_argument(
         '-f', '--file', type=open,
-        help='the path to a file containing a list of robots.txt URLs,\
-              one per line')
+        help='the path to a file containing a list of robots.txt URLs, one per line')
     robots_parser.add_argument(
-        '-o', '--output-file', required=True,
+        'output_file',
         help='filepath - where to save the output (csv)')
     robots_parser.set_defaults(func=robots)
 
     # sitemaps --------------------------
 
     def sitemaps(args):
-        sitemap_df = adv.sitemap_to_df(args.url, recursive=args.recursive)
+        sitemap_df = adv.sitemap_to_df(args.sitemap_url, recursive=args.recursive)
         sitemap_df.to_csv(args.output_file, index=False)
         print(f'saved to {args.output_file}')
 
@@ -91,15 +91,16 @@ def main():
         'sitemaps', formatter_class=RawTextDefArgFormatter, epilog=epilog,
         description='download, parse, and save a sitemap to a table in a CSV file')
     sitemaps_parser.add_argument(
-        '-u', '--url', required=True,
-        help='the URL of the sitemap (regular or sitemap index)')
+        'sitemap_url',
+        help='the URL of the XML sitemap (regular or sitemap index)')
+    sitemaps_parser.add_argument(
+        'output_file',
+        help='filepath - where to save the output (csv)')
     sitemaps_parser.add_argument(
         '-r', '--recursive', type=int, choices=[0, 1],
         help='whether to fetch sub-sitemaps if it is a sitemap index file',
         default=1, required=False)
-    sitemaps_parser.add_argument(
-        '-o', '--output-file', required=True,
-        help='filepath - where to save the output (csv)')
+
     sitemaps_parser.set_defaults(func=sitemaps)
 
     # urls --------------------------
@@ -114,9 +115,9 @@ def main():
         'urls', formatter_class=RawTextDefArgFormatter, epilog=epilog,
         description='split a list of URLs into their components: scheme, netloc, path, query, etc.')
     urls_parser.add_argument(
-        '-u', '--url-list', type=open, required=True,
+        'url_list', type=open,
         help='the path to a file containing URLs, one per line.')
-    urls_parser.add_argument('-o', '--output-file', required=True,
+    urls_parser.add_argument('output_file',
                              help='filepath - where to save the output (csv)')
     urls_parser.set_defaults(func=urls)
 
@@ -131,10 +132,10 @@ def main():
         description='''crawl a list of known URLs using the HEAD method
 return status codes and all response headers''')
     headers_parser.add_argument(
-        '-u', '--url-list', type=open, required=True,
+        'url_list', type=open,
         help='a file containing a list of URLs, one per line')
     headers_parser.add_argument(
-        '-o', '--output-file', type=str, required=True,
+        'output_file', type=str,
         help='filepath - where to save the output (.jl)')
     headers_parser.set_defaults(func=headers)
 
@@ -150,25 +151,31 @@ return status codes and all response headers''')
 
     logs_parser = subparsers.add_parser(
         'logs', epilog=epilog, formatter_class=RawTextDefArgFormatter,
-        description='parse, compress and convert a log file to a DataFrame \
-                     in the .parquet format')
-    logs_parser.add_argument('-f', '--log-file', type=str, required=True)
+        description='parse, compress and convert a log file to a DataFrame in the .parquet format')
     logs_parser.add_argument(
-        '-o', '--output-file', type=str, required=True,
+        'log_file', type=str, help='filepath - the log file')
+    logs_parser.add_argument(
+        'output_file', type=str,
         help='filepath - where to save the output (.parquet)')
-    logs_parser.add_argument('-e', '--errors-file', type=str, required=True)
-    logs_parser.add_argument('-t', '--log-format', type=str, default='common')
-    logs_parser.add_argument('-d', '--fields', type=str, nargs='+')
+    logs_parser.add_argument(
+        'errors_file', type=str,
+        help='filepath - where to save the error lines (.txt)')
+    logs_parser.add_argument(
+        'log_format', type=str, default='common',
+        help='''the format of the logs, available defaults are:
+    common, combined, common_with_vhost, nginx_error, apache_error
+    supply a special regex instead if you have a different format''')
+    logs_parser.add_argument(
+        '-f', '--fields', type=str, nargs='+',
+        help='''in case you have a special log format, provide a list of the fields names
+which will become column names in the parsed compressed file''')
     logs_parser.set_defaults(func=logs)
 
     # dns --------------------------
 
     def dns(args):
-        import platform
-        if platform.system == 'Darwin':
-            adv.reverse_dns_lookup.__globals__['system'] = 'Linux'
         ip_list = [line.strip() for line in args.ip_list]
-        host_df = adv.reverse_dns_lookup(ip_list=ip_list)
+        host_df = _cli_reverse_dns_lookup(ip_list=ip_list)
         host_df.to_csv(args.output_file, index=False)
         print(f'saved to {args.output_file}')
 
@@ -176,10 +183,10 @@ return status codes and all response headers''')
         'dns', epilog=epilog, formatter_class=RawTextDefArgFormatter,
         description='perform a reverse DNS lookup on a list of IP addresses')
     dns_parser.add_argument(
-        '-p', '--ip-list', type=open, required=True,
-        help='file path containing a list of IP addresses, one per line')
+        'ip_list', type=open,
+        help='filepath - a file containing a list of IP addresses, one per line')
     dns_parser.add_argument(
-        '-o', '--output-file', type=str, required=True,
+        'output_file', type=str,
         help='filepath - where to save the output (csv)')
     dns_parser.set_defaults(func=dns)
 
@@ -191,8 +198,8 @@ return status codes and all response headers''')
         kw_df = adv.kw_generate(prod_list, word_list,
                                 max_len=args.max_len,
                                 match_types=args.match_types,
-                                capitalize_adgroups=args.capitalize_adgroups,
-                                order_matters=args.order_matters,
+                                capitalize_adgroups=bool(args.capitalize_adgroups),
+                                order_matters=bool(args.order_matters),
                                 campaign_name=args.campaign_name)
         kw_df.to_csv(args.output_file, index=False)
         print(f'saved to {args.output_file}')
@@ -203,13 +210,12 @@ return status codes and all response headers''')
 
     kwds_parser = subparsers.add_parser(
         'semkw', formatter_class=RawTextDefArgFormatter, epilog=epilog,
-        description='generate a table of SEM keywords by supplying a list of \
-                     products and a list of intent words')
+        description='generate a table of SEM keywords by supplying a list of products and a list of intent words')
     kwds_parser.add_argument(
-        '-p', '--products', type=open, required=True,
+        'products', type=open,
         help='a file containing the products that you sell, one per line')
     kwds_parser.add_argument(
-        '-w', '--words', type=open, required=True,
+        'words', type=open,
         help='a file containing the intent words that you want to combine with products')
     kwds_parser.add_argument('-t', '--match-types', type=str, nargs='*',
                              default=['exact', 'phrase'],
@@ -218,17 +224,17 @@ return status codes and all response headers''')
         '-l', '--max-len', type=int, default=3,
         help='the number of words that should be combined with products')
     kwds_parser.add_argument(
-        '-c', '--capitalize-adgroups', type=bool, default=1, choices=[0, 1],
+        '-c', '--capitalize-adgroups', type=int, default=1, choices=[0, 1],
         help='whether or not to capitalize ad group names in the output file')
     kwds_parser.add_argument(
-        '-m', '--order-matters', type=bool, default=1, choices=[0, 1],
+        '-m', '--order-matters', type=int, default=1, choices=[0, 1],
         help='''\
 do you want combinations and permutations, or just combinations?
 "buy product" and "product buy" or just "buy product"?''')
     kwds_parser.add_argument('-n', '--campaign-name', type=str,
                              default='SEM_campaign')
     kwds_parser.add_argument(
-        '-o', '--output-file', required=True,
+        'output_file',
         help='filepath - where to save the output (csv)')
     kwds_parser.set_defaults(func=semkw)
 
@@ -243,8 +249,7 @@ do you want combinations and permutations, or just combinations?
         epilog=epilog,
         description='get stopwords of the selected language')
     stopwords_parser.add_argument(
-        '-l', '--language', type=str, required=False,
-        default='english', choices=adv.stopwords.keys())
+        'language', type=str, choices=adv.stopwords.keys())
     stopwords_parser.set_defaults(func=stopwords)
 
     # word_freq --------------------------
@@ -270,20 +275,18 @@ do you want combinations and permutations, or just combinations?
 
     wordfreq_parser = subparsers.add_parser(
         'wordfreq', epilog=epilog, formatter_class=RawTextDefArgFormatter,
-        description=f'''\
-{_make_headline("Absolute and Weighted Word Frequency", 8)}
-        get word counts of a text list optionally weighted by a number list
-        words (tokens) can be tokenized using any pattern with the --regex option
-        word/phrase lengths can also be modified using the --phrase-len option''')
+        description='''get word counts of a text list optionally weighted by a number list
+words (tokens) can be tokenized using any pattern with the --regex option
+word/phrase lengths can also be modified using the --phrase-len option''')
     wordfreq_parser.add_argument(
-        '-t', '--text-list', type=str, required=True,
-        help='the path to a file containing the text list, one phrase per line')
+        'text_list', type=str,
+        help='filepath - a file containing the text list, one document (sentence, tweet, etc.) per line')
     wordfreq_parser.add_argument(
-        '-o', '--output-file', type=str, required=True,
+        'output_file', type=str,
         help='filepath - where to save the output (csv)')
     wordfreq_parser.add_argument(
         '-n', '--number-list', type=str, required=False,
-        help='the path to a file containing the number list, one number per line')
+        help='filepath - a file containing the number list, one number per line')
     wordfreq_parser.add_argument(
         '-r', '--regex', type=str, required=False,
         help='a regex to tokenize words')
@@ -294,7 +297,7 @@ do you want combinations and permutations, or just combinations?
         '-s', '--stopwords', type=str, nargs='*', required=False,
         help=dedent('''\
     a list of stopwords to exclude when counting, defaults to English stopwords
-    run `advertools stopwords -l english` to get the stopwords
+    run `advertools stopwords english` to get the stopwords
     change the language to get other stopwords'''))
     wordfreq_parser.set_defaults(func=word_freq)
 
@@ -310,9 +313,10 @@ do you want combinations and permutations, or just combinations?
     emoji_parser = subparsers.add_parser(
         'emoji', formatter_class=RawTextDefArgFormatter, epilog=epilog,
         description='search for emoji using a regex')
-    emoji_parser.add_argument('-r', '--regex', type=str, required=True)
+    emoji_parser.add_argument('regex', type=str,
+                              help='pattern to search for emoji')
     emoji_parser.add_argument(
-        '-o', '--output_file', type=str, required=True,
+        'output_file', type=str,
         help='filepath - where to save the output (csv)')
     emoji_parser.set_defaults(func=emoji)
 
@@ -344,17 +348,15 @@ do you want combinations and permutations, or just combinations?
 
     extract_parser = subparsers.add_parser(
         'extract', formatter_class=RawTextDefArgFormatter, epilog=epilog,
-        description=f'extract structured entities from a text list; \
-                      {", ".join(_entity_dict.keys())}')
+        description=f'extract structured entities from a text list; {", ".join(_entity_dict.keys())}')
     extract_parser.add_argument(
-        '-t', '--text-list',
-        help='the path to a file containing the text list, one phrase per line'
-    )
-    extract_parser.add_argument(
-        '-e', '--entity', help='which entity you want to extract',
+        'entity', help='which entity you want to extract',
         choices=_entity_dict.keys())
     extract_parser.add_argument(
-        '-o', '--output-file', required=True,
+        'text_list',
+        help='filepath - a file containing the text list, one phrase per line')
+    extract_parser.add_argument(
+        'output_file',
         help='filepath - where to save the output (csv)')
 
     extract_parser.set_defaults(func=extract)
