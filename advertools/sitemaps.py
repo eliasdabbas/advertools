@@ -547,7 +547,7 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
             sitemap_df['priority'] = sitemap_df['priority'].astype(float)
         except Exception as e:
             pass
-    etag_lastmod = {header.lower().replace('-', '_'): val.replace('"', '')
+    etag_lastmod = {header.lower().replace('-', '_'): val
                     for header, val in resp_headers
                     if header.lower() in ['etag', 'last-modified']}
     sitemap_df = sitemap_df.assign(**etag_lastmod)
