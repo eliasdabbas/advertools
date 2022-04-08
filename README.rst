@@ -14,6 +14,8 @@
 .. image:: https://badges.gitter.im/advertools/community.svg
         :target: https://bit.ly/3hEWZCe
 
+| **Webinar:** `Creating SEM campaigns on a large scale - Wednesday April 20, 2022 <https://bit.ly/3KqAtuO>`_
+|
 | 🎉 **New:** ``crawl_headers`` Function for `crawling a known list of URLs with the HEAD method only <https://advertools.readthedocs.io/en/master/advertools.header_spider.html>`_
 | 🎊 **New:** `SEO crawler <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
   has new options for following links, include/exclude URL params and/or URL regex.
