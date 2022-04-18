@@ -17,6 +17,7 @@ ordered_q_param_urls = ['https://example.com?a=a&b=b&c=c',
                         'https://example.com?c=c',
                         'https://example.com?a=a&c=c']
 
+
 def test_urltodf_convert_str_tolist():
     result = url_to_df('https://www.example.com')
     assert isinstance(result, pd.DataFrame)
@@ -41,9 +42,11 @@ def test_domainpath_fragrel_full():
     query_set = {'query_one', 'query_three'}
     assert query_set.intersection(result.columns) == query_set
 
+
 def test_no_path_has_no_last_dir():
     result = url_to_df(domain_query)
     assert 'last_dir' not in result
+
 
 def test_all():
     result = url_to_df([domain, domain_path, path_rel, domain_query,
@@ -53,9 +56,6 @@ def test_all():
     assert 'hostname' in result
     assert 'last_dir' in result
 
-def test_all():
-    result = url_to_df([domain, domain_path, path_rel, domain_query,
-                        domain_query_rel, port, fragment, fragment_rel, full])
 
 def test_query_params_are_ordered_by_fullness():
     result = url_to_df(ordered_q_param_urls)
