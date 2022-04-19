@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from advertools.urlytics import url_to_df
 
@@ -25,14 +26,17 @@ def test_urltodf_convert_str_tolist():
 
 def test_path_rel_noslash():
     result = url_to_df(path_rel_noslash)
-    assert result['scheme'][0] == ''
-    assert result['netloc'][0] == ''
+    assert pd.isna(result['scheme'][0])
+    assert pd.isna(result['netloc'][0])
 
 
 def test_abs_and_rel():
     result = url_to_df([domain, path_rel])
     assert 'dir_1' in result
     assert len(result) == 2
+    assert result['scheme'].iloc[-1] is np.nan
+    assert result['query'].isna().all()
+    assert result['fragment'].isna().all()
 
 
 def test_domainpath_fragrel_full():

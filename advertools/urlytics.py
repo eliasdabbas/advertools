@@ -145,6 +145,7 @@ and `NA` otherwise. Or, splitting the dataset and analyzing separately.
 """
 from urllib.parse import parse_qs, unquote, urlsplit
 
+import numpy as np
 import pandas as pd
 
 
@@ -198,6 +199,6 @@ def url_to_df(urls, decode=True):
                    .fillna(method='ffill', axis=1)
                    .iloc[:, -1:]
                    .squeeze()))
-    df = pd.concat([df, dirs_df, query_df], axis=1)
+    df = pd.concat([df, dirs_df, query_df], axis=1).replace('', np.nan)
     df.insert(0, 'url', [decode(url) for url in urls])
     return df
