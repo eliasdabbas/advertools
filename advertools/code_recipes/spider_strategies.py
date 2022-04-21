@@ -266,3 +266,26 @@ False                 canonical_parent     name(//link[@rel='canonical']/..)    
 ====================  ===================  =================================================================  ===============================================================================================================
 
 """
+
+import advertools as adv
+import pandas as pd
+
+url_list = ['https://www.example.com']
+output_file = "path_to_file"
+meta = {"proxy": "your_proxy_endpoint"}
+
+adv.crawl(
+    url_list, meta,
+    output_file,
+    follow_links=True, exclude_url_params=True,
+    custom_settings={
+        "ROBOTSTXT_OBEY": False,
+        "CLOSESPIDER_TIMEOUT": 10,
+        "CONCURRENT_REQUESTS_PER_DOMAIN": 8,
+        "CLOSESPIDER_PAGECOUNT": 1000,
+        "DEPTH_LIMIT": 4,
+    }
+)
+df = pd.read_json(output_file, lines=True)
+df_col = df.columns
+print(df_col)

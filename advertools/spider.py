@@ -642,7 +642,7 @@ class SEOSitemapSpider(Spider):
     }
 
 
-    def __init__(self, url_list, follow_links=False,
+    def __init__(self, url_list, meta, follow_links=False,
                  allowed_domains=None,
                  exclude_url_params=None,
                  include_url_params=None,
@@ -652,6 +652,7 @@ class SEOSitemapSpider(Spider):
                  xpath_selectors=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.start_urls = json.loads(json.dumps(url_list.split(',')))
+        self.meta = eval(json.loads(json.dumps(meta)))
         self.allowed_domains = json.loads(json.dumps(allowed_domains.split(',')))
         self.follow_links = eval(json.loads(json.dumps(follow_links)))
         self.exclude_url_params = eval(json.loads(json.dumps(exclude_url_params)))
@@ -668,7 +669,7 @@ class SEOSitemapSpider(Spider):
     def start_requests(self):
         for url in self.start_urls:
             try:
-                yield Request(url, callback=self.parse, errback=self.errback)
+                yield Request(url, callback=self.parse, errback=self.errback, meta=self.meta)
             except Exception as e:
                 self.logger.error(repr(e))
 
@@ -814,12 +815,12 @@ class SEOSitemapSpider(Spider):
                         include_url_regex=self.include_url_regex)
                     if cond:
                         yield Request(page, callback=self.parse,
-                                      errback=self.errback)
+                                      errback=self.errback, meta=self.meta)
                     # if self.skip_url_params and urlparse(page).query:
                     #     continue
 
 
-def crawl(url_list, output_file, follow_links=False,
+def crawl(url_list, meta, output_file, follow_links=False,
           allowed_domains=None,
           exclude_url_params=None,
           include_url_params=None,
@@ -952,6 +953,7 @@ def crawl(url_list, output_file, follow_links=False,
 
     command = ['scrapy', 'runspider', spider_path,
                '-a', 'url_list=' + ','.join(url_list),
+               '-a', 'meta=' + json.dumps(meta),
                '-a', 'allowed_domains=' + ','.join(allowed_domains),
                '-a', 'follow_links=' + str(follow_links),
                '-a', 'exclude_url_params=' + str(exclude_url_params),
