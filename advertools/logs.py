@@ -397,6 +397,7 @@ import re
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+import numpy as np
 import pandas as pd
 
 LOG_FORMATS = {
@@ -497,7 +498,7 @@ def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
             try:
                 final_df['status'] = final_df['status'].astype('category')
                 final_df['method'] = final_df['method'].astype('category')
-                final_df['size'] = pd.to_numeric(final_df['size'],
+                final_df['size'] = pd.to_numeric(final_df['size'].replace('-', np.nan),
                                                  downcast='signed')
             except KeyError:
                 pass
