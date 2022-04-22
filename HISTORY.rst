@@ -2,6 +2,20 @@
 Change Log - advertools
 =======================
 
+0.13.1 (unreleased)
+-------------------
+
+* Added
+    - Command line interface with most functions
+    - Make documentation interactive for most pages using ``thebe-sphinx``
+
+* Changed
+    - Use `np.nan` wherever there are missing values in ``url_to_df``
+
+* Fixed
+    - Don't remove double quotes from etags when downloading XML sitemaps
+
+
 0.13.0 (2022-02-10)
 -------------------
 
