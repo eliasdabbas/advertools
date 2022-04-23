@@ -435,7 +435,8 @@ def _robots_multi(robots_url_list, output_file=None):
                                                      date_format='iso'))
                     file.write('\n')
             else:
-                final_df = final_df.append(future_result, ignore_index=True)
+                final_df = pd.concat([final_df, future_result],
+                                     ignore_index=True)
     if output_file is None:
         return final_df
 

@@ -506,8 +506,8 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
                             'sitemap': [sitemap_url],
                             'errors': ['WARNING: Sitemap contains a link to itself']
                         })
-                        multi_sitemap_df = multi_sitemap_df.append(error_df,
-                                                                   ignore_index=True)
+                        multi_sitemap_df = pd.concat(
+                            [multi_sitemap_df, error_df], ignore_index=True)
                     else:
                         sitemap_url_list.append(el.text)
         with futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -518,8 +518,8 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
             done_iter = futures.as_completed(to_do)
             for future in done_iter:
                 try:
-                    multi_sitemap_df = multi_sitemap_df.append(future.result(),
-                                                               ignore_index=True)
+                    multi_sitemap_df = pd.concat(
+                        [multi_sitemap_df, future.result()], ignore_index=True)
                 except Exception as e:
                     error_df = pd.DataFrame(dict(errors=str(e)),
                                             index=range(1))
@@ -528,14 +528,14 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
                     index = hexes.index(future_str)
                     error_df['sitemap'] = sitemap_url_list[index]
                     logging.warning(msg=str(e) + ' ' + sitemap_url_list[index])
-                    multi_sitemap_df = multi_sitemap_df.append(error_df,
-                                                               ignore_index=True)
+                    multi_sitemap_df = pd.concat(
+                        [multi_sitemap_df, error_df], ignore_index=True)
         return multi_sitemap_df
 
     else:
         logging.info(msg='Getting ' + sitemap_url)
         elem_df = _parse_sitemap(root)
-        sitemap_df = sitemap_df.append(elem_df, ignore_index=True)
+        sitemap_df = pd.concat([sitemap_df, elem_df], ignore_index=True)
         sitemap_df['sitemap'] = [sitemap_url] if sitemap_df.empty else sitemap_url
     if 'lastmod' in sitemap_df:
         try:

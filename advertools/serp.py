@@ -57,6 +57,7 @@ import logging
 from itertools import product
 
 import pandas as pd
+
 if int(pd.__version__[0]) >= 1:
     from pandas import json_normalize
 else:
@@ -480,7 +481,7 @@ def youtube_video_details(key, vid_ids):
             except KeyError:
                 continue
         temp_df = pd.concat([items_df, detail_df], axis=1)
-        final_df = final_df.append(temp_df, sort=False, ignore_index=True)
+        final_df = pd.concat([final_df, temp_df], sort=False, ignore_index=True)
     return final_df
 
 
@@ -511,7 +512,7 @@ def youtube_channel_details(key, channel_ids):
             except KeyError:
                 continue
         temp_df = pd.concat([items_df, detail_df], axis=1)
-        final_df = final_df.append(temp_df, sort=False, ignore_index=True)
+        final_df = pd.concat([final_df, temp_df], sort=False, ignore_index=True)
     return final_df
 
 
@@ -758,7 +759,7 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
             img_df = json_normalize(df['image'])
             img_df.columns = ['image.' + c for c in img_df.columns]
             df = pd.concat([df, img_df], axis=1)
-        result_df = result_df.append(df, sort=False, ignore_index=True)
+        result_df = pd.concat([result_df, df], sort=False, ignore_index=True)
     ordered_cols = (list(set(params_list[i]).difference({'q', 'key', 'cx'})) +
                     specified_cols)
     non_ordered = result_df.columns.difference(set(ordered_cols))
@@ -768,11 +769,11 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
         for p in final_df['pagemap']:
             try:
                 temp_pagemap_df = json_normalize(p)
-                pagemap_df = pagemap_df.append(temp_pagemap_df, sort=False)
+                pagemap_df = pd.concat([pagemap_df, temp_pagemap_df], sort=False)
             except Exception as e:
                 temp_pagemap_df = pd.DataFrame({'delete_me': None},
                                                 index=range(1))
-                pagemap_df = pagemap_df.append(temp_pagemap_df, sort=False)
+                pagemap_df = pd.concat([pagemap_df, temp_pagemap_df], sort=False)
         pagemap_df = pagemap_df.reset_index(drop=True)
         if 'delete_me' in pagemap_df:
             del pagemap_df['delete_me']
@@ -786,13 +787,13 @@ def serp_goog(q, cx, key, c2coff=None, cr=None,
             for m in pagemap_df['metatags']:
                 try:
                     temp_metatags_df = json_normalize(m)
-                    metatag_df = metatag_df.append(temp_metatags_df,
-                                                   sort=False)
+                    metatag_df = pd.concat([metatag_df, temp_metatags_df],
+                                           sort=False)
                 except Exception as e:
                     temp_metatags_df = pd.DataFrame({'delete_me': None},
                                                     index=range(1))
-                    metatag_df = metatag_df.append(temp_metatags_df,
-                                                   sort=False)
+                    metatag_df = pd.concat([metatag_df, temp_metatags_df],
+                                           sort=False)
             metatag_df = metatag_df.reset_index(drop=True)
             if 'delete_me' in metatag_df:
                 del metatag_df['delete_me']
@@ -1191,8 +1192,8 @@ def serp_youtube(key, q=None, channelId=None, channelType=None, eventType=None,
         del params_list[i]['key']
         temp_df = temp_df.assign(**params_list[i])
         temp_df['nextPageToken'] = resp.json().get('nextPageToken')
-        result_df = result_df.append(temp_df, sort=False,
-                                     ignore_index=True)
+        result_df = pd.concat([result_df, temp_df], sort=False,
+                              ignore_index=True)
 
     result_df['queryTime'] = datetime.datetime.now(tz=datetime.timezone.utc)
     result_df['queryTime'] = pd.to_datetime(result_df['queryTime'])

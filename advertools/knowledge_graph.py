@@ -194,7 +194,7 @@ def knowledge_graph(key, query=None, ids=None, languages=None, types=None,
         param_columns = {k: [v] if df.empty else v
                          for k, v in param.items()}
         df = df.assign(**param_columns)
-        result_df = result_df.append(df, ignore_index=True)
+        result_df = pd.concat([result_df, df], ignore_index=True)
 
     with futures.ThreadPoolExecutor(max_workers=16) as executor:
         executor.map(single_request, params_list)

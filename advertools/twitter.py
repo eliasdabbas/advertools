@@ -72,8 +72,9 @@ Functions
 import logging
 from functools import wraps
 
-from twython import Twython
 import pandas as pd
+from twython import Twython
+
 if int(pd.__version__[0]) >= 1:
     from pandas import json_normalize
 else:
@@ -272,7 +273,7 @@ def make_dataframe(func):
                     temp_df = pd.concat([resp_df, user_df], axis=1)
                 else:
                     temp_df = resp_df
-            final_df = final_df.append(temp_df, sort=False, ignore_index=True)
+            final_df = pd.concat([final_df, temp_df], sort=False, ignore_index=True)
 
         for col in final_df:
             if 'created_at' in col:
@@ -323,7 +324,7 @@ def get_application_rate_limit_status(consumed_only=True):
     limit_df = pd.DataFrame()
     for resource in ratelimit['resources']:
         temp_df = pd.DataFrame(ratelimit['resources'][resource]).T
-        limit_df = limit_df.append(temp_df, sort=False)
+        limit_df = pd.concat([limit_df, temp_df], sort=False)
     limit_df['reset'] = pd.to_datetime(limit_df['reset'], unit='s')
     limit_df['resource'] = limit_df.index.str.split('/').str[1]
     limit_df.index.name = 'endpoint'
@@ -757,7 +758,7 @@ def get_place_trends(ids, exclude=None):
         trend_df['woeid'] = place_trends[0]['locations'][0]['woeid']
         trend_df['time'] = pd.to_datetime(place_trends[0]['created_at'])
 
-        trends_df = trends_df.append(trend_df, ignore_index=True)
+        trends_df = pd.concat([trends_df, trend_df], ignore_index=True)
 
     trends_df = trends_df.sort_values(['woeid', 'tweet_volume'],
                                       ascending=[True, False])
