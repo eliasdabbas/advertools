@@ -842,7 +842,7 @@ def crawl(url_list, output_file, follow_links=False,
                                          while following links. If a link
                                          contains any of those parameters,
                                          don't follow it. Setting it to
-                                         ``False`` will exclude links
+                                         ``True`` will exclude links
                                          containing any parameter.
     :param list include_url_params: A list of URL parameters to include while
                                     following links. If a link contains any of
