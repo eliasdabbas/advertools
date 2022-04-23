@@ -502,7 +502,7 @@ def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
                                                  downcast='signed')
             except KeyError:
                 pass
-            final_df.to_parquet(output_file)
+            final_df.to_parquet(output_file, index=False, version='2.6')
 
 
 def crawllogs_to_df(logs_file_path):
