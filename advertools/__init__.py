@@ -3,7 +3,7 @@
 
 __author__ = """Elias Dabbas"""
 __email__ = 'eliasdabbas@gmail.com'
-__version__ = '0.14.0a8'
+__version__ = '0.13.1'
 
 from advertools.ad_create import ad_create
 from advertools.ad_from_string import ad_from_string
