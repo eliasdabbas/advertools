@@ -2,7 +2,7 @@
 Change Log - advertools
 =======================
 
-0.13.1 (unreleased)
+0.13.1 (2022-05-11)
 -------------------
 
 * Added
@@ -14,6 +14,9 @@ Change Log - advertools
 
 * Fixed
     - Don't remove double quotes from etags when downloading XML sitemaps
+    - Replace instances of ``pd.DataFrame.append`` with ``pd.concat``, which is
+      depracated.
+    - Replace empty values with np.nan for the size column in ``logs_to_df``
 
 
 0.13.0 (2022-02-10)
