@@ -64,6 +64,7 @@ life a little easier.
    :titlesonly:
 
    About advertools <readme>
+   Command Line Interface <advertools.cli.cli>
 
 To install advertools, run the following from the command line::
 

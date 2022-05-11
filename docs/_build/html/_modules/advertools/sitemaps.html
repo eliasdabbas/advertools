@@ -35,7 +35,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="../../index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.0
+                0.14.0a8
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,6 +47,7 @@ const thebe_selector_output = ".output, .cell_output"
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.cli.cli.html">Command Line Interface</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">SEM</span></p>
 <ul>
@@ -619,8 +620,8 @@ const thebe_selector_output = ".output, .cell_output"
                             <span class="s1">&#39;sitemap&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">sitemap_url</span><span class="p">],</span>
                             <span class="s1">&#39;errors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;WARNING: Sitemap contains a link to itself&#39;</span><span class="p">]</span>
                         <span class="p">})</span>
-                        <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">multi_sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error_df</span><span class="p">,</span>
-                                                                   <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">multi_sitemap_df</span><span class="p">,</span> <span class="n">error_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">sitemap_url_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
@@ -631,8 +632,8 @@ const thebe_selector_output = ".output, .cell_output"
             <span class="n">done_iter</span> <span class="o">=</span> <span class="n">futures</span><span class="o">.</span><span class="n">as_completed</span><span class="p">(</span><span class="n">to_do</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">done_iter</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">multi_sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">(),</span>
-                                                               <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">multi_sitemap_df</span><span class="p">,</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="n">error_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span>
                                             <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
@@ -641,14 +642,14 @@ const thebe_selector_output = ".output, .cell_output"
                     <span class="n">index</span> <span class="o">=</span> <span class="n">hexes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">future_str</span><span class="p">)</span>
                     <span class="n">error_df</span><span class="p">[</span><span class="s1">&#39;sitemap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_url_list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
                     <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">sitemap_url_list</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
-                    <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">multi_sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error_df</span><span class="p">,</span>
-                                                               <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">multi_sitemap_df</span><span class="p">,</span> <span class="n">error_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">multi_sitemap_df</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Getting &#39;</span> <span class="o">+</span> <span class="n">sitemap_url</span><span class="p">)</span>
         <span class="n">elem_df</span> <span class="o">=</span> <span class="n">_parse_sitemap</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-        <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem_df</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">sitemap_df</span><span class="p">,</span> <span class="n">elem_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;sitemap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sitemap_url</span><span class="p">]</span> <span class="k">if</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="n">sitemap_url</span>
     <span class="k">if</span> <span class="s1">&#39;lastmod&#39;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
@@ -660,7 +661,7 @@ const thebe_selector_output = ".output, .cell_output"
             <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">pass</span>
-    <span class="n">etag_lastmod</span> <span class="o">=</span> <span class="p">{</span><span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">):</span> <span class="n">val</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">etag_lastmod</span> <span class="o">=</span> <span class="p">{</span><span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">):</span> <span class="n">val</span>
                     <span class="k">for</span> <span class="n">header</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">resp_headers</span>
                     <span class="k">if</span> <span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;etag&#39;</span><span class="p">,</span> <span class="s1">&#39;last-modified&#39;</span><span class="p">]}</span>
     <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">etag_lastmod</span><span class="p">)</span>

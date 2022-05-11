@@ -205,22 +205,22 @@ get word counts of a text list optionally weighted by a number list
                             a list of stopwords to exclude when counting, defaults to English stopwords
                             run `advertools stopwords english` to get the stopwords
                             change the language to get other stopwords (default: None)
-    
+
 
 search for emoji using a regex
 ===============================
 
 
     usage: advertools emoji [-h] regex
-    
+
     search for emoji using a regex
-    
+
     positional arguments:
       regex       pattern to search for emoji
-    
+
     optional arguments:
       -h, --help  show this help message and exit
-    
+
 
 extract structured entities from a text list; emoji, hashtags, mentions
 ========================================================================

@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   advertools.cli
    advertools.code_recipes
 
 Submodules
