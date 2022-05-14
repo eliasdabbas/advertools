@@ -200,5 +200,6 @@ def url_to_df(urls, decode=True):
                    .iloc[:, -1:]
                    .squeeze()))
     df = pd.concat([df, dirs_df, query_df], axis=1).replace('', np.nan)
-    df.insert(0, 'url', [decode(url) for url in urls])
-    return df
+    url_list_df = pd.DataFrame({'url': [decode(url) for url in urls]})
+    final_df = pd.concat([url_list_df, df], axis=1)
+    return final_df
