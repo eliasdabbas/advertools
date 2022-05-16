@@ -643,14 +643,14 @@ class SEOSitemapSpider(Spider):
     }
 
 
-    def __init__(self, url_list, meta, follow_links=False,
+    def __init__(self, url_list, follow_links=False,
                  allowed_domains=None,
                  exclude_url_params=None,
                  include_url_params=None,
                  exclude_url_regex=None,
                  include_url_regex=None,
                  css_selectors=None,
-                 xpath_selectors=None, *args, **kwargs):
+                 xpath_selectors=None, meta=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.start_urls = json.loads(json.dumps(url_list.split(',')))
         self.meta = eval(json.loads(json.dumps(meta)))
@@ -667,10 +667,15 @@ class SEOSitemapSpider(Spider):
         self.css_selectors = eval(json.loads(json.dumps(css_selectors)))
         self.xpath_selectors = eval(json.loads(json.dumps(xpath_selectors)))
 
+    def _meta_param(self,meta):
+        if meta.get("proxy"):
+            meta['proxy'] = random.choice(meta['proxy'])
+        return meta
+
     def start_requests(self):
         for url in self.start_urls:
             try:
-                yield Request(url, callback=self.parse, errback=self.errback, meta=self.meta)
+                yield Request(url, callback=self.parse, errback=self.errback, meta=self._meta_param(self.meta))
             except Exception as e:
                 self.logger.error(repr(e))
 
@@ -816,18 +821,18 @@ class SEOSitemapSpider(Spider):
                         include_url_regex=self.include_url_regex)
                     if cond:
                         yield Request(page, callback=self.parse,
-                                      errback=self.errback, meta=self.meta)
+                                      errback=self.errback, meta=self._meta_param(self.meta))
                     # if self.skip_url_params and urlparse(page).query:
                     #     continue
 
 
-def crawl(url_list, meta, output_file, follow_links=False,
+def crawl(url_list, output_file, follow_links=False,
           allowed_domains=None,
           exclude_url_params=None,
           include_url_params=None,
           exclude_url_regex=None,
           include_url_regex=None,
-          css_selectors=None, xpath_selectors=None, custom_settings=None,
+          css_selectors=None, xpath_selectors=None, custom_settings=None,meta=None
           ):
     """
     Crawl a website's URLs based on the given :attr:`url_list`
@@ -951,10 +956,6 @@ def crawl(url_list, meta, output_file, follow_links=False,
             else:
                 setting = '='.join([key, str(val)])
             settings_list.extend(['-s', setting])
-    if meta:
-        proxy = meta["proxy"]
-        rnd_proxy = random.choice(proxy)
-        meta["proxy"] = rnd_proxy
 
     command = ['scrapy', 'runspider', spider_path,
                '-a', 'url_list=' + ','.join(url_list),
