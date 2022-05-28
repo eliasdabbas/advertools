@@ -490,7 +490,8 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
     else:
         xml_text = urlopen(Request(sitemap_url, headers=headers))
         resp_headers = xml_text.getheaders()
-    xml_string = xml_text.read()
+    with xml_text:
+        xml_string = xml_text.read()
     root = ElementTree.fromstring(xml_string)
 
     sitemap_df = pd.DataFrame()
