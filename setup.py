@@ -12,11 +12,12 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    'pandas',
-    'pyasn1',
-    'scrapy',
-    'twython',
-    'pyarrow',
+    'pandas>=1.1.0',
+    'pyasn1>=0.4',
+    'scrapy>=2.5.0',
+    'twython>=3.8.0',
+    'pyarrow>=5.0.0',
+    'requests>=2.25.0',
 ]
 
 setup_requirements = [
