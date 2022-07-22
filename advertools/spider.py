@@ -944,7 +944,7 @@ def crawl(url_list, output_file, follow_links=False,
     settings_list = []
     if custom_settings is not None:
         for key, val in custom_settings.items():
-            if isinstance(val, dict):
+            if isinstance(val, (dict, list, set, tuple)):
                 setting = '='.join([key, json.dumps(val)])
             else:
                 setting = '='.join([key, str(val)])
