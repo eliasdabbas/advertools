@@ -17,7 +17,6 @@ requirements = [
     'scrapy>=2.5.0',
     'twython>=3.8.0',
     'pyarrow>=5.0.0',
-    'requests>=2.25.0',
 ]
 
 setup_requirements = [
