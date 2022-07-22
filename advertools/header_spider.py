@@ -163,9 +163,7 @@ def crawl_headers(url_list, output_file,  custom_settings=None):
     response headers you get.
 
 
-    :param url,list url_list: One or more URLs to crawl. If ``follow_links``
-                          is True, the crawler will start with these URLs and
-                          follow all links on pages recursively.
+    :param url,list url_list: One or more URLs to crawl.
     :param str output_file: The path to the output of the crawl. Jsonlines only
                             is supported to allow for dynamic values. Make sure
                             your file ends with ".jl", e.g. `output_file.jl`.
