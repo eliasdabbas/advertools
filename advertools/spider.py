@@ -825,7 +825,7 @@ def crawl(url_list, output_file, follow_links=False,
           include_url_params=None,
           exclude_url_regex=None,
           include_url_regex=None,
-          css_selectors=None, xpath_selectors=None, custom_settings=None,
+          css_selectors=None, xpath_selectors=None, custom_settings=None,meta=None,
           ):
     """
     Crawl a website's URLs based on the given :attr:`url_list`
@@ -949,6 +949,14 @@ def crawl(url_list, output_file, follow_links=False,
             else:
                 setting = '='.join([key, str(val)])
             settings_list.extend(['-s', setting])
+    meta_list = []
+    if meta is not None:
+        for key, val in meta.items():
+            if isinstance(val, (dict, list, set, tuple)):
+                meta = '='.join([key, json.dumps(val)])
+            else:
+                meta = '='.join([key, str(val)])
+            meta_list.extend(['-s', meta])
 
     command = ['scrapy', 'runspider', spider_path,
                '-a', 'url_list=' + ','.join(url_list),
@@ -960,7 +968,8 @@ def crawl(url_list, output_file, follow_links=False,
                '-a', 'include_url_regex=' + str(include_url_regex),
                '-a', 'css_selectors=' + str(css_selectors),
                '-a', 'xpath_selectors=' + str(xpath_selectors),
-               '-o', output_file] + settings_list
+               '-o', output_file] + settings_list + meta_list
+    
     if len(','.join(url_list)) > MAX_CMD_LENGTH and not follow_links:
         split_urls = _split_long_urllist(url_list)
 
