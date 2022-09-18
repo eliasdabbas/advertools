@@ -238,11 +238,18 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">function runs a test for a given robots.txt file, checking which of the</span>
 <span class="sd">provided user-agents can fetch which of the provided URLs, paths, or patterns.</span>
 
-<span class="sd">.. code-block::</span>
 
-<span class="sd">    robotstxt_test(&#39;https://www.example.com/robots.txt&#39;,</span>
-<span class="sd">                   useragents=[&#39;Googlebot&#39;, &#39;baiduspider&#39;, &#39;Bingbot&#39;]</span>
-<span class="sd">                   urls=[&#39;/&#39;, &#39;/hello&#39;, &#39;/some-page.html&#39;]])</span>
+<span class="sd">.. thebe-button::</span>
+<span class="sd">    Run this code</span>
+
+<span class="sd">.. code-block::</span>
+<span class="sd">    :class: thebe, thebe-init</span>
+
+<span class="sd">    import advertools as adv</span>
+<span class="sd">    adv.robotstxt_test(</span>
+<span class="sd">        robotstxt_url=&#39;https://www.amazon.com/robots.txt&#39;,</span>
+<span class="sd">        user_agents=[&#39;Googlebot&#39;, &#39;baiduspider&#39;, &#39;Bingbot&#39;],</span>
+<span class="sd">        urls=[&#39;/&#39;, &#39;/hello&#39;, &#39;/some-page.html&#39;])</span>
 
 <span class="sd">As a result, you get a DataFrame with a row for each combination of</span>
 <span class="sd">(user-agent, URL) indicating whether or not that particular user-agent can</span>

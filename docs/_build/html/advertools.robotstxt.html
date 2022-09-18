@@ -423,9 +423,11 @@ domains and sub-domains.</p></li>
 <p>This tester is designed to work on a large scale. The <a class="reference internal" href="#advertools.robotstxt.robotstxt_test" title="advertools.robotstxt.robotstxt_test"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_test()</span></code></a>
 function runs a test for a given robots.txt file, checking which of the
 provided user-agents can fetch which of the provided URLs, paths, or patterns.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robotstxt_test</span><span class="p">(</span><span class="s1">&#39;https://www.example.com/robots.txt&#39;</span><span class="p">,</span>
-               <span class="n">useragents</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Googlebot&#39;</span><span class="p">,</span> <span class="s1">&#39;baiduspider&#39;</span><span class="p">,</span> <span class="s1">&#39;Bingbot&#39;</span><span class="p">]</span>
-               <span class="n">urls</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;/hello&#39;</span><span class="p">,</span> <span class="s1">&#39;/some-page.html&#39;</span><span class="p">]])</span>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="n">adv</span><span class="o">.</span><span class="n">robotstxt_test</span><span class="p">(</span>
+    <span class="n">robotstxt_url</span><span class="o">=</span><span class="s1">&#39;https://www.amazon.com/robots.txt&#39;</span><span class="p">,</span>
+    <span class="n">user_agents</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Googlebot&#39;</span><span class="p">,</span> <span class="s1">&#39;baiduspider&#39;</span><span class="p">,</span> <span class="s1">&#39;Bingbot&#39;</span><span class="p">],</span>
+    <span class="n">urls</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;/hello&#39;</span><span class="p">,</span> <span class="s1">&#39;/some-page.html&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>As a result, you get a DataFrame with a row for each combination of
