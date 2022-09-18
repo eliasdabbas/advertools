@@ -124,7 +124,12 @@ This tester is designed to work on a large scale. The :func:`robotstxt_test`
 function runs a test for a given robots.txt file, checking which of the
 provided user-agents can fetch which of the provided URLs, paths, or patterns.
 
+
+.. thebe-button::
+    Run this code
+
 .. code-block::
+    :class: thebe, thebe-init
 
     import advertools as adv
     adv.robotstxt_test(
