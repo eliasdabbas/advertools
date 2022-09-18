@@ -126,9 +126,11 @@ provided user-agents can fetch which of the provided URLs, paths, or patterns.
 
 .. code-block::
 
-    robotstxt_test('https://www.example.com/robots.txt',
-                   useragents=['Googlebot', 'baiduspider', 'Bingbot']
-                   urls=['/', '/hello', '/some-page.html']])
+    import advertools as adv
+    adv.robotstxt_test(
+        robotstxt_url='https://www.amazon.com/robots.txt',
+        user_agents=['Googlebot', 'baiduspider', 'Bingbot'],
+        urls=['/', '/hello', '/some-page.html'])
 
 As a result, you get a DataFrame with a row for each combination of
 (user-agent, URL) indicating whether or not that particular user-agent can
