@@ -219,6 +219,72 @@ manage the process. You don't need to worry about any of it. But make sure that
 folder doesn't get changed manually, rerun the same command as many times as
 you need, and the crawler should handle de-duplication for you.
 
+How do I use a proxy while crawling?
+************************************
+
+This requires the following simple steps:
+
+* Install the 3rd party package `scrapy-rotating-proxies <https://github.com/TeamHG-Memex/scrapy-rotating-proxies>`_. This package handles
+  the proxy rotation for you, in addition to retries, so you don't need to
+  worry about those details.
+* Get a list of proxies and save in a text file, one proxy per line
+* Set a few ``custom_settings`` in the crawl function
+  (``DOWNLOADER_MIDDLEWARES`` and ``ROTATING_PROXY_LIST_PATH``)
+
+.. code-block:: bash
+
+    $ pip install scrapy-rotating-proxies
+
+Save a list of proxies in a text file with the template:
+
+https://username:password@IPADDRESS:PORT
+
+proxies.txt example file (randome values):
+
+https://user123:password123@12.34.56.78:1111
+https://user123:password123@12.34.56.78:1112
+https://user123:password123@12.34.56.78:1113
+https://user123:password123@12.34.56.78:1114
+
+
+Then, you need to set a few ``custom_settings`` in the crawl function:
+
+
+.. code-block:: python
+
+    adv.crawl(
+        'https://example.com', 'output_file.jl', follow_links=True,
+
+        custom_settings={
+            'DOWNLOADER_MIDDLEWARES': {
+                'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
+                'rotating_proxies.middlewares.BanDetectionMiddleware': 620
+            },
+            'ROTATING_PROXY_LIST_PATH': 'proxies.txt',
+        }
+    )
+
+You can then read the output file normally and see that the proxies are being
+used:
+
+
+.. code-block:: python
+
+    crawldf = pd.read_json('output_file.jl', lines=True)
+    crawldf.filter(regex='proxy').head()
+
+
+====  ============================  =================  =====================================  ===================
+  ..  proxy                           _rotating_proxy  request_headers_proxy-authorization      proxy_retry_times
+====  ============================  =================  =====================================  ===================
+   0  https://123.456.789.101:8893                  1  Basic b3VzY214dHg6ODlld29rMGRsdfgt                     nan
+   1  https://123.456.789.101:8894                  1  Basic b3VzY214dHg6ODlld29rMGRsdfgt                     nan
+   2  https://123.456.789.101:8895                  1  Basic b3VzY214dHg6ODlld29rMGRsdfgt                     nan
+   3  https://123.456.789.101:8896                  1  Basic b3VzY214dHg6ODlld29rMGRsdfgt                     nan
+   4  https://123.456.789.101:8897                  1  Basic b3VzY214dHg6ODlld29rMGRsdfgt                     nan
+====  ============================  =================  =====================================  ===================
+
+
 XPath expressions for custom extraction
 ***************************************
 

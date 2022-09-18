@@ -75,6 +75,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="#how-can-i-set-multiple-settings-to-the-same-crawl-job">How can I set multiple settings to the same crawl job?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#i-want-to-crawl-a-list-of-pages-follow-links-from-those-pages-but-only-to-a-certain-specified-depth">I want to crawl a list of pages, follow links from those pages, but only to a certain specified depth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice">How do I pause/resume crawling, while making sure I don't crawl the same page twice?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-use-a-proxy-while-crawling">How do I use a proxy while crawling?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#xpath-expressions-for-custom-extraction">XPath expressions for custom extraction</a></li>
 </ul>
 </li>
@@ -318,6 +319,97 @@ again. If you check the folder that was created you can see a few files that
 manage the process. You don't need to worry about any of it. But make sure that
 folder doesn't get changed manually, rerun the same command as many times as
 you need, and the crawler should handle de-duplication for you.</p>
+</section>
+<section id="how-do-i-use-a-proxy-while-crawling">
+<h2>How do I use a proxy while crawling?<a class="headerlink" href="#how-do-i-use-a-proxy-while-crawling" title="Permalink to this headline"></a></h2>
+<p>This requires the following simple steps:</p>
+<ul class="simple">
+<li><p>Install the 3rd party package <a class="reference external" href="https://github.com/TeamHG-Memex/scrapy-rotating-proxies">scrapy-rotating-proxies</a>. This package handles
+the proxy rotation for you, in addition to retries, so you don't need to
+worry about those details.</p></li>
+<li><p>Get a list of proxies and save in a text file, one proxy per line</p></li>
+<li><p>Set a few <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> in the crawl function
+(<code class="docutils literal notranslate"><span class="pre">DOWNLOADER_MIDDLEWARES</span></code> and <code class="docutils literal notranslate"><span class="pre">ROTATING_PROXY_LIST_PATH</span></code>)</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install scrapy-rotating-proxies
+</pre></div>
+</div>
+<p>Save a list of proxies in a text file with the template:</p>
+<p><a class="reference external" href="https://username:password&#64;IPADDRESS:PORT">https://username:password&#64;IPADDRESS:PORT</a></p>
+<p>proxies.txt example file (randome values):</p>
+<p><a class="reference external" href="https://user123:password123&#64;12.34.56.78:1111">https://user123:password123&#64;12.34.56.78:1111</a>
+<a class="reference external" href="https://user123:password123&#64;12.34.56.78:1112">https://user123:password123&#64;12.34.56.78:1112</a>
+<a class="reference external" href="https://user123:password123&#64;12.34.56.78:1113">https://user123:password123&#64;12.34.56.78:1113</a>
+<a class="reference external" href="https://user123:password123&#64;12.34.56.78:1114">https://user123:password123&#64;12.34.56.78:1114</a></p>
+<p>Then, you need to set a few <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> in the crawl function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span>
+    <span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+
+    <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;DOWNLOADER_MIDDLEWARES&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;rotating_proxies.middlewares.RotatingProxyMiddleware&#39;</span><span class="p">:</span> <span class="mi">610</span><span class="p">,</span>
+            <span class="s1">&#39;rotating_proxies.middlewares.BanDetectionMiddleware&#39;</span><span class="p">:</span> <span class="mi">620</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;ROTATING_PROXY_LIST_PATH&#39;</span><span class="p">:</span> <span class="s1">&#39;proxies.txt&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then read the output file normally and see that the proxies are being
+used:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">crawldf</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s1">&#39;proxy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 27%" />
+<col style="width: 16%" />
+<col style="width: 35%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>proxy</p></th>
+<th class="head"><p>_rotating_proxy</p></th>
+<th class="head"><p>request_headers_proxy-authorization</p></th>
+<th class="head"><p>proxy_retry_times</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://123.456.789.101:8893">https://123.456.789.101:8893</a></p></td>
+<td><p>1</p></td>
+<td><p>Basic b3VzY214dHg6ODlld29rMGRsdfgt</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://123.456.789.101:8894">https://123.456.789.101:8894</a></p></td>
+<td><p>1</p></td>
+<td><p>Basic b3VzY214dHg6ODlld29rMGRsdfgt</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://123.456.789.101:8895">https://123.456.789.101:8895</a></p></td>
+<td><p>1</p></td>
+<td><p>Basic b3VzY214dHg6ODlld29rMGRsdfgt</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://123.456.789.101:8896">https://123.456.789.101:8896</a></p></td>
+<td><p>1</p></td>
+<td><p>Basic b3VzY214dHg6ODlld29rMGRsdfgt</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://123.456.789.101:8897">https://123.456.789.101:8897</a></p></td>
+<td><p>1</p></td>
+<td><p>Basic b3VzY214dHg6ODlld29rMGRsdfgt</p></td>
+<td><p>nan</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="xpath-expressions-for-custom-extraction">
 <h2>XPath expressions for custom extraction<a class="headerlink" href="#xpath-expressions-for-custom-extraction" title="Permalink to this headline"></a></h2>
