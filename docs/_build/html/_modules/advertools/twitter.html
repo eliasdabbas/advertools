@@ -158,11 +158,21 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">   &gt;&gt;&gt; auth_params = {</span>
 <span class="sd">   ...     &#39;app_key&#39;: &#39;YOUR_APP_KEY&#39;,</span>
 <span class="sd">   ...     &#39;app_secret&#39;: &#39;YOUR_APP_SECRET&#39;,</span>
-<span class="sd">   ...     &#39;oauth_token&#39;: &#39;YOUR_OAUTH_TOKEN&#39;,</span>
-<span class="sd">   ...     &#39;oauth_token_secret&#39;: &#39;YOUR_OAUTH_TOKEN_SECRET&#39;,</span>
 <span class="sd">   ... }</span>
 <span class="sd">   &gt;&gt;&gt; import advertools as adv</span>
 <span class="sd">   &gt;&gt;&gt; adv.twitter.set_auth_params(**auth_params)</span>
+
+<span class="sd">In some cases, you might be required to add ``oauth_token`` and </span>
+<span class="sd">``oauth_token_secret, which case you ``auth_params`` will look like this:</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">   &gt;&gt;&gt; auth_params = {</span>
+<span class="sd">   ...     &#39;app_key&#39;: &#39;YOUR_APP_KEY&#39;,</span>
+<span class="sd">   ...     &#39;app_secret&#39;: &#39;YOUR_APP_SECRET&#39;,</span>
+<span class="sd">   ...     &#39;oauth_token&#39;: &#39;YOUR_OAUTH_TOKEN&#39;,</span>
+<span class="sd">   ...     &#39;oauth_token_secret&#39;: &#39;YOUR_OAUTH_TOKEN_SECRET&#39;,</span>
+<span class="sd">   ... }</span>
 
 <span class="sd">Now every request you send will include your ``auth_params`` in it, and if</span>
 <span class="sd">valid you will get the respective response, for example:</span>

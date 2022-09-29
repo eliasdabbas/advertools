@@ -284,6 +284,40 @@ used:
    4  https://123.456.789.101:8897                  1  Basic b3VzY214dHg6ODlld29rMGRsdfgt                     nan
 ====  ============================  =================  =====================================  ===================
 
+How can I change the default request headers?
+*********************************************
+
+This is a very common use case, and it is very easy to do. Simply add the
+``DEFAULT_REQUEST_HEADERS`` setting as a dictionary to the ``custom_settings``
+parameter:
+
+.. code-block:: python
+
+    adv.crawl(
+        url_list='https://example.com',
+        output_file='output.jl',
+        custom_settings={
+            'DEFAULT_REQUEST_HEADERS': {
+                'Accept-Language': 'es',
+                'Accept-Encoding': 'gzip, deflate'
+            }
+        }
+    )
+
+You can easily check for the actual request headers that were used while
+crawling. In the crawl DataFrame, simply use the regex pattern
+``request_headers_``:
+
+.. code-block:: python
+
+    crawldf = pd.read_json('output.jl', lines=True)
+    crawldf.filter(regex='request_headers_')
+
+====  =================================  =================================  ============================
+  ..  request_headers_accept-language    request_headers_accept-encoding    request_headers_user-agent
+====  =================================  =================================  ============================
+   0  es                                 gzip, deflate                      advertools/0.13.2
+====  =================================  =================================  ============================
 
 XPath expressions for custom extraction
 ***************************************

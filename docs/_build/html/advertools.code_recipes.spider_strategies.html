@@ -76,6 +76,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="#i-want-to-crawl-a-list-of-pages-follow-links-from-those-pages-but-only-to-a-certain-specified-depth">I want to crawl a list of pages, follow links from those pages, but only to a certain specified depth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice">How do I pause/resume crawling, while making sure I don't crawl the same page twice?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-do-i-use-a-proxy-while-crawling">How do I use a proxy while crawling?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-change-the-default-request-headers">How can I change the default request headers?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#xpath-expressions-for-custom-extraction">XPath expressions for custom extraction</a></li>
 </ul>
 </li>
@@ -407,6 +408,53 @@ used:</p>
 <td><p>1</p></td>
 <td><p>Basic b3VzY214dHg6ODlld29rMGRsdfgt</p></td>
 <td><p>nan</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="how-can-i-change-the-default-request-headers">
+<h2>How can I change the default request headers?<a class="headerlink" href="#how-can-i-change-the-default-request-headers" title="Permalink to this headline"></a></h2>
+<p>This is a very common use case, and it is very easy to do. Simply add the
+<code class="docutils literal notranslate"><span class="pre">DEFAULT_REQUEST_HEADERS</span></code> setting as a dictionary to the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code>
+parameter:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span>
+    <span class="n">url_list</span><span class="o">=</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
+    <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;output.jl&#39;</span><span class="p">,</span>
+    <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;DEFAULT_REQUEST_HEADERS&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;Accept-Language&#39;</span><span class="p">:</span> <span class="s1">&#39;es&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Accept-Encoding&#39;</span><span class="p">:</span> <span class="s1">&#39;gzip, deflate&#39;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>You can easily check for the actual request headers that were used while
+crawling. In the crawl DataFrame, simply use the regex pattern
+<code class="docutils literal notranslate"><span class="pre">request_headers_</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">crawldf</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s1">&#39;request_headers_&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 34%" />
+<col style="width: 34%" />
+<col style="width: 29%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>request_headers_accept-language</p></th>
+<th class="head"><p>request_headers_accept-encoding</p></th>
+<th class="head"><p>request_headers_user-agent</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>es</p></td>
+<td><p>gzip, deflate</p></td>
+<td><p>advertools/0.13.2</p></td>
 </tr>
 </tbody>
 </table>

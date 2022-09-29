@@ -151,11 +151,19 @@ follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">auth_params</span> <span class="o">=</span> <span class="p">{</span>
 <span class="gp">... </span>    <span class="s1">&#39;app_key&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_APP_KEY&#39;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s1">&#39;app_secret&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_APP_SECRET&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s1">&#39;oauth_token&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_OAUTH_TOKEN&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s1">&#39;oauth_token_secret&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_OAUTH_TOKEN_SECRET&#39;</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">twitter</span><span class="o">.</span><span class="n">set_auth_params</span><span class="p">(</span><span class="o">**</span><span class="n">auth_params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In some cases, you might be required to add <code class="docutils literal notranslate"><span class="pre">oauth_token</span></code> and 
+<code class="docutils literal notranslate"><span class="pre">oauth_token_secret,</span> <span class="pre">which</span> <span class="pre">case</span> <span class="pre">you</span> <span class="pre">``auth_params</span></code> will look like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">auth_params</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;app_key&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_APP_KEY&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;app_secret&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_APP_SECRET&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;oauth_token&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_OAUTH_TOKEN&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;oauth_token_secret&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_OAUTH_TOKEN_SECRET&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">}</span>
 </pre></div>
 </div>
 <p>Now every request you send will include your <code class="docutils literal notranslate"><span class="pre">auth_params</span></code> in it, and if
