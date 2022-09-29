@@ -961,7 +961,7 @@ def crawl(url_list, output_file, follow_links=False,
                '-a', 'css_selectors=' + str(css_selectors),
                '-a', 'xpath_selectors=' + str(xpath_selectors),
                '-o', output_file] + settings_list
-    if len(','.join(url_list)) > MAX_CMD_LENGTH and not follow_links:
+    if len(','.join(url_list)) > MAX_CMD_LENGTH:
         split_urls = _split_long_urllist(url_list)
 
         for u_list in split_urls:
