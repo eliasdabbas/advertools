@@ -2,6 +2,23 @@
 Change Log - advertools
 =======================
 
+0.13.2 (2022-09-30)
+-------------------
+
+* Added
+    - Crawling recipe for how to use the ``DEFAULT_REQUEST_HEADERS`` to change
+      the default headers.
+
+* Changed
+    - Split long lists of URL while crawling regardless of the ``follow_links``
+      parameter
+
+* Fixed
+    - Clarify that while authenticating for Twitter only ``app_key`` and 
+      ``app_secret`` are required, with the option to provide ``oauth_token``
+      and ``oauth_token_secret`` if/when needed.
+
+
 0.13.1 (2022-05-11)
 -------------------
 
