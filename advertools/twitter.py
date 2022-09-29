@@ -44,11 +44,21 @@ follows:
    >>> auth_params = {
    ...     'app_key': 'YOUR_APP_KEY',
    ...     'app_secret': 'YOUR_APP_SECRET',
-   ...     'oauth_token': 'YOUR_OAUTH_TOKEN',
-   ...     'oauth_token_secret': 'YOUR_OAUTH_TOKEN_SECRET',
    ... }
    >>> import advertools as adv
    >>> adv.twitter.set_auth_params(**auth_params)
+
+In some cases, you might be required to add ``oauth_token`` and 
+``oauth_token_secret, which case you ``auth_params`` will look like this:
+
+.. code-block:: python
+
+   >>> auth_params = {
+   ...     'app_key': 'YOUR_APP_KEY',
+   ...     'app_secret': 'YOUR_APP_SECRET',
+   ...     'oauth_token': 'YOUR_OAUTH_TOKEN',
+   ...     'oauth_token_secret': 'YOUR_OAUTH_TOKEN_SECRET',
+   ... }
 
 Now every request you send will include your ``auth_params`` in it, and if
 valid you will get the respective response, for example:
