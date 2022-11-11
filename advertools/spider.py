@@ -13,11 +13,11 @@ terms of performance, speed, as well as flexibility and customization.
 
 There are two main approaches to crawl:
 
-1. **Discovery:** You know the website to crawl, so you provide a ``url_list``
+1. **Discovery (spider mode):** You know the website to crawl, so you provide a ``url_list``
    (one or more URLs), and you want the crawler to go through the whole
    website(s) by following all available links.
 
-2. **Pre-determined a.k.a "list mode":** You have a known set of URLs that you
+2. **Pre-determined (list mode):** You have a known set of URLs that you
    want to crawl and analyze, without following links or discovering new URLs.
 
 Discovery Crawling Approach
@@ -72,7 +72,7 @@ The names of these elements become the headers (column names) of the
 ================= =============================================================
 Element           Remarks
 ================= =============================================================
-url               The URL requested
+url               The response URL that was actually crawled. This might be different from the rquested URL in case of a redirect for example. Please check the ``redirect_*`` columns for more information.
 title             The <title> tag(s)
 viewport          The `viewport` meta tag if available
 charset           The `charset` meta tag if available
@@ -117,7 +117,7 @@ redirect_reasons  The type of redirection(s) 301, 302, etc.
 depth             The depth of the current URL, relative to the first URLs
                   where crawling started. The first pages to be crawled have a
                   depth of zero, pages linked from there, a depth of one, etc.
-status            Response status (200, 404, etc.)
+status            Response status code (200, 404, etc.)
 img_*             All available ``<img>`` tag attributes. 'alt', 'crossorigin',
                   'height', 'ismap', 'loading', 'longdesc', 'referrerpolicy',
                   'sizes', 'src', 'srcset', 'usemap',  and 'width' (excluding
