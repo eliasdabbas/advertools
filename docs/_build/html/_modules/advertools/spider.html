@@ -35,7 +35,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="../../index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.1
+                0.13.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,6 +47,7 @@ const thebe_selector_output = ".output, .cell_output"
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.survey.html">Survey - your feedback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.cli.cli.html">Command Line Interface</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">SEM</span></p>
@@ -127,11 +128,11 @@ const thebe_selector_output = ".output, .cell_output"
 
 <span class="sd">There are two main approaches to crawl:</span>
 
-<span class="sd">1. **Discovery:** You know the website to crawl, so you provide a ``url_list``</span>
+<span class="sd">1. **Discovery (spider mode):** You know the website to crawl, so you provide a ``url_list``</span>
 <span class="sd">   (one or more URLs), and you want the crawler to go through the whole</span>
 <span class="sd">   website(s) by following all available links.</span>
 
-<span class="sd">2. **Pre-determined a.k.a &quot;list mode&quot;:** You have a known set of URLs that you</span>
+<span class="sd">2. **Pre-determined (list mode):** You have a known set of URLs that you</span>
 <span class="sd">   want to crawl and analyze, without following links or discovering new URLs.</span>
 
 <span class="sd">Discovery Crawling Approach</span>
@@ -186,7 +187,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">================= =============================================================</span>
 <span class="sd">Element           Remarks</span>
 <span class="sd">================= =============================================================</span>
-<span class="sd">url               The URL requested</span>
+<span class="sd">url               The response URL that was actually crawled. This might be different from the rquested URL in case of a redirect for example. Please check the ``redirect_*`` columns for more information.</span>
 <span class="sd">title             The &lt;title&gt; tag(s)</span>
 <span class="sd">viewport          The `viewport` meta tag if available</span>
 <span class="sd">charset           The `charset` meta tag if available</span>
@@ -231,7 +232,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">depth             The depth of the current URL, relative to the first URLs</span>
 <span class="sd">                  where crawling started. The first pages to be crawled have a</span>
 <span class="sd">                  depth of zero, pages linked from there, a depth of one, etc.</span>
-<span class="sd">status            Response status (200, 404, etc.)</span>
+<span class="sd">status            Response status code (200, 404, etc.)</span>
 <span class="sd">img_*             All available ``&lt;img&gt;`` tag attributes. &#39;alt&#39;, &#39;crossorigin&#39;,</span>
 <span class="sd">                  &#39;height&#39;, &#39;ismap&#39;, &#39;loading&#39;, &#39;longdesc&#39;, &#39;referrerpolicy&#39;,</span>
 <span class="sd">                  &#39;sizes&#39;, &#39;src&#39;, &#39;srcset&#39;, &#39;usemap&#39;,  and &#39;width&#39; (excluding</span>

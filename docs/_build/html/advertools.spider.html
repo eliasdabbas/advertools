@@ -38,7 +38,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.1
+                0.13.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -50,6 +50,7 @@ const thebe_selector_output = ".output, .cell_output"
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.survey.html">Survey - your feedback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.cli.cli.html">Command Line Interface</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">SEM</span></p>
@@ -140,10 +141,10 @@ content analysis usage, and is highly configurable. The crawler uses
 terms of performance, speed, as well as flexibility and customization.</p>
 <p>There are two main approaches to crawl:</p>
 <ol class="arabic simple">
-<li><p><strong>Discovery:</strong> You know the website to crawl, so you provide a <code class="docutils literal notranslate"><span class="pre">url_list</span></code>
+<li><p><strong>Discovery (spider mode):</strong> You know the website to crawl, so you provide a <code class="docutils literal notranslate"><span class="pre">url_list</span></code>
 (one or more URLs), and you want the crawler to go through the whole
 website(s) by following all available links.</p></li>
-<li><p><strong>Pre-determined a.k.a &quot;list mode&quot;:</strong> You have a known set of URLs that you
+<li><p><strong>Pre-determined (list mode):</strong> You have a known set of URLs that you
 want to crawl and analyze, without following links or discovering new URLs.</p></li>
 </ol>
 <section id="discovery-crawling-approach">
@@ -190,8 +191,8 @@ will probably get duplicate data in the same file.</p>
 <code class="docutils literal notranslate"><span class="pre">output_file</span></code>.</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 22%" />
-<col style="width: 78%" />
+<col style="width: 8%" />
+<col style="width: 92%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Element</p></th>
@@ -200,7 +201,7 @@ will probably get duplicate data in the same file.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>url</p></td>
-<td><p>The URL requested</p></td>
+<td><p>The response URL that was actually crawled. This might be different from the rquested URL in case of a redirect for example. Please check the <code class="docutils literal notranslate"><span class="pre">redirect_*</span></code> columns for more information.</p></td>
 </tr>
 <tr class="row-odd"><td><p>title</p></td>
 <td><p>The &lt;title&gt; tag(s)</p></td>
@@ -305,7 +306,7 @@ where crawling started. The first pages to be crawled have a
 depth of zero, pages linked from there, a depth of one, etc.</p></td>
 </tr>
 <tr class="row-even"><td><p>status</p></td>
-<td><p>Response status (200, 404, etc.)</p></td>
+<td><p>Response status code (200, 404, etc.)</p></td>
 </tr>
 <tr class="row-odd"><td><p>img_*</p></td>
 <td><p>All available <code class="docutils literal notranslate"><span class="pre">&lt;img&gt;</span></code> tag attributes. 'alt', 'crossorigin',
