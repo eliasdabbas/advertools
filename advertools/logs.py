@@ -491,7 +491,7 @@ def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
                     df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
                     parsed_lines.clear()
             else:
-                print(f'Parsed {linenumber:>15,} lines.', end='\r')
+                print(f'Parsed {linenumber:>15,} lines.')
                 df = pd.DataFrame(parsed_lines, columns=columns)
                 df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
             final_df = pd.read_parquet(tempdir_name)
