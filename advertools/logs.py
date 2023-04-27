@@ -402,7 +402,7 @@ import pandas as pd
 
 LOG_FORMATS = {
     'common': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
-    'combined': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"$',
+    'combined': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"\s*$',
     'common_with_vhost': r'^(?P<vhost>\S+) (?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
     'nginx_error': r'^(?P<datetime>\d{4}/\d\d/\d\d \d\d:\d\d:\d\d) \[(?P<level>[^\]]+)\] (?P<pid>\d+)#(?P<tid>\d+): (?P<counter>\*\d+ | )?(?P<message>.*)',
     'apache_error': r'^(?P<datetime>\[[^\]]+\]) (?P<level>\[[^\]]+\]) \[pid (?P<pid>\d+)\] (?P<file>\S+):(?P<status> \S+| ):? \[client (?P<client>\S+)\] (?P<message>.*)',
@@ -491,7 +491,7 @@ def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
                     df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
                     parsed_lines.clear()
             else:
-                print(f'Parsed {linenumber:>15,} lines.', end='\r')
+                print(f'Parsed {linenumber:>15,} lines.')
                 df = pd.DataFrame(parsed_lines, columns=columns)
                 df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
             final_df = pd.read_parquet(tempdir_name)
