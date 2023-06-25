@@ -757,7 +757,7 @@ class SEOSitemapSpider(Spider):
         else:
             twtr_card = {}
         try:
-            ld = [json.loads(s.replace('\r', '')) for s in
+            ld = [json.loads(s.replace('\r', '').replace('\n', ' ')) for s in
                   response.css('script[type="application/ld+json"]::text').getall()]
             if not ld:
                 jsonld = {}
