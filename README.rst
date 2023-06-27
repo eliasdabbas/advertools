@@ -8,19 +8,6 @@
 .. image:: http://pepy.tech/badge/advertools
         :target: http://pepy.tech/project/advertools 
 
-.. image:: https://img.shields.io/lgtm/grade/python/g/eliasdabbas/advertools.svg
-        :target: https://lgtm.com/projects/g/eliasdabbas/advertools/context:python
-
-.. image:: https://badges.gitter.im/advertools/community.svg
-        :target: https://bit.ly/3hEWZCe
-
-| **Webinar:** `Creating SEM campaigns on a large scale - Wednesday April 20, 2022 <https://bit.ly/3KqAtuO>`_
-|
-| 🎉 **New:** ``crawl_headers`` Function for `crawling a known list of URLs with the HEAD method only <https://advertools.readthedocs.io/en/master/advertools.header_spider.html>`_
-| 🎊 **New:** `SEO crawler <https://advertools.readthedocs.io/en/master/advertools.spider.html>`_
-  has new options for following links, include/exclude URL params and/or URL regex.
-| 🎉 **New:** ``reverse_dns_lookup`` Function for `getting host information on a list of IP addresses <https://advertools.readthedocs.io/en/master/advertools.reverse_dns_lookup.html>`_
-
 
 ``advertools``: productivity & analysis tools to scale your online marketing
 ============================================================================
@@ -47,9 +34,7 @@ Installation
 
 .. code:: bash
 
-   pip install advertools
-   # OR:
-   pip3 install advertools
+   python3 -m pip install advertools
 
 
 SEM Campaigns
