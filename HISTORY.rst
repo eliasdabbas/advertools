@@ -2,6 +2,17 @@
 Change Log - advertools
 =======================
 
+0.13.3 (2023-06-27)
+-------------------
+
+* Changed
+    - Allow optional trailing space in log files (contributed by @andypayne)
+
+* Fixed
+    - Replace newlines with spaces while parsing JSON-LD which was causing 
+      errors in some cases.
+
+
 0.13.2 (2022-09-30)
 -------------------
 
