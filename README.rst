@@ -8,6 +8,7 @@
 .. image:: http://pepy.tech/badge/advertools
         :target: http://pepy.tech/project/advertools 
 
+**Announcing** `advertools office hours <https://bit.ly/adv-office-hours>`_: Free, live coding, for beginners (advanced users are welcome too), no recording.
 
 ``advertools``: productivity & analysis tools to scale your online marketing
 ============================================================================
