@@ -421,8 +421,12 @@ user_agent = f'advertools/{adv_version}'
 
 BODY_TEXT_SELECTOR = '//body//span//text() | //body//p//text() | //body//li//text()'
 
-_IMG_ATTRS = {'alt', 'crossorigin', 'height', 'ismap', 'loading', 'longdesc',
-              'referrerpolicy', 'sizes', 'src', 'srcset', 'usemap', 'width'}
+_IMG_ATTRS = {
+    'alt', 'crossorigin', 'decoding', 'fetchpriority', 'height', 'ismap',
+    'loading', 'referrerpolicy', 'sizes', 'src', 'srcset', 'usemap', 'width',
+    # Depracated tags, also included for completeness and QA:
+    'align', 'border', 'hspace', 'longdesc', 'name', 'vspace',
+    }
 
 
 def _crawl_or_not(url,
@@ -457,14 +461,11 @@ def _crawl_or_not(url,
 def _extract_images(response):
     page_has_images = response.xpath('//img')
     if page_has_images:
-        img_attributes = reduce(set.union,
-                                [set(x.attrib.keys())
-                                 for x in page_has_images])
-        img_attributes = img_attributes.intersection(_IMG_ATTRS)
-        d = dict()
-        for im_attr in img_attributes:
-            d['img_' + im_attr] = '@@'.join([im.attrib.get(im_attr) or ''
-                                            for im in response.xpath('//img')])
+        img_df = pd.DataFrame([x.attrib for x in response.xpath('//img')])
+        img_df = img_df.apply(lambda col: col.fillna('').str.cat(sep='@@')).to_frame().T
+        img_df = img_df[img_df.columns.intersection(_IMG_ATTRS)]
+        img_df = img_df.add_prefix('img_')
+        d = img_df.to_dict('records')[0]
         return d
     return {}
 
