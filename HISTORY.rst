@@ -2,6 +2,13 @@
 Change Log - advertools
 =======================
 
+
+0.13.4 (2023-07-26)
+-------------------
+
+* Fixed
+  -  Make img attributes consistent in length, and support all attributes.
+
 0.13.3 (2023-06-27)
 -------------------
 
