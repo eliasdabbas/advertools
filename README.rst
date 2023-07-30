@@ -8,7 +8,8 @@
 .. image:: http://pepy.tech/badge/advertools
         :target: http://pepy.tech/project/advertools 
 
-**Announcing** `advertools office hours <https://bit.ly/adv-office-hours>`_: Free, live coding and discussion.
+**Announcing** `Data Science with Python for SEO course <https://bit.ly/dsseo-course>`_: Cohort based course, interactive, live-coding.
+
 
 ``advertools``: productivity & analysis tools to scale your online marketing
 ============================================================================
