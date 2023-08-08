@@ -405,6 +405,8 @@ from gzip import GzipFile
 from urllib.request import Request, urlopen
 from xml.etree import ElementTree
 
+from datetime import datetime
+
 import pandas as pd
 
 from advertools import __version__ as version
@@ -448,7 +450,7 @@ def _parse_sitemap(root):
     return pd.DataFrame(d.values())
 
 
-def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, dt_thres=False):
+def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, last_N_days=False):
     """
     Retrieve all URLs and other available tags of a sitemap(s) and put them in
     a DataFrame.
@@ -494,7 +496,7 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, dt_thres=False):
     root = ElementTree.fromstring(xml_string)
 
     sitemap_df = pd.DataFrame()
-    dt_thres = datetime.now().date() - datetime.
+    dt_thres = datetime.now().date() - datetime.timedelta(days=int(last_N_days))
 
     if (root.tag.split('}')[-1] == 'sitemapindex') and recursive:
         multi_sitemap_df = pd.DataFrame()
@@ -511,9 +513,9 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, dt_thres=False):
                     multi_sitemap_df = pd.concat(
                         [multi_sitemap_df, error_df], ignore_index=True)
                 else:
-                    if 'lastmod' in els.keys() and dt_thres:
-                        dt = pd.to_datetime(els['lastmod']).date
-                        if els['lastmod'] >= dt_thres:
+                    if 'lastmod' in els.keys() and last_N_days:
+                        sitemap_dt = pd.to_datetime(els['lastmod']).date
+                        if sitemap_dt >= dt_thres:
                             sitemap_url_list.append(els['loc'].text)
                     else:
                         sitemap_url_list.append(els['loc'].text)
