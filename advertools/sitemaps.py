@@ -448,7 +448,7 @@ def _parse_sitemap(root):
     return pd.DataFrame(d.values())
 
 
-def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
+def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, dt_thres=False):
     """
     Retrieve all URLs and other available tags of a sitemap(s) and put them in
     a DataFrame.
@@ -494,22 +494,30 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
     root = ElementTree.fromstring(xml_string)
 
     sitemap_df = pd.DataFrame()
+    dt_thres = datetime.now().date() - datetime.
 
     if (root.tag.split('}')[-1] == 'sitemapindex') and recursive:
         multi_sitemap_df = pd.DataFrame()
         sitemap_url_list = []
         for elem in root:
-            for el in elem:
-                if 'loc' in el.tag:
-                    if el.text == sitemap_url:
-                        error_df = pd.DataFrame({
-                            'sitemap': [sitemap_url],
-                            'errors': ['WARNING: Sitemap contains a link to itself']
-                        })
-                        multi_sitemap_df = pd.concat(
-                            [multi_sitemap_df, error_df], ignore_index=True)
+            els = {el.split('}')[-1]:el for el in elem} # crea dizionario con 'loc' e 'lastmod' e tutti gli altri tag se presenti
+               
+            if 'loc' in els.keys(): # seleziona ogni url nella sitemap e verifica se punta a se stessa
+                if els['loc'].text == sitemap_url:
+                    error_df = pd.DataFrame({
+                        'sitemap': [sitemap_url],
+                        'errors': ['WARNING: Sitemap contains a link to itself']
+                    })
+                    multi_sitemap_df = pd.concat(
+                        [multi_sitemap_df, error_df], ignore_index=True)
+                else:
+                    if 'lastmod' in els.keys() and dt_thres:
+                        dt = pd.to_datetime(els['lastmod']).date
+                        if els['lastmod'] >= dt_thres:
+                            sitemap_url_list.append(els['loc'].text)
                     else:
-                        sitemap_url_list.append(el.text)
+                        sitemap_url_list.append(els['loc'].text)
+                            
         with futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
             to_do = []
             for sitemap in sitemap_url_list:
@@ -537,6 +545,7 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
         elem_df = _parse_sitemap(root)
         sitemap_df = pd.concat([sitemap_df, elem_df], ignore_index=True)
         sitemap_df['sitemap'] = [sitemap_url] if sitemap_df.empty else sitemap_url
+        
     if 'lastmod' in sitemap_df:
         try:
             sitemap_df['lastmod'] = pd.to_datetime(sitemap_df['lastmod'], utc=True)
