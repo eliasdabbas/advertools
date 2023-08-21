@@ -101,6 +101,9 @@ class HeadersSpider(Spider):
         'USER_AGENT': user_agent,
         'ROBOTSTXT_OBEY': True,
         'HTTPERROR_ALLOW_ALL': True,
+        'AUTOTHROTTLE_ENABLED': True,
+        'AUTOTHROTTLE_TARGET_CONCURRENCY': 8,
+
     }
 
     def __init__(self, url_list=None, *args, **kwargs):
