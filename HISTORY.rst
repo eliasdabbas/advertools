@@ -3,6 +3,15 @@ Change Log - advertools
 =======================
 
 
+0.13.5 (2023-08-22)
+-------------------
+
+* Added
+    - Initial experimental functionality for ``crawl_images``.
+
+* Changed
+    - Enable autothrottling by default for ``crawl_headers``.
+
 0.13.4 (2023-07-26)
 -------------------
 
