@@ -11,6 +11,8 @@ import advertools as adv
 
 image_spider_path = adv.__path__[0] + '/image_spider.py'
 
+user_agent = f'advertools/{adv.__version__}'
+
 
 class ImgItem(Item):
     image_urls = Field()
@@ -28,6 +30,9 @@ class ImageSpider(Spider):
     name = 'image_spider'
     include_img_regex = None
     custom_settings = {
+        'USER_AGENT': user_agent,
+        'ROBOTSTXT_OBEY': True,
+        'HTTPERROR_ALLOW_ALL': True,
         'ITEM_PIPELINES': {AdvImagesPipeline: 1},
         'AUTOTHROTTLE_ENABLED': True,
         'AUTOTHROTTLE_TARGET_CONCURRENCY': 8,
