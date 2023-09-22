@@ -5,8 +5,9 @@
         :target: https://advertools.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: http://pepy.tech/badge/advertools
+.. image:: https://static.pepy.tech/badge/advertools
         :target: http://pepy.tech/project/advertools 
+
 
 **Announcing** `Data Science with Python for SEO course <https://bit.ly/dsseo-course>`_: Cohort based course, interactive, live-coding.
 
