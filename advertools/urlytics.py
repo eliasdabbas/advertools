@@ -196,7 +196,7 @@ def url_to_df(urls, decode=True):
         df = df.drop(dirs_df.columns, axis=1)
         dirs_df = (dirs_df
                    .assign(last_dir=dirs_df
-                   .fillna(method='ffill', axis=1)
+                   .ffill(axis=1)
                    .iloc[:, -1:]
                    .squeeze()))
     df = pd.concat([df, dirs_df, query_df], axis=1).replace('', np.nan)
