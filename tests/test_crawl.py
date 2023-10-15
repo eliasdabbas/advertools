@@ -87,6 +87,8 @@ def test_all_img_attrs_have_same_length():
             .apply(lambda s: s.str.split('@@').str.len())
             .apply(set, axis=1)[0].__len__()) == 1
 
+def test_img_src_has_abs_path():
+    assert crawl_df['img_src'].str.startswith('http').all()
 
 dup_links_test = (['https://example_a.com' for i in range(5)] +
                   ['https://example.com'])

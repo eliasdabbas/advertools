@@ -462,6 +462,8 @@ def _extract_images(response):
     page_has_images = response.xpath('//img')
     if page_has_images:
         img_df = pd.DataFrame([x.attrib for x in response.xpath('//img')])
+        if 'src' in img_df:
+            img_df['src'] = [response.urljoin(url) for url in img_df['src']]
         img_df = img_df.apply(lambda col: col.fillna('').str.cat(sep='@@')).to_frame().T
         img_df = img_df[img_df.columns.intersection(_IMG_ATTRS)]
         img_df = img_df.add_prefix('img_')
