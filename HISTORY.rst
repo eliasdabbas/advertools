@@ -2,6 +2,11 @@
 Change Log - advertools
 =======================
 
+0.14.0 (unreleased)
+-------------------
+
+* Fixed
+    - Always get absolute path for img src while crawling.
 
 0.13.5 (2023-08-22)
 -------------------
