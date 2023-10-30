@@ -25,5 +25,5 @@ def headers_crawl_df(crawl_dir):
         },
     )
 
-    df = read_json(crawl_dir.joinpath("headers_output.jl"), lines=True)
+    df = read_json(str(crawl_dir.joinpath("headers_output.jl")), lines=True)
     return df
