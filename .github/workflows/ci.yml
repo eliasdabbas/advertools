@@ -1,6 +1,6 @@
-name: CI
+name: Python package CI
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
@@ -8,14 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.8", "3.9", "3.10", "3.11"]
+        python: ["3.8", 3.9", "3.10", "3.11"]
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
-      - name Install Tox and other packages
+      - name: Install tox and any other packages
         run: pip install tox
-      - name: Run Tox
-        run: tox
+      - name: Run tox
+        run: tox -e py
