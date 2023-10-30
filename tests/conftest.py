@@ -10,7 +10,7 @@ from advertools import crawl_headers
 @pytest.fixture(scope="module")
 def crawl_dir():
     with TemporaryDirectory() as temp_dir:
-        return Path(temp_dir)
+        return Path(temp_dir).absolute()
 
 
 @pytest.fixture(scope="module")
