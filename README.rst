@@ -125,7 +125,7 @@ Text & Content Analysis (for SEO & Social Media)
 ------------------------------------------------
 
 URLs, page titles, tweets, video descriptions, comments, hashtags are some
-exmaples of the types of text we deal with. ``advertools`` provides a few
+examples of the types of text we deal with. ``advertools`` provides a few
 options for text analysis
 
 
