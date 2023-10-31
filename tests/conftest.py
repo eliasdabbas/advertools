@@ -1,8 +1,8 @@
+import platform
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
 import pytest
-import system
 from pandas import read_json
 
 from advertools import crawl_headers
@@ -25,7 +25,7 @@ def headers_crawl_df(crawl_dir):
         },
     )
     filepath = crawl_dir.joinpath("headers_output.jl")
-    if system.platform == "Windows":
+    if platform.system == "Windows":
         filepath = filepath.replace("/", r"\\")
 
     df = read_json(filepath, lines=True)
