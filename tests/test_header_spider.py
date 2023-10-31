@@ -11,6 +11,6 @@ def test_crawl_headers_raises_on_wrong_file_extension():
 
 
 @pytest.mark.parametrize("column", ["url", "crawl_time", "status"])
+@pytest.mark.skipif(platform.system() == "Windows", reason="Skip if on Windows")
 def test_crawl_headers_returns_df(headers_crawl_df, column):
-    if platform.system() != "Windows":
-        assert column in headers_crawl_df
+    assert column in headers_crawl_df
