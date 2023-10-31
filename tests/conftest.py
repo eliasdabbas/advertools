@@ -2,6 +2,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 import pytest
+import system
 from pandas import read_json
 
 from advertools import crawl_headers
@@ -23,6 +24,9 @@ def headers_crawl_df(crawl_dir):
             "DEFAULT_REQUEST_HEADERS": {"Accept-Language": "en"},
         },
     )
+    filepath = crawl_dir.joinpath("headers_output.jl")
+    if system.platform == "Windows":
+        filepath = filepath.replace("/", r"\\")
 
-    df = read_json(crawl_dir.joinpath("headers_output.jl"), lines=True)
+    df = read_json(filepath, lines=True)
     return df
