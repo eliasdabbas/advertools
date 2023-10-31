@@ -7,13 +7,13 @@ from pandas import read_json
 from advertools import crawl_headers
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def crawl_dir():
     with TemporaryDirectory() as temp_dir:
         return Path(temp_dir).absolute()
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def headers_crawl_df(crawl_dir):
     crawl_headers(
         ["https://adver.tools", "does not exist dot com"],
