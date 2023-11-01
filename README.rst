@@ -84,7 +84,7 @@ with your SEO
   features:
 
   * Standard SEO elements extracted by default (title, header tags, body text,
-    status code, reponse and request headers, etc.)
+    status code, response and request headers, etc.)
   * CSS and XPath selectors: You probably have more specific needs in mind, so
     you can easily pass any selectors to be extracted in addition to the
     standard elements being extracted
@@ -125,7 +125,7 @@ Text & Content Analysis (for SEO & Social Media)
 ------------------------------------------------
 
 URLs, page titles, tweets, video descriptions, comments, hashtags are some
-exmaples of the types of text we deal with. ``advertools`` provides a few
+examples of the types of text we deal with. ``advertools`` provides a few
 options for text analysis
 
 
