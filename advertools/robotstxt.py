@@ -302,7 +302,7 @@ Let's see who is and who is not allowed to fetch the home page.
 I'll leave it to you to figure out why LinkedIn and Pinterest are not allowed
 to crawl the home page but Google and Apple are, because I have no clue!
 """
-__all__ = ['robotstxt_to_df', 'robotstxt_test']
+__all__ = ["robotstxt_to_df", "robotstxt_test"]
 
 import gzip
 import logging
@@ -315,9 +315,9 @@ from protego import Protego
 
 from advertools import __version__ as version
 
-headers = {'User-Agent': 'advertools-' + version}
+headers = {"User-Agent": "advertools-" + version}
 
-gzip_start_bytes = b'\x1f\x8b'
+gzip_start_bytes = b"\x1f\x8b"
 
 logging.basicConfig(level=logging.INFO)
 
@@ -372,54 +372,52 @@ def robotstxt_to_df(robotstxt_url, output_file=None):
     :returns DataFrame robotstxt_df: A DataFrame containing directives, their
                                      content, the URL and time of download
     """
-    if output_file is not None and (not output_file.endswith('.jl')):
-        raise ValueError('Please specify a file with a `.jl` extension.')
+    if output_file is not None and (not output_file.endswith(".jl")):
+        raise ValueError("Please specify a file with a `.jl` extension.")
     if isinstance(robotstxt_url, (list, tuple, set, pd.Series)):
         return _robots_multi(robotstxt_url, output_file)
     else:
         try:
-            logging.info(msg='Getting: ' + robotstxt_url)
-            robots_open = urlopen(Request(robotstxt_url, headers=headers),
-                                  timeout=45)
+            logging.info(msg="Getting: " + robotstxt_url)
+            robots_open = urlopen(Request(robotstxt_url, headers=headers), timeout=45)
             robots_read = robots_open.read()
             if robots_read.startswith(gzip_start_bytes):
                 data = gzip.decompress(robots_read)
-                robots_text = data.decode('utf-8-sig').splitlines()
+                robots_text = data.decode("utf-8-sig").splitlines()
             else:
-                robots_text = robots_read.decode('utf-8-sig').splitlines()
+                robots_text = robots_read.decode("utf-8-sig").splitlines()
             lines = []
             for line in robots_text:
                 if line.strip():
-                    if line.strip().startswith('#'):
-                        lines.append(['comment',
-                                      (line.replace('#', '').strip())])
+                    if line.strip().startswith("#"):
+                        lines.append(["comment", (line.replace("#", "").strip())])
                     else:
-                        split = line.split(':', maxsplit=1)
+                        split = line.split(":", maxsplit=1)
                         lines.append([split[0].strip(), split[1].strip()])
-            df = pd.DataFrame(lines, columns=['directive', 'content'])
+            df = pd.DataFrame(lines, columns=["directive", "content"])
             try:
-                etag_lastmod = {header.lower().replace('-', '_'): val
-                                for header, val in robots_open.getheaders()
-                                if header.lower() in ['etag', 'last-modified']}
+                etag_lastmod = {
+                    header.lower().replace("-", "_"): val
+                    for header, val in robots_open.getheaders()
+                    if header.lower() in ["etag", "last-modified"]
+                }
                 df = df.assign(**etag_lastmod)
-                if 'last_modified' in df:
-                    df['robotstxt_last_modified'] = pd.to_datetime(df['last_modified'])
-                    del df['last_modified']
+                if "last_modified" in df:
+                    df["robotstxt_last_modified"] = pd.to_datetime(df["last_modified"])
+                    del df["last_modified"]
             except AttributeError:
                 pass
         except Exception as e:
-            df = pd.DataFrame({'errors': [str(e)]})
+            df = pd.DataFrame({"errors": [str(e)]})
         try:
-            df['robotstxt_url'] = [robots_open.url] if df.empty else robots_open.url
+            df["robotstxt_url"] = [robots_open.url] if df.empty else robots_open.url
         except UnboundLocalError:
-            df['robotstxt_url'] = [robotstxt_url] if df.empty else robotstxt_url
-        df['download_date'] = pd.Timestamp.now(tz='UTC')
+            df["robotstxt_url"] = [robotstxt_url] if df.empty else robotstxt_url
+        df["download_date"] = pd.Timestamp.now(tz="UTC")
         if output_file is not None:
-            with open(output_file, 'a') as file:
-                file.write(df.to_json(orient='records',
-                                      lines=True,
-                                      date_format='iso'))
-                file.write('\n')
+            with open(output_file, "a") as file:
+                file.write(df.to_json(orient="records", lines=True, date_format="iso"))
+                file.write("\n")
         else:
             return df
 
@@ -436,14 +434,15 @@ def _robots_multi(robots_url_list, output_file=None):
         for future in done_iter:
             future_result = future.result()
             if output_file is not None:
-                with open(output_file, 'a') as file:
-                    file.write(future_result.to_json(orient='records',
-                                                     lines=True,
-                                                     date_format='iso'))
-                    file.write('\n')
+                with open(output_file, "a") as file:
+                    file.write(
+                        future_result.to_json(
+                            orient="records", lines=True, date_format="iso"
+                        )
+                    )
+                    file.write("\n")
             else:
-                final_df = pd.concat([final_df, future_result],
-                                     ignore_index=True)
+                final_df = pd.concat([final_df, future_result], ignore_index=True)
     if output_file is None:
         return final_df
 
@@ -478,25 +477,25 @@ def robotstxt_test(robotstxt_url, user_agents, urls):
                            check
     :return DataFrame robotstxt_test_df:
     """
-    if not robotstxt_url.endswith('/robots.txt'):
-        raise ValueError('Please make sure you enter a valid robots.txt URL')
+    if not robotstxt_url.endswith("/robots.txt"):
+        raise ValueError("Please make sure you enter a valid robots.txt URL")
     if isinstance(user_agents, str):
         user_agents = [user_agents]
     if isinstance(urls, str):
         urls = [urls]
     robots_open = urlopen(Request(robotstxt_url, headers=headers))
     robots_bytes = robots_open.readlines()
-    robots_text = ''.join(line.decode() for line in robots_bytes)
+    robots_text = "".join(line.decode() for line in robots_bytes)
     rp = Protego.parse(robots_text)
 
     test_list = []
     for path, agent in product(urls, user_agents):
         d = dict()
-        d['user_agent'] = agent
-        d['url_path'] = path
-        d['can_fetch'] = rp.can_fetch(path, agent)
+        d["user_agent"] = agent
+        d["url_path"] = path
+        d["can_fetch"] = rp.can_fetch(path, agent)
         test_list.append(d)
     df = pd.DataFrame(test_list)
-    df.insert(0, 'robotstxt_url', robotstxt_url)
-    df = df.sort_values(['user_agent', 'url_path']).reset_index(drop=True)
+    df.insert(0, "robotstxt_url", robotstxt_url)
+    df = df.sort_values(["user_agent", "url_path"]).reset_index(drop=True)
     return df
