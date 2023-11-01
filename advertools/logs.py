@@ -401,24 +401,53 @@ import numpy as np
 import pandas as pd
 
 LOG_FORMATS = {
-    'common': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
-    'combined': r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"\s*$',
-    'common_with_vhost': r'^(?P<vhost>\S+) (?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
-    'nginx_error': r'^(?P<datetime>\d{4}/\d\d/\d\d \d\d:\d\d:\d\d) \[(?P<level>[^\]]+)\] (?P<pid>\d+)#(?P<tid>\d+): (?P<counter>\*\d+ | )?(?P<message>.*)',
-    'apache_error': r'^(?P<datetime>\[[^\]]+\]) (?P<level>\[[^\]]+\]) \[pid (?P<pid>\d+)\] (?P<file>\S+):(?P<status> \S+| ):? \[client (?P<client>\S+)\] (?P<message>.*)',
+    "common": r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
+    "combined": r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"\s*$',
+    "common_with_vhost": r'^(?P<vhost>\S+) (?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
+    "nginx_error": r"^(?P<datetime>\d{4}/\d\d/\d\d \d\d:\d\d:\d\d) \[(?P<level>[^\]]+)\] (?P<pid>\d+)#(?P<tid>\d+): (?P<counter>\*\d+ | )?(?P<message>.*)",
+    "apache_error": r"^(?P<datetime>\[[^\]]+\]) (?P<level>\[[^\]]+\]) \[pid (?P<pid>\d+)\] (?P<file>\S+):(?P<status> \S+| ):? \[client (?P<client>\S+)\] (?P<message>.*)",
 }
 
 LOG_FIELDS = {
-    'common': ['client', 'userid', 'datetime', 'method', 'request', 'status',
-               'size'],
-    'combined': ['client', 'userid', 'datetime', 'method', 'request', 'status',
-                 'size', 'referer', 'user_agent'],
-    'common_with_vhost': ['virtual_host', 'client', 'userid', 'datetime',
-                          'method', 'request', 'status', 'size'],
-    'nginx_error': ['datetime', 'level', 'process_id', 'thread_id', 'counter',
-                    'message'],
-    'apache_error': ['datetime', 'level', 'process_id', 'file', 'status',
-                     'client', 'message'],
+    "common": ["client", "userid", "datetime", "method", "request", "status", "size"],
+    "combined": [
+        "client",
+        "userid",
+        "datetime",
+        "method",
+        "request",
+        "status",
+        "size",
+        "referer",
+        "user_agent",
+    ],
+    "common_with_vhost": [
+        "virtual_host",
+        "client",
+        "userid",
+        "datetime",
+        "method",
+        "request",
+        "status",
+        "size",
+    ],
+    "nginx_error": [
+        "datetime",
+        "level",
+        "process_id",
+        "thread_id",
+        "counter",
+        "message",
+    ],
+    "apache_error": [
+        "datetime",
+        "level",
+        "process_id",
+        "file",
+        "status",
+        "client",
+        "message",
+    ],
 }
 
 
@@ -446,10 +475,10 @@ def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
     :param str log_file: The path to the log file.
     :param str output_file: The path to the desired output file. Must have a
                             ".parquet" extension, and must not have the same
-                            path as an existing file. 
+                            path as an existing file.
     :param str errors_file: The path where the parsing errors are stored. Any
                             text format works, CSV is recommended to easily
-                            open it with any CSV reader with the separator as 
+                            open it with any CSV reader with the separator as
                             "@@".
     :param str log_format: Either the name of one of the supported log formats,
                            or a regex of your own format.
@@ -458,14 +487,17 @@ def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
                        custom (regex) ``log_format``.
 
     """
-    if not output_file.endswith('.parquet'):
-        raise ValueError("Please provide an `output_file` with a `.parquet` "
-                         "extension.")
+    if not output_file.endswith(".parquet"):
+        raise ValueError(
+            "Please provide an `output_file` with a `.parquet` " "extension."
+        )
     for file in [output_file, errors_file]:
         if os.path.exists(file):
-            raise ValueError(f"The file '{file}' already exists. "
-                             "Please rename it, delete it, or choose another "
-                             "file name/path.")
+            raise ValueError(
+                f"The file '{file}' already exists. "
+                "Please rename it, delete it, or choose another "
+                "file name/path."
+            )
 
     regex = LOG_FORMATS.get(log_format) or log_format
     columns = fields or LOG_FIELDS[log_format]
@@ -480,29 +512,29 @@ def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
                     log_line = re.findall(regex, line)[0]
                     parsed_lines.append(log_line)
                 except Exception as e:
-                    with open(errors_file, 'at') as err:
-                        err_line = line[:-1] if line.endswith('\n') else line
-                        print('@@'.join([str(linenumber), err_line, str(e)]),
-                              file=err)
+                    with open(errors_file, "at") as err:
+                        err_line = line[:-1] if line.endswith("\n") else line
+                        print("@@".join([str(linenumber), err_line, str(e)]), file=err)
                     pass
                 if linenumber % 250_000 == 0:
-                    print(f'Parsed {linenumber:>15,} lines.', end='\r')
+                    print(f"Parsed {linenumber:>15,} lines.", end="\r")
                     df = pd.DataFrame(parsed_lines, columns=columns)
-                    df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
+                    df.to_parquet(tempdir_name / f"file_{linenumber}.parquet")
                     parsed_lines.clear()
             else:
-                print(f'Parsed {linenumber:>15,} lines.')
+                print(f"Parsed {linenumber:>15,} lines.")
                 df = pd.DataFrame(parsed_lines, columns=columns)
-                df.to_parquet(tempdir_name / f'file_{linenumber}.parquet')
+                df.to_parquet(tempdir_name / f"file_{linenumber}.parquet")
             final_df = pd.read_parquet(tempdir_name)
             try:
-                final_df['status'] = final_df['status'].astype('category')
-                final_df['method'] = final_df['method'].astype('category')
-                final_df['size'] = pd.to_numeric(final_df['size'].replace('-', np.nan),
-                                                 downcast='signed')
+                final_df["status"] = final_df["status"].astype("category")
+                final_df["method"] = final_df["method"].astype("category")
+                final_df["size"] = pd.to_numeric(
+                    final_df["size"].replace("-", np.nan), downcast="signed"
+                )
             except KeyError:
                 pass
-            final_df.to_parquet(output_file, index=False, version='2.6')
+            final_df.to_parquet(output_file, index=False, version="2.6")
 
 
 def crawllogs_to_df(logs_file_path):
@@ -530,32 +562,75 @@ def crawllogs_to_df(logs_file_path):
 
     :returns DataFrame crawl_logs_df: A DataFrame summarizing the logs.
     """
-    time_middleware_level = "(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d) \[(.*?)\] ([A-Z]+): "
-    time_middleware_level_error = "(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d) \[(.*?)\] (ERROR): "
+    time_middleware_level = r"(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d) \[(.*?)\] ([A-Z]+): "
+    time_middleware_level_error = (
+        r"(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d) \[(.*?)\] (ERROR): "
+    )
 
-    filtered_regex = time_middleware_level + "(Filtered) offsite request to '(.*?)': <([A-Z]+) (.*?)>" 
-    filtered_cols = ['time', 'middleware', 'level', 'message', 'domain', 'method', 'url']
+    filtered_regex = (
+        time_middleware_level
+        + "(Filtered) offsite request to '(.*?)': <([A-Z]+) (.*?)>"
+    )
+    filtered_cols = [
+        "time",
+        "middleware",
+        "level",
+        "message",
+        "domain",
+        "method",
+        "url",
+    ]
 
-    crawled_regex = time_middleware_level + "(Crawled) \((\d\d\d)\) <([A-Z]+) (.*?)> \(referer: (.*?)\)" 
-    crawled_cols = ['time', 'middleware', 'level', 'message', 'status', 'method', 'url', 'referer']
+    crawled_regex = (
+        time_middleware_level
+        + r"(Crawled) \((\d\d\d)\) <([A-Z]+) (.*?)> \(referer: (.*?)\)"
+    )
+    crawled_cols = [
+        "time",
+        "middleware",
+        "level",
+        "message",
+        "status",
+        "method",
+        "url",
+        "referer",
+    ]
 
-    scraped_regex = time_middleware_level + "(Scraped) from <(\d\d\d) (.*?)>" 
-    scraped_cols = ['time', 'middleware', 'level', 'message', 'status', 'url']
+    scraped_regex = time_middleware_level + r"(Scraped) from <(\d\d\d) (.*?)>"
+    scraped_cols = ["time", "middleware", "level", "message", "status", "url"]
 
-    redirect_regex = time_middleware_level + "(Redirect)ing \((\d\d\d)\) to <([A-Z]+) (.*?)> from <([A-Z]+) (.*?)>"
-    redirect_cols = ['time', 'middleware', 'level', 'message', 'status', 'method_to', 'redirect_to', 'method_from', 'redirect_from']
+    redirect_regex = (
+        time_middleware_level
+        + r"(Redirect)ing \((\d\d\d)\) to <([A-Z]+) (.*?)> from <([A-Z]+) (.*?)>"
+    )
+    redirect_cols = [
+        "time",
+        "middleware",
+        "level",
+        "message",
+        "status",
+        "method_to",
+        "redirect_to",
+        "method_from",
+        "redirect_from",
+    ]
 
-    blocked_regex = time_middleware_level + "(Forbidden) by robots\.txt: <([A-Z]+) (.*?)>"
-    blocked_cols = ['time', 'middleware', 'level', 'message', 'method', 'blocked_urls']
+    blocked_regex = (
+        time_middleware_level + r"(Forbidden) by robots\.txt: <([A-Z]+) (.*?)>"
+    )
+    blocked_cols = ["time", "middleware", "level", "message", "method", "blocked_urls"]
 
-    error_regex = time_middleware_level + "Spider (error) processing <([A-Z]+) (.*?)> \(referer: (.*?)\)"
-    error_cols = ['time', 'middleware', 'level', 'message', 'method', 'url', 'referer']
+    error_regex = (
+        time_middleware_level
+        + r"Spider (error) processing <([A-Z]+) (.*?)> \(referer: (.*?)\)"
+    )
+    error_cols = ["time", "middleware", "level", "message", "method", "url", "referer"]
 
-    error_level_regex = time_middleware_level_error  + '(.*)? (\d\d\d) (http.*)'
-    error_level_cols = ['time', 'middleware', 'level', 'message', 'status', 'url']
+    error_level_regex = time_middleware_level_error + r"(.*)? (\d\d\d) (http.*)"
+    error_level_cols = ["time", "middleware", "level", "message", "status", "url"]
 
-    generic_error_regex = time_middleware_level_error + '(.*)'
-    generic_error_cols = ['time', 'middleware', 'level', 'message']
+    generic_error_regex = time_middleware_level_error + "(.*)"
+    generic_error_cols = ["time", "middleware", "level", "message"]
 
     filtered_lines = []
     crawled_lines = []
@@ -585,18 +660,20 @@ def crawllogs_to_df(logs_file_path):
             if re.findall(generic_error_regex, line):
                 generic_error_lines.append(re.findall(generic_error_regex, line)[0])
 
-    final_df = pd.concat([
-        pd.DataFrame(filtered_lines, columns=filtered_cols),
-        pd.DataFrame(crawled_lines, columns=crawled_cols),
-        pd.DataFrame(scraped_lines, columns=scraped_cols),
-        pd.DataFrame(redirect_lines, columns=redirect_cols),
-        pd.DataFrame(blocked_lines, columns=blocked_cols),
-        pd.DataFrame(error_lines, columns=error_cols),
-        pd.DataFrame(error_lvl_lines, columns=error_level_cols),
-        pd.DataFrame(generic_error_lines, columns=generic_error_cols),
-    ])
+    final_df = pd.concat(
+        [
+            pd.DataFrame(filtered_lines, columns=filtered_cols),
+            pd.DataFrame(crawled_lines, columns=crawled_cols),
+            pd.DataFrame(scraped_lines, columns=scraped_cols),
+            pd.DataFrame(redirect_lines, columns=redirect_cols),
+            pd.DataFrame(blocked_lines, columns=blocked_cols),
+            pd.DataFrame(error_lines, columns=error_cols),
+            pd.DataFrame(error_lvl_lines, columns=error_level_cols),
+            pd.DataFrame(generic_error_lines, columns=generic_error_cols),
+        ]
+    )
 
-    final_df['time'] = pd.to_datetime(final_df['time'])
-    final_df = final_df.sort_values('time').reset_index(drop=True)
+    final_df["time"] = pd.to_datetime(final_df["time"])
+    final_df = final_df.sort_values("time").reset_index(drop=True)
 
     return final_df
