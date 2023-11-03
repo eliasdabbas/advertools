@@ -40,6 +40,48 @@ Installation
    python3 -m pip install advertools
 
 
+Philosophy/approach
+-------------------
+
+It's very easy to learn how to use advertools. There are two main reasons for that.
+
+First, it is essentially a set of independent functions that you can easily learn and 
+use. There are no special data structures, or additional learning that you need. With 
+basic Python, and an understanding of the tasks that these functions help with, you 
+should be able to pick it up fairly easily. In other words, if you know how to use an 
+Excel formula, you can easily use any advertools function.
+
+The second reason is that `advertools` follows the UNIX philosophy in its design and 
+approach. Here is one of the various summaries of the UNIX philosophy by Doug McIlroy: 
+
+  Write programs that do one thing and do it well. Write programs to work together. 
+  Write programs to handle text streams, because that is a universal interface.
+
+Let's see how advertools follows that:
+
+**Do one thing and do it well:** Each function in advertools aims for that. There is a 
+function that just extracts hashtags from a text list, another one to crawl websites, 
+one to test which URLs are blocked by robots.txt files, and one downloading XML 
+sitemaps. Although they are designed to work together as a full pipeline, they can be 
+run independently in whichever combination or sequence you want.
+
+**Write programs to work together:** Independence does not mean they are unrelated. The 
+workflows are designed to aid the online marketing practitioner in various steps for 
+understanding websites, SEO analysis, creating SEM campaigns and others.
+
+**Programs to handle text streams because that is a universal interface:** In Data 
+Science the most used data structure that can be considered “universal” is the 
+DataFrame. So, most functions return either a DataFrame or a file that can be read into 
+one. Once you have it, you have the full power of all other tools like pandas for 
+further manipulating the data, Plotly for visualization, or any machine learning 
+library that can more easily handle tabular data.
+
+This way it is kept modular as well as flexible and integrated. 
+As a next step most of these functions are being converted to no-code
+`interactive apps <https://adver.tools>`_ for non-coders, and to take them to the next 
+level.
+
+
 SEM Campaigns
 -------------
 The most important thing to achieve in SEM is a proper mapping between the
