@@ -61,7 +61,7 @@ Let's see how advertools follows that:
 
 **Do one thing and do it well:** Each function in advertools aims for that. There is a 
 function that just extracts hashtags from a text list, another one to crawl websites, 
-one to test which URLs are blocked by robots.txt files, and one downloading XML 
+one to test which URLs are blocked by robots.txt files, and one for downloading XML 
 sitemaps. Although they are designed to work together as a full pipeline, they can be 
 run independently in whichever combination or sequence you want.
 
@@ -78,7 +78,7 @@ library that can more easily handle tabular data.
 
 This way it is kept modular as well as flexible and integrated. 
 As a next step most of these functions are being converted to no-code
-`interactive apps <https://adver.tools>`_ for non-coders, and to take them to the next 
+`interactive apps <https://adver.tools>`_ for non-coders, and taking them to the next 
 level.
 
 
