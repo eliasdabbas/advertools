@@ -504,27 +504,25 @@ def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
     with TemporaryDirectory() as tempdir:
         tempdir_name = Path(tempdir)
         with open(log_file) as source_file:
-            linenumber = 0
             parsed_lines = []
-            for line in source_file:
-                linenumber += 1
+            for i, line in enumerate(source_file):
                 try:
                     log_line = re.findall(regex, line)[0]
                     parsed_lines.append(log_line)
                 except Exception as e:
                     with open(errors_file, "at") as err:
                         err_line = line[:-1] if line.endswith("\n") else line
-                        print("@@".join([str(linenumber), err_line, str(e)]), file=err)
+                        print("@@".join([str(i), err_line, str(e)]), file=err)
                     pass
-                if linenumber % 250_000 == 0:
-                    print(f"Parsed {linenumber:>15,} lines.", end="\r")
+                if i % 250_000 == 0:
+                    print(f"Parsed {i:>15,} lines.", end="\r")
                     df = pd.DataFrame(parsed_lines, columns=columns)
-                    df.to_parquet(tempdir_name / f"file_{linenumber}.parquet")
+                    df.to_parquet(tempdir_name / f"file_{i}.parquet")
                     parsed_lines.clear()
             else:
-                print(f"Parsed {linenumber:>15,} lines.")
+                print(f"Parsed {i:>15,} lines.")
                 df = pd.DataFrame(parsed_lines, columns=columns)
-                df.to_parquet(tempdir_name / f"file_{linenumber}.parquet")
+                df.to_parquet(tempdir_name / f"file_{i}.parquet")
             final_df = pd.read_parquet(tempdir_name)
             try:
                 final_df["status"] = final_df["status"].astype("category")
