@@ -395,7 +395,7 @@ The DataFrame might contain the following columns:
 import os
 import re
 from pathlib import Path
-from tempfile import TemporaryDirectory
+from tempfile import TemporaryDirectory, TemporaryFile
 
 import numpy as np
 import pandas as pd
@@ -451,7 +451,9 @@ LOG_FIELDS = {
 }
 
 
-def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
+def logs_to_df(
+    log_file, output_file, errors_file, log_format, fields=None, encoding="utf-8"
+):
     """Parse and compress any log file into a DataFrame format.
 
     Convert a log file to a `parquet` file in a DataFrame format, and save all
@@ -485,32 +487,27 @@ def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
     :param str fields: A list of fields, which will become the names of columns
                        in ``output_file``. Only required if you provide a
                        custom (regex) ``log_format``.
-
+    :param str encoding: The encoding of the log file. It defaults to utf-8, but
+                         you might need to try others in case of errors
+                         (latin-1, utf-16, etc.)
     """
     if not output_file.endswith(".parquet"):
         raise ValueError(
             "Please provide an `output_file` with a `.parquet` " "extension."
         )
-    for file in [output_file, errors_file]:
-        if os.path.exists(file):
-            raise ValueError(
-                f"The file '{file}' already exists. "
-                "Please rename it, delete it, or choose another "
-                "file name/path."
-            )
 
     regex = LOG_FORMATS.get(log_format) or log_format
     columns = fields or LOG_FIELDS[log_format]
     with TemporaryDirectory() as tempdir:
         tempdir_name = Path(tempdir)
-        with open(log_file) as source_file:
+        with open(log_file, encoding=encoding) as source_file:
             parsed_lines = []
             for i, line in enumerate(source_file):
                 try:
-                    log_line = re.findall(regex, line)[0]
+                    log_line = re.findall(regex, str(line))[0]
                     parsed_lines.append(log_line)
                 except Exception as e:
-                    with open(errors_file, "at") as err:
+                    with open(tempdir_name / "errors.txt", "at") as err:
                         err_line = line[:-1] if line.endswith("\n") else line
                         print("@@".join([str(i), err_line, str(e)]), file=err)
                     pass
@@ -521,6 +518,11 @@ def logs_to_df(log_file, output_file, errors_file, log_format, fields=None):
                     parsed_lines.clear()
             else:
                 print(f"Parsed {i:>15,} lines.")
+                with open(tempdir_name / "errors.txt", "rt") as err_final:
+                    err_content = err_final.read()
+                    with open(errors_file, "wt") as errout:
+                        errout.write(err_content)
+                os.remove(tempdir_name / "errors.txt")
                 df = pd.DataFrame(parsed_lines, columns=columns)
                 df.to_parquet(tempdir_name / f"file_{i}.parquet")
             final_df = pd.read_parquet(tempdir_name)
