@@ -518,11 +518,14 @@ def logs_to_df(
                     parsed_lines.clear()
             else:
                 print(f"Parsed {i:>15,} lines.")
-                with open(tempdir_name / "errors.txt", "rt") as err_final:
-                    err_content = err_final.read()
-                    with open(errors_file, "wt") as errout:
-                        errout.write(err_content)
-                os.remove(tempdir_name / "errors.txt")
+                try:
+                    with open(tempdir_name / "errors.txt", "rt") as err_final:
+                        err_content = err_final.read()
+                        with open(errors_file, "wt") as errout:
+                            errout.write(err_content)
+                    os.remove(tempdir_name / "errors.txt")
+                except FileNotFoundError:
+                    pass
                 df = pd.DataFrame(parsed_lines, columns=columns)
                 df.to_parquet(tempdir_name / f"file_{i}.parquet")
             final_df = pd.read_parquet(tempdir_name)
