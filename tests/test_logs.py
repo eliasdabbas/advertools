@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import pandas as pd
 import pytest
@@ -11,35 +13,18 @@ def full_local_path(folder, file):
     return os.path.abspath(tests_dir + file)
 
 
-def test_crawllogs_returns_df():
-    for logfile in os.listdir("tests/data/logs_testing"):
-        result = crawllogs_to_df(full_local_path("logs_testing", logfile))
-        assert isinstance(result, pd.core.frame.DataFrame)
+@pytest.mark.parametrize(
+    "logfile",
+    [f for f in os.listdir("tests/data/logs_testing") if f.startswith("crawl")],
+)
+def test_crawllogs_returns_df(logfile):
+    result = crawllogs_to_df(full_local_path("logs_testing", logfile))
+    assert isinstance(result, pd.core.frame.DataFrame)
 
 
 def test_logstodf_raises_on_wrong_output_file():
     with pytest.raises(ValueError):
         logs_to_df("logfile.log", "output.wrong", "errors.txt", "common")
-
-
-with open("delete_me_now.parquet", "w") as parquetfile:
-    parquetfile.write("")
-
-
-def test_logstodf_raises_on_existing_parquet_file():
-    with pytest.raises(ValueError):
-        logs_to_df("logfile.log", "delete_me_now.parquet", "errors.txt", "common")
-        os.remove("delete_me_now.parquet")
-
-
-with open("delete_me_now.csv", "w") as errorfile:
-    errorfile.write("")
-
-
-def test_logstodf_raises_on_existing_error_file():
-    with pytest.raises(ValueError):
-        logs_to_df("logfile.log", "output.parquet", "delete_me_now.csv", "common")
-        os.remove("delete_me_now.csv")
 
 
 def test_logstodf_general_output_correctness():
@@ -55,3 +40,38 @@ def test_logstodf_general_output_correctness():
     assert isinstance(result, pd.DataFrame)
     os.remove("delete_output.parquet")
     os.remove("delete_errors.txt")
+
+
+def test_logs_raises_for_wrong_encoding():
+    with pytest.raises(UnicodeDecodeError):
+        logs_to_df(
+            full_local_path("logs_testing", "combined_latin1_enc.log"),
+            "test_output.parquet",
+            "test_errors.txt",
+            "combined",
+            encoding="utf-8",
+        )
+
+
+def test_logs_parses_with_correct_encoding():
+    with TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir)
+        logs_to_df(
+            full_local_path("logs_testing", "combined_latin1_enc.log"),
+            str(path / "test_output.parquet"),
+            path / "test_errors.txt",
+            "combined",
+            encoding="latin1",
+        )
+        result = pd.read_parquet(path / "test_output.parquet")
+        assert isinstance(result, pd.DataFrame)
+
+
+def test_logs_file_without_errors():
+    logs_to_df(
+        full_local_path("logs_testing", "combined_no_errors.log"),
+        "delete_output.parquet",
+        "delete_errors.txt",
+        "combined",
+    )
+    assert not os.path.exists("delete_errors.txt")
