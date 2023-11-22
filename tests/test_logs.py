@@ -67,6 +67,34 @@ def test_logs_parses_with_correct_encoding():
         assert isinstance(result, pd.DataFrame)
 
 
+def test_logs_nginx_error():
+    with TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir)
+        logs_to_df(
+            full_local_path("logs_testing", "nginx_error.log"),
+            str(path / "test_output.parquet"),
+            path / "test_errors.txt",
+            "nginx_error",
+            encoding="latin1",
+        )
+        result = pd.read_parquet(path / "test_output.parquet")
+        assert isinstance(result, pd.DataFrame)
+
+
+def test_logs_apache_error():
+    with TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir)
+        logs_to_df(
+            full_local_path("logs_testing", "apache_error.log"),
+            str(path / "test_output.parquet"),
+            path / "test_errors.txt",
+            "nginx_error",
+            encoding="latin1",
+        )
+        result = pd.read_parquet(path / "test_output.parquet")
+        assert isinstance(result, pd.DataFrame)
+
+
 def test_logs_file_without_errors():
     logs_to_df(
         full_local_path("logs_testing", "combined_no_errors.log"),
