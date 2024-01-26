@@ -508,8 +508,7 @@ def logs_to_df(
                     parsed_lines.append(log_line)
                 except Exception as e:
                     with open(tempdir_name / "errors.txt", "at") as err:
-                        err_line = line[:-1] if line.endswith("\n") else line
-                        print("@@".join([str(i), err_line, str(e)]), file=err)
+                        print("@@".join([str(i), line.rstrip(), str(e)]), file=err)
                     pass
                 if i % 250_000 == 0:
                     print(f"Parsed {i:>15,} lines.", end="\r")
