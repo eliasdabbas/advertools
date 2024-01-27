@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def redirects(crawldf):
     """Create a tidy DataFrame for redirects with the columns:
 
@@ -16,6 +17,9 @@ def redirects(crawldf):
     """
     if "redirect_urls" not in crawldf.columns:
         return pd.DataFrame()
+    if "redirect_urls" in crawldf:
+        if crawldf["redirect_urls"].isna().all():
+            return pd.DataFrame()
     redirect_df = crawldf[
         ["url", "status", "redirect_urls", "redirect_reasons"]
     ].dropna(subset=["redirect_urls", "redirect_reasons"])
