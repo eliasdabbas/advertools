@@ -1,11 +1,19 @@
 import os
+import random
+from itertools import product
 
 import pandas as pd
+import pytest
 
 from advertools import crawlytics
 
 crawldf = pd.read_json("tests/data/crawl_testing/crawlytics.jl", lines=True)
 redirect_df = crawlytics.redirects(crawldf)
+link_df = crawlytics.link_summary(crawldf)
+link_df_internal = crawlytics.link_summary(crawldf, internal_url_regex="nytimes.com")
+image_df = crawlytics.image_summary(crawldf)
+rand_columns = [random.choices(crawldf.columns, k=5) for i in range(10)]
+regexes = ["img_", "jsonld", "resp_header", "h\d$"]
 
 
 def test_redirects_empty_df_redir_urls_isna():
@@ -77,3 +85,104 @@ def test_redirects_order_monotonic_increasing():
         .groupby("index")["order"]
         .is_monotonic_increasing.all()
     )
+
+
+def test_links_correct_num_links_preserved():
+    index_counts = link_df.index.value_counts().sort_index()
+    link_counts = crawldf["links_url"].str.split("@@").str.len().fillna(1)
+    assert (index_counts == link_counts).all()
+
+
+def test_links_same_urls():
+    assert set(crawldf["url"]) == set(link_df["url"])
+
+
+def test_link_urls_same_link_urls():
+    assert set(crawldf["links_url"].str.split("@@").explode().dropna()) == set(
+        link_df["link"].dropna()
+    )
+
+
+def test_link_text_same_link_text():
+    assert set(crawldf["links_text"].str.split("@@").explode().dropna()) == set(
+        link_df["text"].dropna()
+    )
+
+
+def test_links_same_nofollows():
+    crawl_df_nofollow = [
+        eval(str(x)) for x in crawldf["links_nofollow"].str.split("@@").explode()
+    ]
+    link_df_nofollow = [eval(str(x)) for x in link_df["nofollow"]]
+    assert crawl_df_nofollow == link_df_nofollow
+
+
+def test_links_empty_df_if_no_links_url():
+    assert crawlytics.link_summary(crawldf.drop("links_url", axis=1)).empty
+
+
+def test_links_regex_matches_internal():
+    assert (
+        link_df_internal["link"]
+        .astype(str)
+        .str.contains("nytimes.com")
+        .eq(link_df_internal["internal"])
+        .all()
+    )
+
+
+def test_images_same_num_images():
+    crawl_img_counts = (
+        crawldf["img_src"].str.split("@@").explode().index.value_counts().sort_index()
+    )
+    img_df_counts = image_df.index.value_counts().sort_index()
+    pd.testing.assert_series_equal(crawl_img_counts, img_df_counts)
+
+
+def test_links_gets_same_columns():
+    assert set(image_df.columns) == set(crawldf.filter(regex="^url$|^img_").columns)
+
+
+def test_jl_subset_raises_on_no_params():
+    with pytest.raises(ValueError):
+        crawlytics.jl_subset("filepath.jl")
+
+
+def test_jl_subset_raises_on_wrong_filepath():
+    with pytest.raises(ValueError):
+        crawlytics.jl_subset("somewrongfilepath", regex="regex")
+
+
+@pytest.mark.parametrize("columns", rand_columns)
+def test_jl_subset_correct_cols(columns):
+    subset_df = crawlytics.jl_subset(
+        "tests/data/crawl_testing/crawlytics.jl", columns=columns
+    )
+    col_regex = "^" + "$|^".join(columns) + "$"
+    assert set(subset_df.columns) == set(subset_df.filter(regex=col_regex).columns)
+
+
+@pytest.mark.parametrize("regex", regexes)
+def test_jl_subset_correct_regex(regex):
+    subset_df = crawlytics.jl_subset(
+        "tests/data/crawl_testing/crawlytics.jl", regex=regex
+    )
+    assert set(subset_df.columns) == set(subset_df.filter(regex=regex).columns)
+
+
+@pytest.mark.parametrize(["columns", "regex"], product(rand_columns, regexes))
+def test_jl_subset_correct_cols_and_regex(columns, regex):
+    subset_df = crawlytics.jl_subset(
+        "tests/data/crawl_testing/crawlytics.jl", columns=columns, regex=regex
+    )
+    col_regex = "^" + "$|^".join(columns) + "$"
+    full_regex = "|".join([col_regex, regex])
+    assert set(subset_df.columns) == set(subset_df.filter(regex=full_regex).columns)
+
+
+def test_jl_subset_doesnt_contain_nonexistent_col():
+    subset_df = crawlytics.jl_subset(
+        "tests/data/crawl_testing/crawlytics.jl",
+        columns=["title", "url", "doesnt_exist"],
+    )
+    assert "doesnt_exist" not in subset_df
