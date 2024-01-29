@@ -195,4 +195,6 @@ def test_jl_to_parquet_correct_columns():
         crawlytics.jl_to_parquet(test_filepath, f"{tempdir}/delete.parquet")
         jl_df = pd.read_json(test_filepath, lines=True)
         pq_df = pd.read_parquet(f"{tempdir}/delete.parquet")
+        pq_cols = crawlytics.parquet_columns(f"{tempdir}/delete.parquet")
         assert set(jl_df.columns) == set(pq_df.columns)
+        assert set(jl_df.columns) == set(pq_cols["column"])
