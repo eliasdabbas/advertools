@@ -1,6 +1,7 @@
 import re
 
 import pandas as pd
+import pyarrow.parquet as pq
 
 
 def redirects(crawldf):
@@ -207,3 +208,23 @@ def jl_to_parquet(jl_filepath, parquet_filepath):
             column = re.findall(r"column (\S+)", error)
             print(f"converting to string: {column[0]}")
             crawldf[column[0]] = crawldf[column[0]].astype(str).replace("nan", pd.NA)
+
+
+def parquet_columns(filepath):
+    """Get column names and datatypes of a parquet file.
+
+    Parameters
+    ----------
+    filepath : str
+      The path of the file that you want to get columns names and types.
+
+    Returns
+    -------
+    columns_types : pandas.DataFrame
+      A DataFrame with two columns "column" and "type".
+    """
+    pqdataset = pq.ParquetDataset(filepath)
+    columns_df = pd.DataFrame(
+        zip(pqdataset.schema.names, pqdataset.schema.types), columns=["column", "type"]
+    )
+    return columns_df
