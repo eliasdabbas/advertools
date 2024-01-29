@@ -57,3 +57,128 @@ def redirects(crawldf):
     )
     final_df["redirect_times"] = final_df["redirect_times"].astype(int)
     return final_df
+
+
+def link_summary(crawldf, internal_url_regex=None):
+    """Get a DataFrame summary of links from a crawl DataFrame
+
+    Parameters:
+    -----------
+    crawldf : DataFrame
+      A DataFrame of a website crawled with advertools.
+    internal_url_regex : str
+      A regular expression for identifying if a link is internal or not.
+      For example if your website is example.com, this would be "example.com".
+
+    Returns:
+    --------
+    link_df : pandas.DataFrame
+    """
+    if "links_url" not in crawldf:
+        return pd.DataFrame()
+    link_df = pd.merge(
+        crawldf[["url"]],
+        crawldf.filter(regex="^links_").apply(lambda s: s.str.split("@@").explode()),
+        left_index=True,
+        right_index=True,
+    )
+    link_df["links_nofollow"] = link_df["links_nofollow"].replace(
+        {"True": True, "False": False}
+    )
+    if internal_url_regex is not None:
+        link_df["internal"] = (
+            link_df["links_url"].fillna("").str.contains(internal_url_regex, regex=True)
+        )
+    link_df = link_df.rename(
+        columns={
+            "links_url": "link",
+            "links_text": "text",
+            "links_nofollow": "nofollow",
+        }
+    )
+    return link_df
+
+
+def image_summary(crawldf):
+    """Get a DataFrame summary of images in a crawl DataFrame.
+
+    Parameters
+    ----------
+    crawldf : pandas.DataFrame
+      A crawl DataFrame as a result of the advertools.crawl function.
+
+    Returns
+    -------
+    img_summary : pandas.DataFrame
+      A DataFrame containing all available img tags mapped to their respective URLs
+      where each image data is represented in a row.
+    """
+    dfs = []
+    img_df = crawldf.filter(regex="^url$|img_")
+    for index, row in img_df.iterrows():
+        notna = row.dropna().index
+        if len(notna) == 1:
+            temp = pd.DataFrame({"url": row["url"]}, index=[index])
+        else:
+            temp = (
+                row.to_frame()
+                .T.set_index("url")
+                .apply(lambda s: s.str.split("@@"))
+                .explode(notna.tolist()[1:])
+            )
+            temp = temp.reset_index()
+            temp.index = [index for i in range(len(temp))]
+        dfs.append(temp)
+    final_df = pd.concat(dfs)
+    return final_df
+
+
+def jl_subset(filepath, columns=None, regex=None, chunksize=500):
+    """Read a jsonlines file only extracting selected columns and/or a regex.
+
+    Parameters
+    ----------
+    filepath : str
+      The path of the .jl (jsonlines) file to read.
+    columns : list
+      An optional list of column names that you want to read.
+    regex : str
+      An optional regular expression of the pattern of columns to read.
+    chunksize : int
+      How many rows to read per chunk.
+
+    Examples
+    --------
+
+    >>> import advertools as adv
+
+    # Read only the columns "url" and "meta_desc":
+    >>> adv.crawlytics.jl_subset('output_file.jl', columns=['url', 'meta_desc'])
+
+    # Read columns matching the regex "jsonld":
+    >>> adv.crawlytics.jl_subset('output_file.jl', regex='jsonld')
+
+    # Read only the columns "url" and "meta_desc" as well as columns matching teh regex "jsonld":
+    >>> adv.crawlytics.jl_subset('output_file.jl', columns=['url', 'meta_desc'], regex='jsonld')
+
+    Returns
+    -------
+    df_subset : pandas.DataFrame
+      A DataFrame containing the list of `column` and/or columns matching `regex`.
+    """
+    if columns is None and regex is None:
+        raise ValueError("Please supply either a list of columns or a regex.")
+    if columns is not None:
+        col_regex = "^" + "$|^".join(columns) + "$"
+    else:
+        col_regex = None
+    if (columns is not None) and (regex is not None):
+        full_regex = "|".join([col_regex, regex])
+    else:
+        full_regex = col_regex or regex
+    dfs = []
+    for chunk in pd.read_json(filepath, lines=True, chunksize=chunksize):
+        chunk_subset = chunk.filter(regex=full_regex)
+        dfs.append(chunk_subset)
+    final_df = pd.concat(dfs, ignore_index=True)
+    return final_df
