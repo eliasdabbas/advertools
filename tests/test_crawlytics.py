@@ -1,19 +1,21 @@
 import os
 import random
 from itertools import product
+from tempfile import TemporaryDirectory, TemporaryFile
 
 import pandas as pd
 import pytest
 
 from advertools import crawlytics
 
-crawldf = pd.read_json("tests/data/crawl_testing/crawlytics.jl", lines=True)
+test_filepath = "tests/data/crawl_testing/crawlytics.jl"
+crawldf = pd.read_json(test_filepath, lines=True)
 redirect_df = crawlytics.redirects(crawldf)
 link_df = crawlytics.link_summary(crawldf)
 link_df_internal = crawlytics.link_summary(crawldf, internal_url_regex="nytimes.com")
 image_df = crawlytics.image_summary(crawldf)
 rand_columns = [random.choices(crawldf.columns, k=5) for i in range(10)]
-regexes = ["img_", "jsonld", "resp_header", "h\d$"]
+regexes = ["img_", "jsonld", "resp_header", r"h\d$"]
 
 
 def test_redirects_empty_df_redir_urls_isna():
@@ -155,26 +157,20 @@ def test_jl_subset_raises_on_wrong_filepath():
 
 @pytest.mark.parametrize("columns", rand_columns)
 def test_jl_subset_correct_cols(columns):
-    subset_df = crawlytics.jl_subset(
-        "tests/data/crawl_testing/crawlytics.jl", columns=columns
-    )
+    subset_df = crawlytics.jl_subset(test_filepath, columns=columns)
     col_regex = "^" + "$|^".join(columns) + "$"
     assert set(subset_df.columns) == set(subset_df.filter(regex=col_regex).columns)
 
 
 @pytest.mark.parametrize("regex", regexes)
 def test_jl_subset_correct_regex(regex):
-    subset_df = crawlytics.jl_subset(
-        "tests/data/crawl_testing/crawlytics.jl", regex=regex
-    )
+    subset_df = crawlytics.jl_subset(test_filepath, regex=regex)
     assert set(subset_df.columns) == set(subset_df.filter(regex=regex).columns)
 
 
 @pytest.mark.parametrize(["columns", "regex"], product(rand_columns, regexes))
 def test_jl_subset_correct_cols_and_regex(columns, regex):
-    subset_df = crawlytics.jl_subset(
-        "tests/data/crawl_testing/crawlytics.jl", columns=columns, regex=regex
-    )
+    subset_df = crawlytics.jl_subset(test_filepath, columns=columns, regex=regex)
     col_regex = "^" + "$|^".join(columns) + "$"
     full_regex = "|".join([col_regex, regex])
     assert set(subset_df.columns) == set(subset_df.filter(regex=full_regex).columns)
@@ -182,7 +178,21 @@ def test_jl_subset_correct_cols_and_regex(columns, regex):
 
 def test_jl_subset_doesnt_contain_nonexistent_col():
     subset_df = crawlytics.jl_subset(
-        "tests/data/crawl_testing/crawlytics.jl",
+        test_filepath,
         columns=["title", "url", "doesnt_exist"],
     )
     assert "doesnt_exist" not in subset_df
+
+
+def test_jl_to_parquet_file_exists():
+    with TemporaryDirectory() as tempdir:
+        crawlytics.jl_to_parquet(test_filepath, f"{tempdir}/delete.parquet")
+        assert os.path.isfile(f"{tempdir}/delete.parquet")
+
+
+def test_jl_to_parquet_correct_columns():
+    with TemporaryDirectory() as tempdir:
+        crawlytics.jl_to_parquet(test_filepath, f"{tempdir}/delete.parquet")
+        jl_df = pd.read_json(test_filepath, lines=True)
+        pq_df = pd.read_parquet(f"{tempdir}/delete.parquet")
+        assert set(jl_df.columns) == set(pq_df.columns)
