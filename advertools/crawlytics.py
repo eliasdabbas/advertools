@@ -1,3 +1,5 @@
+import re
+
 import pandas as pd
 
 
@@ -182,3 +184,26 @@ def jl_subset(filepath, columns=None, regex=None, chunksize=500):
         dfs.append(chunk_subset)
     final_df = pd.concat(dfs, ignore_index=True)
     return final_df
+
+
+def jl_to_parquet(jl_filepath, parquet_filepath):
+    """Convert a jsonlines crawl file to the parquet format.
+
+    Parameters
+    ----------
+    jl_filepath : str
+      The path of an existing .jl file.
+    parquet_fileapth : str
+      The pather where you want the new file to be saved.
+    """
+    status = "not done"
+    crawldf = pd.read_json(jl_filepath, lines=True)
+    while status == "not done":
+        try:
+            crawldf.to_parquet(parquet_filepath, index=False, version="2.6")
+            status = "done"
+        except Exception as e:
+            error = e.args[-1]
+            column = re.findall(r"column (\S+)", error)
+            print(f"converting to string: {column[0]}")
+            crawldf[column[0]] = crawldf[column[0]].astype(str).replace("nan", pd.NA)
