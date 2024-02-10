@@ -11,9 +11,9 @@ from advertools import crawlytics
 test_filepath = "tests/data/crawl_testing/crawlytics.jl"
 crawldf = pd.read_json(test_filepath, lines=True)
 redirect_df = crawlytics.redirects(crawldf)
-link_df = crawlytics.link_summary(crawldf)
-link_df_internal = crawlytics.link_summary(crawldf, internal_url_regex="nytimes.com")
-image_df = crawlytics.image_summary(crawldf)
+link_df = crawlytics.links(crawldf)
+link_df_internal = crawlytics.links(crawldf, internal_url_regex="nytimes.com")
+image_df = crawlytics.images(crawldf)
 rand_columns = [random.choices(crawldf.columns, k=5) for i in range(10)]
 regexes = ["img_", "jsonld", "resp_header", r"h\d$"]
 
@@ -120,7 +120,7 @@ def test_links_same_nofollows():
 
 
 def test_links_empty_df_if_no_links_url():
-    assert crawlytics.link_summary(crawldf.drop("links_url", axis=1)).empty
+    assert crawlytics.links(crawldf.drop("links_url", axis=1)).empty
 
 
 def test_links_regex_matches_internal():
