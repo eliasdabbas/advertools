@@ -106,7 +106,7 @@ In this case you simply provide a list of URLs instead of a single one.
    3  Allow        /search/static                                                       2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
    4  Allow        /search/howsearchworks                                               2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
  289  comment      Google Search Engine Robot                                           NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
- 290  comment      ==========================                                           NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
+ 290  comment      \==========================                                           NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
  291  User-agent   Googlebot                                                            NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
  292  Allow        /?_escaped_fragment_                                                 NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
  293  Allow        /\*?lang=                                                            NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
@@ -302,6 +302,7 @@ Let's see who is and who is not allowed to fetch the home page.
 I'll leave it to you to figure out why LinkedIn and Pinterest are not allowed
 to crawl the home page but Google and Apple are, because I have no clue!
 """
+
 __all__ = ["robotstxt_to_df", "robotstxt_test"]
 
 import gzip
