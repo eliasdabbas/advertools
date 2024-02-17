@@ -38,7 +38,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.2
+                0.13.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -65,6 +65,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
@@ -117,17 +118,8 @@ const thebe_selector_output = ".output, .cell_output"
              
   <a class="reference external image-reference" href="https://pypi.python.org/pypi/advertools"><img alt="https://img.shields.io/pypi/v/advertools.svg" src="https://img.shields.io/pypi/v/advertools.svg" /></a>
 <a class="reference external image-reference" href="https://advertools.readthedocs.io/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/advertools/badge/?version=latest" /></a>
-<a class="reference external image-reference" href="http://pepy.tech/project/advertools"><img alt="http://pepy.tech/badge/advertools" src="http://pepy.tech/badge/advertools" /></a>
-<a class="reference external image-reference" href="https://lgtm.com/projects/g/eliasdabbas/advertools/context:python"><img alt="https://img.shields.io/lgtm/grade/python/g/eliasdabbas/advertools.svg" src="https://img.shields.io/lgtm/grade/python/g/eliasdabbas/advertools.svg" /></a>
-<a class="reference external image-reference" href="https://bit.ly/3hEWZCe"><img alt="https://badges.gitter.im/advertools/community.svg" src="https://badges.gitter.im/advertools/community.svg" /></a>
-<div class="line-block">
-<div class="line"><strong>Webinar:</strong> <a class="reference external" href="https://bit.ly/3KqAtuO">Creating SEM campaigns on a large scale - Wednesday April 20, 2022</a></div>
-<div class="line"><br /></div>
-<div class="line">🎉 <strong>New:</strong> <code class="docutils literal notranslate"><span class="pre">crawl_headers</span></code> Function for <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.header_spider.html">crawling a known list of URLs with the HEAD method only</a></div>
-<div class="line">🎊 <strong>New:</strong> <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.spider.html">SEO crawler</a>
-has new options for following links, include/exclude URL params and/or URL regex.</div>
-<div class="line">🎉 <strong>New:</strong> <code class="docutils literal notranslate"><span class="pre">reverse_dns_lookup</span></code> Function for <a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.reverse_dns_lookup.html">getting host information on a list of IP addresses</a></div>
-</div>
+<a class="reference external image-reference" href="http://pepy.tech/project/advertools"><img alt="https://static.pepy.tech/badge/advertools" src="https://static.pepy.tech/badge/advertools" /></a>
+<p><strong>Announcing</strong> <a class="reference external" href="https://bit.ly/dsseo-course">Data Science with Python for SEO course</a>: Cohort based course, interactive, live-coding.</p>
 <section id="advertools-productivity-analysis-tools-to-scale-your-online-marketing">
 <h1><code class="docutils literal notranslate"><span class="pre">advertools</span></code>: productivity &amp; analysis tools to scale your online marketing<a class="headerlink" href="#advertools-productivity-analysis-tools-to-scale-your-online-marketing" title="Permalink to this headline"></a></h1>
 <div class="line-block">
@@ -147,11 +139,43 @@ next 124,538 keywords for an upcoming campaign, by the end of the week!</p>
 <p><code class="docutils literal notranslate"><span class="pre">advertools</span></code> is a Python package that can hopefully make that part of your job a little easier.</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install advertools
-<span class="c1"># OR:</span>
-pip3 install advertools
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>advertools
 </pre></div>
 </div>
+</section>
+<section id="philosophy-approach">
+<h2>Philosophy/approach<a class="headerlink" href="#philosophy-approach" title="Permalink to this headline"></a></h2>
+<p>It's very easy to learn how to use advertools. There are two main reasons for that.</p>
+<p>First, it is essentially a set of independent functions that you can easily learn and
+use. There are no special data structures, or additional learning that you need. With
+basic Python, and an understanding of the tasks that these functions help with, you
+should be able to pick it up fairly easily. In other words, if you know how to use an
+Excel formula, you can easily use any advertools function.</p>
+<p>The second reason is that <cite>advertools</cite> follows the UNIX philosophy in its design and
+approach. Here is one of the various summaries of the UNIX philosophy by Doug McIlroy:</p>
+<blockquote>
+<div><p>Write programs that do one thing and do it well. Write programs to work together.
+Write programs to handle text streams, because that is a universal interface.</p>
+</div></blockquote>
+<p>Let's see how advertools follows that:</p>
+<p><strong>Do one thing and do it well:</strong> Each function in advertools aims for that. There is a
+function that just extracts hashtags from a text list, another one to crawl websites,
+one to test which URLs are blocked by robots.txt files, and one for downloading XML
+sitemaps. Although they are designed to work together as a full pipeline, they can be
+run independently in whichever combination or sequence you want.</p>
+<p><strong>Write programs to work together:</strong> Independence does not mean they are unrelated. The
+workflows are designed to aid the online marketing practitioner in various steps for
+understanding websites, SEO analysis, creating SEM campaigns and others.</p>
+<p><strong>Programs to handle text streams because that is a universal interface:</strong> In Data
+Science the most used data structure that can be considered “universal” is the
+DataFrame. So, most functions return either a DataFrame or a file that can be read into
+one. Once you have it, you have the full power of all other tools like pandas for
+further manipulating the data, Plotly for visualization, or any machine learning
+library that can more easily handle tabular data.</p>
+<p>This way it is kept modular as well as flexible and integrated.
+As a next step most of these functions are being converted to no-code
+<a class="reference external" href="https://adver.tools">interactive apps</a> for non-coders, and taking them to the next
+level.</p>
 </section>
 <section id="sem-campaigns">
 <h2>SEM Campaigns<a class="headerlink" href="#sem-campaigns" title="Permalink to this headline"></a></h2>
@@ -198,7 +222,7 @@ A generic SEO crawler that can be customized, built with Scrapy, &amp; with seve
 features:</p>
 <ul>
 <li><p>Standard SEO elements extracted by default (title, header tags, body text,
-status code, reponse and request headers, etc.)</p></li>
+status code, response and request headers, etc.)</p></li>
 <li><p>CSS and XPath selectors: You probably have more specific needs in mind, so
 you can easily pass any selectors to be extracted in addition to the
 standard elements being extracted</p></li>
@@ -240,7 +264,7 @@ some examples on how you might tackle such data</p></li>
 <section id="text-content-analysis-for-seo-social-media">
 <h2>Text &amp; Content Analysis (for SEO &amp; Social Media)<a class="headerlink" href="#text-content-analysis-for-seo-social-media" title="Permalink to this headline"></a></h2>
 <p>URLs, page titles, tweets, video descriptions, comments, hashtags are some
-exmaples of the types of text we deal with. <code class="docutils literal notranslate"><span class="pre">advertools</span></code> provides a few
+examples of the types of text we deal with. <code class="docutils literal notranslate"><span class="pre">advertools</span></code> provides a few
 options for text analysis</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://advertools.readthedocs.io/en/master/advertools.word_frequency.html">Word frequency</a>

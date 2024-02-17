@@ -19,9 +19,11 @@ Submodules
    advertools.ad_create
    advertools.ad_from_string
    advertools.cli
+   advertools.crawlytics
    advertools.emoji
    advertools.extract
    advertools.header_spider
+   advertools.image_spider
    advertools.knowledge_graph
    advertools.kw_generate
    advertools.logs

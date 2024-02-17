@@ -35,7 +35,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="../../index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.2
+                0.13.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -62,6 +62,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
@@ -510,35 +511,66 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">TemporaryDirectory</span>
+<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">TemporaryDirectory</span><span class="p">,</span> <span class="n">TemporaryFile</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">LOG_FORMATS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;common&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-)$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;combined&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-) &quot;(?P&lt;referrer&gt;[^&quot;]*)&quot; &quot;(?P&lt;useragent&gt;[^&quot;]*)&quot;$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;common_with_vhost&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;vhost&gt;\S+) (?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-)$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;nginx_error&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;datetime&gt;\d</span><span class="si">{4}</span><span class="s1">/\d\d/\d\d \d\d:\d\d:\d\d) \[(?P&lt;level&gt;[^\]]+)\] (?P&lt;pid&gt;\d+)#(?P&lt;tid&gt;\d+): (?P&lt;counter&gt;\*\d+ | )?(?P&lt;message&gt;.*)&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;apache_error&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;datetime&gt;\[[^\]]+\]) (?P&lt;level&gt;\[[^\]]+\]) \[pid (?P&lt;pid&gt;\d+)\] (?P&lt;file&gt;\S+):(?P&lt;status&gt; \S+| ):? \[client (?P&lt;client&gt;\S+)\] (?P&lt;message&gt;.*)&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;common&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-)$&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;combined&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-) &quot;(?P&lt;referrer&gt;[^&quot;]*)&quot; &quot;(?P&lt;useragent&gt;[^&quot;]*)&quot;\s*$&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;common_with_vhost&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;vhost&gt;\S+) (?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-)$&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;nginx_error&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^(?P&lt;datetime&gt;\d</span><span class="si">{4}</span><span class="s2">/\d\d/\d\d \d\d:\d\d:\d\d) \[(?P&lt;level&gt;[^\]]+)\] (?P&lt;pid&gt;\d+)#(?P&lt;tid&gt;\d+): (?P&lt;counter&gt;\*\d+ | )?(?P&lt;message&gt;.*)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;apache_error&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^(?P&lt;datetime&gt;\[[^\]]+\]) (?P&lt;level&gt;\[[^\]]+\]) \[pid (?P&lt;pid&gt;\d+)\] (?P&lt;file&gt;\S+):(?P&lt;status&gt; \S+| ):? \[client (?P&lt;client&gt;\S+)\] (?P&lt;message&gt;.*)&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">LOG_FIELDS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;common&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;client&#39;</span><span class="p">,</span> <span class="s1">&#39;userid&#39;</span><span class="p">,</span> <span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;request&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;size&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;combined&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;client&#39;</span><span class="p">,</span> <span class="s1">&#39;userid&#39;</span><span class="p">,</span> <span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;request&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span>
-                 <span class="s1">&#39;size&#39;</span><span class="p">,</span> <span class="s1">&#39;referer&#39;</span><span class="p">,</span> <span class="s1">&#39;user_agent&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;common_with_vhost&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;virtual_host&#39;</span><span class="p">,</span> <span class="s1">&#39;client&#39;</span><span class="p">,</span> <span class="s1">&#39;userid&#39;</span><span class="p">,</span> <span class="s1">&#39;datetime&#39;</span><span class="p">,</span>
-                          <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;request&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;nginx_error&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;process_id&#39;</span><span class="p">,</span> <span class="s1">&#39;thread_id&#39;</span><span class="p">,</span> <span class="s1">&#39;counter&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;message&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;apache_error&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;process_id&#39;</span><span class="p">,</span> <span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span>
-                     <span class="s1">&#39;client&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">],</span>
+    <span class="s2">&quot;common&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;client&quot;</span><span class="p">,</span> <span class="s2">&quot;userid&quot;</span><span class="p">,</span> <span class="s2">&quot;datetime&quot;</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;request&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;combined&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;client&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;userid&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;method&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;request&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;size&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;referer&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;user_agent&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;common_with_vhost&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;virtual_host&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;client&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;userid&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;method&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;request&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;size&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;nginx_error&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;level&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;process_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;counter&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;apache_error&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;level&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;process_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;file&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;client&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="logs_to_df"><a class="viewcode-back" href="../../advertools.logs.html#advertools.logs.logs_to_df">[docs]</a><span class="k">def</span> <span class="nf">logs_to_df</span><span class="p">(</span><span class="n">log_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">errors_file</span><span class="p">,</span> <span class="n">log_format</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Parse and compress any log file into a DataFrame format.</span>
+<div class="viewcode-block" id="logs_to_df"><a class="viewcode-back" href="../../advertools.logs.html#advertools.logs.logs_to_df">[docs]</a><span class="k">def</span> <span class="nf">logs_to_df</span><span class="p">(</span>
+    <span class="n">log_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">errors_file</span><span class="p">,</span> <span class="n">log_format</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse and compress any log file into a DataFrame format.</span>
 
 <span class="sd">    Convert a log file to a `parquet` file in a DataFrame format, and save all</span>
 <span class="sd">    errors (or lines not conformig to the chosen log format) into a separate</span>
@@ -561,67 +593,70 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">    :param str log_file: The path to the log file.</span>
 <span class="sd">    :param str output_file: The path to the desired output file. Must have a</span>
 <span class="sd">                            &quot;.parquet&quot; extension, and must not have the same</span>
-<span class="sd">                            path as an existing file. </span>
+<span class="sd">                            path as an existing file.</span>
 <span class="sd">    :param str errors_file: The path where the parsing errors are stored. Any</span>
 <span class="sd">                            text format works, CSV is recommended to easily</span>
-<span class="sd">                            open it with any CSV reader with the separator as </span>
+<span class="sd">                            open it with any CSV reader with the separator as</span>
 <span class="sd">                            &quot;@@&quot;.</span>
 <span class="sd">    :param str log_format: Either the name of one of the supported log formats,</span>
 <span class="sd">                           or a regex of your own format.</span>
 <span class="sd">    :param str fields: A list of fields, which will become the names of columns</span>
 <span class="sd">                       in ``output_file``. Only required if you provide a</span>
 <span class="sd">                       custom (regex) ``log_format``.</span>
-
+<span class="sd">    :param str encoding: The encoding of the log file. It defaults to utf-8, but</span>
+<span class="sd">                         you might need to try others in case of errors</span>
+<span class="sd">                         (latin-1, utf-16, etc.)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">output_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.parquet&#39;</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please provide an `output_file` with a `.parquet` &quot;</span>
-                         <span class="s2">&quot;extension.&quot;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="p">[</span><span class="n">output_file</span><span class="p">,</span> <span class="n">errors_file</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The file &#39;</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&#39; already exists. &quot;</span>
-                             <span class="s2">&quot;Please rename it, delete it, or choose another &quot;</span>
-                             <span class="s2">&quot;file name/path.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">output_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.parquet&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Please provide an `output_file` with a `.parquet` &quot;</span> <span class="s2">&quot;extension.&quot;</span>
+        <span class="p">)</span>
 
     <span class="n">regex</span> <span class="o">=</span> <span class="n">LOG_FORMATS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">log_format</span><span class="p">)</span> <span class="ow">or</span> <span class="n">log_format</span>
     <span class="n">columns</span> <span class="o">=</span> <span class="n">fields</span> <span class="ow">or</span> <span class="n">LOG_FIELDS</span><span class="p">[</span><span class="n">log_format</span><span class="p">]</span>
     <span class="k">with</span> <span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tempdir</span><span class="p">:</span>
         <span class="n">tempdir_name</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempdir</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">source_file</span><span class="p">:</span>
-            <span class="n">linenumber</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_file</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">source_file</span><span class="p">:</span>
             <span class="n">parsed_lines</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_file</span><span class="p">:</span>
-                <span class="n">linenumber</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">source_file</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">log_line</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">line</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">log_line</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">line</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">parsed_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_line</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">errors_file</span><span class="p">,</span> <span class="s1">&#39;at&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                        <span class="n">err_line</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">line</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">linenumber</span><span class="p">),</span> <span class="n">err_line</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)]),</span>
-                              <span class="n">file</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tempdir_name</span> <span class="o">/</span> <span class="s2">&quot;errors.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;at&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;@@&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(),</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)]),</span> <span class="n">file</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
                     <span class="k">pass</span>
-                <span class="k">if</span> <span class="n">linenumber</span> <span class="o">%</span> <span class="mi">250_000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Parsed </span><span class="si">{</span><span class="n">linenumber</span><span class="si">:</span><span class="s1">&gt;15,</span><span class="si">}</span><span class="s1"> lines.&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">250_000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsed </span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">&gt;15,</span><span class="si">}</span><span class="s2"> lines.&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">parsed_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
-                    <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">tempdir_name</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;file_</span><span class="si">{</span><span class="n">linenumber</span><span class="si">}</span><span class="s1">.parquet&#39;</span><span class="p">)</span>
+                    <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">tempdir_name</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;file_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.parquet&quot;</span><span class="p">)</span>
                     <span class="n">parsed_lines</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Parsed </span><span class="si">{</span><span class="n">linenumber</span><span class="si">:</span><span class="s1">&gt;15,</span><span class="si">}</span><span class="s1"> lines.&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsed </span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">&gt;15,</span><span class="si">}</span><span class="s2"> lines.&quot;</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tempdir_name</span> <span class="o">/</span> <span class="s2">&quot;errors.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;rt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">err_final</span><span class="p">:</span>
+                        <span class="n">err_content</span> <span class="o">=</span> <span class="n">err_final</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">errors_file</span><span class="p">,</span> <span class="s2">&quot;wt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">errout</span><span class="p">:</span>
+                            <span class="n">errout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">err_content</span><span class="p">)</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tempdir_name</span> <span class="o">/</span> <span class="s2">&quot;errors.txt&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                    <span class="k">pass</span>
                 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">parsed_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
-                <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">tempdir_name</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;file_</span><span class="si">{</span><span class="n">linenumber</span><span class="si">}</span><span class="s1">.parquet&#39;</span><span class="p">)</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">tempdir_name</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;file_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.parquet&quot;</span><span class="p">)</span>
             <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">tempdir_name</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
-                <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
-                <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span>
-                                                 <span class="n">downcast</span><span class="o">=</span><span class="s1">&#39;signed&#39;</span><span class="p">)</span>
+                <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+                <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+                <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span>
+                    <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">downcast</span><span class="o">=</span><span class="s2">&quot;signed&quot;</span>
+                <span class="p">)</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">pass</span>
-            <span class="n">final_df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;2.6&#39;</span><span class="p">)</span></div>
+            <span class="n">final_df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;2.6&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="crawllogs_to_df"><a class="viewcode-back" href="../../advertools.logs.html#advertools.logs.crawllogs_to_df">[docs]</a><span class="k">def</span> <span class="nf">crawllogs_to_df</span><span class="p">(</span><span class="n">logs_file_path</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert a crawl logs file to a DataFrame.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a crawl logs file to a DataFrame.</span>
 
 <span class="sd">    An interesting option while using the ``crawl`` function, is to specify a</span>
 <span class="sd">    destination file to save the logs of the crawl process itself. This contains</span>
@@ -645,32 +680,75 @@ const thebe_selector_output = ".output, .cell_output"
 
 <span class="sd">    :returns DataFrame crawl_logs_df: A DataFrame summarizing the logs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">time_middleware_level</span> <span class="o">=</span> <span class="s2">&quot;(\d</span><span class="si">{4}</span><span class="s2">-\d\d-\d\d \d\d:\d\d:\d\d) \[(.*?)\] ([A-Z]+): &quot;</span>
-    <span class="n">time_middleware_level_error</span> <span class="o">=</span> <span class="s2">&quot;(\d</span><span class="si">{4}</span><span class="s2">-\d\d-\d\d \d\d:\d\d:\d\d) \[(.*?)\] (ERROR): &quot;</span>
+    <span class="n">time_middleware_level</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(\d</span><span class="si">{4}</span><span class="s2">-\d\d-\d\d \d\d:\d\d:\d\d) \[(.*?)\] ([A-Z]+): &quot;</span>
+    <span class="n">time_middleware_level_error</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;(\d</span><span class="si">{4}</span><span class="s2">-\d\d-\d\d \d\d:\d\d:\d\d) \[(.*?)\] (ERROR): &quot;</span>
+    <span class="p">)</span>
 
-    <span class="n">filtered_regex</span> <span class="o">=</span> <span class="n">time_middleware_level</span> <span class="o">+</span> <span class="s2">&quot;(Filtered) offsite request to &#39;(.*?)&#39;: &lt;([A-Z]+) (.*?)&gt;&quot;</span> 
-    <span class="n">filtered_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;middleware&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;domain&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">]</span>
+    <span class="n">filtered_regex</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">time_middleware_level</span>
+        <span class="o">+</span> <span class="s2">&quot;(Filtered) offsite request to &#39;(.*?)&#39;: &lt;([A-Z]+) (.*?)&gt;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">filtered_cols</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;middleware&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;level&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;domain&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;method&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
-    <span class="n">crawled_regex</span> <span class="o">=</span> <span class="n">time_middleware_level</span> <span class="o">+</span> <span class="s2">&quot;(Crawled) \((\d\d\d)\) &lt;([A-Z]+) (.*?)&gt; \(referer: (.*?)\)&quot;</span> 
-    <span class="n">crawled_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;middleware&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="s1">&#39;referer&#39;</span><span class="p">]</span>
+    <span class="n">crawled_regex</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">time_middleware_level</span>
+        <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;(Crawled) \((\d\d\d)\) &lt;([A-Z]+) (.*?)&gt; \(referer: (.*?)\)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">crawled_cols</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;middleware&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;level&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;method&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;referer&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
-    <span class="n">scraped_regex</span> <span class="o">=</span> <span class="n">time_middleware_level</span> <span class="o">+</span> <span class="s2">&quot;(Scraped) from &lt;(\d\d\d) (.*?)&gt;&quot;</span> 
-    <span class="n">scraped_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;middleware&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">]</span>
+    <span class="n">scraped_regex</span> <span class="o">=</span> <span class="n">time_middleware_level</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;(Scraped) from &lt;(\d\d\d) (.*?)&gt;&quot;</span>
+    <span class="n">scraped_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;middleware&quot;</span><span class="p">,</span> <span class="s2">&quot;level&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">]</span>
 
-    <span class="n">redirect_regex</span> <span class="o">=</span> <span class="n">time_middleware_level</span> <span class="o">+</span> <span class="s2">&quot;(Redirect)ing \((\d\d\d)\) to &lt;([A-Z]+) (.*?)&gt; from &lt;([A-Z]+) (.*?)&gt;&quot;</span>
-    <span class="n">redirect_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;middleware&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;method_to&#39;</span><span class="p">,</span> <span class="s1">&#39;redirect_to&#39;</span><span class="p">,</span> <span class="s1">&#39;method_from&#39;</span><span class="p">,</span> <span class="s1">&#39;redirect_from&#39;</span><span class="p">]</span>
+    <span class="n">redirect_regex</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">time_middleware_level</span>
+        <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;(Redirect)ing \((\d\d\d)\) to &lt;([A-Z]+) (.*?)&gt; from &lt;([A-Z]+) (.*?)&gt;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">redirect_cols</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;middleware&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;level&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;method_to&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;redirect_to&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;method_from&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;redirect_from&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
-    <span class="n">blocked_regex</span> <span class="o">=</span> <span class="n">time_middleware_level</span> <span class="o">+</span> <span class="s2">&quot;(Forbidden) by robots\.txt: &lt;([A-Z]+) (.*?)&gt;&quot;</span>
-    <span class="n">blocked_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;middleware&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;blocked_urls&#39;</span><span class="p">]</span>
+    <span class="n">blocked_regex</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">time_middleware_level</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;(Forbidden) by robots\.txt: &lt;([A-Z]+) (.*?)&gt;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">blocked_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;middleware&quot;</span><span class="p">,</span> <span class="s2">&quot;level&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;blocked_urls&quot;</span><span class="p">]</span>
 
-    <span class="n">error_regex</span> <span class="o">=</span> <span class="n">time_middleware_level</span> <span class="o">+</span> <span class="s2">&quot;Spider (error) processing &lt;([A-Z]+) (.*?)&gt; \(referer: (.*?)\)&quot;</span>
-    <span class="n">error_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;middleware&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="s1">&#39;referer&#39;</span><span class="p">]</span>
+    <span class="n">error_regex</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">time_middleware_level</span>
+        <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;Spider (error) processing &lt;([A-Z]+) (.*?)&gt; \(referer: (.*?)\)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">error_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;middleware&quot;</span><span class="p">,</span> <span class="s2">&quot;level&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;referer&quot;</span><span class="p">]</span>
 
-    <span class="n">error_level_regex</span> <span class="o">=</span> <span class="n">time_middleware_level_error</span>  <span class="o">+</span> <span class="s1">&#39;(.*)? (\d\d\d) (http.*)&#39;</span>
-    <span class="n">error_level_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;middleware&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">]</span>
+    <span class="n">error_level_regex</span> <span class="o">=</span> <span class="n">time_middleware_level_error</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;(.*)? (\d\d\d) (http.*)&quot;</span>
+    <span class="n">error_level_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;middleware&quot;</span><span class="p">,</span> <span class="s2">&quot;level&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">]</span>
 
-    <span class="n">generic_error_regex</span> <span class="o">=</span> <span class="n">time_middleware_level_error</span> <span class="o">+</span> <span class="s1">&#39;(.*)&#39;</span>
-    <span class="n">generic_error_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;middleware&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">]</span>
+    <span class="n">generic_error_regex</span> <span class="o">=</span> <span class="n">time_middleware_level_error</span> <span class="o">+</span> <span class="s2">&quot;(.*)&quot;</span>
+    <span class="n">generic_error_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;middleware&quot;</span><span class="p">,</span> <span class="s2">&quot;level&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">]</span>
 
     <span class="n">filtered_lines</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">crawled_lines</span> <span class="o">=</span> <span class="p">[]</span>
@@ -700,19 +778,21 @@ const thebe_selector_output = ".output, .cell_output"
             <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">generic_error_regex</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
                 <span class="n">generic_error_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">generic_error_regex</span><span class="p">,</span> <span class="n">line</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 
-    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filtered_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">filtered_cols</span><span class="p">),</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">crawled_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">crawled_cols</span><span class="p">),</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scraped_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">scraped_cols</span><span class="p">),</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">redirect_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">redirect_cols</span><span class="p">),</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">blocked_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">blocked_cols</span><span class="p">),</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">error_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">error_cols</span><span class="p">),</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">error_lvl_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">error_level_cols</span><span class="p">),</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">generic_error_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">generic_error_cols</span><span class="p">),</span>
-    <span class="p">])</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filtered_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">filtered_cols</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">crawled_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">crawled_cols</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scraped_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">scraped_cols</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">redirect_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">redirect_cols</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">blocked_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">blocked_cols</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">error_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">error_cols</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">error_lvl_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">error_level_cols</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">generic_error_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">generic_error_cols</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
 
-    <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>
-    <span class="n">final_df</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_df</span></div>
 </pre></div>

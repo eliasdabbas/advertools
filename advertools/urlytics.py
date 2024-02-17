@@ -71,7 +71,7 @@ might use this function after obtaining a set of URLs.
   product name, etc.) with previous directories providing meta data (category,
   sub-category, author name, etc.). In many cases you don't have all URLs with
   the same number of directories, so they end up unaligned. This extracts all
-  ``last_dir``s in one column.
+  ``last_dir``'s in one column.
 * **query**: If query parameters are available they are given in this column,
   but more importantly they are parsed and included in separate columns, where
   each parameter has its own column (with the keys being the names). As in the
@@ -143,6 +143,7 @@ The ideal case for the `path` part of the URL is to be split into directories
 of equal length across the dataset, having the right data in the right columns
 and `NA` otherwise. Or, splitting the dataset and analyzing separately.
 """
+
 from urllib.parse import parse_qs, unquote, urlsplit
 
 import numpy as np
@@ -169,37 +170,31 @@ def url_to_df(urls, decode=True):
         hostname = split.hostname if split.hostname != split.netloc else None
         split = split._asdict()
         if hostname:
-            split['hostname'] = hostname
+            split["hostname"] = hostname
         if port:
-            split['port'] = port
-        parsed_query = parse_qs(split['query'])
-        parsed_query = {'query_' + key: '@@'.join(val)
-                        for key, val in parsed_query.items()}
+            split["port"] = port
+        parsed_query = parse_qs(split["query"])
+        parsed_query = {
+            "query_" + key: "@@".join(val) for key, val in parsed_query.items()
+        }
         split.update(**parsed_query)
-        dirs = split['path'].strip('/').split('/')
+        dirs = split["path"].strip("/").split("/")
         if dirs[0]:
-            dir_cols = {'dir_{}'.format(n): d for n, d in enumerate(dirs, 1)}
+            dir_cols = {"dir_{}".format(n): d for n, d in enumerate(dirs, 1)}
             split.update(**dir_cols)
         split_list.append(split)
     df = pd.DataFrame(split_list)
 
-    query_df = df.filter(regex='query_')
+    query_df = df.filter(regex="query_")
     if not query_df.empty:
-        sorted_q_params = (query_df
-                           .notna()
-                           .mean()
-                           .sort_values(ascending=False).index)
+        sorted_q_params = query_df.notna().mean().sort_values(ascending=False).index
         query_df = query_df[sorted_q_params]
         df = df.drop(query_df.columns, axis=1)
-    dirs_df = df.filter(regex='^dir_')
+    dirs_df = df.filter(regex="^dir_")
     if not dirs_df.empty:
         df = df.drop(dirs_df.columns, axis=1)
-        dirs_df = (dirs_df
-                   .assign(last_dir=dirs_df
-                   .ffill(axis=1)
-                   .iloc[:, -1:]
-                   .squeeze()))
-    df = pd.concat([df, dirs_df, query_df], axis=1).replace('', np.nan)
-    url_list_df = pd.DataFrame({'url': [decode(url) for url in urls]})
+        dirs_df = dirs_df.assign(last_dir=dirs_df.ffill(axis=1).iloc[:, -1:].squeeze())
+    df = pd.concat([df, dirs_df, query_df], axis=1).replace("", np.nan)
+    url_list_df = pd.DataFrame({"url": [decode(url) for url in urls]})
     final_df = pd.concat([url_list_df, df], axis=1)
     return final_df

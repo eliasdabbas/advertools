@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crawling and Scraping Analysis &mdash;  Python</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="🕷 Python Status Code Checker with Response Headers" href="advertools.header_spider.html" />
+    <link rel="prev" title="🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes" href="advertools.code_recipes.spider_strategies.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> advertools
+          </a>
+              <div class="version">
+                0.13.5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.survey.html">Survey - your feedback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.cli.cli.html">Command Line Interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Crawl Analytics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#analyzing-crawled-images">Analyzing crawled images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#analyzing-links-in-a-crawled-website">Analyzing links in a crawled website</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#analyzing-the-redirects-of-a-crawled-website">Analyzing the redirects of a crawled website</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#handling-very-large-crawl-files">Handling very large crawl files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compressing-large-crawl-files">Compressing large crawl files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exploring-the-columns-and-data-types-of-parquet-files">Exploring the columns and data types of parquet files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-functions">Module functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Crawling and Scraping Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/advertools.crawlytics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-advertools.crawlytics">
+<span id="crawling-and-scraping-analysis"></span><h1>Crawling and Scraping Analysis<a class="headerlink" href="#module-advertools.crawlytics" title="Permalink to this headline"></a></h1>
+<p>After crawling a website, or a bunch of URLs, you mostly likely want to analyze the data
+and gain a better undersanding of the website's structure, strategy, and content. You
+probably also want to check for technical issues that the site might have.</p>
+<p>This module provides a few ready-made functions to help in anayzing crawl data.</p>
+<p>There are certain columns in the crawl DataFrame that can be analyzed separately and
+independently, like page size and status codes. They can of course be analyzed together
+with other columns like URL and title to put these columns and their data in context.</p>
+<p>There are also groups of columns the can be thought of as describing one full aspect of
+a website, yet spread across a few columns. For exmaple:</p>
+<section id="analyzing-crawled-images">
+<h2>Analyzing crawled images<a class="headerlink" href="#analyzing-crawled-images" title="Permalink to this headline"></a></h2>
+<p>Every crawled URL typically contains multiple images. Every image in turn has multiple
+attributes (src, alt, width, etc.)
+The number of images per URL is not the same, and not all images have the same
+attributes. So we need a way to unpack all these data points in a tidy (long form)
+DataFrame to get an idea of how images (and their attributes) are used and distributed
+across the crawled website (URLs).</p>
+<p>Once you have read a crawl output file into a DataFrame, you can summarize the images
+in this DataFrame as follows:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;path/to/output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">images</span><span class="p">(</span><span class="n">crawldf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_df</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 1%" />
+<col style="width: 17%" />
+<col style="width: 51%" />
+<col style="width: 5%" />
+<col style="width: 4%" />
+<col style="width: 9%" />
+<col style="width: 4%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>url</p></th>
+<th class="head"><p>img_src</p></th>
+<th class="head"><p>img_alt</p></th>
+<th class="head"><p>img_loading</p></th>
+<th class="head"><p>img_sizes</p></th>
+<th class="head"><p>img_decoding</p></th>
+<th class="head"><p>img_width</p></th>
+<th class="head"><p>img_height</p></th>
+<th class="head"><p>img_border</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p>/vi-assets/static-assets/icon-the-morning_144x144-b12a6923b6ad9102b766352261b1a847.webp</p></td>
+<td><p>The Morning Logo</p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p>/vi-assets/static-assets/icon-the-upshot_144x144-0b1553ff703bbd07ac8fe73e6d215888.webp</p></td>
+<td><p>The Upshot Logo</p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2017/01/29/podcasts/the-daily-album-art/the-daily-album-art-square320-v5.jpg?quality=75&amp;auto=webp&amp;disable=upscale">https://static01.nyt.com/images/2017/01/29/podcasts/the-daily-album-art/the-daily-album-art-square320-v5.jpg?quality=75&amp;auto=webp&amp;disable=upscale</a></p></td>
+<td><p>The Daily Logo</p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe">https://www.nytimes.com/newsletters/morning-briefing-europe</a></p></td>
+<td><p><a class="reference external" href="https://static.nytimes.com/email-images/NYT-Newsletters-Europe-Icon-500px.jpg">https://static.nytimes.com/email-images/NYT-Newsletters-Europe-Icon-500px.jpg</a></p></td>
+<td><p>morning briefing</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter">https://www.nytimes.com/newsletters/australia-letter</a></p></td>
+<td><p><a class="reference external" href="https://static.nytimes.com/email-images/NYT-Newsletters-AustraliaLetter-Icon-500px.jpg">https://static.nytimes.com/email-images/NYT-Newsletters-AustraliaLetter-Icon-500px.jpg</a></p></td>
+<td><p>australia-letter</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/the-interpreter">https://www.nytimes.com/newsletters/the-interpreter</a></p></td>
+<td><p><a class="reference external" href="https://static.nytimes.com/email-images/NYT-Newsletters-SONL-TheInterpreter-Icon-500px.jpg">https://static.nytimes.com/email-images/NYT-Newsletters-SONL-TheInterpreter-Icon-500px.jpg</a></p></td>
+<td><p>the interpreter</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast">https://www.nytimes.com/section/world/middleeast</a></p></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale">https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale</a></p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>(min-width: 1024px) 205px, 150px</p></td>
+<td><p>async</p></td>
+<td><p>150</p></td>
+<td><p>100</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast">https://www.nytimes.com/section/world/middleeast</a></p></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-icj-case-explain-wjth/25israel-hamas-icj-case-explain-wjth-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale">https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-icj-case-explain-wjth/25israel-hamas-icj-case-explain-wjth-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale</a></p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>(min-width: 1024px) 205px, 150px</p></td>
+<td><p>async</p></td>
+<td><p>150</p></td>
+<td><p>100</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast">https://www.nytimes.com/section/world/middleeast</a></p></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-qatar-israel-ctbv/25israel-hamas-qatar-israel-ctbv-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale">https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-qatar-israel-ctbv/25israel-hamas-qatar-israel-ctbv-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale</a></p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>(min-width: 1024px) 205px, 150px</p></td>
+<td><p>async</p></td>
+<td><p>150</p></td>
+<td><p>100</p></td>
+<td><p>nan</p></td>
+</tr>
+</tbody>
+</table>
+<p>As you can see, for every URL we have all available image attributes listed, and in many
+cases with those attributes empty, because they were not used for that particular image.
+Also note that each image is represented independently on its own row, and mapped to the
+URL on which it was found, which can be seen in the first column.
+This is why we have the same URL repeated, to represent data for each image. You can
+use those URLs to get more data about the URL of interest from the crawl DataFrame.</p>
+<p>Let's get a quick overview of the usage of the various image attributes in this
+DataFrame. We do this by checking whether a tag is <cite>notna</cite> and get the averages.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img_df</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 75%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>url</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>img_src</p></td>
+<td><p>0.99</p></td>
+</tr>
+<tr class="row-odd"><td><p>img_alt</p></td>
+<td><p>0.99</p></td>
+</tr>
+<tr class="row-even"><td><p>img_width</p></td>
+<td><p>0.86</p></td>
+</tr>
+<tr class="row-odd"><td><p>img_height</p></td>
+<td><p>0.86</p></td>
+</tr>
+<tr class="row-even"><td><p>img_srcset</p></td>
+<td><p>0.25</p></td>
+</tr>
+<tr class="row-odd"><td><p>img_sizes</p></td>
+<td><p>0.25</p></td>
+</tr>
+<tr class="row-even"><td><p>img_decoding</p></td>
+<td><p>0.25</p></td>
+</tr>
+<tr class="row-odd"><td><p>img_loading</p></td>
+<td><p>0.01</p></td>
+</tr>
+<tr class="row-even"><td><p>img_border</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+<p>We can now see that almost all (99%) of our images have <cite>src</cite> and <cite>alt</cite> attributes.
+About 86% have <cite>width</cite> and <cite>height</cite>, and so on. This immediately gives us an overview of
+how our images are managed on the site. We can easily estimate the size of the issues if
+any, and plan our work accordingly.</p>
+</section>
+<section id="analyzing-links-in-a-crawled-website">
+<h2>Analyzing links in a crawled website<a class="headerlink" href="#analyzing-links-in-a-crawled-website" title="Permalink to this headline"></a></h2>
+<p>Another important aspect of any webpage/website is understanding how its pages are
+linked, internally and externally.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">crawlytics.links</span></code> function gives you a summary of the links, that is similar to
+the format of the <code class="docutils literal notranslate"><span class="pre">crawlytics.images</span></code> DataFrame.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">link_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">links</span><span class="p">(</span><span class="n">crawldf</span><span class="p">,</span> <span class="n">internal_url_regex</span><span class="o">=</span><span class="s1">&#39;nytimes.com&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">link_df</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 34%" />
+<col style="width: 42%" />
+<col style="width: 10%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>url</p></th>
+<th class="head"><p>link</p></th>
+<th class="head"><p>text</p></th>
+<th class="head"><p>nofollow</p></th>
+<th class="head"><p>internal</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/#site-content">https://www.nytimes.com/#site-content</a></p></td>
+<td><p>Skip to content</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/#site-index">https://www.nytimes.com/#site-index</a></p></td>
+<td><p>Skip to site index</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/#after-dfp-ad-top">https://www.nytimes.com/#after-dfp-ad-top</a></p></td>
+<td><p>SKIP ADVERTISEMENT</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe">https://www.nytimes.com/newsletters/morning-briefing-europe</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe#site-content">https://www.nytimes.com/newsletters/morning-briefing-europe#site-content</a></p></td>
+<td><p>Skip to content</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe">https://www.nytimes.com/newsletters/morning-briefing-europe</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe#site-index">https://www.nytimes.com/newsletters/morning-briefing-europe#site-index</a></p></td>
+<td><p>Skip to site index</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe">https://www.nytimes.com/newsletters/morning-briefing-europe</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter">https://www.nytimes.com/newsletters/australia-letter</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter#site-content">https://www.nytimes.com/newsletters/australia-letter#site-content</a></p></td>
+<td><p>Skip to content</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter">https://www.nytimes.com/newsletters/australia-letter</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter#site-index">https://www.nytimes.com/newsletters/australia-letter#site-index</a></p></td>
+<td><p>Skip to site index</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter">https://www.nytimes.com/newsletters/australia-letter</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/the-interpreter">https://www.nytimes.com/newsletters/the-interpreter</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/the-interpreter#site-content">https://www.nytimes.com/newsletters/the-interpreter#site-content</a></p></td>
+<td><p>Skip to content</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/the-interpreter">https://www.nytimes.com/newsletters/the-interpreter</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/the-interpreter#site-index">https://www.nytimes.com/newsletters/the-interpreter#site-index</a></p></td>
+<td><p>Skip to site index</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/the-interpreter">https://www.nytimes.com/newsletters/the-interpreter</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast">https://www.nytimes.com/section/world/middleeast</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast#site-content">https://www.nytimes.com/section/world/middleeast#site-content</a></p></td>
+<td><p>Skip to content</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast">https://www.nytimes.com/section/world/middleeast</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast#site-index">https://www.nytimes.com/section/world/middleeast#site-index</a></p></td>
+<td><p>Skip to site index</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast">https://www.nytimes.com/section/world/middleeast</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast">https://www.nytimes.com/section/world/middleeast</a></p></td>
+<td><p>Middle East</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+</tbody>
+</table>
+<p>Every link is represented on a separate row, and we have a few attributes for each link,
+it's text, whether or not it has a nofollow rel attribute, and optionally whether or not
+it is internal. For the optional <cite>internal</cite> parameter you will have to supply a regex to
+define what internal really means. You could include certain sub-domains, or even
+consider other domains as part of your same property, and thus they would be considered
+&quot;internal&quot;.</p>
+<p>We can now easily count how many links we have per URL, the most frequently used link
+text, and so on.</p>
+<p>We now take a look at redirects.</p>
+</section>
+<section id="analyzing-the-redirects-of-a-crawled-website">
+<h2>Analyzing the redirects of a crawled website<a class="headerlink" href="#analyzing-the-redirects-of-a-crawled-website" title="Permalink to this headline"></a></h2>
+<p>Like images and links, the information about redirects is presented using a group of
+columns:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">redirect_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">redirects</span><span class="p">(</span><span class="n">crawldf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">redirect_df</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 50%" />
+<col style="width: 6%" />
+<col style="width: 5%" />
+<col style="width: 9%" />
+<col style="width: 14%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>url</p></th>
+<th class="head"><p>status</p></th>
+<th class="head"><p>order</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>download_latency</p></th>
+<th class="head"><p>redirect_times</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://nytimes.com">https://nytimes.com</a></p></td>
+<td><p>301</p></td>
+<td><p>1</p></td>
+<td><p>requested</p></td>
+<td><p>0.220263</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p>200</p></td>
+<td><p>2</p></td>
+<td><p>crawled</p></td>
+<td><p>0.220263</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>26</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/privacy/privacy-policy">https://www.nytimes.com/privacy/privacy-policy</a></p></td>
+<td><p>301</p></td>
+<td><p>1</p></td>
+<td><p>requested</p></td>
+<td><p>0.079844</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>26</p></td>
+<td><p><a class="reference external" href="https://help.nytimes.com/hc/en-us/articles/10940941449492">https://help.nytimes.com/hc/en-us/articles/10940941449492</a></p></td>
+<td><p>403</p></td>
+<td><p>2</p></td>
+<td><p>crawled</p></td>
+<td><p>0.079844</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>105</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/es/privacy/privacy-policy">https://www.nytimes.com/es/privacy/privacy-policy</a></p></td>
+<td><p>301</p></td>
+<td><p>1</p></td>
+<td><p>requested</p></td>
+<td><p>0.0630789</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>105</p></td>
+<td><p><a class="reference external" href="https://help.nytimes.com/hc/en-us/articles/13537530305428">https://help.nytimes.com/hc/en-us/articles/13537530305428</a></p></td>
+<td><p>403</p></td>
+<td><p>2</p></td>
+<td><p>crawled</p></td>
+<td><p>0.0630789</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>218</p></td>
+<td><p><a class="reference external" href="https://nytimes.com/spotlight/privacy-project-data-protection">https://nytimes.com/spotlight/privacy-project-data-protection</a></p></td>
+<td><p>301</p></td>
+<td><p>1</p></td>
+<td><p>requested</p></td>
+<td><p>0.852014</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>218</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/spotlight/privacy-project-data-protection">https://www.nytimes.com/spotlight/privacy-project-data-protection</a></p></td>
+<td><p>200</p></td>
+<td><p>2</p></td>
+<td><p>crawled</p></td>
+<td><p>0.852014</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>225</p></td>
+<td><p><a class="reference external" href="https://nytimes.com/spotlight/privacy-project-regulation-solutions">https://nytimes.com/spotlight/privacy-project-regulation-solutions</a></p></td>
+<td><p>301</p></td>
+<td><p>1</p></td>
+<td><p>requested</p></td>
+<td><p>0.732559</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>310</p></td>
+<td><p><a class="reference external" href="http://nytimes.com/by/sahil-chinoy">http://nytimes.com/by/sahil-chinoy</a></p></td>
+<td><p>301</p></td>
+<td><p>1</p></td>
+<td><p>requested</p></td>
+<td><p>0.435062</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>310</p></td>
+<td><p><a class="reference external" href="https://nytimes.com/by/sahil-chinoy">https://nytimes.com/by/sahil-chinoy</a></p></td>
+<td><p>301</p></td>
+<td><p>2</p></td>
+<td><p>intermediate</p></td>
+<td><p>0.435062</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>310</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/by/sahil-chinoy">https://www.nytimes.com/by/sahil-chinoy</a></p></td>
+<td><p>200</p></td>
+<td><p>3</p></td>
+<td><p>crawled</p></td>
+<td><p>0.435062</p></td>
+<td><p>2</p></td>
+</tr>
+</tbody>
+</table>
+<p>Here each redirect is represented using a group of columns, as well as
+a group of rows. Columns show attributes of a redirect (status code, the order of the
+URL in the redirect, the type of the URL in the redirect context, download latency in
+seconds, and the number of redirects in this specific process).
+Since a redirect contains multiple URLs, each one of those URLs is represented on its
+own row. You can use the index of this DataFrame to connect a redirect back to the crawl
+DataFrame in case you want more context about it.</p>
+<p>Let's now see what can be done with large crawl files.</p>
+</section>
+<section id="handling-very-large-crawl-files">
+<h2>Handling very large crawl files<a class="headerlink" href="#handling-very-large-crawl-files" title="Permalink to this headline"></a></h2>
+<p>Many times you might end up crawling a large website, and the crawl file file might be
+as large as your memory (or even more), making it impossible to analyze.</p>
+<p>We have several options availablel to us:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Read a subset of columns</p></li>
+<li><p>Convert the jsonlines file to parquet</p></li>
+<li><p>Explore the available column names and their respective data types of a parquet
+file</p></li>
+</ol>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">jl_subset</span></code> function only reads the column subset that you want, massively
+reducing the memory consumption of our file.
+In some cases you only want a small set of columns, you can read the DataFrame with the
+columns of interest, write them to a new file, and delete the old large crawl file.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl_subset</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_subset</span><span class="p">(</span>
+<span class="gp">... </span>   <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;/path/to/output_file.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">col1</span><span class="p">,</span> <span class="n">col2</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+<span class="gp">... </span>   <span class="n">regex</span><span class="o">=</span><span class="n">column_regex</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">columns</span></code> parameter to specify exactly which columns you want. You can
+also use a regular expression to specify a set of columns. Here are some examples of
+regular expressions that you might typically want to use:</p>
+<ul class="simple">
+<li><p>&quot;img_&quot;: Get all image columns, including all availabe <cite>&lt;img&gt;</cite> attributes.</p></li>
+<li><p>&quot;jsonld_&quot;: Get all JSON-LD columns.</p></li>
+<li><p>&quot;resp_headers_&quot;: Response headers.</p></li>
+<li><p>&quot;request_headers_&quot;: Request headers.</p></li>
+<li><p>&quot;h\d&quot;: Heading columns, h1..h6.</p></li>
+<li><p>&quot;redirect_&quot;: Columns containing redirect information.</p></li>
+<li><p>&quot;links_&quot;: Columns containing link information.</p></li>
+</ul>
+<p>An important characteristic of these groups of columns is that you most likely don't
+know how many they are, and what they might include, so a regular expression can save a
+lot of time.</p>
+<p>You can use the <cite>columns</cite> and <cite>regex</cite> parameters together or either one of them on its
+own depending on your needs.</p>
+</section>
+<section id="compressing-large-crawl-files">
+<h2>Compressing large crawl files<a class="headerlink" href="#compressing-large-crawl-files" title="Permalink to this headline"></a></h2>
+<p>Another strategy while dealing with large jsonlines (.jl) files is to convert them to
+the highly performant <cite>.parquet</cite> format. You simply have to provide the current path to
+the .jl file, and provide a path for the desired .parquet file:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_to_parquet</span><span class="p">(</span><span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span> <span class="s2">&quot;output_file.parquet&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now you have a much smaller file on disk, and you can use the full power of parquet to
+efficiently read (and filter) columns and rows. Check the`pandas.read_parquet
+&lt;<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html">https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html</a>&gt;`_ documentation
+for details.</p>
+</section>
+<section id="exploring-the-columns-and-data-types-of-parquet-files">
+<h2>Exploring the columns and data types of parquet files<a class="headerlink" href="#exploring-the-columns-and-data-types-of-parquet-files" title="Permalink to this headline"></a></h2>
+<p>Another simple function gives us a DataFrame of the available columns in a parquet file.
+One of the main advantags of using parquet is that you can select which columns you want
+to read.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">parquet_columns</span><span class="p">(</span><span class="s1">&#39;output_file.parquet&#39;</span><span class="p">)</span> <span class="c1"># first 15 columns only</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 58%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>column</p></th>
+<th class="head"><p>type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>url</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>title</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>meta_desc</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>viewport</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>charset</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>h1</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>h2</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>h3</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>canonical</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>alt_href</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>alt_hreflang</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>og:url</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-even"><td><p>12</p></td>
+<td><p>og:type</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-odd"><td><p>13</p></td>
+<td><p>og:title</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-even"><td><p>14</p></td>
+<td><p>og:description</p></td>
+<td><p>string</p></td>
+</tr>
+</tbody>
+</table>
+<p>Check how many columns we have of each type.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">parquet_columns</span><span class="p">(</span><span class="s1">&#39;nyt_crawl.parquet&#39;</span><span class="p">)[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 93%" />
+<col style="width: 4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>string</p></td>
+<td><p>215</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>double</p></td>
+<td><p>22</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>list&lt;element: string&gt;</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>int64</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>list&lt;element: struct&lt;&#64;context: string, &#64;type: string, position: int64, url: string&gt;&gt;</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>list&lt;element: struct&lt;&#64;context: string, &#64;type: string, contentUrl: string, creditText: string, url: string&gt;&gt;</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>list&lt;element: struct&lt;&#64;context: string, &#64;type: string, caption: string, contentUrl: string, creditText: string, height: int64, url: string, width: int64&gt;&gt;</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>timestamp[ns]</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>list&lt;element: struct&lt;&#64;context: string, &#64;type: string, item: string, name: string, position: int64&gt;&gt;</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>list&lt;element: struct&lt;&#64;context: string, &#64;type: string, name: string, url: string&gt;&gt;</p></td>
+<td><p>1</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-functions">
+<h2>Module functions<a class="headerlink" href="#module-functions" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="advertools.crawlytics.images">
+<span class="sig-name descname"><span class="pre">images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crawldf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.images" title="Permalink to this definition"></a></dt>
+<dd><p>Summarize crawled images from a crawl DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>crawldf</strong> (<em>pandas.DataFrame</em>) -- A crawl DataFrame as a result of the advertools.crawl function.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>img_summary</strong> -- A DataFrame containing all available img tags and their attributes mapped to
+their respective URLs where each image data is represented with a separate row.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">images</span><span class="p">(</span><span class="n">crawldf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image_df</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 1%" />
+<col style="width: 17%" />
+<col style="width: 51%" />
+<col style="width: 5%" />
+<col style="width: 4%" />
+<col style="width: 9%" />
+<col style="width: 4%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>url</p></th>
+<th class="head"><p>img_src</p></th>
+<th class="head"><p>img_alt</p></th>
+<th class="head"><p>img_loading</p></th>
+<th class="head"><p>img_sizes</p></th>
+<th class="head"><p>img_decoding</p></th>
+<th class="head"><p>img_width</p></th>
+<th class="head"><p>img_height</p></th>
+<th class="head"><p>img_border</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p>/vi-assets/static-assets/icon-the-morning_144x144-b12a6923b6ad9102b766352261b1a847.webp</p></td>
+<td><p>The Morning Logo</p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p>/vi-assets/static-assets/icon-the-upshot_144x144-0b1553ff703bbd07ac8fe73e6d215888.webp</p></td>
+<td><p>The Upshot Logo</p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2017/01/29/podcasts/the-daily-album-art/the-daily-album-art-square320-v5.jpg?quality=75&amp;auto=webp&amp;disable=upscale">https://static01.nyt.com/images/2017/01/29/podcasts/the-daily-album-art/the-daily-album-art-square320-v5.jpg?quality=75&amp;auto=webp&amp;disable=upscale</a></p></td>
+<td><p>The Daily Logo</p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe">https://www.nytimes.com/newsletters/morning-briefing-europe</a></p></td>
+<td><p><a class="reference external" href="https://static.nytimes.com/email-images/NYT-Newsletters-Europe-Icon-500px.jpg">https://static.nytimes.com/email-images/NYT-Newsletters-Europe-Icon-500px.jpg</a></p></td>
+<td><p>morning briefing</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter">https://www.nytimes.com/newsletters/australia-letter</a></p></td>
+<td><p><a class="reference external" href="https://static.nytimes.com/email-images/NYT-Newsletters-AustraliaLetter-Icon-500px.jpg">https://static.nytimes.com/email-images/NYT-Newsletters-AustraliaLetter-Icon-500px.jpg</a></p></td>
+<td><p>australia-letter</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/the-interpreter">https://www.nytimes.com/newsletters/the-interpreter</a></p></td>
+<td><p><a class="reference external" href="https://static.nytimes.com/email-images/NYT-Newsletters-SONL-TheInterpreter-Icon-500px.jpg">https://static.nytimes.com/email-images/NYT-Newsletters-SONL-TheInterpreter-Icon-500px.jpg</a></p></td>
+<td><p>the interpreter</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast">https://www.nytimes.com/section/world/middleeast</a></p></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale">https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale</a></p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>(min-width: 1024px) 205px, 150px</p></td>
+<td><p>async</p></td>
+<td><p>150</p></td>
+<td><p>100</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast">https://www.nytimes.com/section/world/middleeast</a></p></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-icj-case-explain-wjth/25israel-hamas-icj-case-explain-wjth-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale">https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-icj-case-explain-wjth/25israel-hamas-icj-case-explain-wjth-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale</a></p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>(min-width: 1024px) 205px, 150px</p></td>
+<td><p>async</p></td>
+<td><p>150</p></td>
+<td><p>100</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/section/world/middleeast">https://www.nytimes.com/section/world/middleeast</a></p></td>
+<td><p><a class="reference external" href="https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-qatar-israel-ctbv/25israel-hamas-qatar-israel-ctbv-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale">https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-qatar-israel-ctbv/25israel-hamas-qatar-israel-ctbv-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale</a></p></td>
+<td></td>
+<td><p>nan</p></td>
+<td><p>(min-width: 1024px) 205px, 150px</p></td>
+<td><p>async</p></td>
+<td><p>150</p></td>
+<td><p>100</p></td>
+<td><p>nan</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="advertools.crawlytics.jl_subset">
+<span class="sig-name descname"><span class="pre">jl_subset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunksize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#jl_subset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.jl_subset" title="Permalink to this definition"></a></dt>
+<dd><p>Read a jl file extracting selected <cite>columns</cite> and/or columns matching <cite>regex</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em>) -- The path of the .jl (jsonlines) file to read.</p></li>
+<li><p><strong>columns</strong> (<em>list</em>) -- An optional list of column names that you want to read.</p></li>
+<li><p><strong>regex</strong> (<em>str</em>) -- An optional regular expression of the pattern of columns to read.</p></li>
+<li><p><strong>chunksize</strong> (<em>int</em>) -- How many rows to read per chunk.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+</pre></div>
+</div>
+<p>Read only the columns &quot;url&quot; and &quot;meta_desc&quot;:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_subset</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="s1">&#39;meta_desc&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Read columns matching the regex &quot;jsonld&quot;:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_subset</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="s1">&#39;jsonld&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Read the columns &quot;url&quot; and &quot;meta_desc&quot; as well as columns matching &quot;jsonld&quot;:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_subset</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="s1">&#39;meta_desc&#39;</span><span class="p">],</span> <span class="n">regex</span><span class="o">=</span><span class="s1">&#39;jsonld&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>df_subset</strong> -- A DataFrame containing the list of <cite>columns</cite> and/or columns matching <cite>regex</cite>.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="advertools.crawlytics.jl_to_parquet">
+<span class="sig-name descname"><span class="pre">jl_to_parquet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jl_filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parquet_filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#jl_to_parquet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.jl_to_parquet" title="Permalink to this definition"></a></dt>
+<dd><p>Convert a jsonlines crawl file to the parquet format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>jl_filepath</strong> (<em>str</em>) -- The path of an existing .jl file.</p></li>
+<li><p><strong>parquet_fileapth</strong> (<em>str</em>) -- The pather where you want the new file to be saved.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_to_parquet</span><span class="p">(</span><span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span> <span class="s2">&quot;output_file.parquet&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="advertools.crawlytics.links">
+<span class="sig-name descname"><span class="pre">links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crawldf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal_url_regex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#links"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.links" title="Permalink to this definition"></a></dt>
+<dd><p>Summarize links from a crawl DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>crawldf</strong> (<em>DataFrame</em>) -- A DataFrame of a website crawled with advertools.</p></li>
+<li><p><strong>internal_url_regex</strong> (<em>str</em>) -- A regular expression for identifying if a link is internal or not.
+For example if your website is example.com, this would be &quot;example.com&quot;.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>link_df</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">link_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">links</span><span class="p">(</span><span class="n">crawldf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">link_df</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 34%" />
+<col style="width: 42%" />
+<col style="width: 10%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>url</p></th>
+<th class="head"><p>link</p></th>
+<th class="head"><p>text</p></th>
+<th class="head"><p>nofollow</p></th>
+<th class="head"><p>internal</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/#site-content">https://www.nytimes.com/#site-content</a></p></td>
+<td><p>Skip to content</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/#site-index">https://www.nytimes.com/#site-index</a></p></td>
+<td><p>Skip to site index</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/#after-dfp-ad-top">https://www.nytimes.com/#after-dfp-ad-top</a></p></td>
+<td><p>SKIP ADVERTISEMENT</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe">https://www.nytimes.com/newsletters/morning-briefing-europe</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe#site-content">https://www.nytimes.com/newsletters/morning-briefing-europe#site-content</a></p></td>
+<td><p>Skip to content</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe">https://www.nytimes.com/newsletters/morning-briefing-europe</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe#site-index">https://www.nytimes.com/newsletters/morning-briefing-europe#site-index</a></p></td>
+<td><p>Skip to site index</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/morning-briefing-europe">https://www.nytimes.com/newsletters/morning-briefing-europe</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter">https://www.nytimes.com/newsletters/australia-letter</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter#site-content">https://www.nytimes.com/newsletters/australia-letter#site-content</a></p></td>
+<td><p>Skip to content</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter">https://www.nytimes.com/newsletters/australia-letter</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter#site-index">https://www.nytimes.com/newsletters/australia-letter#site-index</a></p></td>
+<td><p>Skip to site index</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/newsletters/australia-letter">https://www.nytimes.com/newsletters/australia-letter</a></p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="advertools.crawlytics.parquet_columns">
+<span class="sig-name descname"><span class="pre">parquet_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#parquet_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.parquet_columns" title="Permalink to this definition"></a></dt>
+<dd><p>Get column names and datatypes of a parquet file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) -- The path of the file that you want to get columns names and types.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>columns_types</strong> -- A DataFrame with two columns &quot;column&quot; and &quot;type&quot;.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="advertools.crawlytics.redirects">
+<span class="sig-name descname"><span class="pre">redirects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crawldf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#redirects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.redirects" title="Permalink to this definition"></a></dt>
+<dd><p>Create a tidy DataFrame for the redirects in <cite>crawldf</cite> with the columns:</p>
+<ul class="simple">
+<li><p>url: All the URLs in the redirect (chain).</p></li>
+<li><p>status: The status code of each URL.</p></li>
+<li><p>type: &quot;requested&quot;, &quot;inermediate&quot;, or &quot;crawled&quot;.</p></li>
+<li><p>order: 1, 2, 3... up to the number of urls in the redirect chain.</p></li>
+<li><p>redirect_times: The number of redirects in the chain (URLs in the chain minus one).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>crawldf</strong> (<em>pandas.DataFrame</em>) -- A DataFrame of an advertools crawl file</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">redirect_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">redirects</span><span class="p">(</span><span class="n">crawldf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">redirect_df</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 48%" />
+<col style="width: 7%" />
+<col style="width: 6%" />
+<col style="width: 8%" />
+<col style="width: 15%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>url</p></th>
+<th class="head"><p>status</p></th>
+<th class="head"><p>order</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>download_latency</p></th>
+<th class="head"><p>redirect_times</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://nytimes.com">https://nytimes.com</a></p></td>
+<td><p>301</p></td>
+<td><p>1</p></td>
+<td><p>requested</p></td>
+<td><p>0.220263</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/">https://www.nytimes.com/</a></p></td>
+<td><p>200</p></td>
+<td><p>2</p></td>
+<td><p>crawled</p></td>
+<td><p>0.220263</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>26</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/privacy/privacy-policy">https://www.nytimes.com/privacy/privacy-policy</a></p></td>
+<td><p>301</p></td>
+<td><p>1</p></td>
+<td><p>requested</p></td>
+<td><p>0.079844</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>26</p></td>
+<td><p><a class="reference external" href="https://help.nytimes.com/hc/en-us/articles/10940941449492">https://help.nytimes.com/hc/en-us/articles/10940941449492</a></p></td>
+<td><p>403</p></td>
+<td><p>2</p></td>
+<td><p>crawled</p></td>
+<td><p>0.079844</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>105</p></td>
+<td><p><a class="reference external" href="https://www.nytimes.com/es/privacy/privacy-policy">https://www.nytimes.com/es/privacy/privacy-policy</a></p></td>
+<td><p>301</p></td>
+<td><p>1</p></td>
+<td><p>requested</p></td>
+<td><p>0.0630789</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>105</p></td>
+<td><p><a class="reference external" href="https://help.nytimes.com/hc/en-us/articles/13537530305428">https://help.nytimes.com/hc/en-us/articles/13537530305428</a></p></td>
+<td><p>403</p></td>
+<td><p>2</p></td>
+<td><p>crawled</p></td>
+<td><p>0.0630789</p></td>
+<td><p>1</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="advertools.code_recipes.spider_strategies.html" class="btn btn-neutral float-left" title="🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.header_spider.html" class="btn btn-neutral float-right" title="🕷 Python Status Code Checker with Response Headers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elias Dabbas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

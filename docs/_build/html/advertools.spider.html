@@ -38,7 +38,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.2
+                0.13.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -82,6 +82,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
@@ -611,7 +612,7 @@ documentation.</p></li>
 crawl. This ensures that the crawler does not
 attempt to crawl the whole web. If not
 specified, it defaults to the domains of the
-URLs provided in <code class="docutils literal notranslate"><span class="pre">url_list</span></code> and all their 
+URLs provided in <code class="docutils literal notranslate"><span class="pre">url_list</span></code> and all their
 sub-domains. You can also specify a list of
 sub-domains, if you want to only crawl those.</p></li>
 </ul>
@@ -628,8 +629,8 @@ sub-domains, if you want to only crawl those.</p></li>
 </div>
 <p>Crawl a known set of pages (on a single or multiple sites) without
 following links (just crawl the specified pages) or &quot;list mode&quot;:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;http://example.com/product&#39;</span><span class="p">,</span> <span class="s1">&#39;http://example.com/product2&#39;</span><span class="p">,</span>
-<span class="gp">... </span>           <span class="s1">&#39;https://anotherexample.com&#39;</span><span class="p">,</span> <span class="s1">&#39;https://anotherexample.com/hello&#39;</span><span class="p">],</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">([</span><span class="s1">&#39;http://exmaple.com/product&#39;</span><span class="p">,</span> <span class="s1">&#39;http://exmaple.com/product2&#39;</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="s1">&#39;https://anotherexample.com&#39;</span><span class="p">,</span> <span class="s1">&#39;https://anotherexmaple.com/hello&#39;</span><span class="p">],</span>
 <span class="gp">... </span>           <span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>

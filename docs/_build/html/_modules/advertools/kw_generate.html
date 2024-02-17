@@ -35,7 +35,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="../../index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.2
+                0.13.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -62,6 +62,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
@@ -222,7 +223,7 @@ const thebe_selector_output = ".output, .cell_output"
                 <span class="n">match_types</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Exact&#39;</span><span class="p">,</span> <span class="s1">&#39;Phrase&#39;</span><span class="p">,</span> <span class="s1">&#39;Modified&#39;</span><span class="p">),</span>
                 <span class="n">capitalize_adgroups</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">order_matters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">campaign_name</span><span class="o">=</span><span class="s1">&#39;SEM_Campaign&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generate a data frame of keywords using a list of products and relevant</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a data frame of keywords using a list of products and relevant</span>
 <span class="sd">    words.</span>
 
 <span class="sd">    :param list products: will be used as the names of the ad groups</span>
@@ -306,7 +307,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="kw_broad"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_broad">[docs]</a><span class="k">def</span> <span class="nf">kw_broad</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in broad match.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return :attr:`words` in broad match.</span>
 
 <span class="sd">    :param list words: list of strings</span>
 <span class="sd">    :returns formatted: :attr:`words` in broad match type</span>
@@ -320,7 +321,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="kw_exact"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_exact">[docs]</a><span class="k">def</span> <span class="nf">kw_exact</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in exact match.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return :attr:`words` in exact match.</span>
 
 <span class="sd">    :param list words: list of strings</span>
 <span class="sd">    :returns formatted: :attr:`words` in exact match type</span>
@@ -333,7 +334,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="kw_phrase"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_phrase">[docs]</a><span class="k">def</span> <span class="nf">kw_phrase</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in phrase match.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return :attr:`words` in phrase match.</span>
 
 <span class="sd">    :param list words: list of strings</span>
 <span class="sd">    :returns formatted: :attr:`words` in phrase match type</span>
@@ -346,7 +347,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="kw_modified"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_modified">[docs]</a><span class="k">def</span> <span class="nf">kw_modified</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in modified broad match.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return :attr:`words` in modified broad match.</span>
 
 <span class="sd">    :param list words: list of strings</span>
 <span class="sd">    :returns formatted: :attr:`words` in modified broad match type</span>
@@ -359,7 +360,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="kw_neg_broad"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_neg_broad">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_broad</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in negative broad match.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return :attr:`words` in negative broad match.</span>
 
 <span class="sd">    :param list words: list of strings</span>
 <span class="sd">    :returns formatted: :attr:`words` in negative broad match type</span>
@@ -372,7 +373,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="kw_neg_phrase"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_neg_phrase">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_phrase</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in negative phrase match.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return :attr:`words` in negative phrase match.</span>
 
 <span class="sd">    :param list words: list of strings</span>
 <span class="sd">    :returns formatted: :attr:`words` in negative phrase match type</span>
@@ -385,7 +386,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="kw_neg_exact"><a class="viewcode-back" href="../../advertools.kw_generate.html#advertools.kw_generate.kw_neg_exact">[docs]</a><span class="k">def</span> <span class="nf">kw_neg_exact</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return :attr:`words` in negative exact match.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return :attr:`words` in negative exact match.</span>
 
 <span class="sd">    :param list words: list of strings</span>
 <span class="sd">    :returns formatted: :attr:`words` in negative exact match type</span>

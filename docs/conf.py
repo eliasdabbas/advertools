@@ -18,6 +18,7 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 
 import sphinx_rtd_theme
+
 from advertools import __version__ as adv_version
 
 # -- Project information -----------------------------------------------------
@@ -49,6 +50,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx_rtd_theme',
     'sphinx_thebe',
+    'sphinx.ext.napoleon',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
