@@ -5,8 +5,20 @@ Change Log - advertools
 0.14.0 (unreleased)
 -------------------
 
+* Added
+    - New module ``crawlytics`` for analyzing crawl DataFrames. Includes functions to
+      analyze crawl DataFrames (``images``, ``redirects``, and ``links``), as well as
+      functions to handle large files (``jl_to_parquet``, ``jl_subset``, ``parquet_columns``).
+    - New ``encoding`` option for ``logs_to_df``.
+
+* Changed
+    - Remove requirement to delete existing log output and error files if they exist.
+      The function will now overwrite them if they do.
+
 * Fixed
     - Always get absolute path for img src while crawling.
+    - Handle NA src attributes when extracting images.
+    - Change fillna(method="ffill") to ffill for ``url_to_df``.
 
 0.13.5 (2023-08-22)
 -------------------
