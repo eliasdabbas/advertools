@@ -144,13 +144,15 @@ of equal length across the dataset, having the right data in the right columns
 and `NA` otherwise. Or, splitting the dataset and analyzing separately.
 """
 
+import os
+from tempfile import TemporaryDirectory
 from urllib.parse import parse_qs, unquote, urlsplit
 
 import numpy as np
 import pandas as pd
 
 
-def url_to_df(urls, decode=True):
+def _url_to_df(urls, decode=True):
     """Split the given URLs into their components to a DataFrame.
 
     Each column will have its own component, and query parameters and
@@ -198,3 +200,43 @@ def url_to_df(urls, decode=True):
     url_list_df = pd.DataFrame({"url": [decode(url) for url in urls]})
     final_df = pd.concat([url_list_df, df], axis=1)
     return final_df
+
+
+def url_to_df(urls, decode=True, output_file=None):
+    """Split the given URLs into their components to a DataFrame.
+
+    Each column will have its own component, and query parameters and
+    directories will also be parsed and given special columns each.
+
+    Parameters
+    ----------
+    urls : list,pandas.Series
+      A list of URLs to split into components
+    decode : bool
+      Whether or not to decode the given URLs
+    output_file : str
+      The path where to save the output DataFrame with a .parquet extension
+
+    Returns
+    -------
+    urldf : pandas.DataFrame
+      A DataFrame with a column for each URL component
+    """
+    if output_file is not None:
+        if output_file.rsplit(".")[-1] != "parquet":
+            raise ValueError("Your output_file has to have a .parquet extension.")
+    step = 1000
+    sublists = (urls[sub : sub + step] for sub in range(0, len(urls), step))
+
+    with TemporaryDirectory() as tmpdir:
+        for i, l in enumerate(sublists):
+            urldf = _url_to_df(l, decode=decode)
+            urldf.to_parquet(f"{tmpdir}/{i:08}.parquet", index=False, version="2.6")
+        final_df_list = [
+            pd.read_parquet(f"{tmpdir}/{tmp}") for tmp in sorted(os.listdir(tmpdir))
+        ]
+        final_df = pd.concat(final_df_list, ignore_index=True)
+    if output_file is not None:
+        final_df.to_parquet(output_file, index=False, version="2.6")
+    else:
+        return final_df
