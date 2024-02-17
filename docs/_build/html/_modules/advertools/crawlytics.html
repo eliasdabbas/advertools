@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>advertools.crawlytics &mdash;  Python</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx-thebe.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="../../_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> advertools
+          </a>
+              <div class="version">
+                0.13.5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.survey.html">Survey - your feedback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.cli.cli.html">Command Line Interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">advertools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>advertools.crawlytics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for advertools.crawlytics</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">After crawling a website, or a bunch of URLs, you mostly likely want to analyze the data</span>
+<span class="sd">and gain a better undersanding of the website&#39;s structure, strategy, and content. You</span>
+<span class="sd">probably also want to check for technical issues that the site might have.</span>
+
+<span class="sd">This module provides a few ready-made functions to help in anayzing crawl data.</span>
+
+<span class="sd">There are certain columns in the crawl DataFrame that can be analyzed separately and</span>
+<span class="sd">independently, like page size and status codes. They can of course be analyzed together</span>
+<span class="sd">with other columns like URL and title to put these columns and their data in context.</span>
+
+<span class="sd">There are also groups of columns the can be thought of as describing one full aspect of</span>
+<span class="sd">a website, yet spread across a few columns. For exmaple:</span>
+
+<span class="sd">Analyzing crawled images</span>
+<span class="sd">------------------------</span>
+
+<span class="sd">Every crawled URL typically contains multiple images. Every image in turn has multiple</span>
+<span class="sd">attributes (src, alt, width, etc.)</span>
+<span class="sd">The number of images per URL is not the same, and not all images have the same</span>
+<span class="sd">attributes. So we need a way to unpack all these data points in a tidy (long form)</span>
+<span class="sd">DataFrame to get an idea of how images (and their attributes) are used and distributed</span>
+<span class="sd">across the crawled website (URLs).</span>
+
+<span class="sd">Once you have read a crawl output file into a DataFrame, you can summarize the images</span>
+<span class="sd">in this DataFrame as follows:</span>
+
+<span class="sd">&gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">&gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">&gt;&gt;&gt; crawldf = pd.read_json(&#39;path/to/output_file.jl&#39;, lines=True)</span>
+<span class="sd">&gt;&gt;&gt; img_df = adv.crawlytics.images(crawldf)</span>
+<span class="sd">&gt;&gt;&gt; img_df</span>
+
+<span class="sd">====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============</span>
+<span class="sd">  ..  url                                                          img_src                                                                                                                                                                             img_alt           img_loading    img_sizes                         img_decoding      img_width    img_height    img_border</span>
+<span class="sd">====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============</span>
+<span class="sd">   0  https://www.nytimes.com/                                     /vi-assets/static-assets/icon-the-morning_144x144-b12a6923b6ad9102b766352261b1a847.webp                                                                                             The Morning Logo                 nan                               nan                     nan           nan           nan</span>
+<span class="sd">   0  https://www.nytimes.com/                                     /vi-assets/static-assets/icon-the-upshot_144x144-0b1553ff703bbd07ac8fe73e6d215888.webp                                                                                              The Upshot Logo                  nan                               nan                     nan           nan           nan</span>
+<span class="sd">   0  https://www.nytimes.com/                                     https://static01.nyt.com/images/2017/01/29/podcasts/the-daily-album-art/the-daily-album-art-square320-v5.jpg?quality=75&amp;auto=webp&amp;disable=upscale                                   The Daily Logo                   nan                               nan                     nan           nan           nan</span>
+<span class="sd">   1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://static.nytimes.com/email-images/NYT-Newsletters-Europe-Icon-500px.jpg                                                                                                       morning briefing  nan            nan                               nan                     nan           nan           nan</span>
+<span class="sd">   2  https://www.nytimes.com/newsletters/australia-letter         https://static.nytimes.com/email-images/NYT-Newsletters-AustraliaLetter-Icon-500px.jpg                                                                                              australia-letter  nan            nan                               nan                     nan           nan           nan</span>
+<span class="sd">   3  https://www.nytimes.com/newsletters/the-interpreter          https://static.nytimes.com/email-images/NYT-Newsletters-SONL-TheInterpreter-Icon-500px.jpg                                                                                          the interpreter   nan            nan                               nan                     nan           nan           nan</span>
+<span class="sd">   4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale                                                              nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan</span>
+<span class="sd">   4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-icj-case-explain-wjth/25israel-hamas-icj-case-explain-wjth-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale                    nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan</span>
+<span class="sd">   4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-qatar-israel-ctbv/25israel-hamas-qatar-israel-ctbv-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale                            nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan</span>
+<span class="sd">====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============</span>
+
+<span class="sd">As you can see, for every URL we have all available image attributes listed, and in many</span>
+<span class="sd">cases with those attributes empty, because they were not used for that particular image.</span>
+<span class="sd">Also note that each image is represented independently on its own row, and mapped to the</span>
+<span class="sd">URL on which it was found, which can be seen in the first column.</span>
+<span class="sd">This is why we have the same URL repeated, to represent data for each image. You can</span>
+<span class="sd">use those URLs to get more data about the URL of interest from the crawl DataFrame.</span>
+
+<span class="sd">Let&#39;s get a quick overview of the usage of the various image attributes in this</span>
+<span class="sd">DataFrame. We do this by checking whether a tag is `notna` and get the averages.</span>
+
+<span class="sd">&gt;&gt;&gt; img_df.notna().mean().sort_values(ascending=False).to_frame().round(2)</span>
+
+<span class="sd">============  ====</span>
+<span class="sd">url           1</span>
+<span class="sd">img_src       0.99</span>
+<span class="sd">img_alt       0.99</span>
+<span class="sd">img_width     0.86</span>
+<span class="sd">img_height    0.86</span>
+<span class="sd">img_srcset    0.25</span>
+<span class="sd">img_sizes     0.25</span>
+<span class="sd">img_decoding  0.25</span>
+<span class="sd">img_loading   0.01</span>
+<span class="sd">img_border    0</span>
+<span class="sd">============  ====</span>
+
+<span class="sd">We can now see that almost all (99%) of our images have `src` and `alt` attributes.</span>
+<span class="sd">About 86% have `width` and `height`, and so on. This immediately gives us an overview of</span>
+<span class="sd">how our images are managed on the site. We can easily estimate the size of the issues if</span>
+<span class="sd">any, and plan our work accordingly.</span>
+
+<span class="sd">Analyzing links in a crawled website</span>
+<span class="sd">------------------------------------</span>
+
+<span class="sd">Another important aspect of any webpage/website is understanding how its pages are</span>
+<span class="sd">linked, internally and externally.</span>
+
+<span class="sd">The ``crawlytics.links`` function gives you a summary of the links, that is similar to</span>
+<span class="sd">the format of the ``crawlytics.images`` DataFrame.</span>
+
+<span class="sd">&gt;&gt;&gt; link_df = adv.crawlytics.links(crawldf, internal_url_regex=&#39;nytimes.com&#39;)</span>
+<span class="sd">&gt;&gt;&gt; link_df</span>
+
+<span class="sd">====  ===========================================================  ========================================================================  ==================  ==========  ==========</span>
+<span class="sd">  ..  url                                                          link                                                                      text                nofollow    internal</span>
+<span class="sd">====  ===========================================================  ========================================================================  ==================  ==========  ==========</span>
+<span class="sd">   0  https://www.nytimes.com/                                     https://www.nytimes.com/#site-content                                     Skip to content     False       True</span>
+<span class="sd">   0  https://www.nytimes.com/                                     https://www.nytimes.com/#site-index                                       Skip to site index  False       True</span>
+<span class="sd">   0  https://www.nytimes.com/                                     https://www.nytimes.com/#after-dfp-ad-top                                 SKIP ADVERTISEMENT  False       True</span>
+<span class="sd">   1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/newsletters/morning-briefing-europe#site-content  Skip to content     False       True</span>
+<span class="sd">   1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/newsletters/morning-briefing-europe#site-index    Skip to site index  False       True</span>
+<span class="sd">   1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/                                                                      False       True</span>
+<span class="sd">   2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/newsletters/australia-letter#site-content         Skip to content     False       True</span>
+<span class="sd">   2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/newsletters/australia-letter#site-index           Skip to site index  False       True</span>
+<span class="sd">   2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/                                                                      False       True</span>
+<span class="sd">   3  https://www.nytimes.com/newsletters/the-interpreter          https://www.nytimes.com/newsletters/the-interpreter#site-content          Skip to content     False       True</span>
+<span class="sd">   3  https://www.nytimes.com/newsletters/the-interpreter          https://www.nytimes.com/newsletters/the-interpreter#site-index            Skip to site index  False       True</span>
+<span class="sd">   3  https://www.nytimes.com/newsletters/the-interpreter          https://www.nytimes.com/                                                                      False       True</span>
+<span class="sd">   4  https://www.nytimes.com/section/world/middleeast             https://www.nytimes.com/section/world/middleeast#site-content             Skip to content     False       True</span>
+<span class="sd">   4  https://www.nytimes.com/section/world/middleeast             https://www.nytimes.com/section/world/middleeast#site-index               Skip to site index  False       True</span>
+<span class="sd">   4  https://www.nytimes.com/section/world/middleeast             https://www.nytimes.com/section/world/middleeast                          Middle East         False       True</span>
+<span class="sd">====  ===========================================================  ========================================================================  ==================  ==========  ==========</span>
+
+<span class="sd">Every link is represented on a separate row, and we have a few attributes for each link,</span>
+<span class="sd">it&#39;s text, whether or not it has a nofollow rel attribute, and optionally whether or not</span>
+<span class="sd">it is internal. For the optional `internal` parameter you will have to supply a regex to</span>
+<span class="sd">define what internal really means. You could include certain sub-domains, or even</span>
+<span class="sd">consider other domains as part of your same property, and thus they would be considered</span>
+<span class="sd">&quot;internal&quot;.</span>
+
+<span class="sd">We can now easily count how many links we have per URL, the most frequently used link</span>
+<span class="sd">text, and so on.</span>
+
+<span class="sd">We now take a look at redirects.</span>
+
+<span class="sd">Analyzing the redirects of a crawled website</span>
+<span class="sd">--------------------------------------------</span>
+
+<span class="sd">Like images and links, the information about redirects is presented using a group of</span>
+<span class="sd">columns:</span>
+
+<span class="sd">&gt;&gt;&gt; redirect_df = adv.crawlytics.redirects(crawldf)</span>
+<span class="sd">&gt;&gt;&gt; redirect_df</span>
+
+<span class="sd">====  ==================================================================  ========  =======  ============  ==================  ================</span>
+<span class="sd">  ..  url                                                                   status    order  type            download_latency    redirect_times</span>
+<span class="sd">====  ==================================================================  ========  =======  ============  ==================  ================</span>
+<span class="sd">   0  https://nytimes.com                                                      301        1  requested              0.220263                  1</span>
+<span class="sd">   0  https://www.nytimes.com/                                                 200        2  crawled                0.220263                  1</span>
+<span class="sd">  26  https://www.nytimes.com/privacy/privacy-policy                           301        1  requested              0.079844                  1</span>
+<span class="sd">  26  https://help.nytimes.com/hc/en-us/articles/10940941449492                403        2  crawled                0.079844                  1</span>
+<span class="sd"> 105  https://www.nytimes.com/es/privacy/privacy-policy                        301        1  requested              0.0630789                 1</span>
+<span class="sd"> 105  https://help.nytimes.com/hc/en-us/articles/13537530305428                403        2  crawled                0.0630789                 1</span>
+<span class="sd"> 218  https://nytimes.com/spotlight/privacy-project-data-protection            301        1  requested              0.852014                  1</span>
+<span class="sd"> 218  https://www.nytimes.com/spotlight/privacy-project-data-protection        200        2  crawled                0.852014                  1</span>
+<span class="sd"> 225  https://nytimes.com/spotlight/privacy-project-regulation-solutions       301        1  requested              0.732559                  1</span>
+<span class="sd"> 310  http://nytimes.com/by/sahil-chinoy                                       301        1  requested              0.435062                  2</span>
+<span class="sd"> 310  https://nytimes.com/by/sahil-chinoy                                      301        2  intermediate           0.435062                  2</span>
+<span class="sd"> 310  https://www.nytimes.com/by/sahil-chinoy                                  200        3  crawled                0.435062                  2</span>
+<span class="sd">====  ==================================================================  ========  =======  ============  ==================  ================</span>
+
+<span class="sd">Here each redirect is represented using a group of columns, as well as</span>
+<span class="sd">a group of rows. Columns show attributes of a redirect (status code, the order of the </span>
+<span class="sd">URL in the redirect, the type of the URL in the redirect context, download latency in</span>
+<span class="sd">seconds, and the number of redirects in this specific process).</span>
+<span class="sd">Since a redirect contains multiple URLs, each one of those URLs is represented on its</span>
+<span class="sd">own row. You can use the index of this DataFrame to connect a redirect back to the crawl</span>
+<span class="sd">DataFrame in case you want more context about it.</span>
+
+<span class="sd">Let&#39;s now see what can be done with large crawl files.</span>
+
+<span class="sd">Handling very large crawl files</span>
+<span class="sd">-------------------------------</span>
+
+<span class="sd">Many times you might end up crawling a large website, and the crawl file file might be</span>
+<span class="sd">as large as your memory (or even more), making it impossible to analyze.</span>
+
+<span class="sd">We have several options availablel to us:</span>
+
+<span class="sd">  1. Read a subset of columns</span>
+<span class="sd">  2. Convert the jsonlines file to parquet</span>
+<span class="sd">  3. Explore the available column names and their respective data types of a parquet</span>
+<span class="sd">     file</span>
+
+<span class="sd">The ``jl_subset`` function only reads the column subset that you want, massively</span>
+<span class="sd">reducing the memory consumption of our file.</span>
+<span class="sd">In some cases you only want a small set of columns, you can read the DataFrame with the</span>
+<span class="sd">columns of interest, write them to a new file, and delete the old large crawl file.</span>
+
+<span class="sd">&gt;&gt;&gt; crawl_subset = adv.crawlytics.jl_subset(</span>
+<span class="sd">...    filepath=&#39;/path/to/output_file.jl&#39;,</span>
+<span class="sd">...    columns=[col1, col2, ...],</span>
+<span class="sd">...    regex=column_regex)</span>
+
+<span class="sd">You can use the ``columns`` parameter to specify exactly which columns you want. You can</span>
+<span class="sd">also use a regular expression to specify a set of columns. Here are some examples of</span>
+<span class="sd">regular expressions that you might typically want to use:</span>
+
+<span class="sd">* &quot;img\_&quot;: Get all image columns, including all availabe `&lt;img&gt;` attributes.</span>
+<span class="sd">* &quot;jsonld\_&quot;: Get all JSON-LD columns.</span>
+<span class="sd">* &quot;resp_headers\_&quot;: Response headers.</span>
+<span class="sd">* &quot;request_headers\_&quot;: Request headers.</span>
+<span class="sd">* &quot;h\\\d&quot;: Heading columns, h1..h6.</span>
+<span class="sd">* &quot;redirect\_&quot;: Columns containing redirect information.</span>
+<span class="sd">* &quot;links\_&quot;: Columns containing link information.</span>
+
+<span class="sd">An important characteristic of these groups of columns is that you most likely don&#39;t</span>
+<span class="sd">know how many they are, and what they might include, so a regular expression can save a</span>
+<span class="sd">lot of time.</span>
+
+<span class="sd">You can use the `columns` and `regex` parameters together or either one of them on its</span>
+<span class="sd">own depending on your needs.</span>
+
+<span class="sd">Compressing large crawl files</span>
+<span class="sd">-----------------------------</span>
+
+<span class="sd">Another strategy while dealing with large jsonlines (.jl) files is to convert them to</span>
+<span class="sd">the highly performant `.parquet` format. You simply have to provide the current path to</span>
+<span class="sd">the .jl file, and provide a path for the desired .parquet file:</span>
+
+<span class="sd">&gt;&gt;&gt; adv.crawlytics.jl_to_parquet(&quot;output_file.jl&quot;, &quot;output_file.parquet&quot;)</span>
+
+<span class="sd">Now you have a much smaller file on disk, and you can use the full power of parquet to</span>
+<span class="sd">efficiently read (and filter) columns and rows. Check the`pandas.read_parquet</span>
+<span class="sd">&lt;https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html&gt;`_ documentation</span>
+<span class="sd">for details.</span>
+
+
+<span class="sd">Exploring the columns and data types of parquet files</span>
+<span class="sd">-----------------------------------------------------</span>
+
+<span class="sd">Another simple function gives us a DataFrame of the available columns in a parquet file.</span>
+<span class="sd">One of the main advantags of using parquet is that you can select which columns you want</span>
+<span class="sd">to read.</span>
+
+<span class="sd">&gt;&gt;&gt; adv.crawlytics.parquet_columns(&#39;output_file.parquet&#39;) # first 15 columns only</span>
+
+<span class="sd">====  ==============  ======</span>
+<span class="sd">  ..  column          type</span>
+<span class="sd">====  ==============  ======</span>
+<span class="sd">   0  url             string</span>
+<span class="sd">   1  title           string</span>
+<span class="sd">   2  meta_desc       string</span>
+<span class="sd">   3  viewport        string</span>
+<span class="sd">   4  charset         string</span>
+<span class="sd">   5  h1              string</span>
+<span class="sd">   6  h2              string</span>
+<span class="sd">   7  h3              string</span>
+<span class="sd">   8  canonical       string</span>
+<span class="sd">   9  alt_href        string</span>
+<span class="sd">  10  alt_hreflang    string</span>
+<span class="sd">  11  og:url          string</span>
+<span class="sd">  12  og:type         string</span>
+<span class="sd">  13  og:title        string</span>
+<span class="sd">  14  og:description  string</span>
+<span class="sd">====  ==============  ======</span>
+
+<span class="sd">Check how many columns we have of each type.</span>
+
+<span class="sd">&gt;&gt;&gt; adv.crawlytics.parquet_columns(&#39;nyt_crawl.parquet&#39;)[&#39;type&#39;].value_counts()</span>
+
+<span class="sd">====  =========================================================================================================================================================  =======</span>
+<span class="sd">  ..  type                                                                                                                                                         count</span>
+<span class="sd">====  =========================================================================================================================================================  =======</span>
+<span class="sd">   0  string                                                                                                                                                         215</span>
+<span class="sd">   1  double                                                                                                                                                          22</span>
+<span class="sd">   2  list&lt;element: string&gt;                                                                                                                                            5</span>
+<span class="sd">   3  int64                                                                                                                                                            4</span>
+<span class="sd">   4  list&lt;element: struct&lt;@context: string, @type: string, position: int64, url: string&gt;&gt;                                                                             2</span>
+<span class="sd">   5  list&lt;element: struct&lt;@context: string, @type: string, contentUrl: string, creditText: string, url: string&gt;&gt;                                                      2</span>
+<span class="sd">   6  list&lt;element: struct&lt;@context: string, @type: string, caption: string, contentUrl: string, creditText: string, height: int64, url: string, width: int64&gt;&gt;        1</span>
+<span class="sd">   7  timestamp[ns]                                                                                                                                                    1</span>
+<span class="sd">   8  list&lt;element: struct&lt;@context: string, @type: string, item: string, name: string, position: int64&gt;&gt;                                                              1</span>
+<span class="sd">   9  list&lt;element: struct&lt;@context: string, @type: string, name: string, url: string&gt;&gt;                                                                                1</span>
+<span class="sd">====  =========================================================================================================================================================  =======</span>
+
+
+<span class="sd">Module functions</span>
+<span class="sd">----------------</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pyarrow.parquet</span> <span class="k">as</span> <span class="nn">pq</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;images&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;links&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;redirects&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;jl_subset&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;jl_to_parquet&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;parquet_columns&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="redirects"><a class="viewcode-back" href="../../advertools.crawlytics.html#advertools.crawlytics.redirects">[docs]</a><span class="k">def</span> <span class="nf">redirects</span><span class="p">(</span><span class="n">crawldf</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a tidy DataFrame for the redirects in `crawldf` with the columns:</span>
+
+<span class="sd">    - url: All the URLs in the redirect (chain).</span>
+<span class="sd">    - status: The status code of each URL.</span>
+<span class="sd">    - type: &quot;requested&quot;, &quot;inermediate&quot;, or &quot;crawled&quot;.</span>
+<span class="sd">    - order: 1, 2, 3... up to the number of urls in the redirect chain.</span>
+<span class="sd">    - redirect_times: The number of redirects in the chain (URLs in the chain minus one).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    crawldf : pandas.DataFrame</span>
+<span class="sd">        A DataFrame of an advertools crawl file</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; crawldf = pd.read_json(&#39;output_file.jl&#39;, lines=True)</span>
+<span class="sd">    &gt;&gt;&gt; redirect_df = adv.crawlytics.redirects(crawldf)</span>
+<span class="sd">    &gt;&gt;&gt; redirect_df</span>
+
+<span class="sd">    ====  =========================================================  ========  =======  =========  ==================  ================</span>
+<span class="sd">      ..  url                                                          status    order  type         download_latency    redirect_times</span>
+<span class="sd">    ====  =========================================================  ========  =======  =========  ==================  ================</span>
+<span class="sd">       0  https://nytimes.com                                             301        1  requested           0.220263                  1</span>
+<span class="sd">       0  https://www.nytimes.com/                                        200        2  crawled             0.220263                  1</span>
+<span class="sd">      26  https://www.nytimes.com/privacy/privacy-policy                  301        1  requested           0.079844                  1</span>
+<span class="sd">      26  https://help.nytimes.com/hc/en-us/articles/10940941449492       403        2  crawled             0.079844                  1</span>
+<span class="sd">     105  https://www.nytimes.com/es/privacy/privacy-policy               301        1  requested           0.0630789                 1</span>
+<span class="sd">     105  https://help.nytimes.com/hc/en-us/articles/13537530305428       403        2  crawled             0.0630789                 1</span>
+<span class="sd">    ====  =========================================================  ========  =======  =========  ==================  ================</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;redirect_urls&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">crawldf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;redirect_urls&quot;</span> <span class="ow">in</span> <span class="n">crawldf</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">crawldf</span><span class="p">[</span><span class="s2">&quot;redirect_urls&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">redirect_df</span> <span class="o">=</span> <span class="n">crawldf</span><span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;redirect_urls&quot;</span><span class="p">,</span> <span class="s2">&quot;redirect_reasons&quot;</span><span class="p">]</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;redirect_urls&quot;</span><span class="p">,</span> <span class="s2">&quot;redirect_reasons&quot;</span><span class="p">])</span>
+    <span class="n">redirect_df</span><span class="p">[</span><span class="s2">&quot;redirect_urls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">redirect_df</span><span class="p">[</span><span class="s2">&quot;redirect_urls&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@@&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">redirect_df</span><span class="p">[</span><span class="s2">&quot;redirect_reasons&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">redirect_df</span><span class="p">[</span><span class="s2">&quot;redirect_reasons&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@@&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">url</span><span class="p">,</span> <span class="n">redirect_urls</span> <span class="ow">in</span> <span class="n">redirect_df</span><span class="p">[[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;redirect_urls&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+        <span class="n">redirect_urls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">status</span><span class="p">,</span> <span class="n">redirect_reasons</span> <span class="ow">in</span> <span class="n">redirect_df</span><span class="p">[[</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;redirect_reasons&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+        <span class="n">redirect_reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+    <span class="n">redirect_df</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">redirect_df</span><span class="p">[</span><span class="s2">&quot;redirect_reasons&quot;</span><span class="p">]</span>
+    <span class="p">]</span>
+    <span class="n">redirect_df</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;requested&quot;</span>
+                <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+                <span class="k">else</span> <span class="s2">&quot;crawled&quot;</span> <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">order</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;intermediate&quot;</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">order</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">redirect_df</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">]</span>
+    <span class="p">]</span>
+    <span class="n">redirect_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NA1&quot;</span><span class="p">,</span> <span class="s2">&quot;NA2&quot;</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">]</span>
+    <span class="n">exploded</span> <span class="o">=</span> <span class="n">redirect_df</span><span class="p">[[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">explode</span><span class="p">)</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+        <span class="n">exploded</span><span class="p">,</span>
+        <span class="n">crawldf</span><span class="p">[[</span><span class="s2">&quot;download_latency&quot;</span><span class="p">,</span> <span class="s2">&quot;redirect_times&quot;</span><span class="p">]],</span>
+        <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;redirect_times&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;redirect_times&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">final_df</span></div>
+
+
+<div class="viewcode-block" id="links"><a class="viewcode-back" href="../../advertools.crawlytics.html#advertools.crawlytics.links">[docs]</a><span class="k">def</span> <span class="nf">links</span><span class="p">(</span><span class="n">crawldf</span><span class="p">,</span> <span class="n">internal_url_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Summarize links from a crawl DataFrame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    crawldf : DataFrame</span>
+<span class="sd">        A DataFrame of a website crawled with advertools.</span>
+<span class="sd">    internal_url_regex : str</span>
+<span class="sd">        A regular expression for identifying if a link is internal or not.</span>
+<span class="sd">        For example if your website is example.com, this would be &quot;example.com&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    link_df : pandas.DataFrame</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; crawldf = pd.read_json(&#39;output_file.jl&#39;, lines=True)</span>
+<span class="sd">    &gt;&gt;&gt; link_df = adv.crawlytics.links(crawldf)</span>
+<span class="sd">    &gt;&gt;&gt; link_df</span>
+
+<span class="sd">    ====  ===========================================================  ========================================================================  ==================  ==========  ==========</span>
+<span class="sd">      ..  url                                                          link                                                                      text                nofollow    internal</span>
+<span class="sd">    ====  ===========================================================  ========================================================================  ==================  ==========  ==========</span>
+<span class="sd">       0  https://www.nytimes.com/                                     https://www.nytimes.com/#site-content                                     Skip to content     False       True</span>
+<span class="sd">       0  https://www.nytimes.com/                                     https://www.nytimes.com/#site-index                                       Skip to site index  False       True</span>
+<span class="sd">       0  https://www.nytimes.com/                                     https://www.nytimes.com/#after-dfp-ad-top                                 SKIP ADVERTISEMENT  False       True</span>
+<span class="sd">       1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/newsletters/morning-briefing-europe#site-content  Skip to content     False       True</span>
+<span class="sd">       1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/newsletters/morning-briefing-europe#site-index    Skip to site index  False       True</span>
+<span class="sd">       1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/                                                                      False       True</span>
+<span class="sd">       2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/newsletters/australia-letter#site-content         Skip to content     False       True</span>
+<span class="sd">       2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/newsletters/australia-letter#site-index           Skip to site index  False       True</span>
+<span class="sd">       2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/                                                                      False       True</span>
+<span class="sd">    ====  ===========================================================  ========================================================================  ==================  ==========  ==========</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;links_url&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">crawldf</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">link_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+        <span class="n">crawldf</span><span class="p">[[</span><span class="s2">&quot;url&quot;</span><span class="p">]],</span>
+        <span class="n">crawldf</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">&quot;^links_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@@&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">explode</span><span class="p">()),</span>
+        <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">link_df</span><span class="p">[</span><span class="s2">&quot;links_nofollow&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">link_df</span><span class="p">[</span><span class="s2">&quot;links_nofollow&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;True&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;False&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">internal_url_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">link_df</span><span class="p">[</span><span class="s2">&quot;internal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">link_df</span><span class="p">[</span><span class="s2">&quot;links_url&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">internal_url_regex</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="n">link_df</span> <span class="o">=</span> <span class="n">link_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+        <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;links_url&quot;</span><span class="p">:</span> <span class="s2">&quot;link&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;links_text&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;links_nofollow&quot;</span><span class="p">:</span> <span class="s2">&quot;nofollow&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">link_df</span></div>
+
+
+<div class="viewcode-block" id="images"><a class="viewcode-back" href="../../advertools.crawlytics.html#advertools.crawlytics.images">[docs]</a><span class="k">def</span> <span class="nf">images</span><span class="p">(</span><span class="n">crawldf</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Summarize crawled images from a crawl DataFrame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    crawldf : pandas.DataFrame</span>
+<span class="sd">        A crawl DataFrame as a result of the advertools.crawl function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    img_summary : pandas.DataFrame</span>
+<span class="sd">        A DataFrame containing all available img tags and their attributes mapped to</span>
+<span class="sd">        their respective URLs where each image data is represented with a separate row.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; crawldf = pd.read_json(&#39;output_file.jl&#39;, lines=True)</span>
+<span class="sd">    &gt;&gt;&gt; image_df = adv.crawlytics.images(crawldf)</span>
+<span class="sd">    &gt;&gt;&gt; image_df</span>
+
+<span class="sd">    ====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============</span>
+<span class="sd">      ..  url                                                          img_src                                                                                                                                                                             img_alt           img_loading    img_sizes                         img_decoding      img_width    img_height    img_border</span>
+<span class="sd">    ====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============</span>
+<span class="sd">       0  https://www.nytimes.com/                                     /vi-assets/static-assets/icon-the-morning_144x144-b12a6923b6ad9102b766352261b1a847.webp                                                                                             The Morning Logo                 nan                               nan                     nan           nan           nan</span>
+<span class="sd">       0  https://www.nytimes.com/                                     /vi-assets/static-assets/icon-the-upshot_144x144-0b1553ff703bbd07ac8fe73e6d215888.webp                                                                                              The Upshot Logo                  nan                               nan                     nan           nan           nan</span>
+<span class="sd">       0  https://www.nytimes.com/                                     https://static01.nyt.com/images/2017/01/29/podcasts/the-daily-album-art/the-daily-album-art-square320-v5.jpg?quality=75&amp;auto=webp&amp;disable=upscale                                   The Daily Logo                   nan                               nan                     nan           nan           nan</span>
+<span class="sd">       1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://static.nytimes.com/email-images/NYT-Newsletters-Europe-Icon-500px.jpg                                                                                                       morning briefing  nan            nan                               nan                     nan           nan           nan</span>
+<span class="sd">       2  https://www.nytimes.com/newsletters/australia-letter         https://static.nytimes.com/email-images/NYT-Newsletters-AustraliaLetter-Icon-500px.jpg                                                                                              australia-letter  nan            nan                               nan                     nan           nan           nan</span>
+<span class="sd">       3  https://www.nytimes.com/newsletters/the-interpreter          https://static.nytimes.com/email-images/NYT-Newsletters-SONL-TheInterpreter-Icon-500px.jpg                                                                                          the interpreter   nan            nan                               nan                     nan           nan           nan</span>
+<span class="sd">       4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale                                                              nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan</span>
+<span class="sd">       4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-icj-case-explain-wjth/25israel-hamas-icj-case-explain-wjth-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale                    nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan</span>
+<span class="sd">       4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-qatar-israel-ctbv/25israel-hamas-qatar-israel-ctbv-thumbWide.jpg?quality=75&amp;auto=webp&amp;disable=upscale                            nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan</span>
+<span class="sd">    ====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">img_df</span> <span class="o">=</span> <span class="n">crawldf</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">&quot;^url$|img_&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">img_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">notna</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">notna</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">row</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@@&quot;</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="n">notna</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="p">)</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">index</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="p">))]</span>
+        <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">final_df</span></div>
+
+
+<div class="viewcode-block" id="jl_subset"><a class="viewcode-back" href="../../advertools.crawlytics.html#advertools.crawlytics.jl_subset">[docs]</a><span class="k">def</span> <span class="nf">jl_subset</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a jl file extracting selected `columns` and/or columns matching `regex`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath : str</span>
+<span class="sd">      The path of the .jl (jsonlines) file to read.</span>
+<span class="sd">    columns : list</span>
+<span class="sd">      An optional list of column names that you want to read.</span>
+<span class="sd">    regex : str</span>
+<span class="sd">      An optional regular expression of the pattern of columns to read.</span>
+<span class="sd">    chunksize : int</span>
+<span class="sd">      How many rows to read per chunk.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+
+<span class="sd">    Read only the columns &quot;url&quot; and &quot;meta_desc&quot;:</span>
+
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.jl_subset(&#39;output_file.jl&#39;, columns=[&#39;url&#39;, &#39;meta_desc&#39;])</span>
+
+<span class="sd">    Read columns matching the regex &quot;jsonld&quot;:</span>
+
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.jl_subset(&#39;output_file.jl&#39;, regex=&#39;jsonld&#39;)</span>
+
+<span class="sd">    Read the columns &quot;url&quot; and &quot;meta_desc&quot; as well as columns matching &quot;jsonld&quot;:</span>
+
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.jl_subset(&#39;output_file.jl&#39;, columns=[&#39;url&#39;, &#39;meta_desc&#39;], regex=&#39;jsonld&#39;)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df_subset : pandas.DataFrame</span>
+<span class="sd">      A DataFrame containing the list of `columns` and/or columns matching `regex`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">regex</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please supply either a list of columns or a regex.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">col_regex</span> <span class="o">=</span> <span class="s2">&quot;^&quot;</span> <span class="o">+</span> <span class="s2">&quot;$|^&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;$&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">col_regex</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">full_regex</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">col_regex</span><span class="p">,</span> <span class="n">regex</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">full_regex</span> <span class="o">=</span> <span class="n">col_regex</span> <span class="ow">or</span> <span class="n">regex</span>
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="n">chunksize</span><span class="p">):</span>
+        <span class="n">chunk_subset</span> <span class="o">=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="n">full_regex</span><span class="p">)</span>
+        <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chunk_subset</span><span class="p">)</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">final_df</span></div>
+
+
+<div class="viewcode-block" id="jl_to_parquet"><a class="viewcode-back" href="../../advertools.crawlytics.html#advertools.crawlytics.jl_to_parquet">[docs]</a><span class="k">def</span> <span class="nf">jl_to_parquet</span><span class="p">(</span><span class="n">jl_filepath</span><span class="p">,</span> <span class="n">parquet_filepath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a jsonlines crawl file to the parquet format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    jl_filepath : str</span>
+<span class="sd">      The path of an existing .jl file.</span>
+<span class="sd">    parquet_fileapth : str</span>
+<span class="sd">      The pather where you want the new file to be saved.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.jl_to_parquet(&quot;output_file.jl&quot;, &quot;output_file.parquet&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;not done&quot;</span>
+    <span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">jl_filepath</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;not done&quot;</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">crawldf</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">parquet_filepath</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;2.6&quot;</span><span class="p">)</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;done&quot;</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">column</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;column (\S+)&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;converting to string: </span><span class="si">{</span><span class="n">column</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">crawldf</span><span class="p">[</span><span class="n">column</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">crawldf</span><span class="p">[</span><span class="n">column</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="parquet_columns"><a class="viewcode-back" href="../../advertools.crawlytics.html#advertools.crawlytics.parquet_columns">[docs]</a><span class="k">def</span> <span class="nf">parquet_columns</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get column names and datatypes of a parquet file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath : str</span>
+<span class="sd">      The path of the file that you want to get columns names and types.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    columns_types : pandas.DataFrame</span>
+<span class="sd">      A DataFrame with two columns &quot;column&quot; and &quot;type&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pqdataset</span> <span class="o">=</span> <span class="n">pq</span><span class="o">.</span><span class="n">ParquetDataset</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">columns_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="nb">zip</span><span class="p">(</span><span class="n">pqdataset</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">names</span><span class="p">,</span> <span class="n">pqdataset</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">types</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;column&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">columns_df</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elias Dabbas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

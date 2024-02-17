@@ -35,7 +35,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="../../index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.2
+                0.13.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -62,6 +62,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
@@ -556,7 +557,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <span class="k">def</span> <span class="nf">_split_by_comma</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Group a comma-separated string into a list of at-most</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Group a comma-separated string into a list of at-most</span>
 <span class="sd">    ``length``-length words each.&quot;&quot;&quot;</span>
     <span class="n">str_split</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
     <span class="n">str_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -568,7 +569,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="youtube_video_details"><a class="viewcode-back" href="../../advertools.serp.html#advertools.serp.youtube_video_details">[docs]</a><span class="k">def</span> <span class="nf">youtube_video_details</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">vid_ids</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return details of videos for which the ids are given.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return details of videos for which the ids are given.</span>
 <span class="sd">    Assumes ``ids`` is a comma-separated list of video ids with</span>
 <span class="sd">    no spaces.&quot;&quot;&quot;</span>
     <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://www.googleapis.com/youtube/v3/videos?part=&#39;</span>
@@ -601,7 +602,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="youtube_channel_details"><a class="viewcode-back" href="../../advertools.serp.html#advertools.serp.youtube_channel_details">[docs]</a><span class="k">def</span> <span class="nf">youtube_channel_details</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">channel_ids</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return details of channels for which the ids are given.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return details of channels for which the ids are given.</span>
 <span class="sd">    Assumes ``ids`` is a comma-separated list of channel ids with</span>
 <span class="sd">    no spaces.&quot;&quot;&quot;</span>
     <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://www.googleapis.com/youtube/v3/channels?part=&#39;</span>
@@ -632,7 +633,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <span class="k">def</span> <span class="nf">_dict_product</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return the product of all values of a dict, while</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the product of all values of a dict, while</span>
 <span class="sd">    coupling each value with its key.</span>
 <span class="sd">    This is used to generate multiple queries out of</span>
 <span class="sd">        possibly multiple arguments in serp_goog.</span>
@@ -664,7 +665,7 @@ const thebe_selector_output = ".output, .cell_output"
               <span class="n">lr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">orTerms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relatedSite</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
               <span class="n">rights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">searchType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">siteSearch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
               <span class="n">siteSearchFilter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Query Google and get search results in a DataFrame.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query Google and get search results in a DataFrame.</span>
 
 <span class="sd">    For each parameter, you can supply single or multiple values / arguments.</span>
 <span class="sd">        If you pass multiple arguments, all the possible combinations of</span>
@@ -930,7 +931,7 @@ const thebe_selector_output = ".output, .cell_output"
                  <span class="n">videoCategoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDefinition</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">videoDimension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDuration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoEmbeddable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">videoLicense</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoSyndicated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoType</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Query the YouTube API and get search results in a DataFrame.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query the YouTube API and get search results in a DataFrame.</span>
 <span class="sd">    For each parameter you can supply a single or multiple value(s).</span>
 <span class="sd">    Looping and merging results is handled automatically in case of multiple</span>
 <span class="sd">    values.</span>
@@ -1342,7 +1343,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="set_logging_level"><a class="viewcode-back" href="../../advertools.serp.html#advertools.serp.set_logging_level">[docs]</a><span class="k">def</span> <span class="nf">set_logging_level</span><span class="p">(</span><span class="n">level_or_name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Change the logging level during the session.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Change the logging level during the session.</span>
 <span class="sd">    Acceptable values are [0, 10, 20, 30, 40, 50,</span>
 <span class="sd">    &#39;NOTSET&#39;, &#39;DEBUG&#39;, &#39;INFO&#39;, &#39;WARNING&#39;, &#39;ERROR&#39;,</span>
 <span class="sd">    &#39;CRITICAL&#39;]</span>

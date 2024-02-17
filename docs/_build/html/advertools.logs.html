@@ -38,7 +38,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.2
+                0.13.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -65,6 +65,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Log File Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-run-the-logs-to-df-function">How to run the <code class="xref py py-func docutils literal notranslate"><span class="pre">logs_to_df()</span></code> function:</a></li>
@@ -195,7 +196,7 @@ Function used:  <a class="reference internal" href="advertools.reverse_dns_looku
 easily add a <code class="docutils literal notranslate"><span class="pre">hostname</span></code> column to the original DataFrame.</p></li>
 <li><p>Parse and split URL columns into their respective components. Typically we
 have <code class="docutils literal notranslate"><span class="pre">request</span></code> which is the resource/URL requested, as well as <code class="docutils literal notranslate"><span class="pre">referer</span></code>
-, which shows us where the request was referred from. Function used: 
+, which shows us where the request was referred from. Function used:
 <a class="reference internal" href="advertools.urlytics.html#urlytics"><span class="std std-ref">url_to_df</span></a>.</p></li>
 <li><p>Parse user agents if available. This allows us to analyze by user-agent
 family, operating system, bot/non-bot, version, and any other combination we
@@ -2237,7 +2238,7 @@ Crawling errors are also interesting, and can be found in rows where
 
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.logs.logs_to_df">
-<span class="sig-name descname"><span class="pre">logs_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/logs.html#logs_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.logs.logs_to_df" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">logs_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/logs.html#logs_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.logs.logs_to_df" title="Permalink to this definition"></a></dt>
 <dd><p>Parse and compress any log file into a DataFrame format.</p>
 <p>Convert a log file to a <cite>parquet</cite> file in a DataFrame format, and save all
 errors (or lines not conformig to the chosen log format) into a separate
@@ -2265,13 +2266,16 @@ available formats and fields.</p>
 path as an existing file.</p></li>
 <li><p><strong>errors_file</strong> (<em>str</em>) -- The path where the parsing errors are stored. Any
 text format works, CSV is recommended to easily
-open it with any CSV reader with the separator as 
+open it with any CSV reader with the separator as
 &quot;&#64;&#64;&quot;.</p></li>
 <li><p><strong>log_format</strong> (<em>str</em>) -- Either the name of one of the supported log formats,
 or a regex of your own format.</p></li>
 <li><p><strong>fields</strong> (<em>str</em>) -- A list of fields, which will become the names of columns
 in <code class="docutils literal notranslate"><span class="pre">output_file</span></code>. Only required if you provide a
 custom (regex) <code class="docutils literal notranslate"><span class="pre">log_format</span></code>.</p></li>
+<li><p><strong>encoding</strong> (<em>str</em>) -- The encoding of the log file. It defaults to utf-8, but
+you might need to try others in case of errors
+(latin-1, utf-16, etc.)</p></li>
 </ul>
 </dd>
 </dl>

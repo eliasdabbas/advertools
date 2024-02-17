@@ -35,7 +35,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="../../index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.2
+                0.13.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -62,6 +62,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
@@ -737,7 +738,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="extract"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract">[docs]</a><span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">key_name</span><span class="p">,</span> <span class="n">extracted</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about arbitrary matches in ``text_list``.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a summary dictionary about arbitrary matches in ``text_list``.</span>
 
 <span class="sd">    This function is used by other specialized functions to extract</span>
 <span class="sd">    certain elements (hashtags, mentions, emojis, etc.).</span>
@@ -785,7 +786,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="extract_currency"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_currency">[docs]</a><span class="k">def</span> <span class="nf">extract_currency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">left_chars</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">right_chars</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about currency symbols in ``text_list``</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a summary dictionary about currency symbols in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of currency symbols, their frequency,</span>
 <span class="sd">    the top ones, and more.</span>
@@ -861,7 +862,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="extract_exclamations"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_exclamations">[docs]</a><span class="k">def</span> <span class="nf">extract_exclamations</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about exclamation (mark)s in ``text_list``</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a summary dictionary about exclamation (mark)s in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of exclamation marks, their frequency,</span>
 <span class="sd">    the top ones, as well the exclamations written/said.</span>
@@ -966,7 +967,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="extract_hashtags"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_hashtags">[docs]</a><span class="k">def</span> <span class="nf">extract_hashtags</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about hashtags in :attr:`text_list`</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a summary dictionary about hashtags in :attr:`text_list`</span>
 
 <span class="sd">    Get a summary of the number of hashtags, their frequency, the top</span>
 <span class="sd">    ones, and more.</span>
@@ -1015,7 +1016,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="extract_intense_words"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_intense_words">[docs]</a><span class="k">def</span> <span class="nf">extract_intense_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">min_reps</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about intense words in :attr:`text_list`</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a summary dictionary about intense words in :attr:`text_list`</span>
 
 <span class="sd">    Get all instances of usage of intense words (positive or negative), using</span>
 <span class="sd">    words that have :attr:`min_reps` or more repetitions of characters.</span>
@@ -1035,7 +1036,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="extract_mentions"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_mentions">[docs]</a><span class="k">def</span> <span class="nf">extract_mentions</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about mentions in ``text_list``</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a summary dictionary about mentions in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of mentions, their frequency, the top</span>
 <span class="sd">    ones, and more.</span>
@@ -1084,7 +1085,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="extract_numbers"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_numbers">[docs]</a><span class="k">def</span> <span class="nf">extract_numbers</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">number_separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about numbers in ``text_list``, separated</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a summary dictionary about numbers in ``text_list``, separated</span>
 <span class="sd">    by any of ``number_separators``</span>
 
 <span class="sd">    Get a summary of the number of numbers, their frequency, the top</span>
@@ -1147,7 +1148,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="extract_questions"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_questions">[docs]</a><span class="k">def</span> <span class="nf">extract_questions</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about question(mark)s in ``text_list``</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a summary dictionary about question(mark)s in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of question marks, their frequency,</span>
 <span class="sd">    the top ones, as well the questions asked.</span>
@@ -1254,7 +1255,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="extract_urls"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_urls">[docs]</a><span class="k">def</span> <span class="nf">extract_urls</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about URLs in ``text_list``</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a summary dictionary about URLs in ``text_list``</span>
 
 <span class="sd">    Get a summary of the number of URLs, their frequency, the top</span>
 <span class="sd">    ones, and more.</span>
@@ -1333,7 +1334,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="extract_words"><a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_words">[docs]</a><span class="k">def</span> <span class="nf">extract_words</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">words_to_extract</span><span class="p">,</span> <span class="n">entire_words_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a summary dictionary about :attr:`words_to_extract` in</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a summary dictionary about :attr:`words_to_extract` in</span>
 <span class="sd">    :attr:`text_list`.</span>
 
 <span class="sd">    Get a summary of the number of words, their frequency, the top</span>

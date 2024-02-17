@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>advertools.image_spider &mdash;  Python</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx-thebe.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+        <script async="async" src="../../_static/sphinx-thebe.js"></script>
+        <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> advertools
+          </a>
+              <div class="version">
+                0.13.5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.survey.html">Survey - your feedback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.cli.cli.html">Command Line Interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">advertools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>advertools.image_spider</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for advertools.image_spider</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlsplit</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scrapy</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Spider</span>
+<span class="kn">from</span> <span class="nn">scrapy.pipelines.images</span> <span class="kn">import</span> <span class="n">ImagesPipeline</span>
+
+<span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+
+<span class="n">image_spider_path</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/image_spider.py&#39;</span>
+
+<span class="n">user_agent</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;advertools/</span><span class="si">{</span><span class="n">adv</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1">&#39;</span>
+
+
+<div class="viewcode-block" id="ImgItem"><a class="viewcode-back" href="../../advertools.image_spider.html#advertools.image_spider.ImgItem">[docs]</a><span class="k">class</span> <span class="nc">ImgItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">image_urls</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span>
+    <span class="n">images</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span>
+    <span class="n">image_location</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="AdvImagesPipeline"><a class="viewcode-back" href="../../advertools.image_spider.html#advertools.image_spider.AdvImagesPipeline">[docs]</a><span class="k">class</span> <span class="nc">AdvImagesPipeline</span><span class="p">(</span><span class="n">ImagesPipeline</span><span class="p">):</span>
+<div class="viewcode-block" id="AdvImagesPipeline.file_path"><a class="viewcode-back" href="../../advertools.image_spider.html#advertools.image_spider.AdvImagesPipeline.file_path">[docs]</a>    <span class="k">def</span> <span class="nf">file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">item</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">img_url</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">return</span> <span class="n">urlsplit</span><span class="p">(</span><span class="n">img_url</span><span class="p">)</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="ImageSpider"><a class="viewcode-back" href="../../advertools.image_spider.html#advertools.image_spider.ImageSpider">[docs]</a><span class="k">class</span> <span class="nc">ImageSpider</span><span class="p">(</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;image_spider&#39;</span>
+    <span class="n">include_img_regex</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">custom_settings</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;USER_AGENT&#39;</span><span class="p">:</span> <span class="n">user_agent</span><span class="p">,</span>
+        <span class="s1">&#39;ROBOTSTXT_OBEY&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;HTTPERROR_ALLOW_ALL&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;ITEM_PIPELINES&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">AdvImagesPipeline</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s1">&#39;AUTOTHROTTLE_ENABLED&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;AUTOTHROTTLE_TARGET_CONCURRENCY&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_urls</span><span class="p">,</span> <span class="n">include_img_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_urls</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">start_urls</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">include_img_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">include_img_regex</span> <span class="o">=</span> <span class="n">include_img_regex</span>
+
+<div class="viewcode-block" id="ImageSpider.start_requests"><a class="viewcode-back" href="../../advertools.image_spider.html#advertools.image_spider.ImageSpider.start_requests">[docs]</a>    <span class="k">def</span> <span class="nf">start_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_urls</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ImageSpider.parse"><a class="viewcode-back" href="../../advertools.image_spider.html#advertools.image_spider.ImageSpider.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="n">img_item</span> <span class="o">=</span> <span class="n">ImgItem</span><span class="p">()</span>
+        <span class="n">img_src</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//img/@src&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">include_img_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">img_src</span> <span class="o">=</span> <span class="p">[</span><span class="n">response</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">img_src</span>
+                       <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">include_img_regex</span><span class="p">,</span> <span class="n">src</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">img_src</span> <span class="o">=</span> <span class="p">[</span><span class="n">response</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">img_src</span><span class="p">]</span>
+        <span class="n">img_item</span><span class="p">[</span><span class="s1">&#39;image_urls&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">img_src</span>
+        <span class="n">img_item</span><span class="p">[</span><span class="s1">&#39;image_location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">yield</span> <span class="n">img_item</span></div></div>
+
+
+<div class="viewcode-block" id="crawl_images"><a class="viewcode-back" href="../../advertools.image_spider.html#advertools.image_spider.crawl_images">[docs]</a><span class="k">def</span> <span class="nf">crawl_images</span><span class="p">(</span>
+    <span class="n">start_urls</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="p">,</span>
+    <span class="n">min_width</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">min_height</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">include_img_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">custom_settings</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Download all images available on start_urls and save them to output_dir.</span>
+
+<span class="sd">    THIS FUNCTION IS STILL EXPERIMENTAL. Expect many changes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    start_urls : list</span>
+<span class="sd">      A list of URLs from which you want to download available images.</span>
+<span class="sd">    output_dir : str</span>
+<span class="sd">      The directory where you want the images to be saved.</span>
+<span class="sd">    min_width : int</span>
+<span class="sd">      The minimum width in pixels for an image to be downloaded.</span>
+<span class="sd">    min_height : int</span>
+<span class="sd">      The minimum height in pixels for an image to be downloaded.</span>
+<span class="sd">    include_img_regex : str</span>
+<span class="sd">      A regular expression to select image src URLs. Use this to restrict image</span>
+<span class="sd">      files that match this regex.</span>
+<span class="sd">    custom_settings : dict</span>
+<span class="sd">      Additional settings to customize the crawling behaviour.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">settings_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">custom_settings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">custom_settings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">setting</span> <span class="o">=</span> <span class="s1">&#39;=&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">val</span><span class="p">)])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">setting</span> <span class="o">=</span> <span class="s1">&#39;=&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)])</span>
+            <span class="n">settings_list</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="n">setting</span><span class="p">])</span>
+
+    <span class="n">command</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;scrapy&#39;</span><span class="p">,</span> <span class="s1">&#39;runspider&#39;</span><span class="p">,</span> <span class="n">image_spider_path</span><span class="p">,</span>
+        <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;start_urls=&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">start_urls</span><span class="p">),</span>
+        <span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;IMAGES_STORE=&#39;</span> <span class="o">+</span> <span class="n">output_dir</span><span class="p">,</span>
+        <span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;IMAGES_MIN_HEIGHT=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">min_height</span><span class="p">),</span>
+        <span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;IMAGES_MIN_WIDTH=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">min_width</span><span class="p">),</span>
+        <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">output_dir</span> <span class="o">+</span> <span class="s1">&#39;/image_summary.jl&#39;</span>
+        <span class="p">]</span> <span class="o">+</span> <span class="n">settings_list</span>
+    <span class="k">if</span> <span class="n">include_img_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">command</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;include_img_regex=&#39;</span> <span class="o">+</span> <span class="n">include_img_regex</span><span class="p">]</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="summarize_crawled_imgs"><a class="viewcode-back" href="../../advertools.image_spider.html#advertools.image_spider.summarize_crawled_imgs">[docs]</a><span class="k">def</span> <span class="nf">summarize_crawled_imgs</span><span class="p">(</span><span class="n">image_dir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Provide a DataFrame of image locations and image URLs resulting from</span>
+<span class="sd">    crawl_images.</span>
+
+<span class="sd">    Running the crawl_images function create a summary CSV file of the</span>
+<span class="sd">    downloaded images. This function parses that file and provides a two-column</span>
+<span class="sd">    DataFrame:</span>
+
+<span class="sd">    - image_location: The URL from which the images was downloaded from.</span>
+<span class="sd">    - image_urls: The URL of the image file tha was downloaded.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image_dir : str</span>
+<span class="sd">      The path to the directory that you provided to crawl_images</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">image_dir</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/image_summary.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;image_location&#39;</span><span class="p">,</span> <span class="s1">&#39;image_urls&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s1">&#39;image_urls&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elias Dabbas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

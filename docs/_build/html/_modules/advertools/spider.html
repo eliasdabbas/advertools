@@ -35,7 +35,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="../../index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.2
+                0.13.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -62,6 +62,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
@@ -536,8 +537,12 @@ const thebe_selector_output = ".output, .cell_output"
 
 <span class="n">BODY_TEXT_SELECTOR</span> <span class="o">=</span> <span class="s1">&#39;//body//span//text() | //body//p//text() | //body//li//text()&#39;</span>
 
-<span class="n">_IMG_ATTRS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alt&#39;</span><span class="p">,</span> <span class="s1">&#39;crossorigin&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;ismap&#39;</span><span class="p">,</span> <span class="s1">&#39;loading&#39;</span><span class="p">,</span> <span class="s1">&#39;longdesc&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;referrerpolicy&#39;</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">,</span> <span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="s1">&#39;srcset&#39;</span><span class="p">,</span> <span class="s1">&#39;usemap&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span><span class="p">}</span>
+<span class="n">_IMG_ATTRS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;alt&#39;</span><span class="p">,</span> <span class="s1">&#39;crossorigin&#39;</span><span class="p">,</span> <span class="s1">&#39;decoding&#39;</span><span class="p">,</span> <span class="s1">&#39;fetchpriority&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;ismap&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;loading&#39;</span><span class="p">,</span> <span class="s1">&#39;referrerpolicy&#39;</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">,</span> <span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="s1">&#39;srcset&#39;</span><span class="p">,</span> <span class="s1">&#39;usemap&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span><span class="p">,</span>
+    <span class="c1"># Depracated tags, also included for completeness and QA:</span>
+    <span class="s1">&#39;align&#39;</span><span class="p">,</span> <span class="s1">&#39;border&#39;</span><span class="p">,</span> <span class="s1">&#39;hspace&#39;</span><span class="p">,</span> <span class="s1">&#39;longdesc&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;vspace&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
 
 
 <span class="k">def</span> <span class="nf">_crawl_or_not</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
@@ -572,14 +577,13 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="k">def</span> <span class="nf">_extract_images</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
     <span class="n">page_has_images</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//img&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">page_has_images</span><span class="p">:</span>
-        <span class="n">img_attributes</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">,</span>
-                                <span class="p">[</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-                                 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">page_has_images</span><span class="p">])</span>
-        <span class="n">img_attributes</span> <span class="o">=</span> <span class="n">img_attributes</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">_IMG_ATTRS</span><span class="p">)</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">im_attr</span> <span class="ow">in</span> <span class="n">img_attributes</span><span class="p">:</span>
-            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;img_&#39;</span> <span class="o">+</span> <span class="n">im_attr</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">im</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">im_attr</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
-                                            <span class="k">for</span> <span class="n">im</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//img&#39;</span><span class="p">)])</span>
+        <span class="n">img_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">attrib</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//img&#39;</span><span class="p">)])</span>
+        <span class="k">if</span> <span class="s1">&#39;src&#39;</span> <span class="ow">in</span> <span class="n">img_df</span><span class="p">:</span>
+            <span class="n">img_df</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">response</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">img_df</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">]]</span>
+        <span class="n">img_df</span> <span class="o">=</span> <span class="n">img_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">col</span><span class="p">:</span> <span class="n">col</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;@@&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">img_df</span> <span class="o">=</span> <span class="n">img_df</span><span class="p">[</span><span class="n">img_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">_IMG_ATTRS</span><span class="p">)]</span>
+        <span class="n">img_df</span> <span class="o">=</span> <span class="n">img_df</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s1">&#39;img_&#39;</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">img_df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s1">&#39;records&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">d</span>
     <span class="k">return</span> <span class="p">{}</span>
 
@@ -667,7 +671,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <span class="k">def</span> <span class="nf">_split_long_urllist</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="n">MAX_CMD_LENGTH</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Split url_list if their total length is greater than MAX_CMD_LENGTH.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Split url_list if their total length is greater than MAX_CMD_LENGTH.&quot;&quot;&quot;</span>
     <span class="n">split_list</span> <span class="o">=</span> <span class="p">[[]]</span>
 
     <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">url_list</span><span class="p">:</span>
@@ -680,7 +684,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <span class="k">def</span> <span class="nf">_numbered_duplicates</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Append a number to all duplicated items starting at 1.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append a number to all duplicated items starting at 1.</span>
 
 <span class="sd">    [&#39;og:site&#39;, &#39;og:image&#39;, &#39;og:image&#39;, &#39;og:type&#39;, &#39;og:image&#39;]</span>
 <span class="sd">    becomes:</span>
@@ -872,7 +876,7 @@ const thebe_selector_output = ".output, .cell_output"
         <span class="k">else</span><span class="p">:</span>
             <span class="n">twtr_card</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">ld</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span>
+            <span class="n">ld</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span>
                   <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;script[type=&quot;application/ld+json&quot;]::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getall</span><span class="p">()]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">ld</span><span class="p">:</span>
                 <span class="n">jsonld</span> <span class="o">=</span> <span class="p">{}</span>
@@ -942,7 +946,7 @@ const thebe_selector_output = ".output, .cell_output"
           <span class="n">include_url_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
           <span class="n">css_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xpath_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">custom_settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
           <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crawl a website&#39;s URLs based on the given :attr:`url_list`</span>
 
 <span class="sd">    :param url,list url_list: One or more URLs to crawl. If ``follow_links``</span>

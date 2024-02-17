@@ -35,7 +35,7 @@ const thebe_selector_output = ".output, .cell_output"
             <a href="../../index.html" class="icon icon-home"> advertools
           </a>
               <div class="version">
-                0.13.2
+                0.13.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -62,6 +62,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
@@ -317,7 +318,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <span class="k">def</span> <span class="nf">_get_counts</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Split a number into a list of divisors and the remainder.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Split a number into a list of divisors and the remainder.</span>
 <span class="sd">    The divisor is the default count in this case.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">number</span><span class="p">:</span>
         <span class="n">number</span> <span class="o">=</span> <span class="mi">1</span>
@@ -415,7 +416,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="viewcode-block" id="authenticate"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.authenticate">[docs]</a><span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Used internally, please use set_auth_params for authentication.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Used internally, please use set_auth_params for authentication.&quot;&quot;&quot;</span>
     <span class="n">auth_params</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -435,7 +436,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <div class="viewcode-block" id="get_application_rate_limit_status"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_application_rate_limit_status">[docs]</a><span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_application_rate_limit_status</span><span class="p">(</span><span class="n">consumed_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the current rate limits for methods belonging to the</span>
 <span class="sd">        specified resource families.</span>
 
@@ -464,7 +465,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <div class="viewcode-block" id="get_available_trends"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_available_trends">[docs]</a><span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_available_trends</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the locations that Twitter has trending topic information for.</span>
 
 <span class="sd">    https://developer.twitter.com/en/docs/trends/locations-with-trending-topics/api-reference/get-trends-available</span>
@@ -485,7 +486,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_favorites</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the 20 most recent Tweets favorited by the authenticating</span>
 <span class="sd">        or specified user.</span>
 
@@ -516,7 +517,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_followers_ids</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cursored collection of user IDs for every user</span>
 <span class="sd">        following the specified user.</span>
 
@@ -545,7 +546,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_followers_list</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                        <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cursored collection of user objects for users</span>
 <span class="sd">        following the specified user.</span>
 
@@ -574,7 +575,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_friends_ids</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cursored collection of user IDs for every user the</span>
 <span class="sd">        specified user is following (otherwise known as their &quot;friends&quot;).</span>
 
@@ -603,7 +604,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_friends_list</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cursored collection of user objects for every user the</span>
 <span class="sd">        specified user is following (otherwise known as their &quot;friends&quot;).</span>
 
@@ -631,7 +632,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_home_timeline</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">exclude_replies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a collection of the most recent Tweets and retweets</span>
 <span class="sd">        posted by the authenticating user and the users they follow.</span>
 
@@ -666,7 +667,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_list_members</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the members of the specified list.</span>
 
 <span class="sd">    :param list_id: (str - required) The numerical id of the list.</span>
@@ -698,7 +699,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_list_memberships</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_to_owned_lists</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the lists the specified user has been added to.</span>
 
 <span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
@@ -727,7 +728,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="k">def</span> <span class="nf">get_list_statuses</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">include_rts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a timeline of tweets authored by members of the specified list.</span>
 
 <span class="sd">    :param list_id: (str - required) The numerical id of the list.</span>
@@ -768,7 +769,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_list_subscribers</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the subscribers of the specified list.</span>
 
 <span class="sd">    :param list_id: (str - required) The numerical id of the list.</span>
@@ -803,7 +804,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_list_subscriptions</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                            <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Obtain a collection of the lists the specified user is subscribed to.</span>
 
 <span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
@@ -828,7 +829,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_mentions_timeline</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the 20 most recent mentions (tweets containing a users&#39;s</span>
 <span class="sd">        @screen_name) for the authenticating user.</span>
 
@@ -856,7 +857,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <div class="viewcode-block" id="get_place_trends"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_place_trends">[docs]</a><span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_place_trends</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the top 10 trending topics for a specific WOEID, if</span>
 <span class="sd">        trending information is available for it.</span>
 
@@ -907,7 +908,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="viewcode-block" id="get_retweeters_ids"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_retweeters_ids">[docs]</a><span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_retweeters_ids</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a collection of up to 100 user IDs belonging to users who</span>
 <span class="sd">        have retweeted the tweet specified by the ``id`` parameter.</span>
 <span class="sd">        It&#39;s better to use get_retweets because passing a count &gt; 100</span>
@@ -938,7 +939,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="viewcode-block" id="get_retweets"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_retweets">[docs]</a><span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_retweets</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns up to 100 of the first retweets of a given tweet.</span>
 
 <span class="sd">    :param id: (int - required) The numerical ID of the desired status.</span>
@@ -957,7 +958,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <div class="viewcode-block" id="get_supported_languages"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_supported_languages">[docs]</a><span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_supported_languages</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the list of languages supported by Twitter along with</span>
 <span class="sd">        their ISO 639-1 code.</span>
 
@@ -974,7 +975,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="k">def</span> <span class="nf">get_user_timeline</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_replies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">include_rts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a collection of the most recent Tweets posted by the user</span>
 <span class="sd">        indicated by the ``screen_name`` or ``user_id`` parameters.</span>
 
@@ -1015,7 +1016,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">lookup_status</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">include_ext_alt_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_card_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns fully-hydrated tweet objects for up to 100 tweets per</span>
 <span class="sd">        request, as specified by comma-separated values passed to the ``id``</span>
 <span class="sd">        parameter.</span>
@@ -1050,7 +1051,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">lookup_user</span><span class="p">(</span><span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns fully-hydrated user objects for up to 100 users per request,</span>
 <span class="sd">        as specified by comma-separated values passed to the ``user_id`` and/or</span>
 <span class="sd">        ``screen_name`` parameters.</span>
@@ -1076,7 +1077,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">retweeted_of_me</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the most recent tweets authored by the authenticating user</span>
 <span class="sd">        that have been retweeted by others.</span>
 
@@ -1109,7 +1110,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">geocode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
            <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
            <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a collection of relevant Tweets matching a specified query.</span>
 
 <span class="sd">    :param q: (str - required) A UTF-8, URL-encoded search query of 500</span>
@@ -1223,7 +1224,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="viewcode-block" id="search_users"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.search_users">[docs]</a><span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">search_users</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provides a simple, relevance-based search interface to public user</span>
 <span class="sd">        accounts on Twitter.</span>
 
@@ -1241,7 +1242,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="viewcode-block" id="show_lists"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.show_lists">[docs]</a><span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">show_lists</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns all lists the authenticating or specified user subscribes to,</span>
 <span class="sd">        including their own.</span>
 
@@ -1264,7 +1265,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="viewcode-block" id="show_owned_lists"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.show_owned_lists">[docs]</a><span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">show_owned_lists</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the lists owned by the specified Twitter user.</span>
 
 <span class="sd">    :param user_id: (int - optional) The ID of the user for whom to return</span>
@@ -1319,7 +1320,7 @@ const thebe_selector_output = ".output, .cell_output"
                     <span class="n">oauth_token_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">token_type</span><span class="o">=</span><span class="s1">&#39;bearer&#39;</span><span class="p">,</span> <span class="n">oauth_version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="s1">&#39;1.1&#39;</span><span class="p">,</span>
                     <span class="n">client_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth_endpoint</span><span class="o">=</span><span class="s1">&#39;authenticate&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The main function for authentication. </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The main function for authentication. </span>
 <span class="sd">    Needs to be called once in a session. </span>
 <span class="sd">    </span>
 <span class="sd">    First you need to create a developer account and app:</span>
