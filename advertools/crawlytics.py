@@ -1,12 +1,9 @@
 """
-Crawling and Scraping Analysis
-==============================
-
 After crawling a website, or a bunch of URLs, you mostly likely want to analyze the data
-and gain a better undersanding of the website's strategy and content. You probably also
-want to check for technical issues that the site might have.
+and gain a better undersanding of the website's structure, strategy, and content. You
+probably also want to check for technical issues that the site might have.
 
-This module provides a few ready-made functions for helping in anayzing crawl data.
+This module provides a few ready-made functions to help in anayzing crawl data.
 
 There are certain columns in the crawl DataFrame that can be analyzed separately and
 independently, like page size and status codes. They can of course be analyzed together
@@ -18,92 +15,187 @@ a website, yet spread across a few columns. For exmaple:
 Analyzing crawled images
 ------------------------
 
-* Image columns: All available image data are extracted, together with all available
-  attributes. Each attribute will have its own column, but collectively they would refer
-  and belong to the same image (`src`, `alt`, `width`, etc.) So, you can read only
-  columns that belong to images using the ``jl_subset`` function:
+Every crawled URL typically contains multiple images. Every image in turn has multiple
+attributes (src, alt, width, etc.)
+The number of images per URL is not the same, and not all images have the same
+attributes. So we need a way to unpack all these data points in a tidy (long form)
+DataFrame to get an idea of how images (and their attributes) are used and distributed
+across the crawled website (URLs).
 
+Once you have read a crawl output file into a DataFrame, you can summarize the images
+in this DataFrame as follows:
 
 >>> import advertools as adv
->>> img_df = adv.crawlytics.jl_subset(
-        filepath='/path/to/crawl_file.jl', columns=['url', regex='img_'])
+>>> import pandas as pd
+>>> crawldf = pd.read_json('path/to/output_file.jl', lines=True)
+>>> img_df = adv.crawlytics.images(crawldf)
+>>> img_df
 
-This way you are reading `crawl_file.jl`, but only the columns that you chose.
-In this case, we selected `url`, as well as any other column that matches the
-regex "img_". This can be very helpful in cases where your crawl file is huge and it
-would be a waste of memory.
+====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============
+  ..  url                                                          img_src                                                                                                                                                                             img_alt           img_loading    img_sizes                         img_decoding      img_width    img_height    img_border
+====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============
+   0  https://www.nytimes.com/                                     /vi-assets/static-assets/icon-the-morning_144x144-b12a6923b6ad9102b766352261b1a847.webp                                                                                             The Morning Logo                 nan                               nan                     nan           nan           nan
+   0  https://www.nytimes.com/                                     /vi-assets/static-assets/icon-the-upshot_144x144-0b1553ff703bbd07ac8fe73e6d215888.webp                                                                                              The Upshot Logo                  nan                               nan                     nan           nan           nan
+   0  https://www.nytimes.com/                                     https://static01.nyt.com/images/2017/01/29/podcasts/the-daily-album-art/the-daily-album-art-square320-v5.jpg?quality=75&auto=webp&disable=upscale                                   The Daily Logo                   nan                               nan                     nan           nan           nan
+   1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://static.nytimes.com/email-images/NYT-Newsletters-Europe-Icon-500px.jpg                                                                                                       morning briefing  nan            nan                               nan                     nan           nan           nan
+   2  https://www.nytimes.com/newsletters/australia-letter         https://static.nytimes.com/email-images/NYT-Newsletters-AustraliaLetter-Icon-500px.jpg                                                                                              australia-letter  nan            nan                               nan                     nan           nan           nan
+   3  https://www.nytimes.com/newsletters/the-interpreter          https://static.nytimes.com/email-images/NYT-Newsletters-SONL-TheInterpreter-Icon-500px.jpg                                                                                          the interpreter   nan            nan                               nan                     nan           nan           nan
+   4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-thumbWide.jpg?quality=75&auto=webp&disable=upscale                                                              nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan
+   4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-icj-case-explain-wjth/25israel-hamas-icj-case-explain-wjth-thumbWide.jpg?quality=75&auto=webp&disable=upscale                    nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan
+   4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-qatar-israel-ctbv/25israel-hamas-qatar-israel-ctbv-thumbWide.jpg?quality=75&auto=webp&disable=upscale                            nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan
+====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============
 
-As a next step, you might want to analyze and learn more about the images in the website
-you just crawled.
+As you can see, for every URL we have all available image attributes listed, and in many
+cases with those attributes empty, because they were not used for that particular image.
+Also note that each image is represented independently on its own row, and mapped to the
+URL on which it was found, which can be seen in the first column.
+This is why we have the same URL repeated, to represent data for each image. You can
+use those URLs to get more data about the URL of interest from the crawl DataFrame.
 
->>> adv.crawlytics.images(img_df)
+Let's get a quick overview of the usage of the various image attributes in this
+DataFrame. We do this by checking whether a tag is `notna` and get the averages.
 
-====  ====================================================  ==============================================================================================================================================================================  =================================================================================================================================================  =============  ==========================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================  ================================  ==============  ===========  ============  ============
-  ..  url                                                   img_src                                                                                                                                                                         img_alt                                                                                                                                            img_loading    img_srcset                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  img_sizes                         img_decoding    img_width    img_height      img_border
-====  ====================================================  ==============================================================================================================================================================================  =================================================================================================================================================  =============  ==========================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================  ================================  ==============  ===========  ============  ============
-   0  https://www.nytimes.com/                              /vi-assets/static-assets/icon-the-morning_144x144-b12a6923b6ad9102b766352261b1a847.webp                                                                                         The Morning Logo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    nan
-   0  https://www.nytimes.com/                              /vi-assets/static-assets/icon-the-upshot_144x144-0b1553ff703bbd07ac8fe73e6d215888.webp                                                                                          The Upshot Logo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     nan
-   0  https://www.nytimes.com/                              https://static01.nyt.com/images/2017/01/29/podcasts/the-daily-album-art/the-daily-album-art-square320-v5.jpg?quality=75&auto=webp&disable=upscale                               The Daily Logo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      nan
-   7  https://www.nytimes.com/news-event/israel-hamas-gaza  https://static01.nyt.com/images/2024/01/25/multimedia/25-israel-hamas-promo-630-mtvp/25-israel-hamas-promo-630-mtvp-articleLarge.jpg                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            async                                               nan
-   7  https://www.nytimes.com/news-event/israel-hamas-gaza  https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-thumbLarge.jpg?auto=webp                                                                  A Palestinian man checking the damage inside a building heavily damaged by Israeli bombardment in Rafah, in the southern Gaza Strip, on Thursday.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   nan
-   7  https://www.nytimes.com/news-event/israel-hamas-gaza  https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-mediumThreeByTwo225.jpg?auto=webp                                                         A Palestinian man checking the damage inside a building heavily damaged by Israeli bombardment in Rafah, in the southern Gaza Strip, on Thursday.                 https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-videoLarge.jpg?auto=webp 768w, https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-mediumThreeByTwo225.jpg?auto=webp 225w, https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-mediumThreeByTwo440.jpg?auto=webp 440w, https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-threeByTwoMediumAt2X.jpg?auto=webp 1500w                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   nan
-   8  https://www.nytimes.com/section/world/europe          https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-thumbWide.jpg?quality=75&auto=webp&disable=upscale                                                                                                                                                                    https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-thumbWide.jpg?quality=100&auto=webp 190w,https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-videoThumb.jpg?quality=100&auto=webp 75w,https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-videoLarge.jpg?quality=100&auto=webp 768w,https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-mediumThreeByTwo210.jpg?quality=100&auto=webp 210w,https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-mediumThreeByTwo225.jpg?quality=100&auto=webp 225w,https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-mediumThreeByTwo440.jpg?quality=100&auto=webp 440w,https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-mediumThreeByTwo252.jpg?quality=100&auto=webp 252w,https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-mediumThreeByTwo378.jpg?quality=100&auto=webp 378w,https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-threeByTwoLargeAt2X.jpg?quality=100&auto=webp 4000w,https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-threeByTwoMediumAt2X.jpg?quality=100&auto=webp 1500w,https://static01.nyt.com/images/2024/01/26/multimedia/26ukraine-musician-profile-01-hvwc/26ukraine-musician-profile-01-hvwc-threeByTwoSmallAt2X.jpg?quality=100&auto=webp 600w  (min-width: 1024px) 205px, 150px  async           150          100                    nan
-   8  https://www.nytimes.com/section/world/europe          https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-thumbWide.jpg?quality=75&auto=webp&disable=upscale                                                                                                                                                                                      https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-thumbWide.jpg?quality=100&auto=webp 190w,https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-videoThumb.jpg?quality=100&auto=webp 75w,https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-videoLarge.jpg?quality=100&auto=webp 768w,https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-mediumThreeByTwo210.jpg?quality=100&auto=webp 210w,https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-mediumThreeByTwo225.jpg?quality=100&auto=webp 225w,https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-mediumThreeByTwo440.jpg?quality=100&auto=webp 440w,https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-mediumThreeByTwo252.jpg?quality=100&auto=webp 252w,https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-mediumThreeByTwo378.jpg?quality=100&auto=webp 378w,https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-threeByTwoLargeAt2X.jpg?quality=100&auto=webp 4797w,https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-threeByTwoMediumAt2X.jpg?quality=100&auto=webp 1500w,https://static01.nyt.com/images/2024/01/24/multimedia/00uk-charles-surgery-vfzp/00uk-charles-surgery-vfzp-threeByTwoSmallAt2X.jpg?quality=100&auto=webp 600w                                                                                                                                                                                                        (min-width: 1024px) 205px, 150px  async           150          100                    nan
-   8  https://www.nytimes.com/section/world/europe          https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-thumbWide.jpg?quality=75&auto=webp&disable=upscale                                                                                                                                                                            https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-thumbWide.jpg?quality=100&auto=webp 190w,https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-videoThumb.jpg?quality=100&auto=webp 75w,https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-videoLarge.jpg?quality=100&auto=webp 768w,https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-mediumThreeByTwo210.jpg?quality=100&auto=webp 210w,https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-mediumThreeByTwo225.jpg?quality=100&auto=webp 225w,https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-mediumThreeByTwo440.jpg?quality=100&auto=webp 440w,https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-mediumThreeByTwo252.jpg?quality=100&auto=webp 252w,https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-mediumThreeByTwo378.jpg?quality=100&auto=webp 378w,https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-threeByTwoLargeAt2X.jpg?quality=100&auto=webp 4583w,https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-threeByTwoMediumAt2X.jpg?quality=100&auto=webp 1500w,https://static01.nyt.com/images/2024/01/26/multimedia/26ambriefing-asia-nl-GAZA-jmcg/26ambriefing-asia-nl-GAZA-jmcg-threeByTwoSmallAt2X.jpg?quality=100&auto=webp 600w                                                                                          (min-width: 1024px) 205px, 150px  async           150          100                    nan
-====  ====================================================  ==============================================================================================================================================================================  =================================================================================================================================================  =============  ==========================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================  ================================  ==============  ===========  ============  ============
+>>> img_df.notna().mean().sort_values(ascending=False).to_frame().round(2)
 
-As you can see, we have URLs, together with any column that contains "img_", and now we
-have a summary of our images. 
+============  ====
+url           1
+img_src       0.99
+img_alt       0.99
+img_width     0.86
+img_height    0.86
+img_srcset    0.25
+img_sizes     0.25
+img_decoding  0.25
+img_loading   0.01
+img_border    0
+============  ====
 
->>> img_df.notna().mean().sort_values(ascending=False).to_frame().style.format('{:.0%}')
-
-============  =====
-..                0
-============  =====
-url               1
-img_src       0.976
-img_alt       0.976
-img_width     0.648
-img_height    0.648
-img_srcset    0.456
-img_sizes     0.456
-img_decoding  0.456
-img_loading    0.32
-img_border        0
-============  =====
-
-We can now see that almost all (97.6%) of our images have `src` and `alt` attributes.
-About 65% have `width` and `height`, and so on. This immediately gives us an overview of
+We can now see that almost all (99%) of our images have `src` and `alt` attributes.
+About 86% have `width` and `height`, and so on. This immediately gives us an overview of
 how our images are managed on the site. We can easily estimate the size of the issues if
 any, and plan our work accordingly.
+
+Analyzing links in a crawled website
+------------------------------------
+
+Another important aspect of any webpage/website is understanding how its pages are
+linked, internally and externally.
+
+The ``crawlytics.links`` function gives you a summary of the links, that is similar to
+the format of the ``crawlytics.images`` DataFrame.
+
+>>> link_df = adv.crawlytics.links(crawldf, internal_url_regex='nytimes.com')
+>>> link_df
+
+====  ===========================================================  ========================================================================  ==================  ==========  ==========
+  ..  url                                                          link                                                                      text                nofollow    internal
+====  ===========================================================  ========================================================================  ==================  ==========  ==========
+   0  https://www.nytimes.com/                                     https://www.nytimes.com/#site-content                                     Skip to content     False       True
+   0  https://www.nytimes.com/                                     https://www.nytimes.com/#site-index                                       Skip to site index  False       True
+   0  https://www.nytimes.com/                                     https://www.nytimes.com/#after-dfp-ad-top                                 SKIP ADVERTISEMENT  False       True
+   1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/newsletters/morning-briefing-europe#site-content  Skip to content     False       True
+   1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/newsletters/morning-briefing-europe#site-index    Skip to site index  False       True
+   1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/                                                                      False       True
+   2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/newsletters/australia-letter#site-content         Skip to content     False       True
+   2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/newsletters/australia-letter#site-index           Skip to site index  False       True
+   2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/                                                                      False       True
+   3  https://www.nytimes.com/newsletters/the-interpreter          https://www.nytimes.com/newsletters/the-interpreter#site-content          Skip to content     False       True
+   3  https://www.nytimes.com/newsletters/the-interpreter          https://www.nytimes.com/newsletters/the-interpreter#site-index            Skip to site index  False       True
+   3  https://www.nytimes.com/newsletters/the-interpreter          https://www.nytimes.com/                                                                      False       True
+   4  https://www.nytimes.com/section/world/middleeast             https://www.nytimes.com/section/world/middleeast#site-content             Skip to content     False       True
+   4  https://www.nytimes.com/section/world/middleeast             https://www.nytimes.com/section/world/middleeast#site-index               Skip to site index  False       True
+   4  https://www.nytimes.com/section/world/middleeast             https://www.nytimes.com/section/world/middleeast                          Middle East         False       True
+====  ===========================================================  ========================================================================  ==================  ==========  ==========
+
+Every link is represented on a separate row, and we have a few attributes for each link,
+it's text, whether or not it has a nofollow rel attribute, and optionally whether or not
+it is internal. For the optional `internal` parameter you will have to supply a regex to
+define what internal really means. You could include certain sub-domains, or even
+consider other domains as part of your same property, and thus they would be considered
+"internal".
+
+We can now easily count how many links we have per URL, the most frequently used link
+text, and so on.
+
+We now take a look at redirects.
+
+Analyzing the redirects of a crawled website
+--------------------------------------------
+
+Like images and links, the information about redirects is presented using a group of
+columns:
+
+>>> redirect_df = adv.crawlytics.redirects(crawldf)
+>>> redirect_df
+
+====  ==================================================================  ========  =======  ============  ==================  ================
+  ..  url                                                                   status    order  type            download_latency    redirect_times
+====  ==================================================================  ========  =======  ============  ==================  ================
+   0  https://nytimes.com                                                      301        1  requested              0.220263                  1
+   0  https://www.nytimes.com/                                                 200        2  crawled                0.220263                  1
+  26  https://www.nytimes.com/privacy/privacy-policy                           301        1  requested              0.079844                  1
+  26  https://help.nytimes.com/hc/en-us/articles/10940941449492                403        2  crawled                0.079844                  1
+ 105  https://www.nytimes.com/es/privacy/privacy-policy                        301        1  requested              0.0630789                 1
+ 105  https://help.nytimes.com/hc/en-us/articles/13537530305428                403        2  crawled                0.0630789                 1
+ 218  https://nytimes.com/spotlight/privacy-project-data-protection            301        1  requested              0.852014                  1
+ 218  https://www.nytimes.com/spotlight/privacy-project-data-protection        200        2  crawled                0.852014                  1
+ 225  https://nytimes.com/spotlight/privacy-project-regulation-solutions       301        1  requested              0.732559                  1
+ 310  http://nytimes.com/by/sahil-chinoy                                       301        1  requested              0.435062                  2
+ 310  https://nytimes.com/by/sahil-chinoy                                      301        2  intermediate           0.435062                  2
+ 310  https://www.nytimes.com/by/sahil-chinoy                                  200        3  crawled                0.435062                  2
+====  ==================================================================  ========  =======  ============  ==================  ================
+
+Here each redirect is represented using a group of columns, as well as
+a group of rows. Columns show attributes of a redirect (status code, the order of the 
+URL in the redirect, the type of the URL in the redirect context, download latency in
+seconds, and the number of redirects in this specific process).
+Since a redirect contains multiple URLs, each one of those URLs is represented on its
+own row. You can use the index of this DataFrame to connect a redirect back to the crawl
+DataFrame in case you want more context about it.
+
+Let's now see what can be done with large crawl files.
 
 Handling very large crawl files
 -------------------------------
 
-Many times you might end up crawling a large website, and the crawl file file might as
-large as your memory (or even more), making it impossible to analyze.
+Many times you might end up crawling a large website, and the crawl file file might be
+as large as your memory (or even more), making it impossible to analyze.
 
-This is where we can use the ``jl_subset`` function to only read the column subset that
-we want.
+We have several options availablel to us:
+
+  1. Read a subset of columns
+  2. Convert the jsonlines file to parquet
+  3. Explore the available column names and their respective data types of a parquet
+     file
+
+The ``jl_subset`` function only reads the column subset that you want, massively
+reducing the memory consumption of our file.
+In some cases you only want a small set of columns, you can read the DataFrame with the
+columns of interest, write them to a new file, and delete the old large crawl file.
 
 >>> crawl_subset = adv.crawlytics.jl_subset(
-        filepath='/path/to/crawl_file.jl', columns=[col1, col2, ...], regex=column_regex)
+...    filepath='/path/to/output_file.jl',
+...    columns=[col1, col2, ...],
+...    regex=column_regex)
 
 You can use the ``columns`` parameter to specify exactly which columns you want. You can
 also use a regular expression to specify a set of columns. Here are some examples of
 regular expressions that you might typically want to use:
 
-* "img_": Get all image columns, including all availabe `<img>` attributes.
-* "jsonld_": Get all JSON-LD columns.
-* "resp_headers_": Response headers.
-* "request_headers_": Request headers.
-* "h\d": Heading columns, h1..h6.
-* "redirect_": Columns containing redirect information.
-* "links_": Columns containing link information.
+* "img\_": Get all image columns, including all availabe `<img>` attributes.
+* "jsonld\_": Get all JSON-LD columns.
+* "resp_headers\_": Response headers.
+* "request_headers\_": Request headers.
+* "h\\\d": Heading columns, h1..h6.
+* "redirect\_": Columns containing redirect information.
+* "links\_": Columns containing link information.
 
-An important characteristic of these groups of columns is that you mostly don't know
-how many they are, and what they might include, so a regular expression can save a lot
-of time.
+An important characteristic of these groups of columns is that you most likely don't
+know how many they are, and what they might include, so a regular expression can save a
+lot of time.
+
+You can use the `columns` and `regex` parameters together or either one of them on its
+own depending on your needs.
 
 Compressing large crawl files
 -----------------------------
@@ -112,10 +204,65 @@ Another strategy while dealing with large jsonlines (.jl) files is to convert th
 the highly performant `.parquet` format. You simply have to provide the current path to
 the .jl file, and provide a path for the desired .parquet file:
 
->>> adv.crawlytics.jl_to_parquet(PATH_TO_JL, PATH_TO_PARQUET)
+>>> adv.crawlytics.jl_to_parquet("output_file.jl", "output_file.parquet")
+
+Now you have a much smaller file on disk, and you can use the full power of parquet to
+efficiently read (and filter) columns and rows. Check the`pandas.read_parquet
+<https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html>`_ documentation
+for details.
 
 
+Exploring the columns and data types of parquet files
+-----------------------------------------------------
 
+Another simple function gives us a DataFrame of the available columns in a parquet file.
+One of the main advantags of using parquet is that you can select which columns you want
+to read.
+
+>>> adv.crawlytics.parquet_columns('output_file.parquet') # first 15 columns only
+
+====  ==============  ======
+  ..  column          type
+====  ==============  ======
+   0  url             string
+   1  title           string
+   2  meta_desc       string
+   3  viewport        string
+   4  charset         string
+   5  h1              string
+   6  h2              string
+   7  h3              string
+   8  canonical       string
+   9  alt_href        string
+  10  alt_hreflang    string
+  11  og:url          string
+  12  og:type         string
+  13  og:title        string
+  14  og:description  string
+====  ==============  ======
+
+Check how many columns we have of each type.
+
+>>> adv.crawlytics.parquet_columns('nyt_crawl.parquet')['type'].value_counts()
+
+====  =========================================================================================================================================================  =======
+  ..  type                                                                                                                                                         count
+====  =========================================================================================================================================================  =======
+   0  string                                                                                                                                                         215
+   1  double                                                                                                                                                          22
+   2  list<element: string>                                                                                                                                            5
+   3  int64                                                                                                                                                            4
+   4  list<element: struct<@context: string, @type: string, position: int64, url: string>>                                                                             2
+   5  list<element: struct<@context: string, @type: string, contentUrl: string, creditText: string, url: string>>                                                      2
+   6  list<element: struct<@context: string, @type: string, caption: string, contentUrl: string, creditText: string, height: int64, url: string, width: int64>>        1
+   7  timestamp[ns]                                                                                                                                                    1
+   8  list<element: struct<@context: string, @type: string, item: string, name: string, position: int64>>                                                              1
+   9  list<element: struct<@context: string, @type: string, name: string, url: string>>                                                                                1
+====  =========================================================================================================================================================  =======
+
+
+Module functions
+----------------
 """
 
 import re
@@ -125,27 +272,46 @@ import pyarrow.parquet as pq
 
 __all__ = [
     "images",
+    "links",
+    "redirects",
     "jl_subset",
     "jl_to_parquet",
-    "links",
     "parquet_columns",
-    "redirects",
 ]
 
 
 def redirects(crawldf):
-    """Create a tidy DataFrame for redirects with the columns:
+    """Create a tidy DataFrame for the redirects in `crawldf` with the columns:
 
-    url: All the URLs in the redirect chain.
-    status: The status code of each URL.
-    type: "requested", "inermediate", or "crawled".
-    order: 1, 2, 3... up to the number of urls in the redirect chain.
-    redirect_times: The number of redirects in the chain (URLs in the chain minus one).
+    - url: All the URLs in the redirect (chain).
+    - status: The status code of each URL.
+    - type: "requested", "inermediate", or "crawled".
+    - order: 1, 2, 3... up to the number of urls in the redirect chain.
+    - redirect_times: The number of redirects in the chain (URLs in the chain minus one).
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     crawldf : pandas.DataFrame
-      A DataFrame of an advertools crawl file
+        A DataFrame of an advertools crawl file
+
+    Examples
+    --------
+    >>> import advertools as adv
+    >>> import pandas as pd
+    >>> crawldf = pd.read_json('output_file.jl', lines=True)
+    >>> redirect_df = adv.crawlytics.redirects(crawldf)
+    >>> redirect_df
+
+    ====  =========================================================  ========  =======  =========  ==================  ================
+      ..  url                                                          status    order  type         download_latency    redirect_times
+    ====  =========================================================  ========  =======  =========  ==================  ================
+       0  https://nytimes.com                                             301        1  requested           0.220263                  1
+       0  https://www.nytimes.com/                                        200        2  crawled             0.220263                  1
+      26  https://www.nytimes.com/privacy/privacy-policy                  301        1  requested           0.079844                  1
+      26  https://help.nytimes.com/hc/en-us/articles/10940941449492       403        2  crawled             0.079844                  1
+     105  https://www.nytimes.com/es/privacy/privacy-policy               301        1  requested           0.0630789                 1
+     105  https://help.nytimes.com/hc/en-us/articles/13537530305428       403        2  crawled             0.0630789                 1
+    ====  =========================================================  ========  =======  =========  ==================  ================
     """
     if "redirect_urls" not in crawldf.columns:
         return pd.DataFrame()
@@ -170,11 +336,11 @@ def redirects(crawldf):
     ]
     redirect_df["type"] = [
         [
-            "requested"
-            if o == min(order)
-            else "crawled"
-            if o == max(order)
-            else "intermediate"
+            (
+                "requested"
+                if o == min(order)
+                else "crawled" if o == max(order) else "intermediate"
+            )
             for o in order
         ]
         for order in redirect_df["order"]
@@ -192,19 +358,41 @@ def redirects(crawldf):
 
 
 def links(crawldf, internal_url_regex=None):
-    """Get a DataFrame summary of links from a crawl DataFrame
+    """Summarize links from a crawl DataFrame.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     crawldf : DataFrame
-      A DataFrame of a website crawled with advertools.
+        A DataFrame of a website crawled with advertools.
     internal_url_regex : str
-      A regular expression for identifying if a link is internal or not.
-      For example if your website is example.com, this would be "example.com".
+        A regular expression for identifying if a link is internal or not.
+        For example if your website is example.com, this would be "example.com".
 
-    Returns:
-    --------
+    Returns
+    -------
     link_df : pandas.DataFrame
+
+    Examples
+    --------
+    >>> import advertools as adv
+    >>> import pandas as pd
+    >>> crawldf = pd.read_json('output_file.jl', lines=True)
+    >>> link_df = adv.crawlytics.links(crawldf)
+    >>> link_df
+
+    ====  ===========================================================  ========================================================================  ==================  ==========  ==========
+      ..  url                                                          link                                                                      text                nofollow    internal
+    ====  ===========================================================  ========================================================================  ==================  ==========  ==========
+       0  https://www.nytimes.com/                                     https://www.nytimes.com/#site-content                                     Skip to content     False       True
+       0  https://www.nytimes.com/                                     https://www.nytimes.com/#site-index                                       Skip to site index  False       True
+       0  https://www.nytimes.com/                                     https://www.nytimes.com/#after-dfp-ad-top                                 SKIP ADVERTISEMENT  False       True
+       1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/newsletters/morning-briefing-europe#site-content  Skip to content     False       True
+       1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/newsletters/morning-briefing-europe#site-index    Skip to site index  False       True
+       1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://www.nytimes.com/                                                                      False       True
+       2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/newsletters/australia-letter#site-content         Skip to content     False       True
+       2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/newsletters/australia-letter#site-index           Skip to site index  False       True
+       2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/                                                                      False       True
+    ====  ===========================================================  ========================================================================  ==================  ==========  ==========
     """
     if "links_url" not in crawldf:
         return pd.DataFrame()
@@ -232,18 +420,41 @@ def links(crawldf, internal_url_regex=None):
 
 
 def images(crawldf):
-    """Get a DataFrame summary of images in a crawl DataFrame.
+    """Summarize crawled images from a crawl DataFrame.
 
     Parameters
     ----------
     crawldf : pandas.DataFrame
-      A crawl DataFrame as a result of the advertools.crawl function.
+        A crawl DataFrame as a result of the advertools.crawl function.
 
     Returns
     -------
     img_summary : pandas.DataFrame
-      A DataFrame containing all available img tags mapped to their respective URLs
-      where each image data is represented in a row.
+        A DataFrame containing all available img tags and their attributes mapped to
+        their respective URLs where each image data is represented with a separate row.
+
+
+    Examples
+    --------
+    >>> import advertools as adv
+    >>> import pandas as pd
+    >>> crawldf = pd.read_json('output_file.jl', lines=True)
+    >>> image_df = adv.crawlytics.images(crawldf)
+    >>> image_df
+
+    ====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============
+      ..  url                                                          img_src                                                                                                                                                                             img_alt           img_loading    img_sizes                         img_decoding      img_width    img_height    img_border
+    ====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============
+       0  https://www.nytimes.com/                                     /vi-assets/static-assets/icon-the-morning_144x144-b12a6923b6ad9102b766352261b1a847.webp                                                                                             The Morning Logo                 nan                               nan                     nan           nan           nan
+       0  https://www.nytimes.com/                                     /vi-assets/static-assets/icon-the-upshot_144x144-0b1553ff703bbd07ac8fe73e6d215888.webp                                                                                              The Upshot Logo                  nan                               nan                     nan           nan           nan
+       0  https://www.nytimes.com/                                     https://static01.nyt.com/images/2017/01/29/podcasts/the-daily-album-art/the-daily-album-art-square320-v5.jpg?quality=75&auto=webp&disable=upscale                                   The Daily Logo                   nan                               nan                     nan           nan           nan
+       1  https://www.nytimes.com/newsletters/morning-briefing-europe  https://static.nytimes.com/email-images/NYT-Newsletters-Europe-Icon-500px.jpg                                                                                                       morning briefing  nan            nan                               nan                     nan           nan           nan
+       2  https://www.nytimes.com/newsletters/australia-letter         https://static.nytimes.com/email-images/NYT-Newsletters-AustraliaLetter-Icon-500px.jpg                                                                                              australia-letter  nan            nan                               nan                     nan           nan           nan
+       3  https://www.nytimes.com/newsletters/the-interpreter          https://static.nytimes.com/email-images/NYT-Newsletters-SONL-TheInterpreter-Icon-500px.jpg                                                                                          the interpreter   nan            nan                               nan                     nan           nan           nan
+       4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-1-hbcz/25israel-1-hbcz-thumbWide.jpg?quality=75&auto=webp&disable=upscale                                                              nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan
+       4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-icj-case-explain-wjth/25israel-hamas-icj-case-explain-wjth-thumbWide.jpg?quality=75&auto=webp&disable=upscale                    nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan
+       4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-qatar-israel-ctbv/25israel-hamas-qatar-israel-ctbv-thumbWide.jpg?quality=75&auto=webp&disable=upscale                            nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan
+    ====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============
     """
     dfs = []
     img_df = crawldf.filter(regex="^url$|img_")
@@ -266,7 +477,7 @@ def images(crawldf):
 
 
 def jl_subset(filepath, columns=None, regex=None, chunksize=500):
-    """Read a jsonlines file only extracting selected columns and/or a regex.
+    """Read a jl file extracting selected `columns` and/or columns matching `regex`.
 
     Parameters
     ----------
@@ -284,19 +495,22 @@ def jl_subset(filepath, columns=None, regex=None, chunksize=500):
 
     >>> import advertools as adv
 
-    # Read only the columns "url" and "meta_desc":
+    Read only the columns "url" and "meta_desc":
+
     >>> adv.crawlytics.jl_subset('output_file.jl', columns=['url', 'meta_desc'])
 
-    # Read columns matching the regex "jsonld":
+    Read columns matching the regex "jsonld":
+
     >>> adv.crawlytics.jl_subset('output_file.jl', regex='jsonld')
 
-    # Read only the columns "url" and "meta_desc" as well as columns matching teh regex "jsonld":
+    Read the columns "url" and "meta_desc" as well as columns matching "jsonld":
+
     >>> adv.crawlytics.jl_subset('output_file.jl', columns=['url', 'meta_desc'], regex='jsonld')
 
     Returns
     -------
     df_subset : pandas.DataFrame
-      A DataFrame containing the list of `column` and/or columns matching `regex`.
+      A DataFrame containing the list of `columns` and/or columns matching `regex`.
     """
     if columns is None and regex is None:
         raise ValueError("Please supply either a list of columns or a regex.")
@@ -325,6 +539,11 @@ def jl_to_parquet(jl_filepath, parquet_filepath):
       The path of an existing .jl file.
     parquet_fileapth : str
       The pather where you want the new file to be saved.
+
+    Examples
+    --------
+    >>> import advertools as adv
+    >>> adv.crawlytics.jl_to_parquet("output_file.jl", "output_file.parquet")
     """
     status = "not done"
     crawldf = pd.read_json(jl_filepath, lines=True)
