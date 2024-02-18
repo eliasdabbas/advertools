@@ -2,7 +2,7 @@
 Change Log - advertools
 =======================
 
-0.14.0 (unreleased)
+0.14.0 (2024-02-18)
 -------------------
 
 * Added
@@ -10,10 +10,12 @@ Change Log - advertools
       analyze crawl DataFrames (``images``, ``redirects``, and ``links``), as well as
       functions to handle large files (``jl_to_parquet``, ``jl_subset``, ``parquet_columns``).
     - New ``encoding`` option for ``logs_to_df``.
+    - Option to save the output of ``url_to_df`` to a parquet file.
 
 * Changed
     - Remove requirement to delete existing log output and error files if they exist.
       The function will now overwrite them if they do.
+    - Autothrottling is enabled by default in ``crawl_headers`` to minimize being blocked.
 
 * Fixed
     - Always get absolute path for img src while crawling.
