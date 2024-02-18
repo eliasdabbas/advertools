@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta content="Split a text list in to words / tokens / N-grams of any desired length. A Python function for splitting text." lang="en" name="description" xml:lang="en" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tokenize Words (N-grams) &mdash;  Python</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=9e420a66"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+        <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
         <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,14 +36,18 @@ const thebe_selector_output = ".output, .cell_output"
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> advertools
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            advertools
           </a>
               <div class="version">
-                0.13.5
+                0.14.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -106,8 +110,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Tokenize Words (N-grams)</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tokenize Words (N-grams)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/advertools.word_tokenize.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -117,8 +121,8 @@ const thebe_selector_output = ".output, .cell_output"
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="module-advertools.word_tokenize"></span><section id="tokenize-words-n-grams">
-<span id="word-tokenize"></span><h1>Tokenize Words (N-grams)<a class="headerlink" href="#tokenize-words-n-grams" title="Permalink to this headline"></a></h1>
+  <section id="tokenize-words-n-grams">
+<span id="word-tokenize"></span><span id="module-advertools.word_tokenize"></span><h1>Tokenize Words (N-grams)<a class="headerlink" href="#tokenize-words-n-grams" title="Link to this heading"></a></h1>
 <p>As word counting is an essential step in any text mining task, you first have
 to split the text into words.</p>
 <p>The <a class="reference internal" href="#advertools.word_tokenize.word_tokenize" title="advertools.word_tokenize.word_tokenize"><code class="xref py py-func docutils literal notranslate"><span class="pre">word_tokenize()</span></code></a> function achieves that by splitting the text by
@@ -129,22 +133,23 @@ The default is 2, which can be set through the <code class="xref py py-attr docu
 <p>This function is mainly a helper function for
 <a class="reference internal" href="advertools.word_frequency.html#word-frequency"><span class="std std-ref">word_frequency</span></a> to help with counting words and/or
 phrases.</p>
+</section>
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.word_tokenize.word_tokenize">
-<span class="sig-name descname"><span class="pre">word_tokenize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phrase_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">word_tokenize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phrase_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/word_tokenize.html#word_tokenize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.word_tokenize.word_tokenize" title="Link to this definition"></a></dt>
 <dd><p>Split <code class="docutils literal notranslate"><span class="pre">text_list</span></code> into phrases of length <code class="docutils literal notranslate"><span class="pre">phrase_len</span></code> words each.</p>
 <p>A &quot;word&quot; is any string between white spaces (or beginning or
 end of string) with delimiters stripped from both sides.
 Delimiters include quotes, question marks, parentheses, etc.
 Any delimiter contained within the string remains. See examples below.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>text_list</strong> -- List of strings.</p></li>
 <li><p><strong>phrase_len</strong> -- Length of word tokens, defaults to 2.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return tokenized</dt>
+<dt class="field-even">Return tokenized<span class="colon">:</span></dt>
 <dd class="field-even"><p>List of lists, split according to <code class="xref py py-attr docutils literal notranslate"><span class="pre">phrase_len</span></code>.</p>
 </dd>
 </dl>
@@ -179,7 +184,6 @@ are part of the &quot;word&quot;, but the trailing comma is stripped.</p>
 </div>
 </dd></dl>
 
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -193,7 +197,7 @@ are part of the &quot;word&quot;, but the trailing comma is stripped.</p>
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -211,7 +215,7 @@ are part of the &quot;word&quot;, but the trailing comma is stripped.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Elias Dabbas.</p>
+    <p>&#169; Copyright 2024, Elias Dabbas.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

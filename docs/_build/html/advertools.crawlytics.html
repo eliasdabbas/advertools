@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crawling and Scraping Analysis &mdash;  Python</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=9e420a66"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+        <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
         <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,14 +35,18 @@ const thebe_selector_output = ".output, .cell_output"
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> advertools
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            advertools
           </a>
               <div class="version">
-                0.13.5
+                0.14.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -114,8 +118,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Crawling and Scraping Analysis</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Crawling and Scraping Analysis</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/advertools.crawlytics.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -126,7 +130,7 @@ const thebe_selector_output = ".output, .cell_output"
            <div itemprop="articleBody">
              
   <section id="module-advertools.crawlytics">
-<span id="crawling-and-scraping-analysis"></span><h1>Crawling and Scraping Analysis<a class="headerlink" href="#module-advertools.crawlytics" title="Permalink to this headline"></a></h1>
+<span id="crawling-and-scraping-analysis"></span><h1>Crawling and Scraping Analysis<a class="headerlink" href="#module-advertools.crawlytics" title="Link to this heading"></a></h1>
 <p>After crawling a website, or a bunch of URLs, you mostly likely want to analyze the data
 and gain a better undersanding of the website's structure, strategy, and content. You
 probably also want to check for technical issues that the site might have.</p>
@@ -137,7 +141,7 @@ with other columns like URL and title to put these columns and their data in con
 <p>There are also groups of columns the can be thought of as describing one full aspect of
 a website, yet spread across a few columns. For exmaple:</p>
 <section id="analyzing-crawled-images">
-<h2>Analyzing crawled images<a class="headerlink" href="#analyzing-crawled-images" title="Permalink to this headline"></a></h2>
+<h2>Analyzing crawled images<a class="headerlink" href="#analyzing-crawled-images" title="Link to this heading"></a></h2>
 <p>Every crawled URL typically contains multiple images. Every image in turn has multiple
 attributes (src, alt, width, etc.)
 The number of images per URL is not the same, and not all images have the same
@@ -154,18 +158,6 @@ in this DataFrame as follows:</p>
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 1%" />
-<col style="width: 17%" />
-<col style="width: 51%" />
-<col style="width: 5%" />
-<col style="width: 4%" />
-<col style="width: 9%" />
-<col style="width: 4%" />
-<col style="width: 3%" />
-<col style="width: 3%" />
-<col style="width: 3%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>url</p></th>
@@ -293,10 +285,6 @@ DataFrame. We do this by checking whether a tag is <cite>notna</cite> and get th
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 75%" />
-<col style="width: 25%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>url</p></td>
 <td><p>1</p></td>
@@ -336,7 +324,7 @@ how our images are managed on the site. We can easily estimate the size of the i
 any, and plan our work accordingly.</p>
 </section>
 <section id="analyzing-links-in-a-crawled-website">
-<h2>Analyzing links in a crawled website<a class="headerlink" href="#analyzing-links-in-a-crawled-website" title="Permalink to this headline"></a></h2>
+<h2>Analyzing links in a crawled website<a class="headerlink" href="#analyzing-links-in-a-crawled-website" title="Link to this heading"></a></h2>
 <p>Another important aspect of any webpage/website is understanding how its pages are
 linked, internally and externally.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">crawlytics.links</span></code> function gives you a summary of the links, that is similar to
@@ -346,14 +334,6 @@ the format of the <code class="docutils literal notranslate"><span class="pre">c
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 2%" />
-<col style="width: 34%" />
-<col style="width: 42%" />
-<col style="width: 10%" />
-<col style="width: 6%" />
-<col style="width: 6%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>url</p></th>
@@ -482,7 +462,7 @@ text, and so on.</p>
 <p>We now take a look at redirects.</p>
 </section>
 <section id="analyzing-the-redirects-of-a-crawled-website">
-<h2>Analyzing the redirects of a crawled website<a class="headerlink" href="#analyzing-the-redirects-of-a-crawled-website" title="Permalink to this headline"></a></h2>
+<h2>Analyzing the redirects of a crawled website<a class="headerlink" href="#analyzing-the-redirects-of-a-crawled-website" title="Link to this heading"></a></h2>
 <p>Like images and links, the information about redirects is presented using a group of
 columns:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">redirect_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">redirects</span><span class="p">(</span><span class="n">crawldf</span><span class="p">)</span>
@@ -490,15 +470,6 @@ columns:</p>
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 3%" />
-<col style="width: 50%" />
-<col style="width: 6%" />
-<col style="width: 5%" />
-<col style="width: 9%" />
-<col style="width: 14%" />
-<col style="width: 12%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>url</p></th>
@@ -618,7 +589,7 @@ DataFrame in case you want more context about it.</p>
 <p>Let's now see what can be done with large crawl files.</p>
 </section>
 <section id="handling-very-large-crawl-files">
-<h2>Handling very large crawl files<a class="headerlink" href="#handling-very-large-crawl-files" title="Permalink to this headline"></a></h2>
+<h2>Handling very large crawl files<a class="headerlink" href="#handling-very-large-crawl-files" title="Link to this heading"></a></h2>
 <p>Many times you might end up crawling a large website, and the crawl file file might be
 as large as your memory (or even more), making it impossible to analyze.</p>
 <p>We have several options availablel to us:</p>
@@ -659,7 +630,7 @@ lot of time.</p>
 own depending on your needs.</p>
 </section>
 <section id="compressing-large-crawl-files">
-<h2>Compressing large crawl files<a class="headerlink" href="#compressing-large-crawl-files" title="Permalink to this headline"></a></h2>
+<h2>Compressing large crawl files<a class="headerlink" href="#compressing-large-crawl-files" title="Link to this heading"></a></h2>
 <p>Another strategy while dealing with large jsonlines (.jl) files is to convert them to
 the highly performant <cite>.parquet</cite> format. You simply have to provide the current path to
 the .jl file, and provide a path for the desired .parquet file:</p>
@@ -672,7 +643,7 @@ efficiently read (and filter) columns and rows. Check the`pandas.read_parquet
 for details.</p>
 </section>
 <section id="exploring-the-columns-and-data-types-of-parquet-files">
-<h2>Exploring the columns and data types of parquet files<a class="headerlink" href="#exploring-the-columns-and-data-types-of-parquet-files" title="Permalink to this headline"></a></h2>
+<h2>Exploring the columns and data types of parquet files<a class="headerlink" href="#exploring-the-columns-and-data-types-of-parquet-files" title="Link to this heading"></a></h2>
 <p>Another simple function gives us a DataFrame of the available columns in a parquet file.
 One of the main advantags of using parquet is that you can select which columns you want
 to read.</p>
@@ -680,11 +651,6 @@ to read.</p>
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 58%" />
-<col style="width: 25%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>column</p></th>
@@ -759,11 +725,6 @@ to read.</p>
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 2%" />
-<col style="width: 93%" />
-<col style="width: 4%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>type</p></th>
@@ -815,20 +776,21 @@ to read.</p>
 </table>
 </section>
 <section id="module-functions">
-<h2>Module functions<a class="headerlink" href="#module-functions" title="Permalink to this headline"></a></h2>
+<h2>Module functions<a class="headerlink" href="#module-functions" title="Link to this heading"></a></h2>
+</section>
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.crawlytics.images">
-<span class="sig-name descname"><span class="pre">images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crawldf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.images" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crawldf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.images" title="Link to this definition"></a></dt>
 <dd><p>Summarize crawled images from a crawl DataFrame.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>crawldf</strong> (<em>pandas.DataFrame</em>) -- A crawl DataFrame as a result of the advertools.crawl function.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>img_summary</strong> -- A DataFrame containing all available img tags and their attributes mapped to
 their respective URLs where each image data is represented with a separate row.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
@@ -841,18 +803,6 @@ their respective URLs where each image data is represented with a separate row.<
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 1%" />
-<col style="width: 17%" />
-<col style="width: 51%" />
-<col style="width: 5%" />
-<col style="width: 4%" />
-<col style="width: 9%" />
-<col style="width: 4%" />
-<col style="width: 3%" />
-<col style="width: 3%" />
-<col style="width: 3%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>url</p></th>
@@ -972,10 +922,10 @@ their respective URLs where each image data is represented with a separate row.<
 
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.crawlytics.jl_subset">
-<span class="sig-name descname"><span class="pre">jl_subset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunksize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#jl_subset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.jl_subset" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">jl_subset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunksize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#jl_subset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.jl_subset" title="Link to this definition"></a></dt>
 <dd><p>Read a jl file extracting selected <cite>columns</cite> and/or columns matching <cite>regex</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filepath</strong> (<em>str</em>) -- The path of the .jl (jsonlines) file to read.</p></li>
 <li><p><strong>columns</strong> (<em>list</em>) -- An optional list of column names that you want to read.</p></li>
@@ -1001,10 +951,10 @@ their respective URLs where each image data is represented with a separate row.<
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>df_subset</strong> -- A DataFrame containing the list of <cite>columns</cite> and/or columns matching <cite>regex</cite>.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>pandas.DataFrame</p>
 </dd>
 </dl>
@@ -1012,10 +962,10 @@ their respective URLs where each image data is represented with a separate row.<
 
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.crawlytics.jl_to_parquet">
-<span class="sig-name descname"><span class="pre">jl_to_parquet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jl_filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parquet_filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#jl_to_parquet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.jl_to_parquet" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">jl_to_parquet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jl_filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parquet_filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#jl_to_parquet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.jl_to_parquet" title="Link to this definition"></a></dt>
 <dd><p>Convert a jsonlines crawl file to the parquet format.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>jl_filepath</strong> (<em>str</em>) -- The path of an existing .jl file.</p></li>
 <li><p><strong>parquet_fileapth</strong> (<em>str</em>) -- The pather where you want the new file to be saved.</p></li>
@@ -1031,20 +981,20 @@ their respective URLs where each image data is represented with a separate row.<
 
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.crawlytics.links">
-<span class="sig-name descname"><span class="pre">links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crawldf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal_url_regex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#links"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.links" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crawldf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal_url_regex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#links"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.links" title="Link to this definition"></a></dt>
 <dd><p>Summarize links from a crawl DataFrame.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>crawldf</strong> (<em>DataFrame</em>) -- A DataFrame of a website crawled with advertools.</p></li>
 <li><p><strong>internal_url_regex</strong> (<em>str</em>) -- A regular expression for identifying if a link is internal or not.
 For example if your website is example.com, this would be &quot;example.com&quot;.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>link_df</strong></p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
@@ -1057,14 +1007,6 @@ For example if your website is example.com, this would be &quot;example.com&quot
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 2%" />
-<col style="width: 34%" />
-<col style="width: 42%" />
-<col style="width: 10%" />
-<col style="width: 6%" />
-<col style="width: 6%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>url</p></th>
@@ -1144,16 +1086,16 @@ For example if your website is example.com, this would be &quot;example.com&quot
 
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.crawlytics.parquet_columns">
-<span class="sig-name descname"><span class="pre">parquet_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#parquet_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.parquet_columns" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parquet_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#parquet_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.parquet_columns" title="Link to this definition"></a></dt>
 <dd><p>Get column names and datatypes of a parquet file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) -- The path of the file that you want to get columns names and types.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>columns_types</strong> -- A DataFrame with two columns &quot;column&quot; and &quot;type&quot;.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
@@ -1161,7 +1103,7 @@ For example if your website is example.com, this would be &quot;example.com&quot
 
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.crawlytics.redirects">
-<span class="sig-name descname"><span class="pre">redirects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crawldf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#redirects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.redirects" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">redirects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crawldf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#redirects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.redirects" title="Link to this definition"></a></dt>
 <dd><p>Create a tidy DataFrame for the redirects in <cite>crawldf</cite> with the columns:</p>
 <ul class="simple">
 <li><p>url: All the URLs in the redirect (chain).</p></li>
@@ -1171,7 +1113,7 @@ For example if your website is example.com, this would be &quot;example.com&quot
 <li><p>redirect_times: The number of redirects in the chain (URLs in the chain minus one).</p></li>
 </ul>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>crawldf</strong> (<em>pandas.DataFrame</em>) -- A DataFrame of an advertools crawl file</p>
 </dd>
 </dl>
@@ -1184,15 +1126,6 @@ For example if your website is example.com, this would be &quot;example.com&quot
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 3%" />
-<col style="width: 48%" />
-<col style="width: 7%" />
-<col style="width: 6%" />
-<col style="width: 8%" />
-<col style="width: 15%" />
-<col style="width: 13%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>url</p></th>
@@ -1257,7 +1190,6 @@ For example if your website is example.com, this would be &quot;example.com&quot
 </dd></dl>
 
 </section>
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1271,7 +1203,7 @@ For example if your website is example.com, this would be &quot;example.com&quot
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -1289,7 +1221,7 @@ For example if your website is example.com, this would be &quot;example.com&quot
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Elias Dabbas.</p>
+    <p>&#169; Copyright 2024, Elias Dabbas.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

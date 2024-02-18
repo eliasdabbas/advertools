@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>advertools Command Line Interface (CLI) &mdash;  Python</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=9e420a66"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+        <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
         <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,14 +35,18 @@ const thebe_selector_output = ".output, .cell_output"
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> advertools
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            advertools
           </a>
               <div class="version">
-                0.13.5
+                0.14.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -105,8 +109,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>advertools Command Line Interface (CLI)</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">advertools Command Line Interface (CLI)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/advertools.cli.cli.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -117,7 +121,7 @@ const thebe_selector_output = ".output, .cell_output"
            <div itemprop="articleBody">
              
   <section id="advertools-command-line-interface-cli">
-<h1>advertools Command Line Interface (CLI)<a class="headerlink" href="#advertools-command-line-interface-cli" title="Permalink to this headline"></a></h1>
+<h1>advertools Command Line Interface (CLI)<a class="headerlink" href="#advertools-command-line-interface-cli" title="Link to this heading"></a></h1>
 <p>Once you install advertools with <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">advertools</span></code>, you
 should have acess to the command line interface and run the available commands.</p>
 <p>You just need Python3 installed, and you are good to go (no need for any Python
@@ -126,8 +130,8 @@ programming to use the CLI)</p>
 <p>For specific documentation of a certain command run
 <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">&lt;command&gt;</span> <span class="pre">--help</span></code></p>
 <p>For example <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">sitemaps</span> <span class="pre">--help</span></code> or <code class="docutils literal notranslate"><span class="pre">adv</span> <span class="pre">crawl</span> <span class="pre">-h</span></code></p>
-<span class="target" id="module-advertools.cli.cli"></span><section id="convert-a-robots-txt-file-or-list-of-file-urls-to-a-table-in-a-csv-format">
-<h2>convert a robots.txt file (or list of file URLs) to a table in a CSV format<a class="headerlink" href="#convert-a-robots-txt-file-or-list-of-file-urls-to-a-table-in-a-csv-format" title="Permalink to this headline"></a></h2>
+<section id="convert-a-robots-txt-file-or-list-of-file-urls-to-a-table-in-a-csv-format">
+<span id="module-advertools.cli.cli"></span><h2>convert a robots.txt file (or list of file URLs) to a table in a CSV format<a class="headerlink" href="#convert-a-robots-txt-file-or-list-of-file-urls-to-a-table-in-a-csv-format" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">robots</span> <span class="pre">[-h]</span> <span class="pre">[url</span> <span class="pre">...]</span></code></p>
 <p>convert a robots.txt file (or list of file URLs) to a table in a CSV format</p>
@@ -153,7 +157,7 @@ e.g. <a class="reference external" href="file:///Users/path/to/robots.txt">file:
 </div></blockquote>
 </section>
 <section id="download-parse-and-save-an-xml-sitemap-to-a-table-in-a-csv-file">
-<h2>download, parse, and save an XML sitemap to a table in a CSV file<a class="headerlink" href="#download-parse-and-save-an-xml-sitemap-to-a-table-in-a-csv-file" title="Permalink to this headline"></a></h2>
+<h2>download, parse, and save an XML sitemap to a table in a CSV file<a class="headerlink" href="#download-parse-and-save-an-xml-sitemap-to-a-table-in-a-csv-file" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">sitemaps</span> <span class="pre">[-h]</span> <span class="pre">[-r</span> <span class="pre">{0,1}]</span> <span class="pre">[-s</span> <span class="pre">SEPARATOR]</span> <span class="pre">[sitemap_url]</span></code></p>
 <p>download, parse, and save an XML sitemap to a table in a CSV file</p>
@@ -179,7 +183,7 @@ e.g. <a class="reference external" href="file:///Users/path/to/robots.txt">file:
 </div></blockquote>
 </section>
 <section id="split-a-list-of-urls-into-their-components-scheme-netloc-path-query-etc">
-<h2>split a list of URLs into their components: scheme, netloc, path, query, etc.<a class="headerlink" href="#split-a-list-of-urls-into-their-components-scheme-netloc-path-query-etc" title="Permalink to this headline"></a></h2>
+<h2>split a list of URLs into their components: scheme, netloc, path, query, etc.<a class="headerlink" href="#split-a-list-of-urls-into-their-components-scheme-netloc-path-query-etc" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">urls</span> <span class="pre">[-h]</span> <span class="pre">[url_list</span> <span class="pre">...]</span></code></p>
 <p>split a list of URLs into their components: scheme, netloc, path, query, etc.</p>
@@ -196,7 +200,7 @@ e.g. <a class="reference external" href="file:///Users/path/to/robots.txt">file:
 </div></blockquote>
 </section>
 <section id="crawl-a-list-of-known-urls-using-the-head-method">
-<h2>crawl a list of known URLs using the HEAD method<a class="headerlink" href="#crawl-a-list-of-known-urls-using-the-head-method" title="Permalink to this headline"></a></h2>
+<h2>crawl a list of known URLs using the HEAD method<a class="headerlink" href="#crawl-a-list-of-known-urls-using-the-head-method" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">headers</span> <span class="pre">[-h]</span> <span class="pre">[-s</span> <span class="pre">[CUSTOM_SETTINGS</span> <span class="pre">...]]</span> <span class="pre">[url_list</span> <span class="pre">...]</span> <span class="pre">output_file</span></code></p>
 <p>crawl a list of known URLs using the HEAD method
@@ -226,7 +230,7 @@ be separated by an equal sign '=' without spaces between them</p>
 </div></blockquote>
 </section>
 <section id="parse-compress-and-convert-a-log-file-to-a-dataframe-in-the-parquet-format">
-<h2>parse, compress and convert a log file to a DataFrame in the .parquet format<a class="headerlink" href="#parse-compress-and-convert-a-log-file-to-a-dataframe-in-the-parquet-format" title="Permalink to this headline"></a></h2>
+<h2>parse, compress and convert a log file to a DataFrame in the .parquet format<a class="headerlink" href="#parse-compress-and-convert-a-log-file-to-a-dataframe-in-the-parquet-format" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">logs</span> <span class="pre">[-h]</span> <span class="pre">[-f</span> <span class="pre">[FIELDS</span> <span class="pre">...]]</span> <span class="pre">log_file</span> <span class="pre">output_file</span> <span class="pre">errors_file</span> <span class="pre">log_format</span></code></p>
 <p>parse, compress and convert a log file to a DataFrame in the .parquet format</p>
@@ -255,7 +259,7 @@ which will become column names in the parsed compressed file (default: None)</p>
 </div></blockquote>
 </section>
 <section id="perform-a-reverse-dns-lookup-on-a-list-of-ip-addresses">
-<h2>perform a reverse DNS lookup on a list of IP addresses<a class="headerlink" href="#perform-a-reverse-dns-lookup-on-a-list-of-ip-addresses" title="Permalink to this headline"></a></h2>
+<h2>perform a reverse DNS lookup on a list of IP addresses<a class="headerlink" href="#perform-a-reverse-dns-lookup-on-a-list-of-ip-addresses" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">dns</span> <span class="pre">[-h]</span> <span class="pre">[ip_list</span> <span class="pre">...]</span></code></p>
 <p>perform a reverse DNS lookup on a list of IP addresses</p>
@@ -272,7 +276,7 @@ which will become column names in the parsed compressed file (default: None)</p>
 </div></blockquote>
 </section>
 <section id="generate-a-table-of-sem-keywords-by-supplying-a-list-of-products-and-a-list-of-intent-words">
-<h2>generate a table of SEM keywords by supplying a list of products and a list of intent words<a class="headerlink" href="#generate-a-table-of-sem-keywords-by-supplying-a-list-of-products-and-a-list-of-intent-words" title="Permalink to this headline"></a></h2>
+<h2>generate a table of SEM keywords by supplying a list of products and a list of intent words<a class="headerlink" href="#generate-a-table-of-sem-keywords-by-supplying-a-list-of-products-and-a-list-of-intent-words" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">semkw</span> <span class="pre">[-h]</span> <span class="pre">[-t</span> <span class="pre">[{exact,phrase,modified,broad}</span> <span class="pre">...]]</span> <span class="pre">[-l</span> <span class="pre">MAX_LEN]</span> <span class="pre">[-c</span> <span class="pre">{0,1}]</span> <span class="pre">[-m</span> <span class="pre">{0,1}]</span> <span class="pre">[-n</span> <span class="pre">CAMPAIGN_NAME]</span> <span class="pre">products</span> <span class="pre">words</span></code></p>
 <p>generate a table of SEM keywords by supplying a list of products and a list of intent words</p>
@@ -303,7 +307,7 @@ words                 a file containing the intent words/phrases that you want t
 </div></blockquote>
 </section>
 <section id="get-stopwords-of-the-selected-language">
-<h2>get stopwords of the selected language<a class="headerlink" href="#get-stopwords-of-the-selected-language" title="Permalink to this headline"></a></h2>
+<h2>get stopwords of the selected language<a class="headerlink" href="#get-stopwords-of-the-selected-language" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">stopwords</span> <span class="pre">[-h]</span> <span class="pre">{arabic,azerbaijani,bengali,catalan,chinese,croatian,danish,dutch,english,finnish,french,german,greek,hebrew,hindi,hungarian,indonesian,irish,italian,japanese,kazakh,nepali,norwegian,persian,polish,portuguese,romanian,russian,sinhala,spanish,swedish,tagalog,tamil,tatar,telugu,thai,turkish,ukrainian,urdu,vietnamese}</span></code></p>
 <p>get stopwords of the selected language</p>
@@ -320,7 +324,7 @@ words                 a file containing the intent words/phrases that you want t
 </div></blockquote>
 </section>
 <section id="get-word-counts-of-a-text-list-optionally-weighted-by-a-number-list">
-<h2>get word counts of a text list optionally weighted by a number list<a class="headerlink" href="#get-word-counts-of-a-text-list-optionally-weighted-by-a-number-list" title="Permalink to this headline"></a></h2>
+<h2>get word counts of a text list optionally weighted by a number list<a class="headerlink" href="#get-word-counts-of-a-text-list-optionally-weighted-by-a-number-list" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">wordfreq</span> <span class="pre">[-h]</span> <span class="pre">[-n</span> <span class="pre">NUMBER_LIST]</span> <span class="pre">[-r</span> <span class="pre">REGEX]</span> <span class="pre">[-l</span> <span class="pre">PHRASE_LEN]</span> <span class="pre">[-s</span> <span class="pre">[STOPWORDS</span> <span class="pre">...]]</span> <span class="pre">[text_list</span> <span class="pre">...]</span></code></p>
 <p>get word counts of a text list optionally weighted by a number list</p>
@@ -354,7 +358,7 @@ change the language to get other stopwords (default: None)</p>
 </div></blockquote>
 </section>
 <section id="search-for-emoji-using-a-regex">
-<h2>search for emoji using a regex<a class="headerlink" href="#search-for-emoji-using-a-regex" title="Permalink to this headline"></a></h2>
+<h2>search for emoji using a regex<a class="headerlink" href="#search-for-emoji-using-a-regex" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">emoji</span> <span class="pre">[-h]</span> <span class="pre">regex</span></code></p>
 <p>search for emoji using a regex</p>
@@ -371,7 +375,7 @@ change the language to get other stopwords (default: None)</p>
 </div></blockquote>
 </section>
 <section id="extract-structured-entities-from-a-text-list-emoji-hashtags-mentions">
-<h2>extract structured entities from a text list; emoji, hashtags, mentions<a class="headerlink" href="#extract-structured-entities-from-a-text-list-emoji-hashtags-mentions" title="Permalink to this headline"></a></h2>
+<h2>extract structured entities from a text list; emoji, hashtags, mentions<a class="headerlink" href="#extract-structured-entities-from-a-text-list-emoji-hashtags-mentions" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">extract</span> <span class="pre">[-h]</span> <span class="pre">{emoji,hashtags,mentions}</span> <span class="pre">text_list</span></code></p>
 <p>extract structured entities from a text list; emoji, hashtags, mentions</p>
@@ -392,7 +396,7 @@ change the language to get other stopwords (default: None)</p>
 </div></blockquote>
 </section>
 <section id="tokenize-documents-phrases-keywords-tweets-etc-into-token-of-the-desired-length">
-<h2>tokenize documents (phrases, keywords, tweets, etc) into token of the desired length<a class="headerlink" href="#tokenize-documents-phrases-keywords-tweets-etc-into-token-of-the-desired-length" title="Permalink to this headline"></a></h2>
+<h2>tokenize documents (phrases, keywords, tweets, etc) into token of the desired length<a class="headerlink" href="#tokenize-documents-phrases-keywords-tweets-etc-into-token-of-the-desired-length" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>usage: <code class="docutils literal notranslate"><span class="pre">advertools</span> <span class="pre">tokenize</span> <span class="pre">[-h]</span> <span class="pre">[-l</span> <span class="pre">LENGTH]</span> <span class="pre">[-s</span> <span class="pre">SEPARATOR]</span> <span class="pre">[text_list</span> <span class="pre">...]</span></code></p>
 <p>tokenize documents (phrases, keywords, tweets, etc) into token of the desired length</p>
@@ -415,7 +419,7 @@ change the language to get other stopwords (default: None)</p>
 </div></blockquote>
 </section>
 <section id="seo-crawler">
-<h2>SEO crawler<a class="headerlink" href="#seo-crawler" title="Permalink to this headline"></a></h2>
+<h2>SEO crawler<a class="headerlink" href="#seo-crawler" title="Link to this heading"></a></h2>
 <blockquote>
 <div><dl class="simple">
 <dt>usage: advertools crawl [-h] [-l FOLLOW_LINKS] [-d [ALLOWED_DOMAINS ...]]</dt><dd><p>[--exclude-url-params [EXCLUDE_URL_PARAMS ...]]
@@ -503,7 +507,7 @@ for details please refer to the spider settings:
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -521,7 +525,7 @@ for details please refer to the spider settings:
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Elias Dabbas.</p>
+    <p>&#169; Copyright 2024, Elias Dabbas.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

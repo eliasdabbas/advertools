@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🤖 Analyze and Test robots.txt Files on a Large Scale &mdash;  Python</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=9e420a66"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+        <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
         <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,14 +35,18 @@ const thebe_selector_output = ".output, .cell_output"
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> advertools
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            advertools
           </a>
               <div class="version">
-                0.13.5
+                0.14.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -110,8 +114,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>🤖 Analyze and Test robots.txt Files on a Large Scale</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">🤖 Analyze and Test robots.txt Files on a Large Scale</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/advertools.robotstxt.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -121,8 +125,8 @@ const thebe_selector_output = ".output, .cell_output"
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="module-advertools.robotstxt"></span><section id="analyze-and-test-robots-txt-files-on-a-large-scale">
-<span id="robotstxt"></span><h1>🤖 Analyze and Test robots.txt Files on a Large Scale<a class="headerlink" href="#analyze-and-test-robots-txt-files-on-a-large-scale" title="Permalink to this headline"></a></h1>
+  <section id="analyze-and-test-robots-txt-files-on-a-large-scale">
+<span id="robotstxt"></span><span id="module-advertools.robotstxt"></span><h1>🤖 Analyze and Test robots.txt Files on a Large Scale<a class="headerlink" href="#analyze-and-test-robots-txt-files-on-a-large-scale" title="Link to this heading"></a></h1>
 <p>Even though they are tiny in size, robots.txt files contain potent instructions
 that can block major sections of your site, which is what they are supposed to
 do. Only sometimes you might make the mistake of blocking the wrong section.</p>
@@ -140,15 +144,6 @@ every possible combination with user-agents.</p>
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 2%" />
-<col style="width: 6%" />
-<col style="width: 19%" />
-<col style="width: 20%" />
-<col style="width: 15%" />
-<col style="width: 19%" />
-<col style="width: 19%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>directive</p></th>
@@ -295,14 +290,6 @@ domains and sub-domains.</p></li>
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 2%" />
-<col style="width: 6%" />
-<col style="width: 39%" />
-<col style="width: 14%" />
-<col style="width: 19%" />
-<col style="width: 19%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>directive</p></th>
@@ -421,7 +408,7 @@ domains and sub-domains.</p></li>
 </tbody>
 </table>
 <section id="bulk-robots-txt-tester">
-<h2>Bulk <code class="docutils literal notranslate"><span class="pre">robots.txt</span></code> Tester<a class="headerlink" href="#bulk-robots-txt-tester" title="Permalink to this headline"></a></h2>
+<h2>Bulk <code class="docutils literal notranslate"><span class="pre">robots.txt</span></code> Tester<a class="headerlink" href="#bulk-robots-txt-tester" title="Link to this heading"></a></h2>
 <p>This tester is designed to work on a large scale. The <a class="reference internal" href="#advertools.robotstxt.robotstxt_test" title="advertools.robotstxt.robotstxt_test"><code class="xref py py-func docutils literal notranslate"><span class="pre">robotstxt_test()</span></code></a>
 function runs a test for a given robots.txt file, checking which of the
 provided user-agents can fetch which of the provided URLs, paths, or patterns.</p>
@@ -444,7 +431,7 @@ rules for different user-agents.</p></li>
 </ul>
 </section>
 <section id="user-agents">
-<h2>User-agents<a class="headerlink" href="#user-agents" title="Permalink to this headline"></a></h2>
+<h2>User-agents<a class="headerlink" href="#user-agents" title="Link to this heading"></a></h2>
 <p>In reality there are only two groups of user-agents that you need to worry
 about:</p>
 <ul class="simple">
@@ -456,7 +443,7 @@ checking the rules that apply to it should take care of the rest.</p></li>
 </ul>
 </section>
 <section id="robots-txt-testing-approach">
-<h2>robots.txt Testing Approach<a class="headerlink" href="#robots-txt-testing-approach" title="Permalink to this headline"></a></h2>
+<h2>robots.txt Testing Approach<a class="headerlink" href="#robots-txt-testing-approach" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p>Get the robots.txt file that you are interested in</p></li>
 <li><p>Extract the user-agents from it</p></li>
@@ -468,13 +455,6 @@ checking the rules that apply to it should take care of the rest.</p></li>
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 3%" />
-<col style="width: 7%" />
-<col style="width: 45%" />
-<col style="width: 23%" />
-<col style="width: 21%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>directive</p></th>
@@ -596,13 +576,6 @@ profile page (/bbc), groups and hashtags pages.</p>
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 6%" />
-<col style="width: 49%" />
-<col style="width: 17%" />
-<col style="width: 14%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>robotstxt_url</p></th>
@@ -688,13 +661,6 @@ results. You can immediately see that all user-agents not listed (denoted by
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 5%" />
-<col style="width: 44%" />
-<col style="width: 24%" />
-<col style="width: 13%" />
-<col style="width: 14%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>robotstxt_url</p></th>
@@ -828,9 +794,11 @@ results. You can immediately see that all user-agents not listed (denoted by
 </table>
 <p>I'll leave it to you to figure out why LinkedIn and Pinterest are not allowed
 to crawl the home page but Google and Apple are, because I have no clue!</p>
+</section>
+</section>
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.robotstxt.robotstxt_test">
-<span class="sig-name descname"><span class="pre">robotstxt_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robotstxt_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_test" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">robotstxt_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robotstxt_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_test" title="Link to this definition"></a></dt>
 <dd><p>Given a <code class="xref py py-attr docutils literal notranslate"><span class="pre">robotstxt_url</span></code> check which of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">user_agents</span></code> is
 allowed to fetch which of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">urls</span></code>.</p>
 <p>All the combinations of <code class="xref py py-attr docutils literal notranslate"><span class="pre">user_agents</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">urls</span></code> will be
@@ -854,7 +822,7 @@ checked and the results returned in one DataFrame.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>robotstxt_url</strong> (<em>url</em>) -- The URL of robotx.txt file</p></li>
 <li><p><strong>user_agents</strong> (<em>str</em><em>,</em><em>list</em>) -- One or more user agents</p></li>
@@ -862,14 +830,14 @@ checked and the results returned in one DataFrame.</p>
 check</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return DataFrame robotstxt_test_df</dt>
+<dt class="field-even">Return DataFrame robotstxt_test_df<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.robotstxt.robotstxt_to_df">
-<span class="sig-name descname"><span class="pre">robotstxt_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robotstxt_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_to_df" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">robotstxt_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robotstxt_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_to_df" title="Link to this definition"></a></dt>
 <dd><p>Download the contents of <code class="docutils literal notranslate"><span class="pre">robotstxt_url</span></code> into a DataFrame</p>
 <p>You can also use it to download multiple robots files by passing a list of
 URLs.</p>
@@ -911,7 +879,7 @@ maybe your patience!</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>robotstxt_url</strong> (<em>url</em>) -- One or more URLs of the robots.txt file(s)</p></li>
 <li><p><strong>output_file</strong> (<em>str</em>) -- Optional file path to save the robots.txt files,
@@ -920,15 +888,13 @@ files are appended as soon as they are downloaded.
 Only &quot;.jl&quot; extensions are supported.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns DataFrame robotstxt_df</dt>
+<dt class="field-even">Returns DataFrame robotstxt_df<span class="colon">:</span></dt>
 <dd class="field-even"><p>A DataFrame containing directives, their
 content, the URL and time of download</p>
 </dd>
 </dl>
 </dd></dl>
 
-</section>
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -942,7 +908,7 @@ content, the URL and time of download</p>
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -960,7 +926,7 @@ content, the URL and time of download</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Elias Dabbas.</p>
+    <p>&#169; Copyright 2024, Elias Dabbas.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta content="Convert a long descriptive text into a text ad, by splitting it according to whichever template you want." lang="en" name="description" xml:lang="en" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create Ads Using Long Descriptive Text (top-down approach) &mdash;  Python</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=9e420a66"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+        <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
         <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,14 +36,18 @@ const thebe_selector_output = ".output, .cell_output"
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> advertools
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            advertools
           </a>
               <div class="version">
-                0.13.5
+                0.14.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -111,8 +115,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Create Ads Using Long Descriptive Text (top-down approach)</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Create Ads Using Long Descriptive Text (top-down approach)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/advertools.ad_from_string.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -122,8 +126,8 @@ const thebe_selector_output = ".output, .cell_output"
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="module-advertools.ad_from_string"></span><section id="create-ads-using-long-descriptive-text-top-down-approach">
-<span id="ad-from-string"></span><h1>Create Ads Using Long Descriptive Text (top-down approach)<a class="headerlink" href="#create-ads-using-long-descriptive-text-top-down-approach" title="Permalink to this headline"></a></h1>
+  <section id="create-ads-using-long-descriptive-text-top-down-approach">
+<span id="ad-from-string"></span><span id="module-advertools.ad_from_string"></span><h1>Create Ads Using Long Descriptive Text (top-down approach)<a class="headerlink" href="#create-ads-using-long-descriptive-text-top-down-approach" title="Link to this heading"></a></h1>
 <p>Many times you have long descriptive text about your products, especially on
 their respective landing pages. The allowed length of text ads has become
 considerably long on many platforms. On Google Ads for example, you have slots
@@ -139,20 +143,20 @@ remains it will be appended to the end of the returned list.</p>
 (or write them) once, and then you can easily split them into different slots
 based on the ad format and the platform you are using.</p>
 <p>Here is a quick overview of the available parameters and options:</p>
-<dl class="glossary simple">
-<dt id="term-s">s<a class="headerlink" href="#term-s" title="Permalink to this term"></a></dt><dd><p>The string that you want to split. This would typically be available
+<dl class="simple glossary">
+<dt id="term-s">s<a class="headerlink" href="#term-s" title="Link to this term"></a></dt><dd><p>The string that you want to split. This would typically be available
 on the landing pages of each product.</p>
 </dd>
-<dt id="term-slots">slots<a class="headerlink" href="#term-slots" title="Permalink to this term"></a></dt><dd><p>The lengths that you want to split into. Note that although the default
+<dt id="term-slots">slots<a class="headerlink" href="#term-slots" title="Link to this term"></a></dt><dd><p>The lengths that you want to split into. Note that although the default
 uses Google Ads' text ad template, you can change it to any other
 group of slots, with more or fewer slots of different lengths.</p>
 </dd>
-<dt id="term-sep">sep<a class="headerlink" href="#term-sep" title="Permalink to this term"></a></dt><dd><p>The separator by which to split the text. The default is <code class="xref py py-attr docutils literal notranslate"><span class="pre">None</span></code>
+<dt id="term-sep">sep<a class="headerlink" href="#term-sep" title="Link to this term"></a></dt><dd><p>The separator by which to split the text. The default is <code class="xref py py-attr docutils literal notranslate"><span class="pre">None</span></code>
 which splits the text by whitespace, but you can change it to something
 else if needed. Sometimes you might want the text split by hyphens
 (URLs for example) so you can split by that character.</p>
 </dd>
-<dt id="term-capitalize">capitalize<a class="headerlink" href="#term-capitalize" title="Permalink to this term"></a></dt><dd><p>The default is <code class="xref py py-attr docutils literal notranslate"><span class="pre">False</span></code> which leaves the capitalization of
+<dt id="term-capitalize">capitalize<a class="headerlink" href="#term-capitalize" title="Link to this term"></a></dt><dd><p>The default is <code class="xref py py-attr docutils literal notranslate"><span class="pre">False</span></code> which leaves the capitalization of
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> intact. If you set it to <code class="xref py py-attr docutils literal notranslate"><span class="pre">True</span></code> then the first letter
 of each word would be capitalized.</p>
 </dd>
@@ -171,7 +175,7 @@ one element more than the provided slots to ensure consistency.</p>
 </div>
 <p>Now let's see how this same description can be utilized in different scenarios</p>
 <section id="google-text-ads">
-<h2>Google Text Ads<a class="headerlink" href="#google-text-ads" title="Permalink to this headline"></a></h2>
+<h2>Google Text Ads<a class="headerlink" href="#google-text-ads" title="Link to this heading"></a></h2>
 <p>Since this is shorter than the default Google values, you will get extra empty
 slots (with an additional last one).</p>
 <button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">desc_text</span><span class="p">)</span>  <span class="c1"># default values (Google text ads)</span>
@@ -189,7 +193,7 @@ slots (with an additional last one).</p>
 </div>
 </section>
 <section id="facebook-feed-ads">
-<h2>Facebook Feed Ads<a class="headerlink" href="#facebook-feed-ads" title="Permalink to this headline"></a></h2>
+<h2>Facebook Feed Ads<a class="headerlink" href="#facebook-feed-ads" title="Link to this heading"></a></h2>
 <p>In this case, it is also shorter than the default value, so you get an extra
 space.</p>
 <button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">desc_text</span><span class="p">,</span> <span class="p">[</span><span class="mi">125</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>  <span class="c1"># Facebook feed ads</span>
@@ -208,7 +212,7 @@ empty last one, you might want to change it as follows:</p>
 </div>
 </section>
 <section id="facebook-instant-article-ad">
-<h2>Facebook Instant Article Ad<a class="headerlink" href="#facebook-instant-article-ad" title="Permalink to this headline"></a></h2>
+<h2>Facebook Instant Article Ad<a class="headerlink" href="#facebook-instant-article-ad" title="Link to this heading"></a></h2>
 <p>Here is a case where our text is longer than the provided limitations, so we
 end up having an extra space that is not used:</p>
 <button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">ad_from_string</span><span class="p">(</span><span class="n">desc_text</span><span class="p">,</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>  <span class="c1"># Facebook instant article ad</span>
@@ -219,16 +223,18 @@ end up having an extra space that is not used:</p>
 <span class="s1">&#39;with 13 things that do a lot of good stuff for your health. Start shopping now.&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
+</section>
+</section>
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.ad_from_string.ad_from_string">
-<span class="sig-name descname"><span class="pre">ad_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(30,</span> <span class="pre">30,</span> <span class="pre">30,</span> <span class="pre">90,</span> <span class="pre">90,</span> <span class="pre">15,</span> <span class="pre">15)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capitalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">ad_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(30,</span> <span class="pre">30,</span> <span class="pre">30,</span> <span class="pre">90,</span> <span class="pre">90,</span> <span class="pre">15,</span> <span class="pre">15)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capitalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Link to this definition"></a></dt>
 <dd><p>Convert string <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> to an ad by splitting it into groups of words.
 Each group would have a length of at most the allowed length for that slot.</p>
 <p>If the total length of <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> exceeds the total allowed length, all
 remaining characters would be grouped in the last element of the
 returned list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>s</strong> (<em>str</em>) -- a string of characters, with no restrictions on length</p></li>
 <li><p><strong>slots</strong> (<em>list</em>) -- an iterable of integers for the maximum lengths for
@@ -239,7 +245,7 @@ grouping. Setting it as False would not change the
 capitalization of the input string</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns text_ad</dt>
+<dt class="field-even">Returns text_ad<span class="colon">:</span></dt>
 <dd class="field-even"><p>a list of strings</p>
 </dd>
 </dl>
@@ -269,8 +275,6 @@ capitalization of the input string</p></li>
 </div>
 </dd></dl>
 
-</section>
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -284,7 +288,7 @@ capitalization of the input string</p></li>
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -302,7 +306,7 @@ capitalization of the input string</p></li>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Elias Dabbas.</p>
+    <p>&#169; Copyright 2024, Elias Dabbas.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

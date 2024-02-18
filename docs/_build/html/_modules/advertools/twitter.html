@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>advertools.twitter &mdash;  Python</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sphinx-thebe.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-        <script async="async" src="../../_static/sphinx-thebe.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=9e420a66"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+        <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
         <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -32,14 +32,18 @@ const thebe_selector_output = ".output, .cell_output"
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> advertools
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            advertools
           </a>
               <div class="version">
-                0.13.5
+                0.14.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -102,9 +106,9 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>advertools.twitter</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">advertools.twitter</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -329,7 +333,9 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">return</span> <span class="n">result</span>
 
 
-<div class="viewcode-block" id="make_dataframe"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.make_dataframe">[docs]</a><span class="k">def</span> <span class="nf">make_dataframe</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<div class="viewcode-block" id="make_dataframe">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.make_dataframe">[docs]</a>
+<span class="k">def</span> <span class="nf">make_dataframe</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">nonlocal</span> <span class="n">func</span>
@@ -415,7 +421,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">return</span> <span class="n">wrapper</span></div>
 
 
-<div class="viewcode-block" id="authenticate"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.authenticate">[docs]</a><span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+
+<div class="viewcode-block" id="authenticate">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.authenticate">[docs]</a>
+<span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Used internally, please use set_auth_params for authentication.&quot;&quot;&quot;</span>
     <span class="n">auth_params</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -434,7 +443,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">return</span> <span class="n">wrapper</span></div>
 
 
-<div class="viewcode-block" id="get_application_rate_limit_status"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_application_rate_limit_status">[docs]</a><span class="nd">@authenticate</span>
+
+<div class="viewcode-block" id="get_application_rate_limit_status">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_application_rate_limit_status">[docs]</a>
+<span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_application_rate_limit_status</span><span class="p">(</span><span class="n">consumed_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the current rate limits for methods belonging to the</span>
@@ -463,7 +475,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">return</span> <span class="n">limit_df</span></div>
 
 
-<div class="viewcode-block" id="get_available_trends"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_available_trends">[docs]</a><span class="nd">@authenticate</span>
+
+<div class="viewcode-block" id="get_available_trends">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_available_trends">[docs]</a>
+<span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_available_trends</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the locations that Twitter has trending topic information for.</span>
@@ -482,7 +497,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">return</span> <span class="n">trends_df</span></div>
 
 
-<div class="viewcode-block" id="get_favorites"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_favorites">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_favorites">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_favorites">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_favorites</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -513,7 +531,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_followers_ids"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_followers_ids">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_followers_ids">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_followers_ids">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_followers_ids</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -542,7 +563,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_followers_list"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_followers_list">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_followers_list">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_followers_list">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_followers_list</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                        <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -571,7 +595,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_friends_ids"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_friends_ids">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_friends_ids">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_friends_ids">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_friends_ids</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -600,7 +627,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_friends_list"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_friends_list">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_friends_list">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_friends_list">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_friends_list</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -628,7 +658,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_home_timeline"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_home_timeline">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_home_timeline">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_home_timeline">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_home_timeline</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">exclude_replies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -663,7 +696,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_list_members"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_members">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_list_members">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_members">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_list_members</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -695,7 +731,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_list_memberships"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_memberships">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_list_memberships">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_memberships">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_list_memberships</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_to_owned_lists</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -723,7 +762,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_list_statuses"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_statuses">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_list_statuses">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_statuses">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_list_statuses</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -765,7 +807,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_list_subscribers"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_subscribers">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_list_subscribers">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_subscribers">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_list_subscribers</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -800,7 +845,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_list_subscriptions"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_subscriptions">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_list_subscriptions">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_subscriptions">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_list_subscriptions</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                            <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -825,7 +873,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_mentions_timeline"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_mentions_timeline">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_mentions_timeline">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_mentions_timeline">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_mentions_timeline</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -855,7 +906,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_place_trends"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_place_trends">[docs]</a><span class="nd">@authenticate</span>
+
+<div class="viewcode-block" id="get_place_trends">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_place_trends">[docs]</a>
+<span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_place_trends</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the top 10 trending topics for a specific WOEID, if</span>
@@ -905,7 +959,10 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<div class="viewcode-block" id="get_retweeters_ids"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_retweeters_ids">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_retweeters_ids">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_retweeters_ids">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_retweeters_ids</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -936,7 +993,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_retweets"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_retweets">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_retweets">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_retweets">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_retweets</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -956,7 +1016,10 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<div class="viewcode-block" id="get_supported_languages"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_supported_languages">[docs]</a><span class="nd">@authenticate</span>
+
+<div class="viewcode-block" id="get_supported_languages">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_supported_languages">[docs]</a>
+<span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_supported_languages</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the list of languages supported by Twitter along with</span>
@@ -970,7 +1033,10 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<div class="viewcode-block" id="get_user_timeline"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_user_timeline">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="get_user_timeline">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_user_timeline">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">get_user_timeline</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_replies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1012,7 +1078,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="lookup_status"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.lookup_status">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="lookup_status">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.lookup_status">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">lookup_status</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">include_ext_alt_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_card_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1047,7 +1116,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="lookup_user"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.lookup_user">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="lookup_user">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.lookup_user">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">lookup_user</span><span class="p">(</span><span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1073,7 +1145,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="retweeted_of_me"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.retweeted_of_me">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="retweeted_of_me">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.retweeted_of_me">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">retweeted_of_me</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1105,7 +1180,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="search"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.search">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="search">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.search">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">geocode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
            <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1221,7 +1299,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="search_users"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.search_users">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="search_users">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.search_users">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">search_users</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1239,7 +1320,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="show_lists"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.show_lists">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="show_lists">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.show_lists">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">show_lists</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1262,7 +1346,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="show_owned_lists"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.show_owned_lists">[docs]</a><span class="nd">@make_dataframe</span>
+
+<div class="viewcode-block" id="show_owned_lists">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.show_owned_lists">[docs]</a>
+<span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
 <span class="k">def</span> <span class="nf">show_owned_lists</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1284,6 +1371,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">    https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
+
 
 
 <span class="n">FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
@@ -1316,7 +1404,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="set_auth_params"><a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.set_auth_params">[docs]</a><span class="k">def</span> <span class="nf">set_auth_params</span><span class="p">(</span><span class="n">app_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">oauth_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="set_auth_params">
+<a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.set_auth_params">[docs]</a>
+<span class="k">def</span> <span class="nf">set_auth_params</span><span class="p">(</span><span class="n">app_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">oauth_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">oauth_token_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">token_type</span><span class="o">=</span><span class="s1">&#39;bearer&#39;</span><span class="p">,</span> <span class="n">oauth_version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="s1">&#39;1.1&#39;</span><span class="p">,</span>
                     <span class="n">client_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth_endpoint</span><span class="o">=</span><span class="s1">&#39;authenticate&#39;</span><span class="p">):</span>
@@ -1335,6 +1425,7 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">return</span> <span class="kc">None</span></div>
 
 
+
 <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="s1">&#39;INFO&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -1345,7 +1436,7 @@ const thebe_selector_output = ".output, .cell_output"
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Elias Dabbas.</p>
+    <p>&#169; Copyright 2024, Elias Dabbas.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🕷 Python Status Code Checker with Response Headers &mdash;  Python</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/sphinx-thebe.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-        <script async="async" src="_static/sphinx-thebe.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=9e420a66"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+        <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
         <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+        <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,14 +35,18 @@ const thebe_selector_output = ".output, .cell_output"
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> advertools
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            advertools
           </a>
               <div class="version">
-                0.13.5
+                0.14.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -105,8 +109,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>🕷 Python Status Code Checker with Response Headers</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">🕷 Python Status Code Checker with Response Headers</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/advertools.header_spider.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -116,8 +120,8 @@ const thebe_selector_output = ".output, .cell_output"
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="module-advertools.header_spider"></span><section id="python-status-code-checker-with-response-headers">
-<span id="crawl-headers"></span><h1>🕷 Python Status Code Checker with Response Headers<a class="headerlink" href="#python-status-code-checker-with-response-headers" title="Permalink to this headline"></a></h1>
+  <section id="python-status-code-checker-with-response-headers">
+<span id="crawl-headers"></span><span id="module-advertools.header_spider"></span><h1>🕷 Python Status Code Checker with Response Headers<a class="headerlink" href="#python-status-code-checker-with-response-headers" title="Link to this heading"></a></h1>
 <p>A mini crawler that only makes <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> requests to a known list of URLs. It
 uses <a class="reference external" href="https://docs.scrapy.org/en/latest">Scrapy</a> under the hood, which means
 you get all its power in a simplified interface for a simple and specific
@@ -140,55 +144,6 @@ URLs and a file path where you want to save the output (in <cite>.jl</cite> form
 </pre></div>
 </div>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 0%" />
-<col style="width: 3%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 0%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 5%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 6%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 3%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 3%" />
-<col style="width: 2%" />
-<col style="width: 3%" />
-<col style="width: 3%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 3%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 6%" />
-<col style="width: 2%" />
-<col style="width: 3%" />
-<col style="width: 1%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>url</p></th>
@@ -463,40 +418,41 @@ bandwidth. Lookout for the column <code class="docutils literal notranslate"><sp
 indication on the type of content of the page (or image when crawling image
 URLs); <cite>text/html</cite>, <cite>image/jpeg</cite> and <cite>image/png</cite> are some such content types.</p></li>
 </ul>
+</section>
 <dl class="py class">
 <dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HeadersSpider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">scrapy.spiders.Spider</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HeadersSpider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Spider</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider.custom_settings">
-<span class="sig-name descname"><span class="pre">custom_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'AUTOTHROTTLE_ENABLED':</span> <span class="pre">True,</span> <span class="pre">'AUTOTHROTTLE_TARGET_CONCURRENCY':</span> <span class="pre">8,</span> <span class="pre">'HTTPERROR_ALLOW_ALL':</span> <span class="pre">True,</span> <span class="pre">'ROBOTSTXT_OBEY':</span> <span class="pre">True,</span> <span class="pre">'USER_AGENT':</span> <span class="pre">'advertools/0.13.5'}</span></em><a class="headerlink" href="#advertools.header_spider.HeadersSpider.custom_settings" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">custom_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'AUTOTHROTTLE_ENABLED':</span> <span class="pre">True,</span> <span class="pre">'AUTOTHROTTLE_TARGET_CONCURRENCY':</span> <span class="pre">8,</span> <span class="pre">'HTTPERROR_ALLOW_ALL':</span> <span class="pre">True,</span> <span class="pre">'ROBOTSTXT_OBEY':</span> <span class="pre">True,</span> <span class="pre">'USER_AGENT':</span> <span class="pre">'advertools/0.14.0'}</span></em><a class="headerlink" href="#advertools.header_spider.HeadersSpider.custom_settings" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider.errback">
-<span class="sig-name descname"><span class="pre">errback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">failure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider.errback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider.errback" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">errback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">failure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider.errback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider.errback" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'headers_spider'</span></em><a class="headerlink" href="#advertools.header_spider.HeadersSpider.name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'headers_spider'</span></em><a class="headerlink" href="#advertools.header_spider.HeadersSpider.name" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider.parse">
-<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider.parse" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider.parse" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider.start_requests">
-<span class="sig-name descname"><span class="pre">start_requests</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider.start_requests"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider.start_requests" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">start_requests</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#HeadersSpider.start_requests"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.HeadersSpider.start_requests" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.header_spider.crawl_headers">
-<span class="sig-name descname"><span class="pre">crawl_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#crawl_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.crawl_headers" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">crawl_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/header_spider.html#crawl_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.header_spider.crawl_headers" title="Link to this definition"></a></dt>
 <dd><p>Crawl a list of URLs using the HEAD method.</p>
 <p>This function helps in analyzing a set of URLs by getting status codes,
 download latency, all response headers and a few other meta data about the
@@ -515,7 +471,7 @@ can help a lot in making decisions about optimizing those images.
 Several other data can be interesting to analyze, depending on what
 response headers you get.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>url_list</strong> (<em>url</em><em>,</em><em>list</em>) -- One or more URLs to crawl.</p></li>
 <li><p><strong>output_file</strong> (<em>str</em>) -- The path to the output of the crawl. Jsonlines only
@@ -529,7 +485,7 @@ refer to the <a class="reference external" href="https://docs.scrapy.org/en/late
 documentation.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Examples</dt>
+<dt class="field-even">Examples<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
@@ -545,7 +501,6 @@ documentation.</p></li>
 </div>
 </dd></dl>
 
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -559,7 +514,7 @@ documentation.</p></li>
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -577,7 +532,7 @@ documentation.</p></li>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Elias Dabbas.</p>
+    <p>&#169; Copyright 2024, Elias Dabbas.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
