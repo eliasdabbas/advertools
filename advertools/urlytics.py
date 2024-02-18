@@ -11,7 +11,7 @@ structured manner.
 There are many situations in which you have many URLs that you want to better
 understand:
 
-* **Analytics reports**: Whichever analytics sytem you use, whether Google
+* **Analytics reports**: Whichever analytics system you use, whether Google
   Analytics, search console, or any other reporting tool that reports on URLs,
   your reports can be enhanced by splitting URLs, and in effect becoming four
   or five data points as opposed to one.
@@ -53,6 +53,8 @@ converts URLs to DataFrames.
 
 ِA more elaborate exmaple on :ref:`how to analyze URLs <sitemaps>` shows how you
 might use this function after obtaining a set of URLs.
+
+The resulting DataFrame contains the following columns:
 
 * **url**: The original URLs are listed as a reference. They are decoded for
   easier reading, and you can set ``decode=False`` if you want to retain the
@@ -142,6 +144,30 @@ three main situations that you can encounter while analyzing directories.
 The ideal case for the `path` part of the URL is to be split into directories
 of equal length across the dataset, having the right data in the right columns
 and `NA` otherwise. Or, splitting the dataset and analyzing separately.
+
+Analyzing a large number of URLs
+--------------------------------
+
+Having a very long list of URLs is a thing that you might encounter with log files,
+big XML sitemaps, crawling a big website, and so on.
+You can still use ``url_to_df`` but you might consume a massive amount of memory, in
+some cases making impossible to process the data. For these cases you can use the
+``output_file`` parameter.
+All you have to do is provide a path for this output file, and it has to have the
+.parquet extension. This allows you to compress the data, analyze it way more
+efficiently, and you can refer back to the same dataset without having to go through
+the process again (it can take a few minutes with big datasets).
+
+.. code-block:: python
+   :linenos:
+
+    import advertools as adv
+    import pandas as pd
+    adv.url_to_df([url_1, url_2, ...], ouput_file="output_file.parquet")
+    pd.read_parquet("output_file.parquet", columns=["scheme"])
+    pd.read_parquet("output_file.parquet", columns=["dir_1", "dir_2"])
+    pd.read_parquet("output_file.parquet", columns=["dir_1", "dir_2"], filters=[("dir_1", "in", ["news", "politics"])])
+
 """
 
 import os
