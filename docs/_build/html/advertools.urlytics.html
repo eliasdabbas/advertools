@@ -78,6 +78,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current"><a class="current reference internal" href="#">URL Structure Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#query-parameters">Query Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-url-path-directories">The URL Path (Directories):</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#analyzing-a-large-number-of-urls">Analyzing a large number of URLs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
@@ -128,7 +129,7 @@ structured manner.</p>
 <p>There are many situations in which you have many URLs that you want to better
 understand:</p>
 <ul class="simple">
-<li><p><strong>Analytics reports</strong>: Whichever analytics sytem you use, whether Google
+<li><p><strong>Analytics reports</strong>: Whichever analytics system you use, whether Google
 Analytics, search console, or any other reporting tool that reports on URLs,
 your reports can be enhanced by splitting URLs, and in effect becoming four
 or five data points as opposed to one.</p></li>
@@ -251,6 +252,7 @@ converts URLs to DataFrames.</p>
 </table>
 <p>ِA more elaborate exmaple on <a class="reference internal" href="advertools.sitemaps.html#sitemaps"><span class="std std-ref">how to analyze URLs</span></a> shows how you
 might use this function after obtaining a set of URLs.</p>
+<p>The resulting DataFrame contains the following columns:</p>
 <ul class="simple">
 <li><p><strong>url</strong>: The original URLs are listed as a reference. They are decoded for
 easier reading, and you can set <code class="docutils literal notranslate"><span class="pre">decode=False</span></code> if you want to retain the
@@ -344,21 +346,45 @@ for community content for example.</p>
 <p>The ideal case for the <cite>path</cite> part of the URL is to be split into directories
 of equal length across the dataset, having the right data in the right columns
 and <cite>NA</cite> otherwise. Or, splitting the dataset and analyzing separately.</p>
+</section>
+<section id="analyzing-a-large-number-of-urls">
+<h2>Analyzing a large number of URLs<a class="headerlink" href="#analyzing-a-large-number-of-urls" title="Permalink to this headline"></a></h2>
+<p>Having a very long list of URLs is a thing that you might encounter with log files,
+big XML sitemaps, crawling a big website, and so on.
+You can still use <code class="docutils literal notranslate"><span class="pre">url_to_df</span></code> but you might consume a massive amount of memory, in
+some cases making impossible to process the data. For these cases you can use the
+<code class="docutils literal notranslate"><span class="pre">output_file</span></code> parameter.
+All you have to do is provide a path for this output file, and it has to have the
+.parquet extension. This allows you to compress the data, analyze it way more
+efficiently, and you can refer back to the same dataset without having to go through
+the process again (it can take a few minutes with big datasets).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span> <span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="linenos">2</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="linenos">3</span> <span class="n">adv</span><span class="o">.</span><span class="n">url_to_df</span><span class="p">([</span><span class="n">url_1</span><span class="p">,</span> <span class="n">url_2</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">ouput_file</span><span class="o">=</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">)</span>
+<span class="linenos">4</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;scheme&quot;</span><span class="p">])</span>
+<span class="linenos">5</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dir_1&quot;</span><span class="p">,</span> <span class="s2">&quot;dir_2&quot;</span><span class="p">])</span>
+<span class="linenos">6</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dir_1&quot;</span><span class="p">,</span> <span class="s2">&quot;dir_2&quot;</span><span class="p">],</span> <span class="n">filters</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;dir_1&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;news&quot;</span><span class="p">,</span> <span class="s2">&quot;politics&quot;</span><span class="p">])])</span>
+</pre></div>
+</div>
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.urlytics.url_to_df">
-<span class="sig-name descname"><span class="pre">url_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/urlytics.html#url_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.urlytics.url_to_df" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">url_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/urlytics.html#url_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.urlytics.url_to_df" title="Permalink to this definition"></a></dt>
 <dd><p>Split the given URLs into their components to a DataFrame.</p>
 <p>Each column will have its own component, and query parameters and
 directories will also be parsed and given special columns each.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>urls</strong> (<em>url</em>) -- A list of URLs to split into components</p></li>
+<li><p><strong>urls</strong> (<em>list</em><em>,</em><em>pandas.Series</em>) -- A list of URLs to split into components</p></li>
 <li><p><strong>decode</strong> (<em>bool</em>) -- Whether or not to decode the given URLs</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) -- The path where to save the output DataFrame with a .parquet extension</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return DataFrame split</dt>
-<dd class="field-even"><p>A DataFrame with a column for each component</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>urldf</strong> -- A DataFrame with a column for each URL component</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>

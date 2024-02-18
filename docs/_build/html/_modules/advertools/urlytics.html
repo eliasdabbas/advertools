@@ -127,7 +127,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">There are many situations in which you have many URLs that you want to better</span>
 <span class="sd">understand:</span>
 
-<span class="sd">* **Analytics reports**: Whichever analytics sytem you use, whether Google</span>
+<span class="sd">* **Analytics reports**: Whichever analytics system you use, whether Google</span>
 <span class="sd">  Analytics, search console, or any other reporting tool that reports on URLs,</span>
 <span class="sd">  your reports can be enhanced by splitting URLs, and in effect becoming four</span>
 <span class="sd">  or five data points as opposed to one.</span>
@@ -169,6 +169,8 @@ const thebe_selector_output = ".output, .cell_output"
 
 <span class="sd">ِA more elaborate exmaple on :ref:`how to analyze URLs &lt;sitemaps&gt;` shows how you</span>
 <span class="sd">might use this function after obtaining a set of URLs.</span>
+
+<span class="sd">The resulting DataFrame contains the following columns:</span>
 
 <span class="sd">* **url**: The original URLs are listed as a reference. They are decoded for</span>
 <span class="sd">  easier reading, and you can set ``decode=False`` if you want to retain the</span>
@@ -258,15 +260,41 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="sd">The ideal case for the `path` part of the URL is to be split into directories</span>
 <span class="sd">of equal length across the dataset, having the right data in the right columns</span>
 <span class="sd">and `NA` otherwise. Or, splitting the dataset and analyzing separately.</span>
+
+<span class="sd">Analyzing a large number of URLs</span>
+<span class="sd">--------------------------------</span>
+
+<span class="sd">Having a very long list of URLs is a thing that you might encounter with log files,</span>
+<span class="sd">big XML sitemaps, crawling a big website, and so on.</span>
+<span class="sd">You can still use ``url_to_df`` but you might consume a massive amount of memory, in</span>
+<span class="sd">some cases making impossible to process the data. For these cases you can use the</span>
+<span class="sd">``output_file`` parameter.</span>
+<span class="sd">All you have to do is provide a path for this output file, and it has to have the</span>
+<span class="sd">.parquet extension. This allows you to compress the data, analyze it way more</span>
+<span class="sd">efficiently, and you can refer back to the same dataset without having to go through</span>
+<span class="sd">the process again (it can take a few minutes with big datasets).</span>
+
+<span class="sd">.. code-block:: python</span>
+<span class="sd">   :linenos:</span>
+
+<span class="sd">    import advertools as adv</span>
+<span class="sd">    import pandas as pd</span>
+<span class="sd">    adv.url_to_df([url_1, url_2, ...], ouput_file=&quot;output_file.parquet&quot;)</span>
+<span class="sd">    pd.read_parquet(&quot;output_file.parquet&quot;, columns=[&quot;scheme&quot;])</span>
+<span class="sd">    pd.read_parquet(&quot;output_file.parquet&quot;, columns=[&quot;dir_1&quot;, &quot;dir_2&quot;])</span>
+<span class="sd">    pd.read_parquet(&quot;output_file.parquet&quot;, columns=[&quot;dir_1&quot;, &quot;dir_2&quot;], filters=[(&quot;dir_1&quot;, &quot;in&quot;, [&quot;news&quot;, &quot;politics&quot;])])</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">TemporaryDirectory</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">parse_qs</span><span class="p">,</span> <span class="n">unquote</span><span class="p">,</span> <span class="n">urlsplit</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
-<div class="viewcode-block" id="url_to_df"><a class="viewcode-back" href="../../advertools.urlytics.html#advertools.urlytics.url_to_df">[docs]</a><span class="k">def</span> <span class="nf">url_to_df</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="n">decode</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_url_to_df</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="n">decode</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Split the given URLs into their components to a DataFrame.</span>
 
 <span class="sd">    Each column will have its own component, and query parameters and</span>
@@ -313,7 +341,47 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">dirs_df</span><span class="p">,</span> <span class="n">query_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
     <span class="n">url_list_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">decode</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">]})</span>
     <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">url_list_df</span><span class="p">,</span> <span class="n">df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">final_df</span></div>
+    <span class="k">return</span> <span class="n">final_df</span>
+
+
+<div class="viewcode-block" id="url_to_df"><a class="viewcode-back" href="../../advertools.urlytics.html#advertools.urlytics.url_to_df">[docs]</a><span class="k">def</span> <span class="nf">url_to_df</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="n">decode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Split the given URLs into their components to a DataFrame.</span>
+
+<span class="sd">    Each column will have its own component, and query parameters and</span>
+<span class="sd">    directories will also be parsed and given special columns each.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    urls : list,pandas.Series</span>
+<span class="sd">      A list of URLs to split into components</span>
+<span class="sd">    decode : bool</span>
+<span class="sd">      Whether or not to decode the given URLs</span>
+<span class="sd">    output_file : str</span>
+<span class="sd">      The path where to save the output DataFrame with a .parquet extension</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    urldf : pandas.DataFrame</span>
+<span class="sd">      A DataFrame with a column for each URL component</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">output_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">output_file</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;parquet&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Your output_file has to have a .parquet extension.&quot;</span><span class="p">)</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">sublists</span> <span class="o">=</span> <span class="p">(</span><span class="n">urls</span><span class="p">[</span><span class="n">sub</span> <span class="p">:</span> <span class="n">sub</span> <span class="o">+</span> <span class="n">step</span><span class="p">]</span> <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">urls</span><span class="p">),</span> <span class="n">step</span><span class="p">))</span>
+
+    <span class="k">with</span> <span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sublists</span><span class="p">):</span>
+            <span class="n">urldf</span> <span class="o">=</span> <span class="n">_url_to_df</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">decode</span><span class="o">=</span><span class="n">decode</span><span class="p">)</span>
+            <span class="n">urldf</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tmpdir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">08</span><span class="si">}</span><span class="s2">.parquet&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;2.6&quot;</span><span class="p">)</span>
+        <span class="n">final_df_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tmpdir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">tmp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">tmp</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">))</span>
+        <span class="p">]</span>
+        <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">final_df_list</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">output_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">final_df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;2.6&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">final_df</span></div>
 </pre></div>
 
            </div>

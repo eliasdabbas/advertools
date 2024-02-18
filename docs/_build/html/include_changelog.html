@@ -261,6 +261,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l3"><a class="reference internal" href="advertools.urlytics.html">Split, Parse, and Analyze URL Structure</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="advertools.urlytics.html#query-parameters">Query Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="advertools.urlytics.html#the-url-path-directories">The URL Path (Directories):</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advertools.urlytics.html#analyzing-a-large-number-of-urls">Analyzing a large number of URLs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis</a><ul>
@@ -282,8 +283,28 @@ const thebe_selector_output = ".output, .cell_output"
 <h3>0.14.0 (unreleased)<a class="headerlink" href="#unreleased" title="Permalink to this headline"></a></h3>
 <ul class="simple">
 <li><dl class="simple">
+<dt>Added</dt><dd><ul>
+<li><p>New module <code class="docutils literal notranslate"><span class="pre">crawlytics</span></code> for analyzing crawl DataFrames. Includes functions to
+analyze crawl DataFrames (<code class="docutils literal notranslate"><span class="pre">images</span></code>, <code class="docutils literal notranslate"><span class="pre">redirects</span></code>, and <code class="docutils literal notranslate"><span class="pre">links</span></code>), as well as
+functions to handle large files (<code class="docutils literal notranslate"><span class="pre">jl_to_parquet</span></code>, <code class="docutils literal notranslate"><span class="pre">jl_subset</span></code>, <code class="docutils literal notranslate"><span class="pre">parquet_columns</span></code>).</p></li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">encoding</span></code> option for <code class="docutils literal notranslate"><span class="pre">logs_to_df</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Changed</dt><dd><ul>
+<li><p>Remove requirement to delete existing log output and error files if they exist.
+The function will now overwrite them if they do.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
 <dt>Fixed</dt><dd><ul>
 <li><p>Always get absolute path for img src while crawling.</p></li>
+<li><p>Handle NA src attributes when extracting images.</p></li>
+<li><p>Change fillna(method=&quot;ffill&quot;) to ffill for <code class="docutils literal notranslate"><span class="pre">url_to_df</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
