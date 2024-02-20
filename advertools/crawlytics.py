@@ -5,6 +5,11 @@ probably also want to check for technical issues that the site might have.
 
 This module provides a few ready-made functions to help in anayzing crawl data.
 
+.. raw:: html
+
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/rt0LhxNW8GM?si=Pm5v7JKUK5CiS-Lo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+|
 There are certain columns in the crawl DataFrame that can be analyzed separately and
 independently, like page size and status codes. They can of course be analyzed together
 with other columns like URL and title to put these columns and their data in context.
