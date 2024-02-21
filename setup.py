@@ -2,9 +2,9 @@
 
 """The setup script."""
 
-from setuptools import find_packages, setup
-
 import os
+
+from setuptools import find_packages, setup
 
 os.listdir()
 with open("README.rst") as readme_file:
@@ -62,6 +62,6 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/eliasdabbas/advertools",
-    version="0.14.0",
+    version="0.14.1",
     zip_safe=False,
 )
