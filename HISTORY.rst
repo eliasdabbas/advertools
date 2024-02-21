@@ -2,6 +2,12 @@
 Change Log - advertools
 =======================
 
+0.14.0 (2024-02-21)
+-------------------
+
+* Fixed
+    - Preserve the order of supplied URLs in the output of ``url_to_df``.
+
 0.14.0 (2024-02-18)
 -------------------
 
