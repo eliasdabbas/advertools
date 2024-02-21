@@ -1,3 +1,4 @@
+from secrets import token_hex
 from tempfile import TemporaryDirectory
 
 import numpy as np
@@ -98,3 +99,11 @@ def test_urltodf_produces_outputfile():
         )
         df = pd.read_parquet(f"{tmpdir}/output.parquet")
         assert isinstance(df, pd.DataFrame)
+
+
+def test_urltodf_preserves_order_of_supplied_urls():
+    with TemporaryDirectory() as tmpdir:
+        urls = [f"https://example.com/one/two/{token_hex(16)}" for i in range(2300)]
+        url_to_df(urls, output_file=f"{tmpdir}/output.parquet")
+        df = pd.read_parquet(f"{tmpdir}/output.parquet")
+        assert df["url"].eq(urls).all()
