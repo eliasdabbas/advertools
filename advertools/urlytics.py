@@ -238,7 +238,7 @@ def url_to_df(urls, decode=True, output_file=None):
     ----------
     urls : list,pandas.Series
       A list of URLs to split into components
-    decode : bool
+    decode : bool, default True
       Whether or not to decode the given URLs
     output_file : str
       The path where to save the output DataFrame with a .parquet extension
@@ -257,11 +257,12 @@ def url_to_df(urls, decode=True, output_file=None):
     with TemporaryDirectory() as tmpdir:
         for i, l in enumerate(sublists):
             urldf = _url_to_df(l, decode=decode)
-            urldf.to_parquet(f"{tmpdir}/{i:08}.parquet", index=False, version="2.6")
+            urldf.index = range(i * step, (i * step) + len(urldf))
+            urldf.to_parquet(f"{tmpdir}/{i:08}.parquet", index=True, version="2.6")
         final_df_list = [
-            pd.read_parquet(f"{tmpdir}/{tmp}") for tmp in sorted(os.listdir(tmpdir))
+            pd.read_parquet(f"{tmpdir}/{tmpfile}") for tmpfile in os.listdir(tmpdir)
         ]
-        final_df = pd.concat(final_df_list, ignore_index=True)
+        final_df = pd.concat(final_df_list).sort_index()
     if output_file is not None:
         final_df.to_parquet(output_file, index=False, version="2.6")
     else:
