@@ -2,7 +2,13 @@
 Change Log - advertools
 =======================
 
-0.14.0 (2024-02-21)
+0.14.2 (2024-02-24)
+-------------------
+
+* Changed
+    - Allow ``sitemap_to_df`` to work on offline sitemaps.
+
+0.14.1 (2024-02-21)
 -------------------
 
 * Fixed
