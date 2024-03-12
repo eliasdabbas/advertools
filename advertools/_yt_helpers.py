@@ -38,7 +38,7 @@ def _json_to_df(json_resp, params):
     for col in df:
         if 'Count' in col:
             try:
-                df[col] = df[col].astype(int)
+                df[col] = df[col].astype('int64')
             except ValueError:
                 continue
         if ('published' in col) or ('updated' in col):
