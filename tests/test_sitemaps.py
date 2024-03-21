@@ -81,5 +81,10 @@ def test_get_sitemaps_from_robotstxt():
 def test_sitemaps_offline():
     sitemap_path = offline_path("regular_sitemap.xml")
     result = sitemap_to_df(sitemap_path)
-    print(result.head())
+    assert isinstance(result, pd.DataFrame)
+
+
+def test_zipped_sitemaps_offline():
+    sitemap_path = offline_path("zipped_sitemap.xml.gz")
+    result = sitemap_to_df(sitemap_path)
     assert isinstance(result, pd.DataFrame)
