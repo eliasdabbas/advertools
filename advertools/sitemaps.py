@@ -398,6 +398,50 @@ Video Sitemaps
 2954  https://www.wired.com/video/genres/transportation                                                               nan      nan                                                                                                                                                                                                                                     nan                                                                             nan                                                                                                                                                                                                                                                                                                                                         nan                                                                                                                    nan  nan                                            nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00
 ====  ==============================================================================================================  =======  ======================================================================================================================================================================================================================================  ==============================================================================  ==========================================================================================================================================================================================================================================================================================================================================  ========================================================================================================  ================  =========================  =======================  =========  =======================================  ==================================  =================  ================================
 
+Request Headers
+---------------
+
+You can set and change any request header while runnig this function if you want to
+modify its behavior. This can be done using a simple dictionary, where the keys are the
+names of the headers and values are their values.
+
+For example, one of the common use-cases is to set a different User-agent than the
+default one:
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    adv.sitemap_to_df("https://www.ft.com/sitemaps/news.xml", headers={"User-agent": "YOUR-USER-AGENT"})
+
+
+Another interesting thing you might want to do is utilize the `If-None-Match` header.
+In many cases the sitemaps return an etag for the sitemap. This is to make it easier to
+know whether or not a sitemap has changed. A different etag means the sitemap has been
+updated/changed.
+
+With large sitemaps, where many sub-sitemaps don't change that much you don't need to
+re-download the sitemap every time. You can simply use this header which would download
+the sitemap only if it has a different etag. This can also be useful with frequently
+changing sitemaps like news sitemaps for example. In this case you probably want to
+constantly check but only fetch the sitemap if it was changed.
+
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    # First time:
+    ft = adv.sitemap_to_df("https://www.ft.com/sitemaps/news.xml")
+    etag = ft['etag'][0]
+
+    # Second time:
+    ft = adv.sitemap_to_df("https://www.ft.com/sitemaps/news.xml", heaaders={"If-None-Match": etag})
+
 """
 
 import logging
@@ -475,6 +519,7 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, headers=headers):
                            case you want to explore what sitemaps are available
                            after which you can decide which ones you are
                            interested in.
+    :param dict headers: One or more request headers to use while fetching the sitemap.
     :return sitemap_df: A pandas DataFrame containing all URLs, as well as
                         other tags if available (``lastmod``, ``changefreq``,
                         ``priority``, or others found in news, video, or image
