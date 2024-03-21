@@ -415,9 +415,9 @@ logging.basicConfig(level=logging.INFO)
 headers = {"User-Agent": "advertools-" + version}
 
 
-def _sitemaps_from_robotstxt(robots_url):
+def _sitemaps_from_robotstxt(robots_url, req_headers):
     sitemaps = []
-    robots_page = urlopen(Request(robots_url, headers=headers))
+    robots_page = urlopen(Request(robots_url, headers=req_headers))
     for line in robots_page.readlines():
         line_split = [s.strip() for s in line.decode().split(":", maxsplit=1)]
         if line_split[0].lower() == "sitemap":
@@ -452,7 +452,7 @@ def _parse_sitemap(root):
     return pd.DataFrame(d.values())
 
 
-def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
+def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, headers=headers):
     """
     Retrieve all URLs and other available tags of a sitemap(s) and put them in
     a DataFrame.
@@ -484,20 +484,13 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
         return pd.concat(
             [
                 sitemap_to_df(sitemap, recursive=recursive)
-                for sitemap in _sitemaps_from_robotstxt(sitemap_url)
+                for sitemap in _sitemaps_from_robotstxt(sitemap_url, headers)
             ],
             ignore_index=True,
         )
     if sitemap_url.endswith("xml.gz"):
-        xml_text = urlopen(
-            Request(
-                sitemap_url,
-                headers={
-                    "Accept-Encoding": "gzip",
-                    "User-Agent": "advertools-" + version,
-                },
-            )
-        )
+        headers["Accept-Encoding"] = "gzip"
+        xml_text = urlopen(Request(sitemap_url, headers=headers))
         try:
             resp_headers = xml_text.getheaders()
         except AttributeError:
