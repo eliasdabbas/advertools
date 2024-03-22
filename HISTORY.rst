@@ -11,6 +11,9 @@ Change Log - advertools
 * Changed
     - Removed the `relatedSite` parameter from ``serp_goog`` - deprecated.
 
+* Fixed
+    - Use int64 instead of int for YouTube count columns, contributed by @DanielP77
+
 0.14.2 (2024-02-24)
 -------------------
 
