@@ -89,6 +89,7 @@ To install advertools, run the following from the command line::
    Crawl Strategies <advertools.code_recipes.spider_strategies>
    Crawl Analytics <advertools.crawlytics>
    Crawl headers (HEAD method only) <advertools.header_spider>
+   Crawl images <advertools.image_spider>
    Crawl Logs Analysis <advertools.logs>
    Reverse DNS Lookup <advertools.reverse_dns_lookup>
    Analyze Search Engine Results (SERPs) <advertools.serp>
