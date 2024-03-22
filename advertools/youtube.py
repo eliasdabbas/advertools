@@ -1029,7 +1029,7 @@ def channel_sections_list(key, part, channelId=None, id=None, mine=None,
     return _combine_requests(args, base_url, count=None, max_allowed=None)
 
 
-def channels_list(key, part, categoryId=None, forUsername=None, id=None,
+def channels_list(key, part, categoryId=None, forUsername=None, forHandle=None, id=None,
                   managedByMe=None, mine=None, mySubscribers=None, hl=None,
                   maxResults=None, onBehalfOfContentOwner=None,
                   pageToken=None):
@@ -1059,6 +1059,9 @@ def channels_list(key, part, categoryId=None, forUsername=None, id=None,
         that category.
     :param forUsername: string  The forUsername parameter specifies a YouTube
         username, thereby requesting the channel associated with that username.
+    :param forHandle: string  The forHandle parameter specifies a YouTube handle
+        (e.g., @EliasDabbas), thereby requesting the channel associated with
+        that handle.
     :param id: string  The id parameter specifies a comma-separated list of the
         YouTube channel ID(s) for the resource(s) that are being retrieved. In
         a channel resource, the id property specifies the channel's YouTube
@@ -1111,8 +1114,8 @@ def channels_list(key, part, categoryId=None, forUsername=None, id=None,
     part_params = {'contentDetails', 'id', '(deprecated) localizations', 'snippet', 'auditDetails', 'statistics', 'status', 'invideoPromotion', 'brandingSettings', 'contentOwnerDetails', 'topicDetails'}
     if not set(part.split(",")).issubset(part_params):
         raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
-    if sum([bool(p) for p in [categoryId, forUsername, id, managedByMe, mine, mySubscribers]]) != 1:
-        raise ValueError("make sure you specify exactly one of ['categoryId', 'forUsername', 'id', 'managedByMe', 'mine', 'mySubscribers']")
+    if sum([bool(p) for p in [categoryId, forUsername, forHandle, id, managedByMe, mine, mySubscribers]]) != 1:
+        raise ValueError("make sure you specify exactly one of ['categoryId', 'forUsername', 'forHandle', 'id', 'managedByMe', 'mine', 'mySubscribers']")
 
     base_url = 'https://www.googleapis.com/youtube/v3/channels'
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
