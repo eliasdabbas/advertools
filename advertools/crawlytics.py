@@ -603,8 +603,6 @@ def running_crawls():
     * output_file: The path to the output file for each running crawl job.
     * crawled_urls: The current number of lines in ``output_file``.
     """
-    if platform.system() == 'Windows':
-        return 'Not available yet on Windows. Sorry!'
     ps = run(["ps", "xo", "pid,start,etime,%mem,%cpu,args"])
     ps_stdout = ps.stdout.splitlines()
     df = pd.DataFrame(
