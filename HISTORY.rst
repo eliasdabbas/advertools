@@ -7,9 +7,12 @@ Change Log - advertools
 
 * Added
     - Enable supplying request headers in ``sitemap_to_df``.
+    - New function ``crawlytics.compare`` for comparing two crawls.
+    - New parameter ``log_date_format`` to ``logs_to_df`` for custom date formats.
 
 * Changed
     - Removed the `relatedSite` parameter from ``serp_goog`` - deprecated.
+    - Update emoji regex and functionality to v15.1.
 
 * Fixed
     - Use int64 instead of int for YouTube count columns, contributed by @DanielP77
