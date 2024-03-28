@@ -392,6 +392,7 @@ The DataFrame might contain the following columns:
 * `blocked_urls`: The URLs that were not crawled due to robots.txt rules.
 
 """
+
 import os
 import re
 from pathlib import Path
@@ -450,9 +451,23 @@ LOG_FIELDS = {
     ],
 }
 
+LOG_DATE_FORMATS = {
+    "common": "%d/%b/%Y:%H:%M:%S %z",
+    "combined": "%d/%b/%Y:%H:%M:%S %z",
+    "common_with_vhost": "%d/%b/%Y:%H:%M:%S %z",
+    "nginx_error": "%Y/%m/%d %H:%M:%S",
+    "apache_error": "%a %b %d %H:%M:%S.%f %Y",
+}
+
 
 def logs_to_df(
-    log_file, output_file, errors_file, log_format, fields=None, encoding="utf-8"
+    log_file,
+    output_file,
+    errors_file,
+    log_format,
+    log_date_format=None,
+    fields=None,
+    encoding="utf-8",
 ):
     """Parse and compress any log file into a DataFrame format.
 
@@ -484,6 +499,8 @@ def logs_to_df(
                             "@@".
     :param str log_format: Either the name of one of the supported log formats,
                            or a regex of your own format.
+    :param str log_date_format: The date format in strftime format, in case you have a
+                                a different one from the default.
     :param str fields: A list of fields, which will become the names of columns
                        in ``output_file``. Only required if you provide a
                        custom (regex) ``log_format``.
@@ -497,6 +514,7 @@ def logs_to_df(
         )
 
     regex = LOG_FORMATS.get(log_format) or log_format
+    date_fmt = log_date_format or LOG_DATE_FORMATS.get(log_format)
     columns = fields or LOG_FIELDS[log_format]
     with TemporaryDirectory() as tempdir:
         tempdir_name = Path(tempdir)
@@ -528,6 +546,13 @@ def logs_to_df(
                 df = pd.DataFrame(parsed_lines, columns=columns)
                 df.to_parquet(tempdir_name / f"file_{i}.parquet")
             final_df = pd.read_parquet(tempdir_name)
+            if "datetime" in final_df:
+                try:
+                    final_df["datetime"] = pd.to_datetime(
+                        final_df["datetime"], format=date_fmt
+                    )
+                except Exception as e:
+                    pass
             try:
                 final_df["status"] = final_df["status"].astype("category")
                 final_df["method"] = final_df["method"].astype("category")
