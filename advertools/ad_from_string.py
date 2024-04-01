@@ -116,7 +116,8 @@ space.
 
 .. code-block:
 
-    ['Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good stuff for your health. Start shopping',
+    ['Get the latest gadget online. The GX12 model comes with 13 things that do a lot\
+     of good stuff for your health. Start shopping',
     'now.',
     '',
     '']
@@ -134,7 +135,8 @@ empty last one, you might want to change it as follows:
 
 .. code-block::
 
-    ['Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good',
+    ['Get the latest gadget online. The GX12 model comes with 13 things that do a lot\
+     of good',
     'stuff for your health.',
     'Start shopping now.',
     '']
@@ -158,27 +160,36 @@ end up having an extra space that is not used:
     ['Get the latest gadget',
     'online. The GX12 model comes',
     'with 13 things that do a lot of good stuff for your health. Start shopping now.']
-"""
+"""  # noqa: E501
+
 import string
 
 
-def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None,
-                   capitalize=False):
+def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None, capitalize=False):
     """Convert string :attr:`s` to an ad by splitting it into groups of words.
+
     Each group would have a length of at most the allowed length for that slot.
 
     If the total length of :attr:`s` exceeds the total allowed length, all
     remaining characters would be grouped in the last element of the
     returned list.
 
-    :param str s: a string of characters, with no restrictions on length
-    :param list slots: an iterable of integers for the maximum lengths for
-        each slot
-    :param str sep: character(s) by which to split :attr:`s`
-    :param bool capitalize: whether or not to capitalize each word after
-                            grouping. Setting it as False would not change the
-                            capitalization of the input string
-    :returns text_ad: a list of strings
+    Parameters
+    ----------
+    s : str
+      A string of characters, with no restrictions on length.
+    slots : list
+      An iterable of integers for the maximum lengths for each slot
+    sep : str
+      Character(s) by which to split :attr:`s`.
+    capitalize : bool
+      Whether or not to capitalize each word after grouping. Setting it as False would
+      not change the capitalization of the input string
+
+    Returns
+    -------
+    text_ad : list
+      A list of strings according to split spec.
 
     >>> ad_from_string('this is a short ad')
     ['this is a short ad', '', '', '', '', '', '', '']
@@ -200,18 +211,20 @@ def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None,
      '', '', '', '', '', '']
     """
     str_words = s.split(sep=sep)
-    text_ad = ['' for x in range(len(slots)+1)]
+    text_ad = ["" for x in range(len(slots) + 1)]
     counter = 0
 
     for i, slot in enumerate(slots):
         while counter <= len(str_words) - 1:
             if len(text_ad[i] + str_words[counter]) + 1 > slot:
                 break
-            text_ad[i] += (' ' + str_words[counter] if text_ad[i]
-                           else str_words[counter])
+            text_ad[i] += " " + str_words[counter] if text_ad[i] else str_words[counter]
             counter += 1
 
-    text_ad[-1] = (sep.join(str_words[counter:])
-                   if sep is not None else ' '.join(str_words[counter:]))
+    text_ad[-1] = (
+        sep.join(str_words[counter:])
+        if sep is not None
+        else " ".join(str_words[counter:])
+    )
 
     return [string.capwords(x) if capitalize else x for x in text_ad]
