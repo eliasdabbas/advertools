@@ -1361,7 +1361,7 @@ def youtube_video_details(key, vid_ids):
     """Return details of videos for which the ids are given.
     Assumes ``ids`` is a comma-separated list of video ids with
     no spaces.
-    
+
     Parameters
     ----------
     key : str
@@ -1419,7 +1419,7 @@ def youtube_channel_details(key, channel_ids):
 
     Returns
     -------
-    channel_df : pandas.DataFrame    
+    channel_df : pandas.DataFrame
     """
     base_url = (
         "https://www.googleapis.com/youtube/v3/channels?part="
@@ -1515,6 +1515,7 @@ def serp_goog(
         If you pass multiple arguments, all the possible combinations of
         arguments (the product) will be requested, and you will get one
         DataFrame combining all queries. See examples below.
+
     Parameters
     ----------
     q : str
@@ -1534,8 +1535,9 @@ def serp_goog(
       URLthe geographic location of the Web server's IP addressSee the Country Parameter
       Values page for a list of valid values for this parameter.
     dateRestrict : str
-      Restricts results to URLs based on date. Supported values include:d[number]:
-      requests results from the specified number of past days.
+      Restricts results to URLs based on date.
+
+      Supported values include:
         - d[number]: requests results from the specified number of past days.
         - w[number]: requests results from the specified number of past weeks.
         - m[number]: requests results from the specified number of past months.
@@ -1825,8 +1827,9 @@ def serp_youtube(
       maximum of 500 videos if your request specifies a value for the ``channelId``
       parameter and sets the ``type`` parameter value to video, but it does not also set
       one of the ``forContentOwner``, ``forDeveloper``, or ``forMine`` filters.
-    channelType : str The ``channelType`` parameter lets you restrict a search to a
-    particular type of channel. Acceptable values are:
+    channelType : str
+      The ``channelType`` parameter lets you restrict a search to a particular type of
+      channel. Acceptable values are:
 
         any - Return all channels.
 
@@ -1988,10 +1991,10 @@ def serp_youtube(
       value is video,channel,playlist. Acceptable values are: channel, playlist, and
       video.
     videoCaption : str
-    The ``videoCaption`` parameter indicates whether the API should filter video search
-    results based on whether they have captions. If you specify a value for this
-    parameter, you must also set the ``type`` parameter's value to video. Acceptable
-    values are:
+      The ``videoCaption`` parameter indicates whether the API should filter video
+      search results based on whether they have captions. If you specify a value for
+      this parameter, you must also set the ``type`` parameter's value to video.
+      Acceptable values are:
 
         any - Do not filter results based on caption availability.
 

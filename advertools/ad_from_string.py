@@ -135,8 +135,7 @@ empty last one, you might want to change it as follows:
 
 .. code-block::
 
-    ['Get the latest gadget online. The GX12 model comes with 13 things that do a lot\
-     of good',
+    ['Get the latest gadget online. The GX12 model comes with 13 things that do a lot of good',
     'stuff for your health.',
     'Start shopping now.',
     '']
@@ -191,6 +190,8 @@ def ad_from_string(s, slots=(30, 30, 30, 90, 90, 15, 15), sep=None, capitalize=F
     text_ad : list
       A list of strings according to split spec.
 
+    Examples
+    --------
     >>> ad_from_string('this is a short ad')
     ['this is a short ad', '', '', '', '', '', '', '']
 
