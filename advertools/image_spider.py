@@ -5,14 +5,14 @@ Image Crawler and Downloader
 
 **Experimental feature - expect changes**
 
-This is a crawler that downloads all images on a given list of URLs. Using 
+This is a crawler that downloads all images on a given list of URLs. Using
 :func:`crawl_images` is straightforward:
 
 >>> import advertools as adv
 >>> adv.crawl_images([URL_1, URL_2, URL_3, ...], "output_dir")
 
-This would go to the supplied URLs and download all images found on those URLs, and place
-them in ``output_dir``.
+This would go to the supplied URLs and download all images found on those URLs, and
+place them in ``output_dir``.
 
 You can set a few conditions to modify the behavior:
 
@@ -27,8 +27,8 @@ You can set a few conditions to modify the behavior:
   want those images.
 * ``custom_settings``: Just like other crawl functions, you can set any custom settings
   you want to control the crawler's behavior. Some examples include changing the
-  User-agent, (dis)obeying robots.txt rules, and so on. More options and code details can
-  be found in the :ref:`crawling strategies <crawl_strategies>` page.
+  User-agent, (dis)obeying robots.txt rules, and so on. More options and code details
+  can be found in the :ref:`crawling strategies <crawl_strategies>` page.
 
 To run the :func:`crawl_images` function you need to set an ``output_dir``. This is
 where all images will be downloaded. You also get a summary file with details about the
@@ -63,7 +63,7 @@ The full URLs of those images can be found in the summary file, and you can acce
 through :func:`summarize_crawled_imgs`. You also see where those images are located as
 you can see in the table above.
 
-"""
+"""  # noqa: E501
 
 import json
 import re
