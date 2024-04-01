@@ -1,7 +1,7 @@
 import os
 import random
 from itertools import product
-from tempfile import TemporaryDirectory, TemporaryFile
+from tempfile import TemporaryDirectory
 
 import pandas as pd
 import pytest

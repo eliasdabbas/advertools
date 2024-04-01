@@ -1,6 +1,6 @@
 import pytest
 
-from advertools.extract import * # (extract, extract_currency, extract_emoji,
+# from advertools.extract import *  (extract, extract_currency, extract_emoji,
 #                                 extract_exclamations, extract_hashtags,
 #                                 extract_intense_words, extract_mentions,
 #                                 extract_questions, extract_words, extract_urls)
