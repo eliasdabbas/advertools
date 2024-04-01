@@ -11,8 +11,6 @@ import sys
 
 sys.path.insert(0, os.path.abspath(".."))
 
-import sphinx_rtd_theme
-
 from advertools import __version__ as adv_version
 
 # -- Project information -----------------------------------------------------
