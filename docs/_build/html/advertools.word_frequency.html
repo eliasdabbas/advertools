@@ -338,28 +338,27 @@ in <code class="xref py py-attr docutils literal notranslate"><span class="pre">
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text_list</strong> (<em>list</em>) -- Typically short phrases, but could be any list of
-full blown documents. Usually, you would use this
-to analyze tweets, book titles, URLs, etc.</p></li>
-<li><p><strong>num_list</strong> (<em>list</em>) -- A list of numbers with the same length as
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code>, describing a certain attribute of
-these 'documents'; views, retweets, sales, etc.</p></li>
-<li><p><strong>regex</strong> (<em>str</em>) -- The regex used to split words. Doesn't need changing
-in most cases.</p></li>
-<li><p><strong>phrase_len</strong> (<em>int</em>) -- the length in words of each token the
-text is split into, defaults to 1.</p></li>
-<li><p><strong>rm_words</strong> (<em>set</em>) -- Words to remove from the list a.k.a 'stop-words'.
-The default uses. To get all available languages
-run <code class="docutils literal notranslate"><span class="pre">adv.stopwords.keys()</span></code></p></li>
-<li><p><strong>extra_info</strong> (<em>bool</em>) -- Whether or not to give additional metrics about
-the frequencies</p></li>
+<li><p><strong>text_list</strong> (<em>list</em>) -- Typically short phrases, but could be any list of full blown documents. Usually,
+you would use this to analyze tweets, book titles, URLs, etc.</p></li>
+<li><p><strong>num_list</strong> (<em>list</em>) -- A list of numbers with the same length as <code class="xref py py-attr docutils literal notranslate"><span class="pre">text_list</span></code>, describing a certain
+attribute of these 'documents'; views, retweets, sales, etc.</p></li>
+<li><p><strong>regex</strong> (<em>str</em>) -- The regex used to split words. Doesn't need changing in most cases.</p></li>
+<li><p><strong>phrase_len</strong> (<em>int</em>) -- The length in words of each token the text is split into (ngrams), defaults to 1.</p></li>
+<li><p><strong>rm_words</strong> (<em>set</em>) -- Words to remove from the list a.k.a 'stop-words'. The default uses. To get all
+available languages run <code class="docutils literal notranslate"><span class="pre">adv.stopwords.keys()</span></code>.</p></li>
+<li><p><strong>extra_info</strong> (<em>bool</em>) -- Whether or not to give additional metrics about the frequencies.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns abs_wtd_df<span class="colon">:</span></dt>
-<dd class="field-even"><p>absolute and weighted DataFrame.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>abs_wtd_df</strong> -- Absolute and weighted counts DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;apple orange&#39;</span><span class="p">,</span> <span class="s1">&#39;apple orange banana&#39;</span><span class="p">,</span>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;apple orange&#39;</span><span class="p">,</span> <span class="s1">&#39;apple orange banana&#39;</span><span class="p">,</span>
 <span class="gp">... </span>             <span class="s1">&#39;apple kiwi&#39;</span><span class="p">,</span> <span class="s1">&#39;kiwi mango&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">]</span>
 </pre></div>

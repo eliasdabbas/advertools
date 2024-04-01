@@ -129,18 +129,38 @@
 <span class="kn">from</span> <span class="nn">._yt_helpers</span> <span class="kn">import</span> <span class="n">_combine_requests</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;activities_list&#39;</span><span class="p">,</span> <span class="s1">&#39;captions_list&#39;</span><span class="p">,</span> <span class="s1">&#39;channel_sections_list&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;channels_list&#39;</span><span class="p">,</span> <span class="s1">&#39;comment_threads_list&#39;</span><span class="p">,</span> <span class="s1">&#39;comments_list&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;guide_categories_list&#39;</span><span class="p">,</span> <span class="s1">&#39;i18n_languages_list&#39;</span><span class="p">,</span> <span class="s1">&#39;i18n_regions_list&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;playlist_items_list&#39;</span><span class="p">,</span> <span class="s1">&#39;playlists_list&#39;</span><span class="p">,</span> <span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="s1">&#39;subscriptions_list&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;video_categories_list&#39;</span><span class="p">,</span> <span class="s1">&#39;videos_list&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;activities_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;captions_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;channel_sections_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;channels_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;comment_threads_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;comments_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;guide_categories_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;i18n_languages_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;i18n_regions_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;playlist_items_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;playlists_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;search&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;subscriptions_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;video_categories_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;videos_list&quot;</span><span class="p">,</span>
 <span class="p">]</span>
+
 
 <div class="viewcode-block" id="activities_list">
 <a class="viewcode-back" href="../../advertools.youtube.html#advertools.youtube.activities_list">[docs]</a>
-<span class="k">def</span> <span class="nf">activities_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">publishedAfter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">publishedBefore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">activities_list</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span>
+    <span class="n">part</span><span class="p">,</span>
+    <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">home</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">publishedAfter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">publishedBefore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a list of channel activity events that match the request</span>
 <span class="sd">    criteria. For example, you can retrieve events associated with a particular</span>
 <span class="sd">    channel or with the user&#39;s own channel.</span>
@@ -199,23 +219,38 @@
 <span class="sd">        information to generate the activity feed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">}</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;contentDetails&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;snippet&quot;</span><span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">channelId</span><span class="p">,</span> <span class="n">home</span><span class="p">,</span> <span class="n">mine</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;channelId&#39;, &#39;home&#39;, &#39;mine&#39;]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure you specify exactly one of [&#39;channelId&#39;, &#39;home&#39;, &#39;mine&#39;]&quot;</span>
+        <span class="p">)</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/activities&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/activities&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="videos_list">
 <a class="viewcode-back" href="../../advertools.youtube.html#advertools.youtube.videos_list">[docs]</a>
-<span class="k">def</span> <span class="nf">videos_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">chart</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">myRating</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">maxHeight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxWidth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">videoCategoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">videos_list</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span>
+    <span class="n">part</span><span class="p">,</span>
+    <span class="n">chart</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">myRating</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxHeight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxWidth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoCategoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a list of videos that match the API request parameters.</span>
 
 <span class="sd">    *Required parameters:*</span>
@@ -304,13 +339,31 @@
 <span class="sd">        default value is 0.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;processingDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;fileDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;localizations&#39;</span><span class="p">,</span> <span class="s1">&#39;suggestions&#39;</span><span class="p">,</span> <span class="s1">&#39;statistics&#39;</span><span class="p">,</span> <span class="s1">&#39;liveStreamingDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;player&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;recordingDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;topicDetails&#39;</span><span class="p">}</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;contentDetails&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;processingDetails&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;fileDetails&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;snippet&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;localizations&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;suggestions&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;statistics&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;liveStreamingDetails&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;player&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;recordingDetails&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;topicDetails&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">chart</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">myRating</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;chart&#39;, &#39;id&#39;, &#39;myRating&#39;]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure you specify exactly one of [&#39;chart&#39;, &#39;id&#39;, &#39;myRating&#39;]&quot;</span>
+        <span class="p">)</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/videos&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/videos&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
 
 
@@ -345,24 +398,47 @@
     <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">id</span><span class="p">,</span> <span class="n">regionCode</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;id&#39;, &#39;regionCode&#39;]&quot;</span><span class="p">)</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/videoCategories&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/videoCategories&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="search">
 <a class="viewcode-back" href="../../advertools.youtube.html#advertools.youtube.search">[docs]</a>
-<span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">forContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forDeveloper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">forMine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relatedToVideoId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">channelType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eventType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">locationRadius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">publishedAfter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">publishedBefore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relevanceLanguage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">safeSearch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">topicId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoCaption</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">videoCategoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDefinition</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">videoDimension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoDuration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoEmbeddable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">videoLicense</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoSyndicated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoType</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span>
+    <span class="n">part</span><span class="p">,</span>
+    <span class="n">forContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">forDeveloper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">forMine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">relatedToVideoId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">channelType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">eventType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">locationRadius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">publishedAfter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">publishedBefore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">regionCode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">relevanceLanguage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">safeSearch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">topicId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoCaption</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoCategoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoDefinition</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoDimension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoDuration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoEmbeddable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoLicense</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoSyndicated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a collection of search results that match the query parameters</span>
 <span class="sd">    specified in the API request. By default, a search result set identifies</span>
 <span class="sd">    matching  video ,  channel , and  playlist  resources, but you can also</span>
@@ -624,19 +700,28 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/search&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/search&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="subscriptions_list">
 <a class="viewcode-back" href="../../advertools.youtube.html#advertools.youtube.subscriptions_list">[docs]</a>
-<span class="k">def</span> <span class="nf">subscriptions_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">myRecentSubscribers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mySubscribers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">forChannelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">onBehalfOfContentOwnerChannel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">subscriptions_list</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span>
+    <span class="n">part</span><span class="p">,</span>
+    <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">myRecentSubscribers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mySubscribers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">forChannelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">onBehalfOfContentOwnerChannel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns subscription resources that match the API request criteria.</span>
 
 <span class="sd">    *Required parameters:*</span>
@@ -724,13 +809,23 @@
 <span class="sd">        could be retrieved.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;subscriberSnippet&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">}</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;contentDetails&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;subscriberSnippet&quot;</span><span class="p">,</span> <span class="s2">&quot;snippet&quot;</span><span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">channelId</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">mine</span><span class="p">,</span> <span class="n">myRecentSubscribers</span><span class="p">,</span> <span class="n">mySubscribers</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;channelId&#39;, &#39;id&#39;, &#39;mine&#39;, &#39;myRecentSubscribers&#39;, &#39;mySubscribers&#39;]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">sum</span><span class="p">(</span>
+            <span class="p">[</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">channelId</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">mine</span><span class="p">,</span> <span class="n">myRecentSubscribers</span><span class="p">,</span> <span class="n">mySubscribers</span><span class="p">]]</span>
+        <span class="p">)</span>
+        <span class="o">!=</span> <span class="mi">1</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;make sure you specify exactly one of</span>
+<span class="sd">        [&#39;channelId&#39;, &#39;id&#39;, &#39;mine&#39;, &#39;myRecentSubscribers&#39;, &#39;mySubscribers&#39;]&quot;&quot;&quot;</span>
+        <span class="p">)</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/subscriptions&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/subscriptions&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
 
 
@@ -754,16 +849,25 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/i18nRegions&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/i18nRegions&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="playlists_list">
 <a class="viewcode-back" href="../../advertools.youtube.html#advertools.youtube.playlists_list">[docs]</a>
-<span class="k">def</span> <span class="nf">playlists_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">onBehalfOfContentOwnerChannel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">playlists_list</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span>
+    <span class="n">part</span><span class="p">,</span>
+    <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">onBehalfOfContentOwnerChannel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a collection of playlists that match the API request parameters.</span>
 <span class="sd">    For example, you can retrieve all playlists that the authenticated user</span>
 <span class="sd">    owns, or you can retrieve one or more playlists by their unique IDs.</span>
@@ -841,13 +945,24 @@
 <span class="sd">        could be retrieved.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;localizations&#39;</span><span class="p">,</span> <span class="s1">&#39;player&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">}</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;contentDetails&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;snippet&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;localizations&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;player&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">channelId</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">mine</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;channelId&#39;, &#39;id&#39;, &#39;mine&#39;]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure you specify exactly one of [&#39;channelId&#39;, &#39;id&#39;, &#39;mine&#39;]&quot;</span>
+        <span class="p">)</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/playlists&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/playlists&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
 
 
@@ -872,16 +987,23 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/i18nLanguages&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/i18nLanguages&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="playlist_items_list">
 <a class="viewcode-back" href="../../advertools.youtube.html#advertools.youtube.playlist_items_list">[docs]</a>
-<span class="k">def</span> <span class="nf">playlist_items_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">playlistId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">videoId</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">playlist_items_list</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span>
+    <span class="n">part</span><span class="p">,</span>
+    <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">playlistId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a collection of playlist items that match the API request</span>
 <span class="sd">    parameters. You can retrieve all of the playlist items in a specified</span>
 <span class="sd">    playlist or retrieve one or more playlist items by their unique IDs.</span>
@@ -935,13 +1057,15 @@
 <span class="sd">        should return only the playlist items that contain the specified video.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">}</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;contentDetails&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;snippet&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">id</span><span class="p">,</span> <span class="n">playlistId</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;id&#39;, &#39;playlistId&#39;]&quot;</span><span class="p">)</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/playlistItems&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/playlistItems&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
 
 
@@ -981,16 +1105,26 @@
     <span class="c1">#</span>
     <span class="c1"># base_url = &#39;https://www.googleapis.com/youtube/v3/guideCategories&#39;</span>
     <span class="c1"># return _combine_requests(args, base_url, count=None, max_allowed=None)</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;This function has been deprecated as of September 9, 2020&#39;</span><span class="p">)</span></div>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This function has been deprecated as of September 9, 2020&quot;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="comment_threads_list">
 <a class="viewcode-back" href="../../advertools.youtube.html#advertools.youtube.comment_threads_list">[docs]</a>
-<span class="k">def</span> <span class="nf">comment_threads_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">allThreadsRelatedToChannelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">videoId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">moderationStatus</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">searchTerms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">textFormat</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">comment_threads_list</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span>
+    <span class="n">part</span><span class="p">,</span>
+    <span class="n">allThreadsRelatedToChannelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">videoId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">moderationStatus</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">searchTerms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">textFormat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a list of comment threads that match the API request parameters.</span>
 
 <span class="sd">    *Required parameters:*</span>
@@ -1057,21 +1191,30 @@
 <span class="sd">        value. plainText – Returns the comments in plain text format.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;replies&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">}</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;replies&quot;</span><span class="p">,</span> <span class="s2">&quot;snippet&quot;</span><span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">allThreadsRelatedToChannelId</span><span class="p">,</span> <span class="n">channelId</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">videoId</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;allThreadsRelatedToChannelId&#39;, &#39;channelId&#39;, &#39;id&#39;, &#39;videoId&#39;]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">allThreadsRelatedToChannelId</span><span class="p">,</span> <span class="n">channelId</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">videoId</span><span class="p">]])</span>
+        <span class="o">!=</span> <span class="mi">1</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;make sure you specify exactly one of</span>
+<span class="sd">            [&#39;allThreadsRelatedToChannelId&#39;, &#39;channelId&#39;, &#39;id&#39;, &#39;videoId&#39;]&quot;&quot;&quot;</span>
+        <span class="p">)</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/commentThreads&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/commentThreads&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="comments_list">
 <a class="viewcode-back" href="../../advertools.youtube.html#advertools.youtube.comments_list">[docs]</a>
-<span class="k">def</span> <span class="nf">comments_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parentId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">textFormat</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">comments_list</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parentId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">textFormat</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a list of comments that match the API request parameters.</span>
 
 <span class="sd">    *Required parameters:*</span>
@@ -1109,21 +1252,24 @@
 <span class="sd">        plain text format.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">}</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;snippet&quot;</span><span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">id</span><span class="p">,</span> <span class="n">parentId</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;id&#39;, &#39;parentId&#39;]&quot;</span><span class="p">)</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/comments&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/comments&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="channel_sections_list">
 <a class="viewcode-back" href="../../advertools.youtube.html#advertools.youtube.channel_sections_list">[docs]</a>
-<span class="k">def</span> <span class="nf">channel_sections_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">channel_sections_list</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">channelId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a list of   resources that match the API request criteria.</span>
 
 <span class="sd">    *Required parameters:*</span>
@@ -1178,23 +1324,37 @@
 <span class="sd">        YouTube content owner.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;localizations&#39;</span><span class="p">,</span> <span class="s1">&#39;targeting&#39;</span><span class="p">}</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;contentDetails&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;snippet&quot;</span><span class="p">,</span> <span class="s2">&quot;localizations&quot;</span><span class="p">,</span> <span class="s2">&quot;targeting&quot;</span><span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">channelId</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">mine</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;channelId&#39;, &#39;id&#39;, &#39;mine&#39;]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure you specify exactly one of [&#39;channelId&#39;, &#39;id&#39;, &#39;mine&#39;]&quot;</span>
+        <span class="p">)</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/channelSections&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/channelSections&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="channels_list">
 <a class="viewcode-back" href="../../advertools.youtube.html#advertools.youtube.channels_list">[docs]</a>
-<span class="k">def</span> <span class="nf">channels_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">categoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forUsername</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">managedByMe</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mySubscribers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">channels_list</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span>
+    <span class="n">part</span><span class="p">,</span>
+    <span class="n">categoryId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">forUsername</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">managedByMe</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mySubscribers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">hl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxResults</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">onBehalfOfContentOwner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pageToken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a collection of zero or more   resources that match the request</span>
 <span class="sd">    criteria.</span>
 
@@ -1270,13 +1430,38 @@
 <span class="sd">        could be retrieved.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contentDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;(deprecated) localizations&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">,</span> <span class="s1">&#39;auditDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;statistics&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;invideoPromotion&#39;</span><span class="p">,</span> <span class="s1">&#39;brandingSettings&#39;</span><span class="p">,</span> <span class="s1">&#39;contentOwnerDetails&#39;</span><span class="p">,</span> <span class="s1">&#39;topicDetails&#39;</span><span class="p">}</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;contentDetails&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;(deprecated) localizations&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;snippet&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;auditDetails&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;statistics&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;invideoPromotion&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;brandingSettings&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;contentOwnerDetails&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;topicDetails&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">categoryId</span><span class="p">,</span> <span class="n">forUsername</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">managedByMe</span><span class="p">,</span> <span class="n">mine</span><span class="p">,</span> <span class="n">mySubscribers</span><span class="p">]])</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure you specify exactly one of [&#39;categoryId&#39;, &#39;forUsername&#39;, &#39;id&#39;, &#39;managedByMe&#39;, &#39;mine&#39;, &#39;mySubscribers&#39;]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">sum</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">categoryId</span><span class="p">,</span> <span class="n">forUsername</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">managedByMe</span><span class="p">,</span> <span class="n">mine</span><span class="p">,</span> <span class="n">mySubscribers</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="o">!=</span> <span class="mi">1</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;make sure you specify exactly one of</span>
+<span class="sd">        [&#39;categoryId&#39;, &#39;forUsername&#39;, &#39;id&#39;, &#39;managedByMe&#39;, &#39;mine&#39;, &#39;mySubscribers&#39;]&quot;&quot;&quot;</span>
+        <span class="p">)</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/channels&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/channels&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">maxResults</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
 
 
@@ -1318,11 +1503,13 @@
 <span class="sd">        specified YouTube content owner.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;snippet&#39;</span><span class="p">}</span>
+    <span class="n">part_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;snippet&quot;</span><span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">part_params</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;make sure your `part` parameter is one or more of &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_params</span><span class="p">)</span>
+        <span class="p">)</span>
 
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/youtube/v3/captions&#39;</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/youtube/v3/captions&quot;</span>
     <span class="k">return</span> <span class="n">_combine_requests</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_allowed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
 </pre></div>

@@ -229,27 +229,29 @@ end up having an extra space that is not used:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.ad_from_string.ad_from_string">
 <span class="sig-name descname"><span class="pre">ad_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(30,</span> <span class="pre">30,</span> <span class="pre">30,</span> <span class="pre">90,</span> <span class="pre">90,</span> <span class="pre">15,</span> <span class="pre">15)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capitalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/ad_from_string.html#ad_from_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.ad_from_string.ad_from_string" title="Link to this definition"></a></dt>
-<dd><p>Convert string <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> to an ad by splitting it into groups of words.
-Each group would have a length of at most the allowed length for that slot.</p>
+<dd><p>Convert string <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> to an ad by splitting it into groups of words.</p>
+<p>Each group would have a length of at most the allowed length for that slot.</p>
 <p>If the total length of <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code> exceeds the total allowed length, all
 remaining characters would be grouped in the last element of the
 returned list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<em>str</em>) -- a string of characters, with no restrictions on length</p></li>
-<li><p><strong>slots</strong> (<em>list</em>) -- an iterable of integers for the maximum lengths for
-each slot</p></li>
-<li><p><strong>sep</strong> (<em>str</em>) -- character(s) by which to split <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code></p></li>
-<li><p><strong>capitalize</strong> (<em>bool</em>) -- whether or not to capitalize each word after
-grouping. Setting it as False would not change the
-capitalization of the input string</p></li>
+<li><p><strong>s</strong> (<em>str</em>) -- A string of characters, with no restrictions on length.</p></li>
+<li><p><strong>slots</strong> (<em>list</em>) -- An iterable of integers for the maximum lengths for each slot</p></li>
+<li><p><strong>sep</strong> (<em>str</em>) -- Character(s) by which to split <code class="xref py py-attr docutils literal notranslate"><span class="pre">s</span></code>.</p></li>
+<li><p><strong>capitalize</strong> (<em>bool</em>) -- Whether or not to capitalize each word after grouping. Setting it as False would
+not change the capitalization of the input string</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns text_ad<span class="colon">:</span></dt>
-<dd class="field-even"><p>a list of strings</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>text_ad</strong> -- A list of strings according to split spec.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_from_string</span><span class="p">(</span><span class="s1">&#39;this is a short ad&#39;</span><span class="p">)</span>
 <span class="go">[&#39;this is a short ad&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
 </pre></div>

@@ -158,13 +158,21 @@
 <span class="sd">up some credentials as follows (you don&#39;t need a custom search engine for</span>
 <span class="sd">:func:`serp_youtube`):</span>
 
-<span class="sd">* `Create a custom search engine &lt;https://cse.google.com/&gt;`_: At first, you might be asked to enter a site to search. Enter any domain, then go to the control panel and remove it. Make sure you enable &quot;Search the entire web&quot; and image search. You will also need to get your search engine ID, which you can find on the control panel page.</span>
+<span class="sd">* `Create a custom search engine &lt;https://cse.google.com/&gt;`_: At first, you might be</span>
+<span class="sd">  asked to enter a site to search. Enter any domain, then go to the control panel and</span>
+<span class="sd">  remove it. Make sure you enable &quot;Search the entire web&quot; and image search. You will</span>
+<span class="sd">  also need to get your search engine ID, which you can find on the control panel page.</span>
 
-<span class="sd">* `Enable the custom search API &lt;https://console.cloud.google.com/apis/library/customsearch.googleapis.com?pli=1&gt;`_: The service will allow you to retrieve and display search results from your custom search engine programmatically. You will need to create a project for this first.</span>
+<span class="sd">* `Enable the custom search API &lt;https://console.cloud.google.com/apis/library/customsearch.googleapis.com?pli=1&gt;`_:</span>
+<span class="sd">  The service will allow you to retrieve and display search results from your custom</span>
+<span class="sd">  search engine programmatically. You will need to create a project for this first.</span>
 
-<span class="sd">* `Create credentials for this project &lt;https://console.developers.google.com/apis/api/customsearch.googleapis.com/credentials&gt;`_: so you can get your key.</span>
+<span class="sd">* `Create credentials for this project &lt;https://console.developers.google.com/apis/api/customsearch.googleapis.com/credentials&gt;`_:</span>
+<span class="sd">  so you can get your key.</span>
 
-<span class="sd">* `Enable billing for your project &lt;https://console.cloud.google.com/billing/projects&gt;`_ if you want to run more than 100 queries per day. The first 100 queries are free; then for each additional 1,000 queries, you pay $5.</span>
+<span class="sd">* `Enable billing for your project &lt;https://console.cloud.google.com/billing/projects&gt;`_</span>
+<span class="sd">  if you want to run more than 100 queries per day. The first 100 queries are free; then</span>
+<span class="sd">  for each additional 1,000 queries, you pay $5.</span>
 
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -1475,7 +1483,19 @@
 <span class="k">def</span> <span class="nf">youtube_video_details</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">vid_ids</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return details of videos for which the ids are given.</span>
 <span class="sd">    Assumes ``ids`` is a comma-separated list of video ids with</span>
-<span class="sd">    no spaces.&quot;&quot;&quot;</span>
+<span class="sd">    no spaces.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    key : str</span>
+<span class="sd">      Your Google Developer key.</span>
+<span class="sd">    vid_ids : str</span>
+<span class="sd">      A comma-separated list of video ID&#39;s, with no spaces.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    video_df : pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;https://www.googleapis.com/youtube/v3/videos?part=&quot;</span>
         <span class="s2">&quot;contentDetails,id,liveStreamingDetails,localizations,player,&quot;</span>
@@ -1514,7 +1534,19 @@
 <span class="k">def</span> <span class="nf">youtube_channel_details</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">channel_ids</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return details of channels for which the ids are given.</span>
 <span class="sd">    Assumes ``ids`` is a comma-separated list of channel ids with</span>
-<span class="sd">    no spaces.&quot;&quot;&quot;</span>
+<span class="sd">    no spaces.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    key : str</span>
+<span class="sd">      Your Google Developer key.</span>
+<span class="sd">    channel_ids : str</span>
+<span class="sd">      A comma-separated list of channel ID&#39;s, with no spaces.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    channel_df : pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;https://www.googleapis.com/youtube/v3/channels?part=&quot;</span>
         <span class="s2">&quot;snippet,contentDetails,statistics&quot;</span>
@@ -1606,141 +1638,142 @@
     <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query Google and get search results in a DataFrame.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query Google&#39;s search API and get search results in a DataFrame.</span>
 
 <span class="sd">    For each parameter, you can supply single or multiple values / arguments.</span>
 <span class="sd">        If you pass multiple arguments, all the possible combinations of</span>
 <span class="sd">        arguments (the product) will be requested, and you will get one</span>
 <span class="sd">        DataFrame combining all queries. See examples below.</span>
 
-<span class="sd">    :param q: The search expression.</span>
-<span class="sd">    :param cx: The custom search engine ID to use for this</span>
-<span class="sd">        request.</span>
-<span class="sd">    :param key: The API key of your custom search engine.</span>
-<span class="sd">    :param c2coff: Enables or disables Simplified and</span>
-<span class="sd">        Traditional Chinese Search. The default value for this</span>
-<span class="sd">        parameter is 0 (zero), meaning that the feature is enabled.</span>
-<span class="sd">        Supported values are:1: Disabled0: Enabled (default)</span>
-<span class="sd">    :param cr: Restricts search results to documents</span>
-<span class="sd">        originating in a particular country. You may use Boolean</span>
-<span class="sd">        operators in the cr parameter&#39;s value.Google Search</span>
-<span class="sd">        determines the country of a document by analyzing:the top-</span>
-<span class="sd">        level domain (TLD) of the document&#39;s URLthe geographic</span>
-<span class="sd">        location of the Web server&#39;s IP addressSee the Country</span>
-<span class="sd">        Parameter Values page for a list of valid values for this</span>
-<span class="sd">        parameter.</span>
-<span class="sd">    :param dateRestrict: Restricts results to URLs based on</span>
-<span class="sd">        date. Supported values include:d[number]: requests results</span>
-<span class="sd">        from the specified number of past days.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : str</span>
+<span class="sd">      The search expression.</span>
+<span class="sd">    cx : str</span>
+<span class="sd">      The custom search engine ID to use for this request.</span>
+<span class="sd">    key : str</span>
+<span class="sd">      The API key of your custom search engine.</span>
+<span class="sd">    c2coff : str</span>
+<span class="sd">      Enables or disables Simplified and Traditional Chinese Search. The default value</span>
+<span class="sd">      for this parameter is 0 (zero), meaning that the feature is enabled. Supported</span>
+<span class="sd">      values are:1: Disabled0: Enabled (default)</span>
+<span class="sd">    cr : str</span>
+<span class="sd">      Restricts search results to documents originating in a particular country. You may</span>
+<span class="sd">      use Boolean operators in the cr parameter&#39;s value.Google Search determines the</span>
+<span class="sd">      country of a document by analyzing:the top- level domain (TLD) of the document&#39;s</span>
+<span class="sd">      URLthe geographic location of the Web server&#39;s IP addressSee the Country Parameter</span>
+<span class="sd">      Values page for a list of valid values for this parameter.</span>
+<span class="sd">    dateRestrict : str</span>
+<span class="sd">      Restricts results to URLs based on date.</span>
+
+<span class="sd">      Supported values include:</span>
 <span class="sd">        - d[number]: requests results from the specified number of past days.</span>
 <span class="sd">        - w[number]: requests results from the specified number of past weeks.</span>
 <span class="sd">        - m[number]: requests results from the specified number of past months.</span>
 <span class="sd">        - y[number]: requests results from the specified number of past years.</span>
-<span class="sd">    :param exactTerms: Identifies a phrase that all</span>
-<span class="sd">        documents in the search results must contain.</span>
-<span class="sd">    :param excludeTerms: Identifies a word or phrase that</span>
-<span class="sd">        should not appear in any documents in the search results.</span>
-<span class="sd">    :param fileType: Restricts results to files of a</span>
-<span class="sd">        specified extension. A list of file types indexable by</span>
-<span class="sd">        Google can be found in Search Console Help Center.</span>
-<span class="sd">    :param filter: Controls turning on or off the duplicate</span>
-<span class="sd">        content filter.See Automatic Filtering for more information</span>
-<span class="sd">        about Google&#39;s search results filters. Note that host</span>
-<span class="sd">        crowding filtering applies only to multi-site searches.By</span>
-<span class="sd">        default, Google applies filtering to all search results to</span>
-<span class="sd">        improve the quality of those results.  Acceptable values</span>
-<span class="sd">        are:  &quot;0&quot;: Turns off duplicate content filter.  &quot;1&quot;: Turns</span>
-<span class="sd">        on duplicate content filter.</span>
-<span class="sd">    :param gl: Geolocation of end user. The gl parameter</span>
-<span class="sd">        value is a two-letter country code. The gl parameter boosts</span>
-<span class="sd">        search results whose country of origin matches the parameter</span>
-<span class="sd">        value. See the Country Codes page for a list of valid</span>
-<span class="sd">        values.Specifying a gl parameter value should lead to more</span>
-<span class="sd">        relevant results. This is particularly true for</span>
-<span class="sd">        international customers and, even more specifically, for</span>
-<span class="sd">        customers in English- speaking countries other than the</span>
-<span class="sd">        United States.</span>
-<span class="sd">    :param highRange: Specifies the ending value for a</span>
-<span class="sd">        search range.Use lowRange and highRange to append an</span>
-<span class="sd">        inclusive search range of lowRange...highRange to the query.</span>
-<span class="sd">    :param hl: Sets the user interface language. Explicitly</span>
-<span class="sd">        setting this parameter improves the performance and the</span>
-<span class="sd">        quality of your search results.See the Interface</span>
-<span class="sd">        Languages section of Internationalizing Queries and Results</span>
-<span class="sd">        Presentation for more information, and Supported Interface</span>
-<span class="sd">        Languages for a list of supported languages.</span>
-<span class="sd">    :param hq: Appends the specified query terms to the</span>
-<span class="sd">        query, as if they were combined with a logical AND operator.</span>
-<span class="sd">    :param imgColorType: Returns black and white, grayscale,</span>
-<span class="sd">        or color images: mono, gray, and color.  Acceptable values</span>
-<span class="sd">        are:  &quot;color&quot;: color  &quot;gray&quot;: gray  &quot;mono&quot;: mono</span>
-<span class="sd">    :param imgDominantColor: Returns images of a specific</span>
-<span class="sd">        dominant color.  Acceptable values are:  &quot;black&quot;: black</span>
-<span class="sd">        &quot;blue&quot;: blue  &quot;brown&quot;: brown  &quot;gray&quot;: gray  &quot;green&quot;: green</span>
-<span class="sd">        &quot;orange&quot;: orange  &quot;pink&quot;: pink  &quot;purple&quot;: purple  &quot;red&quot;: red</span>
-<span class="sd">        &quot;teal&quot;: teal  &quot;white&quot;: white  &quot;yellow&quot;: yellow</span>
-<span class="sd">    :param imgSize: Returns images of a specified size.</span>
-<span class="sd">        Acceptable values are:  &quot;huge&quot;: huge  &quot;icon&quot;: icon  &quot;large&quot;:</span>
-<span class="sd">        large  &quot;medium&quot;: medium  &quot;small&quot;: small  &quot;xlarge&quot;: xlarge</span>
-<span class="sd">        &quot;xxlarge&quot;: xxlarge</span>
-<span class="sd">    :param imgType: Returns images of a type.  Acceptable</span>
-<span class="sd">        values are:  &quot;clipart&quot;: clipart  &quot;face&quot;: face  &quot;lineart&quot;:</span>
-<span class="sd">        lineart  &quot;news&quot;: news  &quot;photo&quot;: photo</span>
-<span class="sd">    :param linkSite: Specifies that all search results</span>
-<span class="sd">        should contain a link to a particular URL</span>
-<span class="sd">    :param lowRange: Specifies the starting value for a</span>
-<span class="sd">        search range. Use lowRange and highRange to append an</span>
-<span class="sd">        inclusive search range of lowRange...highRange to the query.</span>
-<span class="sd">    :param lr: Restricts the search to documents written in</span>
-<span class="sd">        a particular language (e.g., lr=lang_ja).  Acceptable values</span>
-<span class="sd">        are:  &quot;lang_ar&quot;: Arabic  &quot;lang_bg&quot;: Bulgarian  &quot;lang_ca&quot;:</span>
-<span class="sd">        Catalan  &quot;lang_cs&quot;: Czech  &quot;lang_da&quot;: Danish  &quot;lang_de&quot;:</span>
-<span class="sd">        German  &quot;lang_el&quot;: Greek  &quot;lang_en&quot;: English  &quot;lang_es&quot;:</span>
-<span class="sd">        Spanish  &quot;lang_et&quot;: Estonian  &quot;lang_fi&quot;: Finnish  &quot;lang_fr&quot;:</span>
-<span class="sd">        French  &quot;lang_hr&quot;: Croatian  &quot;lang_hu&quot;: Hungarian</span>
-<span class="sd">        &quot;lang_id&quot;: Indonesian  &quot;lang_is&quot;: Icelandic  &quot;lang_it&quot;:</span>
-<span class="sd">        Italian  &quot;lang_iw&quot;: Hebrew  &quot;lang_ja&quot;: Japanese  &quot;lang_ko&quot;:</span>
-<span class="sd">        Korean  &quot;lang_lt&quot;: Lithuanian  &quot;lang_lv&quot;: Latvian</span>
-<span class="sd">        &quot;lang_nl&quot;: Dutch  &quot;lang_no&quot;: Norwegian  &quot;lang_pl&quot;: Polish</span>
-<span class="sd">        &quot;lang_pt&quot;: Portuguese  &quot;lang_ro&quot;: Romanian  &quot;lang_ru&quot;:</span>
-<span class="sd">        Russian  &quot;lang_sk&quot;: Slovak  &quot;lang_sl&quot;: Slovenian  &quot;lang_sr&quot;:</span>
-<span class="sd">        Serbian  &quot;lang_sv&quot;: Swedish  &quot;lang_tr&quot;: Turkish  &quot;lang_zh-</span>
-<span class="sd">        CN&quot;: Chinese (Simplified)  &quot;lang_zh-TW&quot;: Chinese</span>
-<span class="sd">        (Traditional)</span>
-<span class="sd">    :param num: Number of search results to return.Valid</span>
-<span class="sd">        values are integers between 1 and 10, inclusive.</span>
-<span class="sd">    :param orTerms: Provides additional search terms to</span>
-<span class="sd">        check for in a document, where each document in the search</span>
-<span class="sd">        results must contain at least one of the additional search</span>
-<span class="sd">        terms.</span>
-<span class="sd">    :param rights: Filters based on licensing. Supported</span>
-<span class="sd">        values include: cc_publicdomain, cc_attribute,</span>
-<span class="sd">        cc_sharealike, cc_noncommercial, cc_nonderived, and</span>
-<span class="sd">        combinations of these.</span>
-<span class="sd">    :param safe: Search safety level.  Acceptable values</span>
-<span class="sd">        are:  &quot;active&quot;: Enables SafeSearch filtering.  &quot;off&quot;:</span>
-<span class="sd">        Disables SafeSearch filtering.  (default)</span>
-<span class="sd">    :param searchType: Specifies the search type: image. If</span>
-<span class="sd">        unspecified, results are limited to webpages.  Acceptable</span>
-<span class="sd">        values are:  &quot;image&quot;: custom image search.</span>
-<span class="sd">    :param siteSearch: Specifies all search results should</span>
-<span class="sd">        be pages from a given site.</span>
-<span class="sd">    :param siteSearchFilter: Controls whether to include or</span>
-<span class="sd">        exclude results from the site named in the siteSearch</span>
-<span class="sd">        parameter.  Acceptable values are:  &quot;e&quot;: exclude  &quot;i&quot;:</span>
-<span class="sd">        include</span>
-<span class="sd">    :param sort: The sort expression to apply to the</span>
-<span class="sd">        results.</span>
-<span class="sd">    :param start: The index of the first result to</span>
-<span class="sd">        return.Valid value are integers starting 1 (default) and the</span>
-<span class="sd">        second result is 2 and so forth. For example &amp;start=11 gives</span>
-<span class="sd">        the second page of results with the default &quot;num&quot; value of</span>
-<span class="sd">        10 results per page.Note: No more than 100 results will ever</span>
-<span class="sd">        be returned for any query with JSON API, even if more than</span>
-<span class="sd">        100 documents match the query, so setting (start + num) to</span>
-<span class="sd">        more than 100 will produce an error. Note that the maximum</span>
-<span class="sd">        value for num is 10.</span>
+<span class="sd">    exactTerms : str</span>
+<span class="sd">      Identifies a phrase that all documents in the search results must contain.</span>
+<span class="sd">    excludeTerms : str</span>
+<span class="sd">      Identifies a word or phrase that should not appear in any documents in the search</span>
+<span class="sd">      results.</span>
+<span class="sd">    fileType : str</span>
+<span class="sd">      Restricts results to files of a specified extension. A list of file types</span>
+<span class="sd">      indexable by Google can be found in Search Console Help Center.</span>
+<span class="sd">    filter : str</span>
+<span class="sd">      Controls turning on or off the duplicate content filter.See Automatic Filtering</span>
+<span class="sd">      for more information about Google&#39;s search results filters. Note that host</span>
+<span class="sd">      crowding filtering applies only to multi-site searches.By default, Google applies</span>
+<span class="sd">      filtering to all search results to improve the quality of those results.</span>
+<span class="sd">      Acceptable values are:  &quot;0&quot;: Turns off duplicate content filter.  &quot;1&quot;: Turns on</span>
+<span class="sd">      duplicate content filter.</span>
+<span class="sd">    gl : str</span>
+<span class="sd">      Geolocation of end user. The gl parameter value is a two-letter country code. The</span>
+<span class="sd">      gl parameter boosts search results whose country of origin matches the parameter</span>
+<span class="sd">      value. See the Country Codes page for a list of valid values.Specifying a gl</span>
+<span class="sd">      parameter value should lead to more relevant results. This is particularly true</span>
+<span class="sd">      for international customers and, even more specifically, for customers in</span>
+<span class="sd">      English- speaking countries other than the United States.</span>
+<span class="sd">    highRange : str</span>
+<span class="sd">      Specifies the ending value for a search range.Use lowRange and highRange to append</span>
+<span class="sd">      an inclusive search range of lowRange...highRange to the query.</span>
+<span class="sd">    hl : str</span>
+<span class="sd">      Sets the user interface language. Explicitly setting this parameter improves the</span>
+<span class="sd">      performance and the quality of your search results.See the Interface Languages</span>
+<span class="sd">      section of Internationalizing Queries and Results Presentation for more</span>
+<span class="sd">      information, and Supported Interface Languages for a list of supported languages.</span>
+<span class="sd">    hq : str</span>
+<span class="sd">      Appends the specified query terms to the query, as if they were combined with a</span>
+<span class="sd">      logical AND operator.</span>
+<span class="sd">    imgColorType : str</span>
+<span class="sd">      Returns black and white, grayscale, or color images: mono, gray, and color.</span>
+<span class="sd">      Acceptable values are:  &quot;color&quot;: color  &quot;gray&quot;: gray  &quot;mono&quot;: mono</span>
+<span class="sd">    imgDominantColor : str</span>
+<span class="sd">      Returns images of a specific dominant color.  Acceptable values are:</span>
+<span class="sd">      &quot;black&quot;: black &quot;blue&quot;: blue  &quot;brown&quot;: brown  &quot;gray&quot;: gray  &quot;green&quot;: green</span>
+<span class="sd">      &quot;orange&quot;: orange  &quot;pink&quot;: pink  &quot;purple&quot;: purple  &quot;red&quot;: red &quot;teal&quot;: teal</span>
+<span class="sd">      &quot;white&quot;: white  &quot;yellow&quot;: yellow</span>
+<span class="sd">    imgSize : str</span>
+<span class="sd">      Returns images of a specified size. Acceptable values are:  &quot;huge&quot;: huge</span>
+<span class="sd">      &quot;icon&quot;: icon  &quot;large&quot;: large  &quot;medium&quot;: medium  &quot;small&quot;: small  &quot;xlarge&quot;: xlarge</span>
+<span class="sd">      &quot;xxlarge&quot;: xxlarge</span>
+<span class="sd">    imgType : str</span>
+<span class="sd">      Returns images of a type.  Acceptable values are:  &quot;clipart&quot;: clipart</span>
+<span class="sd">      &quot;face&quot;: face  &quot;lineart&quot;: lineart  &quot;news&quot;: news  &quot;photo&quot;: photo</span>
+<span class="sd">    linkSite : str</span>
+<span class="sd">      Specifies that all search results should contain a link to a particular URL</span>
+<span class="sd">    lowRange : str</span>
+<span class="sd">      Specifies the starting value for a search range. Use lowRange and highRange to</span>
+<span class="sd">      append an inclusive search range of lowRange...highRange to the query.</span>
+<span class="sd">    lr : str</span>
+<span class="sd">      Restricts the search to documents written in a particular language</span>
+<span class="sd">      (e.g., lr=lang_ja).  Acceptable values are:  &quot;lang_ar&quot;: Arabic</span>
+<span class="sd">      &quot;lang_bg&quot;: Bulgarian  &quot;lang_ca&quot;: Catalan  &quot;lang_cs&quot;: Czech  &quot;lang_da&quot;: Danish</span>
+<span class="sd">      &quot;lang_de&quot;: German  &quot;lang_el&quot;: Greek  &quot;lang_en&quot;: English  &quot;lang_es&quot;: Spanish</span>
+<span class="sd">      &quot;lang_et&quot;: Estonian  &quot;lang_fi&quot;: Finnish  &quot;lang_fr&quot;: French  &quot;lang_hr&quot;: Croatian</span>
+<span class="sd">      &quot;lang_hu&quot;: Hungarian &quot;lang_id&quot;: Indonesian  &quot;lang_is&quot;: Icelandic</span>
+<span class="sd">      &quot;lang_it&quot;: Italian  &quot;lang_iw&quot;: Hebrew  &quot;lang_ja&quot;: Japanese  &quot;lang_ko&quot;: Korean</span>
+<span class="sd">      &quot;lang_lt&quot;: Lithuanian  &quot;lang_lv&quot;: Latvian &quot;lang_nl&quot;: Dutch  &quot;lang_no&quot;: Norwegian</span>
+<span class="sd">      &quot;lang_pl&quot;: Polish &quot;lang_pt&quot;: Portuguese  &quot;lang_ro&quot;: Romanian  &quot;lang_ru&quot;: Russian</span>
+<span class="sd">      &quot;lang_sk&quot;: Slovak  &quot;lang_sl&quot;: Slovenian  &quot;lang_sr&quot;: Serbian  &quot;lang_sv&quot;: Swedish</span>
+<span class="sd">      &quot;lang_tr&quot;: Turkish  &quot;lang_zh- CN&quot;: Chinese (Simplified)  &quot;lang_zh-TW&quot;:</span>
+<span class="sd">      Chinese (Traditional)</span>
+<span class="sd">    num : int</span>
+<span class="sd">      Number of search results to return.Valid values are integers between 1 and 10,</span>
+<span class="sd">      inclusive.</span>
+<span class="sd">    orTerms : str</span>
+<span class="sd">      Provides additional search terms to check for in a document, where each document</span>
+<span class="sd">      in the search results must contain at least one of the additional search terms.</span>
+<span class="sd">    rights : str</span>
+<span class="sd">      Filters based on licensing. Supported values include: cc_publicdomain,</span>
+<span class="sd">      cc_attribute, cc_sharealike, cc_noncommercial, cc_nonderived, and combinations of</span>
+<span class="sd">      these.</span>
+<span class="sd">    safe : str</span>
+<span class="sd">      Search safety level.  Acceptable values are:  &quot;active&quot;: Enables SafeSearch</span>
+<span class="sd">      filtering.  &quot;off&quot;:Disables SafeSearch filtering.  (default)</span>
+<span class="sd">    searchType : str</span>
+<span class="sd">      Specifies the search type: image. If unspecified, results are limited to webpages.</span>
+<span class="sd">      Acceptable values are:  &quot;image&quot;: custom image search.</span>
+<span class="sd">    siteSearch : str</span>
+<span class="sd">      Specifies all search results should be pages from a given site.</span>
+<span class="sd">    siteSearchFilter : str</span>
+<span class="sd">      Controls whether to include or exclude results from the site named in the</span>
+<span class="sd">      siteSearch parameter.  Acceptable values are:  &quot;e&quot;: exclude  &quot;i&quot;: include</span>
+<span class="sd">    sort : str</span>
+<span class="sd">      The sort expression to apply to the results.</span>
+<span class="sd">    start : int</span>
+<span class="sd">      The index of the first result to return.Valid value are integers starting 1</span>
+<span class="sd">      (default) and the second result is 2 and so forth. For example &amp;start=11 gives the</span>
+<span class="sd">      second page of results with the default &quot;num&quot; value of 10 results per page.Note:</span>
+<span class="sd">      No more than 100 results will ever be returned for any query with JSON API, even</span>
+<span class="sd">      if more than 100 documents match the query, so setting (start + num) to more than</span>
+<span class="sd">      100 will produce an error. Note that the maximum value for num is 10.</span>
 
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    serp_df : pandas.DataFrame</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 <span class="sd">    The following function call will produce two queries:</span>
 <span class="sd">    &quot;hotel&quot; in the USA, and &quot;hotel&quot; in France</span>
 
@@ -1835,7 +1868,7 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">temp_pagemap_df</span> <span class="o">=</span> <span class="n">json_normalize</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
                 <span class="n">pagemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pagemap_df</span><span class="p">,</span> <span class="n">temp_pagemap_df</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="n">temp_pagemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;delete_me&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
                 <span class="n">pagemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pagemap_df</span><span class="p">,</span> <span class="n">temp_pagemap_df</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">pagemap_df</span> <span class="o">=</span> <span class="n">pagemap_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1852,7 +1885,7 @@
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">temp_metatags_df</span> <span class="o">=</span> <span class="n">json_normalize</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
                     <span class="n">metatag_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">metatag_df</span><span class="p">,</span> <span class="n">temp_metatags_df</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="n">temp_metatags_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;delete_me&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
                     <span class="n">metatag_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">metatag_df</span><span class="p">,</span> <span class="n">temp_metatags_df</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="n">metatag_df</span> <span class="o">=</span> <span class="n">metatag_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1903,316 +1936,289 @@
     <span class="n">videoType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Query the YouTube API and get search results in a DataFrame.</span>
+
 <span class="sd">    For each parameter you can supply a single or multiple value(s).</span>
 <span class="sd">    Looping and merging results is handled automatically in case of multiple</span>
 <span class="sd">    values.</span>
 
-<span class="sd">    :param q: (string) The ``q`` parameter specifies the query term to</span>
-<span class="sd">        search for. Your request can also use the Boolean NOT (-) and OR (|)</span>
-<span class="sd">        operators to exclude videos or to find videos that are associated with</span>
-<span class="sd">        one of several search terms. For example, to search for videos</span>
-<span class="sd">        matching either &quot;boating&quot; or &quot;sailing&quot;, set the ``q`` parameter value</span>
-<span class="sd">        to boating|sailing. Similarly, to search for videos matching either</span>
-<span class="sd">        &quot;boating&quot; or &quot;sailing&quot; but not &quot;fishing&quot;, set the q parameter value to</span>
-<span class="sd">        boating|sailing -fishing. Note that the pipe character must be URL-</span>
-<span class="sd">        escaped when it is sent in your API request. The URL-escaped value for</span>
-<span class="sd">        the pipe character is %7C.</span>
-<span class="sd">    :param channelId: (string) The ``channelId`` parameter</span>
-<span class="sd">        indicates that the API response should only contain resources</span>
-<span class="sd">        created by the channel. Note: Search results are constrained</span>
-<span class="sd">        to a maximum of 500 videos if your request specifies a value</span>
-<span class="sd">        for the ``channelId`` parameter and sets the ``type`` parameter value</span>
-<span class="sd">        to video, but it does not also set one of the ``forContentOwner``,</span>
-<span class="sd">        ``forDeveloper``, or ``forMine`` filters.</span>
-<span class="sd">    :param channelType: (string) The ``channelType`` parameter</span>
-<span class="sd">        lets you restrict a search to a particular type of</span>
-<span class="sd">        channel. Acceptable values are:</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : str</span>
+<span class="sd">      The ``q`` parameter specifies the query term to search for. Your request can also</span>
+<span class="sd">      use the Boolean NOT (-) and OR (|) operators to exclude videos or to find videos</span>
+<span class="sd">      that are associated with one of several search terms. For example, to search for</span>
+<span class="sd">      videos matching either &quot;boating&quot; or &quot;sailing&quot;, set the ``q`` parameter value to</span>
+<span class="sd">      boating|sailing. Similarly, to search for videos matching either &quot;boating&quot; or</span>
+<span class="sd">      &quot;sailing&quot; but not &quot;fishing&quot;, set the q parameter value to</span>
+<span class="sd">      boating|sailing -fishing. Note that the pipe character must be URL- escaped when</span>
+<span class="sd">      it is sent in your API request. The URL-escaped value for the pipe character is</span>
+<span class="sd">      %7C.</span>
+<span class="sd">    channelId : str</span>
+<span class="sd">      The ``channelId`` parameter indicates that the API response should only contain</span>
+<span class="sd">      resources created by the channel. Note: Search results are constrained to a</span>
+<span class="sd">      maximum of 500 videos if your request specifies a value for the ``channelId``</span>
+<span class="sd">      parameter and sets the ``type`` parameter value to video, but it does not also set</span>
+<span class="sd">      one of the ``forContentOwner``, ``forDeveloper``, or ``forMine`` filters.</span>
+<span class="sd">    channelType : str</span>
+<span class="sd">      The ``channelType`` parameter lets you restrict a search to a particular type of</span>
+<span class="sd">      channel. Acceptable values are:</span>
 
-<span class="sd">        any – Return all channels.</span>
+<span class="sd">        any - Return all channels.</span>
 
-<span class="sd">        show – Only retrieve shows.</span>
-<span class="sd">    :param eventType: (string) The ``eventType`` parameter</span>
-<span class="sd">        restricts a search to broadcast events. If you specify a value</span>
-<span class="sd">        for this parameter, you must also set the type parameter&#39;s</span>
-<span class="sd">        value to video. Acceptable values are:</span>
+<span class="sd">        show - Only retrieve shows.</span>
+<span class="sd">    eventType : str</span>
+<span class="sd">      The ``eventType`` parameter restricts a search to broadcast events. If you specify</span>
+<span class="sd">      a value for this parameter, you must also set the type parameter&#39;s value to video.</span>
+<span class="sd">      Acceptable values are:</span>
 
-<span class="sd">        completed – Only include completed broadcasts.</span>
+<span class="sd">        completed - Only include completed broadcasts.</span>
 
-<span class="sd">        live – Only include active broadcasts.</span>
+<span class="sd">        live - Only include active broadcasts.</span>
 
-<span class="sd">        upcoming – Only include upcoming broadcasts.</span>
+<span class="sd">        upcoming - Only include upcoming broadcasts.</span>
 
-<span class="sd">    :param forContentOwner: (boolean) This parameter can</span>
-<span class="sd">        only be used in a properly authorized request, and it is</span>
-<span class="sd">        intended exclusively for YouTube content partners. The</span>
-<span class="sd">        ``forContentOwner`` parameter restricts the search to only</span>
-<span class="sd">        retrieve videos owned by the content owner identified by</span>
-<span class="sd">        the ``onBehalfOfContentOwner`` parameter. If ``forContentOwner``</span>
-<span class="sd">        is set to true, the request must also meet these</span>
-<span class="sd">        requirements:The ``onBehalfOfContentOwner`` parameter is</span>
-<span class="sd">        required.The user authorizing the request must be using</span>
-<span class="sd">        an account linked to the specified content owner. The</span>
-<span class="sd">        ``type`` parameter value must be set to video.None of the</span>
-<span class="sd">        following other parameters can be set: ``videoDefinition``,</span>
-<span class="sd">        ``videoDimension``, ``videoDuration``, ``videoLicense``,</span>
-<span class="sd">        ``videoEmbeddable``, ``videoSyndicated``, ``videoType``.</span>
-<span class="sd">    :param forDeveloper: (boolean) This parameter can only</span>
-<span class="sd">        be used in a properly authorized request. The ``forDeveloper``</span>
-<span class="sd">        parameter restricts the search to only retrieve videos</span>
-<span class="sd">        uploaded via the developer&#39;s application or website. The</span>
-<span class="sd">        API server uses the request&#39;s authorization credentials to</span>
-<span class="sd">        identify the developer. The ``forDeveloper`` parameter can be</span>
-<span class="sd">        used in conjunction with optional search parameters like</span>
-<span class="sd">        the ``q`` parameter. For this feature, each uploaded video is</span>
-<span class="sd">        automatically tagged with the project number that is</span>
-<span class="sd">        associated with the developer&#39;s application in the Google</span>
-<span class="sd">        Developers Console. When a search request subsequently sets</span>
-<span class="sd">        the ``forDeveloper`` parameter to ``true`` the API server uses the</span>
-<span class="sd">        request&#39;s authorization credentials to identify the</span>
-<span class="sd">        developer. Therefore, a developer can restrict results to</span>
-<span class="sd">        videos uploaded through the developer&#39;s own app or website</span>
-<span class="sd">        but not to videos uploaded through other apps or sites.</span>
-<span class="sd">    :param forMine: (boolean) This parameter can only be used in</span>
-<span class="sd">        a properly authorized request. The ``forMine`` parameter restricts</span>
-<span class="sd">        the search to only retrieve videos owned by the authenticated</span>
-<span class="sd">        user. If you set this parameter to ``true``, then the ``type``</span>
-<span class="sd">        parameter&#39;s value must also be set to ``video``. In addition, none</span>
-<span class="sd">        of the following other parameters can be set in the same</span>
-<span class="sd">        request: ``videoDefinition``, ``videoDimension``, ``videoDuration``,</span>
-<span class="sd">        ``videoLicense``, ``videoEmbeddable``, ``videoSyndicated``,</span>
-<span class="sd">        ``videoType``.</span>
-<span class="sd">    :param relatedToVideoId: (string) The</span>
-<span class="sd">        ``relatedToVideoId`` parameter retrieves a list of videos</span>
-<span class="sd">        that are related to the video that the parameter ``value``</span>
-<span class="sd">        identifies. The parameter ``value`` must be set to a</span>
-<span class="sd">        YouTube video ID and, if you are using this parameter,</span>
-<span class="sd">        the ``type`` parameter must be set to video.Note that if</span>
-<span class="sd">        the ``relatedToVideoId`` parameter is set, the only other</span>
-<span class="sd">        supported parameters are ``part``, ``maxResults``, ``pageToken``,</span>
-<span class="sd">        ``regionCode``, ``relevanceLanguage``, ``safeSearch``, ``type`` (which</span>
-<span class="sd">        must be set to video), and ``fields``.</span>
-<span class="sd">    :param location: (string) The ``location`` parameter, in</span>
-<span class="sd">        conjunction with the ``locationRadius`` parameter, defines a</span>
-<span class="sd">        circular geographic area and also restricts a search to videos</span>
-<span class="sd">        that specify, in their metadata, a geographic location that</span>
-<span class="sd">        falls within that area. The parameter value is a string that</span>
-<span class="sd">        specifies latitude/longitude coordinates e.g.</span>
-<span class="sd">        (37.42307,-122.08427).The location parameter value identifies</span>
-<span class="sd">        the point at the center of the area. The ``locationRadius``</span>
-<span class="sd">        parameter specifies the maximum distance that the location</span>
-<span class="sd">        associated with a video can be from that point for the video to</span>
-<span class="sd">        still be included in the search results. The API returns an</span>
-<span class="sd">        error if your request specifies a value for the ``location``</span>
-<span class="sd">        parameter but does not also specify a value for the</span>
-<span class="sd">        ``locationRadius`` parameter.</span>
-<span class="sd">    :param locationRadius: (string) The ``locationRadius``</span>
-<span class="sd">        parameter, in conjunction with the ``location`` parameter,</span>
-<span class="sd">        defines a circular geographic area. The parameter value</span>
-<span class="sd">        must be a floating point number followed by a measurement</span>
-<span class="sd">        unit. Valid measurement units are m, km, ft, and mi. For</span>
-<span class="sd">        example, valid parameter values include 1500m, 5km,</span>
-<span class="sd">        10000ft, and 0.75mi. The API does not support</span>
-<span class="sd">        ``locationRadius`` parameter values larger than 1000</span>
-<span class="sd">        kilometers. Note: See the definition of the ``location``</span>
-<span class="sd">        parameter for more information.</span>
-<span class="sd">    :param maxResults: (unsigned integer) The ``maxResults``</span>
-<span class="sd">        parameter specifies the maximum number of items that should</span>
-<span class="sd">        be returned in the result set. Acceptable values are 0 to 50,</span>
-<span class="sd">        inclusive. The default value is 5.</span>
-<span class="sd">    :param onBehalfOfContentOwner: (string) This</span>
-<span class="sd">        parameter can only be used in a properly</span>
-<span class="sd">        authorized request. Note: This parameter is</span>
-<span class="sd">        intended exclusively for YouTube content</span>
-<span class="sd">        partners.The ``onBehalfOfContentOwner`` parameter</span>
-<span class="sd">        indicates that the request&#39;s authorization</span>
-<span class="sd">        credentials identify a YouTube CMS user who is</span>
-<span class="sd">        acting on behalf of the content owner specified</span>
-<span class="sd">        in the parameter value. This parameter is</span>
-<span class="sd">        intended for YouTube content partners that own</span>
-<span class="sd">        and manage many different YouTube channels. It</span>
-<span class="sd">        allows content owners to authenticate once and</span>
-<span class="sd">        get access to all their video and channel data,</span>
-<span class="sd">        without having to provide authentication</span>
-<span class="sd">        credentials for each individual channel. The CMS</span>
-<span class="sd">        account that the user authenticates with must be</span>
-<span class="sd">        linked to the specified YouTube content owner.</span>
-<span class="sd">    :param order: (string) The order parameter specifies the</span>
-<span class="sd">        method that will be used to order resources in the API response.</span>
-<span class="sd">        The default value is relevance. Acceptable values are:</span>
+<span class="sd">    forContentOwner : bool</span>
+<span class="sd">      This parameter can only be used in a properly authorized request, and it is</span>
+<span class="sd">      intended exclusively for YouTube content partners. The ``forContentOwner``</span>
+<span class="sd">      parameter restricts the search to only retrieve videos owned by the content owner</span>
+<span class="sd">      identified by the ``onBehalfOfContentOwner`` parameter. If ``forContentOwner`` is</span>
+<span class="sd">      set to true, the request must also meet these requirements: The</span>
+<span class="sd">      ``onBehalfOfContentOwner`` parameter is required.The user authorizing the request</span>
+<span class="sd">      must be using an account linked to the specified content owner. The ``type``</span>
+<span class="sd">      parameter value must be set to video.None of the following other parameters can be</span>
+<span class="sd">      set: ``videoDefinition``, ``videoDimension``, ``videoDuration``, ``videoLicense``,</span>
+<span class="sd">      ``videoEmbeddable``, ``videoSyndicated``, ``videoType``.</span>
+<span class="sd">    forDeveloper : bool</span>
+<span class="sd">      This parameter can only be used in a properly authorized request. The</span>
+<span class="sd">      ``forDeveloper`` parameter restricts the search to only retrieve videos uploaded</span>
+<span class="sd">      via the developer&#39;s application or website. The API server uses the request&#39;s</span>
+<span class="sd">      authorization credentials to identify the developer. The ``forDeveloper``</span>
+<span class="sd">      parameter can be used in conjunction with optional search parameters like the</span>
+<span class="sd">      ``q`` parameter. For this feature, each uploaded video is automatically tagged</span>
+<span class="sd">      with the project number that is associated with the developer&#39;s application in the</span>
+<span class="sd">      Google Developers Console. When a search request subsequently sets the</span>
+<span class="sd">      ``forDeveloper`` parameter to ``true`` the API server uses the request&#39;s</span>
+<span class="sd">      authorization credentials to identify the developer. Therefore, a developer can</span>
+<span class="sd">      restrict results to videos uploaded through the developer&#39;s own app or website but</span>
+<span class="sd">      not to videos uploaded through other apps or sites.</span>
+<span class="sd">    forMine : bool</span>
+<span class="sd">      This parameter can only be used in a properly authorized request. The ``forMine``</span>
+<span class="sd">      parameter restricts the search to only retrieve videos owned by the authenticated</span>
+<span class="sd">      user. If you set this parameter to ``true``, then the ``type`` parameter&#39;s value</span>
+<span class="sd">      must also be set to ``video``. In addition, none of the following other parameters</span>
+<span class="sd">      can be set in the same request: ``videoDefinition``, ``videoDimension``,</span>
+<span class="sd">      ``videoDuration``, ``videoLicense``, ``videoEmbeddable``, ``videoSyndicated``,</span>
+<span class="sd">      ``videoType``.</span>
+<span class="sd">    relatedToVideoId: str</span>
+<span class="sd">      The ``relatedToVideoId`` parameter retrieves a list of videos that are related to</span>
+<span class="sd">      the video that the parameter ``value`` identifies. The parameter ``value`` must be</span>
+<span class="sd">      set to a YouTube video ID and, if you are using this parameter, the ``type``</span>
+<span class="sd">      parameter must be set to video.Note that if the ``relatedToVideoId`` parameter is</span>
+<span class="sd">      set, the only other supported parameters are ``part``, ``maxResults``,</span>
+<span class="sd">      ``pageToken``, ``regionCode``, ``relevanceLanguage``, ``safeSearch``, ``type``</span>
+<span class="sd">      (which must be set to video), and ``fields``.</span>
+<span class="sd">    location : str</span>
+<span class="sd">      The ``location`` parameter, in conjunction with the ``locationRadius`` parameter,</span>
+<span class="sd">      defines a circular geographic area and also restricts a search to videos that</span>
+<span class="sd">      specify, in their metadata, a geographic location that falls within that area. The</span>
+<span class="sd">      parameter value is a string that specifies latitude/longitude coordinates e.g.</span>
+<span class="sd">      (37.42307,-122.08427).The location parameter value identifies the point at the</span>
+<span class="sd">      center of the area. The ``locationRadius`` parameter specifies the maximum</span>
+<span class="sd">      distance that the location associated with a video can be from that point for the</span>
+<span class="sd">      video to still be included in the search results. The API returns an error if your</span>
+<span class="sd">      request specifies a value for the ``location`` parameter but does not also specify</span>
+<span class="sd">      a value for the ``locationRadius`` parameter.</span>
+<span class="sd">    locationRadius : str</span>
+<span class="sd">      The ``locationRadius`` parameter, in conjunction with the ``location`` parameter,</span>
+<span class="sd">      defines a circular geographic area. The parameter value must be a floating point</span>
+<span class="sd">      number followed by a measurement unit. Valid measurement units are m, km, ft, and</span>
+<span class="sd">      mi. For example, valid parameter values include 1500m, 5km, 10000ft, and 0.75mi.</span>
+<span class="sd">      The API does not support ``locationRadius`` parameter values larger than 1000</span>
+<span class="sd">      kilometers. Note: See the definition of the ``location`` parameter for more</span>
+<span class="sd">      information.</span>
+<span class="sd">    maxResults : int</span>
+<span class="sd">      The ``maxResults`` parameter specifies the maximum number of items that should be</span>
+<span class="sd">      returned in the result set. Acceptable values are 0 to 50, inclusive. The default</span>
+<span class="sd">      value is 5.</span>
+<span class="sd">    onBehalfOfContentOwner : str</span>
+<span class="sd">      This parameter can only be used in a properly authorized request. Note: This</span>
+<span class="sd">      parameter is intended exclusively for YouTube content partners.The</span>
+<span class="sd">      ``onBehalfOfContentOwner`` parameter indicates that the request&#39;s authorization</span>
+<span class="sd">      credentials identify a YouTube CMS user who is acting on behalf of the content</span>
+<span class="sd">      owner specified in the parameter value. This parameter is intended for YouTube</span>
+<span class="sd">      content partners that own and manage many different YouTube channels. It allows</span>
+<span class="sd">      content owners to authenticate once and get access to all their video and channel</span>
+<span class="sd">      data, without having to provide authentication credentials for each individual</span>
+<span class="sd">      channel. The CMS account that the user authenticates with must be linked to the</span>
+<span class="sd">      specified YouTube content owner.</span>
+<span class="sd">    order : str</span>
+<span class="sd">      The order parameter specifies the method that will be used to order resources in</span>
+<span class="sd">      the API response. The default value is relevance. Acceptable values are:</span>
 
-<span class="sd">        date – Resources are sorted in reverse chronological order based on the</span>
+<span class="sd">        date - Resources are sorted in reverse chronological order based on the</span>
 <span class="sd">        date they were created.</span>
 
-<span class="sd">        rating – Resources are sorted from highest to lowest rating.</span>
+<span class="sd">        rating - Resources are sorted from highest to lowest rating.</span>
 
-<span class="sd">        relevance – Resources are sorted based on their relevance to the search</span>
+<span class="sd">        relevance - Resources are sorted based on their relevance to the search</span>
 <span class="sd">        query. This is the default value for this parameter.</span>
 
-<span class="sd">        title – Resources are sorted alphabetically by title.</span>
+<span class="sd">        title - Resources are sorted alphabetically by title.</span>
 
-<span class="sd">        videoCount – Channels are sorted in descending order of their number of</span>
+<span class="sd">        videoCount - Channels are sorted in descending order of their number of</span>
 <span class="sd">        uploaded videos.</span>
 
-<span class="sd">        viewCount – Resources sorted from highest to lowest number of views.</span>
+<span class="sd">        viewCount - Resources sorted from highest to lowest number of views.</span>
+
 <span class="sd">        For live broadcasts, videos are sorted by number of concurrent viewers</span>
 <span class="sd">        while the broadcasts are ongoing.</span>
-<span class="sd">    :param pageToken: (string) The ``pageToken`` parameter</span>
-<span class="sd">        identifies a specific page in the result set that should be</span>
-<span class="sd">        returned. In an API response, the ``nextPageToken`` and</span>
-<span class="sd">        ``prevPageToken`` properties identify other pages that could be</span>
-<span class="sd">        retrieved.</span>
-<span class="sd">    :param publishedAfter: (datetime) The ``publishedAfter``</span>
-<span class="sd">        parameter indicates that the API response should only</span>
-<span class="sd">        contain resources created at or after the specified time.</span>
-<span class="sd">        The value is an RFC 3339 formatted date-time value</span>
-<span class="sd">        (1970-01-01T00:00:00Z).</span>
-<span class="sd">    :param publishedBefore: (datetime) The</span>
-<span class="sd">        ``publishedBefore`` parameter indicates that the API</span>
-<span class="sd">        response should only contain resources created before or</span>
-<span class="sd">        at the specified time. The value is an RFC 3339</span>
-<span class="sd">        formatted date-time value (1970-01-01T00:00:00Z).</span>
-<span class="sd">    :param regionCode: (string) The ``regionCode`` parameter</span>
-<span class="sd">        instructs the API to return search results for videos that</span>
-<span class="sd">        can be viewed in the specified country. The parameter value</span>
-<span class="sd">        is an ISO 3166-1 alpha-2 country code.</span>
-<span class="sd">    :param relevanceLanguage: (string) The</span>
-<span class="sd">        ``relevanceLanguage`` parameter instructs the API to</span>
-<span class="sd">        return search results that are most relevant to the</span>
-<span class="sd">        specified language. The parameter value is typically</span>
-<span class="sd">        an ISO 639-1 two-letter language code. However, you</span>
-<span class="sd">        should use the values zh-Hans for simplified Chinese</span>
-<span class="sd">        and zh-Hant for traditional Chinese. Please note that</span>
-<span class="sd">        results in other languages will still be returned if</span>
-<span class="sd">        they are highly relevant to the search query term.</span>
-<span class="sd">    :param safeSearch: (string) The ``safeSearch`` parameter</span>
-<span class="sd">        indicates whether the search results should include</span>
-<span class="sd">        restricted content as well as standard content. Acceptable</span>
-<span class="sd">        values are:</span>
+<span class="sd">    pageToken : str</span>
+<span class="sd">      The ``pageToken`` parameter identifies a specific page in the result set that</span>
+<span class="sd">      should be returned. In an API response, the ``nextPageToken`` and</span>
+<span class="sd">      ``prevPageToken`` properties identify other pages that could be retrieved.</span>
+<span class="sd">    publishedAfter : datetime</span>
+<span class="sd">      The ``publishedAfter`` parameter indicates that the API response should only</span>
+<span class="sd">      contain resources created at or after the specified time. The value is an RFC 3339</span>
+<span class="sd">      formatted date-time value (1970-01-01T00:00:00Z).</span>
+<span class="sd">    publishedBefore : datetime</span>
+<span class="sd">      The ``publishedBefore`` parameter indicates that the API response should only</span>
+<span class="sd">      contain resources created before or at the specified time. The value is an RFC</span>
+<span class="sd">      3339 formatted date-time value (1970-01-01T00:00:00Z).</span>
+<span class="sd">    regionCode : str</span>
+<span class="sd">      The ``regionCode`` parameter instructs the API to return search results for videos</span>
+<span class="sd">      that can be viewed in the specified country. The parameter value is an ISO 3166-1</span>
+<span class="sd">      alpha-2 country code.</span>
+<span class="sd">    relevanceLanguage : str</span>
+<span class="sd">      The ``relevanceLanguage`` parameter instructs the API to return search results</span>
+<span class="sd">      that are most relevant to the specified language. The parameter value is typically</span>
+<span class="sd">      an ISO 639-1 two-letter language code. However, you should use the values zh-Hans</span>
+<span class="sd">      for simplified Chinese and zh-Hant for traditional Chinese. Please note that</span>
+<span class="sd">      results in other languages will still be returned if they are highly relevant to</span>
+<span class="sd">      the search query term.</span>
+<span class="sd">    safeSearch : str</span>
+<span class="sd">      The ``safeSearch`` parameter indicates whether the search results should include</span>
+<span class="sd">      restricted content as well as standard content. Acceptable values are:</span>
 
-<span class="sd">        moderate – YouTube will filter some content from search results and,</span>
+<span class="sd">        moderate - YouTube will filter some content from search results and,</span>
 <span class="sd">        at the least, will filter content that is restricted in your locale.</span>
 <span class="sd">        Based on their content, search results could be removed from search</span>
 <span class="sd">        results or demoted in search results. This is the default parameter</span>
 <span class="sd">        value.</span>
 
-<span class="sd">        none – YouTube will not filter the search result set.</span>
+<span class="sd">        none - YouTube will not filter the search result set.</span>
 
-<span class="sd">        strict – YouTube will try to exclude all restricted content from the</span>
+<span class="sd">        strict - YouTube will try to exclude all restricted content from the</span>
 <span class="sd">        search result set.</span>
 
 <span class="sd">        Based on their content, search results</span>
 <span class="sd">        could be removed from search results or demoted in search</span>
 <span class="sd">        results.</span>
-<span class="sd">    :param topicId: (string) The ``topicId`` parameter indicates</span>
-<span class="sd">        that the API response should only contain resources associated</span>
-<span class="sd">        with the specified topic. The value identifies a Freebase topic</span>
-<span class="sd">        ID.</span>
-<span class="sd">    :param type: (string) The ``type`` parameter restricts a search</span>
-<span class="sd">        query to only retrieve a particular type of resource. The value is</span>
-<span class="sd">        a comma-separated list of resource types. The default value is</span>
-<span class="sd">        video,channel,playlist. Acceptable values are: channel, playlist, and</span>
-<span class="sd">        video</span>
-<span class="sd">    :param videoCaption: (string) The ``videoCaption``</span>
-<span class="sd">        parameter indicates whether the API should filter video</span>
-<span class="sd">        search results based on whether they have captions. If you</span>
-<span class="sd">        specify a value for this parameter, you must also set the</span>
-<span class="sd">        ``type`` parameter&#39;s value to video. Acceptable values are:</span>
+<span class="sd">    topicId : str</span>
+<span class="sd">      The ``topicId`` parameter indicates that the API response should only contain</span>
+<span class="sd">      resources associated with the specified topic. The value identifies a Freebase</span>
+<span class="sd">      topic ID.</span>
+<span class="sd">    type : str</span>
+<span class="sd">      The ``type`` parameter restricts a search query to only retrieve a particular type</span>
+<span class="sd">      of resource. The value is a comma-separated list of resource types. The default</span>
+<span class="sd">      value is video,channel,playlist. Acceptable values are: channel, playlist, and</span>
+<span class="sd">      video.</span>
+<span class="sd">    videoCaption : str</span>
+<span class="sd">      The ``videoCaption`` parameter indicates whether the API should filter video</span>
+<span class="sd">      search results based on whether they have captions. If you specify a value for</span>
+<span class="sd">      this parameter, you must also set the ``type`` parameter&#39;s value to video.</span>
+<span class="sd">      Acceptable values are:</span>
 
-<span class="sd">        any – Do not filter results based on caption availability.</span>
+<span class="sd">        any - Do not filter results based on caption availability.</span>
 
-<span class="sd">        closedCaption – Only include videos that have captions.</span>
+<span class="sd">        closedCaption - Only include videos that have captions.</span>
 
-<span class="sd">        none – Only include videos that do not have captions.</span>
-<span class="sd">    :param videoCategoryId: (string) The ``videoCategoryId``</span>
-<span class="sd">        parameter filters video search results based on their</span>
-<span class="sd">        category. If you specify a value for this parameter, you</span>
-<span class="sd">        must also set the ``type`` parameter&#39;s value to video.</span>
-<span class="sd">    :param videoDefinition: (string) The ``videoDefinition``</span>
-<span class="sd">        parameter lets you restrict a search to only include</span>
-<span class="sd">        either high definition (HD) or standard definition (SD)</span>
-<span class="sd">        videos. HD videos are available for playback in at least</span>
-<span class="sd">        720p, though higher resolutions, like 1080p, might also</span>
-<span class="sd">        be available. If you specify a value for this parameter,</span>
-<span class="sd">        you must also set the ``type`` parameter&#39;s value to</span>
-<span class="sd">        video. Acceptable values are:</span>
+<span class="sd">        none - Only include videos that do not have captions.</span>
+<span class="sd">    videoCategoryId : str</span>
+<span class="sd">      The ``videoCategoryId`` parameter filters video search results based on their</span>
+<span class="sd">      category. If you specify a value for this parameter, you must also set the</span>
+<span class="sd">      ``type`` parameter&#39;s value to video.</span>
+<span class="sd">    videoDefinition : str</span>
+<span class="sd">      The ``videoDefinition`` parameter lets you restrict a search to only include</span>
+<span class="sd">      either high definition (HD) or standard definition (SD) videos. HD videos are</span>
+<span class="sd">      available for playback in at least 720p, though higher resolutions, like 1080p,</span>
+<span class="sd">      might also be available. If you specify a value for this parameter, you must also</span>
+<span class="sd">      set the ``type`` parameter&#39;s value to video. Acceptable values are:</span>
 
-<span class="sd">        any – Return all videos, regardless of their resolution.</span>
+<span class="sd">        any - Return all videos, regardless of their resolution.</span>
 
-<span class="sd">        high – Only retrieve HD videos.</span>
+<span class="sd">        high - Only retrieve HD videos.</span>
 
-<span class="sd">        standard – Only retrieve videos in standard definition.</span>
-<span class="sd">    :param videoDimension: (string) The ``videoDimension``</span>
-<span class="sd">        parameter lets you restrict a search to only retrieve 2D</span>
-<span class="sd">        or 3D videos. If you specify a value for this parameter,</span>
-<span class="sd">        you must also set the ``type`` parameter&#39;s value to</span>
-<span class="sd">        video. Acceptable values are:</span>
+<span class="sd">        standard - Only retrieve videos in standard definition.</span>
+<span class="sd">    videoDimension : str</span>
+<span class="sd">      The ``videoDimension`` parameter lets you restrict a search to only retrieve 2D or</span>
+<span class="sd">      3D videos. If you specify a value for this parameter, you must also set the</span>
+<span class="sd">      ``type`` parameter&#39;s value to video. Acceptable values are:</span>
 
-<span class="sd">        2d – Restrict search results to exclude 3D videos.</span>
+<span class="sd">        2d - Restrict search results to exclude 3D videos.</span>
 
-<span class="sd">        3d – Restrict search results to only include 3D videos.</span>
+<span class="sd">        3d - Restrict search results to only include 3D videos.</span>
 
-<span class="sd">        any – Include both 3D and non-3D videos in returned results.</span>
-<span class="sd">        This is the default value.</span>
-<span class="sd">    :param videoDuration: (string) The ``videoDuration``</span>
-<span class="sd">        parameter filters video search results based on their</span>
-<span class="sd">        duration. If you specify a value for this parameter, you</span>
-<span class="sd">        must also set the ``type`` parameter&#39;s value to</span>
-<span class="sd">        video. Acceptable values are:</span>
+<span class="sd">        any - Include both 3D and non-3D videos in returned results. This is the default</span>
+<span class="sd">        value.</span>
+<span class="sd">    videoDuration : str</span>
+<span class="sd">      The ``videoDuration`` parameter filters video search results based on their</span>
+<span class="sd">      duration. If you specify a value for this parameter, you must also set the</span>
+<span class="sd">      ``type`` parameter&#39;s value to video. Acceptable values are:</span>
 
-<span class="sd">        any – Do not filter video search results based on their duration.</span>
+<span class="sd">        any - Do not filter video search results based on their duration.</span>
 <span class="sd">        This is the default value.</span>
 
-<span class="sd">        long – Only include videos longer than 20 minutes.</span>
+<span class="sd">        long - Only include videos longer than 20 minutes.</span>
 
-<span class="sd">        medium – Only include videos that are between four and 20 minutes</span>
+<span class="sd">        medium - Only include videos that are between four and 20 minutes</span>
 <span class="sd">        long (inclusive).</span>
 
-<span class="sd">        short – Only include videos that are less than four minutes long.</span>
-<span class="sd">    :param videoEmbeddable: (string) The ``videoEmbeddable``</span>
-<span class="sd">        parameter lets you to restrict a search to only videos</span>
-<span class="sd">        that can be embedded into a webpage. If you specify a</span>
-<span class="sd">        value for this parameter, you must also set the ``type``</span>
-<span class="sd">        parameter&#39;s value to video. Acceptable values are:</span>
+<span class="sd">        short - Only include videos that are less than four minutes long.</span>
+<span class="sd">    videoEmbeddable : str</span>
+<span class="sd">      The ``videoEmbeddable`` parameter lets you to restrict a search to only videos</span>
+<span class="sd">      that can be embedded into a webpage. If you specify a value for this parameter,</span>
+<span class="sd">      you must also set the ``type`` parameter&#39;s value to video. Acceptable values are:</span>
 
-<span class="sd">        any – Return all videos, embeddable or not.</span>
+<span class="sd">        any - Return all videos, embeddable or not.</span>
 
-<span class="sd">        true – Only retrieve embeddable videos.</span>
-<span class="sd">    :param videoLicense: (string) The ``videoLicense``</span>
-<span class="sd">        parameter filters search results to only include videos</span>
-<span class="sd">        with a particular license. YouTube lets video uploaders</span>
-<span class="sd">        choose to attach either the Creative Commons license or the</span>
-<span class="sd">        standard YouTube license to each of their videos. If you</span>
-<span class="sd">        specify a value for this parameter, you must also set the</span>
-<span class="sd">        ``type`` parameter&#39;s value to video. Acceptable values are:</span>
+<span class="sd">        true - Only retrieve embeddable videos.</span>
+<span class="sd">    videoLicense : str</span>
+<span class="sd">      The ``videoLicense`` parameter filters search results to only include videos with</span>
+<span class="sd">      a particular license. YouTube lets video uploaders choose to attach either the</span>
+<span class="sd">      Creative Commons license or the standard YouTube license to each of their videos.</span>
+<span class="sd">      If you specify a value for this parameter, you must also set the ``type``</span>
+<span class="sd">      parameter&#39;s value to video. Acceptable values are:</span>
 
-<span class="sd">        any – Return all videos, regardless of which license they have,</span>
+<span class="sd">        any - Return all videos, regardless of which license they have,</span>
 <span class="sd">        that match the query parameters.</span>
 
-<span class="sd">        creativeCommon – Only return videos that have a Creative Commons</span>
+<span class="sd">        creativeCommon - Only return videos that have a Creative Commons</span>
 <span class="sd">        license.</span>
 <span class="sd">        Users can reuse videos with this license in other videos that they</span>
 <span class="sd">        create.</span>
 
-<span class="sd">        youtube – Only return videos that have the standard YouTube license.</span>
-<span class="sd">    :param videoSyndicated: (string) The ``videoSyndicated``</span>
-<span class="sd">        parameter lets you to restrict a search to only videos</span>
-<span class="sd">        that can be played outside youtube.com. If you specify a</span>
-<span class="sd">        value for this parameter, you must also set the ``type``</span>
-<span class="sd">        parameter&#39;s value to video. Acceptable values are:</span>
+<span class="sd">        youtube - Only return videos that have the standard YouTube license.</span>
+<span class="sd">    videoSyndicated : str</span>
+<span class="sd">      The ``videoSyndicated`` parameter lets you to restrict a search to only videos</span>
+<span class="sd">      that can be played outside youtube.com. If you specify a value for this parameter,</span>
+<span class="sd">      you must also set the ``type`` parameter&#39;s value to video. Acceptable values are:</span>
 
-<span class="sd">        any – Return all videos, syndicated or not.</span>
+<span class="sd">        any - Return all videos, syndicated or not.</span>
 
-<span class="sd">        true – Only retrieve syndicated videos.</span>
-<span class="sd">    :param videoType: (string) The ``videoType`` parameter lets</span>
-<span class="sd">        you restrict a search to a particular type of videos. If you</span>
-<span class="sd">        specify a value for this parameter, you must also set the ``type``</span>
-<span class="sd">        parameter&#39;s value to video. Acceptable values are:</span>
+<span class="sd">        true - Only retrieve syndicated videos.</span>
+<span class="sd">    videoType : str</span>
+<span class="sd">      The ``videoType`` parameter lets you restrict a search to a particular type of</span>
+<span class="sd">      videos. If you specify a value for this parameter, you must also set the ``type``</span>
+<span class="sd">      parameter&#39;s value to video. Acceptable values are:</span>
 
-<span class="sd">        any – Return all videos.</span>
+<span class="sd">        any - Return all videos.</span>
 
-<span class="sd">        episode – Only retrieve episodes of shows.</span>
+<span class="sd">        episode - Only retrieve episodes of shows.</span>
 
-<span class="sd">        movie – Only retrieve movies.</span>
+<span class="sd">        movie - Only retrieve movies.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    serp_df : pandas.DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">params</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
     <span class="n">supplied_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="n">k</span><span class="p">]}</span>
