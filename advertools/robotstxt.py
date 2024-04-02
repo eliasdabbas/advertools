@@ -467,6 +467,23 @@ def robotstxt_test(robotstxt_url, user_agents, urls):
     All the combinations of :attr:`user_agents` and :attr:`urls` will be
     checked and the results returned in one DataFrame.
 
+    Parameters
+    ----------
+
+    robotstxt_url : str
+      The URL of robotx.txt file.
+    user_agents : str, list
+      One or more user agents.
+    urls : str, list
+      One or more paths (relative) or URLs (absolute) to check.
+
+    Returns
+    -------
+    robotstxt_test_df : pandas.DataFrame
+      A DataFrame with the test results per user-agent/rule combination.
+
+    Examples
+    --------
     >>> robotstxt_test(
     ...     "https://facebook.com/robots.txt",
     ...     user_agents=["*", "Googlebot", "Applebot"],
@@ -486,11 +503,6 @@ def robotstxt_test(robotstxt_url, user_agents, urls):
     10  https://facebook.com/robots.txt  Googlebot    /groups       True
     11  https://facebook.com/robots.txt  Googlebot  /hashtag/      False
 
-    :param url robotstxt_url: The URL of robotx.txt file
-    :param str,list user_agents: One or more user agents
-    :param str,list urls: One or more paths (relative) or URLs (absolute) to
-                           check
-    :return DataFrame robotstxt_test_df:
     """
     if not robotstxt_url.endswith("/robots.txt"):
         raise ValueError("Please make sure you enter a valid robots.txt URL")
