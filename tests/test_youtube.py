@@ -1,5 +1,6 @@
 import os
 
+import pandas as pd
 import pytest
 
 import advertools.youtube as yt
@@ -232,10 +233,15 @@ def test_videos_list_raises():
         yt.videos_list(key=youtube_key, part="snippet")
 
 
-# @skip_api_tests
-# def test_with_zero_results_required():
-#     result = yt.search(key=youtube_key, part='snippet', q='testing bitcoin',
-#                        maxResults=0)
+@skip_api_tests
+def test_with_zero_results_required():
+    result = yt.search(
+        key=youtube_key,
+        part="snippet",
+        q="testing bitcoin",
+        maxResults=0,
+    )
+    assert isinstance(result, pd.DataFrame)
 
 
 @skip_api_tests
@@ -244,6 +250,7 @@ def test_empty_list_raises_error():
         yt.search(key=youtube_key, part="snippet", q="testing bitcoin", regionCode=[])
 
 
-# @skip_api_tests
-# def test_errors_returned_as_df():
-#     result = yt.search(key='wrong key', part='snippet', q='testing bitcoin')
+@skip_api_tests
+def test_errors_returned_as_df():
+    result = yt.search(key="wrong key", part="snippet", q="testing bitcoin")
+    assert "errors" in result
