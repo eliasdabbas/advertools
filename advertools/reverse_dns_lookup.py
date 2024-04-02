@@ -109,9 +109,16 @@ def reverse_dns_lookup(ip_list, max_workers=_default_max_workders):
     Examples
     --------
     >>> import advertools as adv
-    >>> ip_list = ['66.249.66.194', '66.249.66.194', '66.249.66.194',
-    ...            '66.249.66.91', '66.249.66.91', '130.185.74.243',
-    ...            '31.56.96.51', '5.211.97.39']
+    >>> ip_list = [
+    ...     "66.249.66.194",
+    ...     "66.249.66.194",
+    ...     "66.249.66.194",
+    ...     "66.249.66.91",
+    ...     "66.249.66.91",
+    ...     "130.185.74.243",
+    ...     "31.56.96.51",
+    ...     "5.211.97.39",
+    ... ]
     >>> adv.reverse_dns_lookup([ip_list])
 
     ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================
@@ -134,7 +141,7 @@ def reverse_dns_lookup(ip_list, max_workers=_default_max_workders):
     hosts = []
     if system == "Darwin":
         with futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
-            for ip, host in zip(
+            for _ip, host in zip(
                 ip_list, executor.map(_single_request, count_df["ip_address"])
             ):
                 hosts.append(host)
