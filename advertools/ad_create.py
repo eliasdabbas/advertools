@@ -62,47 +62,68 @@ longer than `max_len`.
             '5-star Hotels In Portugal']
 
 """
+
 import string
 
 
 def ad_create(template, replacements, fallback, max_len=30, capitalize=True):
     """Insert each of the replacement strings in its place within template.
 
-    :param str template: a string format template, using braces e.g. "Get the
-                         latest {} today."
-    :param list replacements: replacement strings to be inserted in
-                              :attr:`template`
-    :param str fallback: the string to insert in :attr:`template` in case
-                         :attr:`replacement` is longer than :attr:`max_len`
-    :param int max_len: the maximum allowed length of the full string
-    :param bool capitalize: whether or not to capitalize words in the result
-    :returns formatted: list of strings
+    Parameters
+    ----------
+    template : str
+      A string format template, using braces e.g. "Get the latest {} today."
+    replacements : list
+      Replacement strings to be inserted in :attr:`template`.
+    fallback : str
+      The string to insert in :attr:`template` in case :attr:`replacement` is longer
+      than :attr:`max_len`.
+    max_len : int
+      The maximum allowed length of the full string.
+    capitalize : bool
+      Whether or not to capitalize words in the result.
 
-    >>> ad_create("Let\'s count {}", ['one', 'two', 'three'], 'one', 20)
+    Returns
+    -------
+    formatted : list
+      List of ads (strings).
+
+    Examples
+    --------
+    >>> ad_create("Let's count {}", ["one", "two", "three"], "one", 20)
     ["Let's Count One", "Let's Count Two", "Let's Count Three"]
 
-    >>> ad_create(template='My favorite car is {}',
-    ...           replacements=['Toyota', 'BMW', 'Mercedes', 'Lamborghini'],
-    ...           fallback='great',
-    ...           max_len=28)
+    >>> ad_create(
+    ...     template="My favorite car is {}",
+    ...     replacements=["Toyota", "BMW", "Mercedes", "Lamborghini"],
+    ...     fallback="great",
+    ...     max_len=28,
+    ... )
     ['My Favorite Car Is Toyota', 'My Favorite Car Is Bmw',
     'My Favorite Car Is Mercedes', 'My Favorite Car Is Great']
 
-    >>> ad_create('KeEP cApITalization {}', ['As IS'],
-    ...           fallback='fallback', max_len=50, capitalize=False)
+    >>> ad_create(
+    ...     "KeEP cApITalization {}",
+    ...     ["As IS"],
+    ...     fallback="fallback",
+    ...     max_len=50,
+    ...     capitalize=False,
+    ... )
     ['KeEP cApITalization As IS']
 
-    >>> ad_create('This is very long and will produce and error',
-    ...           replacements=['something', 'long'], fallback='Very long',
-    ...           max_len=20)
+    >>> ad_create(
+    ...     "This is very long and will produce and error",
+    ...     replacements=["something", "long"],
+    ...     fallback="Very long",
+    ...     max_len=20,
+    ... )
     Traceback (most recent call last):
     File "<input>", line 1, in <module>
     File "<input>", line 26, in ad_create
     ValueError: template + fallback should be <= 20 chars
     """
     if len(template.format(fallback)) > max_len:
-        raise ValueError('template + fallback should be <= '
-                         + str(max_len) + ' chars')
+        raise ValueError("template + fallback should be <= " + str(max_len) + " chars")
     final_ad = []
     for rep in replacements:
         if len(template.format(rep)) <= max_len:
