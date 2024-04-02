@@ -185,7 +185,7 @@ robots.txt Testing Approach
    2  comment      and may only be conducted for the limited purpose contained in said  https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
    3  comment      permission.                                                          https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
    4  comment      See: http://www.facebook.com/apps/site_scraping_tos_terms.php        https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
- ...  ...          ...                                                                  ...                                  ...                           
+ ...  ...          ...                                                                  ...                                  ...
  536  Allow        /ajax/pagelet/generic.php/PagePostsSectionPagelet                    https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
  537  Allow        /careers/                                                            https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
  538  Allow        /safetycheck/                                                        https://www.facebook.com/robots.txt  2022-02-12 00:48:58.951053+00:00
@@ -301,7 +301,7 @@ Let's see who is and who is not allowed to fetch the home page.
 
 I'll leave it to you to figure out why LinkedIn and Pinterest are not allowed
 to crawl the home page but Google and Apple are, because I have no clue!
-"""
+"""  # noqa: E501
 
 __all__ = ["robotstxt_to_df", "robotstxt_test"]
 
@@ -326,16 +326,33 @@ logging.basicConfig(level=logging.INFO)
 def robotstxt_to_df(robotstxt_url, output_file=None):
     """Download the contents of ``robotstxt_url`` into a DataFrame
 
+    Parameters
+    ----------
+    robotstxt_url : str
+      One or more URLs of the robots.txt file(s)
+    output_file : str
+      Optional file path to save the robots.txt files, mainly useful for downloading >
+      500 files. The files are appended as soon as they are downloaded. Only the ".jl"
+      extension is supported.
+
+    Returns
+    -------
+    robotstxt_df : pandas.DataFrame
+      A DataFrame containing directives, their content, the URL and time of download
+
+    Examples
+    --------
     You can also use it to download multiple robots files by passing a list of
     URLs.
 
-    >>> robotstxt_to_df('https://www.twitter.com/robots.txt')
+    >>> robotstxt_to_df("https://www.twitter.com/robots.txt")
          directive content   	                 robotstxt_url	                   download_date
     0	User-agent	     *	https://www.twitter.com/robots.txt	2020-09-27 21:57:23.702814+00:00
     1	  Disallow	     /	https://www.twitter.com/robots.txt	2020-09-27 21:57:23.702814+00:00
 
-    >>> robotstxt_to_df(['https://www.google.com/robots.txt',
-    ...                  'https://www.twitter.com/robots.txt'])
+    >>> robotstxt_to_df(
+    ...     ["https://www.google.com/robots.txt", "https://www.twitter.com/robots.txt"]
+    ... )
            directive	                             content	    robotstxt_last_modified	                       robotstxt_url	                     download_date
     0	  User-agent	                                   *	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
     1	    Disallow	                             /search	  2021-01-11 21:00:00+00:00	   https://www.google.com/robots.txt	  2021-01-16 14:08:50.087985+00:00
@@ -354,25 +371,20 @@ def robotstxt_to_df(robotstxt_url, output_file=None):
     file as soon as they are downloaded, in case you lose your connection, or
     maybe your patience!
 
-    >>> robotstxt_to_df(['https://example.com/robots.txt',
-    ...                  'https://example.com/robots.txt',
-    ...                  'https://example.com/robots.txt'],
-    ...                 output_file='robots_output_file.jl')
+    >>> robotstxt_to_df(
+    ...     [
+    ...         "https://example.com/robots.txt",
+    ...         "https://example.com/robots.txt",
+    ...         "https://example.com/robots.txt",
+    ...     ],
+    ...     output_file="robots_output_file.jl",
+    ... )
 
     To open the file as a DataFrame:
 
     >>> import pandas as pd
-    >>> robotsfiles_df = pd.read_json('robots_output_file.jl', lines=True)
-
-    :param url robotstxt_url: One or more URLs of the robots.txt file(s)
-    :param str output_file: Optional file path to save the robots.txt files,
-                            mainly useful for downloading > 500 files. The
-                            files are appended as soon as they are downloaded.
-                            Only ".jl" extensions are supported.
-
-    :returns DataFrame robotstxt_df: A DataFrame containing directives, their
-                                     content, the URL and time of download
-    """
+    >>> robotsfiles_df = pd.read_json("robots_output_file.jl", lines=True)
+    """  # noqa: E501
     if output_file is not None and (not output_file.endswith(".jl")):
         raise ValueError("Please specify a file with a `.jl` extension.")
     if isinstance(robotstxt_url, (list, tuple, set, pd.Series)):
@@ -455,9 +467,11 @@ def robotstxt_test(robotstxt_url, user_agents, urls):
     All the combinations of :attr:`user_agents` and :attr:`urls` will be
     checked and the results returned in one DataFrame.
 
-    >>> robotstxt_test('https://facebook.com/robots.txt',
-    ...                user_agents=['*', 'Googlebot', 'Applebot'],
-    ...                urls=['/', '/bbc', '/groups', '/hashtag/'])
+    >>> robotstxt_test(
+    ...     "https://facebook.com/robots.txt",
+    ...     user_agents=["*", "Googlebot", "Applebot"],
+    ...     urls=["/", "/bbc", "/groups", "/hashtag/"],
+    ... )
                           robotstxt_url user_agent   url_path  can_fetch
     0   https://facebook.com/robots.txt          *          /      False
     1   https://facebook.com/robots.txt          *       /bbc      False
