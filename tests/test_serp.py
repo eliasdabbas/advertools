@@ -91,7 +91,7 @@ def test_serp_goog_handles_no_search_results():
 
 @skip_api_tests
 def test_serp_raises_error_on_wrong_key():
-    with pytest.raises(Exception):
+    with pytest.raises(Exception):  # noqa: B017
         serp_goog(q="test credit cart", cx=goog_cse_cx, key="wrong key")
 
 
@@ -145,13 +145,13 @@ def test_serp_youtube_handles_no_search_results():
 
 @skip_api_tests
 def test_serp_youtube_raises_type_video_error():
-    with pytest.raises(Exception):
+    with pytest.raises(Exception):  # noqa: B017
         serp_youtube(key=youtube_key, videoEmbeddable=True)
 
 
 @skip_api_tests
 def test_serp_youtube_raises_response_error():
-    with pytest.raises(Exception):
+    with pytest.raises(Exception):  # noqa: B017
         serp_youtube(key=youtube_key, publishedAfter="wrong date fmt")
 
 
@@ -166,11 +166,11 @@ def test_correctly_changing_log_levels():
 
 @skip_api_tests
 def test_youtube_video_details_raises_error():
-    with pytest.raises(Exception):
+    with pytest.raises(Exception):  # noqa: B017
         youtube_video_details(key="WRONG KEY", vid_ids="wrong ID")
 
 
 @skip_api_tests
 def test_youtube_channel_details_raises_error():
-    with pytest.raises(Exception):
+    with pytest.raises(Exception):  # noqa: B017
         youtube_channel_details(key="WRONG KEY", channel_ids="wrong ID")
