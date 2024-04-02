@@ -1458,7 +1458,7 @@ def _dict_product(d):
     This is used to generate multiple queries out of
         possibly multiple arguments in serp_goog.
 
-    >>> d = {'a': [1], 'b': [2, 3, 4], 'c': [5, 6]}
+    >>> d = {"a": [1], "b": [2, 3, 4], "c": [5, 6]}
     >>> _dict_product(d)
     >>> [{'a': 1, 'b': 2, 'c': 5},
          {'a': 1, 'b': 2, 'c': 6},
@@ -1648,7 +1648,7 @@ def serp_goog(
     The following function call will produce two queries:
     "hotel" in the USA, and "hotel" in France
 
-    >>> serp_goog(q='hotel', gl=['us', 'fr'], cx='YOUR_CX', key='YOUR_KEY')
+    >>> serp_goog(q="hotel", gl=["us", "fr"], cx="YOUR_CX", key="YOUR_KEY")
 
     The below function call will prouce four queries and make four requests:
 
