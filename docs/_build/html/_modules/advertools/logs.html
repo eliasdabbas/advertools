@@ -140,12 +140,14 @@
 
 <span class="sd">&gt;&gt;&gt; import advertools as adv</span>
 <span class="sd">&gt;&gt;&gt; import pandas as pd</span>
-<span class="sd">&gt;&gt;&gt; adv.logs_to_df(log_file=&#39;access.log&#39;,</span>
-<span class="sd">...                output_file=&#39;access_logs.parquet&#39;,</span>
-<span class="sd">...                errors_file=&#39;log_errors.csv&#39;,</span>
-<span class="sd">...                log_format=&#39;common&#39;,</span>
-<span class="sd">...                fields=None)</span>
-<span class="sd">&gt;&gt;&gt; logs_df = pd.read_parquet(&#39;access_logs.parquet&#39;)</span>
+<span class="sd">&gt;&gt;&gt; adv.logs_to_df(</span>
+<span class="sd">...     log_file=&quot;access.log&quot;,</span>
+<span class="sd">...     output_file=&quot;access_logs.parquet&quot;,</span>
+<span class="sd">...     errors_file=&quot;log_errors.csv&quot;,</span>
+<span class="sd">...     log_format=&quot;common&quot;,</span>
+<span class="sd">...     fields=None,</span>
+<span class="sd">... )</span>
+<span class="sd">&gt;&gt;&gt; logs_df = pd.read_parquet(&quot;access_logs.parquet&quot;)</span>
 
 <span class="sd">How to run the :func:`logs_to_df` function:</span>
 <span class="sd">-------------------------------------------</span>
@@ -201,7 +203,7 @@
 <span class="sd">   easily add a ``hostname`` column to the original DataFrame.</span>
 <span class="sd">4. Parse and split URL columns into their respective components. Typically we</span>
 <span class="sd">   have ``request`` which is the resource/URL requested, as well as ``referer``</span>
-<span class="sd">   , which shows us where the request was referred from. Function used: </span>
+<span class="sd">   , which shows us where the request was referred from. Function used:</span>
 <span class="sd">   :ref:`url_to_df &lt;urlytics&gt;`.</span>
 <span class="sd">5. Parse user agents if available. This allows us to analyze by user-agent</span>
 <span class="sd">   family, operating system, bot/non-bot, version, and any other combination we</span>
@@ -488,7 +490,7 @@
 <span class="sd">DataFrame:</span>
 
 <span class="sd">&gt;&gt;&gt; import advertools as adv</span>
-<span class="sd">&gt;&gt;&gt; logs_df = adv.crawllogs_to_df(&#39;example.log&#39;)</span>
+<span class="sd">&gt;&gt;&gt; logs_df = adv.crawllogs_to_df(&quot;example.log&quot;)</span>
 
 
 <span class="sd">The DataFrame might contain the following columns:</span>
@@ -512,21 +514,22 @@
 <span class="sd">* `redirect_from`: The URL redirected from.</span>
 <span class="sd">* `blocked_urls`: The URLs that were not crawled due to robots.txt rules.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">TemporaryDirectory</span><span class="p">,</span> <span class="n">TemporaryFile</span>
+<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">TemporaryDirectory</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">LOG_FORMATS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;common&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-)$&#39;</span><span class="p">,</span>
-    <span class="s2">&quot;combined&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-) &quot;(?P&lt;referrer&gt;[^&quot;]*)&quot; &quot;(?P&lt;useragent&gt;[^&quot;]*)&quot;\s*$&#39;</span><span class="p">,</span>
-    <span class="s2">&quot;common_with_vhost&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;vhost&gt;\S+) (?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-)$&#39;</span><span class="p">,</span>
-    <span class="s2">&quot;nginx_error&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^(?P&lt;datetime&gt;\d</span><span class="si">{4}</span><span class="s2">/\d\d/\d\d \d\d:\d\d:\d\d) \[(?P&lt;level&gt;[^\]]+)\] (?P&lt;pid&gt;\d+)#(?P&lt;tid&gt;\d+): (?P&lt;counter&gt;\*\d+ | )?(?P&lt;message&gt;.*)&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;apache_error&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^(?P&lt;datetime&gt;\[[^\]]+\]) (?P&lt;level&gt;\[[^\]]+\]) \[pid (?P&lt;pid&gt;\d+)\] (?P&lt;file&gt;\S+):(?P&lt;status&gt; \S+| ):? \[client (?P&lt;client&gt;\S+)\] (?P&lt;message&gt;.*)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;common&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-)$&#39;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
+    <span class="s2">&quot;combined&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-) &quot;(?P&lt;referrer&gt;[^&quot;]*)&quot; &quot;(?P&lt;useragent&gt;[^&quot;]*)&quot;\s*$&#39;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
+    <span class="s2">&quot;common_with_vhost&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^(?P&lt;vhost&gt;\S+) (?P&lt;client&gt;\S+) \S+ (?P&lt;userid&gt;\S+) \[(?P&lt;datetime&gt;[^\]]+)\] &quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;request&gt;[^ &quot;]+)? HTTP/[0-9.]+&quot; (?P&lt;status&gt;[0-9]</span><span class="si">{3}</span><span class="s1">) (?P&lt;size&gt;[0-9]+|-)$&#39;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
+    <span class="s2">&quot;nginx_error&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^(?P&lt;datetime&gt;\d</span><span class="si">{4}</span><span class="s2">/\d\d/\d\d \d\d:\d\d:\d\d) \[(?P&lt;level&gt;[^\]]+)\] (?P&lt;pid&gt;\d+)#(?P&lt;tid&gt;\d+): (?P&lt;counter&gt;\*\d+ | )?(?P&lt;message&gt;.*)&quot;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
+    <span class="s2">&quot;apache_error&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^(?P&lt;datetime&gt;\[[^\]]+\]) (?P&lt;level&gt;\[[^\]]+\]) \[pid (?P&lt;pid&gt;\d+)\] (?P&lt;file&gt;\S+):(?P&lt;status&gt; \S+| ):? \[client (?P&lt;client&gt;\S+)\] (?P&lt;message&gt;.*)&quot;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
 <span class="p">}</span>
 
 <span class="n">LOG_FIELDS</span> <span class="o">=</span> <span class="p">{</span>
@@ -586,33 +589,39 @@
 <span class="sd">    used. Check out ``adv.LOG_FORMATS`` and ``adv.LOG_FIELDS`` for the</span>
 <span class="sd">    available formats and fields.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    log_file : str</span>
+<span class="sd">      The path to the log file.</span>
+<span class="sd">    output_file : str</span>
+<span class="sd">      The path to the desired output file. Must have a &quot;.parquet&quot; extension, and must</span>
+<span class="sd">      not have the same path as an existing file.</span>
+<span class="sd">    errors_file : str</span>
+<span class="sd">      The path where the parsing errors are stored. Any text format works, CSV is</span>
+<span class="sd">      recommended to easily open it with any CSV reader with the separator as &quot;@@&quot;.</span>
+<span class="sd">    log_format : str</span>
+<span class="sd">      The name of one of the supported log formats, or a regex of your own format.</span>
+<span class="sd">    fields : list</span>
+<span class="sd">      A list of fields, which will become the names of columns in ``output_file``. Only</span>
+<span class="sd">      required if you provide a custom (regex) ``log_format``.</span>
+<span class="sd">    encoding : str</span>
+<span class="sd">      The encoding of the log file. It defaults to utf-8, but you might need to try</span>
+<span class="sd">      others in case of errors (latin-1, utf-16, etc.)</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
 <span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
-<span class="sd">    &gt;&gt;&gt; adv.logs_to_df(log_file=&#39;access.log&#39;,</span>
-<span class="sd">    ...                output_file=&#39;access_logs.parquet&#39;,</span>
-<span class="sd">    ...                errors_file=&#39;log_errors.csv&#39;,</span>
-<span class="sd">    ...                log_format=&#39;common&#39;,</span>
-<span class="sd">    ...                fields=None)</span>
-<span class="sd">    &gt;&gt;&gt; logs_df = pd.read_parquet(&#39;access_logs.parquet&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; adv.logs_to_df(</span>
+<span class="sd">    ...     log_file=&quot;access.log&quot;,</span>
+<span class="sd">    ...     output_file=&quot;access_logs.parquet&quot;,</span>
+<span class="sd">    ...     errors_file=&quot;log_errors.csv&quot;,</span>
+<span class="sd">    ...     log_format=&quot;common&quot;,</span>
+<span class="sd">    ...     fields=None,</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; logs_df = pd.read_parquet(&quot;access_logs.parquet&quot;)</span>
 
 <span class="sd">    You can now analyze ``logs_df`` as a normal pandas DataFrame.</span>
-
-<span class="sd">    :param str log_file: The path to the log file.</span>
-<span class="sd">    :param str output_file: The path to the desired output file. Must have a</span>
-<span class="sd">                            &quot;.parquet&quot; extension, and must not have the same</span>
-<span class="sd">                            path as an existing file.</span>
-<span class="sd">    :param str errors_file: The path where the parsing errors are stored. Any</span>
-<span class="sd">                            text format works, CSV is recommended to easily</span>
-<span class="sd">                            open it with any CSV reader with the separator as</span>
-<span class="sd">                            &quot;@@&quot;.</span>
-<span class="sd">    :param str log_format: Either the name of one of the supported log formats,</span>
-<span class="sd">                           or a regex of your own format.</span>
-<span class="sd">    :param str fields: A list of fields, which will become the names of columns</span>
-<span class="sd">                       in ``output_file``. Only required if you provide a</span>
-<span class="sd">                       custom (regex) ``log_format``.</span>
-<span class="sd">    :param str encoding: The encoding of the log file. It defaults to utf-8, but</span>
-<span class="sd">                         you might need to try others in case of errors</span>
-<span class="sd">                         (latin-1, utf-16, etc.)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">output_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.parquet&quot;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -683,7 +692,7 @@
 <span class="sd">                  output_file=&#39;example.jl&#39;,</span>
 <span class="sd">                  follow_links=True,</span>
 <span class="sd">                  custom_settings={&#39;LOG_FILE&#39;: &#39;example.log&#39;})</span>
-<span class="sd">    &gt;&gt;&gt; logs_df = adv.crawl_logs_to_df(&#39;example.log&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; logs_df = adv.crawl_logs_to_df(&quot;example.log&quot;)</span>
 
 
 <span class="sd">    :param str logs_file_path: The path to the logs file.</span>

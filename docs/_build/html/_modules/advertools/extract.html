@@ -725,12 +725,20 @@
 
 <span class="sd">    emoji_summary[&#39;top_emoji_sub_groups&#39;]</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;extract&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_currency&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;extract_exclamations&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_hashtags&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;extract_intense_words&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_mentions&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_numbers&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;extract_questions&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_words&#39;</span><span class="p">,</span> <span class="s1">&#39;extract_urls&#39;</span>
-           <span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;extract&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;extract_currency&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;extract_exclamations&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;extract_hashtags&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;extract_intense_words&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;extract_mentions&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;extract_numbers&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;extract_questions&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;extract_words&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;extract_urls&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
@@ -738,8 +746,17 @@
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlparse</span>
 
 <span class="c1"># from .emoji import EMOJI, EMOJI_ENTRIES</span>
-<span class="kn">from</span> <span class="nn">.regex</span> <span class="kn">import</span> <span class="p">(</span><span class="n">CURRENCY</span><span class="p">,</span> <span class="n">CURRENCY_RAW</span><span class="p">,</span> <span class="n">EXCLAMATION</span><span class="p">,</span> <span class="n">EXCLAMATION_MARK</span><span class="p">,</span>
-                    <span class="n">HASHTAG</span><span class="p">,</span> <span class="n">MENTION</span><span class="p">,</span> <span class="n">QUESTION</span><span class="p">,</span> <span class="n">QUESTION_MARK</span><span class="p">,</span> <span class="n">URL</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.regex</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CURRENCY</span><span class="p">,</span>
+    <span class="n">CURRENCY_RAW</span><span class="p">,</span>
+    <span class="n">EXCLAMATION</span><span class="p">,</span>
+    <span class="n">EXCLAMATION_MARK</span><span class="p">,</span>
+    <span class="n">HASHTAG</span><span class="p">,</span>
+    <span class="n">MENTION</span><span class="p">,</span>
+    <span class="n">QUESTION</span><span class="p">,</span>
+    <span class="n">QUESTION_MARK</span><span class="p">,</span>
+    <span class="n">URL</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="extract">
@@ -768,26 +785,25 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">text_list</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">extracted</span><span class="p">:</span>
-        <span class="n">extracted</span> <span class="o">=</span> <span class="p">[</span><span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
-                     <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+        <span class="n">extracted</span> <span class="o">=</span> <span class="p">[</span><span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
     <span class="n">flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">extracted</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
 
     <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="n">extracted</span><span class="p">,</span>
-        <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span> <span class="o">+</span> <span class="s1">&#39;_flat&#39;</span><span class="p">:</span> <span class="n">flat</span><span class="p">,</span>
-        <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;_counts&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">extracted</span><span class="p">],</span>
-        <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;_freq&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-                                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">extracted</span><span class="p">])</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                                   <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
-        <span class="s1">&#39;top_&#39;</span> <span class="o">+</span> <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                                        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                                        <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-        <span class="s1">&#39;overview&#39;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s1">&#39;num_posts&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
-            <span class="s1">&#39;num_&#39;</span> <span class="o">+</span> <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">flat</span><span class="p">),</span>
-            <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span> <span class="o">+</span> <span class="s1">&#39;_per_post&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">flat</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
-            <span class="s1">&#39;unique_&#39;</span> <span class="o">+</span> <span class="n">key_name</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">flat</span><span class="p">)),</span>
-        <span class="p">}</span>
+        <span class="n">key_name</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="n">extracted</span><span class="p">,</span>
+        <span class="n">key_name</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span> <span class="o">+</span> <span class="s2">&quot;_flat&quot;</span><span class="p">:</span> <span class="n">flat</span><span class="p">,</span>
+        <span class="n">key_name</span> <span class="o">+</span> <span class="s2">&quot;_counts&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">extracted</span><span class="p">],</span>
+        <span class="n">key_name</span> <span class="o">+</span> <span class="s2">&quot;_freq&quot;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="n">Counter</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">extracted</span><span class="p">])</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;top_&quot;</span> <span class="o">+</span> <span class="n">key_name</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="n">Counter</span><span class="p">(</span><span class="n">flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;overview&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;num_posts&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
+            <span class="s2">&quot;num_&quot;</span> <span class="o">+</span> <span class="n">key_name</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">flat</span><span class="p">),</span>
+            <span class="n">key_name</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span> <span class="o">+</span> <span class="s2">&quot;_per_post&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">flat</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">),</span>
+            <span class="s2">&quot;unique_&quot;</span> <span class="o">+</span> <span class="n">key_name</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">flat</span><span class="p">)),</span>
+        <span class="p">},</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">summary</span></div>
 
@@ -801,13 +817,25 @@
 <span class="sd">    Get a summary of the number of currency symbols, their frequency,</span>
 <span class="sd">    the top ones, and more.</span>
 
-<span class="sd">    :param list text_list: A list of text strings.</span>
-<span class="sd">    :param int left_chars: The number of characters to extract, to the</span>
-<span class="sd">        left of the symbol when getting :attr:`surrounding_text`</span>
-<span class="sd">    :param int right_chars: The number of characters to extract, to the</span>
-<span class="sd">        left of the symbol when getting :attr:`surrounding_text`</span>
-<span class="sd">    :returns summary: A dictionary with various stats about currencies</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text_list : list</span>
+<span class="sd">      A list of text strings.</span>
+<span class="sd">    left_chars : int</span>
+<span class="sd">      The number of characters to extract, to the left of the symbol when getting</span>
+<span class="sd">      :attr:`surrounding_text`</span>
+<span class="sd">    right_chars : int</span>
+<span class="sd">      The number of characters to extract, to the left of the symbol when getting</span>
+<span class="sd">      :attr:`surrounding_text`</span>
 
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    summary : dict</span>
+<span class="sd">      A dictionary with various stats about currencies.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;today ₿1 is around $4k&#39;, &#39;and ₿ in £ &amp; €?&#39;, &#39;no idea&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; currency_summary = extract_currency(posts)</span>
 <span class="sd">    &gt;&gt;&gt; currency_summary.keys()</span>
@@ -859,15 +887,22 @@
 <span class="sd">    &#39;currency_symbols_per_post&#39;: 1.6666666666666667,</span>
 <span class="sd">    &#39;unique_currency_symbols&#39;: 4}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">CURRENCY</span><span class="p">,</span> <span class="s1">&#39;currency_symbol&#39;</span><span class="p">)</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;currency_symbol_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="n">name</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span>
-                                        <span class="k">else</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
-                                        <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;currency_symbols&#39;</span><span class="p">]]</span>
-    <span class="n">surrounding_text_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;.{0,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">left_chars</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span> <span class="o">+</span>
-                                        <span class="n">CURRENCY_RAW</span> <span class="o">+</span>
-                                        <span class="sa">r</span><span class="s1">&#39;.{0,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">right_chars</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">)</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;surrounding_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">surrounding_text_regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-                                   <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">CURRENCY</span><span class="p">,</span> <span class="s2">&quot;currency_symbol&quot;</span><span class="p">)</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;currency_symbol_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="n">name</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span> <span class="k">else</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;currency_symbols&quot;</span><span class="p">]</span>
+    <span class="p">]</span>
+    <span class="n">surrounding_text_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;.{0,&quot;</span>
+        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">left_chars</span><span class="p">)</span>
+        <span class="o">+</span> <span class="s2">&quot;}&quot;</span>
+        <span class="o">+</span> <span class="n">CURRENCY_RAW</span>
+        <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;.{0,&quot;</span>
+        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">right_chars</span><span class="p">)</span>
+        <span class="o">+</span> <span class="s2">&quot;}&quot;</span>
+    <span class="p">)</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;surrounding_text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">surrounding_text_regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span>
+    <span class="p">]</span>
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
@@ -880,9 +915,16 @@
 <span class="sd">    Get a summary of the number of exclamation marks, their frequency,</span>
 <span class="sd">    the top ones, as well the exclamations written/said.</span>
 
-<span class="sd">    :param list text_list: A list of text strings.</span>
-<span class="sd">    :returns summary: A dictionary with various stats about exclamations</span>
+<span class="sd">    text_list : list</span>
+<span class="sd">      A list of text strings.</span>
 
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    summary : dict</span>
+<span class="sd">      A dictionary with various stats about exclamations.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;Who are you!&#39;, &#39;What is this!&#39;, &#39;No exclamation here?&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; exclamation_summary = extract_exclamations(posts)</span>
 <span class="sd">    &gt;&gt;&gt; exclamation_summary.keys()</span>
@@ -970,12 +1012,11 @@
 <span class="sd">    &#39;exclamation_marks_per_post&#39;: 1.5,</span>
 <span class="sd">    &#39;unique_exclamation_marks&#39;: 4}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">EXCLAMATION_MARK</span><span class="p">,</span> <span class="n">key_name</span><span class="o">=</span><span class="s1">&#39;exclamation_mark&#39;</span><span class="p">)</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;exclamation_mark_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="n">name</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span>
-                                         <span class="k">else</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
-                                         <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;exclamation_marks&#39;</span><span class="p">]]</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;exclamation_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">EXCLAMATION</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-                                   <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">EXCLAMATION_MARK</span><span class="p">,</span> <span class="n">key_name</span><span class="o">=</span><span class="s2">&quot;exclamation_mark&quot;</span><span class="p">)</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;exclamation_mark_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="n">name</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span> <span class="k">else</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;exclamation_marks&quot;</span><span class="p">]</span>
+    <span class="p">]</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;exclamation_text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">EXCLAMATION</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
@@ -988,9 +1029,16 @@
 <span class="sd">    Get a summary of the number of hashtags, their frequency, the top</span>
 <span class="sd">    ones, and more.</span>
 
-<span class="sd">    :param list text_list: A list of text strings.</span>
-<span class="sd">    :returns summary: A dictionary with various stats about hashtags</span>
+<span class="sd">    text_list : list</span>
+<span class="sd">      A list of text strings.</span>
 
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    summary : dict</span>
+<span class="sd">      A dictionary with various stats about hashtags.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;i like #blue&#39;, &#39;i like #green and #blue&#39;, &#39;i like all&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; hashtag_summary = extract_hashtags(posts)</span>
 <span class="sd">    &gt;&gt;&gt; hashtag_summary.keys()</span>
@@ -1027,8 +1075,8 @@
 <span class="sd">     &#39;num_hashtags&#39;: 3,</span>
 <span class="sd">     &#39;hashtags_per_post&#39;: 1.0,</span>
 <span class="sd">     &#39;unique_hashtags&#39;: 2}</span>
-<span class="sd">     &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">HASHTAG</span><span class="p">,</span> <span class="s1">&#39;hashtag&#39;</span><span class="p">)</span></div>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">HASHTAG</span><span class="p">,</span> <span class="s2">&quot;hashtag&quot;</span><span class="p">)</span></div>
 
 
 
@@ -1041,17 +1089,23 @@
 <span class="sd">    words that have :attr:`min_reps` or more repetitions of characters.</span>
 <span class="sd">    &quot;I looooooveeee youuuuuuu&quot;, and &quot;I haaatttteeee youuuuuu&quot; are both intense.</span>
 
-<span class="sd">    :param list text_list: A text list from which to extract intense words</span>
-<span class="sd">    :param int min_reps: The number of times a character has to be repeated for</span>
-<span class="sd">                         the word to be considered intense.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text_list : list</span>
+<span class="sd">      A text list from which to extract intense words.</span>
+<span class="sd">    min_reps : int</span>
+<span class="sd">      The number of times a character has to be repeated for the word to be considered</span>
+<span class="sd">      intense.</span>
 
-<span class="sd">    :returns summary: A dictionary with various stats about intense words</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    summary : dict</span>
+<span class="sd">      A dictionary with various stats about intense words.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\S*)(\S)(</span><span class="si">{}</span><span class="s1">\S*)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">min_reps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="sa">r</span><span class="s1">&#39;\2&#39;</span><span class="p">))</span>
-    <span class="n">extracted</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)]</span>
-                 <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(\S*)(\S)(</span><span class="si">{}</span><span class="s2">\S*)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">min_reps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="sa">r</span><span class="s2">&quot;\2&quot;</span><span class="p">))</span>
+    <span class="n">extracted</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)]</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
 
-    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="s1">&#39;intense_word&#39;</span><span class="p">,</span> <span class="n">extracted</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="s2">&quot;intense_word&quot;</span><span class="p">,</span> <span class="n">extracted</span><span class="p">)</span></div>
 
 
 
@@ -1063,9 +1117,18 @@
 <span class="sd">    Get a summary of the number of mentions, their frequency, the top</span>
 <span class="sd">    ones, and more.</span>
 
-<span class="sd">    :param list text_list: A list of text strings.</span>
-<span class="sd">    :returns summary: A dictionary with various stats about mentions</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text_list : list</span>
+<span class="sd">      A list of text strings.</span>
 
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    summary : dict</span>
+<span class="sd">      A dictionary with various stats about mentions.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;hello @john and @jenny&#39;, &#39;hi there @john&#39;, &#39;good morning&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; mention_summary = extract_mentions(posts)</span>
 <span class="sd">    &gt;&gt;&gt; mention_summary.keys()</span>
@@ -1103,13 +1166,13 @@
 <span class="sd">     &#39;mentions_per_post&#39;: 1.0,</span>
 <span class="sd">     &#39;unique_mentions&#39;: 2}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">MENTION</span><span class="p">,</span> <span class="s1">&#39;mention&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">MENTION</span><span class="p">,</span> <span class="s2">&quot;mention&quot;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="extract_numbers">
 <a class="viewcode-back" href="../../advertools.extract.html#advertools.extract.extract_numbers">[docs]</a>
-<span class="k">def</span> <span class="nf">extract_numbers</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">number_separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">extract_numbers</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">number_separators</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a summary dictionary about numbers in ``text_list``, separated</span>
 <span class="sd">    by any of ``number_separators``</span>
 
@@ -1117,18 +1180,27 @@
 <span class="sd">    ones, and more. Typically, numbers would contain separators to make them</span>
 <span class="sd">    easier to read, so these are included by default, which you can modify.</span>
 
-<span class="sd">    :param list text_list: A list of text strings.</span>
-<span class="sd">    :param list(str) number_separators: A list of separators that you want</span>
-<span class="sd">        to be included as part of the extracted numbers.</span>
-<span class="sd">    :returns summary: A dictionary with various stats about the numbers</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text_list : list</span>
+<span class="sd">      A list of text strings.</span>
+<span class="sd">    number_separators : list</span>
+<span class="sd">      A list of separators that you want to be included as part of the extracted</span>
+<span class="sd">      numbers.</span>
 
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    summary : dict</span>
+<span class="sd">      A dictionary with various stats about the numbers.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;text before 123&#39;, &#39;123,456 text after&#39;, &#39;phone 333-444-555&#39;,</span>
 <span class="sd">    &#39;multiple 123,456 and 123.456.789&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; number_summary = extract_numbers(posts)</span>
 <span class="sd">    &gt;&gt;&gt; number_summary.keys()</span>
 <span class="sd">    dict_keys([&#39;numbers&#39;, &#39;numbers_flat&#39;, &#39;number_counts&#39;, &#39;number_freq&#39;,</span>
 <span class="sd">    &#39;top_numbers&#39;, &#39;overview&#39;])</span>
-
 
 <span class="sd">    &gt;&gt;&gt; number_summary[&#39;numbers&#39;]</span>
 <span class="sd">    [[&#39;123&#39;], [&#39;123,456&#39;], [&#39;333-444-555&#39;], [&#39;123,456&#39;, &#39;123.456.789&#39;]]</span>
@@ -1162,14 +1234,13 @@
 <span class="sd">     &#39;unique_numbers&#39;: 4}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">number_separators</span><span class="p">:</span>
-        <span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\d+&#39;</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\d+&quot;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s1">&#39;-&#39;</span> <span class="ow">in</span> <span class="n">number_separators</span><span class="p">:</span>
-            <span class="n">number_separators</span> <span class="o">=</span> <span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">number_separators</span> <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="s1">&#39;-&#39;</span><span class="p">]</span>
-                                 <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">])</span>
-        <span class="n">separators</span> <span class="o">=</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">number_separators</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span>
-        <span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;(?:(?:\d+&#39;</span> <span class="o">+</span> <span class="n">separators</span> <span class="o">+</span> <span class="s1">&#39;?)+)?&#39;</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\d+&#39;</span>
-    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="n">regex</span><span class="p">,</span> <span class="n">key_name</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">number_separators</span><span class="p">:</span>
+            <span class="n">number_separators</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">number_separators</span> <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="s2">&quot;-&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;-&quot;</span><span class="p">]</span>
+        <span class="n">separators</span> <span class="o">=</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">number_separators</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(?:(?:\d+&quot;</span> <span class="o">+</span> <span class="n">separators</span> <span class="o">+</span> <span class="s2">&quot;?)+)?&quot;</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\d+&quot;</span>
+    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="n">regex</span><span class="p">,</span> <span class="n">key_name</span><span class="o">=</span><span class="s2">&quot;number&quot;</span><span class="p">)</span></div>
 
 
 
@@ -1181,9 +1252,18 @@
 <span class="sd">    Get a summary of the number of question marks, their frequency,</span>
 <span class="sd">    the top ones, as well the questions asked.</span>
 
-<span class="sd">    :param list text_list: A list of text strings.</span>
-<span class="sd">    :returns summary: A dictionary with various stats about questions</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text_list : list</span>
+<span class="sd">      A list of text strings.</span>
 
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    summary : dict</span>
+<span class="sd">      A dictionary with various stats about questions.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;How are you?&#39;, &#39;What is this?&#39;, &#39;No question Here!&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; question_summary = extract_questions(posts)</span>
 <span class="sd">    &gt;&gt;&gt; question_summary.keys()</span>
@@ -1273,12 +1353,11 @@
 <span class="sd">    &#39;question_marks_per_post&#39;: 1.5,</span>
 <span class="sd">    &#39;unique_question_marks&#39;: 4}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">QUESTION_MARK</span><span class="p">,</span> <span class="n">key_name</span><span class="o">=</span><span class="s1">&#39;question_mark&#39;</span><span class="p">)</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;question_mark_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="n">name</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span>
-                                      <span class="k">else</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
-                                      <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;question_marks&#39;</span><span class="p">]]</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;question_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">QUESTION</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-                                <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">QUESTION_MARK</span><span class="p">,</span> <span class="n">key_name</span><span class="o">=</span><span class="s2">&quot;question_mark&quot;</span><span class="p">)</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;question_mark_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="n">name</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span> <span class="k">else</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;question_marks&quot;</span><span class="p">]</span>
+    <span class="p">]</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;question_text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">QUESTION</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
@@ -1292,9 +1371,18 @@
 <span class="sd">    ones, and more.</span>
 <span class="sd">    This does NOT validate URLs, www.a.b would count as a URL</span>
 
-<span class="sd">    :param list text_list: A list of text strings.</span>
-<span class="sd">    :returns summary: A dictionary with various stats about URLs</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text_list : list</span>
+<span class="sd">      A list of text strings.</span>
 
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    summary : dict</span>
+<span class="sd">      A dictionary with various stats about URLs.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;one link http://example.com&#39;, &#39;two: http://a.com www.b.com&#39;,</span>
 <span class="sd">    ...          &#39;no links here&#39;,</span>
 <span class="sd">    ...          &#39;long url http://example.com/one/two/?1=one&amp;2=two&#39;]</span>
@@ -1344,23 +1432,23 @@
 <span class="sd">     &#39;num_urls&#39;: 4,</span>
 <span class="sd">     &#39;urls_per_post&#39;: 1.0,</span>
 <span class="sd">     &#39;unique_urls&#39;: 4}</span>
-<span class="sd">     &quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">extracted</span> <span class="o">=</span> <span class="p">[</span><span class="n">URL</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">urllist</span> <span class="ow">in</span> <span class="n">extracted</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">urllist</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;www&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">url</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;ftp&#39;</span><span class="p">):</span>
-                <span class="n">urllist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;http://&#39;</span> <span class="o">+</span> <span class="n">url</span>
+            <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;www&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">url</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;ftp&quot;</span><span class="p">):</span>
+                <span class="n">urllist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">url</span>
     <span class="n">domains</span> <span class="o">=</span> <span class="p">[[</span><span class="n">urlparse</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">.</span><span class="n">netloc</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">extracted</span><span class="p">]</span>
     <span class="n">domains_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">domains</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
-    <span class="n">top_domains</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">domains_flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                         <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">tlds</span> <span class="o">=</span> <span class="p">[[</span><span class="n">d</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dom</span><span class="p">]</span> <span class="k">for</span> <span class="n">dom</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">]</span>
+    <span class="n">top_domains</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="n">Counter</span><span class="p">(</span><span class="n">domains_flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">tlds</span> <span class="o">=</span> <span class="p">[[</span><span class="n">d</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dom</span><span class="p">]</span> <span class="k">for</span> <span class="n">dom</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">]</span>
     <span class="n">tlds_flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">tlds</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
-    <span class="n">top_tlds</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">tlds_flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                      <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">URL</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="n">extracted</span><span class="p">)</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;top_domains&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_domains</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;top_tlds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_tlds</span>
+    <span class="n">top_tlds</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">tlds_flat</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">URL</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="n">extracted</span><span class="p">)</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;top_domains&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_domains</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;top_tlds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_tlds</span>
     <span class="k">return</span> <span class="n">summary</span></div>
 
 
@@ -1374,16 +1462,23 @@
 <span class="sd">    Get a summary of the number of words, their frequency, the top</span>
 <span class="sd">    ones, and more.</span>
 
-<span class="sd">    :param list text_list: A list of text strings.</span>
-<span class="sd">    :param list words_to_extract: A list of words to extract from</span>
-<span class="sd">                                  :attr:`text_list`.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text_list : list</span>
+<span class="sd">      A list of text strings.</span>
+<span class="sd">    words_to_extract : list</span>
+<span class="sd">      A list of words to extract from :attr:`text_list`.</span>
+<span class="sd">    entire_words_only : bool</span>
+<span class="sd">      Whether or not to find only complete words (as specified by :attr:`words_to_find`)</span>
+<span class="sd">      or find any any of the words as part of longer strings.</span>
 
-<span class="sd">    :param bool entire_words_only: Whether or not to find only complete words</span>
-<span class="sd">        (as specified by :attr:`words_to_find`) or find any any of the</span>
-<span class="sd">        words as part of longer strings.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    summary : dict</span>
+<span class="sd">      A dictionary with various stats about the words.</span>
 
-<span class="sd">    :returns summary: A dictionary with various stats about the words</span>
-
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; posts = [&#39;there is rain, it is raining&#39;, &#39;there is snow and rain&#39;,</span>
 <span class="sd">                 &#39;there is no rain, it is snowing&#39;, &#39;there is nothing&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; word_summary = extract_words(posts, [&#39;rain&#39;, &#39;snow&#39;], True)</span>
@@ -1464,13 +1559,13 @@
     <span class="n">words_to_extract</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words_to_extract</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">entire_words_only</span><span class="p">:</span>
-        <span class="n">regex</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;\b&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\b&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words_to_extract</span><span class="p">]</span>
-        <span class="n">word_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="p">),</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s2">&quot;\b&quot;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\b&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words_to_extract</span><span class="p">]</span>
+        <span class="n">word_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="p">),</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">regex</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;\S*&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\S*&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words_to_extract</span><span class="p">]</span>
-        <span class="n">word_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="p">),</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s2">&quot;\S*&quot;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\S*&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words_to_extract</span><span class="p">]</span>
+        <span class="n">word_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="p">),</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">word_regex</span><span class="p">,</span> <span class="s1">&#39;word&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">word_regex</span><span class="p">,</span> <span class="s2">&quot;word&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 

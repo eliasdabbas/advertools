@@ -169,7 +169,7 @@
 <span class="sd">Another interesting thing you might want to do is to provide a robots.txt URL,</span>
 <span class="sd">and set `recursive=False` to get all available sitemap index files.</span>
 
-<span class="sd">&gt;&gt;&gt; sitemap_to_df(&#39;https://example.com/robots.txt&#39;, recursive=False)</span>
+<span class="sd">&gt;&gt;&gt; sitemap_to_df(&quot;https://example.com/robots.txt&quot;, recursive=False)</span>
 
 <span class="sd">Let&#39;s now go through a quick example of what can be done with sitemaps. We can</span>
 <span class="sd">start by getting one of the BBC&#39;s sitemaps.</span>
@@ -184,7 +184,7 @@
 <span class="sd">    :class: thebe, thebe-init</span>
 
 <span class="sd">    import advertools as adv</span>
-<span class="sd">    </span>
+
 <span class="sd">    bbc_sitemap = adv.sitemap_to_df(&#39;https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml&#39;)</span>
 <span class="sd">    bbc_sitemap.head(10)</span>
 
@@ -211,7 +211,7 @@
 
 <span class="sd">    print(bbc_sitemap.shape)</span>
 <span class="sd">    print(bbc_sitemap.dtypes)</span>
-<span class="sd">    </span>
+
 <span class="sd">.. code-block::</span>
 
 <span class="sd">    (49999, 7)</span>
@@ -519,7 +519,7 @@
 <span class="sd">2954  https://www.wired.com/video/genres/transportation                                                               nan      nan                                                                                                                                                                                                                                     nan                                                                             nan                                                                                                                                                                                                                                                                                                                                         nan                                                                                                                    nan  nan                                            nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
 <span class="sd">====  ==============================================================================================================  =======  ======================================================================================================================================================================================================================================  ==============================================================================  ==========================================================================================================================================================================================================================================================================================================================================  ========================================================================================================  ================  =========================  =======================  =========  =======================================  ==================================  =================  ================================</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">concurrent</span> <span class="kn">import</span> <span class="n">futures</span>
@@ -690,12 +690,12 @@
     <span class="k">if</span> <span class="s2">&quot;lastmod&quot;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;lastmod&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;lastmod&quot;</span><span class="p">],</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">pass</span>
     <span class="k">if</span> <span class="s2">&quot;priority&quot;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;priority&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;priority&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">pass</span>
     <span class="k">if</span> <span class="n">resp_headers</span><span class="p">:</span>
         <span class="n">etag_lastmod</span> <span class="o">=</span> <span class="p">{</span>

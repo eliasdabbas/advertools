@@ -169,7 +169,7 @@
 <span class="sd">   &gt;&gt;&gt; import advertools as adv</span>
 <span class="sd">   &gt;&gt;&gt; adv.twitter.set_auth_params(**auth_params)</span>
 
-<span class="sd">In some cases, you might be required to add ``oauth_token`` and </span>
+<span class="sd">In some cases, you might be required to add ``oauth_token`` and</span>
 <span class="sd">``oauth_token_secret, which case you ``auth_params`` will look like this:</span>
 
 <span class="sd">.. code-block:: python</span>
@@ -212,23 +212,25 @@
     <span class="kn">from</span> <span class="nn">pandas.io.json</span> <span class="kn">import</span> <span class="n">json_normalize</span>
 
 
-<span class="n">TWITTER_LOG_FMT</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> | </span><span class="si">%(levelname)s</span><span class="s1"> | </span><span class="si">%(filename)s</span><span class="s1">:</span><span class="si">%(lineno)d</span><span class="s1"> &#39;</span>
-                   <span class="s1">&#39;| </span><span class="si">%(funcName)s</span><span class="s1"> | </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">TWITTER_LOG_FMT</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> | </span><span class="si">%(levelname)s</span><span class="s2"> | </span><span class="si">%(filename)s</span><span class="s2">:</span><span class="si">%(lineno)d</span><span class="s2"> &quot;</span>
+    <span class="s2">&quot;| </span><span class="si">%(funcName)s</span><span class="s2"> | </span><span class="si">%(message)s</span><span class="s2">&quot;</span>
+<span class="p">)</span>
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="n">TWITTER_LOG_FMT</span><span class="p">)</span>
 
 <span class="c1"># Functions that depend on &#39;previous_cursor&#39; and &#39;next_cursor&#39; to</span>
 <span class="c1"># navigate requests with a lot of data, request pagination basically.</span>
 <span class="n">CURSORED_FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;get_followers_ids&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_followers_list&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_friends_ids&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_friends_list&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_members&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_memberships&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_subscribers&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_subscriptions&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_retweeters_ids&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;show_owned_lists&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;get_followers_ids&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_followers_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_friends_ids&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_friends_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_members&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_memberships&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_subscribers&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_subscriptions&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_retweeters_ids&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;show_owned_lists&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -237,88 +239,93 @@
 <span class="c1"># that key, as opposed to other responses where you can easily</span>
 <span class="c1"># call DataFrame on them directly</span>
 <span class="n">SPECIAL_KEY_FUNCS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;search&#39;</span><span class="p">:</span> <span class="s1">&#39;statuses&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_followers_list&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_friends_list&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_members&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_subscribers&#39;</span><span class="p">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_memberships&#39;</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_subscriptions&#39;</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;show_owned_lists&#39;</span><span class="p">:</span> <span class="s1">&#39;lists&#39;</span><span class="p">,</span>
-
+    <span class="s2">&quot;search&quot;</span><span class="p">:</span> <span class="s2">&quot;statuses&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_followers_list&quot;</span><span class="p">:</span> <span class="s2">&quot;users&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_friends_list&quot;</span><span class="p">:</span> <span class="s2">&quot;users&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_members&quot;</span><span class="p">:</span> <span class="s2">&quot;users&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_subscribers&quot;</span><span class="p">:</span> <span class="s2">&quot;users&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_memberships&quot;</span><span class="p">:</span> <span class="s2">&quot;lists&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_subscriptions&quot;</span><span class="p">:</span> <span class="s2">&quot;lists&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;show_owned_lists&quot;</span><span class="p">:</span> <span class="s2">&quot;lists&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 
 <span class="c1"># Functions that contain an embedded ``user`` key, containing</span>
 <span class="c1"># 40+ attributes of the user tweeting, listed, retweeted, etc.</span>
 <span class="n">USER_DATA_EMBEDDED</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;get_favorites&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_home_timeline&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_memberships&#39;</span><span class="p">:</span> <span class="s1">&#39;list_&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_statuses&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_subscriptions&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_mentions_timeline&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_retweets&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;get_user_timeline&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;lookup_status&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;retweeted_of_me&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;search&#39;</span><span class="p">:</span> <span class="s1">&#39;tweet_&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;show_lists&#39;</span><span class="p">:</span> <span class="s1">&#39;list_&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;show_owned_lists&#39;</span><span class="p">:</span> <span class="s1">&#39;list_&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;get_favorites&quot;</span><span class="p">:</span> <span class="s2">&quot;tweet_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_home_timeline&quot;</span><span class="p">:</span> <span class="s2">&quot;tweet_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_memberships&quot;</span><span class="p">:</span> <span class="s2">&quot;list_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_statuses&quot;</span><span class="p">:</span> <span class="s2">&quot;tweet_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_subscriptions&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_mentions_timeline&quot;</span><span class="p">:</span> <span class="s2">&quot;tweet_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_retweets&quot;</span><span class="p">:</span> <span class="s2">&quot;tweet_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_user_timeline&quot;</span><span class="p">:</span> <span class="s2">&quot;tweet_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lookup_status&quot;</span><span class="p">:</span> <span class="s2">&quot;tweet_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;retweeted_of_me&quot;</span><span class="p">:</span> <span class="s2">&quot;tweet_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;search&quot;</span><span class="p">:</span> <span class="s2">&quot;tweet_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;show_lists&quot;</span><span class="p">:</span> <span class="s2">&quot;list_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;show_owned_lists&quot;</span><span class="p">:</span> <span class="s2">&quot;list_&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 
 <span class="n">DEFAULT_COUNTS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;get_favorites&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="s1">&#39;get_followers_ids&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
-    <span class="s1">&#39;get_followers_list&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="s1">&#39;get_friends_ids&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
-    <span class="s1">&#39;get_friends_list&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="s1">&#39;get_home_timeline&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_members&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_memberships&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_statuses&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_subscribers&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
-    <span class="s1">&#39;get_list_subscriptions&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
-    <span class="s1">&#39;get_mentions_timeline&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="s1">&#39;get_retweeters_ids&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s1">&#39;get_retweets&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s1">&#39;get_user_timeline&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="s1">&#39;lookup_status&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s1">&#39;lookup_user&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s1">&#39;retweeted_of_me&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s1">&#39;search&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s1">&#39;search_users&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
-    <span class="s1">&#39;show_lists&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s1">&#39;show_owned_lists&#39;</span><span class="p">:</span> <span class="mi">1000</span>
+    <span class="s2">&quot;get_favorites&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">&quot;get_followers_ids&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="s2">&quot;get_followers_list&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">&quot;get_friends_ids&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="s2">&quot;get_friends_list&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">&quot;get_home_timeline&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_members&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_memberships&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_statuses&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_subscribers&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="s2">&quot;get_list_subscriptions&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="s2">&quot;get_mentions_timeline&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">&quot;get_retweeters_ids&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;get_retweets&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;get_user_timeline&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">&quot;lookup_status&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;lookup_user&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;retweeted_of_me&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;search&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;search_users&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="s2">&quot;show_lists&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;show_owned_lists&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
 <span class="p">}</span>
 
 
 <span class="k">def</span> <span class="nf">_expand_entities</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s1">&#39;tweet_entities&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
-        <span class="n">colnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tweet_entities_&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mentions&#39;</span><span class="p">,</span> <span class="s1">&#39;hashtags&#39;</span><span class="p">,</span>
-                                                    <span class="s1">&#39;urls&#39;</span><span class="p">,</span> <span class="s1">&#39;symbols&#39;</span><span class="p">,</span>
-                                                    <span class="s1">&#39;media&#39;</span><span class="p">]]</span>
-        <span class="n">entities_df</span> <span class="o">=</span> <span class="n">json_normalize</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tweet_entities&#39;</span><span class="p">])</span>
-        <span class="n">mentions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;@&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;screen_name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span>
-                    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;user_mentions&#39;</span><span class="p">]]</span>
-        <span class="n">hashtags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span>
-                    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;hashtags&#39;</span><span class="p">]]</span>
-        <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;expanded_url&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span>
-                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;urls&#39;</span><span class="p">]]</span>
-        <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;$&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span>
-                   <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;symbols&#39;</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="s2">&quot;tweet_entities&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+        <span class="n">colnames</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;tweet_entities_&quot;</span> <span class="o">+</span> <span class="n">x</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;mentions&quot;</span><span class="p">,</span> <span class="s2">&quot;hashtags&quot;</span><span class="p">,</span> <span class="s2">&quot;urls&quot;</span><span class="p">,</span> <span class="s2">&quot;symbols&quot;</span><span class="p">,</span> <span class="s2">&quot;media&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="n">entities_df</span> <span class="o">=</span> <span class="n">json_normalize</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;tweet_entities&quot;</span><span class="p">])</span>
+        <span class="n">mentions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;@&quot;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;screen_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s2">&quot;user_mentions&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="n">hashtags</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;#&quot;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s2">&quot;hashtags&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;expanded_url&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s2">&quot;urls&quot;</span><span class="p">]]</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;$&quot;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s2">&quot;symbols&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
 
-        <span class="k">if</span> <span class="s1">&#39;media&#39;</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">:</span>
-            <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;media&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;media&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-            <span class="n">media</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;media_url&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span> <span class="k">if</span> <span class="n">y</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span>
-                     <span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s1">&#39;media&#39;</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="s2">&quot;media&quot;</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">:</span>
+            <span class="n">entities_df</span><span class="p">[</span><span class="s2">&quot;media&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entities_df</span><span class="p">[</span><span class="s2">&quot;media&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">media</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;media_url&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span> <span class="k">if</span> <span class="n">y</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="k">else</span> <span class="n">y</span>
+                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">entities_df</span><span class="p">[</span><span class="s2">&quot;media&quot;</span><span class="p">]</span>
+            <span class="p">]</span>
             <span class="n">entity_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">mentions</span><span class="p">,</span> <span class="n">hashtags</span><span class="p">,</span> <span class="n">urls</span><span class="p">,</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">media</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">entity_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">mentions</span><span class="p">,</span> <span class="n">hashtags</span><span class="p">,</span> <span class="n">urls</span><span class="p">,</span> <span class="n">symbols</span><span class="p">]</span>
-        <span class="n">col_idx</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s1">&#39;tweet_entities&#39;</span><span class="p">)</span>
+        <span class="n">col_idx</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s2">&quot;tweet_entities&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">entity_cols</span><span class="p">):</span>
-            <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">col_idx</span><span class="o">+</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">colnames</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">col</span><span class="p">)</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">col_idx</span> <span class="o">+</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">colnames</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">col</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span>
 
 
@@ -341,9 +348,9 @@
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">nonlocal</span> <span class="n">func</span>
 
-        <span class="n">twtr</span> <span class="o">=</span> <span class="n">Twython</span><span class="p">(</span><span class="o">**</span><span class="n">wrapper</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">())</span>
+        <span class="n">twtr</span> <span class="o">=</span> <span class="n">Twython</span><span class="p">(</span><span class="o">**</span><span class="n">wrapper</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">())</span>  <span class="c1"># noqa: F841</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="n">func</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;twtr.&#39;</span> <span class="o">+</span> <span class="n">fname</span><span class="p">)</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">&quot;twtr.&quot;</span> <span class="o">+</span> <span class="n">fname</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">count</span> <span class="o">=</span> <span class="n">DEFAULT_COUNTS</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span>
@@ -351,38 +358,50 @@
 
         <span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">counts</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">fname</span> <span class="o">==</span> <span class="s1">&#39;search&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">responses</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;statuses&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">fname</span> <span class="o">==</span> <span class="s2">&quot;search&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">responses</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;statuses&quot;</span><span class="p">]:</span>
                     <span class="k">break</span>
-                <span class="n">max_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_id</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;statuses&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">fname</span> <span class="o">!=</span> <span class="s1">&#39;search&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">fname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">CURSORED_FUNCTIONS</span><span class="p">):</span>
+                <span class="n">max_id</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="n">max_id</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span>
+                    <span class="k">else</span> <span class="p">(</span><span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;statuses&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">fname</span> <span class="o">!=</span> <span class="s2">&quot;search&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">fname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">CURSORED_FUNCTIONS</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">responses</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="k">break</span>
-                <span class="n">max_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_id</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">max_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_id</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">CURSORED_FUNCTIONS</span><span class="p">:</span>
-                <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;next_cursor&#39;</span><span class="p">]</span>
+                <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]</span>
                 <span class="n">max_id</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">kwargs_log</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
-            <span class="n">args_log</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39; | &#39;</span> <span class="o">+</span> <span class="s1">&#39;Requesting: &#39;</span> <span class="o">+</span>
-                         <span class="s1">&#39;count=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;, max_id=&#39;</span> <span class="o">+</span>
-                         <span class="nb">str</span><span class="p">(</span><span class="n">max_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="n">kwargs_log</span> <span class="o">+</span> <span class="n">args_log</span><span class="p">)</span>
+            <span class="n">kwargs_log</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">k</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+            <span class="n">args_log</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="n">msg</span><span class="o">=</span><span class="n">fname</span>
+                <span class="o">+</span> <span class="s2">&quot; | &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Requesting: &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;count=&quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">&quot;, max_id=&quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_id</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+                <span class="o">+</span> <span class="n">kwargs_log</span>
+                <span class="o">+</span> <span class="n">args_log</span>
+            <span class="p">)</span>
 
-            <span class="n">resp</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
-                        <span class="n">max_id</span><span class="o">=</span><span class="n">max_id</span><span class="p">,</span>
-                        <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span>
-                        <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="n">max_id</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># noqa: B026</span>
             <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s1">&#39;_ids&#39;</span> <span class="ow">in</span> <span class="n">fname</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;_ids&quot;</span> <span class="ow">in</span> <span class="n">fname</span><span class="p">:</span>
             <span class="n">finallist</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">responses</span><span class="p">:</span>
-                <span class="n">finallist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sublist</span><span class="p">[</span><span class="s1">&#39;ids&#39;</span><span class="p">])</span>
-            <span class="n">finaldict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;previous_cursor&#39;</span><span class="p">:</span> <span class="n">responses</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;previous_cursor&#39;</span><span class="p">],</span>
-                         <span class="s1">&#39;next_cursor&#39;</span><span class="p">:</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;next_cursor&#39;</span><span class="p">],</span>
-                         <span class="s1">&#39;ids&#39;</span><span class="p">:</span> <span class="n">finallist</span><span class="p">}</span>
+                <span class="n">finallist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sublist</span><span class="p">[</span><span class="s2">&quot;ids&quot;</span><span class="p">])</span>
+            <span class="n">finaldict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;previous_cursor&quot;</span><span class="p">:</span> <span class="n">responses</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;previous_cursor&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;next_cursor&quot;</span><span class="p">:</span> <span class="n">responses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="n">finallist</span><span class="p">,</span>
+            <span class="p">}</span>
             <span class="k">return</span> <span class="n">finaldict</span>
 
         <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
@@ -390,9 +409,13 @@
             <span class="k">if</span> <span class="n">SPECIAL_KEY_FUNCS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
                 <span class="n">resp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="n">SPECIAL_KEY_FUNCS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fname</span><span class="p">)])</span>
                 <span class="k">if</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">USER_DATA_EMBEDDED</span><span class="p">:</span>
-                    <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">USER_DATA_EMBEDDED</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span> <span class="o">+</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
-                    <span class="n">user_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp</span><span class="p">[</span><span class="n">SPECIAL_KEY_FUNCS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fname</span><span class="p">)]])</span>
-                    <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;user_&#39;</span> <span class="o">+</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+                    <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="n">USER_DATA_EMBEDDED</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span> <span class="o">+</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span>
+                    <span class="p">]</span>
+                    <span class="n">user_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp</span><span class="p">[</span><span class="n">SPECIAL_KEY_FUNCS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fname</span><span class="p">)]]</span>
+                    <span class="p">)</span>
+                    <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;user_&quot;</span> <span class="o">+</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
                     <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">resp_df</span><span class="p">,</span> <span class="n">user_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">temp_df</span> <span class="o">=</span> <span class="n">resp_df</span>
@@ -400,25 +423,30 @@
                 <span class="n">resp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">USER_DATA_EMBEDDED</span><span class="p">:</span>
-                    <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">USER_DATA_EMBEDDED</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
-                    <span class="n">user_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp</span><span class="p">])</span>
-                    <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;user_&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+                    <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="n">USER_DATA_EMBEDDED</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp_df</span><span class="o">.</span><span class="n">columns</span>
+                    <span class="p">]</span>
+                    <span class="n">user_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resp</span><span class="p">])</span>
+                    <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;user_&quot;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">user_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
                     <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">resp_df</span><span class="p">,</span> <span class="n">user_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">temp_df</span> <span class="o">=</span> <span class="n">resp_df</span>
             <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">final_df</span><span class="p">,</span> <span class="n">temp_df</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">final_df</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s1">&#39;created_at&#39;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;created_at&quot;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">:</span>
                 <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">final_df</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s1">&#39;source&#39;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">:</span>
-                <span class="n">final_df</span><span class="p">[</span><span class="n">col</span> <span class="o">+</span> <span class="s1">&#39;_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s1">&#39;&lt;a href=&quot;(.*)&quot; rel=&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;source&quot;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">:</span>
+                <span class="n">final_df</span><span class="p">[</span><span class="n">col</span> <span class="o">+</span> <span class="s2">&quot;_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span>
+                    <span class="s1">&#39;&lt;a href=&quot;(.*)&quot; rel=&#39;</span>
+                <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s1">&#39;nofollow&quot;&gt;(.*)&lt;/a&gt;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;tweet_entities&#39;</span> <span class="ow">in</span> <span class="n">final_df</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;tweet_entities&quot;</span> <span class="ow">in</span> <span class="n">final_df</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">_expand_entities</span><span class="p">(</span><span class="n">final_df</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">final_df</span>
+
     <span class="k">return</span> <span class="n">wrapper</span></div>
 
 
@@ -428,6 +456,7 @@
 <span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Used internally, please use set_auth_params for authentication.&quot;&quot;&quot;</span>
     <span class="n">auth_params</span> <span class="o">=</span> <span class="p">{}</span>
+
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -461,18 +490,21 @@
     <span class="n">twtr</span> <span class="o">=</span> <span class="n">Twython</span><span class="p">(</span><span class="o">**</span><span class="n">get_application_rate_limit_status</span><span class="o">.</span><span class="n">get_auth_params</span><span class="p">())</span>
     <span class="n">ratelimit</span> <span class="o">=</span> <span class="n">twtr</span><span class="o">.</span><span class="n">get_application_rate_limit_status</span><span class="p">()</span>
     <span class="n">limit_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">ratelimit</span><span class="p">[</span><span class="s1">&#39;resources&#39;</span><span class="p">]:</span>
-        <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ratelimit</span><span class="p">[</span><span class="s1">&#39;resources&#39;</span><span class="p">][</span><span class="n">resource</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">ratelimit</span><span class="p">[</span><span class="s2">&quot;resources&quot;</span><span class="p">]:</span>
+        <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ratelimit</span><span class="p">[</span><span class="s2">&quot;resources&quot;</span><span class="p">][</span><span class="n">resource</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
         <span class="n">limit_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">limit_df</span><span class="p">,</span> <span class="n">temp_df</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">limit_df</span><span class="p">[</span><span class="s1">&#39;reset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">limit_df</span><span class="p">[</span><span class="s1">&#39;reset&#39;</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
-    <span class="n">limit_df</span><span class="p">[</span><span class="s1">&#39;resource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">limit_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;endpoint&#39;</span>
-    <span class="n">limit_df</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;resource&#39;</span><span class="p">])</span>
+    <span class="n">limit_df</span><span class="p">[</span><span class="s2">&quot;reset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">limit_df</span><span class="p">[</span><span class="s2">&quot;reset&quot;</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+    <span class="n">limit_df</span><span class="p">[</span><span class="s2">&quot;resource&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">limit_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;endpoint&quot;</span>
+    <span class="n">limit_df</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;resource&quot;</span><span class="p">])</span>
     <span class="n">limit_df</span> <span class="o">=</span> <span class="n">limit_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">consumed_only</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">*</span><span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;Rate limit as of:&#39;</span><span class="p">,</span>
-              <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%-d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">limit_df</span><span class="p">[</span><span class="n">limit_df</span><span class="p">[</span><span class="s1">&#39;limit&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">ne</span><span class="p">(</span><span class="n">limit_df</span><span class="p">[</span><span class="s1">&#39;remaining&#39;</span><span class="p">])]</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">12</span><span class="p">,</span>
+            <span class="s2">&quot;Rate limit as of:&quot;</span><span class="p">,</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%-d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">limit_df</span><span class="p">[</span><span class="n">limit_df</span><span class="p">[</span><span class="s2">&quot;limit&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">ne</span><span class="p">(</span><span class="n">limit_df</span><span class="p">[</span><span class="s2">&quot;remaining&quot;</span><span class="p">])]</span>
     <span class="k">return</span> <span class="n">limit_df</span></div>
 
 
@@ -490,10 +522,10 @@
 
     <span class="n">available_trends</span> <span class="o">=</span> <span class="n">twtr</span><span class="o">.</span><span class="n">get_available_trends</span><span class="p">()</span>
     <span class="n">trends_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">available_trends</span><span class="p">)</span>
-    <span class="n">trends_df</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">trends_df</span><span class="p">[</span><span class="s1">&#39;placeType&#39;</span><span class="p">]]</span>
-    <span class="n">trends_df</span><span class="p">[</span><span class="s1">&#39;place_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">trends_df</span><span class="p">[</span><span class="s1">&#39;placeType&#39;</span><span class="p">]]</span>
-    <span class="k">del</span> <span class="n">trends_df</span><span class="p">[</span><span class="s1">&#39;placeType&#39;</span><span class="p">]</span>
-    <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;place_type&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">])</span>
+    <span class="n">trends_df</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">trends_df</span><span class="p">[</span><span class="s2">&quot;placeType&quot;</span><span class="p">]]</span>
+    <span class="n">trends_df</span><span class="p">[</span><span class="s2">&quot;place_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">trends_df</span><span class="p">[</span><span class="s2">&quot;placeType&quot;</span><span class="p">]]</span>
+    <span class="k">del</span> <span class="n">trends_df</span><span class="p">[</span><span class="s2">&quot;placeType&quot;</span><span class="p">]</span>
+    <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;place_type&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">])</span>
     <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">trends_df</span></div>
 
@@ -503,8 +535,15 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_favorites">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_favorites</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_favorites</span><span class="p">(</span>
+    <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the 20 most recent Tweets favorited by the authenticating</span>
 <span class="sd">        or specified user.</span>
@@ -537,8 +576,9 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_followers_ids">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_followers_ids</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_followers_ids</span><span class="p">(</span>
+    <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cursored collection of user IDs for every user</span>
 <span class="sd">        following the specified user.</span>
@@ -569,8 +609,14 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_followers_list">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_followers_list</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_followers_list</span><span class="p">(</span>
+    <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cursored collection of user objects for users</span>
 <span class="sd">        following the specified user.</span>
@@ -601,8 +647,9 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_friends_ids">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_friends_ids</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_friends_ids</span><span class="p">(</span>
+    <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stringify_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cursored collection of user IDs for every user the</span>
 <span class="sd">        specified user is following (otherwise known as their &quot;friends&quot;).</span>
@@ -633,8 +680,14 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_friends_list">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_friends_list</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                     <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_friends_list</span><span class="p">(</span>
+    <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cursored collection of user objects for every user the</span>
 <span class="sd">        specified user is following (otherwise known as their &quot;friends&quot;).</span>
@@ -664,8 +717,15 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_home_timeline">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_home_timeline</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">exclude_replies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_home_timeline</span><span class="p">(</span>
+    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">exclude_replies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a collection of the most recent Tweets and retweets</span>
 <span class="sd">        posted by the authenticating user and the users they follow.</span>
@@ -702,8 +762,16 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_members">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_list_members</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                     <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_list_members</span><span class="p">(</span>
+    <span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the members of the specified list.</span>
 
@@ -737,8 +805,9 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_memberships">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_list_memberships</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_to_owned_lists</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_list_memberships</span><span class="p">(</span>
+    <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_to_owned_lists</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the lists the specified user has been added to.</span>
 
@@ -768,9 +837,18 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_statuses">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_list_statuses</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">include_rts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_list_statuses</span><span class="p">(</span>
+    <span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_rts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a timeline of tweets authored by members of the specified list.</span>
 
@@ -813,8 +891,16 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_subscribers">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_list_subscribers</span><span class="p">(</span><span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_list_subscribers</span><span class="p">(</span>
+    <span class="n">list_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">owner_screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">owner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">skip_status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the subscribers of the specified list.</span>
 
@@ -851,8 +937,7 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_list_subscriptions">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_list_subscriptions</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                           <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_list_subscriptions</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Obtain a collection of the lists the specified user is subscribed to.</span>
 
@@ -879,8 +964,14 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_mentions_timeline">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_mentions_timeline</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_mentions_timeline</span><span class="p">(</span>
+    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the 20 most recent mentions (tweets containing a users&#39;s</span>
 <span class="sd">        @screen_name) for the authenticating user.</span>
@@ -916,10 +1007,10 @@
 <span class="sd">    Returns the top 10 trending topics for a specific WOEID, if</span>
 <span class="sd">        trending information is available for it.</span>
 
-<span class="sd">    :param id: (int or list of ints - required) run ``get_available_trends()`` for </span>
+<span class="sd">    :param id: (int or list of ints - required) run ``get_available_trends()`` for</span>
 <span class="sd">        the full listing.</span>
-<span class="sd">        The Yahoo! Where On Earth ID of the </span>
-<span class="sd">        location to return trending information for. Global information is available </span>
+<span class="sd">        The Yahoo! Where On Earth ID of the</span>
+<span class="sd">        location to return trending information for. Global information is available</span>
 <span class="sd">        by using 1 as the WOEID .</span>
 <span class="sd">    :param exclude: (str - optional) Setting this equal to hashtags will remove</span>
 <span class="sd">        all hashtags from the trends list.</span>
@@ -931,33 +1022,44 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">ids</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">place_id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
-
         <span class="n">place_trends</span> <span class="o">=</span> <span class="n">twtr</span><span class="o">.</span><span class="n">get_place_trends</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">place_id</span><span class="p">)</span>
-        <span class="n">trend_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;trends&#39;</span><span class="p">])</span>
-        <span class="n">trend_df</span> <span class="o">=</span> <span class="n">trend_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;tweet_volume&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">trend_df</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;locations&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-        <span class="n">trend_df</span><span class="p">[</span><span class="s1">&#39;woeid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;locations&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;woeid&#39;</span><span class="p">]</span>
-        <span class="n">trend_df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;created_at&#39;</span><span class="p">])</span>
+        <span class="n">trend_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;trends&quot;</span><span class="p">])</span>
+        <span class="n">trend_df</span> <span class="o">=</span> <span class="n">trend_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;tweet_volume&quot;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">trend_df</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;locations&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="n">trend_df</span><span class="p">[</span><span class="s2">&quot;woeid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;locations&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;woeid&quot;</span><span class="p">]</span>
+        <span class="n">trend_df</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">place_trends</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;created_at&quot;</span><span class="p">])</span>
 
         <span class="n">trends_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">trends_df</span><span class="p">,</span> <span class="n">trend_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;woeid&#39;</span><span class="p">,</span> <span class="s1">&#39;tweet_volume&#39;</span><span class="p">],</span>
-                                      <span class="n">ascending</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+    <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;woeid&quot;</span><span class="p">,</span> <span class="s2">&quot;tweet_volume&quot;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
+    <span class="p">)</span>
     <span class="n">trends_df</span> <span class="o">=</span> <span class="n">trends_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">available</span> <span class="o">=</span> <span class="n">get_available_trends</span><span class="p">()</span>
-    <span class="n">available</span> <span class="o">=</span> <span class="n">available</span><span class="p">[[</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;parentid&#39;</span><span class="p">,</span> <span class="s1">&#39;woeid&#39;</span><span class="p">,</span> <span class="s1">&#39;place_type&#39;</span><span class="p">]]</span>
-    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">trends_df</span><span class="p">,</span> <span class="n">available</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;woeid&#39;</span><span class="p">)</span>
-    <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;local_rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">final_df</span>
-                              <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;woeid&#39;</span><span class="p">)[</span><span class="s1">&#39;tweet_volume&#39;</span><span class="p">]</span>
-                              <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;dense&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-    <span class="n">final_df</span><span class="p">[</span><span class="s1">&#39;country_rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">final_df</span>
-                                <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;country&#39;</span><span class="p">)[</span><span class="s1">&#39;tweet_volume&#39;</span><span class="p">]</span>
-                                <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;dense&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-    <span class="n">final_df</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">,</span> <span class="s1">&#39;tweet_volume&#39;</span><span class="p">,</span> <span class="s1">&#39;local_rank&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;country_rank&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span><span class="s1">&#39;place_type&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;promoted_content&#39;</span><span class="p">,</span> <span class="s1">&#39;woeid&#39;</span><span class="p">,</span> <span class="s1">&#39;parentid&#39;</span><span class="p">]]</span>
+    <span class="n">available</span> <span class="o">=</span> <span class="n">available</span><span class="p">[[</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;parentid&quot;</span><span class="p">,</span> <span class="s2">&quot;woeid&quot;</span><span class="p">,</span> <span class="s2">&quot;place_type&quot;</span><span class="p">]]</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">trends_df</span><span class="p">,</span> <span class="n">available</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;woeid&quot;</span><span class="p">)</span>
+    <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;local_rank&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;woeid&quot;</span><span class="p">)[</span><span class="s2">&quot;tweet_volume&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;country_rank&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;country&quot;</span><span class="p">)[</span><span class="s2">&quot;tweet_volume&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;location&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tweet_volume&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;local_rank&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;country&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;country_rank&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;place_type&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;promoted_content&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;woeid&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;parentid&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">]</span>
     <span class="k">return</span> <span class="n">final_df</span></div>
-
 
 
 
@@ -1017,7 +1119,6 @@
 
 
 
-
 <div class="viewcode-block" id="get_supported_languages">
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_supported_languages">[docs]</a>
 <span class="nd">@authenticate</span>
@@ -1034,14 +1135,21 @@
 
 
 
-
 <div class="viewcode-block" id="get_user_timeline">
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.get_user_timeline">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">get_user_timeline</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_replies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">include_rts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_user_timeline</span><span class="p">(</span>
+    <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">exclude_replies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_rts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a collection of the most recent Tweets posted by the user</span>
 <span class="sd">        indicated by the ``screen_name`` or ``user_id`` parameters.</span>
@@ -1084,8 +1192,15 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.lookup_status">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">lookup_status</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">include_ext_alt_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_card_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">lookup_status</span><span class="p">(</span>
+    <span class="nb">id</span><span class="p">,</span>
+    <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_ext_alt_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_card_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns fully-hydrated tweet objects for up to 100 tweets per</span>
 <span class="sd">        request, as specified by comma-separated values passed to the ``id``</span>
@@ -1122,8 +1237,7 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.lookup_user">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">lookup_user</span><span class="p">(</span><span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">lookup_user</span><span class="p">(</span><span class="n">screen_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns fully-hydrated user objects for up to 100 users per request,</span>
 <span class="sd">        as specified by comma-separated values passed to the ``user_id`` and/or</span>
@@ -1151,8 +1265,15 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.retweeted_of_me">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">retweeted_of_me</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">retweeted_of_me</span><span class="p">(</span>
+    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">trim_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_user_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the most recent tweets authored by the authenticating user</span>
 <span class="sd">        that have been retweeted by others.</span>
@@ -1186,9 +1307,19 @@
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.search">[docs]</a>
 <span class="nd">@make_dataframe</span>
 <span class="nd">@authenticate</span>
-<span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">geocode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
+    <span class="n">q</span><span class="p">,</span>
+    <span class="n">geocode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">locale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">result_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">until</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tweet_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a collection of relevant Tweets matching a specified query.</span>
 
@@ -1296,7 +1427,7 @@
 <span class="sd">    +------------------------------------+-----------------------------------------------------+</span>
 
 <span class="sd">    https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
     <span class="k">pass</span></div>
 
 
@@ -1407,16 +1538,24 @@
 
 <div class="viewcode-block" id="set_auth_params">
 <a class="viewcode-back" href="../../advertools.twitter.html#advertools.twitter.set_auth_params">[docs]</a>
-<span class="k">def</span> <span class="nf">set_auth_params</span><span class="p">(</span><span class="n">app_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">oauth_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">oauth_token_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">token_type</span><span class="o">=</span><span class="s1">&#39;bearer&#39;</span><span class="p">,</span> <span class="n">oauth_version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="s1">&#39;1.1&#39;</span><span class="p">,</span>
-                    <span class="n">client_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth_endpoint</span><span class="o">=</span><span class="s1">&#39;authenticate&#39;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The main function for authentication. </span>
-<span class="sd">    Needs to be called once in a session. </span>
-<span class="sd">    </span>
+<span class="k">def</span> <span class="nf">set_auth_params</span><span class="p">(</span>
+    <span class="n">app_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">oauth_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">oauth_token_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">token_type</span><span class="o">=</span><span class="s2">&quot;bearer&quot;</span><span class="p">,</span>
+    <span class="n">oauth_version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">api_version</span><span class="o">=</span><span class="s2">&quot;1.1&quot;</span><span class="p">,</span>
+    <span class="n">client_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">auth_endpoint</span><span class="o">=</span><span class="s2">&quot;authenticate&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The main function for authentication.</span>
+<span class="sd">    Needs to be called once in a session.</span>
+
 <span class="sd">    First you need to create a developer account and app:</span>
-<span class="sd">    https://developer.twitter.com/ to get your credentials. </span>
-<span class="sd">    </span>
+<span class="sd">    https://developer.twitter.com/ to get your credentials.</span>
+
 <span class="sd">    Different ways to authenticate:</span>
 <span class="sd">    https://twython.readthedocs.io/en/latest/usage/starting_out.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1427,7 +1566,7 @@
 
 
 
-<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="s1">&#39;INFO&#39;</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
 </pre></div>
 
            </div>

@@ -907,7 +907,7 @@ def crawl(
     custom_settings=None,
 ):
     """
-    Crawl a website of a list of URLs based on the supplied options.
+    Crawl a website or a list of URLs based on the supplied options.
 
     Parameters
     ----------

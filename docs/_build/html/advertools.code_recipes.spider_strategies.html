@@ -292,9 +292,9 @@ downloading consecutive pages from the same website (in seconds).</p>
 <h2>I want to crawl a list of pages, follow links from those pages, but only to a certain specified depth<a class="headerlink" href="#i-want-to-crawl-a-list-of-pages-follow-links-from-those-pages-but-only-to-a-certain-specified-depth" title="Link to this heading"></a></h2>
 <p>Set the <code class="docutils literal notranslate"><span class="pre">DEPTH_LIMIT</span></code> setting in the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter. A setting
 of 1 would follow links one level after the provided URLs in <code class="docutils literal notranslate"><span class="pre">url_list</span></code></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span>
-<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
-<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;DEPTH_LIMIT&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span> <span class="c1"># follow links two levels from the initial URLs, then stop</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;http://example.com&quot;</span><span class="p">,</span> <span class="s2">&quot;example_crawl_1.jl&quot;</span><span class="p">,</span> <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;DEPTH_LIMIT&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>  <span class="c1"># follow links two levels from the initial URLs, then stop</span>
 </pre></div>
 </div>
 </section>
@@ -351,22 +351,23 @@ worry about those details.</p></li>
 <a class="reference external" href="https://user123:password123&#64;12.34.56.78:1114">https://user123:password123&#64;12.34.56.78:1114</a></p>
 <p>Then, you need to set a few <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> in the crawl function:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span>
-    <span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">follow_links</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-
+    <span class="s2">&quot;https://example.com&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span>
+    <span class="n">follow_links</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span>
-        <span class="s1">&#39;DOWNLOADER_MIDDLEWARES&#39;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s1">&#39;rotating_proxies.middlewares.RotatingProxyMiddleware&#39;</span><span class="p">:</span> <span class="mi">610</span><span class="p">,</span>
-            <span class="s1">&#39;rotating_proxies.middlewares.BanDetectionMiddleware&#39;</span><span class="p">:</span> <span class="mi">620</span>
+        <span class="s2">&quot;DOWNLOADER_MIDDLEWARES&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;rotating_proxies.middlewares.RotatingProxyMiddleware&quot;</span><span class="p">:</span> <span class="mi">610</span><span class="p">,</span>
+            <span class="s2">&quot;rotating_proxies.middlewares.BanDetectionMiddleware&quot;</span><span class="p">:</span> <span class="mi">620</span><span class="p">,</span>
         <span class="p">},</span>
-        <span class="s1">&#39;ROTATING_PROXY_LIST_PATH&#39;</span><span class="p">:</span> <span class="s1">&#39;proxies.txt&#39;</span><span class="p">,</span>
-    <span class="p">}</span>
+        <span class="s2">&quot;ROTATING_PROXY_LIST_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;proxies.txt&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p>You can then read the output file normally and see that the proxies are being
 used:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">crawldf</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s1">&#39;proxy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">crawldf</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">&quot;proxy&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 <table class="docutils align-default">
@@ -418,22 +419,22 @@ used:</p>
 <code class="docutils literal notranslate"><span class="pre">DEFAULT_REQUEST_HEADERS</span></code> setting as a dictionary to the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code>
 parameter:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span>
-    <span class="n">url_list</span><span class="o">=</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
-    <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;output.jl&#39;</span><span class="p">,</span>
+    <span class="n">url_list</span><span class="o">=</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">,</span>
+    <span class="n">output_file</span><span class="o">=</span><span class="s2">&quot;output.jl&quot;</span><span class="p">,</span>
     <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span>
-        <span class="s1">&#39;DEFAULT_REQUEST_HEADERS&#39;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s1">&#39;Accept-Language&#39;</span><span class="p">:</span> <span class="s1">&#39;es&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;Accept-Encoding&#39;</span><span class="p">:</span> <span class="s1">&#39;gzip, deflate&#39;</span>
+        <span class="s2">&quot;DEFAULT_REQUEST_HEADERS&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Accept-Language&quot;</span><span class="p">:</span> <span class="s2">&quot;es&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Accept-Encoding&quot;</span><span class="p">:</span> <span class="s2">&quot;gzip, deflate&quot;</span><span class="p">,</span>
         <span class="p">}</span>
-    <span class="p">}</span>
+    <span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p>You can easily check for the actual request headers that were used while
 crawling. In the crawl DataFrame, simply use the regex pattern
 <code class="docutils literal notranslate"><span class="pre">request_headers_</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">crawldf</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s1">&#39;request_headers_&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;output.jl&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">crawldf</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">&quot;request_headers_&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils align-default">
