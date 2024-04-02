@@ -89,7 +89,7 @@ to it.
 
 For example if you run
 
->>> knowledge_graph(key=key, query=['google', 'bing'], languages=['en', 'fr', 'de'])
+>>> knowledge_graph(key=key, query=["google", "bing"], languages=["en", "fr", "de"])
 
 The function will send 2 (queries) x 3 languages = 6 requests.
 
@@ -101,9 +101,13 @@ want a large sample to evaluate certain keywords across languages or types.
 Let's check what "seo" and "search engine optimization" mean in different
 languages.
 
->>> seo = knowledge_graph(key=key, query=['seo', 'search engine optimization'], languages=['en', 'es', 'de'])
+>>> seo = knowledge_graph(
+...     key=key,
+...     query=["seo", "search engine optimization"],
+...     languages=["en", "es", "de"],
+... )
 >>> seo
-	query	                        languages	resultScore	    result.name	                     result.@type	                                   result.description
+        query	                        languages	resultScore	    result.name	                     result.@type	                                   result.description
 0	search engine optimization	de      	       3587	    Suchmaschinenoptimierung	         ['Thing']                                         nan
 1	search engine optimization	de      	        321	    Lokale Suchmaschinenoptimierung	 ['Thing']                                         nan
 2	search engine optimization	de      	        252	    Suchmaschinenmarketing	         ['Thing']                                         nan
@@ -132,7 +136,7 @@ Index(['query', 'languages', 'resultScore', '@type', 'result.name',
 It's interesting to see how the same word can mean different things in
 different contexts.
 
-"""
+"""  # noqa: E501
 
 import logging
 from concurrent import futures
@@ -142,41 +146,51 @@ import requests
 
 from advertools.serp import _dict_product
 
-param_regex = '^query$|^ids$|^languages$|^types$|^prefix$|^limit$'
+param_regex = "^query$|^ids$|^languages$|^types$|^prefix$|^limit$"
 
-def knowledge_graph(key, query=None, ids=None, languages=None, types=None,
-                    prefix=None, limit=None):
+
+def knowledge_graph(
+    key, query=None, ids=None, languages=None, types=None, prefix=None, limit=None
+):
     """Query Google's Knowledge Graph with any combination of parameters.
 
     Note that Google's documentation states that "This API is not suitable for
     use as a production-critical service." So please keep this in mind.
 
-    :param string key: Your Google developer key.
-    :param string query: A literal string to search for in the Knowledge Graph.
-    :param string ids: A list of entity IDs to search for in the Knowledge
-                       Graph.
-    :param string languages: The list of language codes (defined in ISO 639) to
-                             run the query with, for instance `en`.
-    :param string types: Restricts returned entities to those of the specified
-                         types. For example,  you can specify `Person` (as
-                         defined in http://schema.org/Person)  to restrict the
-                         results to entities representing people. If multiple
-                         types are specified,  returned entities will contain
-                         one or more of these types.
-    :param boolean prefix: Enables prefix (initial substring) match against
-                           names and aliases of  entities. For example, a
-                           prefix `Jung` will match entities and aliases such
-                           as `Jung`, `Jungle`, and `Jung-ho Kang`.
-    :param number limit: Limits the number of entities to be returned. Maximum
-                         is 500. Default is 20.  Requests with high limits have
-                         a higher chance of timing out.
+    Parameters
+    ----------
+    key : str
+      Your Google developer key.
+    query : str
+      A literal string to search for in the Knowledge Graph.
+    ids : list
+      A list of entity IDs to search for in the Knowledge Graph.
+    languages : list
+      The list of language codes (defined in ISO 639) to run the query with, for
+      instance `en`.
+    types : str
+      Restricts returned entities to those of the specified types. For example,  you can
+      specify `Person` (as defined in http://schema.org/Person)  to restrict the results
+      to entities representing people. If multiple types are specified,  returned
+      entities will contain one or more of these types.
+    prefix : bool
+      Enables prefix (initial substring) match against names and aliases of  entities.
+      For example, a prefix `Jung` will match entities and aliases such as `Jung`,
+      `Jungle`, and `Jung-ho Kang`.
+    limit : int
+      Limits the number of entities to be returned. Maximum is 500. Default is 20.
+      Requests with high limits have a higher chance of timing out.
+
+    Returns
+    -------
+    kg_df : pandas.DataFrame
+      A DataFrame of all responses.
 
     https://developers.google.com/knowledge-graph/reference/rest/v1
     """
     params = locals()
-    base_url = 'https://kgsearch.googleapis.com/v1/entities:search?'
-    supplied_params = {k: v for k, v in params.items()
-                       if params[k] is not None}
+    base_url = "https://kgsearch.googleapis.com/v1/entities:search?"
+    supplied_params = {k: v for k, v in params.items() if params[k] is not None}
     for p in supplied_params:
         if isinstance(supplied_params[p], (str, int)):
             supplied_params[p] = [supplied_params[p]]
@@ -187,20 +201,23 @@ def knowledge_graph(key, query=None, ids=None, languages=None, types=None,
     def single_request(param):
         nonlocal result_df
         resp = requests.get(base_url, params=param)
-        param_log = ', '.join([k + '=' + str(v) for k, v in param.items()])
-        logging.info(msg='Requesting: ' + param_log)
-        df = pd.json_normalize(resp.json(), record_path='itemListElement')
-        del param['key']
-        param_columns = {k: [v] if df.empty else v
-                         for k, v in param.items()}
+        param_log = ", ".join([k + "=" + str(v) for k, v in param.items()])
+        logging.info(msg="Requesting: " + param_log)
+        df = pd.json_normalize(resp.json(), record_path="itemListElement")
+        del param["key"]
+        param_columns = {k: [v] if df.empty else v for k, v in param.items()}
         df = df.assign(**param_columns)
         result_df = pd.concat([result_df, df], ignore_index=True)
 
     with futures.ThreadPoolExecutor(max_workers=16) as executor:
         executor.map(single_request, params_list)
 
-    reordered_df = pd.concat([result_df.filter(regex=param_regex),
-                              result_df.filter(regex=f'^(?!{param_regex})')],
-                             axis=1)
-    reordered_df['query_time'] = pd.Timestamp.utcnow()
+    reordered_df = pd.concat(
+        [
+            result_df.filter(regex=param_regex),
+            result_df.filter(regex=f"^(?!{param_regex})"),
+        ],
+        axis=1,
+    )
+    reordered_df["query_time"] = pd.Timestamp.utcnow()
     return reordered_df
