@@ -181,9 +181,9 @@ I want to crawl a list of pages, follow links from those pages, but only to a ce
 Set the ``DEPTH_LIMIT`` setting in the ``custom_settings`` parameter. A setting
 of 1 would follow links one level after the provided URLs in ``url_list``
 
-    >>> adv.crawl('http://example.com',
-    ...           'example_crawl_1.jl',
-    ...           custom_settings={'DEPTH_LIMIT': 2}) # follow links two levels from the initial URLs, then stop
+    >>> adv.crawl(
+    ...     "http://example.com", "example_crawl_1.jl", custom_settings={"DEPTH_LIMIT": 2}
+    ... )  # follow links two levels from the initial URLs, then stop
 
 How do I pause/resume crawling, while making sure I don't crawl the same page twice?
 ************************************************************************************
@@ -253,15 +253,16 @@ Then, you need to set a few ``custom_settings`` in the crawl function:
 .. code-block:: python
 
     adv.crawl(
-        'https://example.com', 'output_file.jl', follow_links=True,
-
+        "https://example.com",
+        "output_file.jl",
+        follow_links=True,
         custom_settings={
-            'DOWNLOADER_MIDDLEWARES': {
-                'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
-                'rotating_proxies.middlewares.BanDetectionMiddleware': 620
+            "DOWNLOADER_MIDDLEWARES": {
+                "rotating_proxies.middlewares.RotatingProxyMiddleware": 610,
+                "rotating_proxies.middlewares.BanDetectionMiddleware": 620,
             },
-            'ROTATING_PROXY_LIST_PATH': 'proxies.txt',
-        }
+            "ROTATING_PROXY_LIST_PATH": "proxies.txt",
+        },
     )
 
 You can then read the output file normally and see that the proxies are being
@@ -270,8 +271,8 @@ used:
 
 .. code-block:: python
 
-    crawldf = pd.read_json('output_file.jl', lines=True)
-    crawldf.filter(regex='proxy').head()
+    crawldf = pd.read_json("output_file.jl", lines=True)
+    crawldf.filter(regex="proxy").head()
 
 
 ====  ============================  =================  =====================================  ===================
@@ -294,14 +295,14 @@ parameter:
 .. code-block:: python
 
     adv.crawl(
-        url_list='https://example.com',
-        output_file='output.jl',
+        url_list="https://example.com",
+        output_file="output.jl",
         custom_settings={
-            'DEFAULT_REQUEST_HEADERS': {
-                'Accept-Language': 'es',
-                'Accept-Encoding': 'gzip, deflate'
+            "DEFAULT_REQUEST_HEADERS": {
+                "Accept-Language": "es",
+                "Accept-Encoding": "gzip, deflate",
             }
-        }
+        },
     )
 
 You can easily check for the actual request headers that were used while
@@ -310,8 +311,8 @@ crawling. In the crawl DataFrame, simply use the regex pattern
 
 .. code-block:: python
 
-    crawldf = pd.read_json('output.jl', lines=True)
-    crawldf.filter(regex='request_headers_')
+    crawldf = pd.read_json("output.jl", lines=True)
+    crawldf.filter(regex="request_headers_")
 
 ====  =================================  =================================  ============================
   ..  request_headers_accept-language    request_headers_accept-encoding    request_headers_user-agent
@@ -365,4 +366,4 @@ False                 script_src           //script//@src                       
 False                 canonical_parent     name(//link[@rel='canonical']/..)                                  Get the name of the parent of the link element that has a rel attribute 'canonical'
 ====================  ===================  =================================================================  ===============================================================================================================
 
-"""
+"""  # noqa: E501
