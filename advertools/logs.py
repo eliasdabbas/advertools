@@ -19,12 +19,14 @@ TL;DR
 
 >>> import advertools as adv
 >>> import pandas as pd
->>> adv.logs_to_df(log_file='access.log',
-...                output_file='access_logs.parquet',
-...                errors_file='log_errors.csv',
-...                log_format='common',
-...                fields=None)
->>> logs_df = pd.read_parquet('access_logs.parquet')
+>>> adv.logs_to_df(
+...     log_file="access.log",
+...     output_file="access_logs.parquet",
+...     errors_file="log_errors.csv",
+...     log_format="common",
+...     fields=None,
+... )
+>>> logs_df = pd.read_parquet("access_logs.parquet")
 
 How to run the :func:`logs_to_df` function:
 -------------------------------------------
@@ -80,7 +82,7 @@ the plan:
    easily add a ``hostname`` column to the original DataFrame.
 4. Parse and split URL columns into their respective components. Typically we
    have ``request`` which is the resource/URL requested, as well as ``referer``
-   , which shows us where the request was referred from. Function used: 
+   , which shows us where the request was referred from. Function used:
    :ref:`url_to_df <urlytics>`.
 5. Parse user agents if available. This allows us to analyze by user-agent
    family, operating system, bot/non-bot, version, and any other combination we
@@ -367,7 +369,7 @@ Now, you can use the :func:`crawllogs_to_df` function to open the logs in a
 DataFrame:
 
 >>> import advertools as adv
->>> logs_df = adv.crawllogs_to_df('example.log')
+>>> logs_df = adv.crawllogs_to_df("example.log")
 
 
 The DataFrame might contain the following columns:
@@ -391,21 +393,22 @@ The DataFrame might contain the following columns:
 * `redirect_from`: The URL redirected from.
 * `blocked_urls`: The URLs that were not crawled due to robots.txt rules.
 
-"""
+"""  # noqa: E501
+
 import os
 import re
 from pathlib import Path
-from tempfile import TemporaryDirectory, TemporaryFile
+from tempfile import TemporaryDirectory
 
 import numpy as np
 import pandas as pd
 
 LOG_FORMATS = {
-    "common": r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
-    "combined": r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"\s*$',
-    "common_with_vhost": r'^(?P<vhost>\S+) (?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',
-    "nginx_error": r"^(?P<datetime>\d{4}/\d\d/\d\d \d\d:\d\d:\d\d) \[(?P<level>[^\]]+)\] (?P<pid>\d+)#(?P<tid>\d+): (?P<counter>\*\d+ | )?(?P<message>.*)",
-    "apache_error": r"^(?P<datetime>\[[^\]]+\]) (?P<level>\[[^\]]+\]) \[pid (?P<pid>\d+)\] (?P<file>\S+):(?P<status> \S+| ):? \[client (?P<client>\S+)\] (?P<message>.*)",
+    "common": r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',  # noqa: E501
+    "combined": r'^(?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-) "(?P<referrer>[^"]*)" "(?P<useragent>[^"]*)"\s*$',  # noqa: E501
+    "common_with_vhost": r'^(?P<vhost>\S+) (?P<client>\S+) \S+ (?P<userid>\S+) \[(?P<datetime>[^\]]+)\] "(?P<method>[A-Z]+) (?P<request>[^ "]+)? HTTP/[0-9.]+" (?P<status>[0-9]{3}) (?P<size>[0-9]+|-)$',  # noqa: E501
+    "nginx_error": r"^(?P<datetime>\d{4}/\d\d/\d\d \d\d:\d\d:\d\d) \[(?P<level>[^\]]+)\] (?P<pid>\d+)#(?P<tid>\d+): (?P<counter>\*\d+ | )?(?P<message>.*)",  # noqa: E501
+    "apache_error": r"^(?P<datetime>\[[^\]]+\]) (?P<level>\[[^\]]+\]) \[pid (?P<pid>\d+)\] (?P<file>\S+):(?P<status> \S+| ):? \[client (?P<client>\S+)\] (?P<message>.*)",  # noqa: E501
 }
 
 LOG_FIELDS = {
@@ -463,33 +466,39 @@ def logs_to_df(
     used. Check out ``adv.LOG_FORMATS`` and ``adv.LOG_FIELDS`` for the
     available formats and fields.
 
+    Parameters
+    ----------
+    log_file : str
+      The path to the log file.
+    output_file : str
+      The path to the desired output file. Must have a ".parquet" extension, and must
+      not have the same path as an existing file.
+    errors_file : str
+      The path where the parsing errors are stored. Any text format works, CSV is
+      recommended to easily open it with any CSV reader with the separator as "@@".
+    log_format : str
+      The name of one of the supported log formats, or a regex of your own format.
+    fields : list
+      A list of fields, which will become the names of columns in ``output_file``. Only
+      required if you provide a custom (regex) ``log_format``.
+    encoding : str
+      The encoding of the log file. It defaults to utf-8, but you might need to try
+      others in case of errors (latin-1, utf-16, etc.)
+
+    Examples
+    --------
     >>> import advertools as adv
     >>> import pandas as pd
-    >>> adv.logs_to_df(log_file='access.log',
-    ...                output_file='access_logs.parquet',
-    ...                errors_file='log_errors.csv',
-    ...                log_format='common',
-    ...                fields=None)
-    >>> logs_df = pd.read_parquet('access_logs.parquet')
+    >>> adv.logs_to_df(
+    ...     log_file="access.log",
+    ...     output_file="access_logs.parquet",
+    ...     errors_file="log_errors.csv",
+    ...     log_format="common",
+    ...     fields=None,
+    ... )
+    >>> logs_df = pd.read_parquet("access_logs.parquet")
 
     You can now analyze ``logs_df`` as a normal pandas DataFrame.
-
-    :param str log_file: The path to the log file.
-    :param str output_file: The path to the desired output file. Must have a
-                            ".parquet" extension, and must not have the same
-                            path as an existing file.
-    :param str errors_file: The path where the parsing errors are stored. Any
-                            text format works, CSV is recommended to easily
-                            open it with any CSV reader with the separator as
-                            "@@".
-    :param str log_format: Either the name of one of the supported log formats,
-                           or a regex of your own format.
-    :param str fields: A list of fields, which will become the names of columns
-                       in ``output_file``. Only required if you provide a
-                       custom (regex) ``log_format``.
-    :param str encoding: The encoding of the log file. It defaults to utf-8, but
-                         you might need to try others in case of errors
-                         (latin-1, utf-16, etc.)
     """
     if not output_file.endswith(".parquet"):
         raise ValueError(
@@ -557,7 +566,7 @@ def crawllogs_to_df(logs_file_path):
                   output_file='example.jl',
                   follow_links=True,
                   custom_settings={'LOG_FILE': 'example.log'})
-    >>> logs_df = adv.crawl_logs_to_df('example.log')
+    >>> logs_df = adv.crawl_logs_to_df("example.log")
 
 
     :param str logs_file_path: The path to the logs file.
