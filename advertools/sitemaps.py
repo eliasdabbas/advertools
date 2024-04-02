@@ -48,7 +48,7 @@ This behavior can be modified by the ``recursive`` parameter, which is set to
 Another interesting thing you might want to do is to provide a robots.txt URL,
 and set `recursive=False` to get all available sitemap index files.
 
->>> sitemap_to_df('https://example.com/robots.txt', recursive=False)
+>>> sitemap_to_df("https://example.com/robots.txt", recursive=False)
 
 Let's now go through a quick example of what can be done with sitemaps. We can
 start by getting one of the BBC's sitemaps.
@@ -63,7 +63,7 @@ Regular XML Sitemaps
     :class: thebe, thebe-init
 
     import advertools as adv
-    
+
     bbc_sitemap = adv.sitemap_to_df('https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml')
     bbc_sitemap.head(10)
 
@@ -90,7 +90,7 @@ Regular XML Sitemaps
 
     print(bbc_sitemap.shape)
     print(bbc_sitemap.dtypes)
-    
+
 .. code-block::
 
     (49999, 7)
@@ -398,7 +398,7 @@ Video Sitemaps
 2954  https://www.wired.com/video/genres/transportation                                                               nan      nan                                                                                                                                                                                                                                     nan                                                                             nan                                                                                                                                                                                                                                                                                                                                         nan                                                                                                                    nan  nan                                            nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00
 ====  ==============================================================================================================  =======  ======================================================================================================================================================================================================================================  ==============================================================================  ==========================================================================================================================================================================================================================================================================================================================================  ========================================================================================================  ================  =========================  =======================  =========  =======================================  ==================================  =================  ================================
 
-"""
+"""  # noqa: E501
 
 import logging
 from concurrent import futures
@@ -567,12 +567,12 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
     if "lastmod" in sitemap_df:
         try:
             sitemap_df["lastmod"] = pd.to_datetime(sitemap_df["lastmod"], utc=True)
-        except Exception as e:
+        except Exception:
             pass
     if "priority" in sitemap_df:
         try:
             sitemap_df["priority"] = sitemap_df["priority"].astype(float)
-        except Exception as e:
+        except Exception:
             pass
     if resp_headers:
         etag_lastmod = {
