@@ -152,7 +152,7 @@ columns:
 ====  ==================================================================  ========  =======  ============  ==================  ================
 
 Here each redirect is represented using a group of columns, as well as
-a group of rows. Columns show attributes of a redirect (status code, the order of the 
+a group of rows. Columns show attributes of a redirect (status code, the order of the
 URL in the redirect, the type of the URL in the redirect context, download latency in
 seconds, and the number of redirects in this specific process).
 Since a redirect contains multiple URLs, each one of those URLs is represented on its
@@ -349,7 +349,9 @@ def redirects(crawldf):
             (
                 "requested"
                 if o == min(order)
-                else "crawled" if o == max(order) else "intermediate"
+                else "crawled"
+                if o == max(order)
+                else "intermediate"
             )
             for o in order
         ]
