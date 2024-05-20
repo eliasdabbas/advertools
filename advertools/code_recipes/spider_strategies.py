@@ -453,6 +453,26 @@ Xbox One                                                  Mozilla/5.0 (Windows P
 Xbox One S                                                Mozilla/5.0 (Windows NT 10.0; Win64; x64; XBOX_ONE_ED) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393
 Xbox Series X                                             Mozilla/5.0 (Windows NT 10.0; Win64; x64; Xbox; Xbox Series X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.82 Safari/537.36 Edge/20.02
 Yahoo! bot                                                Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)
+Googlebot Smartphone                                      Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+Googlebot Desktop                                         Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Chrome/W.X.Y.Z Safari/537.36
+Googlebot-Image                                           Googlebot-Image/1.0
+Googlebot-News                                            Googlebot-News
+Googlebot-Video                                           Googlebot-Video/1.0
+Storebot-Google Desktop                                   Mozilla/5.0 (X11; Linux x86_64; Storebot-Google/1.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Safari/537.36
+Storebot-Google Smartphone                                Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012; Storebot-Google/1.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36
+Google-InspectionTool Mobile                              Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 (compatible; Google-InspectionTool/1.0;)
+Google-InspectionTool Desktop                             Mozilla/5.0 (compatible; Google-InspectionTool/1.0;)
+GoogleOther                                               Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 (compatible; GoogleOther)
+GoogleOther-Image                                         GoogleOther-Image/1.0
+GoogleOther-Video                                         GoogleOther-Video/1.0
+APIs-Google                                               APIs-Google (+https://developers.google.com/webmasters/APIs-Google.html)
+AdsBot-Google-Mobile                                      Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 (compatible; AdsBot-Google-Mobile; +http://www.google.com/mobile/adsbot.html)
+AdsBot-Google                                             AdsBot-Google (+http://www.google.com/adsbot.html)
+Mediapartners-Google                                      Mediapartners-Google
+Google-Safety                                             Google-Safety
+FeedFetcher-Google                                        FeedFetcher-Google; (+http://www.google.com/feedfetcher.html)
+Google Publisher Center                                   GoogleProducer; (+http://goo.gl/7y4SX)
+Google Site Verifier                                      Mozilla/5.0 (compatible; Google-Site-Verification/1.0)
 ========================================================  =========================================================================================================================================================================
 
 """  # noqa: E501
