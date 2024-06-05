@@ -412,10 +412,10 @@ from advertools import __version__ as version
 
 logging.basicConfig(level=logging.INFO)
 
-headers = {"User-Agent": "advertools-" + version}
+DEFAULT_HEADERS = {"User-Agent": "advertools-" + version}
 
 
-def _sitemaps_from_robotstxt(robots_url):
+def _sitemaps_from_robotstxt(robots_url, headers):
     sitemaps = []
     robots_page = urlopen(Request(robots_url, headers=headers))
     for line in robots_page.readlines():
@@ -452,7 +452,7 @@ def _parse_sitemap(root):
     return pd.DataFrame(d.values())
 
 
-def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
+def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, user_agent=None):
     """
     Retrieve all URLs and other available tags of a sitemap(s) and put them in
     a DataFrame.
@@ -475,27 +475,33 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
                            case you want to explore what sitemaps are available
                            after which you can decide which ones you are
                            interested in.
+    :param str user_agent: Provide a custom User-Agent string when retrieving
+                           the sitemaps from the given URL. This can be used to
+                           prevent 403 Forbidden errors.
     :return sitemap_df: A pandas DataFrame containing all URLs, as well as
                         other tags if available (``lastmod``, ``changefreq``,
                         ``priority``, or others found in news, video, or image
                         sitemaps).
     """
+    headers = DEFAULT_HEADERS.copy()
+    if user_agent:
+        headers["User-Agent"] = user_agent
+
     if sitemap_url.endswith("robots.txt"):
         return pd.concat(
             [
                 sitemap_to_df(sitemap, recursive=recursive)
-                for sitemap in _sitemaps_from_robotstxt(sitemap_url)
+                for sitemap in _sitemaps_from_robotstxt(sitemap_url, headers)
             ],
             ignore_index=True,
         )
+
     if sitemap_url.endswith("xml.gz"):
+        headers["Accept-Encoding"] = "gzip"
         xml_text = urlopen(
             Request(
                 sitemap_url,
-                headers={
-                    "Accept-Encoding": "gzip",
-                    "User-Agent": "advertools-" + version,
-                },
+                headers=headers,
             )
         )
         try:
