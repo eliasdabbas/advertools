@@ -412,12 +412,12 @@ from advertools import __version__ as version
 
 logging.basicConfig(level=logging.INFO)
 
-DEFAULT_HEADERS = {"User-Agent": "advertools-" + version}
+headers = {"User-Agent": "advertools-" + version}
 
 
-def _sitemaps_from_robotstxt(robots_url, headers):
+def _sitemaps_from_robotstxt(robots_url, req_headers):
     sitemaps = []
-    robots_page = urlopen(Request(robots_url, headers=headers))
+    robots_page = urlopen(Request(robots_url, headers=req_headers))
     for line in robots_page.readlines():
         line_split = [s.strip() for s in line.decode().split(":", maxsplit=1)]
         if line_split[0].lower() == "sitemap":
@@ -483,25 +483,25 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, user_agent=None):
                         ``priority``, or others found in news, video, or image
                         sitemaps).
     """
-    headers = DEFAULT_HEADERS.copy()
+    req_headers = DEFAULT_HEADERS.copy()
     if user_agent:
-        headers["User-Agent"] = user_agent
+        req_headers["User-Agent"] = user_agent
 
     if sitemap_url.endswith("robots.txt"):
         return pd.concat(
             [
                 sitemap_to_df(sitemap, recursive=recursive)
-                for sitemap in _sitemaps_from_robotstxt(sitemap_url, headers)
+                for sitemap in _sitemaps_from_robotstxt(sitemap_url, req_headers)
             ],
             ignore_index=True,
         )
 
     if sitemap_url.endswith("xml.gz"):
-        headers["Accept-Encoding"] = "gzip"
+        req_headers["Accept-Encoding"] = "gzip"
         xml_text = urlopen(
             Request(
                 sitemap_url,
-                headers=headers,
+                headers=req_headers,
             )
         )
         try:
@@ -511,7 +511,7 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, user_agent=None):
             pass
         xml_text = GzipFile(fileobj=xml_text)
     else:
-        xml_text = urlopen(Request(sitemap_url, headers=headers))
+        xml_text = urlopen(Request(sitemap_url, headers=req_headers))
         try:
             resp_headers = xml_text.getheaders()
         except AttributeError:
