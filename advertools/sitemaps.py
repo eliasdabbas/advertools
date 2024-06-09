@@ -492,6 +492,15 @@ def _parse_sitemap(root):
     return pd.DataFrame(d.values())
 
 
+def _build_request_headers(user_headers=None):
+    # Must ensure lowercase to avoid introducing duplicate keys
+    final_headers = {key.lower(): val for key, val in headers.items()}
+    if user_headers:
+        user_headers = {key.lower(): val for key, val in user_headers.items()}
+        final_headers.update(user_headers)
+    return final_headers
+
+
 def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, request_headers=None):
     """
     Retrieve all URLs and other available tags of a sitemap(s) and put them in
@@ -522,11 +531,7 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, request_headers=No
                         ``priority``, or others found in news, video, or image
                         sitemaps).
     """
-    # Must ensure lowercase to avoid introducing duplicate keys
-    final_headers = {key.lower(): val for key, val in headers.copy().items()}
-    if request_headers:
-        request_headers = {key.lower(): val for key, val in request_headers.items()}
-        final_headers.update(request_headers)
+    final_headers = _build_request_headers(request_headers)
 
     if sitemap_url.endswith("robots.txt"):
         return pd.concat(
