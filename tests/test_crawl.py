@@ -70,3 +70,20 @@ with TemporaryDirectory() as links_crawl_tempdir:
 
     def test_img_src_has_abs_path():
         assert crawl_df["img_src"].str.startswith("http").all()
+
+
+with TemporaryDirectory() as follow_url_params_tempdir:
+    crawl(
+        str(links_file.as_uri()),
+        f"{follow_url_params_tempdir}/follow_url_params.jl",
+        allowed_domains=[str(links_file), "example.com"],
+        custom_settings={"ROBOTSTXT_OBEY": False},
+        follow_links=True,
+    )
+
+    follow_url_params_df = pd.read_json(
+        f"{follow_url_params_tempdir}/follow_url_params.jl", lines=True
+    )
+
+    def test_follow_url_params_followed():
+        assert follow_url_params_df["url"].str.contains("?", regex=False).any()
