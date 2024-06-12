@@ -152,7 +152,7 @@ columns:
 ====  ==================================================================  ========  =======  ============  ==================  ================
 
 Here each redirect is represented using a group of columns, as well as
-a group of rows. Columns show attributes of a redirect (status code, the order of the 
+a group of rows. Columns show attributes of a redirect (status code, the order of the
 URL in the redirect, the type of the URL in the redirect context, download latency in
 seconds, and the number of redirects in this specific process).
 Since a redirect contains multiple URLs, each one of those URLs is represented on its
@@ -346,7 +346,9 @@ def redirects(crawldf):
             (
                 "requested"
                 if o == min(order)
-                else "crawled" if o == max(order) else "intermediate"
+                else "crawled"
+                if o == max(order)
+                else "intermediate"
             )
             for o in order
         ]
@@ -588,29 +590,39 @@ def parquet_columns(filepath):
 def compare(df1, df2, column, keep_equal=False):
     """Compare common URLs in two crawl DataFrames with respect to `column`.
 
-        Parameters
-        ----------
-        df1 : pandas.DataFrame
-          The DataFrame of the first crawl
-        df2 : pandas.DataFrame
-          The DataFrame of the second crawl
-        column : str
-          The name of the column that you want to compare
-        keep_equal : bool, default False
-          Whether or not to keep unchanged values in the result DataFrame
+    There are three main options that you might select for comparison:
 
-        Returns
-        -------
-          comparison_df : pandas.DataFrame
+    * Numeric column: You get the difference between changed columns, as a numeric
+      difference, and as a fraction.
+    * String column: You get the values that changed.
+    * The "url" column: You get two boolean columns `df1` and `df2` with True if the
+      respective URL was found in that DataFrame, and False otherwise. This allows for
+      easily checking which URLs were present in both crawls, or only in one of them.
 
-        Examples
-        --------
+    Parameters
+    ----------
+    df1 : pandas.DataFrame
+        The DataFrame of the first crawl
+    df2 : pandas.DataFrame
+        The DataFrame of the second crawl
+    column : str
+        The name of the column that you want to compare
+    keep_equal : bool, default False
+        Whether or not to keep unchanged values in the result DataFrame
 
-        >>> import advertools as adv
-        >>> import pandas as pd
-        >>> df1 = pd.read_json('output_file1.jl', lines=True)
-        >>> df2 = pd.read_json('output_file2.jl', lines=True)
-        >>> adv.crawlytics.compare(df1, df1, 'size')
+    Returns
+    -------
+    comparison_df : pandas.DataFrame
+        The values will dependon the data type of the selected column, please see above.
+
+    Examples
+    --------
+
+    >>> import advertools as adv
+    >>> import pandas as pd
+    >>> df1 = pd.read_json('output_file1.jl', lines=True)
+    >>> df2 = pd.read_json('output_file2.jl', lines=True)
+    >>> adv.crawlytics.compare(df1, df1, 'size')
 
     ====  ==========================  ========  ========  ======  ===========
       ..  url                           size_x    size_y    diff    diff_perc
@@ -622,6 +634,12 @@ def compare(df1, df2, column, keep_equal=False):
        4  https://example.com/page_9    222242    216237   -6005   -0.0270201
     ====  ==========================  ========  ========  ======  ===========
     """
+    if column == "url":
+        compare_df = pd.merge(df1[["url"]], df2[["url"]], how="outer").assign(
+            df1=lambda df: df["url"].isin(df1["url"]),
+            df2=lambda df: df["url"].isin(df2["url"]),
+        )
+        return compare_df
     compare_df = pd.merge(
         df1[["url", column]], df2[["url", column]], left_on="url", right_on="url"
     ).assign(changed=lambda df: df[f"{column}_x"].ne(df[f"{column}_y"]))
