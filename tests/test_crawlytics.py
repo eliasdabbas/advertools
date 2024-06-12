@@ -242,3 +242,18 @@ def test_compare_nomatch():
 def test_compare_keepequal():
     result = crawlytics.compare(df1, df2, "title", keep_equal=True)
     assert "changed" in result
+
+
+def test_compare_url():
+    result = crawlytics.compare(df1, df1, "url")
+    assert result.columns.tolist() == ["url", "df1", "df2"]
+
+
+def test_compare_url_correct_number_of_urls():
+    result = crawlytics.compare(df1, df2, "url")
+    assert len(result) == len(set(df1["url"]).union(df2["url"]))
+
+
+def test_compare_url_no_common_urls():
+    result = crawlytics.compare(df1, df3, "url")
+    assert result.assign(equal=lambda df: df["df1"].ne(df["df2"]))["equal"].all()
