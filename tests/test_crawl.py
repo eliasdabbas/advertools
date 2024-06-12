@@ -87,3 +87,20 @@ with TemporaryDirectory() as follow_url_params_tempdir:
 
     def test_follow_url_params_followed():
         assert follow_url_params_df["url"].str.contains("?", regex=False).any()
+
+
+with TemporaryDirectory() as dont_follow_url_params_tempdir:
+    crawl(
+        str(links_file.as_uri()),
+        f"{dont_follow_url_params_tempdir}/dont_follow_url_params.jl",
+        allowed_domains=[str(links_file), "example.com"],
+        custom_settings={"ROBOTSTXT_OBEY": False},
+        follow_links=True,
+        exclude_url_params=True,
+    )
+    dont_follow_url_params_df = pd.read_json(
+        f"{dont_follow_url_params_tempdir}/dont_follow_url_params.jl", lines=True
+    )
+
+    def test_dont_follow_url_params_not_followed():
+        assert not dont_follow_url_params_df["url"].str.contains("?", regex=False).all()
