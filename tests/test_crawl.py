@@ -1,4 +1,3 @@
-import os
 import platform
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -31,6 +30,12 @@ dup_links_file_path = "tests/data/crawl_testing/duplicate_links.html"
 if platform == "Windows":
     dup_links_file_path = dup_links_file_path.replace("/", r"\\")
 dup_links_file = Path(dup_links_file_path).absolute()
+
+broken_links_path = "tests/data/crawl_testing/broken_links.html"
+if platform == "Windows":
+    broken_links_path = links_filepath.replace("/", r"\\")
+
+broken_links_file = Path(broken_links_path).absolute()
 
 with TemporaryDirectory() as links_crawl_tempdir:
     crawl(
@@ -144,3 +149,26 @@ with TemporaryDirectory() as dup_links_file_tempdir:
         assert "nav_links_text" not in dup_crawl_df
         assert "header_links_url" not in dup_crawl_df
         assert "footer_links_url" not in dup_crawl_df
+
+
+with TemporaryDirectory(delete=False) as broken_links_tempdir:
+    crawl(
+        [str(broken_links_file.as_uri()), "wrong_url"],
+        f"{broken_links_tempdir}/broken_links_crawl.jl",
+        follow_links=True,
+    )
+
+    def test_broken_links_are_reported():
+        broken_links_df = pd.read_json(
+            f"{broken_links_tempdir}/broken_links_crawl.jl", lines=True
+        )
+        assert "errors" in broken_links_df
+        assert "wrong_url" not in broken_links_df["url"]
+
+    def test_crawling_bad_url_directly_is_handled():
+        crawl(
+            ["wrong_url", "https://example.com"], f"{broken_links_tempdir}/bad_url.jl"
+        )
+        bad_url_df = pd.read_json(f"{broken_links_tempdir}/bad_url.jl", lines=True)
+        assert len(bad_url_df) == 1
+        assert bad_url_df["url"][0] == "https://example.com"
