@@ -25,8 +25,12 @@ links_columns = {
 links_filepath = "tests/data/crawl_testing/test_content.html"
 if platform == "Windows":
     links_filepath = links_filepath.replace("/", r"\\")
-
 links_file = Path(links_filepath).absolute()
+
+dup_links_file_path = "tests/data/crawl_testing/duplicate_links.html"
+if platform == "Windows":
+    dup_links_file_path = dup_links_file_path.replace("/", r"\\")
+dup_links_file = Path(dup_links_file_path).absolute()
 
 with TemporaryDirectory() as links_crawl_tempdir:
     crawl(
@@ -104,3 +108,39 @@ with TemporaryDirectory() as dont_follow_url_params_tempdir:
 
     def test_dont_follow_url_params_not_followed():
         assert not dont_follow_url_params_df["url"].str.contains("?", regex=False).all()
+
+
+with TemporaryDirectory() as dup_links_file_tempdir:
+    crawl(
+        str(dup_links_file.as_uri()),
+        f"{dup_links_file_tempdir}/dup_links_crawl.jl",
+        custom_settings={"ROBOTSTXT_OBEY": False},
+    )
+    dup_crawl_df = pd.read_json(
+        f"{dup_links_file_tempdir}/dup_links_crawl.jl", lines=True
+    )
+    dup_links_test = ["https://example_a.com" for i in range(5)] + [
+        "https://example.com"
+    ]
+
+    dup_text_test = [
+        "Link Text A",
+        "Link Text A",
+        "Link Text A",
+        "Link Text B",
+        "Link Text C",
+        "Link Other",
+    ]
+
+    dup_nf_test = ["True"] + ["False" for i in range(5)]
+
+    def test_duplicate_links_counted_propery():
+        assert dup_crawl_df["links_url"].str.split("@@")[0] == dup_links_test
+        assert dup_crawl_df["links_text"].str.split("@@")[0] == dup_text_test
+        assert dup_crawl_df["links_nofollow"].str.split("@@")[0] == dup_nf_test
+
+    def test_non_existent_links_are_NA():
+        assert "nav_links_url" not in dup_crawl_df
+        assert "nav_links_text" not in dup_crawl_df
+        assert "header_links_url" not in dup_crawl_df
+        assert "footer_links_url" not in dup_crawl_df
