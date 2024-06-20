@@ -151,7 +151,7 @@ with TemporaryDirectory() as dup_links_file_tempdir:
         assert "footer_links_url" not in dup_crawl_df
 
 
-with TemporaryDirectory(delete=False) as broken_links_tempdir:
+with TemporaryDirectory() as broken_links_tempdir:
     crawl(
         [str(broken_links_file.as_uri()), "wrong_url"],
         f"{broken_links_tempdir}/broken_links_crawl.jl",
