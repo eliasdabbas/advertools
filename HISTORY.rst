@@ -17,6 +17,12 @@ Change Log - advertools
 * Fixed
     - Use int64 instead of int for YouTube count columns, contributed by @DanielP77
 
+0.14.3 (2024-06-27)
+-------------------
+
+* Changed
+    - Use a different XPath expression for `body_text` while crawling.
+
 0.14.2 (2024-02-24)
 -------------------
 
