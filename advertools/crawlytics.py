@@ -276,9 +276,10 @@ import re
 from functools import partial
 from subprocess import run
 
-run = partial(run, text=True, capture_output=True)
 import pandas as pd
 import pyarrow.parquet as pq
+
+run = partial(run, text=True, capture_output=True)
 
 __all__ = [
     "images",
@@ -615,10 +616,11 @@ def running_crawls():
     if df_subset.empty:
         return pd.DataFrame()
     crawled_lines = run(["wc", "-l"] + df["output_file"].str.cat(sep=" ").split())
-    crawl_urls = [
-        int(line.strip().split()[0]) for line in crawled_lines.stdout.splitlines()
-    ]
-    crawl_urls = crawl_urls[: min(len(crawl_urls), len(df_subset))]
-    df_subset["crawled_urls"] = crawl_urls
+    if crawled_lines.returncode == 0:
+        crawl_urls = [
+            int(line.strip().split()[0]) for line in crawled_lines.stdout.splitlines()
+        ]
+        crawl_urls = crawl_urls[: min(len(crawl_urls), len(df_subset))]
+        df_subset["crawled_urls"] = crawl_urls
     df_subset.columns = df_subset.columns.str.lower()
-    return df_subset
+    return df_subset.rename(columns={"args": "command"})
