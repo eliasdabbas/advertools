@@ -163,10 +163,15 @@ the process again (it can take a few minutes with big datasets).
 
     import advertools as adv
     import pandas as pd
+
     adv.url_to_df([url_1, url_2, ...], ouput_file="output_file.parquet")
     pd.read_parquet("output_file.parquet", columns=["scheme"])
     pd.read_parquet("output_file.parquet", columns=["dir_1", "dir_2"])
-    pd.read_parquet("output_file.parquet", columns=["dir_1", "dir_2"], filters=[("dir_1", "in", ["news", "politics"])])
+    pd.read_parquet(
+        "output_file.parquet",
+        columns=["dir_1", "dir_2"],
+        filters=[("dir_1", "in", ["news", "politics"])],
+    )
 
 """  # noqa: E501
 
@@ -222,7 +227,7 @@ def _url_to_df(urls, decode=True):
     if not dirs_df.empty:
         df = df.drop(dirs_df.columns, axis=1)
         dirs_df = dirs_df.assign(last_dir=dirs_df.ffill(axis=1).iloc[:, -1:].squeeze())
-    df = pd.concat([df, dirs_df, query_df], axis=1).replace("", np.nan)
+    df = pd.concat([df, dirs_df, query_df], axis=1).replace("", pd.NA)
     url_list_df = pd.DataFrame({"url": [decode(url) for url in urls]})
     final_df = pd.concat([url_list_df, df], axis=1)
     return final_df
