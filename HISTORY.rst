@@ -17,6 +17,12 @@ Change Log - advertools
 * Fixed
     - Use int64 instead of int for YouTube count columns, contributed by @DanielP77
 
+0.14.4 (2024-07-13)
+-------------------
+
+* Fixed
+    - Use ``pd.NA`` instead of ``np.nan`` for empty values in ``url_to_df``.
+
 0.14.3 (2024-06-27)
 -------------------
 
