@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=9e420a66"></script>
+        <script src="_static/documentation_options.js?v=0dc20415"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -27,7 +27,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Reverse DNS Lookup in Bulk" href="advertools.reverse_dns_lookup.html" />
-    <link rel="prev" title="🕷 Python Status Code Checker with Response Headers" href="advertools.header_spider.html" /> 
+    <link rel="prev" title="Image Crawler and Downloader" href="advertools.image_spider.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,7 +42,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.0
+                0.14.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -71,6 +71,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.image_spider.html">Crawl images</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Log File Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-run-the-logs-to-df-function">How to run the <code class="xref py py-func docutils literal notranslate"><span class="pre">logs_to_df()</span></code> function:</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supported-log-formats">Supported Log Formats</a></li>
@@ -138,12 +139,14 @@ They are massive.</p>
 <p>TL;DR</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">logs_to_df</span><span class="p">(</span><span class="n">log_file</span><span class="o">=</span><span class="s1">&#39;access.log&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;access_logs.parquet&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="n">errors_file</span><span class="o">=</span><span class="s1">&#39;log_errors.csv&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="n">log_format</span><span class="o">=</span><span class="s1">&#39;common&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;access_logs.parquet&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">logs_to_df</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">log_file</span><span class="o">=</span><span class="s2">&quot;access.log&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">output_file</span><span class="o">=</span><span class="s2">&quot;access_logs.parquet&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">errors_file</span><span class="o">=</span><span class="s2">&quot;log_errors.csv&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">log_format</span><span class="o">=</span><span class="s2">&quot;common&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;access_logs.parquet&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="how-to-run-the-logs-to-df-function">
@@ -2036,7 +2039,7 @@ on external domains altogether.</p></li>
 <p>Now, you can use the <a class="reference internal" href="#advertools.logs.crawllogs_to_df" title="advertools.logs.crawllogs_to_df"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawllogs_to_df()</span></code></a> function to open the logs in a
 DataFrame:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawllogs_to_df</span><span class="p">(</span><span class="s1">&#39;example.log&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawllogs_to_df</span><span class="p">(</span><span class="s2">&quot;example.log&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The DataFrame might contain the following columns:</p>
@@ -2078,7 +2081,7 @@ Crawling errors are also interesting, and can be found in rows where
 <span class="go">              output_file=&#39;example.jl&#39;,</span>
 <span class="go">              follow_links=True,</span>
 <span class="go">              custom_settings={&#39;LOG_FILE&#39;: &#39;example.log&#39;})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawl_logs_to_df</span><span class="p">(</span><span class="s1">&#39;example.log&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawl_logs_to_df</span><span class="p">(</span><span class="s2">&quot;example.log&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -2101,39 +2104,36 @@ errors (or lines not conformig to the chosen log format) into a separate
 you have the right regex for it. A few default ones are provided and can be
 used. Check out <code class="docutils literal notranslate"><span class="pre">adv.LOG_FORMATS</span></code> and <code class="docutils literal notranslate"><span class="pre">adv.LOG_FIELDS</span></code> for the
 available formats and fields.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">logs_to_df</span><span class="p">(</span><span class="n">log_file</span><span class="o">=</span><span class="s1">&#39;access.log&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;access_logs.parquet&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="n">errors_file</span><span class="o">=</span><span class="s1">&#39;log_errors.csv&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="n">log_format</span><span class="o">=</span><span class="s1">&#39;common&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;access_logs.parquet&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>You can now analyze <code class="docutils literal notranslate"><span class="pre">logs_df</span></code> as a normal pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>log_file</strong> (<em>str</em>) -- The path to the log file.</p></li>
-<li><p><strong>output_file</strong> (<em>str</em>) -- The path to the desired output file. Must have a
-&quot;.parquet&quot; extension, and must not have the same
-path as an existing file.</p></li>
-<li><p><strong>errors_file</strong> (<em>str</em>) -- The path where the parsing errors are stored. Any
-text format works, CSV is recommended to easily
-open it with any CSV reader with the separator as
-&quot;&#64;&#64;&quot;.</p></li>
-<li><p><strong>log_format</strong> (<em>str</em>) -- Either the name of one of the supported log formats,
-or a regex of your own format.</p></li>
-<li><p><strong>fields</strong> (<em>str</em>) -- A list of fields, which will become the names of columns
-in <code class="docutils literal notranslate"><span class="pre">output_file</span></code>. Only required if you provide a
-custom (regex) <code class="docutils literal notranslate"><span class="pre">log_format</span></code>.</p></li>
-<li><p><strong>encoding</strong> (<em>str</em>) -- The encoding of the log file. It defaults to utf-8, but
-you might need to try others in case of errors
-(latin-1, utf-16, etc.)</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) -- The path to the desired output file. Must have a &quot;.parquet&quot; extension, and must
+not have the same path as an existing file.</p></li>
+<li><p><strong>errors_file</strong> (<em>str</em>) -- The path where the parsing errors are stored. Any text format works, CSV is
+recommended to easily open it with any CSV reader with the separator as &quot;&#64;&#64;&quot;.</p></li>
+<li><p><strong>log_format</strong> (<em>str</em>) -- The name of one of the supported log formats, or a regex of your own format.</p></li>
+<li><p><strong>fields</strong> (<em>list</em>) -- A list of fields, which will become the names of columns in <code class="docutils literal notranslate"><span class="pre">output_file</span></code>. Only
+required if you provide a custom (regex) <code class="docutils literal notranslate"><span class="pre">log_format</span></code>.</p></li>
+<li><p><strong>encoding</strong> (<em>str</em>) -- The encoding of the log file. It defaults to utf-8, but you might need to try
+others in case of errors (latin-1, utf-16, etc.)</p></li>
 </ul>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">logs_to_df</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">log_file</span><span class="o">=</span><span class="s2">&quot;access.log&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">output_file</span><span class="o">=</span><span class="s2">&quot;access_logs.parquet&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">errors_file</span><span class="o">=</span><span class="s2">&quot;log_errors.csv&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">log_format</span><span class="o">=</span><span class="s2">&quot;common&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;access_logs.parquet&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can now analyze <code class="docutils literal notranslate"><span class="pre">logs_df</span></code> as a normal pandas DataFrame.</p>
 </dd></dl>
 
 
@@ -2160,7 +2160,7 @@ you might need to try others in case of errors
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="advertools.header_spider.html" class="btn btn-neutral float-left" title="🕷 Python Status Code Checker with Response Headers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.image_spider.html" class="btn btn-neutral float-left" title="Image Crawler and Downloader" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="advertools.reverse_dns_lookup.html" class="btn btn-neutral float-right" title="Reverse DNS Lookup in Bulk" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

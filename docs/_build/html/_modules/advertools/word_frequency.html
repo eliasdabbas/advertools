@@ -15,7 +15,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=9e420a66"></script>
+        <script src="../../_static/documentation_options.js?v=0dc20415"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -39,7 +39,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.0
+                0.14.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -68,6 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.image_spider.html">Crawl images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
@@ -294,7 +295,8 @@
 <span class="sd">    # try sorting by &#39;abs_freq&#39;, &#39;wtd_freq&#39;, and &#39;rel_value&#39;:</span>
 <span class="sd">    word_freq.sort_values(by=&#39;abs_freq&#39;, ascending=False).head(25)</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 
@@ -306,28 +308,43 @@
 
 <div class="viewcode-block" id="word_frequency">
 <a class="viewcode-back" href="../../advertools.word_frequency.html#advertools.word_frequency.word_frequency">[docs]</a>
-<span class="k">def</span> <span class="nf">word_frequency</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">num_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phrase_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">rm_words</span><span class="o">=</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">],</span> <span class="n">extra_info</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">word_frequency</span><span class="p">(</span>
+    <span class="n">text_list</span><span class="p">,</span>
+    <span class="n">num_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">phrase_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">rm_words</span><span class="o">=</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s2">&quot;english&quot;</span><span class="p">],</span>
+    <span class="n">extra_info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Count the absolute as well as the weighted frequency of words</span>
 <span class="sd">    in :attr:`text_list` (based on :attr:`num_list`).</span>
 
-<span class="sd">    :param list text_list: Typically short phrases, but could be any list of</span>
-<span class="sd">                           full blown documents. Usually, you would use this</span>
-<span class="sd">                           to analyze tweets, book titles, URLs, etc.</span>
-<span class="sd">    :param list num_list: A list of numbers with the same length as</span>
-<span class="sd">                          :attr:`text_list`, describing a certain attribute of</span>
-<span class="sd">                          these &#39;documents&#39;; views, retweets, sales, etc.</span>
-<span class="sd">    :param str regex: The regex used to split words. Doesn&#39;t need changing</span>
-<span class="sd">                      in most cases.</span>
-<span class="sd">    :param int phrase_len: the length in words of each token the</span>
-<span class="sd">        text is split into, defaults to 1.</span>
-<span class="sd">    :param set rm_words: Words to remove from the list a.k.a &#39;stop-words&#39;.</span>
-<span class="sd">                         The default uses. To get all available languages</span>
-<span class="sd">                         run ``adv.stopwords.keys()``</span>
-<span class="sd">    :param bool extra_info: Whether or not to give additional metrics about</span>
-<span class="sd">                            the frequencies</span>
-<span class="sd">    :returns abs_wtd_df: absolute and weighted DataFrame.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text_list : list</span>
+<span class="sd">      Typically short phrases, but could be any list of full blown documents. Usually,</span>
+<span class="sd">      you would use this to analyze tweets, book titles, URLs, etc.</span>
+<span class="sd">    num_list : list</span>
+<span class="sd">      A list of numbers with the same length as :attr:`text_list`, describing a certain</span>
+<span class="sd">      attribute of these &#39;documents&#39;; views, retweets, sales, etc.</span>
+<span class="sd">    regex : str</span>
+<span class="sd">      The regex used to split words. Doesn&#39;t need changing in most cases.</span>
+<span class="sd">    phrase_len : int</span>
+<span class="sd">      The length in words of each token the text is split into (ngrams), defaults to 1.</span>
+<span class="sd">    rm_words : set</span>
+<span class="sd">      Words to remove from the list a.k.a &#39;stop-words&#39;. The default uses. To get all</span>
+<span class="sd">      available languages run ``adv.stopwords.keys()``.</span>
+<span class="sd">    extra_info : bool</span>
+<span class="sd">      Whether or not to give additional metrics about the frequencies.</span>
 
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    abs_wtd_df : pandas.DataFrame</span>
+<span class="sd">      Absolute and weighted counts DataFrame.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
 <span class="sd">    &gt;&gt;&gt; text_list = [&#39;apple orange&#39;, &#39;apple orange banana&#39;,</span>
 <span class="sd">    ...              &#39;apple kiwi&#39;, &#39;kiwi mango&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; num_list = [100, 100, 100, 400]</span>
@@ -388,42 +405,43 @@
 <span class="sd">    2   apple         3  0.333333      0.666667       300       0.200000           0.800000      100.0</span>
 <span class="sd">    3  orange         2  0.222222      0.888889       200       0.133333           0.933333      100.0</span>
 <span class="sd">    4  banana         1  0.111111      1.000000       100       0.066667           1.000000      100.0</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
     <span class="k">if</span> <span class="n">num_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">))]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
-        <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">))</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+        <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">))</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
 
     <span class="n">word_freq</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
-    <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">phrase_len</span><span class="o">=</span><span class="n">phrase_len</span><span class="p">),</span>
-                         <span class="n">num_list</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text_list</span><span class="p">,</span> <span class="n">phrase_len</span><span class="o">=</span><span class="n">phrase_len</span><span class="p">),</span> <span class="n">num_list</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">rm_words</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">word_freq</span><span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">word_freq</span><span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">num</span>
 
-    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;abs_freq&#39;</span><span class="p">,</span> <span class="s1">&#39;wtd_freq&#39;</span><span class="p">]</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;abs_freq&quot;</span><span class="p">,</span> <span class="s2">&quot;wtd_freq&quot;</span><span class="p">]</span>
 
-    <span class="n">abs_wtd_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">word_freq</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">,</span>
-                                         <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
-                  <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;wtd_freq&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                  <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">rel_value</span><span class="o">=</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;wtd_freq&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;abs_freq&#39;</span><span class="p">])</span>
-                  <span class="o">.</span><span class="n">round</span><span class="p">())</span>
+    <span class="n">abs_wtd_df</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">word_freq</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;wtd_freq&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">rel_value</span><span class="o">=</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;wtd_freq&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;abs_freq&quot;</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">round</span><span class="p">()</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">extra_info</span><span class="p">:</span>
-        <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;abs_perc&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">abs_wtd_df</span><span class="p">[</span><span class="s1">&#39;abs_freq&#39;</span><span class="p">]</span> <span class="o">/</span>
-                          <span class="n">abs_wtd_df</span><span class="p">[</span><span class="s1">&#39;abs_freq&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-        <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;abs_perc_cum&#39;</span><span class="p">,</span> <span class="n">abs_wtd_df</span><span class="p">[</span><span class="s1">&#39;abs_perc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">())</span>
-        <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;wtd_freq_perc&#39;</span><span class="p">,</span> <span class="n">abs_wtd_df</span><span class="p">[</span><span class="s1">&#39;wtd_freq&#39;</span><span class="p">]</span> <span class="o">/</span>
-                          <span class="n">abs_wtd_df</span><span class="p">[</span><span class="s1">&#39;wtd_freq&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-        <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;wtd_freq_perc_cum&#39;</span><span class="p">,</span>
-                          <span class="n">abs_wtd_df</span><span class="p">[</span><span class="s1">&#39;wtd_freq_perc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">())</span>
+        <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;abs_perc&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">abs_wtd_df</span><span class="p">[</span><span class="s2">&quot;abs_freq&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">abs_wtd_df</span><span class="p">[</span><span class="s2">&quot;abs_freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;abs_perc_cum&quot;</span><span class="p">,</span> <span class="n">abs_wtd_df</span><span class="p">[</span><span class="s2">&quot;abs_perc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">())</span>
+        <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+            <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;wtd_freq_perc&quot;</span><span class="p">,</span> <span class="n">abs_wtd_df</span><span class="p">[</span><span class="s2">&quot;wtd_freq&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">abs_wtd_df</span><span class="p">[</span><span class="s2">&quot;wtd_freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;wtd_freq_perc_cum&quot;</span><span class="p">,</span> <span class="n">abs_wtd_df</span><span class="p">[</span><span class="s2">&quot;wtd_freq_perc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">())</span>
 
-    <span class="n">abs_wtd_df</span> <span class="o">=</span> <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;word&#39;</span><span class="p">})</span>
+    <span class="n">abs_wtd_df</span> <span class="o">=</span> <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="s2">&quot;word&quot;</span><span class="p">})</span>
     <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">num_list</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="mi">1</span><span class="p">}:</span>
-        <span class="n">abs_wtd_df</span> <span class="o">=</span> <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;wtd_freq&#39;</span><span class="p">,</span> <span class="s1">&#39;rel_value&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">abs_wtd_df</span> <span class="o">=</span> <span class="n">abs_wtd_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;wtd_freq&quot;</span><span class="p">,</span> <span class="s2">&quot;rel_value&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">abs_wtd_df</span></div>
 
 </pre></div>

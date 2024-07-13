@@ -15,7 +15,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=9e420a66"></script>
+        <script src="../../_static/documentation_options.js?v=0dc20415"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -39,7 +39,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.0
+                0.14.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -68,6 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.image_spider.html">Crawl images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
@@ -168,7 +169,7 @@
 <span class="sd">Another interesting thing you might want to do is to provide a robots.txt URL,</span>
 <span class="sd">and set `recursive=False` to get all available sitemap index files.</span>
 
-<span class="sd">&gt;&gt;&gt; sitemap_to_df(&#39;https://example.com/robots.txt&#39;, recursive=False)</span>
+<span class="sd">&gt;&gt;&gt; sitemap_to_df(&quot;https://example.com/robots.txt&quot;, recursive=False)</span>
 
 <span class="sd">Let&#39;s now go through a quick example of what can be done with sitemaps. We can</span>
 <span class="sd">start by getting one of the BBC&#39;s sitemaps.</span>
@@ -183,7 +184,7 @@
 <span class="sd">    :class: thebe, thebe-init</span>
 
 <span class="sd">    import advertools as adv</span>
-<span class="sd">    </span>
+
 <span class="sd">    bbc_sitemap = adv.sitemap_to_df(&#39;https://www.bbc.com/sitemaps/https-sitemap-com-archive-1.xml&#39;)</span>
 <span class="sd">    bbc_sitemap.head(10)</span>
 
@@ -210,7 +211,7 @@
 
 <span class="sd">    print(bbc_sitemap.shape)</span>
 <span class="sd">    print(bbc_sitemap.dtypes)</span>
-<span class="sd">    </span>
+
 <span class="sd">.. code-block::</span>
 
 <span class="sd">    (49999, 7)</span>
@@ -518,7 +519,8 @@
 <span class="sd">2954  https://www.wired.com/video/genres/transportation                                                               nan      nan                                                                                                                                                                                                                                     nan                                                                             nan                                                                                                                                                                                                                                                                                                                                         nan                                                                                                                    nan  nan                                            nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00</span>
 <span class="sd">====  ==============================================================================================================  =======  ======================================================================================================================================================================================================================================  ==============================================================================  ==========================================================================================================================================================================================================================================================================================================================================  ========================================================================================================  ================  =========================  =======================  =========  =======================================  ==================================  =================  ================================</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">concurrent</span> <span class="kn">import</span> <span class="n">futures</span>
 <span class="kn">from</span> <span class="nn">gzip</span> <span class="kn">import</span> <span class="n">GzipFile</span>
@@ -531,15 +533,15 @@
 
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;advertools-&#39;</span> <span class="o">+</span> <span class="n">version</span><span class="p">}</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;advertools-&quot;</span> <span class="o">+</span> <span class="n">version</span><span class="p">}</span>
 
 
 <span class="k">def</span> <span class="nf">_sitemaps_from_robotstxt</span><span class="p">(</span><span class="n">robots_url</span><span class="p">):</span>
     <span class="n">sitemaps</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">robots_page</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">robots_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">robots_page</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
-        <span class="n">line_split</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="n">line_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;sitemap&#39;</span><span class="p">:</span>
+        <span class="n">line_split</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">line_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;sitemap&quot;</span><span class="p">:</span>
             <span class="n">sitemaps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line_split</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">sitemaps</span>
 
@@ -548,22 +550,25 @@
     <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s1">&#39;loc&#39;</span> <span class="ow">in</span> <span class="n">n</span><span class="o">.</span><span class="n">tag</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;loc&quot;</span> <span class="ow">in</span> <span class="n">n</span><span class="o">.</span><span class="n">tag</span><span class="p">:</span>
                 <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">text</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">parse_xml_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node_url</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">parse_xml_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node_url</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="k">nonlocal</span> <span class="n">d</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">node</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
-                <span class="n">tag</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">tag</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;}&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">d</span><span class="p">[</span><span class="n">node_url</span><span class="p">][</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">text</span>
                 <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
-                <span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span> <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+                <span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span> <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
             <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">element</span><span class="p">):</span>
-                <span class="n">parse_xml_node</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">node_url</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
+                <span class="n">parse_xml_node</span><span class="p">(</span>
+                    <span class="n">element</span><span class="p">,</span> <span class="n">node_url</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;}&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span>
+                <span class="p">)</span>
+
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
-        <span class="n">node_url</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node</span> <span class="k">if</span> <span class="s1">&#39;loc&#39;</span> <span class="ow">in</span> <span class="n">n</span><span class="o">.</span><span class="n">tag</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">node_url</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node</span> <span class="k">if</span> <span class="s2">&quot;loc&quot;</span> <span class="ow">in</span> <span class="n">n</span><span class="o">.</span><span class="n">tag</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">parse_xml_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node_url</span><span class="o">=</span><span class="n">node_url</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
@@ -598,38 +603,60 @@
 <span class="sd">                        ``priority``, or others found in news, video, or image</span>
 <span class="sd">                        sitemaps).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">sitemap_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;robots.txt&#39;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="n">sitemap</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
-                          <span class="k">for</span> <span class="n">sitemap</span> <span class="ow">in</span> <span class="n">_sitemaps_from_robotstxt</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">)],</span>
-                         <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">sitemap_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;xml.gz&#39;</span><span class="p">):</span>
-        <span class="n">xml_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">,</span>
-                                   <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Accept-Encoding&#39;</span><span class="p">:</span> <span class="s1">&#39;gzip&#39;</span><span class="p">,</span>
-                                            <span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;advertools-&#39;</span> <span class="o">+</span>
-                                                          <span class="n">version</span><span class="p">}))</span>
-        <span class="n">resp_headers</span> <span class="o">=</span> <span class="n">xml_text</span><span class="o">.</span><span class="n">getheaders</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">sitemap_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;robots.txt&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">sitemap_to_df</span><span class="p">(</span><span class="n">sitemap</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">sitemap</span> <span class="ow">in</span> <span class="n">_sitemaps_from_robotstxt</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">)</span>
+            <span class="p">],</span>
+            <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">sitemap_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;xml.gz&quot;</span><span class="p">):</span>
+        <span class="n">xml_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span>
+            <span class="n">Request</span><span class="p">(</span>
+                <span class="n">sitemap_url</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;Accept-Encoding&quot;</span><span class="p">:</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;advertools-&quot;</span> <span class="o">+</span> <span class="n">version</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resp_headers</span> <span class="o">=</span> <span class="n">xml_text</span><span class="o">.</span><span class="n">getheaders</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">resp_headers</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">pass</span>
         <span class="n">xml_text</span> <span class="o">=</span> <span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">xml_text</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">xml_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">))</span>
-        <span class="n">resp_headers</span> <span class="o">=</span> <span class="n">xml_text</span><span class="o">.</span><span class="n">getheaders</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resp_headers</span> <span class="o">=</span> <span class="n">xml_text</span><span class="o">.</span><span class="n">getheaders</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">resp_headers</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">pass</span>
     <span class="n">xml_string</span> <span class="o">=</span> <span class="n">xml_text</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml_string</span><span class="p">)</span>
 
     <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;sitemapindex&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">recursive</span><span class="p">:</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;}&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;sitemapindex&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">recursive</span><span class="p">:</span>
         <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
         <span class="n">sitemap_url_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
-                <span class="k">if</span> <span class="s1">&#39;loc&#39;</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">tag</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;loc&quot;</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">tag</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="n">sitemap_url</span><span class="p">:</span>
-                        <span class="n">error_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-                            <span class="s1">&#39;sitemap&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">sitemap_url</span><span class="p">],</span>
-                            <span class="s1">&#39;errors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;WARNING: Sitemap contains a link to itself&#39;</span><span class="p">]</span>
-                        <span class="p">})</span>
+                        <span class="n">error_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                            <span class="p">{</span>
+                                <span class="s2">&quot;sitemap&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">sitemap_url</span><span class="p">],</span>
+                                <span class="s2">&quot;errors&quot;</span><span class="p">:</span> <span class="p">[</span>
+                                    <span class="s2">&quot;WARNING: Sitemap contains a link to itself&quot;</span>
+                                <span class="p">],</span>
+                            <span class="p">}</span>
+                        <span class="p">)</span>
                         <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
-                            <span class="p">[</span><span class="n">multi_sitemap_df</span><span class="p">,</span> <span class="n">error_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                            <span class="p">[</span><span class="n">multi_sitemap_df</span><span class="p">,</span> <span class="n">error_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span>
+                        <span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">sitemap_url_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
@@ -641,43 +668,49 @@
             <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">done_iter</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
-                        <span class="p">[</span><span class="n">multi_sitemap_df</span><span class="p">,</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="p">[</span><span class="n">multi_sitemap_df</span><span class="p">,</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="n">error_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span>
-                                            <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+                    <span class="n">error_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span> <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
                     <span class="n">future_str</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">future</span><span class="p">))</span>
                     <span class="n">hexes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">f</span><span class="p">))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">to_do</span><span class="p">]</span>
                     <span class="n">index</span> <span class="o">=</span> <span class="n">hexes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">future_str</span><span class="p">)</span>
-                    <span class="n">error_df</span><span class="p">[</span><span class="s1">&#39;sitemap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_url_list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">sitemap_url_list</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+                    <span class="n">error_df</span><span class="p">[</span><span class="s2">&quot;sitemap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_url_list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">sitemap_url_list</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
                     <span class="n">multi_sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
-                        <span class="p">[</span><span class="n">multi_sitemap_df</span><span class="p">,</span> <span class="n">error_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="p">[</span><span class="n">multi_sitemap_df</span><span class="p">,</span> <span class="n">error_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="p">)</span>
         <span class="k">return</span> <span class="n">multi_sitemap_df</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Getting &#39;</span> <span class="o">+</span> <span class="n">sitemap_url</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;Getting &quot;</span> <span class="o">+</span> <span class="n">sitemap_url</span><span class="p">)</span>
         <span class="n">elem_df</span> <span class="o">=</span> <span class="n">_parse_sitemap</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">sitemap_df</span><span class="p">,</span> <span class="n">elem_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;sitemap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sitemap_url</span><span class="p">]</span> <span class="k">if</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="n">sitemap_url</span>
-    <span class="k">if</span> <span class="s1">&#39;lastmod&#39;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
+        <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;sitemap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sitemap_url</span><span class="p">]</span> <span class="k">if</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="n">sitemap_url</span>
+    <span class="k">if</span> <span class="s2">&quot;lastmod&quot;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;lastmod&#39;</span><span class="p">],</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;lastmod&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;lastmod&quot;</span><span class="p">],</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">pass</span>
-    <span class="k">if</span> <span class="s1">&#39;priority&#39;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">&quot;priority&quot;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;priority&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;priority&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">pass</span>
-    <span class="n">etag_lastmod</span> <span class="o">=</span> <span class="p">{</span><span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">):</span> <span class="n">val</span>
-                    <span class="k">for</span> <span class="n">header</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">resp_headers</span>
-                    <span class="k">if</span> <span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;etag&#39;</span><span class="p">,</span> <span class="s1">&#39;last-modified&#39;</span><span class="p">]}</span>
-    <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">etag_lastmod</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s1">&#39;last_modified&#39;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
-        <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;sitemap_last_modified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;last_modified&#39;</span><span class="p">])</span>
-        <span class="k">del</span> <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;last_modified&#39;</span><span class="p">]</span>
-    <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;sitemap_size_mb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xml_string</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span>
-    <span class="n">sitemap_df</span><span class="p">[</span><span class="s1">&#39;download_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">resp_headers</span><span class="p">:</span>
+        <span class="n">etag_lastmod</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">):</span> <span class="n">val</span>
+            <span class="k">for</span> <span class="n">header</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">resp_headers</span>
+            <span class="k">if</span> <span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;etag&quot;</span><span class="p">,</span> <span class="s2">&quot;last-modified&quot;</span><span class="p">]</span>
+        <span class="p">}</span>
+        <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">sitemap_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">etag_lastmod</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;last_modified&quot;</span> <span class="ow">in</span> <span class="n">sitemap_df</span><span class="p">:</span>
+        <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;sitemap_last_modified&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+            <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;last_modified&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">del</span> <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;last_modified&quot;</span><span class="p">]</span>
+    <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;sitemap_size_mb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xml_string</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span>
+    <span class="n">sitemap_df</span><span class="p">[</span><span class="s2">&quot;download_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sitemap_df</span></div>
 
 </pre></div>

@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=9e420a66"></script>
+        <script src="_static/documentation_options.js?v=0dc20415"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -43,7 +43,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.0
+                0.14.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -72,6 +72,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.image_spider.html">Crawl images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
@@ -174,40 +175,52 @@ longer than <cite>max_len</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>template</strong> (<em>str</em>) -- a string format template, using braces e.g. &quot;Get the
-latest {} today.&quot;</p></li>
-<li><p><strong>replacements</strong> (<em>list</em>) -- replacement strings to be inserted in
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">template</span></code></p></li>
-<li><p><strong>fallback</strong> (<em>str</em>) -- the string to insert in <code class="xref py py-attr docutils literal notranslate"><span class="pre">template</span></code> in case
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">replacement</span></code> is longer than <code class="xref py py-attr docutils literal notranslate"><span class="pre">max_len</span></code></p></li>
-<li><p><strong>max_len</strong> (<em>int</em>) -- the maximum allowed length of the full string</p></li>
-<li><p><strong>capitalize</strong> (<em>bool</em>) -- whether or not to capitalize words in the result</p></li>
+<li><p><strong>template</strong> (<em>str</em>) -- A string format template, using braces e.g. &quot;Get the latest {} today.&quot;</p></li>
+<li><p><strong>replacements</strong> (<em>list</em>) -- Replacement strings to be inserted in <code class="xref py py-attr docutils literal notranslate"><span class="pre">template</span></code>.</p></li>
+<li><p><strong>fallback</strong> (<em>str</em>) -- The string to insert in <code class="xref py py-attr docutils literal notranslate"><span class="pre">template</span></code> in case <code class="xref py py-attr docutils literal notranslate"><span class="pre">replacement</span></code> is longer
+than <code class="xref py py-attr docutils literal notranslate"><span class="pre">max_len</span></code>.</p></li>
+<li><p><strong>max_len</strong> (<em>int</em>) -- The maximum allowed length of the full string.</p></li>
+<li><p><strong>capitalize</strong> (<em>bool</em>) -- Whether or not to capitalize words in the result.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns formatted<span class="colon">:</span></dt>
-<dd class="field-even"><p>list of strings</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>formatted</strong> -- List of ads (strings).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s2">&quot;Let&#39;s count </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">],</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s2">&quot;Let&#39;s count </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">,</span> <span class="s2">&quot;three&quot;</span><span class="p">],</span> <span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 <span class="go">[&quot;Let&#39;s Count One&quot;, &quot;Let&#39;s Count Two&quot;, &quot;Let&#39;s Count Three&quot;]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s1">&#39;My favorite car is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
-<span class="gp">... </span>          <span class="n">replacements</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Toyota&#39;</span><span class="p">,</span> <span class="s1">&#39;BMW&#39;</span><span class="p">,</span> <span class="s1">&#39;Mercedes&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamborghini&#39;</span><span class="p">],</span>
-<span class="gp">... </span>          <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;great&#39;</span><span class="p">,</span>
-<span class="gp">... </span>          <span class="n">max_len</span><span class="o">=</span><span class="mi">28</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">template</span><span class="o">=</span><span class="s2">&quot;My favorite car is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">replacements</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Toyota&quot;</span><span class="p">,</span> <span class="s2">&quot;BMW&quot;</span><span class="p">,</span> <span class="s2">&quot;Mercedes&quot;</span><span class="p">,</span> <span class="s2">&quot;Lamborghini&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">fallback</span><span class="o">=</span><span class="s2">&quot;great&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_len</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="go">[&#39;My Favorite Car Is Toyota&#39;, &#39;My Favorite Car Is Bmw&#39;,</span>
 <span class="go">&#39;My Favorite Car Is Mercedes&#39;, &#39;My Favorite Car Is Great&#39;]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s1">&#39;KeEP cApITalization </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;As IS&#39;</span><span class="p">],</span>
-<span class="gp">... </span>          <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;fallback&#39;</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">capitalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;KeEP cApITalization </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;As IS&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">fallback</span><span class="o">=</span><span class="s2">&quot;fallback&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_len</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">capitalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="go">[&#39;KeEP cApITalization As IS&#39;]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span><span class="s1">&#39;This is very long and will produce and error&#39;</span><span class="p">,</span>
-<span class="gp">... </span>          <span class="n">replacements</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;something&#39;</span><span class="p">,</span> <span class="s1">&#39;long&#39;</span><span class="p">],</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;Very long&#39;</span><span class="p">,</span>
-<span class="gp">... </span>          <span class="n">max_len</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ad_create</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;This is very long and will produce and error&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">replacements</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;something&quot;</span><span class="p">,</span> <span class="s2">&quot;long&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">fallback</span><span class="o">=</span><span class="s2">&quot;Very long&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_len</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="gr">File &quot;&lt;input&gt;&quot;, line 1, in &lt;module&gt;</span>
 <span class="gr">File &quot;&lt;input&gt;&quot;, line 26, in ad_create</span>

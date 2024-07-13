@@ -10,6 +10,7 @@ This module provides a few ready-made functions to help in anayzing crawl data.
    <iframe width="560" height="315" src="https://www.youtube.com/embed/rt0LhxNW8GM?si=Pm5v7JKUK5CiS-Lo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 |
+
 There are certain columns in the crawl DataFrame that can be analyzed separately and
 independently, like page size and status codes. They can of course be analyzed together
 with other columns like URL and title to put these columns and their data in context.
@@ -151,7 +152,7 @@ columns:
 ====  ==================================================================  ========  =======  ============  ==================  ================
 
 Here each redirect is represented using a group of columns, as well as
-a group of rows. Columns show attributes of a redirect (status code, the order of the 
+a group of rows. Columns show attributes of a redirect (status code, the order of the
 URL in the redirect, the type of the URL in the redirect context, download latency in
 seconds, and the number of redirects in this specific process).
 Since a redirect contains multiple URLs, each one of those URLs is represented on its
@@ -268,7 +269,7 @@ Check how many columns we have of each type.
 
 Module functions
 ----------------
-"""
+"""  # noqa: E501
 
 import re
 
@@ -317,7 +318,7 @@ def redirects(crawldf):
      105  https://www.nytimes.com/es/privacy/privacy-policy               301        1  requested           0.0630789                 1
      105  https://help.nytimes.com/hc/en-us/articles/13537530305428       403        2  crawled             0.0630789                 1
     ====  =========================================================  ========  =======  =========  ==================  ================
-    """
+    """  # noqa E501
     if "redirect_urls" not in crawldf.columns:
         return pd.DataFrame()
     if "redirect_urls" in crawldf:
@@ -344,7 +345,9 @@ def redirects(crawldf):
             (
                 "requested"
                 if o == min(order)
-                else "crawled" if o == max(order) else "intermediate"
+                else "crawled"
+                if o == max(order)
+                else "intermediate"
             )
             for o in order
         ]
@@ -398,7 +401,7 @@ def links(crawldf, internal_url_regex=None):
        2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/newsletters/australia-letter#site-index           Skip to site index  False       True
        2  https://www.nytimes.com/newsletters/australia-letter         https://www.nytimes.com/                                                                      False       True
     ====  ===========================================================  ========================================================================  ==================  ==========  ==========
-    """
+    """  # noqa: E501
     if "links_url" not in crawldf:
         return pd.DataFrame()
     link_df = pd.merge(
@@ -460,7 +463,7 @@ def images(crawldf):
        4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-icj-case-explain-wjth/25israel-hamas-icj-case-explain-wjth-thumbWide.jpg?quality=75&auto=webp&disable=upscale                    nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan
        4  https://www.nytimes.com/section/world/middleeast             https://static01.nyt.com/images/2024/01/25/multimedia/25israel-hamas-qatar-israel-ctbv/25israel-hamas-qatar-israel-ctbv-thumbWide.jpg?quality=75&auto=webp&disable=upscale                            nan            (min-width: 1024px) 205px, 150px  async                   150           100           nan
     ====  ===========================================================  ==================================================================================================================================================================================  ================  =============  ================================  ==============  ===========  ============  ============
-    """
+    """  # noqa: E501
     dfs = []
     img_df = crawldf.filter(regex="^url$|img_")
     for index, row in img_df.iterrows():
@@ -516,7 +519,7 @@ def jl_subset(filepath, columns=None, regex=None, chunksize=500):
     -------
     df_subset : pandas.DataFrame
       A DataFrame containing the list of `columns` and/or columns matching `regex`.
-    """
+    """  # noqa: E501
     if columns is None and regex is None:
         raise ValueError("Please supply either a list of columns or a regex.")
     if columns is not None:
@@ -580,4 +583,5 @@ def parquet_columns(filepath):
     columns_df = pd.DataFrame(
         zip(pqdataset.schema.names, pqdataset.schema.types), columns=["column", "type"]
     )
+    return columns_df
     return columns_df

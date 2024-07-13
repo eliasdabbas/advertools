@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>advertools.image_spider module &mdash;  Python</title>
+  <title>Image Crawler and Downloader &mdash;  Python</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=9e420a66"></script>
+        <script src="_static/documentation_options.js?v=0dc20415"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -26,8 +26,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Regular Expressions for Extracting Structured Entities" href="advertools.regex.html" />
-    <link rel="prev" title="advertools.code_recipes package" href="advertools.code_recipes.html" /> 
+    <link rel="next" title="Log File Analysis" href="advertools.logs.html" />
+    <link rel="prev" title="🕷 Python Status Code Checker with Response Headers" href="advertools.header_spider.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,7 +42,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.0
+                0.14.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -64,13 +64,17 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">SEO</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Crawl images</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#image-file-names">Image file names</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
@@ -110,9 +114,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="include_changelog.html">advertools</a></li>
-          <li class="breadcrumb-item"><a href="advertools.html">advertools package</a></li>
-      <li class="breadcrumb-item active">advertools.image_spider module</li>
+      <li class="breadcrumb-item active">Image Crawler and Downloader</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/advertools.image_spider.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -122,8 +124,107 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-advertools.image_spider">
-<span id="advertools-image-spider-module"></span><h1>advertools.image_spider module<a class="headerlink" href="#module-advertools.image_spider" title="Link to this heading"></a></h1>
+  <section id="image-crawler-and-downloader">
+<span id="module-advertools.image_spider"></span><h1>Image Crawler and Downloader<a class="headerlink" href="#image-crawler-and-downloader" title="Link to this heading"></a></h1>
+<p><strong>Experimental feature - expect changes</strong></p>
+<p>This is a crawler that downloads all images on a given list of URLs. Using
+<a class="reference internal" href="#advertools.image_spider.crawl_images" title="advertools.image_spider.crawl_images"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawl_images()</span></code></a> is straightforward:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl_images</span><span class="p">([</span><span class="n">URL_1</span><span class="p">,</span> <span class="n">URL_2</span><span class="p">,</span> <span class="n">URL_3</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="s2">&quot;output_dir&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This would go to the supplied URLs and download all images found on those URLs, and
+place them in <code class="docutils literal notranslate"><span class="pre">output_dir</span></code>.</p>
+<p>You can set a few conditions to modify the behavior:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">min_width</span></code>: The minimum width in pixels for an image to be downloaded. This is
+mainly to avoid downloading logos, tracking pixels, navigational elemenst as images,
+and so on.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_height</span></code>: The minimum height in pixels for an image to be downloaded</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include_img_regex</span></code>: A regular expression that the image path needs to match in
+order for it to be downloaded. In some cases, after checking the patterns of images
+for example, you might want to only download images that contain &quot;sports&quot;, or any
+other pattern. Or maybe images of interest are under the /economy/ folder and you only
+want those images.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">custom_settings</span></code>: Just like other crawl functions, you can set any custom settings
+you want to control the crawler's behavior. Some examples include changing the
+User-agent, (dis)obeying robots.txt rules, and so on. More options and code details
+can be found in the <a class="reference internal" href="advertools.code_recipes.spider_strategies.html#crawl-strategies"><span class="std std-ref">crawling strategies</span></a> page.</p></li>
+</ul>
+<p>To run the <a class="reference internal" href="#advertools.image_spider.crawl_images" title="advertools.image_spider.crawl_images"><code class="xref py py-func docutils literal notranslate"><span class="pre">crawl_images()</span></code></a> function you need to set an <code class="docutils literal notranslate"><span class="pre">output_dir</span></code>. This is
+where all images will be downloaded. You also get a summary file with details about the
+downloaded images. You can read this file through the special function
+<a class="reference internal" href="#advertools.image_spider.summarize_crawled_imgs" title="advertools.image_spider.summarize_crawled_imgs"><code class="xref py py-func docutils literal notranslate"><span class="pre">summarize_crawled_imgs()</span></code></a> to get a few more details about those images.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">summarize_crawled_imgs</span><span class="p">(</span><span class="s2">&quot;path/to/output_dir&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>image_location</p></th>
+<th class="head"><p>image_urls</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/hannahdobro/dirty-little-industry-secrets?origin=tuh">https://www.buzzfeed.com/hannahdobro/dirty-little-industry-secrets?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="https://img.buzzfeed.com/buzzfeed-static/static/user_images/6r1oxXOpC_large.jpg?downsize=120">https://img.buzzfeed.com/buzzfeed-static/static/user_images/6r1oxXOpC_large.jpg?downsize=120</a>:<a href="#id1"><span class="problematic" id="id2">*</span></a>&amp;output-format=jpg&amp;output-quality=auto</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/hannahdobro/dirty-little-industry-secrets?origin=tuh">https://www.buzzfeed.com/hannahdobro/dirty-little-industry-secrets?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="https://img.buzzfeed.com/buzzfeed-static/static/2024-03/18/16/asset/fce856744ed8/sub-buzz-1303-1710779249-1.jpg">https://img.buzzfeed.com/buzzfeed-static/static/2024-03/18/16/asset/fce856744ed8/sub-buzz-1303-1710779249-1.jpg</a></p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/hannahdobro/dirty-little-industry-secrets?origin=tuh">https://www.buzzfeed.com/hannahdobro/dirty-little-industry-secrets?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/hannahdobro/dirty-little-industry-secrets?origin=tuh">https://www.buzzfeed.com/hannahdobro/dirty-little-industry-secrets?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="https://img.buzzfeed.com/buzzfeed-static/static/2024-03/18/16/asset/245ecfa321e9/sub-buzz-894-1710779358-1.jpg">https://img.buzzfeed.com/buzzfeed-static/static/2024-03/18/16/asset/245ecfa321e9/sub-buzz-894-1710779358-1.jpg</a></p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/chelseastewart/josh-peck-statement-drake-bell-abuse-claims?origin=tuh">https://www.buzzfeed.com/chelseastewart/josh-peck-statement-drake-bell-abuse-claims?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="https://img.buzzfeed.com/buzzfeed-static/static/2017-12/12/13/user_images/buzzfeed-prod-web-03/chelseastewart-v2-5590-1513102854-0_large.jpg?downsize=120">https://img.buzzfeed.com/buzzfeed-static/static/2017-12/12/13/user_images/buzzfeed-prod-web-03/chelseastewart-v2-5590-1513102854-0_large.jpg?downsize=120</a>:<a href="#id3"><span class="problematic" id="id4">*</span></a>&amp;output-format=jpg&amp;output-quality=auto</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/chelseastewart/josh-peck-statement-drake-bell-abuse-claims?origin=tuh">https://www.buzzfeed.com/chelseastewart/josh-peck-statement-drake-bell-abuse-claims?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="https://img.buzzfeed.com/buzzfeed-static/static/2024-03/21/19/asset/ea6298160040/sub-buzz-1093-1711048323-1.jpg?downsize=700%3A%2A&amp;output-quality=auto&amp;output-format=auto">https://img.buzzfeed.com/buzzfeed-static/static/2024-03/21/19/asset/ea6298160040/sub-buzz-1093-1711048323-1.jpg?downsize=700%3A%2A&amp;output-quality=auto&amp;output-format=auto</a></p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/chelseastewart/josh-peck-statement-drake-bell-abuse-claims?origin=tuh">https://www.buzzfeed.com/chelseastewart/josh-peck-statement-drake-bell-abuse-claims?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/chelseastewart/josh-peck-statement-drake-bell-abuse-claims?origin=tuh">https://www.buzzfeed.com/chelseastewart/josh-peck-statement-drake-bell-abuse-claims?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAA7CAMAAADSF118AAAAP1BMVEUAAADIGxPOHBK5EwDFGhi5Fwi8GRTEGhe7EQDMHR7////vyMfddnm5Hx334+Py8fHdj5DLVVXnq6zJOTzVbG1s8SkwAAAACXRSTlMAv4Eo10JnqA8IHfydAAABJUlEQVRYw93Y64rCMBCG4czk5FSzdav3f63bDaxfV4Qm+AXR96/wMNj0kLhtPib9LcutYA8K+F1rKXqH4KmIPZVIOvwnszEqumFjMVLB3+YsRiv8zRqMWHa1ZNQiBuUV3Jo3cn5FlY3qimY2KitajB3+UmLRxRGovgmqTj4HXc69aN5Hj9PcyYqzfXSavk58tJMNTWgv24pW9kpE0fGbioKlomCZKNgLEUXLhYiiMx+dT+xJ8SxgoCDZ6EJcp7jsPBQLlIbiVmpEwy7aS1poeZ30PvqlAQVJRGeQtLfp1dBLPyb0bdDER+OYL2nHR7E34yUjtjw6ZMc3am/KXlSpoodCHrQWiWbxI85Q6Kc9pneHSCmHJ0VJGPPuAC3LWqO/OURL0aEfg76m8Izrt6EAAAAASUVORK5CYII=">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAA7CAMAAADSF118AAAAP1BMVEUAAADIGxPOHBK5EwDFGhi5Fwi8GRTEGhe7EQDMHR7////vyMfddnm5Hx334+Py8fHdj5DLVVXnq6zJOTzVbG1s8SkwAAAACXRSTlMAv4Eo10JnqA8IHfydAAABJUlEQVRYw93Y64rCMBCG4czk5FSzdav3f63bDaxfV4Qm+AXR96/wMNj0kLhtPib9LcutYA8K+F1rKXqH4KmIPZVIOvwnszEqumFjMVLB3+YsRiv8zRqMWHa1ZNQiBuUV3Jo3cn5FlY3qimY2KitajB3+UmLRxRGovgmqTj4HXc69aN5Hj9PcyYqzfXSavk58tJMNTWgv24pW9kpE0fGbioKlomCZKNgLEUXLhYiiMx+dT+xJ8SxgoCDZ6EJcp7jsPBQLlIbiVmpEwy7aS1poeZ30PvqlAQVJRGeQtLfp1dBLPyb0bdDER+OYL2nHR7E34yUjtjw6ZMc3am/KXlSpoodCHrQWiWbxI85Q6Kc9pneHSCmHJ0VJGPPuAC3LWqO/OURL0aEfg76m8Izrt6EAAAAASUVORK5CYII=</a></p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/josephlongo/celebs-wearing-rewearing-same-dress?origin=tuh">https://www.buzzfeed.com/josephlongo/celebs-wearing-rewearing-same-dress?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="https://img.buzzfeed.com/buzzfeed-static/static/2021-06/3/16/user_images/a824550933a9/tomiobaro-v2-2174-1622738336-41_large.jpg?downsize=120">https://img.buzzfeed.com/buzzfeed-static/static/2021-06/3/16/user_images/a824550933a9/tomiobaro-v2-2174-1622738336-41_large.jpg?downsize=120</a>:<a href="#id5"><span class="problematic" id="id6">*</span></a>&amp;output-format=jpg&amp;output-quality=auto</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/josephlongo/celebs-wearing-rewearing-same-dress?origin=tuh">https://www.buzzfeed.com/josephlongo/celebs-wearing-rewearing-same-dress?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="https://img.buzzfeed.com/buzzfeed-static/static/2024-03/19/13/asset/6634db63f453/sub-buzz-576-1710855734-6.jpg?downsize=700%3A%2A&amp;output-quality=auto&amp;output-format=auto">https://img.buzzfeed.com/buzzfeed-static/static/2024-03/19/13/asset/6634db63f453/sub-buzz-576-1710855734-6.jpg?downsize=700%3A%2A&amp;output-quality=auto&amp;output-format=auto</a></p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/josephlongo/celebs-wearing-rewearing-same-dress?origin=tuh">https://www.buzzfeed.com/josephlongo/celebs-wearing-rewearing-same-dress?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="https://img.buzzfeed.com/buzzfeed-static/static/2024-03/19/13/asset/cb8db05df7e7/sub-buzz-1743-1710855790-4.jpg">https://img.buzzfeed.com/buzzfeed-static/static/2024-03/19/13/asset/cb8db05df7e7/sub-buzz-1743-1710855790-4.jpg</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://www.buzzfeed.com/josephlongo/celebs-wearing-rewearing-same-dress?origin=tuh">https://www.buzzfeed.com/josephlongo/celebs-wearing-rewearing-same-dress?origin=tuh</a></p></td>
+<td><p><a class="reference external" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7</a></p></td>
+</tr>
+</tbody>
+</table>
+<section id="image-file-names">
+<h2>Image file names<a class="headerlink" href="#image-file-names" title="Link to this heading"></a></h2>
+<p>The downloaded images need to be given a name naturally, and the name is taken from the
+slug of the image URL, excluding any query parameters or slashes.
+The full URLs of those images can be found in the summary file, and you can access them
+through <a class="reference internal" href="#advertools.image_spider.summarize_crawled_imgs" title="advertools.image_spider.summarize_crawled_imgs"><code class="xref py py-func docutils literal notranslate"><span class="pre">summarize_crawled_imgs()</span></code></a>. You also see where those images are located as
+you can see in the table above.</p>
+</section>
+</section>
 <dl class="py class">
 <dt class="sig sig-object py" id="advertools.image_spider.AdvImagesPipeline">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AdvImagesPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_uri</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/image_spider.html#AdvImagesPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.image_spider.AdvImagesPipeline" title="Link to this definition"></a></dt>
@@ -142,7 +243,7 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Spider</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="advertools.image_spider.ImageSpider.custom_settings">
-<span class="sig-name descname"><span class="pre">custom_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'AUTOTHROTTLE_ENABLED':</span> <span class="pre">True,</span> <span class="pre">'AUTOTHROTTLE_TARGET_CONCURRENCY':</span> <span class="pre">8,</span> <span class="pre">'HTTPERROR_ALLOW_ALL':</span> <span class="pre">True,</span> <span class="pre">'ITEM_PIPELINES':</span> <span class="pre">{&lt;class</span> <span class="pre">'advertools.image_spider.AdvImagesPipeline'&gt;:</span> <span class="pre">1},</span> <span class="pre">'ROBOTSTXT_OBEY':</span> <span class="pre">True,</span> <span class="pre">'USER_AGENT':</span> <span class="pre">'advertools/0.14.0'}</span></em><a class="headerlink" href="#advertools.image_spider.ImageSpider.custom_settings" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">custom_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'AUTOTHROTTLE_ENABLED':</span> <span class="pre">True,</span> <span class="pre">'AUTOTHROTTLE_TARGET_CONCURRENCY':</span> <span class="pre">8,</span> <span class="pre">'HTTPERROR_ALLOW_ALL':</span> <span class="pre">True,</span> <span class="pre">'ITEM_PIPELINES':</span> <span class="pre">{&lt;class</span> <span class="pre">'advertools.image_spider.AdvImagesPipeline'&gt;:</span> <span class="pre">1},</span> <span class="pre">'ROBOTSTXT_OBEY':</span> <span class="pre">True,</span> <span class="pre">'USER_AGENT':</span> <span class="pre">'advertools/0.14.2'}</span></em><a class="headerlink" href="#advertools.image_spider.ImageSpider.custom_settings" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -217,7 +318,6 @@ DataFrame:</p>
 </dl>
 </dd></dl>
 
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -242,8 +342,8 @@ DataFrame:</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="advertools.code_recipes.html" class="btn btn-neutral float-left" title="advertools.code_recipes package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="advertools.regex.html" class="btn btn-neutral float-right" title="Regular Expressions for Extracting Structured Entities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="advertools.header_spider.html" class="btn btn-neutral float-left" title="🕷 Python Status Code Checker with Response Headers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.logs.html" class="btn btn-neutral float-right" title="Log File Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

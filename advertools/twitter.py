@@ -48,7 +48,7 @@ follows:
    >>> import advertools as adv
    >>> adv.twitter.set_auth_params(**auth_params)
 
-In some cases, you might be required to add ``oauth_token`` and 
+In some cases, you might be required to add ``oauth_token`` and
 ``oauth_token_secret, which case you ``auth_params`` will look like this:
 
 .. code-block:: python
@@ -91,23 +91,25 @@ else:
     from pandas.io.json import json_normalize
 
 
-TWITTER_LOG_FMT = ('%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d '
-                   '| %(funcName)s | %(message)s')
+TWITTER_LOG_FMT = (
+    "%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d "
+    "| %(funcName)s | %(message)s"
+)
 logging.basicConfig(format=TWITTER_LOG_FMT)
 
 # Functions that depend on 'previous_cursor' and 'next_cursor' to
 # navigate requests with a lot of data, request pagination basically.
 CURSORED_FUNCTIONS = [
-    'get_followers_ids',
-    'get_followers_list',
-    'get_friends_ids',
-    'get_friends_list',
-    'get_list_members',
-    'get_list_memberships',
-    'get_list_subscribers',
-    'get_list_subscriptions',
-    'get_retweeters_ids',
-    'show_owned_lists',
+    "get_followers_ids",
+    "get_followers_list",
+    "get_friends_ids",
+    "get_friends_list",
+    "get_list_members",
+    "get_list_memberships",
+    "get_list_subscribers",
+    "get_list_subscriptions",
+    "get_retweeters_ids",
+    "show_owned_lists",
 ]
 
 
@@ -116,88 +118,93 @@ CURSORED_FUNCTIONS = [
 # that key, as opposed to other responses where you can easily
 # call DataFrame on them directly
 SPECIAL_KEY_FUNCS = {
-    'search': 'statuses',
-    'get_followers_list': 'users',
-    'get_friends_list': 'users',
-    'get_list_members': 'users',
-    'get_list_subscribers': 'users',
-    'get_list_memberships': 'lists',
-    'get_list_subscriptions': 'lists',
-    'show_owned_lists': 'lists',
-
+    "search": "statuses",
+    "get_followers_list": "users",
+    "get_friends_list": "users",
+    "get_list_members": "users",
+    "get_list_subscribers": "users",
+    "get_list_memberships": "lists",
+    "get_list_subscriptions": "lists",
+    "show_owned_lists": "lists",
 }
 
 
 # Functions that contain an embedded ``user`` key, containing
 # 40+ attributes of the user tweeting, listed, retweeted, etc.
 USER_DATA_EMBEDDED = {
-    'get_favorites': 'tweet_',
-    'get_home_timeline': 'tweet_',
-    'get_list_memberships': 'list_',
-    'get_list_statuses': 'tweet_',
-    'get_list_subscriptions': '',
-    'get_mentions_timeline': 'tweet_',
-    'get_retweets': 'tweet_',
-    'get_user_timeline': 'tweet_',
-    'lookup_status': 'tweet_',
-    'retweeted_of_me': 'tweet_',
-    'search': 'tweet_',
-    'show_lists': 'list_',
-    'show_owned_lists': 'list_',
+    "get_favorites": "tweet_",
+    "get_home_timeline": "tweet_",
+    "get_list_memberships": "list_",
+    "get_list_statuses": "tweet_",
+    "get_list_subscriptions": "",
+    "get_mentions_timeline": "tweet_",
+    "get_retweets": "tweet_",
+    "get_user_timeline": "tweet_",
+    "lookup_status": "tweet_",
+    "retweeted_of_me": "tweet_",
+    "search": "tweet_",
+    "show_lists": "list_",
+    "show_owned_lists": "list_",
 }
 
 
 DEFAULT_COUNTS = {
-    'get_favorites': 200,
-    'get_followers_ids': 5000,
-    'get_followers_list': 200,
-    'get_friends_ids': 5000,
-    'get_friends_list': 200,
-    'get_home_timeline': 200,
-    'get_list_members': 5000,
-    'get_list_memberships': 1000,
-    'get_list_statuses': 100,
-    'get_list_subscribers': 5000,
-    'get_list_subscriptions': 1000,
-    'get_mentions_timeline': 200,
-    'get_retweeters_ids': 100,
-    'get_retweets': 100,
-    'get_user_timeline': 200,
-    'lookup_status': 100,
-    'lookup_user': 100,
-    'retweeted_of_me': 100,
-    'search': 100,
-    'search_users': 20,
-    'show_lists': 100,
-    'show_owned_lists': 1000
+    "get_favorites": 200,
+    "get_followers_ids": 5000,
+    "get_followers_list": 200,
+    "get_friends_ids": 5000,
+    "get_friends_list": 200,
+    "get_home_timeline": 200,
+    "get_list_members": 5000,
+    "get_list_memberships": 1000,
+    "get_list_statuses": 100,
+    "get_list_subscribers": 5000,
+    "get_list_subscriptions": 1000,
+    "get_mentions_timeline": 200,
+    "get_retweeters_ids": 100,
+    "get_retweets": 100,
+    "get_user_timeline": 200,
+    "lookup_status": 100,
+    "lookup_user": 100,
+    "retweeted_of_me": 100,
+    "search": 100,
+    "search_users": 20,
+    "show_lists": 100,
+    "show_owned_lists": 1000,
 }
 
 
 def _expand_entities(df):
-    if 'tweet_entities' in df:
-        colnames = ['tweet_entities_' + x for x in ['mentions', 'hashtags',
-                                                    'urls', 'symbols',
-                                                    'media']]
-        entities_df = json_normalize(df['tweet_entities'])
-        mentions = [', '.join(['@' + x['screen_name'] for x in y])
-                    for y in entities_df['user_mentions']]
-        hashtags = [', '.join(['#' + x['text'] for x in y])
-                    for y in entities_df['hashtags']]
-        urls = [', '.join([x['expanded_url'] for x in y])
-                for y in entities_df['urls']]
-        symbols = [', '.join(['$' + x['text'] for x in y])
-                   for y in entities_df['symbols']]
+    if "tweet_entities" in df:
+        colnames = [
+            "tweet_entities_" + x
+            for x in ["mentions", "hashtags", "urls", "symbols", "media"]
+        ]
+        entities_df = json_normalize(df["tweet_entities"])
+        mentions = [
+            ", ".join(["@" + x["screen_name"] for x in y])
+            for y in entities_df["user_mentions"]
+        ]
+        hashtags = [
+            ", ".join(["#" + x["text"] for x in y]) for y in entities_df["hashtags"]
+        ]
+        urls = [", ".join([x["expanded_url"] for x in y]) for y in entities_df["urls"]]
+        symbols = [
+            ", ".join(["$" + x["text"] for x in y]) for y in entities_df["symbols"]
+        ]
 
-        if 'media' in entities_df:
-            entities_df['media'] = entities_df['media'].fillna('')
-            media = [', '.join([x['media_url'] for x in y]) if y != '' else
-                     y for y in entities_df['media']]
+        if "media" in entities_df:
+            entities_df["media"] = entities_df["media"].fillna("")
+            media = [
+                ", ".join([x["media_url"] for x in y]) if y != "" else y
+                for y in entities_df["media"]
+            ]
             entity_cols = [mentions, hashtags, urls, symbols, media]
         else:
             entity_cols = [mentions, hashtags, urls, symbols]
-        col_idx = df.columns.get_loc('tweet_entities')
+        col_idx = df.columns.get_loc("tweet_entities")
         for j, col in enumerate(entity_cols):
-            df.insert(col_idx+j+1, colnames[j], col)
+            df.insert(col_idx + j + 1, colnames[j], col)
     return df
 
 
@@ -218,9 +225,9 @@ def make_dataframe(func):
     def wrapper(count=None, max_id=None, *args, **kwargs):
         nonlocal func
 
-        twtr = Twython(**wrapper.get_auth_params())
+        twtr = Twython(**wrapper.get_auth_params())  # noqa: F841
         fname = func.__name__
-        func = eval('twtr.' + fname)
+        func = eval("twtr." + fname)
 
         if count is None:
             count = DEFAULT_COUNTS[fname]
@@ -228,38 +235,50 @@ def make_dataframe(func):
 
         responses = []
         for i, count in enumerate(counts):
-            if fname == 'search':
-                if responses and not responses[-1]['statuses']:
+            if fname == "search":
+                if responses and not responses[-1]["statuses"]:
                     break
-                max_id = (max_id or None) if i == 0 else (responses[-1]['statuses'][-1]['id'] - 1)
-            if (fname != 'search') and (fname not in CURSORED_FUNCTIONS):
+                max_id = (
+                    (max_id or None)
+                    if i == 0
+                    else (responses[-1]["statuses"][-1]["id"] - 1)
+                )
+            if (fname != "search") and (fname not in CURSORED_FUNCTIONS):
                 if responses and len(responses[-1]) == 0:
                     break
-                max_id = (max_id or None) if i == 0 else (responses[-1][-1]['id'] - 1)
+                max_id = (max_id or None) if i == 0 else (responses[-1][-1]["id"] - 1)
             if fname in CURSORED_FUNCTIONS:
-                cursor = None if i == 0 else responses[-1]['next_cursor']
+                cursor = None if i == 0 else responses[-1]["next_cursor"]
                 max_id = None
             else:
                 cursor = None
-            kwargs_log = ', '.join([k + '=' + str(v) for k, v in kwargs.items()])
-            args_log = ', '.join(args)
-            logging.info(msg=fname + ' | ' + 'Requesting: ' +
-                         'count=' + str(count) + ', max_id=' +
-                         str(max_id) + ', ' + kwargs_log + args_log)
+            kwargs_log = ", ".join([k + "=" + str(v) for k, v in kwargs.items()])
+            args_log = ", ".join(args)
+            logging.info(
+                msg=fname
+                + " | "
+                + "Requesting: "
+                + "count="
+                + str(count)
+                + ", max_id="
+                + str(max_id)
+                + ", "
+                + kwargs_log
+                + args_log
+            )
 
-            resp = func(count=count,
-                        max_id=max_id,
-                        cursor=cursor,
-                        *args, **kwargs)
+            resp = func(count=count, max_id=max_id, cursor=cursor, *args, **kwargs)  # noqa: B026
             responses.append(resp)
 
-        if '_ids' in fname:
+        if "_ids" in fname:
             finallist = []
             for sublist in responses:
-                finallist.extend(sublist['ids'])
-            finaldict = {'previous_cursor': responses[0]['previous_cursor'],
-                         'next_cursor': responses[-1]['next_cursor'],
-                         'ids': finallist}
+                finallist.extend(sublist["ids"])
+            finaldict = {
+                "previous_cursor": responses[0]["previous_cursor"],
+                "next_cursor": responses[-1]["next_cursor"],
+                "ids": finallist,
+            }
             return finaldict
 
         final_df = pd.DataFrame()
@@ -267,9 +286,13 @@ def make_dataframe(func):
             if SPECIAL_KEY_FUNCS.get(fname):
                 resp_df = pd.DataFrame(resp[SPECIAL_KEY_FUNCS.get(fname)])
                 if fname in USER_DATA_EMBEDDED:
-                    resp_df.columns = [USER_DATA_EMBEDDED[fname] + col for col in resp_df.columns]
-                    user_df = pd.DataFrame([x['user'] for x in resp[SPECIAL_KEY_FUNCS.get(fname)]])
-                    user_df.columns = ['user_' + col for col in user_df.columns]
+                    resp_df.columns = [
+                        USER_DATA_EMBEDDED[fname] + col for col in resp_df.columns
+                    ]
+                    user_df = pd.DataFrame(
+                        [x["user"] for x in resp[SPECIAL_KEY_FUNCS.get(fname)]]
+                    )
+                    user_df.columns = ["user_" + col for col in user_df.columns]
                     temp_df = pd.concat([resp_df, user_df], axis=1, sort=False)
                 else:
                     temp_df = resp_df
@@ -277,31 +300,37 @@ def make_dataframe(func):
                 resp_df = pd.DataFrame(resp)
 
                 if fname in USER_DATA_EMBEDDED:
-                    resp_df.columns = [USER_DATA_EMBEDDED[fname] + x for x in resp_df.columns]
-                    user_df = pd.DataFrame([x['user'] for x in resp])
-                    user_df.columns = ['user_' + x for x in user_df.columns]
+                    resp_df.columns = [
+                        USER_DATA_EMBEDDED[fname] + x for x in resp_df.columns
+                    ]
+                    user_df = pd.DataFrame([x["user"] for x in resp])
+                    user_df.columns = ["user_" + x for x in user_df.columns]
                     temp_df = pd.concat([resp_df, user_df], axis=1)
                 else:
                     temp_df = resp_df
             final_df = pd.concat([final_df, temp_df], sort=False, ignore_index=True)
 
         for col in final_df:
-            if 'created_at' in col:
+            if "created_at" in col:
                 final_df[col] = pd.to_datetime(final_df[col])
         for col in final_df:
-            if 'source' in col:
-                final_df[col + '_url'] = final_df[col].str.extract('<a href="(.*)" rel=')[0]
+            if "source" in col:
+                final_df[col + "_url"] = final_df[col].str.extract(
+                    '<a href="(.*)" rel='
+                )[0]
                 final_df[col] = final_df[col].str.extract('nofollow">(.*)</a>')[0]
-        if 'tweet_entities' in final_df:
+        if "tweet_entities" in final_df:
             return _expand_entities(final_df)
 
         return final_df
+
     return wrapper
 
 
 def authenticate(func):
     """Used internally, please use set_auth_params for authentication."""
     auth_params = {}
+
     @wraps(func)
     def wrapper(*args, **kwargs):
         return func(*args, **kwargs)
@@ -332,18 +361,21 @@ def get_application_rate_limit_status(consumed_only=True):
     twtr = Twython(**get_application_rate_limit_status.get_auth_params())
     ratelimit = twtr.get_application_rate_limit_status()
     limit_df = pd.DataFrame()
-    for resource in ratelimit['resources']:
-        temp_df = pd.DataFrame(ratelimit['resources'][resource]).T
+    for resource in ratelimit["resources"]:
+        temp_df = pd.DataFrame(ratelimit["resources"][resource]).T
         limit_df = pd.concat([limit_df, temp_df], sort=False)
-    limit_df['reset'] = pd.to_datetime(limit_df['reset'], unit='s')
-    limit_df['resource'] = limit_df.index.str.split('/').str[1]
-    limit_df.index.name = 'endpoint'
-    limit_df = limit_df.sort_values(['resource'])
+    limit_df["reset"] = pd.to_datetime(limit_df["reset"], unit="s")
+    limit_df["resource"] = limit_df.index.str.split("/").str[1]
+    limit_df.index.name = "endpoint"
+    limit_df = limit_df.sort_values(["resource"])
     limit_df = limit_df.reset_index()
     if consumed_only:
-        print(' '*12, 'Rate limit as of:',
-              pd.Timestamp.now(tz='UTC').strftime('%Y-%m-%-d %H:%M:%S'))
-        return limit_df[limit_df['limit'].ne(limit_df['remaining'])]
+        print(
+            " " * 12,
+            "Rate limit as of:",
+            pd.Timestamp.now(tz="UTC").strftime("%Y-%m-%-d %H:%M:%S"),
+        )
+        return limit_df[limit_df["limit"].ne(limit_df["remaining"])]
     return limit_df
 
 
@@ -358,18 +390,25 @@ def get_available_trends():
 
     available_trends = twtr.get_available_trends()
     trends_df = pd.DataFrame(available_trends)
-    trends_df['code'] = [x['code'] for x in trends_df['placeType']]
-    trends_df['place_type'] = [x['name'] for x in trends_df['placeType']]
-    del trends_df['placeType']
-    trends_df = trends_df.sort_values(['country', 'place_type', 'name'])
+    trends_df["code"] = [x["code"] for x in trends_df["placeType"]]
+    trends_df["place_type"] = [x["name"] for x in trends_df["placeType"]]
+    del trends_df["placeType"]
+    trends_df = trends_df.sort_values(["country", "place_type", "name"])
     trends_df = trends_df.reset_index(drop=True)
     return trends_df
 
 
 @make_dataframe
 @authenticate
-def get_favorites(user_id=None, screen_name=None, count=None, since_id=None,
-                  max_id=None, include_entities=None, tweet_mode=None):
+def get_favorites(
+    user_id=None,
+    screen_name=None,
+    count=None,
+    since_id=None,
+    max_id=None,
+    include_entities=None,
+    tweet_mode=None,
+):
     """
     Returns the 20 most recent Tweets favorited by the authenticating
         or specified user.
@@ -399,8 +438,9 @@ def get_favorites(user_id=None, screen_name=None, count=None, since_id=None,
 
 @make_dataframe
 @authenticate
-def get_followers_ids(user_id=None, screen_name=None, cursor=None,
-                      stringify_ids=None, count=None):
+def get_followers_ids(
+    user_id=None, screen_name=None, cursor=None, stringify_ids=None, count=None
+):
     """
     Returns a cursored collection of user IDs for every user
         following the specified user.
@@ -428,8 +468,14 @@ def get_followers_ids(user_id=None, screen_name=None, cursor=None,
 
 @make_dataframe
 @authenticate
-def get_followers_list(user_id=None, screen_name=None, cursor=None, count=None,
-                       skip_status=None, include_user_entities=None):
+def get_followers_list(
+    user_id=None,
+    screen_name=None,
+    cursor=None,
+    count=None,
+    skip_status=None,
+    include_user_entities=None,
+):
     """
     Returns a cursored collection of user objects for users
         following the specified user.
@@ -457,8 +503,9 @@ def get_followers_list(user_id=None, screen_name=None, cursor=None, count=None,
 
 @make_dataframe
 @authenticate
-def get_friends_ids(user_id=None, screen_name=None, cursor=None,
-                    stringify_ids=None, count=None):
+def get_friends_ids(
+    user_id=None, screen_name=None, cursor=None, stringify_ids=None, count=None
+):
     """
     Returns a cursored collection of user IDs for every user the
         specified user is following (otherwise known as their "friends").
@@ -486,8 +533,14 @@ def get_friends_ids(user_id=None, screen_name=None, cursor=None,
 
 @make_dataframe
 @authenticate
-def get_friends_list(user_id=None, screen_name=None, cursor=None, count=None,
-                     skip_status=None, include_user_entities=None):
+def get_friends_list(
+    user_id=None,
+    screen_name=None,
+    cursor=None,
+    count=None,
+    skip_status=None,
+    include_user_entities=None,
+):
     """
     Returns a cursored collection of user objects for every user the
         specified user is following (otherwise known as their "friends").
@@ -514,8 +567,15 @@ def get_friends_list(user_id=None, screen_name=None, cursor=None, count=None,
 
 @make_dataframe
 @authenticate
-def get_home_timeline(count=None, since_id=None, max_id=None, trim_user=None,
-                      exclude_replies=None, include_entities=None, tweet_mode=None):
+def get_home_timeline(
+    count=None,
+    since_id=None,
+    max_id=None,
+    trim_user=None,
+    exclude_replies=None,
+    include_entities=None,
+    tweet_mode=None,
+):
     """
     Returns a collection of the most recent Tweets and retweets
         posted by the authenticating user and the users they follow.
@@ -549,8 +609,16 @@ def get_home_timeline(count=None, since_id=None, max_id=None, trim_user=None,
 
 @make_dataframe
 @authenticate
-def get_list_members(list_id=None, slug=None, owner_screen_name=None, owner_id=None,
-                     count=None, cursor=None, include_entities=None, skip_status=None):
+def get_list_members(
+    list_id=None,
+    slug=None,
+    owner_screen_name=None,
+    owner_id=None,
+    count=None,
+    cursor=None,
+    include_entities=None,
+    skip_status=None,
+):
     """
     Returns the members of the specified list.
 
@@ -581,8 +649,9 @@ def get_list_members(list_id=None, slug=None, owner_screen_name=None, owner_id=N
 
 @make_dataframe
 @authenticate
-def get_list_memberships(user_id=None, screen_name=None, count=None,
-                         cursor=None, filter_to_owned_lists=None):
+def get_list_memberships(
+    user_id=None, screen_name=None, count=None, cursor=None, filter_to_owned_lists=None
+):
     """
     Returns the lists the specified user has been added to.
 
@@ -609,9 +678,18 @@ def get_list_memberships(user_id=None, screen_name=None, count=None,
 
 @make_dataframe
 @authenticate
-def get_list_statuses(list_id=None, slug=None, owner_screen_name=None, owner_id=None,
-                      since_id=None, max_id=None, count=None, include_entities=None,
-                      include_rts=None, tweet_mode=None):
+def get_list_statuses(
+    list_id=None,
+    slug=None,
+    owner_screen_name=None,
+    owner_id=None,
+    since_id=None,
+    max_id=None,
+    count=None,
+    include_entities=None,
+    include_rts=None,
+    tweet_mode=None,
+):
     """
     Returns a timeline of tweets authored by members of the specified list.
 
@@ -651,8 +729,16 @@ def get_list_statuses(list_id=None, slug=None, owner_screen_name=None, owner_id=
 
 @make_dataframe
 @authenticate
-def get_list_subscribers(list_id=None, slug=None, owner_screen_name=None, owner_id=None,
-                         count=None, cursor=None, include_entities=None, skip_status=None):
+def get_list_subscribers(
+    list_id=None,
+    slug=None,
+    owner_screen_name=None,
+    owner_id=None,
+    count=None,
+    cursor=None,
+    include_entities=None,
+    skip_status=None,
+):
     """
     Returns the subscribers of the specified list.
 
@@ -686,8 +772,7 @@ def get_list_subscribers(list_id=None, slug=None, owner_screen_name=None, owner_
 
 @make_dataframe
 @authenticate
-def get_list_subscriptions(user_id=None, screen_name=None, count=None,
-                           cursor=None):
+def get_list_subscriptions(user_id=None, screen_name=None, count=None, cursor=None):
     """
     Obtain a collection of the lists the specified user is subscribed to.
 
@@ -711,8 +796,14 @@ def get_list_subscriptions(user_id=None, screen_name=None, count=None,
 
 @make_dataframe
 @authenticate
-def get_mentions_timeline(count=None, since_id=None, max_id=None,
-                          trim_user=None, include_entities=None, tweet_mode=None):
+def get_mentions_timeline(
+    count=None,
+    since_id=None,
+    max_id=None,
+    trim_user=None,
+    include_entities=None,
+    tweet_mode=None,
+):
     """
     Returns the 20 most recent mentions (tweets containing a users's
         @screen_name) for the authenticating user.
@@ -745,10 +836,10 @@ def get_place_trends(ids, exclude=None):
     Returns the top 10 trending topics for a specific WOEID, if
         trending information is available for it.
 
-    :param id: (int or list of ints - required) run ``get_available_trends()`` for 
+    :param id: (int or list of ints - required) run ``get_available_trends()`` for
         the full listing.
-        The Yahoo! Where On Earth ID of the 
-        location to return trending information for. Global information is available 
+        The Yahoo! Where On Earth ID of the
+        location to return trending information for. Global information is available
         by using 1 as the WOEID .
     :param exclude: (str - optional) Setting this equal to hashtags will remove
         all hashtags from the trends list.
@@ -760,33 +851,44 @@ def get_place_trends(ids, exclude=None):
     if isinstance(ids, int):
         ids = [ids]
     for place_id in ids:
-
         place_trends = twtr.get_place_trends(id=place_id)
-        trend_df = pd.DataFrame(place_trends[0]['trends'])
-        trend_df = trend_df.sort_values(['tweet_volume'], ascending=False)
-        trend_df['location'] = place_trends[0]['locations'][0]['name']
-        trend_df['woeid'] = place_trends[0]['locations'][0]['woeid']
-        trend_df['time'] = pd.to_datetime(place_trends[0]['created_at'])
+        trend_df = pd.DataFrame(place_trends[0]["trends"])
+        trend_df = trend_df.sort_values(["tweet_volume"], ascending=False)
+        trend_df["location"] = place_trends[0]["locations"][0]["name"]
+        trend_df["woeid"] = place_trends[0]["locations"][0]["woeid"]
+        trend_df["time"] = pd.to_datetime(place_trends[0]["created_at"])
 
         trends_df = pd.concat([trends_df, trend_df], ignore_index=True)
 
-    trends_df = trends_df.sort_values(['woeid', 'tweet_volume'],
-                                      ascending=[True, False])
+    trends_df = trends_df.sort_values(
+        ["woeid", "tweet_volume"], ascending=[True, False]
+    )
     trends_df = trends_df.reset_index(drop=True)
     available = get_available_trends()
-    available = available[['country', 'parentid', 'woeid', 'place_type']]
-    final_df = pd.merge(trends_df, available, on='woeid')
-    final_df['local_rank'] = (final_df
-                              .groupby('woeid')['tweet_volume']
-                              .rank(method='dense', ascending=False))
-    final_df['country_rank'] = (final_df
-                                .groupby('country')['tweet_volume']
-                                .rank(method='dense', ascending=False))
-    final_df = final_df[['name', 'location', 'tweet_volume', 'local_rank',
-                         'country', 'country_rank', 'time','place_type',
-                         'promoted_content', 'woeid', 'parentid']]
+    available = available[["country", "parentid", "woeid", "place_type"]]
+    final_df = pd.merge(trends_df, available, on="woeid")
+    final_df["local_rank"] = final_df.groupby("woeid")["tweet_volume"].rank(
+        method="dense", ascending=False
+    )
+    final_df["country_rank"] = final_df.groupby("country")["tweet_volume"].rank(
+        method="dense", ascending=False
+    )
+    final_df = final_df[
+        [
+            "name",
+            "location",
+            "tweet_volume",
+            "local_rank",
+            "country",
+            "country_rank",
+            "time",
+            "place_type",
+            "promoted_content",
+            "woeid",
+            "parentid",
+        ]
+    ]
     return final_df
-
 
 
 @make_dataframe
@@ -839,7 +941,6 @@ def get_retweets(id, trim_user=None, tweet_mode=None):
     pass
 
 
-
 @authenticate
 def get_supported_languages():
     """
@@ -853,12 +954,19 @@ def get_supported_languages():
     return pd.DataFrame(langs)
 
 
-
 @make_dataframe
 @authenticate
-def get_user_timeline(user_id=None, screen_name=None, since_id=None,
-                      count=None, max_id=None, trim_user=None, exclude_replies=None,
-                      include_rts=None, tweet_mode=None):
+def get_user_timeline(
+    user_id=None,
+    screen_name=None,
+    since_id=None,
+    count=None,
+    max_id=None,
+    trim_user=None,
+    exclude_replies=None,
+    include_rts=None,
+    tweet_mode=None,
+):
     """
     Returns a collection of the most recent Tweets posted by the user
         indicated by the ``screen_name`` or ``user_id`` parameters.
@@ -898,8 +1006,15 @@ def get_user_timeline(user_id=None, screen_name=None, since_id=None,
 
 @make_dataframe
 @authenticate
-def lookup_status(id, include_entities=None, trim_user=None, map=None,
-                  include_ext_alt_text=None, include_card_uri=None, tweet_mode=None):
+def lookup_status(
+    id,
+    include_entities=None,
+    trim_user=None,
+    map=None,
+    include_ext_alt_text=None,
+    include_card_uri=None,
+    tweet_mode=None,
+):
     """
     Returns fully-hydrated tweet objects for up to 100 tweets per
         request, as specified by comma-separated values passed to the ``id``
@@ -933,8 +1048,7 @@ def lookup_status(id, include_entities=None, trim_user=None, map=None,
 
 @make_dataframe
 @authenticate
-def lookup_user(screen_name=None, user_id=None, include_entities=None,
-                tweet_mode=None):
+def lookup_user(screen_name=None, user_id=None, include_entities=None, tweet_mode=None):
     """
     Returns fully-hydrated user objects for up to 100 users per request,
         as specified by comma-separated values passed to the ``user_id`` and/or
@@ -959,8 +1073,15 @@ def lookup_user(screen_name=None, user_id=None, include_entities=None,
 
 @make_dataframe
 @authenticate
-def retweeted_of_me(count=None, since_id=None, max_id=None, trim_user=None,
-                    include_entities=None, include_user_entities=None, tweet_mode=None):
+def retweeted_of_me(
+    count=None,
+    since_id=None,
+    max_id=None,
+    trim_user=None,
+    include_entities=None,
+    include_user_entities=None,
+    tweet_mode=None,
+):
     """
     Returns the most recent tweets authored by the authenticating user
         that have been retweeted by others.
@@ -991,9 +1112,19 @@ def retweeted_of_me(count=None, since_id=None, max_id=None, trim_user=None,
 
 @make_dataframe
 @authenticate
-def search(q, geocode=None, lang=None, locale=None, result_type=None,
-           count=None, until=None, since_id=None, max_id=None, include_entities=None,
-           tweet_mode=None):
+def search(
+    q,
+    geocode=None,
+    lang=None,
+    locale=None,
+    result_type=None,
+    count=None,
+    until=None,
+    since_id=None,
+    max_id=None,
+    include_entities=None,
+    tweet_mode=None,
+):
     """
     Returns a collection of relevant Tweets matching a specified query.
 
@@ -1101,7 +1232,7 @@ def search(q, geocode=None, lang=None, locale=None, result_type=None,
     +------------------------------------+-----------------------------------------------------+
 
     https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets
-    """
+    """  # noqa: E501
     pass
 
 
@@ -1200,16 +1331,24 @@ FUNCTIONS = [
 ]
 
 
-def set_auth_params(app_key=None, app_secret=None, oauth_token=None,
-                    oauth_token_secret=None, access_token=None,
-                    token_type='bearer', oauth_version=1, api_version='1.1',
-                    client_args=None, auth_endpoint='authenticate'):
-    """The main function for authentication. 
-    Needs to be called once in a session. 
-    
+def set_auth_params(
+    app_key=None,
+    app_secret=None,
+    oauth_token=None,
+    oauth_token_secret=None,
+    access_token=None,
+    token_type="bearer",
+    oauth_version=1,
+    api_version="1.1",
+    client_args=None,
+    auth_endpoint="authenticate",
+):
+    """The main function for authentication.
+    Needs to be called once in a session.
+
     First you need to create a developer account and app:
-    https://developer.twitter.com/ to get your credentials. 
-    
+    https://developer.twitter.com/ to get your credentials.
+
     Different ways to authenticate:
     https://twython.readthedocs.io/en/latest/usage/starting_out.html
     """
@@ -1219,4 +1358,4 @@ def set_auth_params(app_key=None, app_secret=None, oauth_token=None,
     return None
 
 
-logging.getLogger().setLevel('INFO')
+logging.getLogger().setLevel("INFO")

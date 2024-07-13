@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """
 convert a robots.txt file (or list of file URLs) to a table in a CSV format
 ============================================================================

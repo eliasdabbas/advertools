@@ -604,12 +604,20 @@ Extract Emoji 😂😭🥺🤣❤️✨🙏😍
 
     emoji_summary['top_emoji_sub_groups']
 
-"""
-__all__ = ['extract', 'extract_currency',
-           'extract_exclamations', 'extract_hashtags',
-           'extract_intense_words', 'extract_mentions', 'extract_numbers',
-           'extract_questions', 'extract_words', 'extract_urls'
-           ]
+"""  # noqa: E501
+
+__all__ = [
+    "extract",
+    "extract_currency",
+    "extract_exclamations",
+    "extract_hashtags",
+    "extract_intense_words",
+    "extract_mentions",
+    "extract_numbers",
+    "extract_questions",
+    "extract_words",
+    "extract_urls",
+]
 
 import re
 from collections import Counter
@@ -617,8 +625,17 @@ from unicodedata import name
 from urllib.parse import urlparse
 
 # from .emoji import EMOJI, EMOJI_ENTRIES
-from .regex import (CURRENCY, CURRENCY_RAW, EXCLAMATION, EXCLAMATION_MARK,
-                    HASHTAG, MENTION, QUESTION, QUESTION_MARK, URL)
+from .regex import (
+    CURRENCY,
+    CURRENCY_RAW,
+    EXCLAMATION,
+    EXCLAMATION_MARK,
+    HASHTAG,
+    MENTION,
+    QUESTION,
+    QUESTION_MARK,
+    URL,
+)
 
 
 def extract(text_list, regex, key_name, extracted=None, **kwargs):
@@ -645,26 +662,25 @@ def extract(text_list, regex, key_name, extracted=None, **kwargs):
     if isinstance(text_list, str):
         text_list = [text_list]
     if not extracted:
-        extracted = [regex.findall(text.lower())
-                     for text in text_list]
+        extracted = [regex.findall(text.lower()) for text in text_list]
     flat = [item for sublist in extracted for item in sublist]
 
     summary = {
-        key_name + 's': extracted,
-        key_name + 's' + '_flat': flat,
-        key_name + '_counts': [len(x) for x in extracted],
-        key_name + '_freq': sorted(Counter([len(i)
-                                            for i in extracted]).items(),
-                                   key=lambda x: x[0]),
-        'top_' + key_name + 's': sorted(Counter(flat).items(),
-                                        key=lambda x: x[1],
-                                        reverse=True),
-        'overview': {
-            'num_posts': len(text_list),
-            'num_' + key_name + 's': len(flat),
-            key_name + 's' + '_per_post': len(flat) / len(text_list),
-            'unique_' + key_name + 's': len(set(flat)),
-        }
+        key_name + "s": extracted,
+        key_name + "s" + "_flat": flat,
+        key_name + "_counts": [len(x) for x in extracted],
+        key_name + "_freq": sorted(
+            Counter([len(i) for i in extracted]).items(), key=lambda x: x[0]
+        ),
+        "top_" + key_name + "s": sorted(
+            Counter(flat).items(), key=lambda x: x[1], reverse=True
+        ),
+        "overview": {
+            "num_posts": len(text_list),
+            "num_" + key_name + "s": len(flat),
+            key_name + "s" + "_per_post": len(flat) / len(text_list),
+            "unique_" + key_name + "s": len(set(flat)),
+        },
     }
     return summary
 
@@ -675,13 +691,25 @@ def extract_currency(text_list, left_chars=20, right_chars=20):
     Get a summary of the number of currency symbols, their frequency,
     the top ones, and more.
 
-    :param list text_list: A list of text strings.
-    :param int left_chars: The number of characters to extract, to the
-        left of the symbol when getting :attr:`surrounding_text`
-    :param int right_chars: The number of characters to extract, to the
-        left of the symbol when getting :attr:`surrounding_text`
-    :returns summary: A dictionary with various stats about currencies
+    Parameters
+    ----------
+    text_list : list
+      A list of text strings.
+    left_chars : int
+      The number of characters to extract, to the left of the symbol when getting
+      :attr:`surrounding_text`
+    right_chars : int
+      The number of characters to extract, to the left of the symbol when getting
+      :attr:`surrounding_text`
 
+    Returns
+    -------
+
+    summary : dict
+      A dictionary with various stats about currencies.
+
+    Examples
+    --------
     >>> posts = ['today ₿1 is around $4k', 'and ₿ in £ & €?', 'no idea']
     >>> currency_summary = extract_currency(posts)
     >>> currency_summary.keys()
@@ -733,15 +761,22 @@ def extract_currency(text_list, left_chars=20, right_chars=20):
     'currency_symbols_per_post': 1.6666666666666667,
     'unique_currency_symbols': 4}
     """
-    summary = extract(text_list, CURRENCY, 'currency_symbol')
-    summary['currency_symbol_names'] = [[name(c).lower() for c in x] if x
-                                        else [] for x in
-                                        summary['currency_symbols']]
-    surrounding_text_regex = re.compile(r'.{0,' + str(left_chars) + '}' +
-                                        CURRENCY_RAW +
-                                        r'.{0,' + str(right_chars) + '}')
-    summary['surrounding_text'] = [surrounding_text_regex.findall(text)
-                                   for text in text_list]
+    summary = extract(text_list, CURRENCY, "currency_symbol")
+    summary["currency_symbol_names"] = [
+        [name(c).lower() for c in x] if x else [] for x in summary["currency_symbols"]
+    ]
+    surrounding_text_regex = re.compile(
+        r".{0,"
+        + str(left_chars)
+        + "}"
+        + CURRENCY_RAW
+        + r".{0,"
+        + str(right_chars)
+        + "}"
+    )
+    summary["surrounding_text"] = [
+        surrounding_text_regex.findall(text) for text in text_list
+    ]
     return summary
 
 
@@ -751,9 +786,16 @@ def extract_exclamations(text_list):
     Get a summary of the number of exclamation marks, their frequency,
     the top ones, as well the exclamations written/said.
 
-    :param list text_list: A list of text strings.
-    :returns summary: A dictionary with various stats about exclamations
+    text_list : list
+      A list of text strings.
 
+    Returns
+    -------
+    summary : dict
+      A dictionary with various stats about exclamations.
+
+    Examples
+    --------
     >>> posts = ['Who are you!', 'What is this!', 'No exclamation here?']
     >>> exclamation_summary = extract_exclamations(posts)
     >>> exclamation_summary.keys()
@@ -841,12 +883,11 @@ def extract_exclamations(text_list):
     'exclamation_marks_per_post': 1.5,
     'unique_exclamation_marks': 4}
     """
-    summary = extract(text_list, EXCLAMATION_MARK, key_name='exclamation_mark')
-    summary['exclamation_mark_names'] = [[name(c).lower() for c in x] if x
-                                         else [] for x in
-                                         summary['exclamation_marks']]
-    summary['exclamation_text'] = [EXCLAMATION.findall(text)
-                                   for text in text_list]
+    summary = extract(text_list, EXCLAMATION_MARK, key_name="exclamation_mark")
+    summary["exclamation_mark_names"] = [
+        [name(c).lower() for c in x] if x else [] for x in summary["exclamation_marks"]
+    ]
+    summary["exclamation_text"] = [EXCLAMATION.findall(text) for text in text_list]
     return summary
 
 
@@ -856,9 +897,16 @@ def extract_hashtags(text_list):
     Get a summary of the number of hashtags, their frequency, the top
     ones, and more.
 
-    :param list text_list: A list of text strings.
-    :returns summary: A dictionary with various stats about hashtags
+    text_list : list
+      A list of text strings.
 
+    Returns
+    -------
+    summary : dict
+      A dictionary with various stats about hashtags.
+
+    Examples
+    --------
     >>> posts = ['i like #blue', 'i like #green and #blue', 'i like all']
     >>> hashtag_summary = extract_hashtags(posts)
     >>> hashtag_summary.keys()
@@ -895,8 +943,8 @@ def extract_hashtags(text_list):
      'num_hashtags': 3,
      'hashtags_per_post': 1.0,
      'unique_hashtags': 2}
-     """
-    return extract(text_list, HASHTAG, 'hashtag')
+    """
+    return extract(text_list, HASHTAG, "hashtag")
 
 
 def extract_intense_words(text_list, min_reps=3):
@@ -906,17 +954,23 @@ def extract_intense_words(text_list, min_reps=3):
     words that have :attr:`min_reps` or more repetitions of characters.
     "I looooooveeee youuuuuuu", and "I haaatttteeee youuuuuu" are both intense.
 
-    :param list text_list: A text list from which to extract intense words
-    :param int min_reps: The number of times a character has to be repeated for
-                         the word to be considered intense.
+    Parameters
+    ----------
+    text_list : list
+      A text list from which to extract intense words.
+    min_reps : int
+      The number of times a character has to be repeated for the word to be considered
+      intense.
 
-    :returns summary: A dictionary with various stats about intense words
+    Returns
+    -------
+    summary : dict
+      A dictionary with various stats about intense words.
     """
-    regex = re.compile(r'(\S*)(\S)({}\S*)'.format((min_reps - 1) * r'\2'))
-    extracted = [[''.join(x) for x in regex.findall(text)]
-                 for text in text_list]
+    regex = re.compile(r"(\S*)(\S)({}\S*)".format((min_reps - 1) * r"\2"))
+    extracted = [["".join(x) for x in regex.findall(text)] for text in text_list]
 
-    return extract(text_list, regex, 'intense_word', extracted)
+    return extract(text_list, regex, "intense_word", extracted)
 
 
 def extract_mentions(text_list):
@@ -925,9 +979,18 @@ def extract_mentions(text_list):
     Get a summary of the number of mentions, their frequency, the top
     ones, and more.
 
-    :param list text_list: A list of text strings.
-    :returns summary: A dictionary with various stats about mentions
+    Parameters
+    ----------
+    text_list : list
+      A list of text strings.
 
+    Returns
+    -------
+    summary : dict
+      A dictionary with various stats about mentions.
+
+    Examples
+    --------
     >>> posts = ['hello @john and @jenny', 'hi there @john', 'good morning']
     >>> mention_summary = extract_mentions(posts)
     >>> mention_summary.keys()
@@ -965,10 +1028,10 @@ def extract_mentions(text_list):
      'mentions_per_post': 1.0,
      'unique_mentions': 2}
     """
-    return extract(text_list, MENTION, 'mention')
+    return extract(text_list, MENTION, "mention")
 
 
-def extract_numbers(text_list, number_separators=('.', ',', '-')):
+def extract_numbers(text_list, number_separators=(".", ",", "-")):
     """Return a summary dictionary about numbers in ``text_list``, separated
     by any of ``number_separators``
 
@@ -976,18 +1039,27 @@ def extract_numbers(text_list, number_separators=('.', ',', '-')):
     ones, and more. Typically, numbers would contain separators to make them
     easier to read, so these are included by default, which you can modify.
 
-    :param list text_list: A list of text strings.
-    :param list(str) number_separators: A list of separators that you want
-        to be included as part of the extracted numbers.
-    :returns summary: A dictionary with various stats about the numbers
+    Parameters
+    ----------
+    text_list : list
+      A list of text strings.
+    number_separators : list
+      A list of separators that you want to be included as part of the extracted
+      numbers.
 
+    Returns
+    -------
+    summary : dict
+      A dictionary with various stats about the numbers.
+
+    Examples
+    --------
     >>> posts = ['text before 123', '123,456 text after', 'phone 333-444-555',
     'multiple 123,456 and 123.456.789']
     >>> number_summary = extract_numbers(posts)
     >>> number_summary.keys()
     dict_keys(['numbers', 'numbers_flat', 'number_counts', 'number_freq',
     'top_numbers', 'overview'])
-
 
     >>> number_summary['numbers']
     [['123'], ['123,456'], ['333-444-555'], ['123,456', '123.456.789']]
@@ -1021,14 +1093,13 @@ def extract_numbers(text_list, number_separators=('.', ',', '-')):
      'unique_numbers': 4}
     """
     if not number_separators:
-        regex = r'\d+'
+        regex = r"\d+"
     else:
-        if '-' in number_separators:
-            number_separators = ([s for s in number_separators if s != '-']
-                                 + ['-'])
-        separators = '[' + ''.join(number_separators) + ']'
-        regex = r'(?:(?:\d+' + separators + '?)+)?' + r'\d+'
-    return extract(text_list, regex=regex, key_name='number')
+        if "-" in number_separators:
+            number_separators = [s for s in number_separators if s != "-"] + ["-"]
+        separators = "[" + "".join(number_separators) + "]"
+        regex = r"(?:(?:\d+" + separators + "?)+)?" + r"\d+"
+    return extract(text_list, regex=regex, key_name="number")
 
 
 def extract_questions(text_list):
@@ -1037,9 +1108,18 @@ def extract_questions(text_list):
     Get a summary of the number of question marks, their frequency,
     the top ones, as well the questions asked.
 
-    :param list text_list: A list of text strings.
-    :returns summary: A dictionary with various stats about questions
+    Parameters
+    ----------
+    text_list : list
+      A list of text strings.
 
+    Returns
+    -------
+    summary : dict
+      A dictionary with various stats about questions.
+
+    Examples
+    --------
     >>> posts = ['How are you?', 'What is this?', 'No question Here!']
     >>> question_summary = extract_questions(posts)
     >>> question_summary.keys()
@@ -1129,12 +1209,11 @@ def extract_questions(text_list):
     'question_marks_per_post': 1.5,
     'unique_question_marks': 4}
     """
-    summary = extract(text_list, QUESTION_MARK, key_name='question_mark')
-    summary['question_mark_names'] = [[name(c).lower() for c in x] if x
-                                      else [] for x in
-                                      summary['question_marks']]
-    summary['question_text'] = [QUESTION.findall(text)
-                                for text in text_list]
+    summary = extract(text_list, QUESTION_MARK, key_name="question_mark")
+    summary["question_mark_names"] = [
+        [name(c).lower() for c in x] if x else [] for x in summary["question_marks"]
+    ]
+    summary["question_text"] = [QUESTION.findall(text) for text in text_list]
     return summary
 
 
@@ -1145,9 +1224,18 @@ def extract_urls(text_list):
     ones, and more.
     This does NOT validate URLs, www.a.b would count as a URL
 
-    :param list text_list: A list of text strings.
-    :returns summary: A dictionary with various stats about URLs
+    Parameters
+    ----------
+    text_list : list
+      A list of text strings.
 
+    Returns
+    -------
+    summary : dict
+      A dictionary with various stats about URLs.
+
+    Examples
+    --------
     >>> posts = ['one link http://example.com', 'two: http://a.com www.b.com',
     ...          'no links here',
     ...          'long url http://example.com/one/two/?1=one&2=two']
@@ -1197,23 +1285,23 @@ def extract_urls(text_list):
      'num_urls': 4,
      'urls_per_post': 1.0,
      'unique_urls': 4}
-     """
+    """
     extracted = [URL.findall(x) for x in text_list]
     for urllist in extracted:
         for i, url in enumerate(urllist):
-            if url.lower().startswith('www') or url.lower().startswith('ftp'):
-                urllist[i] = 'http://' + url
+            if url.lower().startswith("www") or url.lower().startswith("ftp"):
+                urllist[i] = "http://" + url
     domains = [[urlparse(u).netloc for u in e] for e in extracted]
     domains_flat = [item for sublist in domains for item in sublist]
-    top_domains = sorted(Counter(domains_flat).items(),
-                         key=lambda x: x[1], reverse=True)
-    tlds = [[d.split('.')[-1] for d in dom] for dom in domains]
+    top_domains = sorted(
+        Counter(domains_flat).items(), key=lambda x: x[1], reverse=True
+    )
+    tlds = [[d.split(".")[-1] for d in dom] for dom in domains]
     tlds_flat = [item for sublist in tlds for item in sublist]
-    top_tlds = sorted(Counter(tlds_flat).items(),
-                      key=lambda x: x[1], reverse=True)
-    summary = extract(text_list, URL, 'url', extracted)
-    summary['top_domains'] = top_domains
-    summary['top_tlds'] = top_tlds
+    top_tlds = sorted(Counter(tlds_flat).items(), key=lambda x: x[1], reverse=True)
+    summary = extract(text_list, URL, "url", extracted)
+    summary["top_domains"] = top_domains
+    summary["top_tlds"] = top_tlds
     return summary
 
 
@@ -1224,16 +1312,23 @@ def extract_words(text_list, words_to_extract, entire_words_only=False):
     Get a summary of the number of words, their frequency, the top
     ones, and more.
 
-    :param list text_list: A list of text strings.
-    :param list words_to_extract: A list of words to extract from
-                                  :attr:`text_list`.
+    Parameters
+    ----------
+    text_list : list
+      A list of text strings.
+    words_to_extract : list
+      A list of words to extract from :attr:`text_list`.
+    entire_words_only : bool
+      Whether or not to find only complete words (as specified by :attr:`words_to_find`)
+      or find any any of the words as part of longer strings.
 
-    :param bool entire_words_only: Whether or not to find only complete words
-        (as specified by :attr:`words_to_find`) or find any any of the
-        words as part of longer strings.
+    Returns
+    -------
+    summary : dict
+      A dictionary with various stats about the words.
 
-    :returns summary: A dictionary with various stats about the words
-
+    Examples
+    --------
     >>> posts = ['there is rain, it is raining', 'there is snow and rain',
                  'there is no rain, it is snowing', 'there is nothing']
     >>> word_summary = extract_words(posts, ['rain', 'snow'], True)
@@ -1314,10 +1409,10 @@ def extract_words(text_list, words_to_extract, entire_words_only=False):
     words_to_extract = [word.lower() for word in words_to_extract]
 
     if entire_words_only:
-        regex = [r'\b' + x + r'\b' for x in words_to_extract]
-        word_regex = re.compile(r'|'.join(regex), re.IGNORECASE)
+        regex = [r"\b" + x + r"\b" for x in words_to_extract]
+        word_regex = re.compile(r"|".join(regex), re.IGNORECASE)
     else:
-        regex = [r'\S*' + x + r'\S*' for x in words_to_extract]
-        word_regex = re.compile('|'.join(regex), re.IGNORECASE)
+        regex = [r"\S*" + x + r"\S*" for x in words_to_extract]
+        word_regex = re.compile("|".join(regex), re.IGNORECASE)
 
-    return extract(text_list, word_regex, 'word')
+    return extract(text_list, word_regex, "word")

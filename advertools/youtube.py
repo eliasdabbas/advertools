@@ -8,16 +8,36 @@ YouTube Data API
 from ._yt_helpers import _combine_requests
 
 __all__ = [
-    'activities_list', 'captions_list', 'channel_sections_list',
-    'channels_list', 'comment_threads_list', 'comments_list',
-    'guide_categories_list', 'i18n_languages_list', 'i18n_regions_list',
-    'playlist_items_list', 'playlists_list', 'search', 'subscriptions_list',
-    'video_categories_list', 'videos_list',
+    "activities_list",
+    "captions_list",
+    "channel_sections_list",
+    "channels_list",
+    "comment_threads_list",
+    "comments_list",
+    "guide_categories_list",
+    "i18n_languages_list",
+    "i18n_regions_list",
+    "playlist_items_list",
+    "playlists_list",
+    "search",
+    "subscriptions_list",
+    "video_categories_list",
+    "videos_list",
 ]
 
-def activities_list(key, part, channelId=None, home=None, mine=None,
-                    maxResults=None, pageToken=None, publishedAfter=None,
-                    publishedBefore=None, regionCode=None):
+
+def activities_list(
+    key,
+    part,
+    channelId=None,
+    home=None,
+    mine=None,
+    maxResults=None,
+    pageToken=None,
+    publishedAfter=None,
+    publishedBefore=None,
+    regionCode=None,
+):
     """Returns a list of channel activity events that match the request
     criteria. For example, you can retrieve events associated with a particular
     channel or with the user's own channel.
@@ -76,20 +96,35 @@ def activities_list(key, part, channelId=None, home=None, mine=None,
         information to generate the activity feed.
     """
     args = locals()
-    part_params = {'contentDetails', 'id', 'snippet'}
+    part_params = {"contentDetails", "id", "snippet"}
     if not set(part.split(",")).issubset(part_params):
-        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
+        raise ValueError(
+            "make sure your `part` parameter is one or more of " + str(part_params)
+        )
     if sum([bool(p) for p in [channelId, home, mine]]) != 1:
-        raise ValueError("make sure you specify exactly one of ['channelId', 'home', 'mine']")
+        raise ValueError(
+            "make sure you specify exactly one of ['channelId', 'home', 'mine']"
+        )
 
-    base_url = 'https://www.googleapis.com/youtube/v3/activities'
+    base_url = "https://www.googleapis.com/youtube/v3/activities"
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
 
 
-def videos_list(key, part, chart=None, id=None, myRating=None, hl=None,
-                maxHeight=None, maxResults=None, maxWidth=None,
-                onBehalfOfContentOwner=None, pageToken=None, regionCode=None,
-                videoCategoryId=None):
+def videos_list(
+    key,
+    part,
+    chart=None,
+    id=None,
+    myRating=None,
+    hl=None,
+    maxHeight=None,
+    maxResults=None,
+    maxWidth=None,
+    onBehalfOfContentOwner=None,
+    pageToken=None,
+    regionCode=None,
+    videoCategoryId=None,
+):
     """Returns a list of videos that match the API request parameters.
 
     *Required parameters:*
@@ -178,13 +213,31 @@ def videos_list(key, part, chart=None, id=None, myRating=None, hl=None,
         default value is 0.
     """
     args = locals()
-    part_params = {'contentDetails', 'id', 'processingDetails', 'fileDetails', 'snippet', 'localizations', 'suggestions', 'statistics', 'liveStreamingDetails', 'player', 'status', 'recordingDetails', 'topicDetails'}
+    part_params = {
+        "contentDetails",
+        "id",
+        "processingDetails",
+        "fileDetails",
+        "snippet",
+        "localizations",
+        "suggestions",
+        "statistics",
+        "liveStreamingDetails",
+        "player",
+        "status",
+        "recordingDetails",
+        "topicDetails",
+    }
     if not set(part.split(",")).issubset(part_params):
-        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
+        raise ValueError(
+            "make sure your `part` parameter is one or more of " + str(part_params)
+        )
     if sum([bool(p) for p in [chart, id, myRating]]) != 1:
-        raise ValueError("make sure you specify exactly one of ['chart', 'id', 'myRating']")
+        raise ValueError(
+            "make sure you specify exactly one of ['chart', 'id', 'myRating']"
+        )
 
-    base_url = 'https://www.googleapis.com/youtube/v3/videos'
+    base_url = "https://www.googleapis.com/youtube/v3/videos"
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
 
 
@@ -216,21 +269,44 @@ def video_categories_list(key, part, id=None, regionCode=None, hl=None):
     if sum([bool(p) for p in [id, regionCode]]) != 1:
         raise ValueError("make sure you specify exactly one of ['id', 'regionCode']")
 
-    base_url = 'https://www.googleapis.com/youtube/v3/videoCategories'
+    base_url = "https://www.googleapis.com/youtube/v3/videoCategories"
     return _combine_requests(args, base_url, count=None, max_allowed=None)
 
 
-def search(key, part, forContentOwner=None, forDeveloper=None,
-           forMine=None, relatedToVideoId=None, channelId=None,
-           channelType=None, eventType=None, location=None,
-           locationRadius=None, maxResults=None,
-           onBehalfOfContentOwner=None, order=None, pageToken=None,
-           publishedAfter=None, publishedBefore=None, q=None,
-           regionCode=None, relevanceLanguage=None, safeSearch=None,
-           topicId=None, type=None, videoCaption=None,
-           videoCategoryId=None, videoDefinition=None,
-           videoDimension=None, videoDuration=None, videoEmbeddable=None,
-           videoLicense=None, videoSyndicated=None, videoType=None):
+def search(
+    key,
+    part,
+    forContentOwner=None,
+    forDeveloper=None,
+    forMine=None,
+    relatedToVideoId=None,
+    channelId=None,
+    channelType=None,
+    eventType=None,
+    location=None,
+    locationRadius=None,
+    maxResults=None,
+    onBehalfOfContentOwner=None,
+    order=None,
+    pageToken=None,
+    publishedAfter=None,
+    publishedBefore=None,
+    q=None,
+    regionCode=None,
+    relevanceLanguage=None,
+    safeSearch=None,
+    topicId=None,
+    type=None,
+    videoCaption=None,
+    videoCategoryId=None,
+    videoDefinition=None,
+    videoDimension=None,
+    videoDuration=None,
+    videoEmbeddable=None,
+    videoLicense=None,
+    videoSyndicated=None,
+    videoType=None,
+):
     """Returns a collection of search results that match the query parameters
     specified in the API request. By default, a search result set identifies
     matching  video ,  channel , and  playlist  resources, but you can also
@@ -492,16 +568,25 @@ def search(key, part, forContentOwner=None, forDeveloper=None,
     """
     args = locals()
 
-    base_url = 'https://www.googleapis.com/youtube/v3/search'
+    base_url = "https://www.googleapis.com/youtube/v3/search"
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
 
 
-def subscriptions_list(key, part, channelId=None, id=None, mine=None,
-                       myRecentSubscribers=None, mySubscribers=None,
-                       forChannelId=None, maxResults=None,
-                       onBehalfOfContentOwner=None,
-                       onBehalfOfContentOwnerChannel=None, order=None,
-                       pageToken=None):
+def subscriptions_list(
+    key,
+    part,
+    channelId=None,
+    id=None,
+    mine=None,
+    myRecentSubscribers=None,
+    mySubscribers=None,
+    forChannelId=None,
+    maxResults=None,
+    onBehalfOfContentOwner=None,
+    onBehalfOfContentOwnerChannel=None,
+    order=None,
+    pageToken=None,
+):
     """Returns subscription resources that match the API request criteria.
 
     *Required parameters:*
@@ -589,13 +674,23 @@ def subscriptions_list(key, part, channelId=None, id=None, mine=None,
         could be retrieved.
     """
     args = locals()
-    part_params = {'contentDetails', 'id', 'subscriberSnippet', 'snippet'}
+    part_params = {"contentDetails", "id", "subscriberSnippet", "snippet"}
     if not set(part.split(",")).issubset(part_params):
-        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
-    if sum([bool(p) for p in [channelId, id, mine, myRecentSubscribers, mySubscribers]]) != 1:
-        raise ValueError("make sure you specify exactly one of ['channelId', 'id', 'mine', 'myRecentSubscribers', 'mySubscribers']")
+        raise ValueError(
+            "make sure your `part` parameter is one or more of " + str(part_params)
+        )
+    if (
+        sum(
+            [bool(p) for p in [channelId, id, mine, myRecentSubscribers, mySubscribers]]
+        )
+        != 1
+    ):
+        raise ValueError(
+            """make sure you specify exactly one of
+        ['channelId', 'id', 'mine', 'myRecentSubscribers', 'mySubscribers']"""
+        )
 
-    base_url = 'https://www.googleapis.com/youtube/v3/subscriptions'
+    base_url = "https://www.googleapis.com/youtube/v3/subscriptions"
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
 
 
@@ -616,13 +711,22 @@ def i18n_regions_list(key, part, hl=None):
     """
     args = locals()
 
-    base_url = 'https://www.googleapis.com/youtube/v3/i18nRegions'
+    base_url = "https://www.googleapis.com/youtube/v3/i18nRegions"
     return _combine_requests(args, base_url, count=None, max_allowed=None)
 
 
-def playlists_list(key, part, channelId=None, id=None, mine=None, hl=None,
-                   maxResults=None, onBehalfOfContentOwner=None,
-                   onBehalfOfContentOwnerChannel=None, pageToken=None):
+def playlists_list(
+    key,
+    part,
+    channelId=None,
+    id=None,
+    mine=None,
+    hl=None,
+    maxResults=None,
+    onBehalfOfContentOwner=None,
+    onBehalfOfContentOwnerChannel=None,
+    pageToken=None,
+):
     """Returns a collection of playlists that match the API request parameters.
     For example, you can retrieve all playlists that the authenticated user
     owns, or you can retrieve one or more playlists by their unique IDs.
@@ -700,13 +804,24 @@ def playlists_list(key, part, channelId=None, id=None, mine=None, hl=None,
         could be retrieved.
     """
     args = locals()
-    part_params = {'contentDetails', 'id', 'snippet', 'localizations', 'player', 'status'}
+    part_params = {
+        "contentDetails",
+        "id",
+        "snippet",
+        "localizations",
+        "player",
+        "status",
+    }
     if not set(part.split(",")).issubset(part_params):
-        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
+        raise ValueError(
+            "make sure your `part` parameter is one or more of " + str(part_params)
+        )
     if sum([bool(p) for p in [channelId, id, mine]]) != 1:
-        raise ValueError("make sure you specify exactly one of ['channelId', 'id', 'mine']")
+        raise ValueError(
+            "make sure you specify exactly one of ['channelId', 'id', 'mine']"
+        )
 
-    base_url = 'https://www.googleapis.com/youtube/v3/playlists'
+    base_url = "https://www.googleapis.com/youtube/v3/playlists"
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
 
 
@@ -728,13 +843,20 @@ def i18n_languages_list(key, part, hl=None):
     """
     args = locals()
 
-    base_url = 'https://www.googleapis.com/youtube/v3/i18nLanguages'
+    base_url = "https://www.googleapis.com/youtube/v3/i18nLanguages"
     return _combine_requests(args, base_url, count=None, max_allowed=None)
 
 
-def playlist_items_list(key, part, id=None, playlistId=None, maxResults=None,
-                        onBehalfOfContentOwner=None, pageToken=None,
-                        videoId=None):
+def playlist_items_list(
+    key,
+    part,
+    id=None,
+    playlistId=None,
+    maxResults=None,
+    onBehalfOfContentOwner=None,
+    pageToken=None,
+    videoId=None,
+):
     """Returns a collection of playlist items that match the API request
     parameters. You can retrieve all of the playlist items in a specified
     playlist or retrieve one or more playlist items by their unique IDs.
@@ -788,13 +910,15 @@ def playlist_items_list(key, part, id=None, playlistId=None, maxResults=None,
         should return only the playlist items that contain the specified video.
     """
     args = locals()
-    part_params = {'contentDetails', 'id', 'snippet', 'status'}
+    part_params = {"contentDetails", "id", "snippet", "status"}
     if not set(part.split(",")).issubset(part_params):
-        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
+        raise ValueError(
+            "make sure your `part` parameter is one or more of " + str(part_params)
+        )
     if sum([bool(p) for p in [id, playlistId]]) != 1:
         raise ValueError("make sure you specify exactly one of ['id', 'playlistId']")
 
-    base_url = 'https://www.googleapis.com/youtube/v3/playlistItems'
+    base_url = "https://www.googleapis.com/youtube/v3/playlistItems"
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
 
 
@@ -831,13 +955,23 @@ def guide_categories_list(key, part, id=None, regionCode=None, hl=None):
     #
     # base_url = 'https://www.googleapis.com/youtube/v3/guideCategories'
     # return _combine_requests(args, base_url, count=None, max_allowed=None)
-    raise ValueError('This function has been deprecated as of September 9, 2020')
+    raise ValueError("This function has been deprecated as of September 9, 2020")
 
 
-def comment_threads_list(key, part, allThreadsRelatedToChannelId=None,
-                         channelId=None, id=None, videoId=None,
-                         maxResults=None, moderationStatus=None, order=None,
-                         pageToken=None, searchTerms=None, textFormat=None):
+def comment_threads_list(
+    key,
+    part,
+    allThreadsRelatedToChannelId=None,
+    channelId=None,
+    id=None,
+    videoId=None,
+    maxResults=None,
+    moderationStatus=None,
+    order=None,
+    pageToken=None,
+    searchTerms=None,
+    textFormat=None,
+):
     """Returns a list of comment threads that match the API request parameters.
 
     *Required parameters:*
@@ -904,18 +1038,27 @@ def comment_threads_list(key, part, allThreadsRelatedToChannelId=None,
         value. plainText – Returns the comments in plain text format.
     """
     args = locals()
-    part_params = {'id', 'replies', 'snippet'}
+    part_params = {"id", "replies", "snippet"}
     if not set(part.split(",")).issubset(part_params):
-        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
-    if sum([bool(p) for p in [allThreadsRelatedToChannelId, channelId, id, videoId]]) != 1:
-        raise ValueError("make sure you specify exactly one of ['allThreadsRelatedToChannelId', 'channelId', 'id', 'videoId']")
+        raise ValueError(
+            "make sure your `part` parameter is one or more of " + str(part_params)
+        )
+    if (
+        sum([bool(p) for p in [allThreadsRelatedToChannelId, channelId, id, videoId]])
+        != 1
+    ):
+        raise ValueError(
+            """make sure you specify exactly one of
+            ['allThreadsRelatedToChannelId', 'channelId', 'id', 'videoId']"""
+        )
 
-    base_url = 'https://www.googleapis.com/youtube/v3/commentThreads'
+    base_url = "https://www.googleapis.com/youtube/v3/commentThreads"
     return _combine_requests(args, base_url, count=maxResults, max_allowed=100)
 
 
-def comments_list(key, part, id=None, parentId=None, maxResults=None,
-                  pageToken=None, textFormat=None):
+def comments_list(
+    key, part, id=None, parentId=None, maxResults=None, pageToken=None, textFormat=None
+):
     """Returns a list of comments that match the API request parameters.
 
     *Required parameters:*
@@ -953,18 +1096,21 @@ def comments_list(key, part, id=None, parentId=None, maxResults=None,
         plain text format.
     """
     args = locals()
-    part_params = {'id', 'snippet'}
+    part_params = {"id", "snippet"}
     if not set(part.split(",")).issubset(part_params):
-        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
+        raise ValueError(
+            "make sure your `part` parameter is one or more of " + str(part_params)
+        )
     if sum([bool(p) for p in [id, parentId]]) != 1:
         raise ValueError("make sure you specify exactly one of ['id', 'parentId']")
 
-    base_url = 'https://www.googleapis.com/youtube/v3/comments'
+    base_url = "https://www.googleapis.com/youtube/v3/comments"
     return _combine_requests(args, base_url, count=maxResults, max_allowed=100)
 
 
-def channel_sections_list(key, part, channelId=None, id=None, mine=None,
-                          hl=None, onBehalfOfContentOwner=None):
+def channel_sections_list(
+    key, part, channelId=None, id=None, mine=None, hl=None, onBehalfOfContentOwner=None
+):
     """Returns a list of   resources that match the API request criteria.
 
     *Required parameters:*
@@ -1019,20 +1165,34 @@ def channel_sections_list(key, part, channelId=None, id=None, mine=None,
         YouTube content owner.
     """
     args = locals()
-    part_params = {'contentDetails', 'id', 'snippet', 'localizations', 'targeting'}
+    part_params = {"contentDetails", "id", "snippet", "localizations", "targeting"}
     if not set(part.split(",")).issubset(part_params):
-        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
+        raise ValueError(
+            "make sure your `part` parameter is one or more of " + str(part_params)
+        )
     if sum([bool(p) for p in [channelId, id, mine]]) != 1:
-        raise ValueError("make sure you specify exactly one of ['channelId', 'id', 'mine']")
+        raise ValueError(
+            "make sure you specify exactly one of ['channelId', 'id', 'mine']"
+        )
 
-    base_url = 'https://www.googleapis.com/youtube/v3/channelSections'
+    base_url = "https://www.googleapis.com/youtube/v3/channelSections"
     return _combine_requests(args, base_url, count=None, max_allowed=None)
 
 
-def channels_list(key, part, categoryId=None, forUsername=None, id=None,
-                  managedByMe=None, mine=None, mySubscribers=None, hl=None,
-                  maxResults=None, onBehalfOfContentOwner=None,
-                  pageToken=None):
+def channels_list(
+    key,
+    part,
+    categoryId=None,
+    forUsername=None,
+    id=None,
+    managedByMe=None,
+    mine=None,
+    mySubscribers=None,
+    hl=None,
+    maxResults=None,
+    onBehalfOfContentOwner=None,
+    pageToken=None,
+):
     """Returns a collection of zero or more   resources that match the request
     criteria.
 
@@ -1108,13 +1268,38 @@ def channels_list(key, part, categoryId=None, forUsername=None, id=None,
         could be retrieved.
     """
     args = locals()
-    part_params = {'contentDetails', 'id', '(deprecated) localizations', 'snippet', 'auditDetails', 'statistics', 'status', 'invideoPromotion', 'brandingSettings', 'contentOwnerDetails', 'topicDetails'}
+    part_params = {
+        "contentDetails",
+        "id",
+        "(deprecated) localizations",
+        "snippet",
+        "auditDetails",
+        "statistics",
+        "status",
+        "invideoPromotion",
+        "brandingSettings",
+        "contentOwnerDetails",
+        "topicDetails",
+    }
     if not set(part.split(",")).issubset(part_params):
-        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
-    if sum([bool(p) for p in [categoryId, forUsername, id, managedByMe, mine, mySubscribers]]) != 1:
-        raise ValueError("make sure you specify exactly one of ['categoryId', 'forUsername', 'id', 'managedByMe', 'mine', 'mySubscribers']")
+        raise ValueError(
+            "make sure your `part` parameter is one or more of " + str(part_params)
+        )
+    if (
+        sum(
+            [
+                bool(p)
+                for p in [categoryId, forUsername, id, managedByMe, mine, mySubscribers]
+            ]
+        )
+        != 1
+    ):
+        raise ValueError(
+            """make sure you specify exactly one of
+        ['categoryId', 'forUsername', 'id', 'managedByMe', 'mine', 'mySubscribers']"""
+        )
 
-    base_url = 'https://www.googleapis.com/youtube/v3/channels'
+    base_url = "https://www.googleapis.com/youtube/v3/channels"
     return _combine_requests(args, base_url, count=maxResults, max_allowed=50)
 
 
@@ -1153,9 +1338,11 @@ def captions_list(key, part, videoId, id=None, onBehalfOfContentOwner=None):
         specified YouTube content owner.
     """
     args = locals()
-    part_params = {'id', 'snippet'}
+    part_params = {"id", "snippet"}
     if not set(part.split(",")).issubset(part_params):
-        raise ValueError("make sure your `part` parameter is one or more of " + str(part_params))
+        raise ValueError(
+            "make sure your `part` parameter is one or more of " + str(part_params)
+        )
 
-    base_url = 'https://www.googleapis.com/youtube/v3/captions'
+    base_url = "https://www.googleapis.com/youtube/v3/captions"
     return _combine_requests(args, base_url, count=None, max_allowed=None)

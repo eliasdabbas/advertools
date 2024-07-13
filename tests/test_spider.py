@@ -6,7 +6,6 @@ import pytest
 from scrapy.http import HtmlResponse, Request
 
 from advertools.spider import (
-    _IMG_ATTRS,
     _extract_images,
     _json_to_dict,
     _numbered_duplicates,

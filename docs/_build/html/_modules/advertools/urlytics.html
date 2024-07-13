@@ -15,7 +15,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=9e420a66"></script>
+        <script src="../../_static/documentation_options.js?v=0dc20415"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -39,7 +39,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.0
+                0.14.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -68,6 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.image_spider.html">Crawl images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
@@ -288,7 +289,7 @@
 <span class="sd">    pd.read_parquet(&quot;output_file.parquet&quot;, columns=[&quot;dir_1&quot;, &quot;dir_2&quot;])</span>
 <span class="sd">    pd.read_parquet(&quot;output_file.parquet&quot;, columns=[&quot;dir_1&quot;, &quot;dir_2&quot;], filters=[(&quot;dir_1&quot;, &quot;in&quot;, [&quot;news&quot;, &quot;politics&quot;])])</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">TemporaryDirectory</span>
@@ -360,7 +361,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    urls : list,pandas.Series</span>
 <span class="sd">      A list of URLs to split into components</span>
-<span class="sd">    decode : bool</span>
+<span class="sd">    decode : bool, default True</span>
 <span class="sd">      Whether or not to decode the given URLs</span>
 <span class="sd">    output_file : str</span>
 <span class="sd">      The path where to save the output DataFrame with a .parquet extension</span>
@@ -377,13 +378,14 @@
     <span class="n">sublists</span> <span class="o">=</span> <span class="p">(</span><span class="n">urls</span><span class="p">[</span><span class="n">sub</span> <span class="p">:</span> <span class="n">sub</span> <span class="o">+</span> <span class="n">step</span><span class="p">]</span> <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">urls</span><span class="p">),</span> <span class="n">step</span><span class="p">))</span>
 
     <span class="k">with</span> <span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sublists</span><span class="p">):</span>
-            <span class="n">urldf</span> <span class="o">=</span> <span class="n">_url_to_df</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">decode</span><span class="o">=</span><span class="n">decode</span><span class="p">)</span>
-            <span class="n">urldf</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tmpdir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">08</span><span class="si">}</span><span class="s2">.parquet&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;2.6&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sublists</span><span class="p">):</span>
+            <span class="n">urldf</span> <span class="o">=</span> <span class="n">_url_to_df</span><span class="p">(</span><span class="n">sublist</span><span class="p">,</span> <span class="n">decode</span><span class="o">=</span><span class="n">decode</span><span class="p">)</span>
+            <span class="n">urldf</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">step</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">urldf</span><span class="p">))</span>
+            <span class="n">urldf</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tmpdir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">08</span><span class="si">}</span><span class="s2">.parquet&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;2.6&quot;</span><span class="p">)</span>
         <span class="n">final_df_list</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tmpdir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">tmp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">tmp</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">))</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tmpdir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">tmpfile</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">tmpfile</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
         <span class="p">]</span>
-        <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">final_df_list</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">final_df_list</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">output_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">final_df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;2.6&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>

@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=9e420a66"></script>
+        <script src="_static/documentation_options.js?v=0dc20415"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -26,7 +26,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Log File Analysis" href="advertools.logs.html" />
+    <link rel="next" title="Image Crawler and Downloader" href="advertools.image_spider.html" />
     <link rel="prev" title="Crawling and Scraping Analysis" href="advertools.crawlytics.html" /> 
 </head>
 
@@ -42,7 +42,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.0
+                0.14.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -71,6 +71,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.image_spider.html">Crawl images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
@@ -425,7 +426,7 @@ URLs); <cite>text/html</cite>, <cite>image/jpeg</cite> and <cite>image/png</cite
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Spider</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="advertools.header_spider.HeadersSpider.custom_settings">
-<span class="sig-name descname"><span class="pre">custom_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'AUTOTHROTTLE_ENABLED':</span> <span class="pre">True,</span> <span class="pre">'AUTOTHROTTLE_TARGET_CONCURRENCY':</span> <span class="pre">8,</span> <span class="pre">'HTTPERROR_ALLOW_ALL':</span> <span class="pre">True,</span> <span class="pre">'ROBOTSTXT_OBEY':</span> <span class="pre">True,</span> <span class="pre">'USER_AGENT':</span> <span class="pre">'advertools/0.14.0'}</span></em><a class="headerlink" href="#advertools.header_spider.HeadersSpider.custom_settings" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">custom_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'AUTOTHROTTLE_ENABLED':</span> <span class="pre">True,</span> <span class="pre">'AUTOTHROTTLE_TARGET_CONCURRENCY':</span> <span class="pre">8,</span> <span class="pre">'HTTPERROR_ALLOW_ALL':</span> <span class="pre">True,</span> <span class="pre">'ROBOTSTXT_OBEY':</span> <span class="pre">True,</span> <span class="pre">'USER_AGENT':</span> <span class="pre">'advertools/0.14.2'}</span></em><a class="headerlink" href="#advertools.header_spider.HeadersSpider.custom_settings" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -473,21 +474,17 @@ response headers you get.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>url_list</strong> (<em>url</em><em>,</em><em>list</em>) -- One or more URLs to crawl.</p></li>
-<li><p><strong>output_file</strong> (<em>str</em>) -- The path to the output of the crawl. Jsonlines only
-is supported to allow for dynamic values. Make sure
-your file ends with &quot;.jl&quot;, e.g. <cite>output_file.jl</cite>.</p></li>
-<li><p><strong>custom_settings</strong> (<em>dict</em>) -- A dictionary of optional custom settings that
-you might want to add to the spider's
-functionality. There are over 170 settings for
-all kinds of options. For details please
-refer to the <a class="reference external" href="https://docs.scrapy.org/en/latest/topics/settings.html">spider settings</a>
+<li><p><strong>url_list</strong> (<em>str</em><em>, </em><em>list</em>) -- One or more URLs to crawl.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) -- The path to the output of the crawl. Jsonlines only is supported to allow for
+dynamic values. Make sure your file ends with &quot;.jl&quot;, e.g. <cite>output_file.jl</cite>.</p></li>
+<li><p><strong>custom_settings</strong> (<em>dict</em>) -- A dictionary of optional custom settings that you might want to add to the
+spider's functionality. There are over 170 settings for all kinds of options. For
+details please refer to the <a class="reference external" href="https://docs.scrapy.org/en/latest/topics/settings.html">spider settings</a>
 documentation.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Examples<span class="colon">:</span></dt>
-<dd class="field-even"><p></p></dd>
 </dl>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://exmaple.com/A&#39;</span><span class="p">,</span> <span class="s1">&#39;https://exmaple.com/B&#39;</span><span class="p">,</span>
 <span class="gp">... </span>            <span class="s1">&#39;https://exmaple.com/C&#39;</span><span class="p">,</span> <span class="s1">&#39;https://exmaple.com/D&#39;</span><span class="p">,</span>
@@ -526,7 +523,7 @@ documentation.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="advertools.crawlytics.html" class="btn btn-neutral float-left" title="Crawling and Scraping Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="advertools.logs.html" class="btn btn-neutral float-right" title="Log File Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="advertools.image_spider.html" class="btn btn-neutral float-right" title="Image Crawler and Downloader" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

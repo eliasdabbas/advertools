@@ -18,3 +18,18 @@ requires = [
 ]
 description-file = 'README.rst'
 keywords = "marketing advertising adwords bingads search-engine-marketing online-marketing digital-marketing digital-advertising keywords"
+
+[tool.ruff]
+target-version = "py37"
+
+
+[tool.ruff.lint]
+# Add the `line-too-long` rule to the enforced rule set.
+extend-select = ["E501"]
+select = ["E4", "E7", "E9", "F", "B"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403"]

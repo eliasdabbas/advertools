@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=9e420a66"></script>
+        <script src="_static/documentation_options.js?v=0dc20415"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -42,7 +42,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.0
+                0.14.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -76,6 +76,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.image_spider.html">Crawl images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
@@ -803,9 +804,27 @@ to crawl the home page but Google and Apple are, because I have no clue!</p>
 allowed to fetch which of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">urls</span></code>.</p>
 <p>All the combinations of <code class="xref py py-attr docutils literal notranslate"><span class="pre">user_agents</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">urls</span></code> will be
 checked and the results returned in one DataFrame.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_test</span><span class="p">(</span><span class="s1">&#39;https://facebook.com/robots.txt&#39;</span><span class="p">,</span>
-<span class="gp">... </span>               <span class="n">user_agents</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;Googlebot&#39;</span><span class="p">,</span> <span class="s1">&#39;Applebot&#39;</span><span class="p">],</span>
-<span class="gp">... </span>               <span class="n">urls</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;/bbc&#39;</span><span class="p">,</span> <span class="s1">&#39;/groups&#39;</span><span class="p">,</span> <span class="s1">&#39;/hashtag/&#39;</span><span class="p">])</span>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>robotstxt_url</strong> (<em>str</em>) -- The URL of robotx.txt file.</p></li>
+<li><p><strong>user_agents</strong> (<em>str</em><em>, </em><em>list</em>) -- One or more user agents.</p></li>
+<li><p><strong>urls</strong> (<em>str</em><em>, </em><em>list</em>) -- One or more paths (relative) or URLs (absolute) to check.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>robotstxt_test_df</strong> -- A DataFrame with the test results per user-agent/rule combination.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_test</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;https://facebook.com/robots.txt&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">user_agents</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="s2">&quot;Googlebot&quot;</span><span class="p">,</span> <span class="s2">&quot;Applebot&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">urls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;/bbc&quot;</span><span class="p">,</span> <span class="s2">&quot;/groups&quot;</span><span class="p">,</span> <span class="s2">&quot;/hashtag/&quot;</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="go">                      robotstxt_url user_agent   url_path  can_fetch</span>
 <span class="go">0   https://facebook.com/robots.txt          *          /      False</span>
 <span class="go">1   https://facebook.com/robots.txt          *       /bbc      False</span>
@@ -821,34 +840,40 @@ checked and the results returned in one DataFrame.</p>
 <span class="go">11  https://facebook.com/robots.txt  Googlebot  /hashtag/      False</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>robotstxt_url</strong> (<em>url</em>) -- The URL of robotx.txt file</p></li>
-<li><p><strong>user_agents</strong> (<em>str</em><em>,</em><em>list</em>) -- One or more user agents</p></li>
-<li><p><strong>urls</strong> (<em>str</em><em>,</em><em>list</em>) -- One or more paths (relative) or URLs (absolute) to
-check</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return DataFrame robotstxt_test_df<span class="colon">:</span></dt>
-<dd class="field-even"><p></p></dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.robotstxt.robotstxt_to_df">
 <span class="sig-name descname"><span class="pre">robotstxt_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robotstxt_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/robotstxt.html#robotstxt_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.robotstxt.robotstxt_to_df" title="Link to this definition"></a></dt>
 <dd><p>Download the contents of <code class="docutils literal notranslate"><span class="pre">robotstxt_url</span></code> into a DataFrame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>robotstxt_url</strong> (<em>str</em>) -- One or more URLs of the robots.txt file(s)</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) -- Optional file path to save the robots.txt files, mainly useful for downloading &gt;
+500 files. The files are appended as soon as they are downloaded. Only the &quot;.jl&quot;
+extension is supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>robotstxt_df</strong> -- A DataFrame containing directives, their content, the URL and time of download</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
 <p>You can also use it to download multiple robots files by passing a list of
 URLs.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s1">&#39;https://www.twitter.com/robots.txt&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">(</span><span class="s2">&quot;https://www.twitter.com/robots.txt&quot;</span><span class="p">)</span>
 <span class="go">     directive content                       robotstxt_url                     download_date</span>
 <span class="go">0   User-agent           *  https://www.twitter.com/robots.txt      2020-09-27 21:57:23.702814+00:00</span>
 <span class="go">1     Disallow           /  https://www.twitter.com/robots.txt      2020-09-27 21:57:23.702814+00:00</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">([</span><span class="s1">&#39;https://www.google.com/robots.txt&#39;</span><span class="p">,</span>
-<span class="gp">... </span>                 <span class="s1">&#39;https://www.twitter.com/robots.txt&#39;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;https://www.google.com/robots.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;https://www.twitter.com/robots.txt&quot;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="go">       directive                                 content        robotstxt_last_modified                            robotstxt_url                         download_date</span>
 <span class="go">0     User-agent                                       *      2021-01-11 21:00:00+00:00        https://www.google.com/robots.txt      2021-01-16 14:08:50.087985+00:00</span>
 <span class="go">1       Disallow                                 /search      2021-01-11 21:00:00+00:00        https://www.google.com/robots.txt      2021-01-16 14:08:50.087985+00:00</span>
@@ -867,32 +892,21 @@ might want to use <code class="docutils literal notranslate"><span class="pre">o
 The file extension should be &quot;.jl&quot;, and robots files are appended to that
 file as soon as they are downloaded, in case you lose your connection, or
 maybe your patience!</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">([</span><span class="s1">&#39;https://example.com/robots.txt&#39;</span><span class="p">,</span>
-<span class="gp">... </span>                 <span class="s1">&#39;https://example.com/robots.txt&#39;</span><span class="p">,</span>
-<span class="gp">... </span>                 <span class="s1">&#39;https://example.com/robots.txt&#39;</span><span class="p">],</span>
-<span class="gp">... </span>                <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;robots_output_file.jl&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robotstxt_to_df</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[</span>
+<span class="gp">... </span>        <span class="s2">&quot;https://example.com/robots.txt&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s2">&quot;https://example.com/robots.txt&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s2">&quot;https://example.com/robots.txt&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">],</span>
+<span class="gp">... </span>    <span class="n">output_file</span><span class="o">=</span><span class="s2">&quot;robots_output_file.jl&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To open the file as a DataFrame:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">robotsfiles_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;robots_output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">robotsfiles_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;robots_output_file.jl&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>robotstxt_url</strong> (<em>url</em>) -- One or more URLs of the robots.txt file(s)</p></li>
-<li><p><strong>output_file</strong> (<em>str</em>) -- Optional file path to save the robots.txt files,
-mainly useful for downloading &gt; 500 files. The
-files are appended as soon as they are downloaded.
-Only &quot;.jl&quot; extensions are supported.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns DataFrame robotstxt_df<span class="colon">:</span></dt>
-<dd class="field-even"><p>A DataFrame containing directives, their
-content, the URL and time of download</p>
-</dd>
-</dl>
 </dd></dl>
 
 

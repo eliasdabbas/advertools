@@ -7,6 +7,8 @@ from pandas import read_json
 
 from advertools import crawl_headers
 
+collect_ignore = ["setup.py"]
+
 
 @pytest.fixture(scope="session")
 def crawl_dir():

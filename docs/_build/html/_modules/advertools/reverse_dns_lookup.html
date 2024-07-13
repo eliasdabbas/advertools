@@ -15,7 +15,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=9e420a66"></script>
+        <script src="../../_static/documentation_options.js?v=0dc20415"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -39,7 +39,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.0
+                0.14.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -68,6 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.image_spider.html">Crawl images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
@@ -166,7 +167,6 @@
 <span class="sd">        host_df = adv.reverse_dns_lookup(ip_list)</span>
 <span class="sd">        host_df</span>
 
-
 <span class="sd">====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================</span>
 <span class="sd">  ..  ip_address        count    cum_count    perc    cum_perc  hostname                           aliaslist                    ipaddrlist      errors</span>
 <span class="sd">====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================</span>
@@ -182,8 +182,8 @@
 <span class="sd">percentages (absolute and cumulative). This can give you a good overview of</span>
 <span class="sd">the relative importance of each IP, and can help focus attention on them as</span>
 <span class="sd">needed.</span>
+<span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">socket</span>
 <span class="kn">from</span> <span class="nn">concurrent</span> <span class="kn">import</span> <span class="n">futures</span>
@@ -192,13 +192,13 @@
 
 <span class="n">system</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
 
-<span class="n">_default_max_workders</span> <span class="o">=</span> <span class="mi">60</span> <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;Darwin&#39;</span> <span class="k">else</span> <span class="mi">600</span>
+<span class="n">_default_max_workders</span> <span class="o">=</span> <span class="mi">60</span> <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;Darwin&quot;</span> <span class="k">else</span> <span class="mi">600</span>
 
 
 <span class="k">def</span> <span class="nf">_single_request</span><span class="p">(</span><span class="n">ip</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">hostname</span><span class="p">,</span> <span class="n">aliaslist</span><span class="p">,</span> <span class="n">ipaddrlist</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyaddr</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">ip</span><span class="p">,</span> <span class="n">hostname</span><span class="p">,</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">aliaslist</span><span class="p">),</span> <span class="s1">&#39;@@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ipaddrlist</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ip</span><span class="p">,</span> <span class="n">hostname</span><span class="p">,</span> <span class="s2">&quot;@@&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">aliaslist</span><span class="p">),</span> <span class="s2">&quot;@@&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ipaddrlist</span><span class="p">)]</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">ip</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)]</span>
 
@@ -215,16 +215,33 @@
 
 <span class="sd">    .. code-block:: bash</span>
 
-<span class="sd">        $ host 66.249.80.0</span>
-<span class="sd">        0.80.249.66.in-addr.arpa domain name pointer google-proxy-66-249-80-0.google.com.</span>
+<span class="sd">        $ host advertools.readthedocs.io</span>
+<span class="sd">        advertools.readthedocs.io has address 104.17.32.82</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ip_list : list</span>
+<span class="sd">      A list of IP addresses.</span>
+<span class="sd">    max_workers : int</span>
+<span class="sd">      The maximum number of workers to use for multi processing.</span>
+
 
 <span class="sd">    You also get a simple report about the counts of the IPs to get an overview</span>
-<span class="sd">    of the top ones:</span>
+<span class="sd">    of the top ones.</span>
 
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
-<span class="sd">    &gt;&gt;&gt; ip_list = [&#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;, &#39;66.249.66.194&#39;,</span>
-<span class="sd">    ...            &#39;66.249.66.91&#39;, &#39;66.249.66.91&#39;, &#39;130.185.74.243&#39;,</span>
-<span class="sd">    ...            &#39;31.56.96.51&#39;, &#39;5.211.97.39&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; ip_list = [</span>
+<span class="sd">    ...     &quot;66.249.66.194&quot;,</span>
+<span class="sd">    ...     &quot;66.249.66.194&quot;,</span>
+<span class="sd">    ...     &quot;66.249.66.194&quot;,</span>
+<span class="sd">    ...     &quot;66.249.66.91&quot;,</span>
+<span class="sd">    ...     &quot;66.249.66.91&quot;,</span>
+<span class="sd">    ...     &quot;130.185.74.243&quot;,</span>
+<span class="sd">    ...     &quot;31.56.96.51&quot;,</span>
+<span class="sd">    ...     &quot;5.211.97.39&quot;,</span>
+<span class="sd">    ... ]</span>
 <span class="sd">    &gt;&gt;&gt; adv.reverse_dns_lookup([ip_list])</span>
 
 <span class="sd">    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================</span>
@@ -236,37 +253,33 @@
 <span class="sd">       3  31.56.96.51           1            7   0.125       0.875  31-56-96-51.shatel.ir              51.96.56.31.in-addr.arpa     31.56.96.51</span>
 <span class="sd">       4  5.211.97.39           1            8   0.125       1                                                                                      [Errno 1] Unknown host</span>
 <span class="sd">    ====  ==============  =======  ===========  ======  ==========  =================================  ===========================  ==============  ======================</span>
-
-<span class="sd">    :param list ip_list: a list of IP addresses.</span>
-<span class="sd">    :param int max_workers: The maximum number of workers to use for multi</span>
-<span class="sd">                            processing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
     <span class="n">socket</span><span class="o">.</span><span class="n">setdefaulttimeout</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">count_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ip_list</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
-                <span class="o">.</span><span class="n">reset_index</span><span class="p">())</span>
-    <span class="n">count_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ip_address&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">]</span>
-    <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;cum_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
-    <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;perc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-    <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;cum_perc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;perc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="n">count_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ip_list</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">count_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ip_address&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">]</span>
+    <span class="n">count_df</span><span class="p">[</span><span class="s2">&quot;cum_count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_df</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="n">count_df</span><span class="p">[</span><span class="s2">&quot;perc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_df</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">count_df</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="n">count_df</span><span class="p">[</span><span class="s2">&quot;cum_perc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_df</span><span class="p">[</span><span class="s2">&quot;perc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
 
     <span class="n">hosts</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;Darwin&quot;</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">ip</span><span class="p">,</span> <span class="n">host</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ip_list</span><span class="p">,</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_single_request</span><span class="p">,</span>
-                                                      <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;ip_address&#39;</span><span class="p">])):</span>
+            <span class="k">for</span> <span class="n">_ip</span><span class="p">,</span> <span class="n">host</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                <span class="n">ip_list</span><span class="p">,</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_single_request</span><span class="p">,</span> <span class="n">count_df</span><span class="p">[</span><span class="s2">&quot;ip_address&quot;</span><span class="p">])</span>
+            <span class="p">):</span>
                 <span class="n">hosts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">host</span> <span class="ow">in</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_single_request</span><span class="p">,</span> <span class="n">count_df</span><span class="p">[</span><span class="s1">&#39;ip_address&#39;</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">host</span> <span class="ow">in</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_single_request</span><span class="p">,</span> <span class="n">count_df</span><span class="p">[</span><span class="s2">&quot;ip_address&quot;</span><span class="p">]):</span>
                 <span class="n">hosts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">hosts</span><span class="p">)</span>
-    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ip&#39;</span><span class="p">,</span> <span class="s1">&#39;hostname&#39;</span><span class="p">,</span> <span class="s1">&#39;aliaslist&#39;</span><span class="p">,</span> <span class="s1">&#39;ipaddrlist&#39;</span><span class="p">,</span> <span class="s1">&#39;errors&#39;</span><span class="p">]</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ip&quot;</span><span class="p">,</span> <span class="s2">&quot;hostname&quot;</span><span class="p">,</span> <span class="s2">&quot;aliaslist&quot;</span><span class="p">,</span> <span class="s2">&quot;ipaddrlist&quot;</span><span class="p">,</span> <span class="s2">&quot;errors&quot;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
         <span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
-    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">count_df</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;ip_address&#39;</span><span class="p">,</span>
-                        <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;ip&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;ip&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+        <span class="n">count_df</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s2">&quot;ip_address&quot;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s2">&quot;ip&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;ip&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">final_df</span></div>
 
 </pre></div>

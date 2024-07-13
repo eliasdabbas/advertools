@@ -168,7 +168,7 @@ the process again (it can take a few minutes with big datasets).
     pd.read_parquet("output_file.parquet", columns=["dir_1", "dir_2"])
     pd.read_parquet("output_file.parquet", columns=["dir_1", "dir_2"], filters=[("dir_1", "in", ["news", "politics"])])
 
-"""
+"""  # noqa: E501
 
 import os
 from tempfile import TemporaryDirectory
@@ -255,8 +255,8 @@ def url_to_df(urls, decode=True, output_file=None):
     sublists = (urls[sub : sub + step] for sub in range(0, len(urls), step))
 
     with TemporaryDirectory() as tmpdir:
-        for i, l in enumerate(sublists):
-            urldf = _url_to_df(l, decode=decode)
+        for i, sublist in enumerate(sublists):
+            urldf = _url_to_df(sublist, decode=decode)
             urldf.index = range(i * step, (i * step) + len(urldf))
             urldf.to_parquet(f"{tmpdir}/{i:08}.parquet", index=True, version="2.6")
         final_df_list = [

@@ -1,9 +1,9 @@
 from secrets import token_hex
 from tempfile import TemporaryDirectory
 
-import numpy as np
 import pandas as pd
 import pytest
+
 
 from advertools.urlytics import url_to_df
 

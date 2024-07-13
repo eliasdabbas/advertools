@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """
 convert a robots.txt file (or list of file URLs) to a table in a CSV format
 ============================================================================
@@ -87,9 +88,9 @@ crawl a list of known URLs using the HEAD method
                             settings that modify the behavior of the crawler
                             settings should be separated by spaces, and each setting name and value should
                             be separated by an equal sign '=' without spaces between them
-                            
+
                             example:
-                            
+
                             advertools headers https://example.com example.jl --custom-settings LOG_FILE=logs.log CLOSESPIDER_TIMEOUT=20
                              (default: None)
 

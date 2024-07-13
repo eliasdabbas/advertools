@@ -15,7 +15,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=9e420a66"></script>
+        <script src="../../_static/documentation_options.js?v=0dc20415"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -39,7 +39,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.0
+                0.14.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -68,6 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.image_spider.html">Crawl images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
@@ -209,7 +210,7 @@
 
 <span class="sd">For example if you run</span>
 
-<span class="sd">&gt;&gt;&gt; knowledge_graph(key=key, query=[&#39;google&#39;, &#39;bing&#39;], languages=[&#39;en&#39;, &#39;fr&#39;, &#39;de&#39;])</span>
+<span class="sd">&gt;&gt;&gt; knowledge_graph(key=key, query=[&quot;google&quot;, &quot;bing&quot;], languages=[&quot;en&quot;, &quot;fr&quot;, &quot;de&quot;])</span>
 
 <span class="sd">The function will send 2 (queries) x 3 languages = 6 requests.</span>
 
@@ -221,9 +222,13 @@
 <span class="sd">Let&#39;s check what &quot;seo&quot; and &quot;search engine optimization&quot; mean in different</span>
 <span class="sd">languages.</span>
 
-<span class="sd">&gt;&gt;&gt; seo = knowledge_graph(key=key, query=[&#39;seo&#39;, &#39;search engine optimization&#39;], languages=[&#39;en&#39;, &#39;es&#39;, &#39;de&#39;])</span>
+<span class="sd">&gt;&gt;&gt; seo = knowledge_graph(</span>
+<span class="sd">...     key=key,</span>
+<span class="sd">...     query=[&quot;seo&quot;, &quot;search engine optimization&quot;],</span>
+<span class="sd">...     languages=[&quot;en&quot;, &quot;es&quot;, &quot;de&quot;],</span>
+<span class="sd">... )</span>
 <span class="sd">&gt;&gt;&gt; seo</span>
-<span class="sd">	query	                        languages	resultScore	    result.name	                     result.@type	                                   result.description</span>
+<span class="sd">        query	                        languages	resultScore	    result.name	                     result.@type	                                   result.description</span>
 <span class="sd">0	search engine optimization	de      	       3587	    Suchmaschinenoptimierung	         [&#39;Thing&#39;]                                         nan</span>
 <span class="sd">1	search engine optimization	de      	        321	    Lokale Suchmaschinenoptimierung	 [&#39;Thing&#39;]                                         nan</span>
 <span class="sd">2	search engine optimization	de      	        252	    Suchmaschinenmarketing	         [&#39;Thing&#39;]                                         nan</span>
@@ -252,7 +257,7 @@
 <span class="sd">It&#39;s interesting to see how the same word can mean different things in</span>
 <span class="sd">different contexts.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">concurrent</span> <span class="kn">import</span> <span class="n">futures</span>
@@ -262,43 +267,53 @@
 
 <span class="kn">from</span> <span class="nn">advertools.serp</span> <span class="kn">import</span> <span class="n">_dict_product</span>
 
-<span class="n">param_regex</span> <span class="o">=</span> <span class="s1">&#39;^query$|^ids$|^languages$|^types$|^prefix$|^limit$&#39;</span>
+<span class="n">param_regex</span> <span class="o">=</span> <span class="s2">&quot;^query$|^ids$|^languages$|^types$|^prefix$|^limit$&quot;</span>
+
 
 <div class="viewcode-block" id="knowledge_graph">
 <a class="viewcode-back" href="../../advertools.knowledge_graph.html#advertools.knowledge_graph.knowledge_graph">[docs]</a>
-<span class="k">def</span> <span class="nf">knowledge_graph</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">languages</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">knowledge_graph</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">languages</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Query Google&#39;s Knowledge Graph with any combination of parameters.</span>
 
 <span class="sd">    Note that Google&#39;s documentation states that &quot;This API is not suitable for</span>
 <span class="sd">    use as a production-critical service.&quot; So please keep this in mind.</span>
 
-<span class="sd">    :param string key: Your Google developer key.</span>
-<span class="sd">    :param string query: A literal string to search for in the Knowledge Graph.</span>
-<span class="sd">    :param string ids: A list of entity IDs to search for in the Knowledge</span>
-<span class="sd">                       Graph.</span>
-<span class="sd">    :param string languages: The list of language codes (defined in ISO 639) to</span>
-<span class="sd">                             run the query with, for instance `en`.</span>
-<span class="sd">    :param string types: Restricts returned entities to those of the specified</span>
-<span class="sd">                         types. For example,  you can specify `Person` (as</span>
-<span class="sd">                         defined in http://schema.org/Person)  to restrict the</span>
-<span class="sd">                         results to entities representing people. If multiple</span>
-<span class="sd">                         types are specified,  returned entities will contain</span>
-<span class="sd">                         one or more of these types.</span>
-<span class="sd">    :param boolean prefix: Enables prefix (initial substring) match against</span>
-<span class="sd">                           names and aliases of  entities. For example, a</span>
-<span class="sd">                           prefix `Jung` will match entities and aliases such</span>
-<span class="sd">                           as `Jung`, `Jungle`, and `Jung-ho Kang`.</span>
-<span class="sd">    :param number limit: Limits the number of entities to be returned. Maximum</span>
-<span class="sd">                         is 500. Default is 20.  Requests with high limits have</span>
-<span class="sd">                         a higher chance of timing out.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    key : str</span>
+<span class="sd">      Your Google developer key.</span>
+<span class="sd">    query : str</span>
+<span class="sd">      A literal string to search for in the Knowledge Graph.</span>
+<span class="sd">    ids : list</span>
+<span class="sd">      A list of entity IDs to search for in the Knowledge Graph.</span>
+<span class="sd">    languages : list</span>
+<span class="sd">      The list of language codes (defined in ISO 639) to run the query with, for</span>
+<span class="sd">      instance `en`.</span>
+<span class="sd">    types : str</span>
+<span class="sd">      Restricts returned entities to those of the specified types. For example,  you can</span>
+<span class="sd">      specify `Person` (as defined in http://schema.org/Person)  to restrict the results</span>
+<span class="sd">      to entities representing people. If multiple types are specified,  returned</span>
+<span class="sd">      entities will contain one or more of these types.</span>
+<span class="sd">    prefix : bool</span>
+<span class="sd">      Enables prefix (initial substring) match against names and aliases of  entities.</span>
+<span class="sd">      For example, a prefix `Jung` will match entities and aliases such as `Jung`,</span>
+<span class="sd">      `Jungle`, and `Jung-ho Kang`.</span>
+<span class="sd">    limit : int</span>
+<span class="sd">      Limits the number of entities to be returned. Maximum is 500. Default is 20.</span>
+<span class="sd">      Requests with high limits have a higher chance of timing out.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kg_df : pandas.DataFrame</span>
+<span class="sd">      A DataFrame of all responses.</span>
 
 <span class="sd">    https://developers.google.com/knowledge-graph/reference/rest/v1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">params</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://kgsearch.googleapis.com/v1/entities:search?&#39;</span>
-    <span class="n">supplied_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-                       <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://kgsearch.googleapis.com/v1/entities:search?&quot;</span>
+    <span class="n">supplied_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">supplied_params</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
             <span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">supplied_params</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span>
@@ -309,22 +324,25 @@
     <span class="k">def</span> <span class="nf">single_request</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
         <span class="k">nonlocal</span> <span class="n">result_df</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param</span><span class="p">)</span>
-        <span class="n">param_log</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">param</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Requesting: &#39;</span> <span class="o">+</span> <span class="n">param_log</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span> <span class="n">record_path</span><span class="o">=</span><span class="s1">&#39;itemListElement&#39;</span><span class="p">)</span>
-        <span class="k">del</span> <span class="n">param</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">]</span>
-        <span class="n">param_columns</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="n">v</span>
-                         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">param</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">param_log</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">k</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">param</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;Requesting: &quot;</span> <span class="o">+</span> <span class="n">param_log</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span> <span class="n">record_path</span><span class="o">=</span><span class="s2">&quot;itemListElement&quot;</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">param</span><span class="p">[</span><span class="s2">&quot;key&quot;</span><span class="p">]</span>
+        <span class="n">param_columns</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">param</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="n">param_columns</span><span class="p">)</span>
         <span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">result_df</span><span class="p">,</span> <span class="n">df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
         <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">single_request</span><span class="p">,</span> <span class="n">params_list</span><span class="p">)</span>
 
-    <span class="n">reordered_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">result_df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="n">param_regex</span><span class="p">),</span>
-                              <span class="n">result_df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;^(?!</span><span class="si">{</span><span class="n">param_regex</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)],</span>
-                             <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">reordered_df</span><span class="p">[</span><span class="s1">&#39;query_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+    <span class="n">reordered_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">result_df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="n">param_regex</span><span class="p">),</span>
+            <span class="n">result_df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;^(?!</span><span class="si">{</span><span class="n">param_regex</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">reordered_df</span><span class="p">[</span><span class="s2">&quot;query_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">reordered_df</span></div>
 
 </pre></div>
