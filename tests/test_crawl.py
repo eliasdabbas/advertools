@@ -85,7 +85,7 @@ with TemporaryDirectory() as follow_url_params_tempdir:
     crawl(
         str(links_file.as_uri()),
         f"{follow_url_params_tempdir}/follow_url_params.jl",
-        allowed_domains=[str(links_file), "example.com"],
+        allowed_domains=["", "example.com"],
         custom_settings={"ROBOTSTXT_OBEY": False},
         follow_links=True,
     )
@@ -102,7 +102,7 @@ with TemporaryDirectory() as dont_follow_url_params_tempdir:
     crawl(
         str(links_file.as_uri()),
         f"{dont_follow_url_params_tempdir}/dont_follow_url_params.jl",
-        allowed_domains=[str(links_file), "example.com"],
+        allowed_domains=["", "example.com"],
         custom_settings={"ROBOTSTXT_OBEY": False},
         follow_links=True,
         exclude_url_params=True,
@@ -152,18 +152,18 @@ with TemporaryDirectory() as dup_links_file_tempdir:
 
 
 with TemporaryDirectory() as broken_links_tempdir:
-    crawl(
-        [str(broken_links_file.as_uri()), "wrong_url"],
-        f"{broken_links_tempdir}/broken_links_crawl.jl",
-        follow_links=True,
-    )
 
     def test_broken_links_are_reported():
+        crawl(
+            url_list=["https://wikipedia.org", "https://wrong_url"],
+            output_file=f"{broken_links_tempdir}/broken_links_crawl.jl",
+            custom_settings={"ROBOTSTXT_OBEY": False},
+        )
         broken_links_df = pd.read_json(
             f"{broken_links_tempdir}/broken_links_crawl.jl", lines=True
         )
         assert "errors" in broken_links_df
-        assert "wrong_url" not in broken_links_df["url"]
+        assert "https://wrong_url" in broken_links_df["url"].tolist()
 
     def test_crawling_bad_url_directly_is_handled():
         crawl(
