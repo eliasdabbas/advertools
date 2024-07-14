@@ -6,8 +6,9 @@ Change Log - advertools
 ------------
 
 * Added
-    - Enable supplying request headers in ``sitemap_to_df``.
+    - Enable supplying request headers in ``sitemap_to_df``, contributed by `@joejoinerr <https://github.com/joejoinerr>`_
     - New function ``crawlytics.compare`` for comparing two crawls.
+    - New function ``crawlytics.running_crawls`` for getting data on currently running crawl jobs (\*NIX only for now).
     - New parameter ``log_date_format`` to ``logs_to_df`` for custom date formats.
 
 * Changed
@@ -15,7 +16,7 @@ Change Log - advertools
     - Update emoji regex and functionality to v15.1.
 
 * Fixed
-    - Use int64 instead of int for YouTube count columns, contributed by @DanielP77
+    - Use int64 instead of int for YouTube count columns, contributed by `@DanielP77 <https://github.com/DanielP77>`_
 
 0.14.4 (2024-07-13)
 -------------------
