@@ -2,8 +2,8 @@
 Change Log - advertools
 =======================
 
-(UNRELEASED)
-------------
+0.15.0 (2024-07-15)
+-------------------
 
 * Added
     - Enable supplying request headers in ``sitemap_to_df``, contributed by `@joejoinerr <https://github.com/joejoinerr>`_
