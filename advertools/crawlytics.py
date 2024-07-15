@@ -283,6 +283,7 @@ __all__ = [
     "jl_subset",
     "jl_to_parquet",
     "parquet_columns",
+    "compare",
 ]
 
 
@@ -584,4 +585,75 @@ def parquet_columns(filepath):
         zip(pqdataset.schema.names, pqdataset.schema.types), columns=["column", "type"]
     )
     return columns_df
-    return columns_df
+
+
+def compare(df1, df2, column, keep_equal=False):
+    """Compare common URLs in two crawl DataFrames with respect to `column`.
+
+    There are three main options that you might select for comparison:
+
+    * Numeric column: You get the difference between changed columns, as a numeric
+      difference, and as a fraction.
+    * String column: You get the values that changed.
+    * The "url" column: You get two boolean columns `df1` and `df2` with True if the
+      respective URL was found in that DataFrame, and False otherwise. This allows for
+      easily checking which URLs were present in both crawls, or only in one of them.
+
+    Parameters
+    ----------
+    df1 : pandas.DataFrame
+        The DataFrame of the first crawl
+    df2 : pandas.DataFrame
+        The DataFrame of the second crawl
+    column : str
+        The name of the column that you want to compare
+    keep_equal : bool, default False
+        Whether or not to keep unchanged values in the result DataFrame
+
+    Returns
+    -------
+    comparison_df : pandas.DataFrame
+        The values will dependon the data type of the selected column, please see above.
+
+    Examples
+    --------
+
+    >>> import advertools as adv
+    >>> import pandas as pd
+    >>> df1 = pd.read_json('output_file1.jl', lines=True)
+    >>> df2 = pd.read_json('output_file2.jl', lines=True)
+    >>> adv.crawlytics.compare(df1, df1, 'size')
+
+    ====  ==========================  ========  ========  ======  ===========
+      ..  url                           size_x    size_y    diff    diff_perc
+    ====  ==========================  ========  ========  ======  ===========
+       0  https://example.com/page_2    299218    317541   18323    0.0612363
+       1  https://example.com/page_5    214891    208886   -6005   -0.0279444
+       2  https://example.com/page_7    257442    251437   -6005   -0.0233256
+       3  https://example.com/page_8    230403    224398   -6005   -0.026063
+       4  https://example.com/page_9    222242    216237   -6005   -0.0270201
+    ====  ==========================  ========  ========  ======  ===========
+    """
+    if column == "url":
+        compare_df = pd.merge(df1[["url"]], df2[["url"]], how="outer").assign(
+            df1=lambda df: df["url"].isin(df1["url"]),
+            df2=lambda df: df["url"].isin(df2["url"]),
+        )
+        return compare_df
+    compare_df = pd.merge(
+        df1[["url", column]], df2[["url", column]], left_on="url", right_on="url"
+    ).assign(changed=lambda df: df[f"{column}_x"].ne(df[f"{column}_y"]))
+    if ("int" in str(df1[column].dtype).lower()) or (
+        "float" in str(df1[column].dtype).lower()
+    ):
+        compare_df["diff"] = compare_df[f"{column}_y"].sub(compare_df[f"{column}_x"])
+        compare_df["diff_perc"] = compare_df["diff"].div(compare_df[f"{column}_x"])
+    compare_df = compare_df.dropna(thresh=compare_df.shape[1])
+    if keep_equal:
+        return compare_df.reset_index(drop=True)
+    else:
+        return (
+            compare_df[compare_df["changed"]]
+            .drop("changed", axis=1)
+            .reset_index(drop=True)
+        )

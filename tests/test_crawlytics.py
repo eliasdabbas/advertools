@@ -17,6 +17,30 @@ image_df = crawlytics.images(crawldf)
 rand_columns = [random.choices(crawldf.columns, k=5) for i in range(10)]
 regexes = ["img_", "jsonld", "resp_header", r"h\d$"]
 
+df1 = pd.DataFrame(
+    {
+        "url": [f"https://example.com/page{x}" for x in range(5)],
+        "size": [10, 20, 30, 40, 50],
+        "title": [f"title_{x}" for x in range(5)],
+    }
+)
+
+df2 = pd.DataFrame(
+    {
+        "url": [f"https://example.com/page{x}" for x in range(3, 8)],
+        "size": [10, 20, 15, 60, 70],
+        "title": [f"title_{x}" for x in range(3, 8)],
+    }
+)
+
+df3 = pd.DataFrame(
+    {
+        "url": [f"https://example.com/page{x}" for x in range(15, 20)],
+        "size": [10, 20, 15, 60, 70],
+        "title": [f"title_{x}" for x in range(3, 8)],
+    }
+)
+
 
 def test_redirects_empty_df_redir_urls_isna():
     crawldf_no_redirects = crawldf[crawldf["redirect_urls"].isna()]
@@ -198,3 +222,38 @@ def test_jl_to_parquet_correct_columns():
         pq_cols = crawlytics.parquet_columns(f"{tempdir}/delete.parquet")
         assert set(jl_df.columns) == set(pq_df.columns)
         assert set(jl_df.columns) == set(pq_cols["column"])
+
+
+def test_compare_numeric():
+    result = crawlytics.compare(df1, df2, "size")
+    assert result.columns.tolist() == ["url", "size_x", "size_y", "diff", "diff_perc"]
+
+
+def test_compare_text():
+    result = crawlytics.compare(df1, df2, "title")
+    assert result.columns.tolist() == ["url", "title_x", "title_y"]
+
+
+def test_compare_nomatch():
+    result = crawlytics.compare(df1, df3, "title")
+    assert result.empty
+
+
+def test_compare_keepequal():
+    result = crawlytics.compare(df1, df2, "title", keep_equal=True)
+    assert "changed" in result
+
+
+def test_compare_url():
+    result = crawlytics.compare(df1, df1, "url")
+    assert result.columns.tolist() == ["url", "df1", "df2"]
+
+
+def test_compare_url_correct_number_of_urls():
+    result = crawlytics.compare(df1, df2, "url")
+    assert len(result) == len(set(df1["url"]).union(df2["url"]))
+
+
+def test_compare_url_no_common_urls():
+    result = crawlytics.compare(df1, df3, "url")
+    assert result.assign(equal=lambda df: df["df1"].ne(df["df2"]))["equal"].all()
