@@ -611,8 +611,12 @@ def running_crawls():
     df = pd.DataFrame(
         [line.split(maxsplit=5) for line in ps_stdout[1:]], columns=ps_stdout[0].split()
     )
-    df["output_file"] = df["ARGS"].str.extract(r"-o (.*?\.jl)")[0]
-    df_subset = df[df["ARGS"].str.contains("scrapy runspider")].reset_index(drop=True)
+    if platform.system() == "Linux":
+        args = "COMMAND"
+    if platform.system() == "Darwin":
+        args = "ARGS"
+    df["output_file"] = df[args].str.extract(r"-o (.*?\.jl)")[0]
+    df_subset = df[df[args].str.contains("scrapy runspider")].reset_index(drop=True)
     if df_subset.empty:
         return pd.DataFrame()
     crawled_lines = run(["wc", "-l"] + df["output_file"].str.cat(sep=" ").split())
