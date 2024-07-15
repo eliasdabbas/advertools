@@ -33,7 +33,7 @@ in this DataFrame as follows:
 
 >>> import advertools as adv
 >>> import pandas as pd
->>> crawldf = pd.read_json('path/to/output_file.jl', lines=True)
+>>> crawldf = pd.read_json("path/to/output_file.jl", lines=True)
 >>> img_df = adv.crawlytics.images(crawldf)
 >>> img_df
 
@@ -90,7 +90,7 @@ linked, internally and externally.
 The ``crawlytics.links`` function gives you a summary of the links, that is similar to
 the format of the ``crawlytics.images`` DataFrame.
 
->>> link_df = adv.crawlytics.links(crawldf, internal_url_regex='nytimes.com')
+>>> link_df = adv.crawlytics.links(crawldf, internal_url_regex="nytimes.com")
 >>> link_df
 
 ====  ===========================================================  ========================================================================  ==================  ==========  ==========
@@ -180,9 +180,10 @@ In some cases you only want a small set of columns, you can read the DataFrame w
 columns of interest, write them to a new file, and delete the old large crawl file.
 
 >>> crawl_subset = adv.crawlytics.jl_subset(
-...    filepath='/path/to/output_file.jl',
-...    columns=[col1, col2, ...],
-...    regex=column_regex)
+...     filepath="/path/to/output_file.jl",
+...     columns=[col1, col2, ...],
+...     regex=column_regex,
+... )
 
 You can use the ``columns`` parameter to specify exactly which columns you want. You can
 also use a regular expression to specify a set of columns. Here are some examples of
@@ -225,7 +226,7 @@ Another simple function gives us a DataFrame of the available columns in a parqu
 One of the main advantags of using parquet is that you can select which columns you want
 to read.
 
->>> adv.crawlytics.parquet_columns('output_file.parquet') # first 15 columns only
+>>> adv.crawlytics.parquet_columns("output_file.parquet")  # first 15 columns only
 
 ====  ==============  ======
   ..  column          type
@@ -249,7 +250,7 @@ to read.
 
 Check how many columns we have of each type.
 
->>> adv.crawlytics.parquet_columns('nyt_crawl.parquet')['type'].value_counts()
+>>> adv.crawlytics.parquet_columns("nyt_crawl.parquet")["type"].value_counts()
 
 ====  =========================================================================================================================================================  =======
   ..  type                                                                                                                                                         count
@@ -310,7 +311,7 @@ def redirects(crawldf):
     --------
     >>> import advertools as adv
     >>> import pandas as pd
-    >>> crawldf = pd.read_json('output_file.jl', lines=True)
+    >>> crawldf = pd.read_json("output_file.jl", lines=True)
     >>> redirect_df = adv.crawlytics.redirects(crawldf)
     >>> redirect_df
 
@@ -390,7 +391,7 @@ def links(crawldf, internal_url_regex=None):
     --------
     >>> import advertools as adv
     >>> import pandas as pd
-    >>> crawldf = pd.read_json('output_file.jl', lines=True)
+    >>> crawldf = pd.read_json("output_file.jl", lines=True)
     >>> link_df = adv.crawlytics.links(crawldf)
     >>> link_df
 
@@ -452,7 +453,7 @@ def images(crawldf):
     --------
     >>> import advertools as adv
     >>> import pandas as pd
-    >>> crawldf = pd.read_json('output_file.jl', lines=True)
+    >>> crawldf = pd.read_json("output_file.jl", lines=True)
     >>> image_df = adv.crawlytics.images(crawldf)
     >>> image_df
 
@@ -511,15 +512,17 @@ def jl_subset(filepath, columns=None, regex=None, chunksize=500):
 
     Read only the columns "url" and "meta_desc":
 
-    >>> adv.crawlytics.jl_subset('output_file.jl', columns=['url', 'meta_desc'])
+    >>> adv.crawlytics.jl_subset("output_file.jl", columns=["url", "meta_desc"])
 
     Read columns matching the regex "jsonld":
 
-    >>> adv.crawlytics.jl_subset('output_file.jl', regex='jsonld')
+    >>> adv.crawlytics.jl_subset("output_file.jl", regex="jsonld")
 
     Read the columns "url" and "meta_desc" as well as columns matching "jsonld":
 
-    >>> adv.crawlytics.jl_subset('output_file.jl', columns=['url', 'meta_desc'], regex='jsonld')
+    >>> adv.crawlytics.jl_subset(
+    ...     "output_file.jl", columns=["url", "meta_desc"], regex="jsonld"
+    ... )
 
     Returns
     -------
@@ -625,9 +628,9 @@ def compare(df1, df2, column, keep_equal=False):
 
     >>> import advertools as adv
     >>> import pandas as pd
-    >>> df1 = pd.read_json('output_file1.jl', lines=True)
-    >>> df2 = pd.read_json('output_file2.jl', lines=True)
-    >>> adv.crawlytics.compare(df1, df1, 'size')
+    >>> df1 = pd.read_json("output_file1.jl", lines=True)
+    >>> df2 = pd.read_json("output_file2.jl", lines=True)
+    >>> adv.crawlytics.compare(df1, df1, "size")
 
     ====  ==========================  ========  ========  ======  ===========
       ..  url                           size_x    size_y    diff    diff_perc
@@ -679,6 +682,8 @@ def running_crawls():
     * output_file: The path to the output file for each running crawl job.
     * crawled_urls: The current number of lines in ``output_file``.
     """
+    if platform.system() == "Windows":
+        return "This is function does not support Windows yet. Will be, soon. Sorry!"
     ps = run(["ps", "xo", "pid,start,etime,%mem,%cpu,args"])
     ps_stdout = ps.stdout.splitlines()
     df = pd.DataFrame(
