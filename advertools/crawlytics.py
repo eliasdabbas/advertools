@@ -271,10 +271,15 @@ Module functions
 ----------------
 """  # noqa: E501
 
+import platform
 import re
+from functools import partial
+from subprocess import run
 
 import pandas as pd
 import pyarrow.parquet as pq
+
+run = partial(run, text=True, capture_output=True)
 
 __all__ = [
     "images",
@@ -657,3 +662,42 @@ def compare(df1, df2, column, keep_equal=False):
             .drop("changed", axis=1)
             .reset_index(drop=True)
         )
+
+
+def running_crawls():
+    """Get details of currently running spiders.
+
+    Get a DataFrame showing the following details:
+
+    * pid: Process ID. Use this to identify (or stop) the spider that you want.
+    * started: The time when this spider has started.
+    * elapsed: The elapsed time since the spider started.
+    * %mem: The percentage of memory that this spider is consuming.
+    * %cpu: The percentage of CPU that this spider is consuming.
+    * args: The full command that was used to start this spider. Use this to identify
+      the spider(s) that you want to know about.
+    * output_file: The path to the output file for each running crawl job.
+    * crawled_urls: The current number of lines in ``output_file``.
+    """
+    ps = run(["ps", "xo", "pid,start,etime,%mem,%cpu,args"])
+    ps_stdout = ps.stdout.splitlines()
+    df = pd.DataFrame(
+        [line.split(maxsplit=5) for line in ps_stdout[1:]], columns=ps_stdout[0].split()
+    )
+    if platform.system() == "Linux":
+        args = "COMMAND"
+    if platform.system() == "Darwin":
+        args = "ARGS"
+    df["output_file"] = df[args].str.extract(r"-o (.*?\.jl)")[0]
+    df_subset = df[df[args].str.contains("scrapy runspider")].reset_index(drop=True)
+    if df_subset.empty:
+        return pd.DataFrame()
+    crawled_lines = run(["wc", "-l"] + df["output_file"].str.cat(sep=" ").split())
+    if crawled_lines.returncode == 0:
+        crawl_urls = [
+            int(line.strip().split()[0]) for line in crawled_lines.stdout.splitlines()
+        ]
+        crawl_urls = crawl_urls[: min(len(crawl_urls), len(df_subset))]
+        df_subset["crawled_urls"] = crawl_urls
+    df_subset.columns = df_subset.columns.str.lower()
+    return df_subset.rename(columns={"args": "command"})
