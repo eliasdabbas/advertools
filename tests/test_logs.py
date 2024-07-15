@@ -28,18 +28,19 @@ def test_logstodf_raises_on_wrong_output_file():
 
 
 def test_logstodf_general_output_correctness():
-    logs_to_df(
-        full_local_path("logs_testing", "nginx_access.log"),
-        "delete_output.parquet",
-        "delete_errors.txt",
-        "combined",
-    )
-    result = pd.read_parquet("delete_output.parquet")
-    assert "referer" in result
-    assert "user_agent" in result
-    assert isinstance(result, pd.DataFrame)
-    os.remove("delete_output.parquet")
-    os.remove("delete_errors.txt")
+    with TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir)
+        logs_to_df(
+            full_local_path("logs_testing", "nginx_access.log"),
+            str(path / "delete_output.parquet"),
+            path / "delete_errors.txt",
+            "combined",
+        )
+        result = pd.read_parquet(path / "delete_output.parquet")
+        assert result.filter(regex="referer|user_agent").columns.tolist() == [
+            "referer",
+            "user_agent",
+        ]
 
 
 def test_logs_raises_for_wrong_encoding():
@@ -96,10 +97,53 @@ def test_logs_apache_error():
 
 
 def test_logs_file_without_errors():
-    logs_to_df(
-        full_local_path("logs_testing", "combined_no_errors.log"),
-        "delete_output.parquet",
-        "delete_errors.txt",
-        "combined",
-    )
-    assert not os.path.exists("delete_errors.txt")
+    with TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir)
+        logs_to_df(
+            full_local_path("logs_testing", "combined_no_errors.log"),
+            str(path / "delete_output.parquet"),
+            path / "delete_errors.txt",
+            "combined",
+        )
+        assert not os.path.exists(path / "delete_errors.txt")
+
+
+def test_logstodf_parses_dates():
+    with TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir)
+        logs_to_df(
+            full_local_path("logs_testing", "nginx_access.log"),
+            str(path / "delete_output.parquet"),
+            path / "delete_errors.txt",
+            "combined",
+        )
+        result = pd.read_parquet(path / "delete_output.parquet")
+        assert "datetime" in result["datetime"].dtype.name
+
+
+def test_logstodf_parses_custom_date_fmt():
+    with TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir)
+        logs_to_df(
+            full_local_path("logs_testing", "nginx_custom_date.log"),
+            str(path / "delete_output.parquet"),
+            path / "delete_errors.txt",
+            "combined",
+            date_format="%B %d, %YT%H:%M:%S %z",
+        )
+        result = pd.read_parquet(path / "delete_output.parquet")
+        assert "datetime" in result["datetime"].dtype.name
+
+
+def test_logstodf_parses_raises_wrong_date_fmt():
+    with TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir)
+        logs_to_df(
+            full_local_path("logs_testing", "nginx_custom_date.log"),
+            str(path / "delete_output.parquet"),
+            path / "delete_errors.txt",
+            "combined",
+            date_format="%B %, M:%S %z",
+        )
+        result = pd.read_parquet(path / "delete_output.parquet")
+        assert not ("datetime" in result["datetime"].dtype.name)

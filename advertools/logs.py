@@ -453,9 +453,23 @@ LOG_FIELDS = {
     ],
 }
 
+LOG_DATE_FORMATS = {
+    "common": "%d/%b/%Y:%H:%M:%S %z",
+    "combined": "%d/%b/%Y:%H:%M:%S %z",
+    "common_with_vhost": "%d/%b/%Y:%H:%M:%S %z",
+    "nginx_error": "%Y/%m/%d %H:%M:%S",
+    "apache_error": "%a %b %d %H:%M:%S.%f %Y",
+}
+
 
 def logs_to_df(
-    log_file, output_file, errors_file, log_format, fields=None, encoding="utf-8"
+    log_file,
+    output_file,
+    errors_file,
+    log_format,
+    date_format=None,
+    fields=None,
+    encoding="utf-8",
 ):
     """Parse and compress any log file into a DataFrame format.
 
@@ -499,6 +513,25 @@ def logs_to_df(
     >>> logs_df = pd.read_parquet("access_logs.parquet")
 
     You can now analyze ``logs_df`` as a normal pandas DataFrame.
+
+    :param str log_file: The path to the log file.
+    :param str output_file: The path to the desired output file. Must have a
+                            ".parquet" extension, and must not have the same
+                            path as an existing file.
+    :param str errors_file: The path where the parsing errors are stored. Any
+                            text format works, CSV is recommended to easily
+                            open it with any CSV reader with the separator as
+                            "@@".
+    :param str log_format: Either the name of one of the supported log formats,
+                           or a regex of your own format.
+    :param str date_format: The date format in strftime format, in case you have a
+                                a different one from the default.
+    :param str fields: A list of fields, which will become the names of columns
+                       in ``output_file``. Only required if you provide a
+                       custom (regex) ``log_format``.
+    :param str encoding: The encoding of the log file. It defaults to utf-8, but
+                         you might need to try others in case of errors
+                         (latin-1, utf-16, etc.)
     """
     if not output_file.endswith(".parquet"):
         raise ValueError(
@@ -506,6 +539,7 @@ def logs_to_df(
         )
 
     regex = LOG_FORMATS.get(log_format) or log_format
+    date_fmt = date_format or LOG_DATE_FORMATS.get(log_format)
     columns = fields or LOG_FIELDS[log_format]
     with TemporaryDirectory() as tempdir:
         tempdir_name = Path(tempdir)
@@ -537,6 +571,13 @@ def logs_to_df(
                 df = pd.DataFrame(parsed_lines, columns=columns)
                 df.to_parquet(tempdir_name / f"file_{i}.parquet")
             final_df = pd.read_parquet(tempdir_name)
+            if "datetime" in final_df:
+                try:
+                    final_df["datetime"] = pd.to_datetime(
+                        final_df["datetime"], format=date_fmt
+                    )
+                except Exception as e:
+                    pass
             try:
                 final_df["status"] = final_df["status"].astype("category")
                 final_df["method"] = final_df["method"].astype("category")
