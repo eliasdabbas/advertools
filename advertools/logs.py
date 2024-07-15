@@ -47,6 +47,13 @@ How to run the :func:`logs_to_df` function:
   take any one of the pre-defined formats, for example "common", or "combined",
   or a regular expression that you provide. This means that **you can parse any
   log format** (as long as lines are single lines, and not formatted in JSON).
+* ``date_format``: The date format string that the log file uses. For the supported
+  default formats there are also default date formats. In some cases you might have a
+  different date format. You can use standard
+  `Python date string formatting. <https://strftime.org/>`_. For example, to parse this
+  string "2024-01-01" you can use ``%Y-%m-%d``. If this is the correct pattern the
+  output file's datetime column will be saved as a datetime column, otherwise, it will
+  be saved as a string.
 * ``fields``: If you selected one of the supported formats, then there is no
   need to provide a value for this parameter. You have to provide a list of
   fields in case you provide a custom (regex) format. The fields will become
