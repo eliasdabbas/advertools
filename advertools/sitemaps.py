@@ -398,6 +398,46 @@ Video Sitemaps
 2954  https://www.wired.com/video/genres/transportation                                                               nan      nan                                                                                                                                                                                                                                     nan                                                                             nan                                                                                                                                                                                                                                                                                                                                         nan                                                                                                                    nan  nan                                            nan  NaT        https://www.wired.com/video/sitemap.xml  W/90b11f47f8b2ab57cb180cbd3c6f06f9            2.86199  2022-02-12 20:24:55.841851+00:00
 ====  ==============================================================================================================  =======  ======================================================================================================================================================================================================================================  ==============================================================================  ==========================================================================================================================================================================================================================================================================================================================================  ========================================================================================================  ================  =========================  =======================  =========  =======================================  ==================================  =================  ================================
 
+Request Headers
+---------------
+You can set and change any request header while runnig this function if you want to
+modify its behavior. This can be done using a simple dictionary, where the keys are the
+names of the headers and values are their values.
+
+For example, one of the common use-cases is to set a different User-agent than the
+default one:
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+    adv.sitemap_to_df("https://www.ft.com/sitemaps/news.xml", headers={"User-agent": "YOUR-USER-AGENT"})
+
+Another interesting thing you might want to do is utilize the `If-None-Match` header.
+In many cases the sitemaps return an etag for the sitemap. This is to make it easier to
+know whether or not a sitemap has changed. A different etag means the sitemap has been
+updated/changed.
+
+With large sitemaps, where many sub-sitemaps don't change that much you don't need to
+re-download the sitemap every time. You can simply use this header which would download
+the sitemap only if it has a different etag. This can also be useful with frequently
+changing sitemaps like news sitemaps for example. In this case you probably want to
+constantly check but only fetch the sitemap if it was changed.
+
+
+.. thebe-button::
+    Run this code
+
+.. code-block::
+    :class: thebe, thebe-init
+
+    # First time:
+    ft = adv.sitemap_to_df("https://www.ft.com/sitemaps/news.xml")
+    etag = ft['etag'][0]
+
+    # Second time:
+    ft = adv.sitemap_to_df("https://www.ft.com/sitemaps/news.xml", headers={"If-None-Match": etag})
 """  # noqa: E501
 
 import logging
@@ -415,9 +455,9 @@ logging.basicConfig(level=logging.INFO)
 headers = {"User-Agent": "advertools-" + version}
 
 
-def _sitemaps_from_robotstxt(robots_url):
+def _sitemaps_from_robotstxt(robots_url, request_headers):
     sitemaps = []
-    robots_page = urlopen(Request(robots_url, headers=headers))
+    robots_page = urlopen(Request(robots_url, headers=request_headers))
     for line in robots_page.readlines():
         line_split = [s.strip() for s in line.decode().split(":", maxsplit=1)]
         if line_split[0].lower() == "sitemap":
@@ -452,7 +492,16 @@ def _parse_sitemap(root):
     return pd.DataFrame(d.values())
 
 
-def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
+def _build_request_headers(user_headers=None):
+    # Must ensure lowercase to avoid introducing duplicate keys
+    final_headers = {key.lower(): val for key, val in headers.items()}
+    if user_headers:
+        user_headers = {key.lower(): val for key, val in user_headers.items()}
+        final_headers.update(user_headers)
+    return final_headers
+
+
+def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, request_headers=None):
     """
     Retrieve all URLs and other available tags of a sitemap(s) and put them in
     a DataFrame.
@@ -475,27 +524,30 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
                            case you want to explore what sitemaps are available
                            after which you can decide which ones you are
                            interested in.
+    :param dict request_headers: One or more request headers to use while 
+                                 fetching the sitemap.
     :return sitemap_df: A pandas DataFrame containing all URLs, as well as
                         other tags if available (``lastmod``, ``changefreq``,
                         ``priority``, or others found in news, video, or image
                         sitemaps).
     """
+    final_headers = _build_request_headers(request_headers)
+
     if sitemap_url.endswith("robots.txt"):
         return pd.concat(
             [
                 sitemap_to_df(sitemap, recursive=recursive)
-                for sitemap in _sitemaps_from_robotstxt(sitemap_url)
+                for sitemap in _sitemaps_from_robotstxt(sitemap_url, final_headers)
             ],
             ignore_index=True,
         )
+
     if sitemap_url.endswith("xml.gz"):
+        final_headers["accept-encoding"] = "gzip"
         xml_text = urlopen(
             Request(
                 sitemap_url,
-                headers={
-                    "Accept-Encoding": "gzip",
-                    "User-Agent": "advertools-" + version,
-                },
+                headers=final_headers,
             )
         )
         try:
@@ -505,7 +557,7 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True):
             pass
         xml_text = GzipFile(fileobj=xml_text)
     else:
-        xml_text = urlopen(Request(sitemap_url, headers=headers))
+        xml_text = urlopen(Request(sitemap_url, headers=final_headers))
         try:
             resp_headers = xml_text.getheaders()
         except AttributeError:
