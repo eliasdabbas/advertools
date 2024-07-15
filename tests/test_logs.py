@@ -129,7 +129,7 @@ def test_logstodf_parses_custom_date_fmt():
             str(path / "delete_output.parquet"),
             path / "delete_errors.txt",
             "combined",
-            log_date_format="%B %d, %YT%H:%M:%S %z",
+            date_format="%B %d, %YT%H:%M:%S %z",
         )
         result = pd.read_parquet(path / "delete_output.parquet")
         assert "datetime" in result["datetime"].dtype.name
@@ -143,7 +143,7 @@ def test_logstodf_parses_raises_wrong_date_fmt():
             str(path / "delete_output.parquet"),
             path / "delete_errors.txt",
             "combined",
-            log_date_format="%B %, M:%S %z",
+            date_format="%B %, M:%S %z",
         )
         result = pd.read_parquet(path / "delete_output.parquet")
         assert not ("datetime" in result["datetime"].dtype.name)

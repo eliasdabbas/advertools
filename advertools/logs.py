@@ -465,7 +465,7 @@ def logs_to_df(
     output_file,
     errors_file,
     log_format,
-    log_date_format=None,
+    date_format=None,
     fields=None,
     encoding="utf-8",
 ):
@@ -499,7 +499,7 @@ def logs_to_df(
                             "@@".
     :param str log_format: Either the name of one of the supported log formats,
                            or a regex of your own format.
-    :param str log_date_format: The date format in strftime format, in case you have a
+    :param str date_format: The date format in strftime format, in case you have a
                                 a different one from the default.
     :param str fields: A list of fields, which will become the names of columns
                        in ``output_file``. Only required if you provide a
@@ -514,7 +514,7 @@ def logs_to_df(
         )
 
     regex = LOG_FORMATS.get(log_format) or log_format
-    date_fmt = log_date_format or LOG_DATE_FORMATS.get(log_format)
+    date_fmt = date_format or LOG_DATE_FORMATS.get(log_format)
     columns = fields or LOG_FIELDS[log_format]
     with TemporaryDirectory() as tempdir:
         tempdir_name = Path(tempdir)
