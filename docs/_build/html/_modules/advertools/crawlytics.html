@@ -154,7 +154,7 @@
 
 <span class="sd">&gt;&gt;&gt; import advertools as adv</span>
 <span class="sd">&gt;&gt;&gt; import pandas as pd</span>
-<span class="sd">&gt;&gt;&gt; crawldf = pd.read_json(&#39;path/to/output_file.jl&#39;, lines=True)</span>
+<span class="sd">&gt;&gt;&gt; crawldf = pd.read_json(&quot;path/to/output_file.jl&quot;, lines=True)</span>
 <span class="sd">&gt;&gt;&gt; img_df = adv.crawlytics.images(crawldf)</span>
 <span class="sd">&gt;&gt;&gt; img_df</span>
 
@@ -211,7 +211,7 @@
 <span class="sd">The ``crawlytics.links`` function gives you a summary of the links, that is similar to</span>
 <span class="sd">the format of the ``crawlytics.images`` DataFrame.</span>
 
-<span class="sd">&gt;&gt;&gt; link_df = adv.crawlytics.links(crawldf, internal_url_regex=&#39;nytimes.com&#39;)</span>
+<span class="sd">&gt;&gt;&gt; link_df = adv.crawlytics.links(crawldf, internal_url_regex=&quot;nytimes.com&quot;)</span>
 <span class="sd">&gt;&gt;&gt; link_df</span>
 
 <span class="sd">====  ===========================================================  ========================================================================  ==================  ==========  ==========</span>
@@ -301,9 +301,10 @@
 <span class="sd">columns of interest, write them to a new file, and delete the old large crawl file.</span>
 
 <span class="sd">&gt;&gt;&gt; crawl_subset = adv.crawlytics.jl_subset(</span>
-<span class="sd">...    filepath=&#39;/path/to/output_file.jl&#39;,</span>
-<span class="sd">...    columns=[col1, col2, ...],</span>
-<span class="sd">...    regex=column_regex)</span>
+<span class="sd">...     filepath=&quot;/path/to/output_file.jl&quot;,</span>
+<span class="sd">...     columns=[col1, col2, ...],</span>
+<span class="sd">...     regex=column_regex,</span>
+<span class="sd">... )</span>
 
 <span class="sd">You can use the ``columns`` parameter to specify exactly which columns you want. You can</span>
 <span class="sd">also use a regular expression to specify a set of columns. Here are some examples of</span>
@@ -346,7 +347,7 @@
 <span class="sd">One of the main advantags of using parquet is that you can select which columns you want</span>
 <span class="sd">to read.</span>
 
-<span class="sd">&gt;&gt;&gt; adv.crawlytics.parquet_columns(&#39;output_file.parquet&#39;) # first 15 columns only</span>
+<span class="sd">&gt;&gt;&gt; adv.crawlytics.parquet_columns(&quot;output_file.parquet&quot;)  # first 15 columns only</span>
 
 <span class="sd">====  ==============  ======</span>
 <span class="sd">  ..  column          type</span>
@@ -370,7 +371,7 @@
 
 <span class="sd">Check how many columns we have of each type.</span>
 
-<span class="sd">&gt;&gt;&gt; adv.crawlytics.parquet_columns(&#39;nyt_crawl.parquet&#39;)[&#39;type&#39;].value_counts()</span>
+<span class="sd">&gt;&gt;&gt; adv.crawlytics.parquet_columns(&quot;nyt_crawl.parquet&quot;)[&quot;type&quot;].value_counts()</span>
 
 <span class="sd">====  =========================================================================================================================================================  =======</span>
 <span class="sd">  ..  type                                                                                                                                                         count</span>
@@ -410,6 +411,7 @@
     <span class="s2">&quot;jl_to_parquet&quot;</span><span class="p">,</span>
     <span class="s2">&quot;parquet_columns&quot;</span><span class="p">,</span>
     <span class="s2">&quot;compare&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;running_crawls&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -433,7 +435,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
 <span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
-<span class="sd">    &gt;&gt;&gt; crawldf = pd.read_json(&#39;output_file.jl&#39;, lines=True)</span>
+<span class="sd">    &gt;&gt;&gt; crawldf = pd.read_json(&quot;output_file.jl&quot;, lines=True)</span>
 <span class="sd">    &gt;&gt;&gt; redirect_df = adv.crawlytics.redirects(crawldf)</span>
 <span class="sd">    &gt;&gt;&gt; redirect_df</span>
 
@@ -516,7 +518,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
 <span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
-<span class="sd">    &gt;&gt;&gt; crawldf = pd.read_json(&#39;output_file.jl&#39;, lines=True)</span>
+<span class="sd">    &gt;&gt;&gt; crawldf = pd.read_json(&quot;output_file.jl&quot;, lines=True)</span>
 <span class="sd">    &gt;&gt;&gt; link_df = adv.crawlytics.links(crawldf)</span>
 <span class="sd">    &gt;&gt;&gt; link_df</span>
 
@@ -581,7 +583,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
 <span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
-<span class="sd">    &gt;&gt;&gt; crawldf = pd.read_json(&#39;output_file.jl&#39;, lines=True)</span>
+<span class="sd">    &gt;&gt;&gt; crawldf = pd.read_json(&quot;output_file.jl&quot;, lines=True)</span>
 <span class="sd">    &gt;&gt;&gt; image_df = adv.crawlytics.images(crawldf)</span>
 <span class="sd">    &gt;&gt;&gt; image_df</span>
 
@@ -643,15 +645,17 @@
 
 <span class="sd">    Read only the columns &quot;url&quot; and &quot;meta_desc&quot;:</span>
 
-<span class="sd">    &gt;&gt;&gt; adv.crawlytics.jl_subset(&#39;output_file.jl&#39;, columns=[&#39;url&#39;, &#39;meta_desc&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.jl_subset(&quot;output_file.jl&quot;, columns=[&quot;url&quot;, &quot;meta_desc&quot;])</span>
 
 <span class="sd">    Read columns matching the regex &quot;jsonld&quot;:</span>
 
-<span class="sd">    &gt;&gt;&gt; adv.crawlytics.jl_subset(&#39;output_file.jl&#39;, regex=&#39;jsonld&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.jl_subset(&quot;output_file.jl&quot;, regex=&quot;jsonld&quot;)</span>
 
 <span class="sd">    Read the columns &quot;url&quot; and &quot;meta_desc&quot; as well as columns matching &quot;jsonld&quot;:</span>
 
-<span class="sd">    &gt;&gt;&gt; adv.crawlytics.jl_subset(&#39;output_file.jl&#39;, columns=[&#39;url&#39;, &#39;meta_desc&#39;], regex=&#39;jsonld&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.jl_subset(</span>
+<span class="sd">    ...     &quot;output_file.jl&quot;, columns=[&quot;url&quot;, &quot;meta_desc&quot;], regex=&quot;jsonld&quot;</span>
+<span class="sd">    ... )</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -766,9 +770,9 @@
 
 <span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
 <span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
-<span class="sd">    &gt;&gt;&gt; df1 = pd.read_json(&#39;output_file1.jl&#39;, lines=True)</span>
-<span class="sd">    &gt;&gt;&gt; df2 = pd.read_json(&#39;output_file2.jl&#39;, lines=True)</span>
-<span class="sd">    &gt;&gt;&gt; adv.crawlytics.compare(df1, df1, &#39;size&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; df1 = pd.read_json(&quot;output_file1.jl&quot;, lines=True)</span>
+<span class="sd">    &gt;&gt;&gt; df2 = pd.read_json(&quot;output_file2.jl&quot;, lines=True)</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.compare(df1, df1, &quot;size&quot;)</span>
 
 <span class="sd">    ====  ==========================  ========  ========  ======  ===========</span>
 <span class="sd">      ..  url                           size_x    size_y    diff    diff_perc</span>
@@ -806,6 +810,8 @@
 
 
 
+<div class="viewcode-block" id="running_crawls">
+<a class="viewcode-back" href="../../advertools.crawlytics.html#advertools.crawlytics.running_crawls">[docs]</a>
 <span class="k">def</span> <span class="nf">running_crawls</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get details of currently running spiders.</span>
 
@@ -816,11 +822,47 @@
 <span class="sd">    * elapsed: The elapsed time since the spider started.</span>
 <span class="sd">    * %mem: The percentage of memory that this spider is consuming.</span>
 <span class="sd">    * %cpu: The percentage of CPU that this spider is consuming.</span>
-<span class="sd">    * args: The full command that was used to start this spider. Use this to identify</span>
+<span class="sd">    * command: The command that was used to start this spider. Use this to identify</span>
 <span class="sd">      the spider(s) that you want to know about.</span>
 <span class="sd">    * output_file: The path to the output file for each running crawl job.</span>
 <span class="sd">    * crawled_urls: The current number of lines in ``output_file``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    While a crawl is running:</span>
+
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.running_crawls()</span>
+
+<span class="sd">    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============</span>
+<span class="sd">      ..     pid  started    elapsed      %mem    %cpu  command                                                                                                                                                                                                                                                                                                                                                                                                    output_file      crawled_urls</span>
+<span class="sd">    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============</span>
+<span class="sd">       0  195720  21:41:14   00:11         1.1     103  /opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://cnn.com -a allowed_domains=cnn.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o cnn.jl -s CLOSESPIDER_PAGECOUNT=200  cnn.jl                     30</span>
+<span class="sd">    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============</span>
+
+<span class="sd">    After a few moments:</span>
+
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.running_crawls()</span>
+
+<span class="sd">    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============</span>
+<span class="sd">      ..     pid  started    elapsed      %mem    %cpu  command                                                                                                                                                                                                                                                                                                                                                                                                    output_file      crawled_urls</span>
+<span class="sd">    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============</span>
+<span class="sd">       0  195720  21:41:14   00:27         1.2    96.7  /opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://cnn.com -a allowed_domains=cnn.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o cnn.jl -s CLOSESPIDER_PAGECOUNT=200  cnn.jl                     72</span>
+<span class="sd">    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============</span>
+
+<span class="sd">    After starting a new crawl:</span>
+
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.running_crawls()</span>
+
+<span class="sd">    ====  ======  =========  =========  ======  ======  =================================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============</span>
+<span class="sd">      ..     pid  started    elapsed      %mem    %cpu  command                                                                                                                                                                                                                                                                                                                                                                                                            output_file      crawled_urls</span>
+<span class="sd">    ====  ======  =========  =========  ======  ======  =================================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============</span>
+<span class="sd">       0  195720  21:41:14   01:02         1.6    95.7  /opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://cnn.com -a allowed_domains=cnn.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o cnn.jl -s CLOSESPIDER_PAGECOUNT=200          cnn.jl                    154</span>
+<span class="sd">       1  195769  21:42:09   00:07         0.4    83.8  /opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://nytimes.com -a allowed_domains=nytimes.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o nyt.jl -s CLOSESPIDER_PAGECOUNT=200  nyt.jl                     17</span>
+<span class="sd">    ====  ======  =========  =========  ======  ======  =================================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Windows&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;This is function does not support Windows yet. Will be, soon. Sorry!&quot;</span>
     <span class="n">ps</span> <span class="o">=</span> <span class="n">run</span><span class="p">([</span><span class="s2">&quot;ps&quot;</span><span class="p">,</span> <span class="s2">&quot;xo&quot;</span><span class="p">,</span> <span class="s2">&quot;pid,start,etime,%mem,</span><span class="si">%c</span><span class="s2">pu,args&quot;</span><span class="p">])</span>
     <span class="n">ps_stdout</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
@@ -842,7 +884,8 @@
         <span class="n">crawl_urls</span> <span class="o">=</span> <span class="n">crawl_urls</span><span class="p">[:</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">crawl_urls</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_subset</span><span class="p">))]</span>
         <span class="n">df_subset</span><span class="p">[</span><span class="s2">&quot;crawled_urls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crawl_urls</span>
     <span class="n">df_subset</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_subset</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">df_subset</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="s2">&quot;command&quot;</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">df_subset</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="s2">&quot;command&quot;</span><span class="p">})</span></div>
+
 </pre></div>
 
            </div>

@@ -156,7 +156,7 @@ across the crawled website (URLs).</p>
 in this DataFrame as follows:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;path/to/output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;path/to/output_file.jl&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">img_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">images</span><span class="p">(</span><span class="n">crawldf</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">img_df</span>
 </pre></div>
@@ -333,7 +333,7 @@ any, and plan our work accordingly.</p>
 linked, internally and externally.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">crawlytics.links</span></code> function gives you a summary of the links, that is similar to
 the format of the <code class="docutils literal notranslate"><span class="pre">crawlytics.images</span></code> DataFrame.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">link_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">links</span><span class="p">(</span><span class="n">crawldf</span><span class="p">,</span> <span class="n">internal_url_regex</span><span class="o">=</span><span class="s1">&#39;nytimes.com&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">link_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">links</span><span class="p">(</span><span class="n">crawldf</span><span class="p">,</span> <span class="n">internal_url_regex</span><span class="o">=</span><span class="s2">&quot;nytimes.com&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">link_df</span>
 </pre></div>
 </div>
@@ -610,9 +610,10 @@ reducing the memory consumption of our file.
 In some cases you only want a small set of columns, you can read the DataFrame with the
 columns of interest, write them to a new file, and delete the old large crawl file.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crawl_subset</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_subset</span><span class="p">(</span>
-<span class="gp">... </span>   <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;/path/to/output_file.jl&#39;</span><span class="p">,</span>
-<span class="gp">... </span>   <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">col1</span><span class="p">,</span> <span class="n">col2</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
-<span class="gp">... </span>   <span class="n">regex</span><span class="o">=</span><span class="n">column_regex</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;/path/to/output_file.jl&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">col1</span><span class="p">,</span> <span class="n">col2</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">regex</span><span class="o">=</span><span class="n">column_regex</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You can use the <code class="docutils literal notranslate"><span class="pre">columns</span></code> parameter to specify exactly which columns you want. You can
@@ -651,7 +652,7 @@ for details.</p>
 <p>Another simple function gives us a DataFrame of the available columns in a parquet file.
 One of the main advantags of using parquet is that you can select which columns you want
 to read.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">parquet_columns</span><span class="p">(</span><span class="s1">&#39;output_file.parquet&#39;</span><span class="p">)</span> <span class="c1"># first 15 columns only</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">parquet_columns</span><span class="p">(</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">)</span>  <span class="c1"># first 15 columns only</span>
 </pre></div>
 </div>
 <table class="docutils align-default">
@@ -725,7 +726,7 @@ to read.</p>
 </tbody>
 </table>
 <p>Check how many columns we have of each type.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">parquet_columns</span><span class="p">(</span><span class="s1">&#39;nyt_crawl.parquet&#39;</span><span class="p">)[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">parquet_columns</span><span class="p">(</span><span class="s2">&quot;nyt_crawl.parquet&quot;</span><span class="p">)[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
 </div>
 <table class="docutils align-default">
@@ -814,9 +815,9 @@ easily checking which URLs were present in both crawls, or only in one of them.<
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file1.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file2.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;output_file1.jl&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;output_file2.jl&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils align-default">
@@ -888,7 +889,7 @@ their respective URLs where each image data is represented with a separate row.<
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">image_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">images</span><span class="p">(</span><span class="n">crawldf</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">image_df</span>
 </pre></div>
@@ -1030,15 +1031,17 @@ their respective URLs where each image data is represented with a separate row.<
 </pre></div>
 </div>
 <p>Read only the columns &quot;url&quot; and &quot;meta_desc&quot;:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_subset</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="s1">&#39;meta_desc&#39;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_subset</span><span class="p">(</span><span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;meta_desc&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Read columns matching the regex &quot;jsonld&quot;:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_subset</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="s1">&#39;jsonld&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_subset</span><span class="p">(</span><span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="s2">&quot;jsonld&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Read the columns &quot;url&quot; and &quot;meta_desc&quot; as well as columns matching &quot;jsonld&quot;:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_subset</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="s1">&#39;meta_desc&#39;</span><span class="p">],</span> <span class="n">regex</span><span class="o">=</span><span class="s1">&#39;jsonld&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">jl_subset</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;meta_desc&quot;</span><span class="p">],</span> <span class="n">regex</span><span class="o">=</span><span class="s2">&quot;jsonld&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -1092,7 +1095,7 @@ For example if your website is example.com, this would be &quot;example.com&quot
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">link_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">links</span><span class="p">(</span><span class="n">crawldf</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">link_df</span>
 </pre></div>
@@ -1211,7 +1214,7 @@ For example if your website is example.com, this would be &quot;example.com&quot
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">redirect_df</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">redirects</span><span class="p">(</span><span class="n">crawldf</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">redirect_df</span>
 </pre></div>
@@ -1275,6 +1278,126 @@ For example if your website is example.com, this would be &quot;example.com&quot
 <td><p>crawled</p></td>
 <td><p>0.0630789</p></td>
 <td><p>1</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="advertools.crawlytics.running_crawls">
+<span class="sig-name descname"><span class="pre">running_crawls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#running_crawls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.running_crawls" title="Link to this definition"></a></dt>
+<dd><p>Get details of currently running spiders.</p>
+<p>Get a DataFrame showing the following details:</p>
+<ul class="simple">
+<li><p>pid: Process ID. Use this to identify (or stop) the spider that you want.</p></li>
+<li><p>started: The time when this spider has started.</p></li>
+<li><p>elapsed: The elapsed time since the spider started.</p></li>
+<li><p>%mem: The percentage of memory that this spider is consuming.</p></li>
+<li><p>%cpu: The percentage of CPU that this spider is consuming.</p></li>
+<li><p>command: The command that was used to start this spider. Use this to identify
+the spider(s) that you want to know about.</p></li>
+<li><p>output_file: The path to the output file for each running crawl job.</p></li>
+<li><p>crawled_urls: The current number of lines in <code class="docutils literal notranslate"><span class="pre">output_file</span></code>.</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<p>While a crawl is running:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">running_crawls</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>pid</p></th>
+<th class="head"><p>started</p></th>
+<th class="head"><p>elapsed</p></th>
+<th class="head"><p>%mem</p></th>
+<th class="head"><p>%cpu</p></th>
+<th class="head"><p>command</p></th>
+<th class="head"><p>output_file</p></th>
+<th class="head"><p>crawled_urls</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>195720</p></td>
+<td><p>21:41:14</p></td>
+<td><p>00:11</p></td>
+<td><p>1.1</p></td>
+<td><p>103</p></td>
+<td><p>/opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://cnn.com -a allowed_domains=cnn.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o cnn.jl -s CLOSESPIDER_PAGECOUNT=200</p></td>
+<td><p>cnn.jl</p></td>
+<td><p>30</p></td>
+</tr>
+</tbody>
+</table>
+<p>After a few moments:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">running_crawls</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>pid</p></th>
+<th class="head"><p>started</p></th>
+<th class="head"><p>elapsed</p></th>
+<th class="head"><p>%mem</p></th>
+<th class="head"><p>%cpu</p></th>
+<th class="head"><p>command</p></th>
+<th class="head"><p>output_file</p></th>
+<th class="head"><p>crawled_urls</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>195720</p></td>
+<td><p>21:41:14</p></td>
+<td><p>00:27</p></td>
+<td><p>1.2</p></td>
+<td><p>96.7</p></td>
+<td><p>/opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://cnn.com -a allowed_domains=cnn.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o cnn.jl -s CLOSESPIDER_PAGECOUNT=200</p></td>
+<td><p>cnn.jl</p></td>
+<td><p>72</p></td>
+</tr>
+</tbody>
+</table>
+<p>After starting a new crawl:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">running_crawls</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>pid</p></th>
+<th class="head"><p>started</p></th>
+<th class="head"><p>elapsed</p></th>
+<th class="head"><p>%mem</p></th>
+<th class="head"><p>%cpu</p></th>
+<th class="head"><p>command</p></th>
+<th class="head"><p>output_file</p></th>
+<th class="head"><p>crawled_urls</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>195720</p></td>
+<td><p>21:41:14</p></td>
+<td><p>01:02</p></td>
+<td><p>1.6</p></td>
+<td><p>95.7</p></td>
+<td><p>/opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://cnn.com -a allowed_domains=cnn.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o cnn.jl -s CLOSESPIDER_PAGECOUNT=200</p></td>
+<td><p>cnn.jl</p></td>
+<td><p>154</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>195769</p></td>
+<td><p>21:42:09</p></td>
+<td><p>00:07</p></td>
+<td><p>0.4</p></td>
+<td><p>83.8</p></td>
+<td><p>/opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://nytimes.com -a allowed_domains=nytimes.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o nyt.jl -s CLOSESPIDER_PAGECOUNT=200</p></td>
+<td><p>nyt.jl</p></td>
+<td><p>17</p></td>
 </tr>
 </tbody>
 </table>
