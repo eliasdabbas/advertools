@@ -9,7 +9,7 @@ Change Log - advertools
     - Enable supplying request headers in ``sitemap_to_df``, contributed by `@joejoinerr <https://github.com/joejoinerr>`_
     - New function ``crawlytics.compare`` for comparing two crawls.
     - New function ``crawlytics.running_crawls`` for getting data on currently running crawl jobs (\*NIX only for now).
-    - New parameter ``log_date_format`` to ``logs_to_df`` for custom date formats.
+    - New parameter ``date_format`` to ``logs_to_df`` for custom date formats.
 
 * Changed
     - Removed the `relatedSite` parameter from ``serp_goog`` - deprecated.
