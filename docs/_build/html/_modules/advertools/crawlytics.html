@@ -15,8 +15,8 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=0dc20415"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/documentation_options.js?v=ef97403f"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
         <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
@@ -39,7 +39,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.2
+                0.15.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -392,10 +392,15 @@
 <span class="sd">----------------</span>
 <span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
+<span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">run</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">pyarrow.parquet</span> <span class="k">as</span> <span class="nn">pq</span>
+
+<span class="n">run</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;images&quot;</span><span class="p">,</span>
@@ -404,6 +409,7 @@
     <span class="s2">&quot;jl_subset&quot;</span><span class="p">,</span>
     <span class="s2">&quot;jl_to_parquet&quot;</span><span class="p">,</span>
     <span class="s2">&quot;parquet_columns&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;compare&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -721,9 +727,122 @@
     <span class="n">columns_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
         <span class="nb">zip</span><span class="p">(</span><span class="n">pqdataset</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">names</span><span class="p">,</span> <span class="n">pqdataset</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">types</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;column&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">]</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="n">columns_df</span>
     <span class="k">return</span> <span class="n">columns_df</span></div>
 
+
+
+<div class="viewcode-block" id="compare">
+<a class="viewcode-back" href="../../advertools.crawlytics.html#advertools.crawlytics.compare">[docs]</a>
+<span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">keep_equal</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compare common URLs in two crawl DataFrames with respect to `column`.</span>
+
+<span class="sd">    There are three main options that you might select for comparison:</span>
+
+<span class="sd">    * Numeric column: You get the difference between changed columns, as a numeric</span>
+<span class="sd">      difference, and as a fraction.</span>
+<span class="sd">    * String column: You get the values that changed.</span>
+<span class="sd">    * The &quot;url&quot; column: You get two boolean columns `df1` and `df2` with True if the</span>
+<span class="sd">      respective URL was found in that DataFrame, and False otherwise. This allows for</span>
+<span class="sd">      easily checking which URLs were present in both crawls, or only in one of them.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df1 : pandas.DataFrame</span>
+<span class="sd">        The DataFrame of the first crawl</span>
+<span class="sd">    df2 : pandas.DataFrame</span>
+<span class="sd">        The DataFrame of the second crawl</span>
+<span class="sd">    column : str</span>
+<span class="sd">        The name of the column that you want to compare</span>
+<span class="sd">    keep_equal : bool, default False</span>
+<span class="sd">        Whether or not to keep unchanged values in the result DataFrame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    comparison_df : pandas.DataFrame</span>
+<span class="sd">        The values will dependon the data type of the selected column, please see above.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; import advertools as adv</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; df1 = pd.read_json(&#39;output_file1.jl&#39;, lines=True)</span>
+<span class="sd">    &gt;&gt;&gt; df2 = pd.read_json(&#39;output_file2.jl&#39;, lines=True)</span>
+<span class="sd">    &gt;&gt;&gt; adv.crawlytics.compare(df1, df1, &#39;size&#39;)</span>
+
+<span class="sd">    ====  ==========================  ========  ========  ======  ===========</span>
+<span class="sd">      ..  url                           size_x    size_y    diff    diff_perc</span>
+<span class="sd">    ====  ==========================  ========  ========  ======  ===========</span>
+<span class="sd">       0  https://example.com/page_2    299218    317541   18323    0.0612363</span>
+<span class="sd">       1  https://example.com/page_5    214891    208886   -6005   -0.0279444</span>
+<span class="sd">       2  https://example.com/page_7    257442    251437   -6005   -0.0233256</span>
+<span class="sd">       3  https://example.com/page_8    230403    224398   -6005   -0.026063</span>
+<span class="sd">       4  https://example.com/page_9    222242    216237   -6005   -0.0270201</span>
+<span class="sd">    ====  ==========================  ========  ========  ======  ===========</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">column</span> <span class="o">==</span> <span class="s2">&quot;url&quot;</span><span class="p">:</span>
+        <span class="n">compare_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df1</span><span class="p">[[</span><span class="s2">&quot;url&quot;</span><span class="p">]],</span> <span class="n">df2</span><span class="p">[[</span><span class="s2">&quot;url&quot;</span><span class="p">]],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+            <span class="n">df1</span><span class="o">=</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">df1</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]),</span>
+            <span class="n">df2</span><span class="o">=</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">df2</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">compare_df</span>
+    <span class="n">compare_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+        <span class="n">df1</span><span class="p">[[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="n">column</span><span class="p">]],</span> <span class="n">df2</span><span class="p">[[</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="n">column</span><span class="p">]],</span> <span class="n">left_on</span><span class="o">=</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s2">&quot;url&quot;</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">changed</span><span class="o">=</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">ne</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_y&quot;</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;int&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">df1</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="s2">&quot;float&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">df1</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="p">):</span>
+        <span class="n">compare_df</span><span class="p">[</span><span class="s2">&quot;diff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compare_df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">compare_df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_x&quot;</span><span class="p">])</span>
+        <span class="n">compare_df</span><span class="p">[</span><span class="s2">&quot;diff_perc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compare_df</span><span class="p">[</span><span class="s2">&quot;diff&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">compare_df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_x&quot;</span><span class="p">])</span>
+    <span class="n">compare_df</span> <span class="o">=</span> <span class="n">compare_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">thresh</span><span class="o">=</span><span class="n">compare_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">keep_equal</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">compare_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">compare_df</span><span class="p">[</span><span class="n">compare_df</span><span class="p">[</span><span class="s2">&quot;changed&quot;</span><span class="p">]]</span>
+            <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;changed&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">running_crawls</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get details of currently running spiders.</span>
+
+<span class="sd">    Get a DataFrame showing the following details:</span>
+
+<span class="sd">    * pid: Process ID. Use this to identify (or stop) the spider that you want.</span>
+<span class="sd">    * started: The time when this spider has started.</span>
+<span class="sd">    * elapsed: The elapsed time since the spider started.</span>
+<span class="sd">    * %mem: The percentage of memory that this spider is consuming.</span>
+<span class="sd">    * %cpu: The percentage of CPU that this spider is consuming.</span>
+<span class="sd">    * args: The full command that was used to start this spider. Use this to identify</span>
+<span class="sd">      the spider(s) that you want to know about.</span>
+<span class="sd">    * output_file: The path to the output file for each running crawl job.</span>
+<span class="sd">    * crawled_urls: The current number of lines in ``output_file``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ps</span> <span class="o">=</span> <span class="n">run</span><span class="p">([</span><span class="s2">&quot;ps&quot;</span><span class="p">,</span> <span class="s2">&quot;xo&quot;</span><span class="p">,</span> <span class="s2">&quot;pid,start,etime,%mem,</span><span class="si">%c</span><span class="s2">pu,args&quot;</span><span class="p">])</span>
+    <span class="n">ps_stdout</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">maxsplit</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">ps_stdout</span><span class="p">[</span><span class="mi">1</span><span class="p">:]],</span> <span class="n">columns</span><span class="o">=</span><span class="n">ps_stdout</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="s2">&quot;COMMAND&quot;</span>
+    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Darwin&quot;</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="s2">&quot;ARGS&quot;</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;output_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">args</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;-o (.*?\.jl)&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">df_subset</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">args</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;scrapy runspider&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">df_subset</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">crawled_lines</span> <span class="o">=</span> <span class="n">run</span><span class="p">([</span><span class="s2">&quot;wc&quot;</span><span class="p">,</span> <span class="s2">&quot;-l&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;output_file&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">crawled_lines</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">crawl_urls</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">crawled_lines</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="p">]</span>
+        <span class="n">crawl_urls</span> <span class="o">=</span> <span class="n">crawl_urls</span><span class="p">[:</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">crawl_urls</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_subset</span><span class="p">))]</span>
+        <span class="n">df_subset</span><span class="p">[</span><span class="s2">&quot;crawled_urls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crawl_urls</span>
+    <span class="n">df_subset</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_subset</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">df_subset</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="s2">&quot;command&quot;</span><span class="p">})</span>
 </pre></div>
 
            </div>

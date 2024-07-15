@@ -16,8 +16,8 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=0dc20415"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/documentation_options.js?v=ef97403f"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
         <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
@@ -42,7 +42,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.2
+                0.15.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -347,12 +347,17 @@ All you have to do is provide a path for this output file, and it has to have th
 .parquet extension. This allows you to compress the data, analyze it way more
 efficiently, and you can refer back to the same dataset without having to go through
 the process again (it can take a few minutes with big datasets).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span> <span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
-<span class="linenos">2</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="linenos">3</span> <span class="n">adv</span><span class="o">.</span><span class="n">url_to_df</span><span class="p">([</span><span class="n">url_1</span><span class="p">,</span> <span class="n">url_2</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">ouput_file</span><span class="o">=</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">)</span>
-<span class="linenos">4</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;scheme&quot;</span><span class="p">])</span>
-<span class="linenos">5</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dir_1&quot;</span><span class="p">,</span> <span class="s2">&quot;dir_2&quot;</span><span class="p">])</span>
-<span class="linenos">6</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dir_1&quot;</span><span class="p">,</span> <span class="s2">&quot;dir_2&quot;</span><span class="p">],</span> <span class="n">filters</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;dir_1&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;news&quot;</span><span class="p">,</span> <span class="s2">&quot;politics&quot;</span><span class="p">])])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span> <span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="linenos"> 2</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span> <span class="n">adv</span><span class="o">.</span><span class="n">url_to_df</span><span class="p">([</span><span class="n">url_1</span><span class="p">,</span> <span class="n">url_2</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">ouput_file</span><span class="o">=</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">)</span>
+<span class="linenos"> 5</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;scheme&quot;</span><span class="p">])</span>
+<span class="linenos"> 6</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;output_file.parquet&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dir_1&quot;</span><span class="p">,</span> <span class="s2">&quot;dir_2&quot;</span><span class="p">])</span>
+<span class="linenos"> 7</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span>
+<span class="linenos"> 8</span>     <span class="s2">&quot;output_file.parquet&quot;</span><span class="p">,</span>
+<span class="linenos"> 9</span>     <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dir_1&quot;</span><span class="p">,</span> <span class="s2">&quot;dir_2&quot;</span><span class="p">],</span>
+<span class="linenos">10</span>     <span class="n">filters</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;dir_1&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;news&quot;</span><span class="p">,</span> <span class="s2">&quot;politics&quot;</span><span class="p">])],</span>
+<span class="linenos">11</span> <span class="p">)</span>
 </pre></div>
 </div>
 </section>

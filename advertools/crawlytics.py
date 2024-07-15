@@ -290,6 +290,7 @@ __all__ = [
     "jl_to_parquet",
     "parquet_columns",
     "compare",
+    "running_crawls",
 ]
 
 
@@ -677,10 +678,44 @@ def running_crawls():
     * elapsed: The elapsed time since the spider started.
     * %mem: The percentage of memory that this spider is consuming.
     * %cpu: The percentage of CPU that this spider is consuming.
-    * args: The full command that was used to start this spider. Use this to identify
+    * command: The command that was used to start this spider. Use this to identify
       the spider(s) that you want to know about.
     * output_file: The path to the output file for each running crawl job.
     * crawled_urls: The current number of lines in ``output_file``.
+
+    Examples
+    --------
+    While a crawl is running:
+
+    >>> import advertools as adv
+    >>> adv.crawlytics.running_crawls()
+
+    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============
+      ..     pid  started    elapsed      %mem    %cpu  command                                                                                                                                                                                                                                                                                                                                                                                                    output_file      crawled_urls
+    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============
+       0  195720  21:41:14   00:11         1.1     103  /opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://cnn.com -a allowed_domains=cnn.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o cnn.jl -s CLOSESPIDER_PAGECOUNT=200  cnn.jl                     30
+    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============
+
+    After a few moments:
+
+    >>> adv.crawlytics.running_crawls()
+
+    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============
+      ..     pid  started    elapsed      %mem    %cpu  command                                                                                                                                                                                                                                                                                                                                                                                                    output_file      crawled_urls
+    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============
+       0  195720  21:41:14   00:27         1.2    96.7  /opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://cnn.com -a allowed_domains=cnn.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o cnn.jl -s CLOSESPIDER_PAGECOUNT=200  cnn.jl                     72
+    ====  ======  =========  =========  ======  ======  =========================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============
+
+    After starting a new crawl:
+
+    >>> adv.crawlytics.running_crawls()
+
+    ====  ======  =========  =========  ======  ======  =================================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============
+      ..     pid  started    elapsed      %mem    %cpu  command                                                                                                                                                                                                                                                                                                                                                                                                            output_file      crawled_urls
+    ====  ======  =========  =========  ======  ======  =================================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============
+       0  195720  21:41:14   01:02         1.6    95.7  /opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://cnn.com -a allowed_domains=cnn.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o cnn.jl -s CLOSESPIDER_PAGECOUNT=200          cnn.jl                    154
+       1  195769  21:42:09   00:07         0.4    83.8  /opt/tljh/user/bin/python /opt/tljh/user/bin/scrapy runspider /opt/tljh/user/lib/python3.10/site-packages/advertools/spider.py -a url_list=https://nytimes.com -a allowed_domains=nytimes.com -a follow_links=True -a exclude_url_params=None -a include_url_params=None -a exclude_url_regex=None -a include_url_regex=None -a css_selectors=None -a xpath_selectors=None -o nyt.jl -s CLOSESPIDER_PAGECOUNT=200  nyt.jl                     17
+    ====  ======  =========  =========  ======  ======  =================================================================================================================================================================================================================================================================================================================================================================================================================  =============  ==============
     """
     if platform.system() == "Windows":
         return "This is function does not support Windows yet. Will be, soon. Sorry!"

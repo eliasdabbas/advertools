@@ -15,8 +15,8 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=0dc20415"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/documentation_options.js?v=ef97403f"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
         <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
@@ -39,7 +39,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.2
+                0.15.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -284,10 +284,15 @@
 
 <span class="sd">    import advertools as adv</span>
 <span class="sd">    import pandas as pd</span>
+
 <span class="sd">    adv.url_to_df([url_1, url_2, ...], ouput_file=&quot;output_file.parquet&quot;)</span>
 <span class="sd">    pd.read_parquet(&quot;output_file.parquet&quot;, columns=[&quot;scheme&quot;])</span>
 <span class="sd">    pd.read_parquet(&quot;output_file.parquet&quot;, columns=[&quot;dir_1&quot;, &quot;dir_2&quot;])</span>
-<span class="sd">    pd.read_parquet(&quot;output_file.parquet&quot;, columns=[&quot;dir_1&quot;, &quot;dir_2&quot;], filters=[(&quot;dir_1&quot;, &quot;in&quot;, [&quot;news&quot;, &quot;politics&quot;])])</span>
+<span class="sd">    pd.read_parquet(</span>
+<span class="sd">        &quot;output_file.parquet&quot;,</span>
+<span class="sd">        columns=[&quot;dir_1&quot;, &quot;dir_2&quot;],</span>
+<span class="sd">        filters=[(&quot;dir_1&quot;, &quot;in&quot;, [&quot;news&quot;, &quot;politics&quot;])],</span>
+<span class="sd">    )</span>
 
 <span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
@@ -343,7 +348,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">dirs_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">dirs_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">dirs_df</span> <span class="o">=</span> <span class="n">dirs_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">last_dir</span><span class="o">=</span><span class="n">dirs_df</span><span class="o">.</span><span class="n">ffill</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">dirs_df</span><span class="p">,</span> <span class="n">query_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">dirs_df</span><span class="p">,</span> <span class="n">query_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">)</span>
     <span class="n">url_list_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">decode</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">]})</span>
     <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">url_list_df</span><span class="p">,</span> <span class="n">df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">final_df</span>

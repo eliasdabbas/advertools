@@ -412,6 +412,7 @@ default one:
 
 .. code-block::
     :class: thebe, thebe-init
+
     adv.sitemap_to_df("https://www.ft.com/sitemaps/news.xml", headers={"User-agent": "YOUR-USER-AGENT"})
 
 Another interesting thing you might want to do is utilize the `If-None-Match` header.
@@ -524,7 +525,7 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, request_headers=No
                            case you want to explore what sitemaps are available
                            after which you can decide which ones you are
                            interested in.
-    :param dict request_headers: One or more request headers to use while 
+    :param dict request_headers: One or more request headers to use while
                                  fetching the sitemap.
     :return sitemap_df: A pandas DataFrame containing all URLs, as well as
                         other tags if available (``lastmod``, ``changefreq``,

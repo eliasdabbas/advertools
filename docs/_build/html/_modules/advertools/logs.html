@@ -15,8 +15,8 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=0dc20415"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/documentation_options.js?v=ef97403f"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
         <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
@@ -39,7 +39,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.2
+                0.15.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -168,6 +168,13 @@
 <span class="sd">  take any one of the pre-defined formats, for example &quot;common&quot;, or &quot;combined&quot;,</span>
 <span class="sd">  or a regular expression that you provide. This means that **you can parse any</span>
 <span class="sd">  log format** (as long as lines are single lines, and not formatted in JSON).</span>
+<span class="sd">* ``date_format``: The date format string that the log file uses. For the supported</span>
+<span class="sd">  default formats there are also default date formats. In some cases you might have a</span>
+<span class="sd">  different date format. You can use standard</span>
+<span class="sd">  `Python date string formatting. &lt;https://strftime.org/&gt;`_. For example, to parse this</span>
+<span class="sd">  string &quot;2024-01-01&quot; you can use ``%Y-%m-%d``. If this is the correct pattern the</span>
+<span class="sd">  output file&#39;s datetime column will be saved as a datetime column, otherwise, it will</span>
+<span class="sd">  be saved as a string.</span>
 <span class="sd">* ``fields``: If you selected one of the supported formats, then there is no</span>
 <span class="sd">  need to provide a value for this parameter. You have to provide a list of</span>
 <span class="sd">  fields in case you provide a custom (regex) format. The fields will become</span>
@@ -574,11 +581,25 @@
     <span class="p">],</span>
 <span class="p">}</span>
 
+<span class="n">LOG_DATE_FORMATS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;common&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%b/%Y:%H:%M:%S %z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;combined&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%b/%Y:%H:%M:%S %z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;common_with_vhost&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%b/%Y:%H:%M:%S %z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nginx_error&quot;</span><span class="p">:</span> <span class="s2">&quot;%Y/%m/</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;apache_error&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%a</span><span class="s2"> %b </span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2"> %Y&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
 
 <div class="viewcode-block" id="logs_to_df">
 <a class="viewcode-back" href="../../advertools.logs.html#advertools.logs.logs_to_df">[docs]</a>
 <span class="k">def</span> <span class="nf">logs_to_df</span><span class="p">(</span>
-    <span class="n">log_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">errors_file</span><span class="p">,</span> <span class="n">log_format</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>
+    <span class="n">log_file</span><span class="p">,</span>
+    <span class="n">output_file</span><span class="p">,</span>
+    <span class="n">errors_file</span><span class="p">,</span>
+    <span class="n">log_format</span><span class="p">,</span>
+    <span class="n">date_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse and compress any log file into a DataFrame format.</span>
 
@@ -622,6 +643,25 @@
 <span class="sd">    &gt;&gt;&gt; logs_df = pd.read_parquet(&quot;access_logs.parquet&quot;)</span>
 
 <span class="sd">    You can now analyze ``logs_df`` as a normal pandas DataFrame.</span>
+
+<span class="sd">    :param str log_file: The path to the log file.</span>
+<span class="sd">    :param str output_file: The path to the desired output file. Must have a</span>
+<span class="sd">                            &quot;.parquet&quot; extension, and must not have the same</span>
+<span class="sd">                            path as an existing file.</span>
+<span class="sd">    :param str errors_file: The path where the parsing errors are stored. Any</span>
+<span class="sd">                            text format works, CSV is recommended to easily</span>
+<span class="sd">                            open it with any CSV reader with the separator as</span>
+<span class="sd">                            &quot;@@&quot;.</span>
+<span class="sd">    :param str log_format: Either the name of one of the supported log formats,</span>
+<span class="sd">                           or a regex of your own format.</span>
+<span class="sd">    :param str date_format: The date format in strftime format, in case you have a</span>
+<span class="sd">                                a different one from the default.</span>
+<span class="sd">    :param str fields: A list of fields, which will become the names of columns</span>
+<span class="sd">                       in ``output_file``. Only required if you provide a</span>
+<span class="sd">                       custom (regex) ``log_format``.</span>
+<span class="sd">    :param str encoding: The encoding of the log file. It defaults to utf-8, but</span>
+<span class="sd">                         you might need to try others in case of errors</span>
+<span class="sd">                         (latin-1, utf-16, etc.)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">output_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.parquet&quot;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -629,6 +669,7 @@
         <span class="p">)</span>
 
     <span class="n">regex</span> <span class="o">=</span> <span class="n">LOG_FORMATS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">log_format</span><span class="p">)</span> <span class="ow">or</span> <span class="n">log_format</span>
+    <span class="n">date_fmt</span> <span class="o">=</span> <span class="n">date_format</span> <span class="ow">or</span> <span class="n">LOG_DATE_FORMATS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">log_format</span><span class="p">)</span>
     <span class="n">columns</span> <span class="o">=</span> <span class="n">fields</span> <span class="ow">or</span> <span class="n">LOG_FIELDS</span><span class="p">[</span><span class="n">log_format</span><span class="p">]</span>
     <span class="k">with</span> <span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tempdir</span><span class="p">:</span>
         <span class="n">tempdir_name</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempdir</span><span class="p">)</span>
@@ -660,6 +701,13 @@
                 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">parsed_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
                 <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">tempdir_name</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;file_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.parquet&quot;</span><span class="p">)</span>
             <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">tempdir_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;datetime&quot;</span> <span class="ow">in</span> <span class="n">final_df</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+                        <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="n">date_fmt</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">pass</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
                 <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_df</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>

@@ -16,8 +16,8 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=0dc20415"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/documentation_options.js?v=ef97403f"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
         <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
@@ -42,7 +42,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.2
+                0.15.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -168,6 +168,13 @@ likely that your file is in one of the popular formats. This parameter can
 take any one of the pre-defined formats, for example &quot;common&quot;, or &quot;combined&quot;,
 or a regular expression that you provide. This means that <strong>you can parse any
 log format</strong> (as long as lines are single lines, and not formatted in JSON).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_format</span></code>: The date format string that the log file uses. For the supported
+default formats there are also default date formats. In some cases you might have a
+different date format. You can use standard
+<a class="reference external" href="https://strftime.org/">Python date string formatting.</a>. For example, to parse this
+string &quot;2024-01-01&quot; you can use <code class="docutils literal notranslate"><span class="pre">%Y-%m-%d</span></code>. If this is the correct pattern the
+output file's datetime column will be saved as a datetime column, otherwise, it will
+be saved as a string.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">fields</span></code>: If you selected one of the supported formats, then there is no
 need to provide a value for this parameter. You have to provide a list of
 fields in case you provide a custom (regex) format. The fields will become
@@ -2096,7 +2103,7 @@ Crawling errors are also interesting, and can be found in rows where
 
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.logs.logs_to_df">
-<span class="sig-name descname"><span class="pre">logs_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/logs.html#logs_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.logs.logs_to_df" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">logs_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/logs.html#logs_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.logs.logs_to_df" title="Link to this definition"></a></dt>
 <dd><p>Parse and compress any log file into a DataFrame format.</p>
 <p>Convert a log file to a <cite>parquet</cite> file in a DataFrame format, and save all
 errors (or lines not conformig to the chosen log format) into a separate
@@ -2134,6 +2141,30 @@ others in case of errors (latin-1, utf-16, etc.)</p></li>
 </pre></div>
 </div>
 <p>You can now analyze <code class="docutils literal notranslate"><span class="pre">logs_df</span></code> as a normal pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_file</strong> (<em>str</em>) -- The path to the log file.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) -- The path to the desired output file. Must have a
+&quot;.parquet&quot; extension, and must not have the same
+path as an existing file.</p></li>
+<li><p><strong>errors_file</strong> (<em>str</em>) -- The path where the parsing errors are stored. Any
+text format works, CSV is recommended to easily
+open it with any CSV reader with the separator as
+&quot;&#64;&#64;&quot;.</p></li>
+<li><p><strong>log_format</strong> (<em>str</em>) -- Either the name of one of the supported log formats,
+or a regex of your own format.</p></li>
+<li><p><strong>date_format</strong> (<em>str</em>) -- The date format in strftime format, in case you have a
+a different one from the default.</p></li>
+<li><p><strong>fields</strong> (<em>str</em>) -- A list of fields, which will become the names of columns
+in <code class="docutils literal notranslate"><span class="pre">output_file</span></code>. Only required if you provide a
+custom (regex) <code class="docutils literal notranslate"><span class="pre">log_format</span></code>.</p></li>
+<li><p><strong>encoding</strong> (<em>str</em>) -- The encoding of the log file. It defaults to utf-8, but
+you might need to try others in case of errors
+(latin-1, utf-16, etc.)</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 

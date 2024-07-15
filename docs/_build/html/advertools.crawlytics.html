@@ -16,8 +16,8 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=0dc20415"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/documentation_options.js?v=ef97403f"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
         <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
@@ -42,7 +42,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.2
+                0.15.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -782,6 +782,93 @@ to read.</p>
 <section id="module-functions">
 <h2>Module functions<a class="headerlink" href="#module-functions" title="Link to this heading"></a></h2>
 </section>
+<dl class="py function">
+<dt class="sig sig-object py" id="advertools.crawlytics.compare">
+<span class="sig-name descname"><span class="pre">compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_equal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#compare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.compare" title="Link to this definition"></a></dt>
+<dd><p>Compare common URLs in two crawl DataFrames with respect to <cite>column</cite>.</p>
+<p>There are three main options that you might select for comparison:</p>
+<ul class="simple">
+<li><p>Numeric column: You get the difference between changed columns, as a numeric
+difference, and as a fraction.</p></li>
+<li><p>String column: You get the values that changed.</p></li>
+<li><p>The &quot;url&quot; column: You get two boolean columns <cite>df1</cite> and <cite>df2</cite> with True if the
+respective URL was found in that DataFrame, and False otherwise. This allows for
+easily checking which URLs were present in both crawls, or only in one of them.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df1</strong> (<em>pandas.DataFrame</em>) -- The DataFrame of the first crawl</p></li>
+<li><p><strong>df2</strong> (<em>pandas.DataFrame</em>) -- The DataFrame of the second crawl</p></li>
+<li><p><strong>column</strong> (<em>str</em>) -- The name of the column that you want to compare</p></li>
+<li><p><strong>keep_equal</strong> (<em>bool</em><em>, </em><em>default False</em>) -- Whether or not to keep unchanged values in the result DataFrame</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>comparison_df</strong> -- The values will dependon the data type of the selected column, please see above.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file1.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;output_file2.jl&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawlytics</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>url</p></th>
+<th class="head"><p>size_x</p></th>
+<th class="head"><p>size_y</p></th>
+<th class="head"><p>diff</p></th>
+<th class="head"><p>diff_perc</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://example.com/page_2">https://example.com/page_2</a></p></td>
+<td><p>299218</p></td>
+<td><p>317541</p></td>
+<td><p>18323</p></td>
+<td><p>0.0612363</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://example.com/page_5">https://example.com/page_5</a></p></td>
+<td><p>214891</p></td>
+<td><p>208886</p></td>
+<td><p>-6005</p></td>
+<td><p>-0.0279444</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://example.com/page_7">https://example.com/page_7</a></p></td>
+<td><p>257442</p></td>
+<td><p>251437</p></td>
+<td><p>-6005</p></td>
+<td><p>-0.0233256</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://example.com/page_8">https://example.com/page_8</a></p></td>
+<td><p>230403</p></td>
+<td><p>224398</p></td>
+<td><p>-6005</p></td>
+<td><p>-0.026063</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://example.com/page_9">https://example.com/page_9</a></p></td>
+<td><p>222242</p></td>
+<td><p>216237</p></td>
+<td><p>-6005</p></td>
+<td><p>-0.0270201</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.crawlytics.images">
 <span class="sig-name descname"><span class="pre">images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crawldf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/crawlytics.html#images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.crawlytics.images" title="Link to this definition"></a></dt>

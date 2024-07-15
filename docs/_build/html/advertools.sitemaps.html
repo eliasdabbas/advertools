@@ -17,8 +17,8 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=0dc20415"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/documentation_options.js?v=ef97403f"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
         <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
@@ -43,7 +43,7 @@
             advertools
           </a>
               <div class="version">
-                0.14.2
+                0.15.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -72,6 +72,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#regular-xml-sitemaps">Regular XML Sitemaps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#news-sitemaps">News Sitemaps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#video-sitemaps">Video Sitemaps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#request-headers">Request Headers</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
@@ -1059,10 +1060,38 @@ Swami Sivasubramanian, VP of AI at Amazon Web Services helps us to understand ho
 </tbody>
 </table>
 </section>
+<section id="request-headers">
+<h2>Request Headers<a class="headerlink" href="#request-headers" title="Link to this heading"></a></h2>
+<p>You can set and change any request header while runnig this function if you want to
+modify its behavior. This can be done using a simple dictionary, where the keys are the
+names of the headers and values are their values.</p>
+<p>For example, one of the common use-cases is to set a different User-agent than the
+default one:</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="s2">&quot;https://www.ft.com/sitemaps/news.xml&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;User-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;YOUR-USER-AGENT&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Another interesting thing you might want to do is utilize the <cite>If-None-Match</cite> header.
+In many cases the sitemaps return an etag for the sitemap. This is to make it easier to
+know whether or not a sitemap has changed. A different etag means the sitemap has been
+updated/changed.</p>
+<p>With large sitemaps, where many sub-sitemaps don't change that much you don't need to
+re-download the sitemap every time. You can simply use this header which would download
+the sitemap only if it has a different etag. This can also be useful with frequently
+changing sitemaps like news sitemaps for example. In this case you probably want to
+constantly check but only fetch the sitemap if it was changed.</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># First time:</span>
+<span class="n">ft</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="s2">&quot;https://www.ft.com/sitemaps/news.xml&quot;</span><span class="p">)</span>
+<span class="n">etag</span> <span class="o">=</span> <span class="n">ft</span><span class="p">[</span><span class="s1">&#39;etag&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Second time:</span>
+<span class="n">ft</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">sitemap_to_df</span><span class="p">(</span><span class="s2">&quot;https://www.ft.com/sitemaps/news.xml&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;If-None-Match&quot;</span><span class="p">:</span> <span class="n">etag</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.sitemaps.sitemap_to_df">
-<span class="sig-name descname"><span class="pre">sitemap_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sitemap_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">sitemap_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sitemap_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/sitemaps.html#sitemap_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.sitemaps.sitemap_to_df" title="Link to this definition"></a></dt>
 <dd><p>Retrieve all URLs and other available tags of a sitemap(s) and put them in
 a DataFrame.</p>
 <p>You can also pass the URL of a sitemap index, or a link to a robots.txt
@@ -1085,6 +1114,8 @@ import the given sitemap. This might be useful in
 case you want to explore what sitemaps are available
 after which you can decide which ones you are
 interested in.</p></li>
+<li><p><strong>request_headers</strong> (<em>dict</em>) -- One or more request headers to use while
+fetching the sitemap.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return sitemap_df<span class="colon">:</span></dt>
