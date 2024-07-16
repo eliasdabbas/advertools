@@ -996,9 +996,9 @@ def crawl(
         url_list = [url_list]
     if isinstance(allowed_domains, str):
         allowed_domains = [allowed_domains]
-    if output_file.rsplit(".")[-1] != "jl":
+    if output_file.rsplit(".")[-1] not in ["jl", "jsonl"]:
         raise ValueError(
-            "Please make sure your output_file ends with '.jl'.\n"
+            "Please make sure your output_file ends with '.jl' or '.jsonl'.\n"
             "For example:\n"
             "{}.jl".format(output_file.rsplit(".", maxsplit=1)[0])
         )
