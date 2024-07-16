@@ -2,6 +2,13 @@
 Change Log - advertools
 =======================
 
+0.15.1 (2024-07-16)
+-------------------
+
+* Fixed
+    - Make file path for ``emoji_df`` relative to advertools ``__path__``.
+    - Allow the extension ``.jsonl`` for crawling.
+
 0.15.0 (2024-07-15)
 -------------------
 
