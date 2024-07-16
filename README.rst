@@ -243,6 +243,7 @@ autocomplete to discover other options:
 | ``emoji_``: emoji related functions and objects
 | ``twitter``: a module for querying the Twitter API and getting results in a DataFrame
 | ``youtube``: a module for querying the YouTube Data API and getting results in a DataFrame
+| ``crawlytics``: a module for analyzing crawl data (compare, links, redirects, and more)
 | ``serp_``: get search engine results pages in a DataFrame, currently available: Google and YouTube
 | ``crawl``: a function you will probably use a lot if you do SEO
 | ``*_to_df``: a set of convenience functions for converting to DataFrames
