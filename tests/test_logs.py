@@ -146,4 +146,16 @@ def test_logstodf_parses_raises_wrong_date_fmt():
             date_format="%B %, M:%S %z",
         )
         result = pd.read_parquet(path / "delete_output.parquet")
-        assert not ("datetime" in result["datetime"].dtype.name)
+        assert "datetime" not in result["datetime"].dtype.name
+
+
+def test_logstodf_raises_on_no_fields():
+    """Raise an exception if user proivides custom log format without fields."""
+    with pytest.raises(ValueError):
+        logs_to_df(
+            log_file="some_file.txt",
+            output_file="output_file.parquet",
+            errors_file="errors.txt",
+            log_format="custom_regex",
+            fields=None,
+        )
