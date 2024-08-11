@@ -687,6 +687,7 @@ class SEOSitemapSpider(Spider):
         include_url_regex=None,
         css_selectors=None,
         xpath_selectors=None,
+        meta=None,
         *args,
         **kwargs,
     ):
@@ -704,11 +705,17 @@ class SEOSitemapSpider(Spider):
             self.include_url_regex = None
         self.css_selectors = eval(json.loads(json.dumps(css_selectors)))
         self.xpath_selectors = eval(json.loads(json.dumps(xpath_selectors)))
+        self.meta = eval(json.loads(json.dumps(meta)))
 
     def start_requests(self):
         for url in self.start_urls:
             try:
-                yield Request(url, callback=self.parse, errback=self.errback)
+                yield Request(
+                    url,
+                    callback=self.parse,
+                    errback=self.errback,
+                    meta=self.meta,
+                )
             except Exception as e:
                 self.logger.error(repr(e))
 
@@ -845,7 +852,6 @@ class SEOSitemapSpider(Spider):
                 " ".join([str(e), str(response.status), response.url])
             )
         page_content = _extract_content(response, **tags_xpaths)
-
         yield dict(
             url=response.request.url,
             **page_content,
@@ -906,6 +912,7 @@ def crawl(
     css_selectors=None,
     xpath_selectors=None,
     custom_settings=None,
+    meta=None,
 ):
     """
     Crawl a website or a list of URLs based on the supplied options.
@@ -1072,6 +1079,8 @@ def crawl(
         "css_selectors=" + str(css_selectors),
         "-a",
         "xpath_selectors=" + str(xpath_selectors),
+        "-a",
+        "meta=" + str(meta),
         "-o",
         output_file,
     ] + settings_list
