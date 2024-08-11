@@ -544,7 +544,11 @@ def logs_to_df(
         raise ValueError(
             "Please provide an `output_file` with a `.parquet` " "extension."
         )
-
+    if not LOG_DATE_FORMATS.get(log_format) and fields is None:
+        raise ValueError(
+            "Please supply a value for the `fields` parameter when you provide a custom"
+            "log format."
+        )
     regex = LOG_FORMATS.get(log_format) or log_format
     date_fmt = date_format or LOG_DATE_FORMATS.get(log_format)
     columns = fields or LOG_FIELDS[log_format]
