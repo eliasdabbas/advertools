@@ -975,8 +975,8 @@ def crawl(
       details please refer to the `spider settings <https://docs.scrapy.org/en/latest/topics/settings.html>`_
       documentation.
     meta : dict
-      Arbitrary data to pass to
-
+      Additional data to pass to the crawler; add arbitrary metadata, set custom request
+      headers per URL, and/or enable some third party plugins.
     Examples
     --------
     Crawl a website and let the crawler discover as many pages as available
@@ -1017,6 +1017,55 @@ def crawl(
     ...     },
     ... )
 
+    Adding custom meta data for the crawler using the `meta` key for tracking/context
+    purposes. If you supply {"purpose": "pre-launch test"}, then you will get a column
+    called "purpose", and all its values will be "pre-launch test" in the crawl
+    DataFrame.
+
+    >>> adv.crawl(
+    ...     "https://example.com",
+    ...     "output_file.jl",
+    ...     meta={"purpose": "pre-launch testing"},
+    ... )
+
+    Or maybe metion which device(s) you crawled with, which is much easier than reading
+    the user-agent string:
+
+    >>> adv.crawl(
+    ...     "https://example.com",
+    ...     "output.jsonl",
+    ...     custom_settings={
+    ...         "USER_AGENT": "Mozilla/5.0 (iPhone; CPUiPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1"
+    ...     },
+    ...     meta={"device": "Apple iPhone 12 Pro (Safari)"},
+    ... )
+
+    Custom request headers: Supply custom request headers per URL with the special key
+    "custom_headers", with its value a dictionary whos keys are URLs, and values are
+    dictionaries each with its own custom request headers
+    >>> adv.crawl(
+    ...     URL_LIST,
+    ...     OUTPUT_FILE,
+    ...     meta={
+    ...         "custom_headers": {
+    ...             "URL_A": {"HEADER_1": "VALUE_1", "HEADER_2": "VALUE_1"},
+    ...             "URL_B": {"HEADER_1": "VALUE_2", "HEADER_2": "VALUE_2"},
+    ...             "URL_C": {"HEADER_1": "VALUE_3"},
+    ...         }
+    ...     },
+    ... )
+
+    OR:
+
+    meta={
+        "custom_headers": {
+            "https://example.com/A: {"If-None-Match": "Etag A"},
+            "https://example.com/B: {"If-None-Match": "Etag B", "User-Agent": "custom UA"},
+            "https://example.com/C: {"If-None-Match": "Etag C"},
+        }
+    }
+    Use with third party plugins like scrapy playwright. To enable it, set
+    {"playwright": True} together with other settings.
     """
     if isinstance(url_list, str):
         url_list = [url_list]
