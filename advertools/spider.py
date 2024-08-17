@@ -408,6 +408,7 @@ import json
 import logging
 import platform
 import re
+import runpy
 import subprocess
 from urllib.parse import parse_qs, urlparse, urlsplit
 
@@ -712,8 +713,8 @@ class SEOSitemapSpider(Spider):
         if self.meta:
             custom_headers = self.meta.get("custom_headers") or {}
             if isinstance(custom_headers, str):
-                module = custom_headers.rsplit(".", maxsplit=1)[0]
-                custom_headers = __import__(module).custom_headers
+                module = runpy.run_path(custom_headers)
+                custom_headers = module["custom_headers"]
         else:
             custom_headers = {}
         self.custom_headers = custom_headers
@@ -1017,18 +1018,20 @@ def crawl(
     ...     },
     ... )
 
-    Adding custom meta data for the crawler using the `meta` key for tracking/context
-    purposes. If you supply {"purpose": "pre-launch test"}, then you will get a column
-    called "purpose", and all its values will be "pre-launch test" in the crawl
-    DataFrame.
+    Using the ``meta`` parameter:
+
+    **Adding custom meta data** for the crawler using the `meta` parameter for
+    tracking/context purposes. If you supply {"purpose": "pre-launch test"}, then you
+    will get a column called "purpose", and all its values will be "pre-launch test" in
+    the crawl DataFrame.
 
     >>> adv.crawl(
     ...     "https://example.com",
     ...     "output_file.jl",
-    ...     meta={"purpose": "pre-launch testing"},
+    ...     meta={"purpose": "pre-launch test"},
     ... )
 
-    Or maybe metion which device(s) you crawled with, which is much easier than reading
+    Or maybe mention which device(s) you crawled with, which is much easier than reading
     the user-agent string:
 
     >>> adv.crawl(
@@ -1040,9 +1043,14 @@ def crawl(
     ...     meta={"device": "Apple iPhone 12 Pro (Safari)"},
     ... )
 
-    Custom request headers: Supply custom request headers per URL with the special key
-    "custom_headers", with its value a dictionary whos keys are URLs, and values are
-    dictionaries each with its own custom request headers
+    Of course you can combine any such meta data however way you want:
+
+    >>> {"device": "iphone", "purpose": "initial audit", "crawl_country": "us", ...}
+
+    **Custom request headers**: Supply custom request headers per URL with the special
+    key "custom_headers", with its values are dictionaries whos keys are URLs, and
+    values are dictionaries, each with its own custom request headers.
+
     >>> adv.crawl(
     ...     URL_LIST,
     ...     OUTPUT_FILE,
@@ -1057,15 +1065,27 @@ def crawl(
 
     OR:
 
-    meta={
-        "custom_headers": {
-            "https://example.com/A: {"If-None-Match": "Etag A"},
-            "https://example.com/B: {"If-None-Match": "Etag B", "User-Agent": "custom UA"},
-            "https://example.com/C: {"If-None-Match": "Etag C"},
-        }
-    }
-    Use with third party plugins like scrapy playwright. To enable it, set
-    {"playwright": True} together with other settings.
+    >>> meta={
+    ...     "custom_headers": {
+    ...         "https://example.com/A: {"If-None-Match": "Etag A"},
+    ...         "https://example.com/B: {"If-None-Match": "Etag B", "User-Agent": "custom UA"},
+    ...         "https://example.com/C: {"If-None-Match": "Etag C", "If-Modified-Since": "Sat, 17 Oct 2024 16:24:00 GMT"},
+    ...     }
+    ... }
+
+    **Long lists of requests headers:** In some cases you might have a very long list
+    and that might raise an `Argument list too long` error. In this case you can provide
+    the path of a Python script that contains a dictionary for the headers. Keep in
+    mind:
+
+    - The dictionary has to be named ``custom_headers`` with the same structure mentioned above
+    - The file has to be a Python script, having the extension ".py"
+    - The path to the file can be absolute or relative to where the command is
+      run from. ``meta={"custom_headers": "my_custom_headers.py"}``, or
+      ``meta={"custom_headers": "/full/path/to/my_custom_headers.py"}``
+
+    **Use with third party plugins** like scrapy playwright. To enable it, set
+    ``{"playwright": True}`` together with other settings.
     """
     if isinstance(url_list, str):
         url_list = [url_list]
