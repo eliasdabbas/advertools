@@ -670,6 +670,7 @@ class SEOSitemapSpider(Spider):
     skip_url_params = False
     css_selectors = {}
     xpath_selectors = {}
+    custom_headers = {}
     custom_settings = {
         "USER_AGENT": user_agent,
         "ROBOTSTXT_OBEY": True,
@@ -707,7 +708,18 @@ class SEOSitemapSpider(Spider):
         self.xpath_selectors = eval(json.loads(json.dumps(xpath_selectors)))
         self.meta = eval(json.loads(json.dumps(meta)))
 
+    def get_custom_headers(self):
+        if self.meta:
+            custom_headers = self.meta.get("custom_headers") or {}
+            if isinstance(custom_headers, str):
+                module = custom_headers.rsplit(".", maxsplit=1)[0]
+                custom_headers = __import__(module).custom_headers
+        else:
+            custom_headers = {}
+        self.custom_headers = custom_headers
+
     def start_requests(self):
+        self.get_custom_headers()
         for url in self.start_urls:
             try:
                 yield Request(
@@ -715,6 +727,7 @@ class SEOSitemapSpider(Spider):
                     callback=self.parse,
                     errback=self.errback,
                     meta=self.meta,
+                    headers=self.custom_headers.get(url),
                 )
             except Exception as e:
                 self.logger.error(repr(e))
@@ -865,6 +878,7 @@ class SEOSitemapSpider(Spider):
             **{
                 k: "@@".join(str(val) for val in v) if isinstance(v, list) else v
                 for k, v in response.meta.items()
+                if k != "custom_headers"
             },
             status=response.status,
             **parsed_links,
@@ -895,9 +909,12 @@ class SEOSitemapSpider(Spider):
                         include_url_regex=self.include_url_regex,
                     )
                     if cond:
-                        yield Request(page, callback=self.parse, errback=self.errback)
-                    # if self.skip_url_params and urlparse(page).query:
-                    #     continue
+                        yield Request(
+                            page,
+                            callback=self.parse,
+                            errback=self.errback,
+                            headers=self.custom_headers.get(page),
+                        )
 
 
 def crawl(
@@ -927,6 +944,11 @@ def crawl(
       dynamic values. Make sure your file ends with ".jl", e.g. `output_file.jl`.
     follow_links : bool
       Defaults to False. Whether or not to follow links on crawled pages.
+    allowed_domains : list
+      A list of the allowed domains to crawl. This ensures that the crawler does not
+      attempt to crawl the whole web. If not specified, it defaults to the domains of
+      the URLs provided in ``url_list`` and all their sub-domains. You can also specify
+      a list of sub-domains, if you want to only crawl those.
     exclude_url_params : list, bool
       A list of URL parameters to exclude while following links. If a link contains any
       of those parameters, don't follow it. Setting it to ``True`` will exclude links
@@ -952,11 +974,8 @@ def crawl(
       spider's functionality. There are over 170 settings for all kinds of options. For
       details please refer to the `spider settings <https://docs.scrapy.org/en/latest/topics/settings.html>`_
       documentation.
-    allowed_domains : list
-      A list of the allowed domains to crawl. This ensures that the crawler does not
-      attempt to crawl the whole web. If not specified, it defaults to the domains of
-      the URLs provided in ``url_list`` and all their sub-domains. You can also specify
-      a list of sub-domains, if you want to only crawl those.
+    meta : dict
+      Arbitrary data to pass to
 
     Examples
     --------
