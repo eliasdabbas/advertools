@@ -1,6 +1,6 @@
 import platform
 from pathlib import Path
-from tempfile import TemporaryDirectory
+from tempfile import TemporaryDirectory, TemporaryFile
 
 import pandas as pd
 import pytest
@@ -172,3 +172,27 @@ with TemporaryDirectory() as broken_links_tempdir:
         bad_url_df = pd.read_json(f"{broken_links_tempdir}/bad_url.jl", lines=True)
         assert len(bad_url_df) == 1
         assert bad_url_df["url"][0] == "https://example.com"
+
+
+with TemporaryDirectory() as meta_parameter_dir:
+
+    def test_meta_keys_correctly_populated():
+        crawl(
+            url_list="https://example.com",
+            output_file=f"{meta_parameter_dir}/output.jsonl",
+            meta={
+                "foo": "bar",
+                "custom_headers": {
+                    "https://example.com": {
+                        "If-None-Match": "XXXYYYZZZ",
+                        "Blah": "blew",
+                    }
+                },
+            },
+        )
+
+        crawl_df = pd.read_json(f"{meta_parameter_dir}/output.jsonl", lines=True)
+        assert "foo" in crawl_df
+        assert "request_headers_If-None-Match" in crawl_df
+        assert crawl_df["foo"][0] == "bar"
+        assert crawl_df["request_headers_Blah"][0] == "blew"
