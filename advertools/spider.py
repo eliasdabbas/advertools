@@ -1048,8 +1048,8 @@ def crawl(
     >>> {"device": "iphone", "purpose": "initial audit", "crawl_country": "us", ...}
 
     **Custom request headers**: Supply custom request headers per URL with the special
-    key "custom_headers", with its values are dictionaries whos keys are URLs, and
-    values are dictionaries, each with its own custom request headers.
+    key ``custom_headers``. It's value is a dictionary where its keys are URLs, and
+    every URL's values is a dictionary, each with its own custom request headers.
 
     >>> adv.crawl(
     ...     URL_LIST,
@@ -1065,11 +1065,17 @@ def crawl(
 
     OR:
 
-    >>> meta={
+    >>> meta = {
     ...     "custom_headers": {
-    ...         "https://example.com/A: {"If-None-Match": "Etag A"},
-    ...         "https://example.com/B: {"If-None-Match": "Etag B", "User-Agent": "custom UA"},
-    ...         "https://example.com/C: {"If-None-Match": "Etag C", "If-Modified-Since": "Sat, 17 Oct 2024 16:24:00 GMT"},
+    ...         "https://example.com/A": {"If-None-Match": "Etag A"},
+    ...         "https://example.com/B": {
+    ...             "If-None-Match": "Etag B",
+    ...             "User-Agent": "custom UA",
+    ...         },
+    ...         "https://example.com/C": {
+    ...             "If-None-Match": "Etag C",
+    ...             "If-Modified-Since": "Sat, 17 Oct 2024 16:24:00 GMT",
+    ...         },
     ...     }
     ... }
 
@@ -1080,9 +1086,16 @@ def crawl(
 
     - The dictionary has to be named ``custom_headers`` with the same structure mentioned above
     - The file has to be a Python script, having the extension ".py"
+    - The script can generate the dictionary programmatically to make it easier to
+      incorporate in various workflows
     - The path to the file can be absolute or relative to where the command is
-      run from. ``meta={"custom_headers": "my_custom_headers.py"}``, or
-      ``meta={"custom_headers": "/full/path/to/my_custom_headers.py"}``
+      run from.
+
+      >>> meta = {"custom_headers": "my_custom_headers.py"}
+
+      OR
+
+      >>> meta = {"custom_headers": "/full/path/to/my_custom_headers.py"}
 
     **Use with third party plugins** like scrapy playwright. To enable it, set
     ``{"playwright": True}`` together with other settings.
