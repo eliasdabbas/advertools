@@ -2,6 +2,15 @@
 Change Log - advertools
 =======================
 
+0.16.0 (2024-08-18)
+-------------------
+
+* Added
+    - Enable the ``meta`` parameter for the crawl function for: arbitrary metadata,
+      custom request headers, and 3rd party plugins like playwright.
+* Changed
+    - Raise an error when supplying a custom log format with supplying fields.
+
 0.15.1 (2024-07-16)
 -------------------
 
