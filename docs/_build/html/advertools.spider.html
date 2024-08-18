@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=ef97403f"></script>
+        <script src="_static/documentation_options.js?v=4befc426"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -42,7 +42,7 @@
             advertools
           </a>
               <div class="version">
-                0.15.0
+                0.15.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -580,7 +580,7 @@ for the full details.</p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="advertools.spider.crawl">
-<span class="sig-name descname"><span class="pre">crawl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_links</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_domains</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_url_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_url_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_url_regex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_url_regex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">css_selectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xpath_selectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.spider.crawl" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">crawl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_links</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_domains</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_url_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_url_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_url_regex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_url_regex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">css_selectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xpath_selectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/advertools/spider.html#crawl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#advertools.spider.crawl" title="Link to this definition"></a></dt>
 <dd><p>Crawl a website or a list of URLs based on the supplied options.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -590,6 +590,10 @@ with these URLs and follow all links on pages recursively.</p></li>
 <li><p><strong>output_file</strong> (<em>str</em>) -- The path to the output of the crawl. Jsonlines only is supported to allow for
 dynamic values. Make sure your file ends with &quot;.jl&quot;, e.g. <cite>output_file.jl</cite>.</p></li>
 <li><p><strong>follow_links</strong> (<em>bool</em>) -- Defaults to False. Whether or not to follow links on crawled pages.</p></li>
+<li><p><strong>allowed_domains</strong> (<em>list</em>) -- A list of the allowed domains to crawl. This ensures that the crawler does not
+attempt to crawl the whole web. If not specified, it defaults to the domains of
+the URLs provided in <code class="docutils literal notranslate"><span class="pre">url_list</span></code> and all their sub-domains. You can also specify
+a list of sub-domains, if you want to only crawl those.</p></li>
 <li><p><strong>exclude_url_params</strong> (<em>list</em><em>, </em><em>bool</em>) -- A list of URL parameters to exclude while following links. If a link contains any
 of those parameters, don't follow it. Setting it to <code class="docutils literal notranslate"><span class="pre">True</span></code> will exclude links
 containing any parameter.</p></li>
@@ -608,10 +612,8 @@ headers, and the selectors will be used to extract the required data/content.</p
 spider's functionality. There are over 170 settings for all kinds of options. For
 details please refer to the <a class="reference external" href="https://docs.scrapy.org/en/latest/topics/settings.html">spider settings</a>
 documentation.</p></li>
-<li><p><strong>allowed_domains</strong> (<em>list</em>) -- A list of the allowed domains to crawl. This ensures that the crawler does not
-attempt to crawl the whole web. If not specified, it defaults to the domains of
-the URLs provided in <code class="docutils literal notranslate"><span class="pre">url_list</span></code> and all their sub-domains. You can also specify
-a list of sub-domains, if you want to only crawl those.</p></li>
+<li><p><strong>meta</strong> (<em>dict</em>) -- Additional data to pass to the crawler; add arbitrary metadata, set custom request
+headers per URL, and/or enable some third party plugins.</p></li>
 </ul>
 </dd>
 </dl>
@@ -654,6 +656,88 @@ selectors).</p>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">meta</span></code> parameter:</p>
+<p><strong>Adding custom meta data</strong> for the crawler using the <cite>meta</cite> parameter for
+tracking/context purposes. If you supply {&quot;purpose&quot;: &quot;pre-launch test&quot;}, then you
+will get a column called &quot;purpose&quot;, and all its values will be &quot;pre-launch test&quot; in
+the crawl DataFrame.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;https://example.com&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">meta</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;purpose&quot;</span><span class="p">:</span> <span class="s2">&quot;pre-launch test&quot;</span><span class="p">},</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or maybe mention which device(s) you crawled with, which is much easier than reading
+the user-agent string:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;https://example.com&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;output.jsonl&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;USER_AGENT&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (iPhone; CPUiPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1&quot;</span>
+<span class="gp">... </span>    <span class="p">},</span>
+<span class="gp">... </span>    <span class="n">meta</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;Apple iPhone 12 Pro (Safari)&quot;</span><span class="p">},</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Of course you can combine any such meta data however way you want:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">{</span><span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;iphone&quot;</span><span class="p">,</span> <span class="s2">&quot;purpose&quot;</span><span class="p">:</span> <span class="s2">&quot;initial audit&quot;</span><span class="p">,</span> <span class="s2">&quot;crawl_country&quot;</span><span class="p">:</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Custom request headers</strong>: Supply custom request headers per URL with the special
+key <code class="docutils literal notranslate"><span class="pre">custom_headers</span></code>. It's value is a dictionary where its keys are URLs, and
+every URL's values is a dictionary, each with its own custom request headers.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">URL_LIST</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">OUTPUT_FILE</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">meta</span><span class="o">=</span><span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;custom_headers&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>            <span class="s2">&quot;URL_A&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;HEADER_1&quot;</span><span class="p">:</span> <span class="s2">&quot;VALUE_1&quot;</span><span class="p">,</span> <span class="s2">&quot;HEADER_2&quot;</span><span class="p">:</span> <span class="s2">&quot;VALUE_1&quot;</span><span class="p">},</span>
+<span class="gp">... </span>            <span class="s2">&quot;URL_B&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;HEADER_1&quot;</span><span class="p">:</span> <span class="s2">&quot;VALUE_2&quot;</span><span class="p">,</span> <span class="s2">&quot;HEADER_2&quot;</span><span class="p">:</span> <span class="s2">&quot;VALUE_2&quot;</span><span class="p">},</span>
+<span class="gp">... </span>            <span class="s2">&quot;URL_C&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;HEADER_1&quot;</span><span class="p">:</span> <span class="s2">&quot;VALUE_3&quot;</span><span class="p">},</span>
+<span class="gp">... </span>        <span class="p">}</span>
+<span class="gp">... </span>    <span class="p">},</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p>OR:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">meta</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s2">&quot;custom_headers&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;https://example.com/A&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;If-None-Match&quot;</span><span class="p">:</span> <span class="s2">&quot;Etag A&quot;</span><span class="p">},</span>
+<span class="gp">... </span>        <span class="s2">&quot;https://example.com/B&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>            <span class="s2">&quot;If-None-Match&quot;</span><span class="p">:</span> <span class="s2">&quot;Etag B&quot;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;custom UA&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="p">},</span>
+<span class="gp">... </span>        <span class="s2">&quot;https://example.com/C&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>            <span class="s2">&quot;If-None-Match&quot;</span><span class="p">:</span> <span class="s2">&quot;Etag C&quot;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s2">&quot;If-Modified-Since&quot;</span><span class="p">:</span> <span class="s2">&quot;Sat, 17 Oct 2024 16:24:00 GMT&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="p">},</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Long lists of requests headers:</strong> In some cases you might have a very long list
+and that might raise an <cite>Argument list too long</cite> error. In this case you can provide
+the path of a Python script that contains a dictionary for the headers. Keep in
+mind:</p>
+<ul>
+<li><p>The dictionary has to be named <code class="docutils literal notranslate"><span class="pre">custom_headers</span></code> with the same structure mentioned above</p></li>
+<li><p>The file has to be a Python script, having the extension &quot;.py&quot;</p></li>
+<li><p>The script can generate the dictionary programmatically to make it easier to
+incorporate in various workflows</p></li>
+<li><p>The path to the file can be absolute or relative to where the command is
+run from.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">meta</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;custom_headers&quot;</span><span class="p">:</span> <span class="s2">&quot;my_custom_headers.py&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>OR</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">meta</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;custom_headers&quot;</span><span class="p">:</span> <span class="s2">&quot;/full/path/to/my_custom_headers.py&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>Use with third party plugins</strong> like scrapy playwright. To enable it, set
+<code class="docutils literal notranslate"><span class="pre">{&quot;playwright&quot;:</span> <span class="pre">True}</span></code> together with other settings.</p>
 </dd></dl>
 
 

@@ -15,7 +15,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=ef97403f"></script>
+        <script src="../../_static/documentation_options.js?v=4befc426"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -39,7 +39,7 @@
             advertools
           </a>
               <div class="version">
-                0.15.0
+                0.15.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -529,6 +529,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">runpy</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">parse_qs</span><span class="p">,</span> <span class="n">urlparse</span><span class="p">,</span> <span class="n">urlsplit</span>
 
@@ -791,6 +792,7 @@
     <span class="n">skip_url_params</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">css_selectors</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">xpath_selectors</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">custom_headers</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">custom_settings</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;USER_AGENT&quot;</span><span class="p">:</span> <span class="n">user_agent</span><span class="p">,</span>
         <span class="s2">&quot;ROBOTSTXT_OBEY&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
@@ -808,6 +810,7 @@
         <span class="n">include_url_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">css_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">xpath_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">meta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
@@ -825,11 +828,29 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">include_url_regex</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">css_selectors</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">css_selectors</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xpath_selectors</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">xpath_selectors</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">meta</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">get_custom_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="p">:</span>
+            <span class="n">custom_headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;custom_headers&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">custom_headers</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">module</span> <span class="o">=</span> <span class="n">runpy</span><span class="o">.</span><span class="n">run_path</span><span class="p">(</span><span class="n">custom_headers</span><span class="p">)</span>
+                <span class="n">custom_headers</span> <span class="o">=</span> <span class="n">module</span><span class="p">[</span><span class="s2">&quot;custom_headers&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">custom_headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_headers</span> <span class="o">=</span> <span class="n">custom_headers</span>
 
     <span class="k">def</span> <span class="nf">start_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_custom_headers</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_urls</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">,</span> <span class="n">errback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">errback</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span>
+                    <span class="n">url</span><span class="p">,</span>
+                    <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">,</span>
+                    <span class="n">errback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">errback</span><span class="p">,</span>
+                    <span class="n">meta</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="p">,</span>
+                    <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">custom_headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">),</span>
+                <span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
@@ -966,7 +987,6 @@
                 <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">),</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">])</span>
             <span class="p">)</span>
         <span class="n">page_content</span> <span class="o">=</span> <span class="n">_extract_content</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="o">**</span><span class="n">tags_xpaths</span><span class="p">)</span>
-
         <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="n">url</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
             <span class="o">**</span><span class="n">page_content</span><span class="p">,</span>
@@ -980,6 +1000,7 @@
             <span class="o">**</span><span class="p">{</span>
                 <span class="n">k</span><span class="p">:</span> <span class="s2">&quot;@@&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">v</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;custom_headers&quot;</span>
             <span class="p">},</span>
             <span class="n">status</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
             <span class="o">**</span><span class="n">parsed_links</span><span class="p">,</span>
@@ -1010,9 +1031,12 @@
                         <span class="n">include_url_regex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">include_url_regex</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="k">if</span> <span class="n">cond</span><span class="p">:</span>
-                        <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">,</span> <span class="n">errback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">errback</span><span class="p">)</span>
-                    <span class="c1"># if self.skip_url_params and urlparse(page).query:</span>
-                    <span class="c1">#     continue</span>
+                        <span class="k">yield</span> <span class="n">Request</span><span class="p">(</span>
+                            <span class="n">page</span><span class="p">,</span>
+                            <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">,</span>
+                            <span class="n">errback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">errback</span><span class="p">,</span>
+                            <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">custom_headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">page</span><span class="p">),</span>
+                        <span class="p">)</span>
 
 
 <div class="viewcode-block" id="crawl">
@@ -1029,6 +1053,7 @@
     <span class="n">css_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">xpath_selectors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">custom_settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">meta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crawl a website or a list of URLs based on the supplied options.</span>
@@ -1043,6 +1068,11 @@
 <span class="sd">      dynamic values. Make sure your file ends with &quot;.jl&quot;, e.g. `output_file.jl`.</span>
 <span class="sd">    follow_links : bool</span>
 <span class="sd">      Defaults to False. Whether or not to follow links on crawled pages.</span>
+<span class="sd">    allowed_domains : list</span>
+<span class="sd">      A list of the allowed domains to crawl. This ensures that the crawler does not</span>
+<span class="sd">      attempt to crawl the whole web. If not specified, it defaults to the domains of</span>
+<span class="sd">      the URLs provided in ``url_list`` and all their sub-domains. You can also specify</span>
+<span class="sd">      a list of sub-domains, if you want to only crawl those.</span>
 <span class="sd">    exclude_url_params : list, bool</span>
 <span class="sd">      A list of URL parameters to exclude while following links. If a link contains any</span>
 <span class="sd">      of those parameters, don&#39;t follow it. Setting it to ``True`` will exclude links</span>
@@ -1068,12 +1098,9 @@
 <span class="sd">      spider&#39;s functionality. There are over 170 settings for all kinds of options. For</span>
 <span class="sd">      details please refer to the `spider settings &lt;https://docs.scrapy.org/en/latest/topics/settings.html&gt;`_</span>
 <span class="sd">      documentation.</span>
-<span class="sd">    allowed_domains : list</span>
-<span class="sd">      A list of the allowed domains to crawl. This ensures that the crawler does not</span>
-<span class="sd">      attempt to crawl the whole web. If not specified, it defaults to the domains of</span>
-<span class="sd">      the URLs provided in ``url_list`` and all their sub-domains. You can also specify</span>
-<span class="sd">      a list of sub-domains, if you want to only crawl those.</span>
-
+<span class="sd">    meta : dict</span>
+<span class="sd">      Additional data to pass to the crawler; add arbitrary metadata, set custom request</span>
+<span class="sd">      headers per URL, and/or enable some third party plugins.</span>
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    Crawl a website and let the crawler discover as many pages as available</span>
@@ -1114,14 +1141,95 @@
 <span class="sd">    ...     },</span>
 <span class="sd">    ... )</span>
 
+<span class="sd">    Using the ``meta`` parameter:</span>
+
+<span class="sd">    **Adding custom meta data** for the crawler using the `meta` parameter for</span>
+<span class="sd">    tracking/context purposes. If you supply {&quot;purpose&quot;: &quot;pre-launch test&quot;}, then you</span>
+<span class="sd">    will get a column called &quot;purpose&quot;, and all its values will be &quot;pre-launch test&quot; in</span>
+<span class="sd">    the crawl DataFrame.</span>
+
+<span class="sd">    &gt;&gt;&gt; adv.crawl(</span>
+<span class="sd">    ...     &quot;https://example.com&quot;,</span>
+<span class="sd">    ...     &quot;output_file.jl&quot;,</span>
+<span class="sd">    ...     meta={&quot;purpose&quot;: &quot;pre-launch test&quot;},</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    Or maybe mention which device(s) you crawled with, which is much easier than reading</span>
+<span class="sd">    the user-agent string:</span>
+
+<span class="sd">    &gt;&gt;&gt; adv.crawl(</span>
+<span class="sd">    ...     &quot;https://example.com&quot;,</span>
+<span class="sd">    ...     &quot;output.jsonl&quot;,</span>
+<span class="sd">    ...     custom_settings={</span>
+<span class="sd">    ...         &quot;USER_AGENT&quot;: &quot;Mozilla/5.0 (iPhone; CPUiPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1&quot;</span>
+<span class="sd">    ...     },</span>
+<span class="sd">    ...     meta={&quot;device&quot;: &quot;Apple iPhone 12 Pro (Safari)&quot;},</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    Of course you can combine any such meta data however way you want:</span>
+
+<span class="sd">    &gt;&gt;&gt; {&quot;device&quot;: &quot;iphone&quot;, &quot;purpose&quot;: &quot;initial audit&quot;, &quot;crawl_country&quot;: &quot;us&quot;, ...}</span>
+
+<span class="sd">    **Custom request headers**: Supply custom request headers per URL with the special</span>
+<span class="sd">    key ``custom_headers``. It&#39;s value is a dictionary where its keys are URLs, and</span>
+<span class="sd">    every URL&#39;s values is a dictionary, each with its own custom request headers.</span>
+
+<span class="sd">    &gt;&gt;&gt; adv.crawl(</span>
+<span class="sd">    ...     URL_LIST,</span>
+<span class="sd">    ...     OUTPUT_FILE,</span>
+<span class="sd">    ...     meta={</span>
+<span class="sd">    ...         &quot;custom_headers&quot;: {</span>
+<span class="sd">    ...             &quot;URL_A&quot;: {&quot;HEADER_1&quot;: &quot;VALUE_1&quot;, &quot;HEADER_2&quot;: &quot;VALUE_1&quot;},</span>
+<span class="sd">    ...             &quot;URL_B&quot;: {&quot;HEADER_1&quot;: &quot;VALUE_2&quot;, &quot;HEADER_2&quot;: &quot;VALUE_2&quot;},</span>
+<span class="sd">    ...             &quot;URL_C&quot;: {&quot;HEADER_1&quot;: &quot;VALUE_3&quot;},</span>
+<span class="sd">    ...         }</span>
+<span class="sd">    ...     },</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    OR:</span>
+
+<span class="sd">    &gt;&gt;&gt; meta = {</span>
+<span class="sd">    ...     &quot;custom_headers&quot;: {</span>
+<span class="sd">    ...         &quot;https://example.com/A&quot;: {&quot;If-None-Match&quot;: &quot;Etag A&quot;},</span>
+<span class="sd">    ...         &quot;https://example.com/B&quot;: {</span>
+<span class="sd">    ...             &quot;If-None-Match&quot;: &quot;Etag B&quot;,</span>
+<span class="sd">    ...             &quot;User-Agent&quot;: &quot;custom UA&quot;,</span>
+<span class="sd">    ...         },</span>
+<span class="sd">    ...         &quot;https://example.com/C&quot;: {</span>
+<span class="sd">    ...             &quot;If-None-Match&quot;: &quot;Etag C&quot;,</span>
+<span class="sd">    ...             &quot;If-Modified-Since&quot;: &quot;Sat, 17 Oct 2024 16:24:00 GMT&quot;,</span>
+<span class="sd">    ...         },</span>
+<span class="sd">    ...     }</span>
+<span class="sd">    ... }</span>
+
+<span class="sd">    **Long lists of requests headers:** In some cases you might have a very long list</span>
+<span class="sd">    and that might raise an `Argument list too long` error. In this case you can provide</span>
+<span class="sd">    the path of a Python script that contains a dictionary for the headers. Keep in</span>
+<span class="sd">    mind:</span>
+
+<span class="sd">    - The dictionary has to be named ``custom_headers`` with the same structure mentioned above</span>
+<span class="sd">    - The file has to be a Python script, having the extension &quot;.py&quot;</span>
+<span class="sd">    - The script can generate the dictionary programmatically to make it easier to</span>
+<span class="sd">      incorporate in various workflows</span>
+<span class="sd">    - The path to the file can be absolute or relative to where the command is</span>
+<span class="sd">      run from.</span>
+
+<span class="sd">      &gt;&gt;&gt; meta = {&quot;custom_headers&quot;: &quot;my_custom_headers.py&quot;}</span>
+
+<span class="sd">      OR</span>
+
+<span class="sd">      &gt;&gt;&gt; meta = {&quot;custom_headers&quot;: &quot;/full/path/to/my_custom_headers.py&quot;}</span>
+
+<span class="sd">    **Use with third party plugins** like scrapy playwright. To enable it, set</span>
+<span class="sd">    ``{&quot;playwright&quot;: True}`` together with other settings.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">url_list</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">allowed_domains</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">allowed_domains</span> <span class="o">=</span> <span class="p">[</span><span class="n">allowed_domains</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">output_file</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;jl&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">output_file</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;jl&quot;</span><span class="p">,</span> <span class="s2">&quot;jsonl&quot;</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Please make sure your output_file ends with &#39;.jl&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Please make sure your output_file ends with &#39;.jl&#39; or &#39;.jsonl&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="s2">&quot;For example:</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.jl&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_file</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
         <span class="p">)</span>
@@ -1195,6 +1303,8 @@
         <span class="s2">&quot;css_selectors=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">css_selectors</span><span class="p">),</span>
         <span class="s2">&quot;-a&quot;</span><span class="p">,</span>
         <span class="s2">&quot;xpath_selectors=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">xpath_selectors</span><span class="p">),</span>
+        <span class="s2">&quot;-a&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;meta=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">meta</span><span class="p">),</span>
         <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
         <span class="n">output_file</span><span class="p">,</span>
     <span class="p">]</span> <span class="o">+</span> <span class="n">settings_list</span>

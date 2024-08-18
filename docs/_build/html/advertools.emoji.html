@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=ef97403f"></script>
+        <script src="_static/documentation_options.js?v=4befc426"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -43,7 +43,7 @@
             advertools
           </a>
               <div class="version">
-                0.15.0
+                0.15.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -358,7 +358,7 @@ different stats, and information about the extracted emoji:</p>
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">advertools</span> <span class="k">as</span> <span class="nn">adv</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;dog&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">emoji_search</span><span class="p">(</span><span class="s2">&quot;dog&quot;</span><span class="p">)</span>
 <span class="go">          codepoint           status  emoji          name             group        sub_group</span>
 <span class="go">0             1F436  fully-qualified     🐶      dog face  Animals &amp; Nature    animal-mammal</span>
 <span class="go">1             1F415  fully-qualified     🐕           dog  Animals &amp; Nature    animal-mammal</span>
@@ -367,7 +367,7 @@ different stats, and information about the extracted emoji:</p>
 <span class="go">4             1F32D  fully-qualified     🌭       hot dog      Food &amp; Drink    food-prepared</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blue</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">emoji_search</span><span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blue</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">emoji_search</span><span class="p">(</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">blue</span>
 <span class="go">  codepoint           status emoji                name               group     sub_group</span>
 <span class="go">0     1F499  fully-qualified     💙          blue heart  Smileys &amp; Emotion       emotion</span>
@@ -395,8 +395,12 @@ ones, and more.</p>
 <dd class="field-even"><p>A dictionary with various stats about emoji</p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I am grinning 😀&#39;</span><span class="p">,</span><span class="s1">&#39;A grinning cat 😺&#39;</span><span class="p">,</span>
-<span class="gp">... </span>         <span class="s1">&#39;hello! 😀😀😀 💛💛&#39;</span><span class="p">,</span> <span class="s1">&#39;Just text&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">posts</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="s2">&quot;I am grinning 😀&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;A grinning cat 😺&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;hello! 😀😀😀 💛💛&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;Just text&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span> <span class="o">=</span> <span class="n">extract_emoji</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span>
@@ -406,56 +410,56 @@ ones, and more.</p>
 <span class="go">&#39;top_emoji_groups&#39;, &#39;top_emoji_sub_groups&#39;, &#39;overview&#39;])</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s2">&quot;emoji&quot;</span><span class="p">]</span>
 <span class="go">[[&#39;😀&#39;], [&#39;😺&#39;], [&#39;😀&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;💛&#39;, &#39;💛&#39;], []]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_text&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s2">&quot;emoji_text&quot;</span><span class="p">]</span>
 <span class="go">[[&#39;grinning face&#39;], [&#39;grinning cat&#39;], [&#39;grinning face&#39;, &#39;grinning face&#39;,</span>
 <span class="go">  &#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;], []]</span>
 </pre></div>
 </div>
 <p>A simple extract of emoji from each of the posts. An empty
 list if none exist</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_flat&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s2">&quot;emoji_flat&quot;</span><span class="p">]</span>
 <span class="go">[&#39;😀&#39;, &#39;😺&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;😀&#39;, &#39;💛&#39;, &#39;💛&#39;]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_flat_text&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s2">&quot;emoji_flat_text&quot;</span><span class="p">]</span>
 <span class="go">[&#39;grinning face&#39;, &#39;grinning cat&#39;, &#39;grinning face&#39;, &#39;grinning face&#39;,</span>
 <span class="go">&#39;grinning face&#39;, &#39;yellow heart&#39;, &#39;yellow heart&#39;]</span>
 </pre></div>
 </div>
 <p>All emoji in one flat list.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_counts&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s2">&quot;emoji_counts&quot;</span><span class="p">]</span>
 <span class="go">[1, 1, 5, 0]</span>
 </pre></div>
 </div>
 <p>The count of emoji per post.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;emoji_freq&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s2">&quot;emoji_freq&quot;</span><span class="p">]</span>
 <span class="go">[(0, 1), (1, 2), (5, 1)]</span>
 </pre></div>
 </div>
 <p>Shows how many posts had 0, 1, 2, 3, etc. emoji
 (number_of_emoji, count)</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s2">&quot;top_emoji&quot;</span><span class="p">]</span>
 <span class="go">[(&#39;😀&#39;, 4), (&#39;💛&#39;, 2), (&#39;😺&#39;, 1)]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_text&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s2">&quot;top_emoji_text&quot;</span><span class="p">]</span>
 <span class="go">[(&#39;grinning face&#39;, 4), (&#39;yellow heart&#39;, 2),</span>
 <span class="go"> (&#39;grinning cat&#39;, 1)]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_groups&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s2">&quot;top_emoji_groups&quot;</span><span class="p">]</span>
 <span class="go">[(&#39;Smileys &amp; Emotion&#39;, 7)]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;top_emoji_sub_groups&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s2">&quot;top_emoji_sub_groups&quot;</span><span class="p">]</span>
 <span class="go">[(&#39;face-smiling&#39;, 4), (&#39;emotion&#39;, 2), (&#39;cat-face&#39;, 1)]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_summary</span><span class="p">[</span><span class="s2">&quot;overview&quot;</span><span class="p">]</span>
 <span class="go">{&#39;num_posts&#39;: 4,</span>
 <span class="go"> &#39;num_emoji&#39;: 7,</span>
 <span class="go"> &#39;emoji_per_post&#39;: 1.75,</span>
