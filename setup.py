@@ -62,6 +62,6 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/eliasdabbas/advertools",
-    version="0.15.1",
+    version="0.16.0",
     zip_safe=False,
 )
