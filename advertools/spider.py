@@ -914,6 +914,7 @@ class SEOSitemapSpider(Spider):
                             page,
                             callback=self.parse,
                             errback=self.errback,
+                            meta=self.meta,
                             headers=self.custom_headers.get(page),
                         )
 
