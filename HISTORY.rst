@@ -2,6 +2,12 @@
 Change Log - advertools
 =======================
 
+0.16.1 (2024-08-19)
+-------------------
+
+* Fixed
+    - Ensure meta crawl data included in URLs crawled by following links.
+
 0.16.0 (2024-08-18)
 -------------------
 
