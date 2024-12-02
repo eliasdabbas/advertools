@@ -443,7 +443,7 @@ constantly check but only fetch the sitemap if it was changed.
 
 import logging
 from concurrent import futures
-from gzip import GzipFile
+from gzip import BadGzipFile, GzipFile
 from urllib.request import Request, urlopen
 from xml.etree import ElementTree
 
@@ -557,14 +557,21 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, request_headers=No
             resp_headers = ""
             pass
         xml_text = GzipFile(fileobj=xml_text)
-    else:
+        try:
+            xml_string = xml_text.read()
+        except BadGzipFile:
+            logging.warning(
+                f"""{sitemap_url} is not a valid gzip file. Falling back to plain XML parsing."""  # noqa
+            )
+            pass
+    if "xml_string" not in locals():
         xml_text = urlopen(Request(sitemap_url, headers=final_headers))
         try:
             resp_headers = xml_text.getheaders()
         except AttributeError:
             resp_headers = ""
             pass
-    xml_string = xml_text.read()
+        xml_string = xml_text.read()
     root = ElementTree.fromstring(xml_string)
 
     sitemap_df = pd.DataFrame()
