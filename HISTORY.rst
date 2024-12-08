@@ -2,6 +2,12 @@
 Change Log - advertools
 =======================
 
+0.16.2 (2024-12-08)
+-------------------
+
+* Fixed
+    - Parse xml.gz sitemap that are not actually zipped, and log the error.
+
 0.16.1 (2024-08-19)
 -------------------
 
