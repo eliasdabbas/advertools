@@ -3,7 +3,8 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from advertools.sitemaps import sitemap_to_df, _build_request_headers, headers as DEFAULT_HEADERS
+from advertools.sitemaps import _build_request_headers, sitemap_to_df
+from advertools.sitemaps import headers as DEFAULT_HEADERS
 
 gh_test_data_folder = "https://raw.githubusercontent.com/eliasdabbas/advertools/master/tests/data/sitemap_testing/"
 offline_test_data_folder = "tests/data/sitemap_testing/"
@@ -20,6 +21,7 @@ def offline_path(filename):
 
 regular_sitemap_url = full_path("regular_sitemap.xml")
 zipped_sitemap_url = full_path("zipped_sitemap.xml.gz")
+zipped_butnot_sitemap_url = offline_path("regular_sitemap.xml.gz")
 sitemap_index_url = full_path("sitemap_index.xml")
 error_sitemap_url = full_path("error_sitemap.xml")
 image_sitemap_url = full_path("image_sitemap.xml")
@@ -34,7 +36,7 @@ def test_build_request_headers():
     assert isinstance(final_headers, dict)
     assert final_headers == {
         "user-agent": DEFAULT_HEADERS["User-Agent"],
-        "if-none-match": "ETAG_STRING"
+        "if-none-match": "ETAG_STRING",
     }
 
 
@@ -49,7 +51,7 @@ def test_build_request_headers_override_default():
     final_headers = _build_request_headers(user_headers)
     assert final_headers == {
         "user-agent": "example/agent",
-        "if-none-match": "ETAG_STRING"
+        "if-none-match": "ETAG_STRING",
     }
 
 
@@ -61,6 +63,12 @@ def test_regular_sitemap():
 
 def test_gz_sitemap():
     result = sitemap_to_df(zipped_sitemap_url)
+    assert isinstance(result, pd.core.frame.DataFrame)
+    assert len(result) == 5
+
+
+def test_gz_declared_but_regular_sitemap():
+    result = sitemap_to_df(zipped_butnot_sitemap_url)
     assert isinstance(result, pd.core.frame.DataFrame)
     assert len(result) == 5
 
