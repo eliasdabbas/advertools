@@ -9,8 +9,6 @@
         :target: http://pepy.tech/project/advertools 
 
 
-**Announcing** `Data Science with Python for SEO course <https://bit.ly/dsseo-course>`_: Cohort based course, interactive, live-coding.
-
 
 ``advertools``: productivity & analysis tools to scale your online marketing
 ============================================================================
