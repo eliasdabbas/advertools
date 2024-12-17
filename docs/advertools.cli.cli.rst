@@ -14,7 +14,7 @@ For specific documentation of a certain command run
 
 For example ``advertools sitemaps --help`` or ``adv crawl -h``
 
-.. automodule:: advertools.cli.cli
+.. automodule:: advertools.cli_docs.cli
    :members:
    :undoc-members:
    :show-inheritance:

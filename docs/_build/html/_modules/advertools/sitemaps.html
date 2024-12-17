@@ -15,7 +15,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=4befc426"></script>
+        <script src="../../_static/documentation_options.js?v=4a1014be"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -39,7 +39,7 @@
             advertools
           </a>
               <div class="version">
-                0.15.1
+                0.16.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -564,7 +564,7 @@
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">concurrent</span> <span class="kn">import</span> <span class="n">futures</span>
-<span class="kn">from</span> <span class="nn">gzip</span> <span class="kn">import</span> <span class="n">GzipFile</span>
+<span class="kn">from</span> <span class="nn">gzip</span> <span class="kn">import</span> <span class="n">BadGzipFile</span><span class="p">,</span> <span class="n">GzipFile</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
 <span class="kn">from</span> <span class="nn">xml.etree</span> <span class="kn">import</span> <span class="n">ElementTree</span>
 
@@ -680,14 +680,21 @@
             <span class="n">resp_headers</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
             <span class="k">pass</span>
         <span class="n">xml_text</span> <span class="o">=</span> <span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">xml_text</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">xml_string</span> <span class="o">=</span> <span class="n">xml_text</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">BadGzipFile</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">sitemap_url</span><span class="si">}</span><span class="s2"> is not a valid gzip file. Falling back to plain XML parsing.&quot;&quot;&quot;</span>  <span class="c1"># noqa</span>
+            <span class="p">)</span>
+            <span class="k">pass</span>
+    <span class="k">if</span> <span class="s2">&quot;xml_string&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
         <span class="n">xml_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">sitemap_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">final_headers</span><span class="p">))</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">resp_headers</span> <span class="o">=</span> <span class="n">xml_text</span><span class="o">.</span><span class="n">getheaders</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="n">resp_headers</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
             <span class="k">pass</span>
-    <span class="n">xml_string</span> <span class="o">=</span> <span class="n">xml_text</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">xml_string</span> <span class="o">=</span> <span class="n">xml_text</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml_string</span><span class="p">)</span>
 
     <span class="n">sitemap_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
