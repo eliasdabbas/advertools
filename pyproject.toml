@@ -2,13 +2,17 @@
 requires = ["flit_core >=2,<4"]
 build-backend = "flit_core.buildapi"
 
-[tool.flit.metadata]
-module = "advertools"
-author = "Elias Dabbas"
-author-email = "eliasdabbas@gmail.com"
-home-page = "https://github.com/eliasdabbas/advertools"
-classifiers = ["License :: OSI Approved :: MIT License"]
-requires = [
+[project]
+name = "advertools"
+authors = [
+    {name = "Elias Dabbas", email = "eliasdabbas@gmail.com"}
+]
+
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
     "pandas>=1.1.0",
     "pyasn1>=0.4",
     "scrapy>=2.5.0",
@@ -16,8 +20,21 @@ requires = [
     "pyarrow>=5.0.0",
     "requests>=2.25.0",
 ]
-description-file = 'README.rst'
-keywords = "marketing advertising adwords bingads search-engine-marketing online-marketing digital-marketing digital-advertising keywords"
+dynamic = ["description", "version"]
+readme = "README.rst"
+keywords = ["seo", "marketing", "advertising", "adwords", "bingads", "search-engine-marketing", "online-marketing", "digital-marketing", "digital-advertising", "keywords"]
+
+[project.scripts]
+advertools = "advertools.cli:main"
+adv = "advertools.cli:main"
+
+
+[project.urls]
+Homepage = "https://adver.tools"
+Documentation = "https://advertools.readthedocs.io"
+Repository = "https://github.com/eliasdabbas/advertools.git"
+Issues = "https://github.com/eliasdabbas/advertools/issues"
+Changelog = "https://github.com/eliasdabbas/advertools/blob/master/HISTORY.rst"
 
 [tool.ruff]
 target-version = "py37"
