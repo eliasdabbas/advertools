@@ -1051,8 +1051,9 @@ https://docs.scrapy.org/en/latest/topics/settings.html""",
     )
 
     crawl_parser.set_defaults(func=crawl)
-    return parser.parse_args()
+    args = parser.parse_args()
+    args.func(args)
 
 
-args = main()
-args.func(args)
+if __name__ == "__main__":
+    sys.exit(main())
