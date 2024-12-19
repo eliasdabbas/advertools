@@ -2,6 +2,18 @@
 Change Log - advertools
 =======================
 
+0.16.4 (2024-12-19)
+-------------------
+
+* Fixed
+    - Issue printing CLI object to stderr.
+
+0.16.3 (2024-12-17)
+-------------------
+
+* Fixed
+    - Issue with CLI docs.
+
 0.16.2 (2024-12-08)
 -------------------
 
