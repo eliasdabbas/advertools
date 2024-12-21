@@ -94,7 +94,10 @@ class RawTextDefArgFormatter(
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="advertools", formatter_class=RawTextDefArgFormatter, epilog=epilog
+        prog="advertools",
+        formatter_class=RawTextDefArgFormatter,
+        epilog=epilog,
+        description="Productivity and analysis  tools for SEO, SEM, & digital marketing",
     )
     parser.add_argument(
         "-v", "--version", action="version", version=f"advertools {__version__}"
@@ -109,12 +112,17 @@ def main():
     def robots(args):
         if sys.stdin.isatty():
             url = args.url
+            output_file = args.output_file
+            print("output_file:", output_file)
         else:
             url = [u.strip() for u in sys.stdin.read().split()]
         if not url:
             print("error: please provide a value for url", file=sys.stderr)
             sys.exit(1)
-        print(adv.robotstxt_to_df(url).to_csv(index=False))
+        if output_file is not None:
+            adv.robotstxt_to_df(url, output_file=output_file)
+        else:
+            print(adv.robotstxt_to_df(url).to_csv(index=False))
 
     robots_parser = subparsers.add_parser(
         "robots",
@@ -145,6 +153,13 @@ advertools robots < robotslist.txt > multi_robots.csv
     )
     robots_parser.add_argument(
         "url", nargs="*", help="a robots.txt URL (or a list of URLs)"
+    )
+    robots_parser.add_argument(
+        "-o",
+        "--output-file",
+        type=str,
+        required=False,
+        help="Path to an output file if you want to save it (has to end with .jl)",
     )
     robots_parser.set_defaults(func=robots)
 
