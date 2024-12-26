@@ -97,7 +97,7 @@ def main():
         prog="advertools",
         formatter_class=RawTextDefArgFormatter,
         epilog=epilog,
-        description="Productivity and analysis  tools for SEO, SEM, & digital marketing",
+        description="Productivity and analysis tools for SEO, SEM, & digital marketing",
     )
     parser.add_argument(
         "-v", "--version", action="version", version=f"advertools {__version__}"

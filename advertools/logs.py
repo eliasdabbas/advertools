@@ -240,21 +240,20 @@ Do the same for the URLs in the ``referer`` column.
     referer_url_df = referer_url_df.add_prefix('referer_')
     referer_url_df.head(10)
 
-====  ========================================  ================  ================  ==================  ===============  ==================  ==================  ==============  ===============  ===============  ===============  ==================
-  ..  referer_url                               referer_scheme    referer_netloc    referer_path        referer_query    referer_fragment      referer_hostname    referer_port  referer_dir_1    referer_dir_2      referer_dir_3  referer_last_dir
-====  ========================================  ================  ================  ==================  ===============  ==================  ==================  ==============  ===============  ===============  ===============  ==================
-   0  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
-   1  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
-   2  http://adver.tools/                       http              adver.tools       /                                                                       nan             nan  nan              nan                          nan  nan
-   3  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
-   4  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
-   5  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
-   6  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
-   7  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-
-   8  http://www.adver.tools/staging/urlytics/  http              www.adver.tools   /staging/urlytics/                                                      nan             nan  staging          urlytics                     nan  urlytics
-   9  http://www.adver.tools/staging/urlytics/  http              www.adver.tools   /staging/urlytics/                                                      nan             nan  staging          urlytics                     nan  urlytics
-====  ========================================  ================  ================  ==================  ===============  ==================  ==================  ==============  ===============  ===============  ===============  ==================
-
+====  ========================================  ================  ================  ==================  ===============  ==================  ===============  ===============  ==================  ==================  ==============  ===============
+  ..  referer_url                               referer_scheme    referer_netloc    referer_path        referer_query    referer_fragment    referer_dir_1    referer_dir_2    referer_last_dir    referer_hostname      referer_port  referer_dir_3
+====  ========================================  ================  ================  ==================  ===============  ==================  ===============  ===============  ==================  ==================  ==============  ===============
+   0  –                                                                             –                                                        –                                 –                                                  nan
+   1  –                                                                             –                                                        –                                 –                                                  nan
+   2  http://adver.tools/                       http              adver.tools       /                                                                                                                                             nan
+   3  –                                                                             –                                                        –                                 –                                                  nan
+   4  –                                                                             –                                                        –                                 –                                                  nan
+   5  –                                                                             –                                                        –                                 –                                                  nan
+   6  –                                                                             –                                                        –                                 –                                                  nan
+   7  –                                                                             –                                                        –                                 –                                                  nan
+   8  http://www.adver.tools/staging/urlytics/  http              www.adver.tools   /staging/urlytics/                                       staging          urlytics         urlytics                                           nan
+   9  http://www.adver.tools/staging/urlytics/  http              www.adver.tools   /staging/urlytics/                                       staging          urlytics         urlytics                                           nan
+====  ========================================  ================  ================  ==================  ===============  ==================  ===============  ===============  ==================  ==================  ==============  ===============
 Parse the ``user_agent`` column.
 
 .. thebe-button::
@@ -264,7 +263,7 @@ Parse the ``user_agent`` column.
     :class: thebe, thebe-init
 
     ua_df = pd.json_normalize([user_agent_parser.Parse(ua) for ua in logs_df['user_agent']])
-    ua_df.columns = 'ua_' + ua_df.columns.str.replace('user_agent\.', '', regex=True)
+    ua_df.columns = 'ua_' + ua_df.columns.str.replace(r'user_agent.', '', regex=True)
     ua_df.head(10)
 
 ====  ======================================================================================================================================================================================================  ===========  ==========  ==========  ==========  ==============  =============  =============  =============  ===================  ==================  =================  =================
