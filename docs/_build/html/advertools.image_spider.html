@@ -16,8 +16,8 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=4a1014be"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/documentation_options.js?v=81998473"></script>
+        <script src="_static/doctools.js?v=9bcbadda"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
         <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
@@ -26,7 +26,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Log File Analysis" href="advertools.logs.html" />
+    <link rel="next" title="Python Log File Analysis" href="advertools.logs.html" />
     <link rel="prev" title="🕷 Python Status Code Checker with Response Headers" href="advertools.header_spider.html" /> 
 </head>
 
@@ -42,7 +42,7 @@
             advertools
           </a>
               <div class="version">
-                0.16.3
+                0.16.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -75,7 +75,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#image-file-names">Image file names</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Log File Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Python Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
@@ -243,7 +243,7 @@ you can see in the table above.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Spider</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="advertools.image_spider.ImageSpider.custom_settings">
-<span class="sig-name descname"><span class="pre">custom_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">_SettingsKeyT</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'AUTOTHROTTLE_ENABLED':</span> <span class="pre">True,</span> <span class="pre">'AUTOTHROTTLE_TARGET_CONCURRENCY':</span> <span class="pre">8,</span> <span class="pre">'HTTPERROR_ALLOW_ALL':</span> <span class="pre">True,</span> <span class="pre">'ITEM_PIPELINES':</span> <span class="pre">{&lt;class</span> <span class="pre">'advertools.image_spider.AdvImagesPipeline'&gt;:</span> <span class="pre">1},</span> <span class="pre">'ROBOTSTXT_OBEY':</span> <span class="pre">True,</span> <span class="pre">'USER_AGENT':</span> <span class="pre">'advertools/0.16.3'}</span></em><a class="headerlink" href="#advertools.image_spider.ImageSpider.custom_settings" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">custom_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">_SettingsKeyT</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'AUTOTHROTTLE_ENABLED':</span> <span class="pre">True,</span> <span class="pre">'AUTOTHROTTLE_TARGET_CONCURRENCY':</span> <span class="pre">8,</span> <span class="pre">'HTTPERROR_ALLOW_ALL':</span> <span class="pre">True,</span> <span class="pre">'ITEM_PIPELINES':</span> <span class="pre">{&lt;class</span> <span class="pre">'advertools.image_spider.AdvImagesPipeline'&gt;:</span> <span class="pre">1},</span> <span class="pre">'ROBOTSTXT_OBEY':</span> <span class="pre">True,</span> <span class="pre">'USER_AGENT':</span> <span class="pre">'advertools/0.16.4'}</span></em><a class="headerlink" href="#advertools.image_spider.ImageSpider.custom_settings" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -346,7 +346,7 @@ DataFrame:</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="advertools.header_spider.html" class="btn btn-neutral float-left" title="🕷 Python Status Code Checker with Response Headers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="advertools.logs.html" class="btn btn-neutral float-right" title="Log File Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="advertools.logs.html" class="btn btn-neutral float-right" title="Python Log File Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

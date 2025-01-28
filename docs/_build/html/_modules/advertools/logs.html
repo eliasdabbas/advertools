@@ -15,8 +15,8 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=4a1014be"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/documentation_options.js?v=81998473"></script>
+        <script src="../../_static/doctools.js?v=9bcbadda"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
         <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
@@ -39,7 +39,7 @@
             advertools
           </a>
               <div class="version">
-                0.16.3
+                0.16.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -69,7 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.image_spider.html">Crawl images</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Log File Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html">Python Log File Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
@@ -122,8 +122,8 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">.. _logs:</span>
 
-<span class="sd">Log File Analysis</span>
-<span class="sd">=================</span>
+<span class="sd">Python Log File Analysis</span>
+<span class="sd">========================</span>
 
 <span class="sd">Logs contain very detailed information about events happening on computers.</span>
 <span class="sd">And the extra details that they provide come with additional complexity that</span>
@@ -361,21 +361,20 @@
 <span class="sd">    referer_url_df = referer_url_df.add_prefix(&#39;referer_&#39;)</span>
 <span class="sd">    referer_url_df.head(10)</span>
 
-<span class="sd">====  ========================================  ================  ================  ==================  ===============  ==================  ==================  ==============  ===============  ===============  ===============  ==================</span>
-<span class="sd">  ..  referer_url                               referer_scheme    referer_netloc    referer_path        referer_query    referer_fragment      referer_hostname    referer_port  referer_dir_1    referer_dir_2      referer_dir_3  referer_last_dir</span>
-<span class="sd">====  ========================================  ================  ================  ==================  ===============  ==================  ==================  ==============  ===============  ===============  ===============  ==================</span>
-<span class="sd">   0  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-</span>
-<span class="sd">   1  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-</span>
-<span class="sd">   2  http://adver.tools/                       http              adver.tools       /                                                                       nan             nan  nan              nan                          nan  nan</span>
-<span class="sd">   3  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-</span>
-<span class="sd">   4  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-</span>
-<span class="sd">   5  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-</span>
-<span class="sd">   6  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-</span>
-<span class="sd">   7  \-                                                                            \-                                                                      nan             nan  \-               nan                          nan  \-</span>
-<span class="sd">   8  http://www.adver.tools/staging/urlytics/  http              www.adver.tools   /staging/urlytics/                                                      nan             nan  staging          urlytics                     nan  urlytics</span>
-<span class="sd">   9  http://www.adver.tools/staging/urlytics/  http              www.adver.tools   /staging/urlytics/                                                      nan             nan  staging          urlytics                     nan  urlytics</span>
-<span class="sd">====  ========================================  ================  ================  ==================  ===============  ==================  ==================  ==============  ===============  ===============  ===============  ==================</span>
-
+<span class="sd">====  ========================================  ================  ================  ==================  ===============  ==================  ===============  ===============  ==================  ==================  ==============  ===============</span>
+<span class="sd">  ..  referer_url                               referer_scheme    referer_netloc    referer_path        referer_query    referer_fragment    referer_dir_1    referer_dir_2    referer_last_dir    referer_hostname      referer_port  referer_dir_3</span>
+<span class="sd">====  ========================================  ================  ================  ==================  ===============  ==================  ===============  ===============  ==================  ==================  ==============  ===============</span>
+<span class="sd">   0  –                                                                             –                                                        –                                 –                                                  nan</span>
+<span class="sd">   1  –                                                                             –                                                        –                                 –                                                  nan</span>
+<span class="sd">   2  http://adver.tools/                       http              adver.tools       /                                                                                                                                             nan</span>
+<span class="sd">   3  –                                                                             –                                                        –                                 –                                                  nan</span>
+<span class="sd">   4  –                                                                             –                                                        –                                 –                                                  nan</span>
+<span class="sd">   5  –                                                                             –                                                        –                                 –                                                  nan</span>
+<span class="sd">   6  –                                                                             –                                                        –                                 –                                                  nan</span>
+<span class="sd">   7  –                                                                             –                                                        –                                 –                                                  nan</span>
+<span class="sd">   8  http://www.adver.tools/staging/urlytics/  http              www.adver.tools   /staging/urlytics/                                       staging          urlytics         urlytics                                           nan</span>
+<span class="sd">   9  http://www.adver.tools/staging/urlytics/  http              www.adver.tools   /staging/urlytics/                                       staging          urlytics         urlytics                                           nan</span>
+<span class="sd">====  ========================================  ================  ================  ==================  ===============  ==================  ===============  ===============  ==================  ==================  ==============  ===============</span>
 <span class="sd">Parse the ``user_agent`` column.</span>
 
 <span class="sd">.. thebe-button::</span>
@@ -385,7 +384,7 @@
 <span class="sd">    :class: thebe, thebe-init</span>
 
 <span class="sd">    ua_df = pd.json_normalize([user_agent_parser.Parse(ua) for ua in logs_df[&#39;user_agent&#39;]])</span>
-<span class="sd">    ua_df.columns = &#39;ua_&#39; + ua_df.columns.str.replace(&#39;user_agent\.&#39;, &#39;&#39;, regex=True)</span>
+<span class="sd">    ua_df.columns = &#39;ua_&#39; + ua_df.columns.str.replace(r&#39;user_agent.&#39;, &#39;&#39;, regex=True)</span>
 <span class="sd">    ua_df.head(10)</span>
 
 <span class="sd">====  ======================================================================================================================================================================================================  ===========  ==========  ==========  ==========  ==============  =============  =============  =============  ===================  ==================  =================  =================</span>

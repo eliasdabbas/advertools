@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Log File Analysis &mdash;  Python</title>
+  <title>Python Log File Analysis &mdash;  Python</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
@@ -16,8 +16,8 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=4a1014be"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/documentation_options.js?v=81998473"></script>
+        <script src="_static/doctools.js?v=9bcbadda"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
         <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
@@ -42,7 +42,7 @@
             advertools
           </a>
               <div class="version">
-                0.16.3
+                0.16.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -72,7 +72,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advertools.image_spider.html">Crawl images</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Log File Analysis</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Log File Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-run-the-logs-to-df-function">How to run the <code class="xref py py-func docutils literal notranslate"><span class="pre">logs_to_df()</span></code> function:</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supported-log-formats">Supported Log Formats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#log-file-analysis-data-preparation">Log File Analysis - Data Preparation</a></li>
@@ -116,7 +116,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Log File Analysis</li>
+      <li class="breadcrumb-item active">Python Log File Analysis</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/advertools.logs.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -126,8 +126,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="log-file-analysis">
-<span id="logs"></span><span id="module-advertools.logs"></span><h1>Log File Analysis<a class="headerlink" href="#log-file-analysis" title="Link to this heading"></a></h1>
+  <section id="python-log-file-analysis">
+<span id="logs"></span><span id="module-advertools.logs"></span><h1>Python Log File Analysis<a class="headerlink" href="#python-log-file-analysis" title="Link to this heading"></a></h1>
 <p>Logs contain very detailed information about events happening on computers.
 And the extra details that they provide come with additional complexity that
 we need to handle ourselves. A pageview may contain many log lines, and a
@@ -1643,42 +1643,42 @@ column into a datetime object.</p>
 <th class="head"><p>referer_path</p></th>
 <th class="head"><p>referer_query</p></th>
 <th class="head"><p>referer_fragment</p></th>
-<th class="head"><p>referer_hostname</p></th>
-<th class="head"><p>referer_port</p></th>
 <th class="head"><p>referer_dir_1</p></th>
 <th class="head"><p>referer_dir_2</p></th>
-<th class="head"><p>referer_dir_3</p></th>
 <th class="head"><p>referer_last_dir</p></th>
+<th class="head"><p>referer_hostname</p></th>
+<th class="head"><p>referer_port</p></th>
+<th class="head"><p>referer_dir_3</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>0</p></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
+<td><p>–</p></td>
+<td></td>
+<td><p>–</p></td>
+<td></td>
 <td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>1</p></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
+<td><p>–</p></td>
+<td></td>
+<td><p>–</p></td>
+<td></td>
 <td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>2</p></td>
 <td><p><a class="reference external" href="http://adver.tools/">http://adver.tools/</a></p></td>
@@ -1687,82 +1687,82 @@ column into a datetime object.</p>
 <td><p>/</p></td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 <td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>3</p></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
+<td><p>–</p></td>
+<td></td>
+<td><p>–</p></td>
+<td></td>
 <td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>4</p></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
+<td><p>–</p></td>
+<td></td>
+<td><p>–</p></td>
+<td></td>
 <td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>5</p></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
+<td><p>–</p></td>
+<td></td>
+<td><p>–</p></td>
+<td></td>
 <td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>6</p></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
+<td><p>–</p></td>
+<td></td>
+<td><p>–</p></td>
+<td></td>
 <td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>7</p></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
-<td><p>-</p></td>
+<td><p>–</p></td>
 <td></td>
 <td></td>
+<td><p>–</p></td>
+<td></td>
+<td><p>–</p></td>
+<td></td>
 <td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
-<td><p>-</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>8</p></td>
 <td><p><a class="reference external" href="http://www.adver.tools/staging/urlytics/">http://www.adver.tools/staging/urlytics/</a></p></td>
@@ -1771,12 +1771,12 @@ column into a datetime object.</p>
 <td><p>/staging/urlytics/</p></td>
 <td></td>
 <td></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
 <td><p>staging</p></td>
 <td><p>urlytics</p></td>
-<td><p>nan</p></td>
 <td><p>urlytics</p></td>
+<td></td>
+<td><p>nan</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>9</p></td>
 <td><p><a class="reference external" href="http://www.adver.tools/staging/urlytics/">http://www.adver.tools/staging/urlytics/</a></p></td>
@@ -1785,18 +1785,18 @@ column into a datetime object.</p>
 <td><p>/staging/urlytics/</p></td>
 <td></td>
 <td></td>
-<td><p>nan</p></td>
-<td><p>nan</p></td>
 <td><p>staging</p></td>
 <td><p>urlytics</p></td>
-<td><p>nan</p></td>
 <td><p>urlytics</p></td>
+<td></td>
+<td><p>nan</p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <p>Parse the <code class="docutils literal notranslate"><span class="pre">user_agent</span></code> column.</p>
 <button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ua_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">([</span><span class="n">user_agent_parser</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">ua</span><span class="p">)</span> <span class="k">for</span> <span class="n">ua</span> <span class="ow">in</span> <span class="n">logs_df</span><span class="p">[</span><span class="s1">&#39;user_agent&#39;</span><span class="p">]])</span>
-<span class="n">ua_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="s1">&#39;ua_&#39;</span> <span class="o">+</span> <span class="n">ua_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;user_agent\.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ua_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="s1">&#39;ua_&#39;</span> <span class="o">+</span> <span class="n">ua_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;user_agent.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ua_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
