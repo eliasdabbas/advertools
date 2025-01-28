@@ -1,8 +1,8 @@
 """
 .. _logs:
 
-Log File Analysis
-=================
+Python Log File Analysis
+========================
 
 Logs contain very detailed information about events happening on computers.
 And the extra details that they provide come with additional complexity that
