@@ -2,6 +2,12 @@
 Change Log - advertools
 =======================
 
+0.16.5 (2025-03-19)
+-------------------
+
+* Fixed
+    - Issue with loading parquet emoji file (issue https://github.com/eliasdabbas/advertools/issues/398)
+
 0.16.4 (2024-12-19)
 -------------------
 
@@ -124,7 +130,7 @@ Change Log - advertools
     - Allow optional trailing space in log files (contributed by @andypayne)
 
 * Fixed
-    - Replace newlines with spaces while parsing JSON-LD which was causing 
+    - Replace newlines with spaces while parsing JSON-LD which was causing
       errors in some cases.
 
 
@@ -140,7 +146,7 @@ Change Log - advertools
       parameter
 
 * Fixed
-    - Clarify that while authenticating for Twitter only ``app_key`` and 
+    - Clarify that while authenticating for Twitter only ``app_key`` and
       ``app_secret`` are required, with the option to provide ``oauth_token``
       and ``oauth_token_secret`` if/when needed.
 
@@ -210,7 +216,7 @@ Change Log - advertools
 * Changed
     - Query parameter columns in ``url_to_df`` DataFrame are now sorted by how
       full the columns are (the percentage of values that are not `NA`)
- 
+
 0.11.1 (2021-04-09)
 -------------------
 
@@ -467,7 +473,7 @@ Change Log - advertools
         feeling (+ve or -ve).
 
     - New function `word_tokenize`:
-      
+
       * Used by `word_frequency` to get tokens of
         1,2,3-word phrases (or more).
       * Split a list of text into tokens of a specified number of words each.
@@ -540,7 +546,7 @@ Change Log - advertools
 * New function `serp_youtube`
     - Query YouTube API for videos, channels, or playlists
     - Multiple queries (product of parameters) in one function call
-    - Reponse looping and merging handled, one DataFrame 
+    - Reponse looping and merging handled, one DataFrame
 * `serp_goog` return Google's original error messages
 * twitter responses with entities, get the entities extracted, each in a
   separate column
@@ -578,7 +584,7 @@ Change Log - advertools
 ------------------
 
 * New set of kw_<match-type> functions.
-* Full testing and coverage. 
+* Full testing and coverage.
 
 0.1.0 (2018-07-02)
 ------------------
