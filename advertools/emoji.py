@@ -116,8 +116,7 @@ EMOJI = re.compile(EMOJI_RAW)
 
 def _emoji_df_path() -> str:
     from os.path import join
-    dirname = adv.__path__[0]
-    return join(dirname, "emoji_df.parquet")
+    return join("advertools", "pkg_data", "emoji_df.parquet")
 
 
 def _emoji_entries(emoji):
