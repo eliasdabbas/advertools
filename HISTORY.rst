@@ -2,6 +2,14 @@
 Change Log - advertools
 =======================
 
+0.16.6 (2025-03-30)
+-------------------
+
+* Fixed
+    - Set correct file for emoji_df using package path attribute
+    - Make emoji_df a function that return the full DataFrame
+
+
 0.16.5 (2025-03-19)
 -------------------
 
