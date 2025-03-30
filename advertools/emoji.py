@@ -114,9 +114,14 @@ EMOJI_RAW = "\\U0001F9D1\\U0001F3FB\\U0000200D\\U00002764\\U0000FE0F\\U0000200D\
 EMOJI = re.compile(EMOJI_RAW)
 
 
+def _emoji_df_path() -> str:
+    from os.path import join
+    return join("advertools", "pkg_data", "emoji_df.parquet")
+
+
 def _emoji_entries(emoji):
     emoji_df = pd.read_parquet(
-        "advertools/emoji_df.parquet",
+        _emoji_df_path(),
         columns=["emoji", "name", "group", "sub_group"],
         filters=[("emoji", "in", set(emoji))],
     )
@@ -262,8 +267,7 @@ def emoji_search(regex):
     5     1F537  fully-qualified     🔷  large blue diamond            Symbols     geometric
     6     1F539  fully-qualified     🔹  small blue diamond            Symbols     geometric
     """
-    emoji_df_path = adv.__path__[0] + "/emoji_df.parquet"
-    emoji_df = pd.read_parquet(emoji_df_path)
+    emoji_df = pd.read_parquet(_emoji_df_path())
     result_index = (
         emoji_df.select_dtypes("object")
         .apply(lambda series: series.astype(str).str.contains(regex, case=False))

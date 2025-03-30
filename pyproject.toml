@@ -28,7 +28,6 @@ keywords = ["seo", "marketing", "advertising", "adwords", "bingads", "search-eng
 advertools = "advertools.cli:main"
 adv = "advertools.cli:main"
 
-
 [project.urls]
 Homepage = "https://adver.tools"
 Documentation = "https://advertools.readthedocs.io"
@@ -36,9 +35,11 @@ Repository = "https://github.com/eliasdabbas/advertools.git"
 Issues = "https://github.com/eliasdabbas/advertools/issues"
 Changelog = "https://github.com/eliasdabbas/advertools/blob/master/HISTORY.rst"
 
+[tool.flit.external-data]
+directory = "advertools/pkg_data"
+
 [tool.ruff]
 target-version = "py37"
-
 
 [tool.ruff.lint]
 # Add the `line-too-long` rule to the enforced rule set.
