@@ -100,7 +100,7 @@ different stats, and information about the extracted emoji:
 
 """
 
-__all__ = ["extract_emoji", "emoji_search"]
+__all__ = ["extract_emoji", "emoji_search", "emoji_df"]
 
 import re
 from collections import Counter
@@ -116,7 +116,8 @@ EMOJI = re.compile(EMOJI_RAW)
 
 def _emoji_df_path() -> str:
     from os.path import join
-    return join("advertools", "pkg_data", "emoji_df.parquet")
+
+    return join(adv.__path__[0], "pkg_data", "emoji_df.parquet")
 
 
 def _emoji_entries(emoji):
@@ -274,3 +275,8 @@ def emoji_search(regex):
         .apply(lambda row: any(row), axis=1)
     )
     return emoji_df[result_index].reset_index(drop=True)
+
+
+def emoji_df():
+    df = pd.read_parquet(_emoji_df_path())
+    return df
