@@ -6,7 +6,7 @@ Change Log - advertools
 -------------------
 
 * Fixed
-    - Issue with loading parquet emoji file (issue https://github.com/eliasdabbas/advertools/issues/398)
+    - Issue with loading parquet emoji file contributed by `@jverce <https://github.com/jverce>`_
 
 0.16.4 (2024-12-19)
 -------------------
