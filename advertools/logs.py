@@ -540,9 +540,7 @@ def logs_to_df(
                          (latin-1, utf-16, etc.)
     """
     if not output_file.endswith(".parquet"):
-        raise ValueError(
-            "Please provide an `output_file` with a `.parquet` " "extension."
-        )
+        raise ValueError("Please provide an `output_file` with a `.parquet` extension.")
     if not LOG_DATE_FORMATS.get(log_format) and fields is None:
         raise ValueError(
             "Please supply a value for the `fields` parameter when you provide a custom"
