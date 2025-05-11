@@ -2,6 +2,12 @@
 Change Log - advertools
 =======================
 
+0.17.0 (Unreleased)
+-------------------
+
+* Added
+    - New parameters for crawling to keep/discard certain columns:
+
 0.16.6 (2025-03-30)
 -------------------
 
