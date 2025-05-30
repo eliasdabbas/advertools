@@ -8,6 +8,9 @@
 .. image:: https://static.pepy.tech/badge/advertools
         :target: http://pepy.tech/project/advertools 
 
+.. image:: httpshttps://deepwiki.com/badge.svg
+        :target: https://deepwiki.com/eliasdabbas/advertools
+
 
 
 ``advertools``: productivity & analysis tools to scale your online marketing
