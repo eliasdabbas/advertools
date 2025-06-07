@@ -665,6 +665,16 @@ def _extract_content(resp, **tags_xpaths):
     return d
 
 
+def _now():
+    try:
+        utc = datetime.UTC
+    except AttributeError:
+        utc = datetime.timezone.utc
+
+    now = datetime.datetime.now(utc).strftime("%Y-%m-%d %H:%M:%S")
+    return now
+
+
 class SEOSitemapSpider(Spider):
     name = "seo_spider"
     follow_links = False
@@ -734,9 +744,26 @@ class SEOSitemapSpider(Spider):
                 self.logger.error(repr(e))
                 yield {
                     "url": url,
-                    "crawl_time": datetime.datetime.utcnow().strftime(
-                        "%Y-%m-%d %H:%M:%S"
-                    ),
+                    "crawl_time": _now(),
+                    "errors": repr(e),
+                }
+
+    async def start(self):
+        self.get_custom_headers()
+        for url in self.start_urls:
+            try:
+                yield Request(
+                    url,
+                    callback=self.parse,
+                    errback=self.errback,
+                    meta=self.meta,
+                    headers=self.custom_headers.get(url),
+                )
+            except Exception as e:
+                self.logger.error(repr(e))
+                yield {
+                    "url": url,
+                    "crawl_time": _now(),
                     "errors": repr(e),
                 }
 
@@ -745,7 +772,7 @@ class SEOSitemapSpider(Spider):
             self.logger.error(repr(failure))
             yield {
                 "url": failure.request.url,
-                "crawl_time": datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
+                "crawl_time": _now(),
                 "errors": repr(failure),
             }
 
@@ -895,7 +922,7 @@ class SEOSitemapSpider(Spider):
             **parsed_footer_links,
             **images,
             ip_address=str(response.ip_address),
-            crawl_time=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
+            crawl_time=_now(),
             **{
                 "resp_headers_" + k: v
                 for k, v in response.headers.to_unicode_dict().items()
