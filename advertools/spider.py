@@ -732,6 +732,13 @@ class SEOSitemapSpider(Spider):
                 )
             except Exception as e:
                 self.logger.error(repr(e))
+                yield {
+                    "url": url,
+                    "crawl_time": datetime.datetime.utcnow().strftime(
+                        "%Y-%m-%d %H:%M:%S"
+                    ),
+                    "errors": repr(e),
+                }
 
     def errback(self, failure):
         if not failure.check(scrapy.exceptions.IgnoreRequest):
