@@ -741,3 +741,75 @@ def running_crawls():
         df_subset["crawled_urls"] = crawl_urls
     df_subset.columns = df_subset.columns.str.lower()
     return df_subset.rename(columns={"args": "command"})
+
+
+def generate_markdown(crawldf):
+    """
+    Generate markdown strings using h1-h6 headings and body_text.
+
+    Parameters
+    ----------
+        df : DataFrame with columns h1-h6 and body_text
+
+    Returns
+    -------
+        list : List of Markdown strings (one per URL)\
+
+    Examples
+    --------
+
+    >>> import advertools as adv
+    >>> import pandas as pd
+    >>> crawldf = pd.read_json("output_file.jsonl", lines=True)
+    >>> md = adv.crawlytics.generate_markdown(crawldf)
+
+    """
+
+    def convert_single_row(row):
+        """Convert a single row to markdown."""
+        body_text = (
+            "" if pd.isna(row.get("body_text", "")) else str(row.get("body_text", ""))
+        )
+        headings = []
+        for level in range(1, 7):
+            col_name = f"h{level}"
+            if col_name in row.index and row.get(col_name):
+                heading_texts = row[col_name]
+                for heading in heading_texts.split("@@"):
+                    heading = heading.strip()
+                    if heading:
+                        pos = body_text.find(heading)
+                        if pos != -1:
+                            headings.append(
+                                {
+                                    "text": heading,
+                                    "level": level,
+                                    "position": pos,
+                                    "markdown": "#" * level + " " + heading,
+                                }
+                            )
+        headings.sort(key=lambda x: x["position"])
+        result = []
+        last_pos = 0
+        for heading in headings:
+            text_before = body_text[last_pos : heading["position"]].strip()
+            if text_before:
+                text_before = "\n".join(
+                    line.lstrip() for line in text_before.split("\n")
+                )
+                result.append(text_before)
+                result.append("")
+            result.append(heading["markdown"])
+            result.append("")
+            last_pos = heading["position"] + len(heading["text"])
+        remaining_text = body_text[last_pos:].strip()
+        if remaining_text:
+            result.append(remaining_text)
+        markdown_output = "\n".join(result)
+        markdown_output = re.sub(r"\n{3,}", "\n\n", markdown_output)
+        return markdown_output.strip()
+
+    markdown_list = []
+    for _, row in crawldf.iterrows():
+        markdown_list.append(convert_single_row(row))
+    return markdown_list
