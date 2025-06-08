@@ -257,3 +257,173 @@ def test_compare_url_correct_number_of_urls():
 def test_compare_url_no_common_urls():
     result = crawlytics.compare(df1, df3, "url")
     assert result.assign(equal=lambda df: df["df1"].ne(df["df2"]))["equal"].all()
+
+
+def markdown_test_cases():
+    """Fixture providing test cases for generate_markdown function."""
+    return [
+        # (test_name, dataframe, expected_output)
+        (
+            "simple_h1",
+            pd.DataFrame(
+                {
+                    "h1": ["First Heading"],
+                    "body_text": ["Some text. First Heading More text."],
+                }
+            ),
+            ["Some text.\n\n# First Heading\n\nMore text."],
+        ),
+        (
+            "multiple_headings",
+            pd.DataFrame(
+                {
+                    "h1": ["Title 1"],
+                    "h2": ["Subtitle A"],
+                    "body_text": ["Content before Title 1 Then Subtitle A And after."],
+                }
+            ),
+            ["Content before\n\n# Title 1\n\nThen\n\n## Subtitle A\n\nAnd after."],
+        ),
+        (
+            "multiple_same_level_headings",
+            pd.DataFrame(
+                {
+                    "h1": ["First Title@@Second Title"],
+                    "body_text": ["Text. First Title. Middle. Second Title. End."],
+                }
+            ),
+            ["Text.\n\n# First Title\n\n. Middle.\n\n# Second Title\n\n. End."],
+        ),
+        (
+            "heading_not_in_body",
+            pd.DataFrame(
+                {
+                    "h1": ["Missing Title"],
+                    "body_text": ["This body does not contain the title."],
+                }
+            ),
+            ["This body does not contain the title."],
+        ),
+        (
+            "text_around_headings",
+            pd.DataFrame(
+                {
+                    "h1": ["Middle Heading"],
+                    "h2": ["Another Heading"],
+                    "body_text": [
+                        "Prefix. Middle Heading. Infix. Another Heading. Suffix."
+                    ],
+                }
+            ),
+            [
+                "Prefix.\n\n# Middle Heading\n\n. Infix.\n\n## Another Heading\n\n. Suffix."
+            ],
+        ),
+        ("empty_df", pd.DataFrame(), []),
+        (
+            "missing_body_text_nan",
+            pd.DataFrame(
+                {
+                    "h1": ["Only H1"],
+                    "h2": [None],
+                    "body_text": [pd.NA],
+                }
+            ),
+            [""],
+        ),
+        (
+            "missing_body_text_none",
+            pd.DataFrame(
+                {
+                    "h1": ["Title Here"],
+                    "body_text": [None],
+                }
+            ),
+            [""],
+        ),
+        (
+            "missing_heading_column",
+            pd.DataFrame(
+                {
+                    "h1": ["Main Heading"],
+                    "body_text": ["Text with Main Heading only."],
+                }
+            ),
+            ["Text with\n\n# Main Heading\n\nonly."],
+        ),
+        (
+            "headings_at_edges",
+            pd.DataFrame(
+                {
+                    "h1": ["FirstWord@@LastWord"],
+                    "body_text": ["FirstWord some middle text LastWord"],
+                }
+            ),
+            ["# FirstWord\n\nsome middle text\n\n# LastWord"],
+        ),
+        (
+            "special_chars",
+            pd.DataFrame(
+                {
+                    "h1": ["Title with *stars*"],
+                    "h2": ["Subtitle with _underscores_"],
+                    "body_text": [
+                        "Body: Title with *stars*. And Subtitle with _underscores_ also `code`."
+                    ],
+                }
+            ),
+            [
+                "Body:\n\n# Title with *stars*\n\n. And\n\n## Subtitle with _underscores_\n\nalso `code`."
+            ],
+        ),
+        (
+            "multiple_h_levels_ordered",
+            pd.DataFrame(
+                [
+                    {
+                        "h1": "H1 Title",
+                        "h2": "H2 Subtitle",
+                        "h3": "H3 Deeper",
+                        "body_text": "Content H3 Deeper then H2 Subtitle and finally H1 Title.",
+                    }
+                ]
+            ),
+            [
+                "Content\n\n### H3 Deeper\n\nthen\n\n## H2 Subtitle\n\nand finally\n\n# H1 Title\n\n."
+            ],
+        ),
+        (
+            "no_headings_just_body",
+            pd.DataFrame({"body_text": ["Just plain text."]}),
+            ["Just plain text."],
+        ),
+        ("headings_no_body_text_column", pd.DataFrame({"h1": ["A Title"]}), [""]),
+        (
+            "empty_strings_in_headings",
+            pd.DataFrame(
+                {"h1": ["First@@ @@Third"], "body_text": ["Text First then Third end"]}
+            ),
+            ["Text\n\n# First\n\nthen\n\n# Third\n\nend"],
+        ),
+        (
+            "body_text_spaces_stripped",
+            pd.DataFrame(
+                {
+                    "h1": ["First@@Second"],
+                    "body_text": [
+                        "First\n   second line \n Second  \n    Third line.. "
+                    ],
+                }
+            ),
+            ["# First\n\nsecond line\n\n# Second\n\nThird line.."],
+        ),
+    ]
+
+
+@pytest.mark.parametrize(
+    "test_name,df,expected",
+    [pytest.param(name, df, exp, id=name) for name, df, exp in markdown_test_cases()],
+)
+def test_generate_markdown(test_name, df, expected):
+    """Test generate_markdown function with various input scenarios."""
+    assert crawlytics.generate_markdown(df) == expected
