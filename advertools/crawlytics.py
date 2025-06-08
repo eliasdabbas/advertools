@@ -773,7 +773,7 @@ def generate_markdown(crawldf):
         headings = []
         for level in range(1, 7):
             col_name = f"h{level}"
-            if col_name in row.index and row.get(col_name):
+            if col_name in row.index and row.get(col_name) and pd.notna(row[col_name]):
                 heading_texts = row[col_name]
                 for heading in heading_texts.split("@@"):
                     heading = heading.strip()
