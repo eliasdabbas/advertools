@@ -417,6 +417,36 @@ def markdown_test_cases():
             ),
             ["# First\n\nsecond line\n\n# Second\n\nThird line.."],
         ),
+        (
+            "repeated_headings_same_level",
+            pd.DataFrame(
+                {
+                    "h1": ["Introduction@@Introduction@@Conclusion"],
+                    "body_text": [
+                        "Start Introduction First section Introduction Second section Conclusion Final thoughts"
+                    ],
+                }
+            ),
+            [
+                "Start\n\n# Introduction\n\nFirst section\n\n# Introduction\n\nSecond section\n\n# Conclusion\n\nFinal thoughts"
+            ],
+        ),
+        # TODO: figure out a way to do/test this:
+        # (
+        #     "repeated_headings_different_levels",
+        #     pd.DataFrame(
+        #         {
+        #             "h1": ["Overview@@Details"],
+        #             "h2": ["Overview@@Summary@@Overview"],
+        #             "body_text": [
+        #                 "Document start Overview Main content Details More info Overview Subsection Summary Brief overview Overview Final section"
+        #             ],
+        #         }
+        #     ),
+        #     [
+        #         "Document start\n\n# Overview\n\nMain content\n\n# Details\n\nMore info\n\n## Overview\n\nSubsection\n\n## Summary\n\nBrief overview\n\n## Overview\n\nFinal section"
+        #     ],
+        # ),
     ]
 
 
