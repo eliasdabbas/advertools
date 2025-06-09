@@ -775,10 +775,11 @@ def generate_markdown(crawldf):
             col_name = f"h{level}"
             if col_name in row.index and row.get(col_name) and pd.notna(row[col_name]):
                 heading_texts = row[col_name]
+                search_start = 0
                 for heading in heading_texts.split("@@"):
                     heading = heading.strip()
                     if heading:
-                        pos = body_text.find(heading)
+                        pos = body_text.find(heading, search_start)
                         if pos != -1:
                             headings.append(
                                 {
@@ -788,6 +789,7 @@ def generate_markdown(crawldf):
                                     "markdown": "#" * level + " " + heading,
                                 }
                             )
+                            search_start = pos + len(heading)
         headings.sort(key=lambda x: x["position"])
         result = []
         last_pos = 0
