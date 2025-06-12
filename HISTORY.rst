@@ -8,6 +8,7 @@ Change Log - advertools
 * Added
     - New parameters for crawling to keep/discard certain columns
     - New function to ``generate_markdown`` from a crawl DataFrame
+    - New function ``partition`` for partitioning text with a regex
 
 0.16.6 (2025-03-30)
 -------------------
