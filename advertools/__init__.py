@@ -13,6 +13,7 @@ from advertools.image_spider import crawl_images, summarize_crawled_imgs
 from advertools.knowledge_graph import knowledge_graph
 from advertools.kw_generate import *
 from advertools.logs import LOG_FIELDS, LOG_FORMATS, crawllogs_to_df, logs_to_df
+from advertools.partition import partition
 from advertools.regex import *
 from advertools.reverse_dns_lookup import reverse_dns_lookup
 from advertools.robotstxt import *
