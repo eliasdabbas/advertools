@@ -1,0 +1,517 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>advertools.cli_docs.cli module &mdash;  Python</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5c3816da"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+      <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="advertools.code_recipes package" href="advertools.code_recipes.html" />
+    <link rel="prev" title="advertools.cli_docs package" href="advertools.cli_docs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            advertools
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.survey.html">Survey - your feedback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.cli.cli.html">Command Line Interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.image_spider.html">Crawl images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Python Log File Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.partition.html">Text Partitioning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="include_changelog.html">advertools</a></li>
+          <li class="breadcrumb-item"><a href="advertools.html">advertools package</a></li>
+          <li class="breadcrumb-item"><a href="advertools.cli_docs.html">advertools.cli_docs package</a></li>
+      <li class="breadcrumb-item active">advertools.cli_docs.cli module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/advertools.cli_docs.cli.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-advertools.cli_docs.cli">
+<span id="advertools-cli-docs-cli-module"></span><h1>advertools.cli_docs.cli module<a class="headerlink" href="#module-advertools.cli_docs.cli" title="Link to this heading"></a></h1>
+<section id="convert-a-robots-txt-file-or-list-of-file-urls-to-a-table-in-a-csv-format">
+<h2>Convert a robots.txt file (or list of file URLs) to a table in a CSV format<a class="headerlink" href="#convert-a-robots-txt-file-or-list-of-file-urls-to-a-table-in-a-csv-format" title="Link to this heading"></a></h2>
+<section id="usage">
+<h3><strong>Usage</strong><a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools robots [-h] [url ...]</span>
+</pre></div>
+</div>
+<p>Convert a robots.txt file (or list of file URLs) to a table in a CSV format.</p>
+<p>You can provide a web URL, or a local file URL on your local machine, for example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">file:///Users/path/to/robots.txt</span></code></p>
+</section>
+<section id="examples">
+<h3><strong>Examples</strong><a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<p>Single robots.txt file:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools robots https://www.google.com/robots.txt</span>
+</pre></div>
+</div>
+<p>Multiple robots.txt files:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools robots https://www.google.com/robots.txt https://www.google.jo/robots.txt https://www.google.es/robots.txt</span>
+</pre></div>
+</div>
+<p>Save to a CSV file using output redirection:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools robots https://www.google.com/robots.txt &gt; google_robots.csv</span>
+</pre></div>
+</div>
+<p>Run the function for a long list of robots files saved in a text file (robotslist.txt):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools robots &lt; robotslist.txt &gt; multi_robots.csv</span>
+</pre></div>
+</div>
+</section>
+<section id="arguments">
+<h3><strong>Arguments</strong><a class="headerlink" href="#arguments" title="Link to this heading"></a></h3>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>url</strong>: A robots.txt URL (or a list of URLs). Default: None.</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+</ul>
+</section>
+</section>
+<section id="download-parse-and-save-an-xml-sitemap-to-a-table-in-a-csv-file">
+<h2>Download, parse, and save an XML sitemap to a table in a CSV file<a class="headerlink" href="#download-parse-and-save-an-xml-sitemap-to-a-table-in-a-csv-file" title="Link to this heading"></a></h2>
+<section id="id1">
+<h3><strong>Usage</strong><a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools sitemaps [-h] [-r {0,1}] [-s SEPARATOR] [sitemap_url]</span>
+</pre></div>
+</div>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>sitemap_url</strong>: The URL of the XML sitemap (regular or sitemap index). Default: None.</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+<li><p><strong>-r {0,1}, --recursive {0,1}</strong>: Whether or not to fetch sub-sitemaps if it is a sitemap index file. Default: 1.</p></li>
+<li><p><strong>-s SEPARATOR, --separator SEPARATOR</strong>: The separator with which to separate columns of the output. Default: <cite>,</cite>.</p></li>
+</ul>
+</section>
+</section>
+<section id="split-a-list-of-urls-into-their-components-scheme-netloc-path-query-etc">
+<h2>Split a list of URLs into their components: scheme, netloc, path, query, etc.<a class="headerlink" href="#split-a-list-of-urls-into-their-components-scheme-netloc-path-query-etc" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3><strong>Usage</strong><a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools urls [-h] [url_list ...]</span>
+</pre></div>
+</div>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>url_list</strong>: A list of URLs to parse. Default: None.</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+</ul>
+</section>
+</section>
+<section id="crawl-a-list-of-known-urls-using-the-head-method">
+<h2>Crawl a list of known URLs using the HEAD method<a class="headerlink" href="#crawl-a-list-of-known-urls-using-the-head-method" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3><strong>Usage</strong><a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools headers [-h] [-s [CUSTOM_SETTINGS ...]] [url_list ...] output_file</span>
+</pre></div>
+</div>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>url_list</strong>: A list of URLs. Default: None.</p></li>
+<li><p><strong>output_file</strong>: Filepath - where to save the output (.jl).</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+<li><p><strong>-s [CUSTOM_SETTINGS ...], --custom-settings [CUSTOM_SETTINGS ...]</strong>: Settings that modify the behavior of the crawler.
+Settings should be separated by spaces, and each setting name and value should be separated by an equal sign <cite>=</cite> without spaces between them.</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools headers https://example.com example.jl --custom-settings LOG_FILE=logs.log CLOSESPIDER_TIMEOUT=20</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="parse-compress-and-convert-a-log-file-to-a-dataframe-in-the-parquet-format">
+<h2>Parse, compress and convert a log file to a DataFrame in the .parquet format<a class="headerlink" href="#parse-compress-and-convert-a-log-file-to-a-dataframe-in-the-parquet-format" title="Link to this heading"></a></h2>
+<section id="id4">
+<h3><strong>Usage</strong><a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools logs [-h] [-f [FIELDS ...]] log_file output_file errors_file log_format</span>
+</pre></div>
+</div>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>log_file</strong>: Filepath - the log file.</p></li>
+<li><p><strong>output_file</strong>: Filepath - where to save the output (.parquet).</p></li>
+<li><p><strong>errors_file</strong>: Filepath - where to save the error lines (.txt).</p></li>
+<li><p><strong>log_format</strong>: The format of the logs. Available defaults are: common, combined, common_with_vhost, nginx_error, apache_error. Supply a special regex instead if you have a different format.</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+<li><p><strong>-f [FIELDS ...], --fields [FIELDS ...]</strong>: Provide a list of field names to become column names in the parsed compressed file. Default: None.</p></li>
+</ul>
+</section>
+</section>
+<section id="perform-a-reverse-dns-lookup-on-a-list-of-ip-addresses">
+<h2>Perform a reverse DNS lookup on a list of IP addresses<a class="headerlink" href="#perform-a-reverse-dns-lookup-on-a-list-of-ip-addresses" title="Link to this heading"></a></h2>
+<section id="id5">
+<h3><strong>Usage</strong><a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools dns [-h] [ip_list ...]</span>
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h3><strong>Description</strong><a class="headerlink" href="#description" title="Link to this heading"></a></h3>
+<p>Perform a reverse DNS lookup on a list of IP addresses.</p>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>ip_list</strong>: A list of IP addresses. Default: None.</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+</ul>
+</section>
+</section>
+<section id="generate-a-table-of-sem-keywords-by-supplying-a-list-of-products-and-a-list-of-intent-words">
+<h2>Generate a table of SEM keywords by supplying a list of products and a list of intent words<a class="headerlink" href="#generate-a-table-of-sem-keywords-by-supplying-a-list-of-products-and-a-list-of-intent-words" title="Link to this heading"></a></h2>
+<section id="id6">
+<h3><strong>Usage</strong><a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools semkw [-h] [-t [{exact,phrase,modified,broad} ...]] [-l MAX_LEN] [-c {0,1}] [-m {0,1}] [-n CAMPAIGN_NAME] products words</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3><strong>Description</strong><a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p>Generate a table of SEM keywords by supplying a list of products and a list of intent words.</p>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>products</strong>: A file containing the products that you sell, one per line.</p></li>
+<li><p><strong>words</strong>: A file containing the intent words/phrases that you want to combine with products, one per line.</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+<li><p><strong>-t [{exact,phrase,modified,broad} ...]</strong>: Specify match types.</p></li>
+<li><p><strong>-l MAX_LEN, --max-len MAX_LEN</strong>: Number of words to combine with products. Default: 3.</p></li>
+<li><p><strong>-c {0,1}, --capitalize-adgroups {0,1}</strong>: Whether or not to capitalize ad group names in the output file. Default: 1.</p></li>
+<li><p><strong>-m {0,1}, --order-matters {0,1}</strong>: Use combinations and permutations, or just combinations. Default: 1.</p></li>
+<li><p><strong>-n CAMPAIGN_NAME, --campaign-name CAMPAIGN_NAME</strong>: The campaign name.</p></li>
+</ul>
+</section>
+</section>
+<section id="get-stopwords-of-the-selected-language">
+<h2>Get stopwords of the selected language<a class="headerlink" href="#get-stopwords-of-the-selected-language" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3><strong>Usage</strong><a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools stopwords [-h] {arabic,azerbaijani,bengali,catalan,chinese,croatian,danish,dutch,english,finnish,french,german,greek,hebrew,hindi,hungarian,indonesian,irish,italian,japanese,kazakh,nepali,norwegian,persian,polish,portuguese,romanian,russian,sinhala,spanish,swedish,tagalog,tamil,tatar,telugu,thai,turkish,ukrainian,urdu,vietnamese}</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3><strong>Description</strong><a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<p>Get stopwords of the selected language.</p>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>{arabic,azerbaijani,bengali,catalan,chinese,croatian,danish,dutch,english,finnish,french,german,greek,hebrew,hindi,hungarian,indonesian,irish,italian,japanese,kazakh,nepali,norwegian,persian,polish,portuguese,romanian,russian,sinhala,spanish,swedish,tagalog,tamil,tatar,telugu,thai,turkish,ukrainian,urdu,vietnamese}</strong>: The language to retrieve stopwords for.</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+</ul>
+</section>
+</section>
+<section id="get-word-counts-of-a-text-list-optionally-weighted-by-a-number-list">
+<h2>Get word counts of a text list optionally weighted by a number list<a class="headerlink" href="#get-word-counts-of-a-text-list-optionally-weighted-by-a-number-list" title="Link to this heading"></a></h2>
+<section id="id10">
+<h3><strong>Usage</strong><a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools wordfreq [-h] [-n NUMBER_LIST] [-r REGEX] [-l PHRASE_LEN] [-s [STOPWORDS ...]] [text_list ...]</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3><strong>Description</strong><a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<p>Get word counts of a text list optionally weighted by a number list.</p>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>text_list</strong>: A text list, one document (sentence, tweet, etc.) per line. Default: None.</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+<li><p><strong>-n NUMBER_LIST, --number-list NUMBER_LIST</strong>: Filepath for a file containing the number list, one number per line. Default: None.</p></li>
+<li><p><strong>-r REGEX, --regex REGEX</strong>: A regex to tokenize words. Default: None.</p></li>
+<li><p><strong>-l PHRASE_LEN, --phrase-len PHRASE_LEN</strong>: The phrase (token) length to split words (the <cite>n</cite> in n-grams). Default: 1.</p></li>
+<li><p><strong>-s [STOPWORDS ...], --stopwords [STOPWORDS ...]</strong>: A list of stopwords to exclude. Default: None.</p></li>
+</ul>
+</section>
+</section>
+<section id="search-for-emoji-using-a-regex">
+<h2>Search for emoji using a regex<a class="headerlink" href="#search-for-emoji-using-a-regex" title="Link to this heading"></a></h2>
+<section id="id12">
+<h3><strong>Usage</strong><a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools emoji [-h] regex</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3><strong>Description</strong><a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<p>Search for emoji using a regex.</p>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>regex</strong>: Pattern to search for emoji.</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+</ul>
+</section>
+</section>
+<section id="extract-structured-entities-from-a-text-list-emoji-hashtags-mentions">
+<h2>Extract structured entities from a text list; emoji, hashtags, mentions<a class="headerlink" href="#extract-structured-entities-from-a-text-list-emoji-hashtags-mentions" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3><strong>Usage</strong><a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools extract [-h] {emoji,hashtags,mentions} text_list</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3><strong>Description</strong><a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<p>Extract structured entities from a text list; emoji, hashtags, mentions.</p>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>{emoji,hashtags,mentions}</strong>: Entity type to extract.</p></li>
+<li><p><strong>text_list</strong>: Filepath containing the text list, one phrase per line.</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+</ul>
+</section>
+</section>
+<section id="tokenize-documents-phrases-keywords-tweets-etc-into-tokens-of-the-desired-length">
+<h2>Tokenize documents (phrases, keywords, tweets, etc.) into tokens of the desired length<a class="headerlink" href="#tokenize-documents-phrases-keywords-tweets-etc-into-tokens-of-the-desired-length" title="Link to this heading"></a></h2>
+<section id="id16">
+<h3><strong>Usage</strong><a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools tokenize [-h] [-l LENGTH] [-s SEPARATOR] [text_list ...]</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3><strong>Description</strong><a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<p>Tokenize documents (phrases, keywords, tweets, etc.) into tokens of the desired length.</p>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>text_list</strong>: Filepath containing the text list, one document (sentence, tweet, etc.) per line. Default: None.</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+<li><p><strong>-l LENGTH, --length LENGTH</strong>: Length of tokens (the <cite>n</cite> in n-grams). Default: 1.</p></li>
+<li><p><strong>-s SEPARATOR, --separator SEPARATOR</strong>: Character to separate the tokens. Default: <cite>,</cite>.</p></li>
+</ul>
+</section>
+</section>
+<section id="seo-crawler">
+<h2>SEO crawler<a class="headerlink" href="#seo-crawler" title="Link to this heading"></a></h2>
+<section id="id18">
+<h3><strong>Usage</strong><a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools crawl [-h] [-l FOLLOW_LINKS] [-d [ALLOWED_DOMAINS ...]]</span>
+<span class="go">                 [--exclude-url-params [EXCLUDE_URL_PARAMS ...]]</span>
+<span class="go">                 [--include-url-params [INCLUDE_URL_PARAMS ...]]</span>
+<span class="go">                 [--exclude-url-regex EXCLUDE_URL_REGEX]</span>
+<span class="go">                 [--include-url-regex INCLUDE_URL_REGEX]</span>
+<span class="go">                 [--css-selectors [CSS_SELECTORS ...]]</span>
+<span class="go">                 [--xpath-selectors [XPATH_SELECTORS ...]]</span>
+<span class="go">                 [--custom-settings [CUSTOM_SETTINGS ...]]</span>
+<span class="go">                 [url_list ...] output_file</span>
+</pre></div>
+</div>
+</section>
+<section id="id19">
+<h3><strong>Description</strong><a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<p>SEO crawler to extract and collect information from web pages.</p>
+<p><strong>Positional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>url_list</strong>: One or more URLs to crawl. Default: None.</p></li>
+<li><p><strong>output_file</strong>: Filepath where to save the output (.jl).</p></li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><p><strong>-h, --help</strong>: Show this help message and exit.</p></li>
+<li><p><strong>-l FOLLOW_LINKS, --follow-links FOLLOW_LINKS</strong>: Whether or not to follow links encountered on crawled pages. Default: 0.</p></li>
+<li><p><strong>-d [ALLOWED_DOMAINS ...], --allowed-domains [ALLOWED_DOMAINS ...]</strong>: Only follow links on these domains while crawling. Default: None.</p></li>
+<li><p><strong>--exclude-url-params [EXCLUDE_URL_PARAMS ...]</strong>: List of URL parameters to exclude while following links. If a link contains any of these parameters, it will not be followed. Default: None.</p></li>
+<li><p><strong>--include-url-params [INCLUDE_URL_PARAMS ...]</strong>: List of URL parameters to include while following links. If a link contains any of these parameters, it will be followed. Default: None.</p></li>
+<li><p><strong>--exclude-url-regex EXCLUDE_URL_REGEX</strong>: A regular expression pattern to exclude certain URLs from being followed. Default: None.</p></li>
+<li><p><strong>--include-url-regex INCLUDE_URL_REGEX</strong>: A regular expression pattern to include certain URLs to be followed. Default: None.</p></li>
+<li><p><strong>--css-selectors [CSS_SELECTORS ...]</strong>: A dictionary mapping column names to CSS selectors. The selectors will be used to extract the required data/content. Default: None.</p></li>
+<li><p><strong>--xpath-selectors [XPATH_SELECTORS ...]</strong>: A dictionary mapping column names to XPath selectors. The selectors will be used to extract the required data/content. Default: None.</p></li>
+<li><p><strong>--custom-settings [CUSTOM_SETTINGS ...]</strong>: Custom settings to modify the behavior of the crawler. Over 170 settings are available for configuration. See Scrapy documentation for details: <a class="reference external" href="https://docs.scrapy.org/en/latest/topics/settings.html">https://docs.scrapy.org/en/latest/topics/settings.html</a>. Default: None.</p></li>
+</ul>
+</section>
+<section id="id20">
+<h3><strong>Examples</strong><a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<p>Crawl a website starting from its homepage:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools crawl https://example.com example_output.jl --follow-links 1</span>
+</pre></div>
+</div>
+<p>Crawl a list of pages in list mode:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools crawl url_1 url_2 url_3 example_output.jl</span>
+</pre></div>
+</div>
+<p>If you have a long list of URLs in a file (url_list.txt):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools crawl &lt; url_list.txt example_output.jl</span>
+</pre></div>
+</div>
+<p>Stop crawling after processing 1,000 pages:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">advertools crawl https://example.com example_output.jl --follow-links 1 --custom-settings CLOSESPIDER_PAGECOUNT=1000</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="advertools.cli_docs.html" class="btn btn-neutral float-left" title="advertools.cli_docs package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.code_recipes.html" class="btn btn-neutral float-right" title="advertools.code_recipes package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Elias Dabbas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

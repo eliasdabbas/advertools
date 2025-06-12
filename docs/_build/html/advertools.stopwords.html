@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Lists of stopwords in various languages for use in text analysis and text mining." lang="en" name="description" xml:lang="en" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stopwords in Several Languages &mdash;  Python</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5c3816da"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+      <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Text Analysis" href="advertools.word_frequency.html" />
+    <link rel="prev" title="Extract structured entities from text lists" href="advertools.extract.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            advertools
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.survey.html">Survey - your feedback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.cli.cli.html">Command Line Interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.image_spider.html">Crawl images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Python Log File Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Stop Words</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#stopword-languages">Stopword Languages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.partition.html">Text Partitioning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Stopwords in Several Languages</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/advertools.stopwords.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="stopwords-in-several-languages">
+<span id="stopwords"></span><span id="module-advertools.stopwords"></span><h1>Stopwords in Several Languages<a class="headerlink" href="#stopwords-in-several-languages" title="Link to this heading"></a></h1>
+<p>List of stopwords by the spaCy <a class="footnote-reference brackets" href="#spacy" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> package, useful in text mining,
+analyzing content of social media posts, tweets, web pages, keywords, etc.</p>
+<p>Each list is accessible as part of a dictionary <code class="docutils literal notranslate"><span class="pre">stopwords</span></code> which is a normal
+Python dictionary.</p>
+<section id="stopword-languages">
+<h2>Stopword Languages<a class="headerlink" href="#stopword-languages" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Arabic</p></li>
+<li><p>Azerbaijani</p></li>
+<li><p>Bengali</p></li>
+<li><p>Catalan</p></li>
+<li><p>Chinese</p></li>
+<li><p>Croatian</p></li>
+<li><p>Danish</p></li>
+<li><p>Dutch</p></li>
+<li><p>English</p></li>
+<li><p>Finnish</p></li>
+<li><p>French</p></li>
+<li><p>German</p></li>
+<li><p>Greek</p></li>
+<li><p>Hebrew</p></li>
+<li><p>Hindi</p></li>
+<li><p>Hungarian</p></li>
+<li><p>Indonesian</p></li>
+<li><p>Irish</p></li>
+<li><p>Italian</p></li>
+<li><p>Japanese</p></li>
+<li><p>Kazakh</p></li>
+<li><p>Nepali</p></li>
+<li><p>Norwegian</p></li>
+<li><p>Persian</p></li>
+<li><p>Polish</p></li>
+<li><p>Portuguese</p></li>
+<li><p>Romanian</p></li>
+<li><p>Russian</p></li>
+<li><p>Sinhala</p></li>
+<li><p>Spanish</p></li>
+<li><p>Swedish</p></li>
+<li><p>Tagalog</p></li>
+<li><p>Tamil</p></li>
+<li><p>Tatar</p></li>
+<li><p>Telugu</p></li>
+<li><p>Thai</p></li>
+<li><p>Turkish</p></li>
+<li><p>Ukrainian</p></li>
+<li><p>Urdu</p></li>
+<li><p>Vietnamese</p></li>
+</ul>
+<p>You can easily explore the available languages and get (and optionally modify)
+the stopwords by accessing the dictionary as follows:</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">advertools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">adv</span>
+<span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dict_keys</span><span class="p">([</span><span class="s1">&#39;arabic&#39;</span><span class="p">,</span> <span class="s1">&#39;azerbaijani&#39;</span><span class="p">,</span> <span class="s1">&#39;bengali&#39;</span><span class="p">,</span> <span class="s1">&#39;catalan&#39;</span><span class="p">,</span> <span class="s1">&#39;chinese&#39;</span><span class="p">,</span>
+<span class="s1">&#39;croatian&#39;</span><span class="p">,</span> <span class="s1">&#39;danish&#39;</span><span class="p">,</span> <span class="s1">&#39;dutch&#39;</span><span class="p">,</span> <span class="s1">&#39;english&#39;</span><span class="p">,</span> <span class="s1">&#39;finnish&#39;</span><span class="p">,</span> <span class="s1">&#39;french&#39;</span><span class="p">,</span>
+<span class="s1">&#39;german&#39;</span><span class="p">,</span> <span class="s1">&#39;greek&#39;</span><span class="p">,</span> <span class="s1">&#39;hebrew&#39;</span><span class="p">,</span> <span class="s1">&#39;hindi&#39;</span><span class="p">,</span> <span class="s1">&#39;hungarian&#39;</span><span class="p">,</span> <span class="s1">&#39;indonesian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;irish&#39;</span><span class="p">,</span> <span class="s1">&#39;italian&#39;</span><span class="p">,</span> <span class="s1">&#39;japanese&#39;</span><span class="p">,</span> <span class="s1">&#39;kazakh&#39;</span><span class="p">,</span> <span class="s1">&#39;nepali&#39;</span><span class="p">,</span> <span class="s1">&#39;norwegian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;persian&#39;</span><span class="p">,</span> <span class="s1">&#39;polish&#39;</span><span class="p">,</span> <span class="s1">&#39;portuguese&#39;</span><span class="p">,</span> <span class="s1">&#39;romanian&#39;</span><span class="p">,</span> <span class="s1">&#39;russian&#39;</span><span class="p">,</span> <span class="s1">&#39;sinhala&#39;</span><span class="p">,</span>
+<span class="s1">&#39;spanish&#39;</span><span class="p">,</span> <span class="s1">&#39;swedish&#39;</span><span class="p">,</span> <span class="s1">&#39;tagalog&#39;</span><span class="p">,</span> <span class="s1">&#39;tamil&#39;</span><span class="p">,</span> <span class="s1">&#39;tatar&#39;</span><span class="p">,</span> <span class="s1">&#39;telugu&#39;</span><span class="p">,</span> <span class="s1">&#39;thai&#39;</span><span class="p">,</span>
+<span class="s1">&#39;turkish&#39;</span><span class="p">,</span> <span class="s1">&#39;ukrainian&#39;</span><span class="p">,</span> <span class="s1">&#39;urdu&#39;</span><span class="p">,</span> <span class="s1">&#39;vietnamese&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>You can also access the stopwords of a certain language:</p>
+<button title="Run this code" class="thebelab-button thebe-launch-button" onclick="initThebe()">Run this code</button><div class="thebe thebe-init highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;english&#39;</span><span class="p">])[:</span><span class="mi">5</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">adv</span><span class="o">.</span><span class="n">stopwords</span><span class="p">[</span><span class="s1">&#39;german&#39;</span><span class="p">])[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+<p class="rubric">Footnotes</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="spacy" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Copyright (C) 2016 ExplosionAI UG (haftungsbeschränkt), 2016 spaCy GmbH,
+2015 Matthew Honnibal</p>
+</aside>
+</aside>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="advertools.extract.html" class="btn btn-neutral float-left" title="Extract structured entities from text lists" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.word_frequency.html" class="btn btn-neutral float-right" title="Text Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Elias Dabbas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

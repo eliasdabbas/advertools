@@ -1,4 +1,4 @@
-"""
+r"""
 .. _serp:
 
 Import Search Engine Results Pages (SERPs) for Google and YouTube
@@ -81,8 +81,7 @@ else:
 import requests
 
 SERP_GOOG_LOG_FMT = (
-    "%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d "
-    "| %(funcName)s | %(message)s"
+    "%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d | %(funcName)s | %(message)s"
 )
 logging.basicConfig(format=SERP_GOOG_LOG_FMT)
 
@@ -2240,7 +2239,7 @@ def set_logging_level(level_or_name):
     ]
     if level_or_name not in lvl_names_values:
         raise ValueError(
-            "Please make sure you supply" " a value from: {}".format(lvl_names_values)
+            "Please make sure you supply a value from: {}".format(lvl_names_values)
         )
     logging.getLogger().setLevel(level_or_name)
 

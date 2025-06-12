@@ -149,14 +149,12 @@ def partition(text, regex, flags=0):
 
     Returns
     -------
-    list[str]
-        A list of strings, where elements are alternating parts of the
-        original string and the substrings matched by the regex.
-        - If `regex` does not match, the list contains `text` as its
-          only element.
-        - If matches occur at the beginning/end of `text`, or are
-          consecutive, empty strings may be included to represent
-          zero-length parts.
+    list[str] : A list of strings, where elements are alternating parts of the original
+                string and the substrings matched by the regex.
+    - If `regex` does not match, the list contains `text` as its
+      only element.
+    - If matches occur at the beginning/end of `text`, or are
+      consecutive, empty strings may be included to represent zero-length parts.
 
     Examples
     --------

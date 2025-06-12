@@ -1,0 +1,1096 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes &mdash;  Python</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5c3816da"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+      <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Crawling and Scraping Analysis" href="advertools.crawlytics.html" />
+    <link rel="prev" title="🕷 Python SEO Crawler / Spider" href="advertools.spider.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            advertools
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.survey.html">Survey - your feedback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.cli.cli.html">Command Line Interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Crawl Strategies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-crawl-a-list-of-pages-and-those-pages-only-list-mode">How to crawl a list of pages, and those pages only (list mode)?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-crawl-a-website-including-its-sub-domains">How can I crawl a website including its sub-domains?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-save-a-copy-of-the-logs-of-my-crawl-for-auditing-them-later">How can I save a copy of the logs of my crawl for auditing them later?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-automatically-stop-my-crawl-based-on-a-certain-condition">How can I automatically stop my crawl based on a certain condition?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-dis-obey-robots-txt-rules">How can I (dis)obey robots.txt rules?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-set-my-user-agent-while-crawling">How do I set my User-agent while crawling?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-control-the-number-of-concurrent-requests-while-crawling">How can I control the number of concurrent requests while crawling?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-slow-down-the-crawling-so-i-don-t-hit-the-websites-servers-too-hard">How can I slow down the crawling so I don't hit the websites' servers too hard?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-set-multiple-settings-to-the-same-crawl-job">How can I set multiple settings to the same crawl job?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i-want-to-crawl-a-list-of-pages-follow-links-from-those-pages-but-only-to-a-certain-specified-depth">I want to crawl a list of pages, follow links from those pages, but only to a certain specified depth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice">How do I pause/resume crawling, while making sure I don't crawl the same page twice?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-use-a-proxy-while-crawling">How do I use a proxy while crawling?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-change-the-default-request-headers">How can I change the default request headers?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xpath-expressions-for-custom-extraction">XPath expressions for custom extraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-agent-strings-for-use-in-crawling">User-agent strings for use in crawling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.image_spider.html">Crawl images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Python Log File Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.partition.html">Text Partitioning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/advertools.code_recipes.spider_strategies.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="seo-crawling-scraping-strategies-recipes">
+<span id="crawl-strategies"></span><span id="module-advertools.code_recipes.spider_strategies"></span><h1>🕷 SEO Crawling &amp; Scraping: Strategies &amp; Recipes<a class="headerlink" href="#seo-crawling-scraping-strategies-recipes" title="Link to this heading"></a></h1>
+<p>Once you have mastered the basics of using the <a class="reference internal" href="advertools.spider.html#crawl"><span class="std std-ref">crawl</span></a> function,
+you probably want to achieve more with better customization and control.</p>
+<p>These are some code strategies that might be useful to customize how you run
+your crawls.</p>
+<p>Most of these options can be set using the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter that
+the function takes. This can be set by using a dictionary, where the keys
+indicate the option you want to set, and the values specify how you want to set
+them.</p>
+<section id="how-to-crawl-a-list-of-pages-and-those-pages-only-list-mode">
+<h2>How to crawl a list of pages, and those pages only (list mode)?<a class="headerlink" href="#how-to-crawl-a-list-of-pages-and-those-pages-only-list-mode" title="Link to this heading"></a></h2>
+<p>Simply provide that list as the first argument, for the <code class="docutils literal notranslate"><span class="pre">url_list</span></code> parameter,
+and make sure that <code class="docutils literal notranslate"><span class="pre">follow_links=False</span></code>, which is the default. This simply
+crawls the given pages, and stops when done.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">advertools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">adv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://example.com/page_1&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s1">&#39;https://example.com/page_2&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s1">&#39;https://example.com/page_3&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s1">&#39;https://example.com/page_4&#39;</span><span class="p">]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="n">url_list</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">follow_links</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="how-can-i-crawl-a-website-including-its-sub-domains">
+<h2>How can I crawl a website including its sub-domains?<a class="headerlink" href="#how-can-i-crawl-a-website-including-its-sub-domains" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="advertools.spider.html#crawl"><span class="std std-ref">crawl</span></a> function takes an optional <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code>
+parameter. If not provided, it defaults to the domains of the URLs in
+<code class="docutils literal notranslate"><span class="pre">url_list</span></code>. When the crawler goes through the pages of <cite>example.com</cite>, it
+follows links to discover pages. If it finds pages on <cite>help.exmaple.com</cite> it
+won't crawl them (it's a different domain). The solution, therefore, is to
+provide a list of domains to the <code class="docutils literal notranslate"><span class="pre">allowed_domains</span></code> parameter. Make sure you
+also include the original domain, in this case <cite>example.com</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">follow_links</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span>          <span class="n">allowed_domains</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;help.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;community.example.com&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="how-can-i-save-a-copy-of-the-logs-of-my-crawl-for-auditing-them-later">
+<h2>How can I save a copy of the logs of my crawl for auditing them later?<a class="headerlink" href="#how-can-i-save-a-copy-of-the-logs-of-my-crawl-for-auditing-them-later" title="Link to this heading"></a></h2>
+<p>It's usually good to keep a copy of the logs of all your crawls to check for
+errors, exceptions, stats, etc.
+Pass a path of the file where you want the logs to be saved, in a dictionary to
+the <code class="docutils literal notranslate"><span class="pre">cutom_settings</span></code> parameter.
+A good practice for consistency is to give the same name to the <code class="docutils literal notranslate"><span class="pre">output_file</span></code>
+and log file (with a different extension) for easier retreival. For example:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">output_file</span></code>: 'website_name_crawl_1.jl'</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">LOG_FILE</span></code>: 'website_name_crawl_1.log' (.txt can also work)</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">output_file</span></code>: 'website_name_crawl_2.jl'</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">LOG_FILE</span></code>: 'website_name_crawl_2.log'</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;LOG_FILE&#39;</span><span class="p">:</span> <span class="s1">&#39;example_crawl_1.log&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="how-can-i-automatically-stop-my-crawl-based-on-a-certain-condition">
+<h2>How can I automatically stop my crawl based on a certain condition?<a class="headerlink" href="#how-can-i-automatically-stop-my-crawl-based-on-a-certain-condition" title="Link to this heading"></a></h2>
+<p>There are a few conditions that you can use to trigger the crawl to stop, and
+they mostly have descriptive names:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_ERRORCOUNT</span></code>: You don't want to wait three hours for a
+crawl to finish, only to discover that you had errors all over the place.
+Set a certain number of errors to trigger the crawler to stop, so you can
+investigate the issue.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_ITEMCOUNT</span></code>: Anything scraped from a page is an &quot;item&quot;, h1,
+title , meta_desc, etc. Set the crawler to stop after getting a certain
+number of items if you want that.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_PAGECOUNT</span></code>: Stop the crawler after a certain number of
+pages have been crawled. This is useful as an exploratory technique,
+especially with very large websites. It might be good to crawl a few
+thousand pages, get an idea on its structure, and then run a full crawl
+with those insights in mind.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CLOSESPIDER_TIMEOUT</span></code>: Stop the crawler after a certain number of
+seconds.</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;CLOSESPIDER_PAGECOUNT&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="how-can-i-dis-obey-robots-txt-rules">
+<h2>How can I (dis)obey robots.txt rules?<a class="headerlink" href="#how-can-i-dis-obey-robots-txt-rules" title="Link to this heading"></a></h2>
+<p>The crawler obeys robots.txt rules by default. Sometimes you might want to
+check the results of crawls without doing that. You can set the
+<code class="docutils literal notranslate"><span class="pre">ROBOTSTXT_OBEY</span></code> setting under <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ROBOTSTXT_OBEY&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="how-do-i-set-my-user-agent-while-crawling">
+<h2>How do I set my User-agent while crawling?<a class="headerlink" href="#how-do-i-set-my-user-agent-while-crawling" title="Link to this heading"></a></h2>
+<p>Set this parameter under <cite>custom_settings</cite> dictionary under the key
+<code class="docutils literal notranslate"><span class="pre">USER_AGENT</span></code>. The default User-agent can be found by running
+<cite>adv.spider.user_agent</cite></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">spider</span><span class="o">.</span><span class="n">user_agent</span> <span class="c1"># to get the current User-agent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;USER_AGENT&#39;</span><span class="p">:</span> <span class="s1">&#39;YOUR_USER_AGENT&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="how-can-i-control-the-number-of-concurrent-requests-while-crawling">
+<h2>How can I control the number of concurrent requests while crawling?<a class="headerlink" href="#how-can-i-control-the-number-of-concurrent-requests-while-crawling" title="Link to this heading"></a></h2>
+<p>Some servers are set for high sensitivity to automated and/or concurrent
+requests, that you can quickly be blocked/banned. You also want to be polite
+and not kill those servers, don't you?</p>
+<p>There are several ways to set that under the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter.
+The available keys are the following:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">CONCURRENT_ITEMS</span></code>: default 100</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">CONCURRENT_REQUESTS</span></code> : default 16</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">CONCURRENT_REQUESTS_PER_DOMAIN</span></code>: default 8</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">CONCURRENT_REQUESTS_PER_IP</span></code>: default 0</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;CONCURRENT_REQUESTS_PER_DOMAIN&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="how-can-i-slow-down-the-crawling-so-i-don-t-hit-the-websites-servers-too-hard">
+<h2>How can I slow down the crawling so I don't hit the websites' servers too hard?<a class="headerlink" href="#how-can-i-slow-down-the-crawling-so-i-don-t-hit-the-websites-servers-too-hard" title="Link to this heading"></a></h2>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">DOWNLOAD_DELAY</span></code> setting and set the interval to be waited before
+downloading consecutive pages from the same website (in seconds).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;DOWNLOAD_DELAY&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span> <span class="c1"># wait 3 seconds between pages</span>
+</pre></div>
+</div>
+</section>
+<section id="how-can-i-set-multiple-settings-to-the-same-crawl-job">
+<h2>How can I set multiple settings to the same crawl job?<a class="headerlink" href="#how-can-i-set-multiple-settings-to-the-same-crawl-job" title="Link to this heading"></a></h2>
+<p>Simply add multiple settings to the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;CLOSESPIDER_PAGECOUNT&#39;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="s1">&#39;CONCURRENT_ITEMS&#39;</span><span class="p">:</span> <span class="mi">75</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="s1">&#39;LOG_FILE&#39;</span><span class="p">:</span> <span class="s1">&#39;output_file.log&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="i-want-to-crawl-a-list-of-pages-follow-links-from-those-pages-but-only-to-a-certain-specified-depth">
+<h2>I want to crawl a list of pages, follow links from those pages, but only to a certain specified depth<a class="headerlink" href="#i-want-to-crawl-a-list-of-pages-follow-links-from-those-pages-but-only-to-a-certain-specified-depth" title="Link to this heading"></a></h2>
+<p>Set the <code class="docutils literal notranslate"><span class="pre">DEPTH_LIMIT</span></code> setting in the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> parameter. A setting
+of 1 would follow links one level after the provided URLs in <code class="docutils literal notranslate"><span class="pre">url_list</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;http://example.com&quot;</span><span class="p">,</span> <span class="s2">&quot;example_crawl_1.jl&quot;</span><span class="p">,</span> <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;DEPTH_LIMIT&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>  <span class="c1"># follow links two levels from the initial URLs, then stop</span>
+</pre></div>
+</div>
+</section>
+<section id="how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice">
+<h2>How do I pause/resume crawling, while making sure I don't crawl the same page twice?<a class="headerlink" href="#how-do-i-pause-resume-crawling-while-making-sure-i-don-t-crawl-the-same-page-twice" title="Link to this heading"></a></h2>
+<p>There are several reasons why you might want to do this:</p>
+<ul class="simple">
+<li><p>You want to mainly crawl the updates to the site (you already crawled the site).</p></li>
+<li><p>The site is very big, and can't be crawled quickly.</p></li>
+<li><p>You are not in a hurry, and you also don't want to hit the servers hard, so
+you run your crawl across days for example.</p></li>
+<li><p>As an emergency measure (connection lost, battery died, etc.) you can start
+where you left off</p></li>
+</ul>
+<p>Handling this is extremely simple, and all you have to do is simply provide a
+path to a new folder. Make sure it is new and empty, and make sure to only use
+it for the same crawl job reruns. That's all you have to worry about. The
+<code class="docutils literal notranslate"><span class="pre">JOBDIR</span></code> setting handles this.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="s1">&#39;example_crawl_1.jl&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;JOBDIR&#39;</span><span class="p">:</span> <span class="s1">&#39;/Path/to/en/empty/folder&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The first time you run the above code and then stop it. Stopping can happen by
+accident (lost connection, closed computer, etc.), manually (you hit ctrl+C) or
+you used a custom setting option to stop the crawl after a certain number of
+pages, seconds, etc.</p>
+<p>The second time you want to run this, you simply run the exact same command
+again. If you check the folder that was created you can see a few files that
+manage the process. You don't need to worry about any of it. But make sure that
+folder doesn't get changed manually, rerun the same command as many times as
+you need, and the crawler should handle de-duplication for you.</p>
+</section>
+<section id="how-do-i-use-a-proxy-while-crawling">
+<h2>How do I use a proxy while crawling?<a class="headerlink" href="#how-do-i-use-a-proxy-while-crawling" title="Link to this heading"></a></h2>
+<p>This requires the following simple steps:</p>
+<ul class="simple">
+<li><p>Install the 3rd party package <a class="reference external" href="https://github.com/TeamHG-Memex/scrapy-rotating-proxies">scrapy-rotating-proxies</a>. This package handles
+the proxy rotation for you, in addition to retries, so you don't need to
+worry about those details.</p></li>
+<li><p>Get a list of proxies and save in a text file, one proxy per line</p></li>
+<li><p>Set a few <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> in the crawl function
+(<code class="docutils literal notranslate"><span class="pre">DOWNLOADER_MIDDLEWARES</span></code> and <code class="docutils literal notranslate"><span class="pre">ROTATING_PROXY_LIST_PATH</span></code>)</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>scrapy-rotating-proxies
+</pre></div>
+</div>
+<p>Save a list of proxies in a text file with the template:</p>
+<p><a class="reference external" href="https://username:password&#64;IPADDRESS:PORT">https://username:password&#64;IPADDRESS:PORT</a></p>
+<p>proxies.txt example file (randome values):</p>
+<p><a class="reference external" href="https://user123:password123&#64;12.34.56.78:1111">https://user123:password123&#64;12.34.56.78:1111</a>
+<a class="reference external" href="https://user123:password123&#64;12.34.56.78:1112">https://user123:password123&#64;12.34.56.78:1112</a>
+<a class="reference external" href="https://user123:password123&#64;12.34.56.78:1113">https://user123:password123&#64;12.34.56.78:1113</a>
+<a class="reference external" href="https://user123:password123&#64;12.34.56.78:1114">https://user123:password123&#64;12.34.56.78:1114</a></p>
+<p>Then, you need to set a few <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code> in the crawl function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span>
+    <span class="s2">&quot;https://example.com&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span>
+    <span class="n">follow_links</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;DOWNLOADER_MIDDLEWARES&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;rotating_proxies.middlewares.RotatingProxyMiddleware&quot;</span><span class="p">:</span> <span class="mi">610</span><span class="p">,</span>
+            <span class="s2">&quot;rotating_proxies.middlewares.BanDetectionMiddleware&quot;</span><span class="p">:</span> <span class="mi">620</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;ROTATING_PROXY_LIST_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;proxies.txt&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then read the output file normally and see that the proxies are being
+used:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;output_file.jl&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">crawldf</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">&quot;proxy&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>proxy</p></th>
+<th class="head"><p>_rotating_proxy</p></th>
+<th class="head"><p>request_headers_proxy-authorization</p></th>
+<th class="head"><p>proxy_retry_times</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><a class="reference external" href="https://123.456.789.101:8893">https://123.456.789.101:8893</a></p></td>
+<td><p>1</p></td>
+<td><p>Basic b3VzY214dHg6ODlld29rMGRsdfgt</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><a class="reference external" href="https://123.456.789.101:8894">https://123.456.789.101:8894</a></p></td>
+<td><p>1</p></td>
+<td><p>Basic b3VzY214dHg6ODlld29rMGRsdfgt</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference external" href="https://123.456.789.101:8895">https://123.456.789.101:8895</a></p></td>
+<td><p>1</p></td>
+<td><p>Basic b3VzY214dHg6ODlld29rMGRsdfgt</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><a class="reference external" href="https://123.456.789.101:8896">https://123.456.789.101:8896</a></p></td>
+<td><p>1</p></td>
+<td><p>Basic b3VzY214dHg6ODlld29rMGRsdfgt</p></td>
+<td><p>nan</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><a class="reference external" href="https://123.456.789.101:8897">https://123.456.789.101:8897</a></p></td>
+<td><p>1</p></td>
+<td><p>Basic b3VzY214dHg6ODlld29rMGRsdfgt</p></td>
+<td><p>nan</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="how-can-i-change-the-default-request-headers">
+<h2>How can I change the default request headers?<a class="headerlink" href="#how-can-i-change-the-default-request-headers" title="Link to this heading"></a></h2>
+<p>This is a very common use case, and it is very easy to do. Simply add the
+<code class="docutils literal notranslate"><span class="pre">DEFAULT_REQUEST_HEADERS</span></code> setting as a dictionary to the <code class="docutils literal notranslate"><span class="pre">custom_settings</span></code>
+parameter:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adv</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span>
+    <span class="n">url_list</span><span class="o">=</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">,</span>
+    <span class="n">output_file</span><span class="o">=</span><span class="s2">&quot;output.jl&quot;</span><span class="p">,</span>
+    <span class="n">custom_settings</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;DEFAULT_REQUEST_HEADERS&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Accept-Language&quot;</span><span class="p">:</span> <span class="s2">&quot;es&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Accept-Encoding&quot;</span><span class="p">:</span> <span class="s2">&quot;gzip, deflate&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>You can easily check for the actual request headers that were used while
+crawling. In the crawl DataFrame, simply use the regex pattern
+<code class="docutils literal notranslate"><span class="pre">request_headers_</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">crawldf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;output.jl&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">crawldf</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">&quot;request_headers_&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>request_headers_accept-language</p></th>
+<th class="head"><p>request_headers_accept-encoding</p></th>
+<th class="head"><p>request_headers_user-agent</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>es</p></td>
+<td><p>gzip, deflate</p></td>
+<td><p>advertools/0.13.2</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xpath-expressions-for-custom-extraction">
+<h2>XPath expressions for custom extraction<a class="headerlink" href="#xpath-expressions-for-custom-extraction" title="Link to this heading"></a></h2>
+<p>The following are some expressions you might find useful in your crawling,
+whether you use <code class="docutils literal notranslate"><span class="pre">advertools</span></code> or not. The first column indicates whether or
+not the respective expression is used by default by the <code class="docutils literal notranslate"><span class="pre">advertools</span></code> crawler.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Used by advertools</p></th>
+<th class="head"><p>Suggested Name</p></th>
+<th class="head"><p>XPath Expression</p></th>
+<th class="head"><p>What it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>title</p></td>
+<td><p>//title/text()</p></td>
+<td><p>Extract the text of title tags</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>meta_desc</p></td>
+<td><p>//meta[&#64;name='description']/&#64;content</p></td>
+<td><p>Extract the content attribute of the meta tag which has the name 'description'</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>viewport</p></td>
+<td><p>//meta[&#64;name='viewport']/&#64;content</p></td>
+<td><p>Extract the content attribute of the meta tag which has the name 'viewport</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>charset</p></td>
+<td><p>//meta[&#64;charset]/&#64;charset</p></td>
+<td><p>Get the meta tag that has the attribute 'charset', extract the charset attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>h1</p></td>
+<td><p>//h1/text()</p></td>
+<td><p>Get the h1 tags, extract their text</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>h2</p></td>
+<td><p>//h2/text()</p></td>
+<td><p>Get the h2 tags, extract their text</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>h3</p></td>
+<td><p>//h3/text()</p></td>
+<td><p>Get the h3 tags, extract their text</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>h4</p></td>
+<td><p>//h4/text()</p></td>
+<td><p>Get the h4 tags, extract their text</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>h5</p></td>
+<td><p>//h5/text()</p></td>
+<td><p>Get the h5 tags, extract their text</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>h6</p></td>
+<td><p>//h6/text()</p></td>
+<td><p>Get the h6 tags, extract their text</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>canonical</p></td>
+<td><p>//link[&#64;rel='canonical']/&#64;href</p></td>
+<td><p>Get the link elements with the rel attribute 'canonical', extract their href attributes</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>alt_href</p></td>
+<td><p>//link[&#64;rel='alternate']/&#64;href</p></td>
+<td><p>Get the link elements with the rel attribute 'alternate', extract their href attributes</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>alt_hreflang</p></td>
+<td><p>//link[&#64;rel='alternate']/&#64;hreflang</p></td>
+<td><p>Get the link elements with the rel attribute 'alternate', extract their hreflang attributes</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>og_props</p></td>
+<td><p>//meta[starts-with(&#64;property, 'og:')]/&#64;property</p></td>
+<td><p>Extract all properties of meta tags whos property attribute starts with 'og:' (OpenGraph)</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>og_content</p></td>
+<td><p>//meta[starts-with(&#64;property, 'og:')]/&#64;content</p></td>
+<td><p>Extract the content of meta tags whos property attribute starts with 'og:' (OpenGraph)</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>twtr_names</p></td>
+<td><p>//meta[starts-with(&#64;name, 'twitter:')]/&#64;name</p></td>
+<td><p>Get meta tags who's name starts with 'twitter:' and extract their name attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>twtr_content</p></td>
+<td><p>//meta[starts-with(&#64;name, 'twitter:')]/&#64;content</p></td>
+<td><p>Get meta tags who's name starts with 'twitter:' and extract their content attribute</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>iframe_src</p></td>
+<td><p><a class="reference external" href="mailto://iframe/&#37;&#52;&#48;src">//iframe/<span>&#64;</span>src</a></p></td>
+<td><p>Get the iframes, and extract their src attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>False</p></td>
+<td><p>gtm_script</p></td>
+<td><p>//script[contains(&#64;src, 'googletagmanager.com/gtm.js?id=')]/&#64;src</p></td>
+<td><p>Get the script where the src attribute contains googletagmanager.com/gtm.js?id= and extract its src attribute</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>gtm_noscript</p></td>
+<td><p>//iframe[contains(&#64;src, 'googletagmanager.com/ns.html?id=')]/&#64;src</p></td>
+<td><p>Get the iframes where the src attribute contains googletagmanager.com/ns.html?id= and extract the src attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>False</p></td>
+<td><p>link_rel_rel</p></td>
+<td><p>//link[&#64;rel]/&#64;rel</p></td>
+<td><p>Get all the link elements that have a rel attribute, extract the rel attributes</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>link_rel_href</p></td>
+<td><p>//link[&#64;rel]/&#64;href</p></td>
+<td><p>Get all the link elements that have a rel attribute, extract the href attributes</p></td>
+</tr>
+<tr class="row-even"><td><p>False</p></td>
+<td><p>link_rel_stylesheet</p></td>
+<td><p>//link[&#64;rel='stylesheet']/&#64;href</p></td>
+<td><p>Get all the link elements that have a stylesheet attribute, extract their href attribute</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>css_links</p></td>
+<td><p>//link[contains(&#64;href, '.css')]/&#64;href</p></td>
+<td><p>Get the link elements where the href attribute contains .css, extract their href attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>nav_links_text</p></td>
+<td><p>//nav//a/text()</p></td>
+<td><p>From the nav element, extract the anchor text of links</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>nav_links_href</p></td>
+<td><p><a class="reference external" href="mailto://nav//a/&#37;&#52;&#48;href">//nav//a/<span>&#64;</span>href</a></p></td>
+<td><p>From the nav element, extract all the links</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>header_links_text</p></td>
+<td><p>//header//a/text()</p></td>
+<td><p>From the header, extract the anchor text of links</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>header_links_href</p></td>
+<td><p><a class="reference external" href="mailto://header//a/&#37;&#52;&#48;href">//header//a/<span>&#64;</span>href</a></p></td>
+<td><p>From the header, extract all the links</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>footer_links_text</p></td>
+<td><p>//footer//a/text()</p></td>
+<td><p>From the footer, extract the anchor text of links</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>footer_links_href</p></td>
+<td><p><a class="reference external" href="mailto://footer//a/&#37;&#52;&#48;href">//footer//a/<span>&#64;</span>href</a></p></td>
+<td><p>From the footer, extract all the links</p></td>
+</tr>
+<tr class="row-even"><td><p>False</p></td>
+<td><p>js_script_src</p></td>
+<td><p>//script[&#64;type='text/javascript']/&#64;src</p></td>
+<td><p>From script tags where the type is text/javascript, extract the src of the script(s)</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>js_script_text</p></td>
+<td><p>//script[&#64;type='text/javascript']/text()</p></td>
+<td><p>From script tags where the type is text/javascript, extract the text of the script(s)</p></td>
+</tr>
+<tr class="row-even"><td><p>False</p></td>
+<td><p>script_src</p></td>
+<td><p><a class="reference external" href="mailto://script//&#37;&#52;&#48;src">//script//<span>&#64;</span>src</a></p></td>
+<td><p>Get the src attribute of any &lt;script&gt; tag</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>canonical_parent</p></td>
+<td><p>name(//link[&#64;rel='canonical']/..)</p></td>
+<td><p>Get the name of the parent of the link element that has a rel attribute 'canonical'</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="user-agent-strings-for-use-in-crawling">
+<h2>User-agent strings for use in crawling<a class="headerlink" href="#user-agent-strings-for-use-in-crawling" title="Link to this heading"></a></h2>
+<p>A simple collection of some of the popular user-agents in case you need to test while
+crawling:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>User agent string</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Amazon 4K Fire TV</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 5.1; AFTS Build/LMY47O) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/41.99900.2250.0242 Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Amazon AFTWMST22</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 9; AFTWMST22 Build/PS7233; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/88.0.4324.152 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Amazon Kindle 3</p></td>
+<td><p>Mozilla/5.0 (Linux; U; en-US) AppleWebKit/528.5+ (KHTML, like Gecko, Safari/528.5+) Version/4.0 Kindle/3.0 (screen 600x800; rotate)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Amazon Kindle 4</p></td>
+<td><p>Mozilla/5.0 (X11; U; Linux armv7l like Android; en-us) AppleWebKit/531.2+ (KHTML, like Gecko) Version/5.0 Safari/533.2+ Kindle/3.0+</p></td>
+</tr>
+<tr class="row-even"><td><p>Amazon Kindle Fire HDX 7</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 4.4.3; KFTHWI Build/KTU84M) AppleWebKit/537.36 (KHTML, like Gecko) Silk/47.1.79 like Chrome/47.0.2526.80 Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apple TV 4th Gen</p></td>
+<td><p>AppleTV5,3/9.1.1</p></td>
+</tr>
+<tr class="row-even"><td><p>Apple TV 5th Gen 4K</p></td>
+<td><p>AppleTV6,2/11.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apple TV 6th Gen 4K</p></td>
+<td><p>AppleTV11,1/11.1</p></td>
+</tr>
+<tr class="row-even"><td><p>Apple iPhone 11</p></td>
+<td><p>Mozilla/5.0 (iPhone12,1; U; CPU iPhone OS 13_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/15E148 Safari/602.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apple iPhone 12</p></td>
+<td><p>Mozilla/5.0 (iPhone13,2; U; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/15E148 Safari/602.1</p></td>
+</tr>
+<tr class="row-even"><td><p>Apple iPhone 13 Pro Max</p></td>
+<td><p>Mozilla/5.0 (iPhone14,3; U; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/19A346 Safari/602.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apple iPhone 6</p></td>
+<td><p>Mozilla/5.0 (Apple-iPhone7C2/1202.466; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543 Safari/419.3</p></td>
+</tr>
+<tr class="row-even"><td><p>Apple iPhone 7</p></td>
+<td><p>Mozilla/5.0 (iPhone9,3; U; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apple iPhone 7 Plus</p></td>
+<td><p>Mozilla/5.0 (iPhone9,4; U; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1</p></td>
+</tr>
+<tr class="row-even"><td><p>Apple iPhone 8</p></td>
+<td><p>Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) Version/11.0 Mobile/15A5341f Safari/604.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apple iPhone 8 Plus</p></td>
+<td><p>Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A5370a Safari/604.1</p></td>
+</tr>
+<tr class="row-even"><td><p>Apple iPhone SE (3rd generation)</p></td>
+<td><p>Mozilla/5.0 (iPhone14,6; U; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/19E241 Safari/602.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apple iPhone X</p></td>
+<td><p>Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1</p></td>
+</tr>
+<tr class="row-even"><td><p>Apple iPhone XR (Safari)</p></td>
+<td><p>Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apple iPhone XS (Chrome)</p></td>
+<td><p>Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/69.0.3497.105 Mobile/15E148 Safari/605.1</p></td>
+</tr>
+<tr class="row-even"><td><p>Apple iPhone XS Max (Firefox)</p></td>
+<td><p>Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/13.2b11866 Mobile/16A366 Safari/605.1.15</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bing bot</p></td>
+<td><p>Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)</p></td>
+</tr>
+<tr class="row-even"><td><p>Chrome OS-based laptop using Chrome browser (Chromebook)</p></td>
+<td><p>Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Chromecast</p></td>
+<td><p>Mozilla/5.0 (CrKey armv7l 1.5.16041) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.0 Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Google ADT-2</p></td>
+<td><p>Dalvik/2.1.0 (Linux; U; Android 9; ADT-2 Build/PTT5.181126.002)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google Nexus Player</p></td>
+<td><p>Dalvik/2.1.0 (Linux; U; Android 6.0.1; Nexus Player Build/MMB29T)</p></td>
+</tr>
+<tr class="row-even"><td><p>Google Pixel</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 7.1.1; Google Pixel Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/54.0.2840.85 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google Pixel 2</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 Build/OPD1.170811.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Google Pixel 3</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 10; Google Pixel 4 Build/QD1A.190821.014.C2; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.108 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google Pixel 4</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 10; Google Pixel 4 Build/QD1A.190821.014.C2; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.108 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Google Pixel 5</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 11; Pixel 5 Build/RQ3A.210805.001.A1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/92.0.4515.159 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google Pixel 6</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 12; Pixel 6 Build/SD1A.210817.023; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/94.0.4606.71 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Google Pixel C</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 7.0; Pixel C Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/52.0.2743.98 Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google bot</p></td>
+<td><p>Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)</p></td>
+</tr>
+<tr class="row-even"><td><p>HTC Desire 21 Pro 5G</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 10; HTC Desire 21 pro 5G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.127 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>HTC One M9</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0; HTC One M9 Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.3</p></td>
+</tr>
+<tr class="row-even"><td><p>HTC One X10</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0; HTC One X10 Build/MRA58K; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.98 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>HTC U20 5G</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 10; Wildfire U20 5G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.136 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>LG G Pad 7.0</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 5.0.2; LG-V410/V41020c Build/LRX22G) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/34.0.1847.118 Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lenovo Yoga Tab 11</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 11; Lenovo YT-J706X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Linux-based PC using a Firefox browser</p></td>
+<td><p>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mac OS X-based computer using a Safari browser</p></td>
+<td><p>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9</p></td>
+</tr>
+<tr class="row-even"><td><p>Microsoft Lumia 550</p></td>
+<td><p>Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; Microsoft; RM-1127_16056) AppleWebKit/537.36(KHTML, like Gecko) Chrome/42.0.2311.135 Mobile Safari/537.36 Edge/12.10536</p></td>
+</tr>
+<tr class="row-odd"><td><p>Microsoft Lumia 650</p></td>
+<td><p>Mozilla/5.0 (Windows Phone 10.0; Android 6.0.1; Microsoft; RM-1152) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Mobile Safari/537.36 Edge/15.15254</p></td>
+</tr>
+<tr class="row-even"><td><p>Microsoft Lumia 950</p></td>
+<td><p>Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; Microsoft; Lumia 950) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Mobile Safari/537.36 Edge/13.1058</p></td>
+</tr>
+<tr class="row-odd"><td><p>Minix NEO X5</p></td>
+<td><p>Mozilla/5.0 (Linux; U; Android 4.2.2; he-il; NEO-X5-116A Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30</p></td>
+</tr>
+<tr class="row-even"><td><p>Nexus 6P</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0.1; Nexus 6P Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.83 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nintendo 3DS</p></td>
+<td><p>Mozilla/5.0 (Nintendo 3DS; U; ; en) Version/1.7412.EU</p></td>
+</tr>
+<tr class="row-even"><td><p>Nintendo Switch</p></td>
+<td><p>Mozilla/5.0 (Nintendo Switch; WifiWebAuthApplet) AppleWebKit/601.6 (KHTML, like Gecko) NF/4.0.0.5.10 NintendoBrowser/5.1.0.13343</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nintendo Wii U</p></td>
+<td><p>Mozilla/5.0 (Nintendo WiiU) AppleWebKit/536.30 (KHTML, like Gecko) NX/3.0.4.2.12 NintendoBrowser/4.3.1.11264.US</p></td>
+</tr>
+<tr class="row-even"><td><p>Nvidia Shield Tablet K1</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0.1; SHIELD Tablet K1 Build/MRA58K; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.91 Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Playstation 4</p></td>
+<td><p>Mozilla/5.0 (PlayStation 4 3.11) AppleWebKit/537.73 (KHTML, like Gecko)</p></td>
+</tr>
+<tr class="row-even"><td><p>Playstation 5</p></td>
+<td><p>Mozilla/5.0 (PlayStation; PlayStation 5/2.26) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0 Safari/605.1.15</p></td>
+</tr>
+<tr class="row-odd"><td><p>Playstation Vita</p></td>
+<td><p>Mozilla/5.0 (PlayStation Vita 3.61) AppleWebKit/537.73 (KHTML, like Gecko) Silk/3.2</p></td>
+</tr>
+<tr class="row-even"><td><p>Roku Ultra</p></td>
+<td><p>Roku4640X/DVP-7.70 (297.70E04154A)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung Galaxy S10</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 9; SM-G973U Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Samsung Galaxy S20</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 10; SM-G980F Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.96 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung Galaxy S21</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 10; SM-G996U Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Samsung Galaxy S22</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 12; SM-S906N Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/80.0.3987.119 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung Galaxy S6</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0.1; SM-G920V Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Samsung Galaxy S6 Edge Plus</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 5.1.1; SM-G928X Build/LMY47X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.83 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung Galaxy S7</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 7.0; SM-G930VC Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.83 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Samsung Galaxy S7 Edge</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0.1; SM-G935S Build/MMB29K; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.91 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung Galaxy S8</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 7.0; SM-G892A Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/60.0.3112.107 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Samsung Galaxy S9</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung Galaxy Tab A</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 5.0.2; SAMSUNG SM-T550 Build/LRX22G) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/3.3 Chrome/38.0.2125.102 Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Samsung Galaxy Tab S3</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 7.0; SM-T827R4 Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.116 Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung Galaxy Tab S8 Ultra</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 12; SM-X906C Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/80.0.3987.119 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Sony Xperia 1</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 9; J8110 Build/55.0.A.0.552; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/71.0.3578.99 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sony Xperia XZ</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 7.1.1; G8231 Build/41.2.A.0.219; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Sony Xperia Z4 Tablet</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0.1; SGP771 Build/32.2.A.0.253; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/52.0.2743.98 Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sony Xperia Z5</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0.1; E6653 Build/32.2.A.0.253) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Windows 10-based PC using Edge browser</p></td>
+<td><p>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246</p></td>
+</tr>
+<tr class="row-odd"><td><p>Windows 7-based PC using a Chrome browser</p></td>
+<td><p>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Xbox One</p></td>
+<td><p>Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; Xbox; Xbox One) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Mobile Safari/537.36 Edge/13.10586</p></td>
+</tr>
+<tr class="row-odd"><td><p>Xbox One S</p></td>
+<td><p>Mozilla/5.0 (Windows NT 10.0; Win64; x64; XBOX_ONE_ED) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393</p></td>
+</tr>
+<tr class="row-even"><td><p>Xbox Series X</p></td>
+<td><p>Mozilla/5.0 (Windows NT 10.0; Win64; x64; Xbox; Xbox Series X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.82 Safari/537.36 Edge/20.02</p></td>
+</tr>
+<tr class="row-odd"><td><p>Yahoo! bot</p></td>
+<td><p>Mozilla/5.0 (compatible; Yahoo! Slurp; <a class="reference external" href="http://help.yahoo.com/help/us/ysearch/slurp">http://help.yahoo.com/help/us/ysearch/slurp</a>)</p></td>
+</tr>
+<tr class="row-even"><td><p>Googlebot Smartphone</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Googlebot Desktop</p></td>
+<td><p>Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Chrome/W.X.Y.Z Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Googlebot-Image</p></td>
+<td><p>Googlebot-Image/1.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Googlebot-News</p></td>
+<td><p>Googlebot-News</p></td>
+</tr>
+<tr class="row-even"><td><p>Googlebot-Video</p></td>
+<td><p>Googlebot-Video/1.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Storebot-Google Desktop</p></td>
+<td><p>Mozilla/5.0 (X11; Linux x86_64; Storebot-Google/1.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Safari/537.36</p></td>
+</tr>
+<tr class="row-even"><td><p>Storebot-Google Smartphone</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012; Storebot-Google/1.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google-InspectionTool Mobile</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 (compatible; Google-InspectionTool/1.0;)</p></td>
+</tr>
+<tr class="row-even"><td><p>Google-InspectionTool Desktop</p></td>
+<td><p>Mozilla/5.0 (compatible; Google-InspectionTool/1.0;)</p></td>
+</tr>
+<tr class="row-odd"><td><p>GoogleOther</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 (compatible; GoogleOther)</p></td>
+</tr>
+<tr class="row-even"><td><p>GoogleOther-Image</p></td>
+<td><p>GoogleOther-Image/1.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>GoogleOther-Video</p></td>
+<td><p>GoogleOther-Video/1.0</p></td>
+</tr>
+<tr class="row-even"><td><p>APIs-Google</p></td>
+<td><p>APIs-Google (+https://developers.google.com/webmasters/APIs-Google.html)</p></td>
+</tr>
+<tr class="row-odd"><td><p>AdsBot-Google-Mobile</p></td>
+<td><p>Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 (compatible; AdsBot-Google-Mobile; +http://www.google.com/mobile/adsbot.html)</p></td>
+</tr>
+<tr class="row-even"><td><p>AdsBot-Google</p></td>
+<td><p>AdsBot-Google (+http://www.google.com/adsbot.html)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mediapartners-Google</p></td>
+<td><p>Mediapartners-Google</p></td>
+</tr>
+<tr class="row-even"><td><p>Google-Safety</p></td>
+<td><p>Google-Safety</p></td>
+</tr>
+<tr class="row-odd"><td><p>FeedFetcher-Google</p></td>
+<td><p>FeedFetcher-Google; (+http://www.google.com/feedfetcher.html)</p></td>
+</tr>
+<tr class="row-even"><td><p>Google Publisher Center</p></td>
+<td><p>GoogleProducer; (+http://goo.gl/7y4SX)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google Site Verifier</p></td>
+<td><p>Mozilla/5.0 (compatible; Google-Site-Verification/1.0)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How to crawl a list of pages, and those pages only (list mode)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Simply provide that list as the first argument, for the url_list parameter, and make sure that follow_links=False, which is the default. This simply crawls the given pages, and stops when done."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I crawl a website including its sub-domains?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The crawl function takes an optional allowed_domains parameter. If not provided, it defaults to the domains of the URLs in url_list. When the crawler goes through the pages of example.com, it follows links to discover pages. If it finds pages on help.exmaple.com it won’t crawl them (it’s a different domain). The solution, therefore, is to provide a list of domains to the allowed_domains parameter. Make sure you also include the original domain, in this case example.com."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I save a copy of the logs of my crawl for auditing them later?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It’s usually good to keep a copy of the logs of all your crawls to check for errors, exceptions, stats, etc. Pass a path of the file where you want the logs to be saved, in a dictionary to the cutom_settings parameter. A good practice for consistency is to give the same name to the output_file and log file (with a different extension) for easier retreival."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I automatically stop my crawl based on a certain condition?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There are a few conditions that you can use to trigger the crawl to stop, and they mostly have descriptive names:\n\nCLOSESPIDER_ERRORCOUNT: You don’t want to wait three hours for a crawl to finish, only to discover that you had errors all over the place. Set a certain number of errors to trigger the crawler to stop, so you can investigate the issue.\n\nCLOSESPIDER_ITEMCOUNT: Anything scraped from a page is an “item”, h1, title , meta_desc, etc. Set the crawler to stop after getting a certain number of items if you want that.\n\nCLOSESPIDER_PAGECOUNT: Stop the crawler after a certain number of pages have been crawled. This is useful as an exploratory technique, especially with very large websites. It might be good to crawl a few thousand pages, get an idea on its structure, and then run a full crawl with those insights in mind.\n\nCLOSESPIDER_TIMEOUT: Stop the crawler after a certain number of seconds."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I (dis)obey robots.txt rules?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The crawler obeys robots.txt rules by default. Sometimes you might want to check the results of crawls without doing that. You can set the ROBOTSTXT_OBEY setting under custom_settings"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I set my User-agent while crawling?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Set this parameter under custom_settings dictionary under the key USER_AGENT. The default User-agent can be found by running adv.spider.user_agent"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I control the number of concurrent requests while crawling?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Some servers are set for high sensitivity to automated and/or concurrent requests, that you can quickly be blocked/banned. You also want to be polite and not kill those servers, don’t you?\n\nThere are several ways to set that under the custom_settings parameter. The available keys are the following:\n\nCONCURRENT_ITEMS: default 100\nCONCURRENT_REQUESTS : default 16\nCONCURRENT_REQUESTS_PER_DOMAIN: default 8\nCONCURRENT_REQUESTS_PER_IP: default 0"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I slow down the crawling so I don’t hit the websites’ servers too hard?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the DOWNLOAD_DELAY setting and set the interval to be waited before downloading consecutive page from the same website (in seconds)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I set multiple settings to the same crawl job?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Simply add multiple settings to the custom_settings parameter."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "I want to crawl a list of pages, follow links from those pages, but only to a certain specified depth",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Set the DEPTH_LIMIT setting in the custom_settings parameter. A setting of 1 would follow links one level after the provided URLs in url_list"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I pause/resume crawling, while making sure I don’t crawl the same page twice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Handling this is extremely simple, and all you have to do is simply provide a path to a new folder. Make sure it is new and empty, and make sure to only use it for the same crawl job reruns. That’s all you have to worry about. The JOBDIR setting handles this."
+      }
+    }
+  ]
+}
+</script>
+<!--FAQPage Code Generated by https://saijogeorge.com/json-ld-schema-generator/faq/-->
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="advertools.spider.html" class="btn btn-neutral float-left" title="🕷 Python SEO Crawler / Spider" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.crawlytics.html" class="btn btn-neutral float-right" title="Crawling and Scraping Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Elias Dabbas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

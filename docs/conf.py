@@ -182,3 +182,6 @@ thebe_config = {
     "repository_url": "https://github.com/eliasdabbas/adv_docs_thebe",
     "repository_branch": "main",
 }
+
+# Suppress specific warnings for ImgItem
+suppress_warnings = ["ref.ref"]

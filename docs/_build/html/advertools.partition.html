@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>advertools.partition module &mdash;  Python</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5c3816da"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+      <script async="async" src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Twitter Data API" href="advertools.twitter.html" />
+    <link rel="prev" title="Tokenize Words (N-grams)" href="advertools.word_tokenize.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            advertools
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">About advertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.survey.html">Survey - your feedback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.cli.cli.html">Command Line Interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEM</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.kw_generate.html">Generate SEM Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_create.html">Create Text Ads on a Large Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.ad_from_string.html">Create Text Ads From Description Text</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">SEO</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.robotstxt.html">robots.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.sitemaps.html">XML Sitemaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.spider.html">SEO Spider / Crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.code_recipes.spider_strategies.html">Crawl Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.crawlytics.html">Crawl Analytics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.header_spider.html">Crawl headers (HEAD method only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.image_spider.html">Crawl images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html">Python Log File Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.logs.html#parse-and-analyze-crawl-logs-in-a-dataframe">Parse and Analyze Crawl Logs in a Dataframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.reverse_dns_lookup.html">Reverse DNS Lookup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.serp.html">Analyze Search Engine Results (SERPs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.knowledge_graph.html">Google's Knowledge Graph</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Text &amp; Content Analysis</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="advertools.urlytics.html">URL Structure Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.emoji.html">Emoji Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.extract.html">Extract Structured Entities from Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.stopwords.html">Stop Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_frequency.html">Text Analysis (absolute &amp; weighted word frequency)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.word_tokenize.html">Word Tokenization (N-grams)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Text Partitioning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction-to-partitioning-text">Introduction to partitioning text</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#core-functionality">Core Functionality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connecting-to-other-use-cases">Connecting to Other Use Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social Media</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advertools.twitter.html">Twitter Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advertools.youtube.html">YouTube Data API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index &amp; Change Log</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_changelog.html">Index &amp; Change Log</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">advertools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">advertools.partition module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/advertools.partition.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-advertools.partition">
+<span id="advertools-partition-module"></span><h1>advertools.partition module<a class="headerlink" href="#module-advertools.partition" title="Link to this heading"></a></h1>
+<section id="introduction-to-partitioning-text">
+<h2>Introduction to partitioning text<a class="headerlink" href="#introduction-to-partitioning-text" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">partition</span></code> function in <code class="docutils literal notranslate"><span class="pre">advertools</span></code> provides a powerful way to split a string
+based on a regular expression. Unlike typical string splitting methods that only return the text <em>between</em> delimiters, <code class="docutils literal notranslate"><span class="pre">partition</span></code> includes the delimiters themselves in the result list. This is particularly useful for tasks where the delimiters are as important as the content they separate.</p>
+<section id="core-functionality">
+<h3>Core Functionality<a class="headerlink" href="#core-functionality" title="Link to this heading"></a></h3>
+<p>The function takes a <code class="docutils literal notranslate"><span class="pre">text</span></code> string, a <code class="docutils literal notranslate"><span class="pre">regex</span></code> pattern, and optional <code class="docutils literal notranslate"><span class="pre">flags</span></code> from the <code class="docutils literal notranslate"><span class="pre">re</span></code> module. It returns a list of strings, alternating between the substrings and the matches.</p>
+<p><strong>Key Features:</strong></p>
+<ul class="simple">
+<li><p><strong>Includes Delimiters:</strong> The matched delimiters are part of the output list.</p></li>
+<li><p><strong>Regex Powered:</strong> Leverages the full power of regular expressions for defining separators.</p></li>
+<li><p><strong>Handles Edge Cases:</strong> Correctly processes matches at the beginning or end of the string, and consecutive matches, by including empty strings to represent zero-length parts.</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<p>Let's explore some practical examples:</p>
+<p><strong>1. Basic Splitting by Numbers:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">advertools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">adv</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;abc123def456ghi&quot;</span>
+<span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\d+&quot;</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">regex</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="c1"># Output: [&#39;abc&#39;, &#39;123&#39;, &#39;def&#39;, &#39;456&#39;, &#39;ghi&#39;]</span>
+</pre></div>
+</div>
+<p><strong>2. No Match Found:</strong></p>
+<p>If the regex pattern doesn't find any matches, the original string is returned as a single-element list.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">advertools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">adv</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
+<span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;X&quot;</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">regex</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="c1"># Output: [&#39;test&#39;]</span>
+</pre></div>
+</div>
+<p><strong>3. Handling Consecutive Delimiters and Edge Matches:</strong></p>
+<p>This example shows how <code class="docutils literal notranslate"><span class="pre">partition</span></code> handles cases where delimiters are at the start/end or appear consecutively.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">advertools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">adv</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;,a,,b,&quot;</span>
+<span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;,&quot;</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">regex</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="c1"># Output: [&#39;&#39;, &#39;,&#39;, &#39;a&#39;, &#39;,&#39;, &#39;&#39;, &#39;,&#39;, &#39;b&#39;, &#39;,&#39;, &#39;&#39;]</span>
+</pre></div>
+</div>
+<p><strong>4. Case-Insensitive Partitioning:</strong></p>
+<p>You can use regex flags, like <code class="docutils literal notranslate"><span class="pre">re.IGNORECASE</span></code>, for more flexible matching.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">advertools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">adv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;TestData&quot;</span>
+<span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;t&quot;</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="c1"># Output: [&#39;&#39;, &#39;T&#39;, &#39;es&#39;, &#39;t&#39;, &#39;Data&#39;]</span>
+</pre></div>
+</div>
+</section>
+<section id="connecting-to-other-use-cases">
+<h3>Connecting to Other Use Cases<a class="headerlink" href="#connecting-to-other-use-cases" title="Link to this heading"></a></h3>
+<p>While <code class="docutils literal notranslate"><span class="pre">partition</span></code> is a general-purpose string manipulation tool, its ability to retain delimiters makes it valuable in various contexts. For instance, if you were working with a function that processes Markdown documents (let's imagine a hypothetical <code class="docutils literal notranslate"><span class="pre">generate_markdown_chunks</span></code> function), <code class="docutils literal notranslate"><span class="pre">partition</span></code> could be used to split a Markdown document by specific structural elements (e.g., headings, code blocks, lists).</p>
+<p>Imagine you want to break down a Markdown document into chunks based on heading levels (e.g., <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">``,</span> <span class="pre">``###</span> <span class="pre">``).</span> <span class="pre">The</span> <span class="pre">``partition</span></code> function could be used to identify these headings and the content between them.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">advertools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">adv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="n">markdown_text</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1"># Document Title</span>
+
+<span class="s1">Some introductory text.</span>
+
+<span class="s1">## Section 1</span>
+
+<span class="s1">Content for section 1.</span>
+
+<span class="s1">### Subsection 1.1</span>
+
+<span class="s1">Details for subsection 1.1.</span>
+
+<span class="s1">## Section 2</span>
+
+<span class="s1">Content for section 2.</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="c1"># Regex to match markdown headings (##, ###, etc.)</span>
+<span class="c1"># Matches lines starting with one or more &#39;#&#39; followed by a space</span>
+<span class="n">heading_regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;^#+\s&quot;</span>
+
+<span class="c1"># Partition the markdown text by headings</span>
+<span class="c1"># Note: This is a simplified example. A robust markdown parser would be more complex.</span>
+<span class="n">chunks</span> <span class="o">=</span> <span class="n">adv</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">markdown_text</span><span class="p">,</span> <span class="n">heading_regex</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">)</span>
+
+<span class="c1"># The &#39;chunks&#39; list would contain alternating text blocks and the matched headings,</span>
+<span class="c1"># allowing further processing of each part of the document.</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chunks</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">heading_regex</span><span class="p">,</span> <span class="n">chunk</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Heading: </span><span class="si">{</span><span class="n">chunk</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Content Block </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">chunk</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This demonstrates how <code class="docutils literal notranslate"><span class="pre">partition</span></code> can be a foundational tool for more complex text processing tasks, such as breaking down structured documents into manageable pieces.</p>
+</section>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="advertools.partition.partition">
+<span class="sig-name descname"><span class="pre">partition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#advertools.partition.partition" title="Link to this definition"></a></dt>
+<dd><p>Partition a string based on a regex pattern.</p>
+<p>Splits the <cite>text</cite> by all occurrences of <cite>regex</cite>. The resulting list
+includes both the substrings between the matches and the matches
+themselves.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) -- The input string to partition.</p></li>
+<li><p><strong>regex</strong> (<em>str</em>) -- The regular expression string to find delimiter strings.
+This pattern defines the separators.</p></li>
+<li><p><strong>flags</strong> (<em>int</em><em>, </em><em>optional</em>) -- Regex flags from the <cite>re</cite> module (e.g., <cite>re.IGNORECASE</cite>).
+Defaults to 0 (no flags).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>list[str]</strong> (<em>A list of strings, where elements are alternating parts of the original</em>) -- string and the substrings matched by the regex.</p></li>
+<li><ul>
+<li><p>If <cite>regex</cite> does not match, the list contains <cite>text</cite> as its -- only element.</p></li>
+</ul>
+</li>
+<li><ul>
+<li><p>If matches occur at the beginning/end of <cite>text</cite>, or are -- consecutive, empty strings may be included to represent zero-length parts.</p></li>
+</ul>
+</li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;abc123def456ghi&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">)</span>
+<span class="go">[&#39;abc&#39;, &#39;123&#39;, &#39;def&#39;, &#39;456&#39;, &#39;ghi&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>  <span class="c1"># No match</span>
+<span class="go">[&#39;test&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;,a,,b,&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+<span class="go">[&#39;&#39;, &#39;,&#39;, &#39;a&#39;, &#39;,&#39;, &#39;&#39;, &#39;,&#39;, &#39;b&#39;, &#39;,&#39;, &#39;&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;startmiddleend&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;middle&quot;</span><span class="p">)</span>
+<span class="go">[&#39;start&#39;, &#39;middle&#39;, &#39;end&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;delimtextdelim&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;delim&quot;</span><span class="p">)</span>
+<span class="go">[&#39;&#39;, &#39;delim&#39;, &#39;text&#39;, &#39;delim&#39;, &#39;&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;TestData&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+<span class="go">[&#39;&#39;, &#39;T&#39;, &#39;es&#39;, &#39;t&#39;, &#39;Data&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "eliasdabbas/adv_docs_thebe",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="advertools.word_tokenize.html" class="btn btn-neutral float-left" title="Tokenize Words (N-grams)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advertools.twitter.html" class="btn btn-neutral float-right" title="Twitter Data API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Elias Dabbas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
