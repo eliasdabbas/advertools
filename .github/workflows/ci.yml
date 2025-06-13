@@ -21,6 +21,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           echo "PYTHONUTF8=1" >> $env:GITHUB_ENV
+          echo "PYTHONIOENCODING=utf-8" >> $env:GITHUB_ENV
           chcp 65001
         shell: pwsh
       - name: Install tox and any other packages
@@ -28,4 +29,5 @@ jobs:
       - name: Run tox
         env:
           PYTHONUTF8: ${{ matrix.os == 'windows-latest' && '1' || '' }}
+          PYTHONIOENCODING: ${{ matrix.os == 'windows-latest' && 'utf-8' || '' }}
         run: tox -e py
