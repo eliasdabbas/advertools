@@ -413,7 +413,7 @@ default one:
 .. code-block::
     :class: thebe, thebe-init
 
-    adv.sitemap_to_df("https://www.ft.com/sitemaps/news.xml", headers={"User-agent": "YOUR-USER-AGENT"})
+    adv.sitemap_to_df("https://www.ft.com/sitemaps/news.xml", request_headers={"User-agent": "YOUR-USER-AGENT"})
 
 Another interesting thing you might want to do is utilize the `If-None-Match` header.
 In many cases the sitemaps return an etag for the sitemap. This is to make it easier to
@@ -438,7 +438,7 @@ constantly check but only fetch the sitemap if it was changed.
     etag = ft['etag'][0]
 
     # Second time:
-    ft = adv.sitemap_to_df("https://www.ft.com/sitemaps/news.xml", headers={"If-None-Match": etag})
+    ft = adv.sitemap_to_df("https://www.ft.com/sitemaps/news.xml", request_headers={"If-None-Match": etag})
 """  # noqa: E501
 
 import logging
