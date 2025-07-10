@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         python: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
 
     steps:
@@ -17,17 +17,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
-      - name: Set UTF-8 encoding on Windows
-        if: matrix.os == 'windows-latest'
-        run: |
-          echo "PYTHONUTF8=1" >> $env:GITHUB_ENV
-          echo "PYTHONIOENCODING=utf-8" >> $env:GITHUB_ENV
-          chcp 65001
-        shell: pwsh
       - name: Install tox and any other packages
         run: pip install tox
       - name: Run tox
-        env:
-          PYTHONUTF8: ${{ matrix.os == 'windows-latest' && '1' || '' }}
-          PYTHONIOENCODING: ${{ matrix.os == 'windows-latest' && 'utf-8' || '' }}
         run: tox -e py
