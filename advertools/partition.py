@@ -1,94 +1,130 @@
 """
-Introduction to partitioning text
-===================================
+Text partitioning with Python
+=============================
 
-The ``partition`` function in ``advertools`` provides a powerful way to split a string
-based on a regular expression. Unlike typical string splitting methods that only return the text *between* delimiters, ``partition`` includes the delimiters themselves in the result list. This is particularly useful for tasks where the delimiters are as important as the content they separate.
+The ``partition`` function in ``advertools`` provides a powerful way to partition a string
+based on a regular expression. Unlike typical string splitting methods that only return
+the text *between* delimiters, ``partition`` includes the delimiters themselves in the
+result list. This is particularly useful for tasks where the delimiters are as important
+as the content they separate.
+
+
+
+What is partitioning?
+---------------------
+
+It is the process of converting a string of characters into a list, while preserving all
+characters in the input string.
+In other words, you should be able to do a "round trip" from string to partitioned
+string, and back to the original string.
+
+This function does this, although it strips whitespace so the round-trip is not 100%
+but almost.
+
+
+Partitioning using a regular expression
+---------------------------------------
+
+An important feature in this function is that it enables you to partition using a regex
+pattern, and not just a fixed sequence of characters. You can partition a markdown
+string into headings and regular text for example, and use only "#", "##", and "###" for
+the partitioning.
+
+It also provides a `flags` parameter, in case you want to utilize Python's various options
+like ``re.IGNORECASE``, ``re.DOTALL``, or ``re.MULTILINE`` for example
+
+
 
 Core Functionality
 ------------------
 
-The function takes a ``text`` string, a ``regex`` pattern, and optional ``flags`` from the ``re`` module. It returns a list of strings, alternating between the substrings and the matches.
+The function takes a ``text`` string, a ``regex`` pattern, and optional ``flags`` from
+the ``re`` module. It returns a list of strings, alternating between the substrings and
+the matches.
 
 **Key Features:**
 
 *   **Includes Delimiters:** The matched delimiters are part of the output list.
 *   **Regex Powered:** Leverages the full power of regular expressions for defining separators.
-*   **Handles Edge Cases:** Correctly processes matches at the beginning or end of the string, and consecutive matches, by including empty strings to represent zero-length parts.
+
 
 Examples
 --------
 
 Let's explore some practical examples:
 
-**1. Basic Splitting by Numbers:**
+**1. Basic splitting by numbers:**
 
 .. code-block:: python
 
-   import advertools as adv
+   >>> import advertools as adv
 
-   text = "abc123def456ghi"
-   regex = r"\\d+"
-   result = adv.partition(text, regex)
-   print(result)
-   # Output: ['abc', '123', 'def', '456', 'ghi']
+   >>> text = "abc123def456ghi"
+   >>> regex = r"\\d+"
+   >>> adv.partition(text, regex)
+   ['abc', '123', 'def', '456', 'ghi']
 
-**2. No Match Found:**
+**2. No match found:**
 
 If the regex pattern doesn't find any matches, the original string is returned as a single-element list.
 
 .. code-block:: python
 
-   import advertools as adv
+   >>> import advertools as adv
 
-   text = "test"
-   regex = r"X"
-   result = adv.partition(text, regex)
-   print(result)
-   # Output: ['test']
+   >>> text = "test"
+   >>> regex = r"X"
+   >>> adv.partition(text, regex)
+   ['test']
 
-**3. Handling Consecutive Delimiters and Edge Matches:**
+**3. Handling consecutive delimiters and edge matches:**
 
 This example shows how ``partition`` handles cases where delimiters are at the start/end or appear consecutively.
 
 .. code-block:: python
 
-   import advertools as adv
+   >>> import advertools as adv
 
-   text = ",a,,b,"
-   regex = r","
-   result = adv.partition(text, regex)
-   print(result)
-   # Output: ['', ',', 'a', ',', '', ',', 'b', ',', '']
+   >>> text = ",a,,b,"
+   >>> regex = r","
+   >>> adv.partition(text, regex)
+   [',', 'a', ',', ',', 'b', ',']
 
-**4. Case-Insensitive Partitioning:**
+**4. Case-insensitive partitioning:**
 
 You can use regex flags, like ``re.IGNORECASE``, for more flexible matching.
 
 .. code-block:: python
 
-   import advertools as adv
-   import re
+   >>> import advertools as adv
+   >>> import re
 
-   text = "TestData"
-   regex = r"t"
-   result = adv.partition(text, regex, flags=re.IGNORECASE)
-   print(result)
-   # Output: ['', 'T', 'es', 't', 'Data']
+   >>> text = "TestData"
+   >>> regex = r"t"
+   >>> adv.partition(text, regex, flags=re.IGNORECASE)
+   ['T', 'es', 't', 'Da', 't', 'a']
 
-Connecting to Other Use Cases
+Connecting to other use cases
 -----------------------------
 
-While ``partition`` is a general-purpose string manipulation tool, its ability to retain delimiters makes it valuable in various contexts. For instance, if you were working with a function that processes Markdown documents (let's imagine a hypothetical ``generate_markdown_chunks`` function), ``partition`` could be used to split a Markdown document by specific structural elements (e.g., headings, code blocks, lists).
+While ``partition`` is a general-purpose string manipulation tool, its ability to retain
+delimiters makes it valuable in various contexts. For instance, if you were working with
+a function that processes Markdown documents (using the ``adv.crawlytics.generate_markdown``
+function),
+``partition`` could be used to split a Markdown document by specific structural elements
+(e.g., headings, code blocks, lists).
 
-Imagine you want to break down a Markdown document into chunks based on heading levels (e.g., ``## ``, ``### ``). The ``partition`` function could be used to identify these headings and the content between them.
+
+Imagine you want to break down a Markdown document into chunks based on heading levels
+(e.g., ``##``, ``###`` ). The ``partition`` function could be used to identify these
+headings and the content between them.
 
 .. code-block:: python
 
-   import advertools as adv
-   import re
+   >>> import advertools as adv
+   >>> import re
 
-   markdown_text = '''
+   >>> markdown_text = '''
    # Document Title
 
    Some introductory text.
@@ -105,24 +141,31 @@ Imagine you want to break down a Markdown document into chunks based on heading 
 
    Content for section 2.
    '''
-   # Regex to match markdown headings (##, ###, etc.)
-   # Matches lines starting with one or more '#' followed by a space
-   heading_regex = r"^#+\\s"
 
+   >>> heading_regex = r"^#+ .*?$"
 
    # Partition the markdown text by headings
    # Note: This is a simplified example. A robust markdown parser would be more complex.
-   chunks = adv.partition(markdown_text, heading_regex, flags=re.MULTILINE)
+   >>> chunks = adv.partition(markdown_text, heading_regex, flags=re.MULTILINE)
 
    # The 'chunks' list would contain alternating text blocks and the matched headings,
    # allowing further processing of each part of the document.
-   for i, chunk in enumerate(chunks):
-       if re.match(heading_regex, chunk):
-           print(f"Heading: {chunk.strip()}")
-       else:
-           print(f"Content Block {i // 2 + 1}:\\n{chunk.strip()}\\n")
-
-This demonstrates how ``partition`` can be a foundational tool for more complex text processing tasks, such as breaking down structured documents into manageable pieces.
+   >>> print(*chunks, sep="\\n----\\n")
+   # Document Title
+   ----
+   Some introductory text.
+   ----
+   ## Section 1
+   ----
+   Content for section 1.
+   ----
+   ### Subsection 1.1
+   ----
+   Details for subsection 1.1.
+   ----
+   ## Section 2
+   ----
+   Content for section 2.
 
 """
 
@@ -167,9 +210,9 @@ def partition(text, regex, flags=0):
     >>> partition("startmiddleend", r"middle")
     ['start', 'middle', 'end']
     >>> partition("delimtextdelim", r"delim")
-    ['', 'delim', 'text', 'delim', '']
+    ['delim', 'text', 'delim']
     >>> partition("TestData", r"t", flags=re.IGNORECASE)
-    ['', 'T', 'es', 't', 'Data']
+    ['T', 'es', 't', 'Da', 't', 'a']
     """
     if text == "":
         return [""]
