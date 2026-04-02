@@ -2,6 +2,12 @@
 Change Log - advertools
 =======================
 
+0.17.2 (2026-04-02)
+-------------------
+
+* Fixed
+    - ``sitemap_to_df``: propagate ``request_headers``, ``max_workers``, and ``recursive`` in recursive calls (robots.txt and sitemap index paths) contributed by `@ziodave <https://github.com/ziodave>`_
+
 0.17.1 (2025-09-23)
 -------------------
 
