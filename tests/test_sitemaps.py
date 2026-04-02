@@ -120,3 +120,117 @@ def test_zipped_sitemaps_offline():
     sitemap_path = offline_path("zipped_sitemap.xml.gz")
     result = sitemap_to_df(sitemap_path)
     assert isinstance(result, pd.DataFrame)
+
+
+def test_request_headers_propagate_in_robots_recursion(monkeypatch):
+    import advertools.sitemaps as sitemaps_module
+
+    original_sitemap_to_df = sitemaps_module.sitemap_to_df
+    root_url = "https://example.com/robots.txt"
+    child_url = "https://example.com/child-sitemap.xml"
+    user_headers = {"X-Test": "header"}
+    calls = []
+
+    def wrapped_sitemap_to_df(
+        sitemap_url, max_workers=8, recursive=True, request_headers=None
+    ):
+        calls.append(
+            {
+                "sitemap_url": sitemap_url,
+                "max_workers": max_workers,
+                "recursive": recursive,
+                "request_headers": request_headers,
+            }
+        )
+        if sitemap_url == root_url:
+            return original_sitemap_to_df(
+                sitemap_url,
+                max_workers=max_workers,
+                recursive=recursive,
+                request_headers=request_headers,
+            )
+        return pd.DataFrame({"loc": ["https://example.com/page"], "sitemap": [sitemap_url]})
+
+    monkeypatch.setattr(
+        sitemaps_module,
+        "_sitemaps_from_robotstxt",
+        lambda robots_url, request_headers: [child_url],
+    )
+    monkeypatch.setattr(sitemaps_module, "sitemap_to_df", wrapped_sitemap_to_df)
+
+    result = wrapped_sitemap_to_df(
+        root_url, max_workers=3, recursive=True, request_headers=user_headers
+    )
+
+    assert isinstance(result, pd.DataFrame)
+    child_calls = [call for call in calls if call["sitemap_url"] == child_url]
+    assert child_calls
+    assert child_calls[0]["request_headers"] == user_headers
+    assert child_calls[0]["max_workers"] == 3
+    assert child_calls[0]["recursive"] is True
+
+
+def test_request_headers_propagate_in_sitemapindex_recursion(monkeypatch):
+    import advertools.sitemaps as sitemaps_module
+
+    original_sitemap_to_df = sitemaps_module.sitemap_to_df
+    root_url = "https://example.com/sitemap-index.xml"
+    child_url = "https://example.com/child-sitemap.xml"
+    user_headers = {"X-Test": "header"}
+    calls = []
+
+    class _FakeResponse:
+        def __init__(self, payload: bytes):
+            self._payload = payload
+
+        def read(self):
+            return self._payload
+
+        def getheaders(self):
+            return []
+
+    sitemapindex_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap><loc>{child_url}</loc></sitemap>
+</sitemapindex>
+""".encode("utf-8")
+
+    def fake_urlopen(request):
+        request_url = request.full_url if hasattr(request, "full_url") else str(request)
+        if request_url == root_url:
+            return _FakeResponse(sitemapindex_xml)
+        raise AssertionError(f"Unexpected network request: {request_url}")
+
+    def wrapped_sitemap_to_df(
+        sitemap_url, max_workers=8, recursive=True, request_headers=None
+    ):
+        calls.append(
+            {
+                "sitemap_url": sitemap_url,
+                "max_workers": max_workers,
+                "recursive": recursive,
+                "request_headers": request_headers,
+            }
+        )
+        if sitemap_url == root_url:
+            return original_sitemap_to_df(
+                sitemap_url,
+                max_workers=max_workers,
+                recursive=recursive,
+                request_headers=request_headers,
+            )
+        return pd.DataFrame({"loc": ["https://example.com/page"], "sitemap": [sitemap_url]})
+
+    monkeypatch.setattr(sitemaps_module, "urlopen", fake_urlopen)
+    monkeypatch.setattr(sitemaps_module, "sitemap_to_df", wrapped_sitemap_to_df)
+
+    result = wrapped_sitemap_to_df(
+        root_url, max_workers=5, recursive=True, request_headers=user_headers
+    )
+
+    assert isinstance(result, pd.DataFrame)
+    child_calls = [call for call in calls if call["sitemap_url"] == child_url]
+    assert child_calls
+    assert child_calls[0]["request_headers"] == user_headers
+    assert child_calls[0]["max_workers"] == 5
+    assert child_calls[0]["recursive"] is True

@@ -522,7 +522,12 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, request_headers=No
     if sitemap_url.endswith("robots.txt"):
         return pd.concat(
             [
-                sitemap_to_df(sitemap, recursive=recursive)
+                sitemap_to_df(
+                    sitemap,
+                    max_workers=max_workers,
+                    recursive=recursive,
+                    request_headers=request_headers,
+                )
                 for sitemap in _sitemaps_from_robotstxt(sitemap_url, final_headers)
             ],
             ignore_index=True,
@@ -584,7 +589,13 @@ def sitemap_to_df(sitemap_url, max_workers=8, recursive=True, request_headers=No
         with futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
             to_do = []
             for sitemap in sitemap_url_list:
-                future = executor.submit(sitemap_to_df, sitemap)
+                future = executor.submit(
+                    sitemap_to_df,
+                    sitemap,
+                    max_workers=max_workers,
+                    recursive=recursive,
+                    request_headers=request_headers,
+                )
                 to_do.append(future)
             done_iter = futures.as_completed(to_do)
             for future in done_iter:
