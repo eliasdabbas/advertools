@@ -1,4 +1,4 @@
-"""
+r"""
 Text partitioning with Python
 =============================
 
@@ -167,13 +167,13 @@ headings and the content between them.
    ----
    Content for section 2.
 
-"""
+r"""
 
 import re
 
 
 def partition(text, regex, flags=0):
-    """Partition a string based on a regex pattern.
+    r"""Partition a string based on a regex pattern.
 
     Splits the `text` by all occurrences of `regex`. The resulting list
     includes both the substrings between the matches and the matches

@@ -1,4 +1,4 @@
-"""
+r"""
 After crawling a website, or a bunch of URLs, you mostly likely want to analyze the data
 and gain a better undersanding of the website's structure, strategy, and content. You
 probably also want to check for technical issues that the site might have.
@@ -296,7 +296,7 @@ __all__ = [
 
 
 def redirects(crawldf):
-    """Create a tidy DataFrame for the redirects in `crawldf` with the columns:
+    r"""Create a tidy DataFrame for the redirects in `crawldf` with the columns:
 
     - url: All the URLs in the redirect (chain).
     - status: The status code of each URL.
@@ -375,7 +375,7 @@ def redirects(crawldf):
 
 
 def links(crawldf, internal_url_regex=None):
-    """Summarize links from a crawl DataFrame.
+    r"""Summarize links from a crawl DataFrame.
 
     Parameters
     ----------
@@ -437,7 +437,7 @@ def links(crawldf, internal_url_regex=None):
 
 
 def images(crawldf):
-    """Summarize crawled images from a crawl DataFrame.
+    r"""Summarize crawled images from a crawl DataFrame.
 
     Parameters
     ----------
@@ -494,7 +494,7 @@ def images(crawldf):
 
 
 def jl_subset(filepath, columns=None, regex=None, chunksize=500):
-    """Read a jl file extracting selected `columns` and/or columns matching `regex`.
+    r"""Read a jl file extracting selected `columns` and/or columns matching `regex`.
 
     Parameters
     ----------
@@ -552,7 +552,7 @@ def jl_subset(filepath, columns=None, regex=None, chunksize=500):
 
 
 def jl_to_parquet(jl_filepath, parquet_filepath):
-    """Convert a jsonlines crawl file to the parquet format.
+    r"""Convert a jsonlines crawl file to the parquet format.
 
     Parameters
     ----------
@@ -580,7 +580,7 @@ def jl_to_parquet(jl_filepath, parquet_filepath):
 
 
 def parquet_columns(filepath):
-    """Get column names and datatypes of a parquet file.
+    r"""Get column names and datatypes of a parquet file.
 
     Parameters
     ----------
@@ -600,7 +600,7 @@ def parquet_columns(filepath):
 
 
 def compare(df1, df2, column, keep_equal=False):
-    """Compare common URLs in two crawl DataFrames with respect to `column`.
+    r"""Compare common URLs in two crawl DataFrames with respect to `column`.
 
     There are three main options that you might select for comparison:
 
@@ -672,7 +672,7 @@ def compare(df1, df2, column, keep_equal=False):
 
 
 def running_crawls():
-    """Get details of currently running spiders.
+    r"""Get details of currently running spiders.
 
     Get a DataFrame showing the following details:
 
@@ -747,7 +747,7 @@ def running_crawls():
 
 
 def generate_markdown(crawldf):
-    """
+    r"""
     Generate markdown strings using h1-h6 headings and body_text.
 
     Parameters
@@ -766,10 +766,10 @@ def generate_markdown(crawldf):
     >>> crawldf = pd.read_json("output_file.jsonl", lines=True)
     >>> md = adv.crawlytics.generate_markdown(crawldf)
 
-    """
+    r"""
 
     def convert_single_row(row):
-        """Convert a single row to markdown."""
+        r"""Convert a single row to markdown."""
         body_text = (
             "" if pd.isna(row.get("body_text", "")) else str(row.get("body_text", ""))
         )

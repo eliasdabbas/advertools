@@ -1,4 +1,4 @@
-"""
+r"""
 .. _youtube:
 
 YouTube Data API
@@ -242,7 +242,7 @@ def videos_list(
 
 
 def video_categories_list(key, part, id=None, regionCode=None, hl=None):
-    """Returns a list of categories that can be associated with YouTube videos.
+    r"""Returns a list of categories that can be associated with YouTube videos.
 
     *Required parameters:*
 
@@ -695,7 +695,7 @@ def subscriptions_list(
 
 
 def i18n_regions_list(key, part, hl=None):
-    """Returns a list of content regions that the YouTube website supports.
+    r"""Returns a list of content regions that the YouTube website supports.
 
     *Required parameters:*
 
@@ -826,7 +826,7 @@ def playlists_list(
 
 
 def i18n_languages_list(key, part, hl=None):
-    """Returns a list of application languages that the YouTube website
+    r"""Returns a list of application languages that the YouTube website
     supports.
 
     *Required parameters:*
@@ -923,7 +923,7 @@ def playlist_items_list(
 
 
 def guide_categories_list(key, part, id=None, regionCode=None, hl=None):
-    """Returns a list of categories that can be associated with YouTube
+    r"""Returns a list of categories that can be associated with YouTube
     channels.
 
     *Required parameters:*
@@ -1304,7 +1304,7 @@ def channels_list(
 
 
 def captions_list(key, part, videoId, id=None, onBehalfOfContentOwner=None):
-    """Returns a list of caption tracks that are associated with a specified
+    r"""Returns a list of caption tracks that are associated with a specified
     video. Note that the API response does not contain the actual captions and
     that the  captions.download  method provides the ability to retrieve a
     caption track.
