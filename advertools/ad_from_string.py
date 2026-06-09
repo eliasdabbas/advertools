@@ -1,4 +1,4 @@
-"""
+r"""
 .. _ad_from_string:
 
 Create Ads Using Long Descriptive Text (top-down approach)
