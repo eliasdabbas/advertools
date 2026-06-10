@@ -1,4 +1,5 @@
 import argparse
+import json
 import platform
 import socket
 import sys
@@ -42,6 +43,27 @@ def _split_options(options):
         if v == "False":
             d[k] = False
     return d
+
+
+def _load_json_cli_option(value, option_name):
+    if value is None:
+        return None
+    if value.startswith("@"):
+        file_path = value[1:]
+        try:
+            with open(file_path, encoding="utf-8") as json_file:
+                value = json_file.read()
+        except OSError as e:
+            print(
+                f"error: could not read JSON file for {option_name}: {e}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+    try:
+        return json.loads(value)
+    except json.JSONDecodeError as e:
+        print(f"error: invalid JSON for {option_name}: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 def _format_df(df, head=10, precision=1):
@@ -273,6 +295,162 @@ advertools headers https://example.com example.jl --custom-settings LOG_FILE=log
 """,
     )
     headers_parser.set_defaults(func=headers)
+
+    # screenshots --------------------------
+
+    def screenshots(args):
+        if args.url_list:
+            url_list = args.url_list
+        else:
+            url_list = [url.strip() for url in sys.stdin.read().split()]
+        if not url_list:
+            print("error: please provide a value for url_list", file=sys.stderr)
+            sys.exit(1)
+        if args.custom_settings:
+            args.custom_settings = _split_options(args.custom_settings)
+
+        actions = _load_json_cli_option(args.actions_json, "--actions-json")
+        launch_options = _load_json_cli_option(
+            args.launch_options_json, "--launch-options-json"
+        )
+        context_kwargs = _load_json_cli_option(
+            args.context_kwargs_json, "--context-kwargs-json"
+        )
+
+        adv.crawl_screenshots(
+            url_list=url_list,
+            output_file=args.output_file,
+            screenshot_dir=args.screenshot_dir,
+            full_page=args.full_page,
+            image_type=args.image_type,
+            quality=args.quality,
+            wait_until=args.wait_until,
+            wait_for_timeout=args.wait_for_timeout,
+            actions=actions,
+            browser_type=args.browser_type,
+            launch_options=launch_options,
+            context_kwargs=context_kwargs,
+            custom_settings=args.custom_settings,
+            timeout=args.timeout,
+            run_id=args.run_id,
+        )
+
+    screenshots_parser = subparsers.add_parser(
+        "screenshots",
+        formatter_class=RawTextDefArgFormatter,
+        epilog="""
+Examples:
+---------
+
+capture full-page PNG screenshots for two URLs:
+
+advertools screenshots https://example.com https://python.org \\
+    screenshots.jl --screenshot-dir shots
+
+capture JPEG screenshots after waiting one second:
+
+advertools screenshots https://example.com screenshots.jl \\
+    --image-type jpeg --quality 80 --wait-ms 1000
+
+capture a mobile viewport using a JSON file:
+
+advertools screenshots https://example.com mobile.jl \\
+    --context-kwargs-json @mobile-context.json
+
+provide Playwright actions as a JSON file:
+
+advertools screenshots https://example.com actions.jl \\
+    --actions-json @actions.json
+
+set a 10 second navigation/screenshot timeout:
+
+advertools screenshots https://example.com screenshots.jl --timeout-ms 10000
+
+inline JSON is shell-sensitive. In fish/zsh/bash, prefer single-line JSON in
+single quotes or use @file.json:
+
+advertools screenshots https://example.com inline.jl \\
+    --actions-json '[{"method": "click", "args": ["#accept"]}]'
+"""
+        + epilog,
+        description="capture screenshots for a list of URLs",
+    )
+    screenshots_parser.add_argument(
+        "url_list", nargs="*", help="one or more URLs to screenshot"
+    )
+    screenshots_parser.add_argument(
+        "output_file", help="filepath - where to save metadata output (.jl/.jsonl)"
+    )
+    screenshots_parser.add_argument(
+        "--screenshot-dir", help="directory where screenshot image files are saved"
+    )
+    screenshots_parser.add_argument(
+        "--image-type",
+        choices=["png", "jpeg"],
+        default="png",
+        help="screenshot image type",
+    )
+    screenshots_parser.add_argument(
+        "--quality",
+        type=int,
+        help="JPEG quality from 0 to 100; only valid with --image-type jpeg",
+    )
+    screenshots_parser.add_argument(
+        "--no-full-page",
+        action="store_false",
+        dest="full_page",
+        default=True,
+        help="capture only the viewport instead of the full scrollable page",
+    )
+    screenshots_parser.add_argument(
+        "--wait-until",
+        choices=["load", "domcontentloaded", "networkidle", "commit"],
+        default="load",
+        help="Playwright navigation wait condition",
+    )
+    screenshots_parser.add_argument(
+        "--wait-ms",
+        dest="wait_for_timeout",
+        type=int,
+        help="milliseconds to wait before taking each screenshot",
+    )
+    screenshots_parser.add_argument(
+        "--timeout-ms",
+        dest="timeout",
+        type=int,
+        help="Playwright timeout in milliseconds for navigation and screenshot",
+    )
+    screenshots_parser.add_argument(
+        "--browser-type",
+        choices=["chromium", "firefox", "webkit"],
+        default="chromium",
+        help="Playwright browser type",
+    )
+    screenshots_parser.add_argument(
+        "--actions-json",
+        help="inline JSON or @file.json list of Playwright actions",
+    )
+    screenshots_parser.add_argument(
+        "--launch-options-json",
+        help="inline JSON or @file.json object with Playwright launch options",
+    )
+    screenshots_parser.add_argument(
+        "--context-kwargs-json",
+        help="inline JSON or @file.json object with Playwright context options",
+    )
+    screenshots_parser.add_argument(
+        "--run-id",
+        help="identifier included in screenshot filenames and metadata",
+    )
+    screenshots_parser.add_argument(
+        "--custom-settings",
+        type=str,
+        nargs="*",
+        help="""settings that modify the behavior of the crawler
+settings should be separated by spaces, and each setting name and value should
+be separated by an equal sign '=' without spaces between them""",
+    )
+    screenshots_parser.set_defaults(func=screenshots)
 
     # logs --------------------------
 

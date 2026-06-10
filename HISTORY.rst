@@ -2,6 +2,15 @@
 Change Log - advertools
 =======================
 
+
+Unreleased
+----------
+
+* Added
+    - New ``crawl_screenshots`` function and ``advertools screenshots`` CLI
+      command for capturing Playwright-powered page screenshots.
+    - Screenshot capturing strategies and recipes documentation.
+
 0.17.2 (2026-04-02)
 -------------------
 

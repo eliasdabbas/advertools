@@ -8,6 +8,7 @@ Submodules
    :maxdepth: 4
 
    advertools.code_recipes.spider_strategies
+   advertools.code_recipes.screenshot_strategies
 
 Module contents
 ---------------

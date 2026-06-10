@@ -315,6 +315,80 @@ Tokenize documents (phrases, keywords, tweets, etc.) into tokens of the desired 
 - **-l LENGTH, --length LENGTH**: Length of tokens (the `n` in n-grams). Default: 1.
 - **-s SEPARATOR, --separator SEPARATOR**: Character to separate the tokens. Default: `,`.
 
+Capture screenshots for a list of URLs
+=======================================
+
+**Usage**
+---------
+
+.. code-block:: console
+
+    advertools screenshots [-h] [--screenshot-dir SCREENSHOT_DIR]
+                           [--image-type {png,jpeg}] [--quality QUALITY]
+                           [--no-full-page]
+                           [--wait-until {load,domcontentloaded,networkidle,commit}]
+                           [--wait-ms WAIT_FOR_TIMEOUT] [--timeout-ms TIMEOUT]
+                           [--browser-type {chromium,firefox,webkit}]
+                           [--actions-json ACTIONS_JSON]
+                           [--launch-options-json LAUNCH_OPTIONS_JSON]
+                           [--context-kwargs-json CONTEXT_KWARGS_JSON]
+                           [--run-id RUN_ID]
+                           [--custom-settings [CUSTOM_SETTINGS ...]]
+                           [url_list ...] output_file
+
+**Description**
+---------------
+
+Capture screenshots for a list of URLs using the optional scrapy-playwright integration. Requires Python >= 3.10 for this optional feature and separately installed Playwright browser binaries. Supports http:// and https:// URLs only, obeys robots.txt by default, and replaces the metadata output file on each run.
+
+**Positional arguments:**
+
+- **url_list**: One or more URLs to screenshot. Default: None.
+- **output_file**: Filepath where to save metadata output (.jl/.jsonl).
+
+**Optional arguments:**
+
+- **-h, --help**: Show this help message and exit.
+- **--screenshot-dir SCREENSHOT_DIR**: Directory where screenshot image files are saved. Default: ``<output_file_stem>_screenshots``.
+- **--image-type {png,jpeg}**: Screenshot image type. Default: ``png``.
+- **--quality QUALITY**: JPEG quality from 0 to 100; only valid with ``--image-type jpeg``. Default: None.
+- **--no-full-page**: Capture only the viewport instead of the full scrollable page.
+- **--wait-until {load,domcontentloaded,networkidle,commit}**: Playwright navigation wait condition. Default: ``load``.
+- **--wait-ms WAIT_FOR_TIMEOUT**: Milliseconds to wait before taking each screenshot. Default: None.
+- **--timeout-ms TIMEOUT**: Playwright timeout in milliseconds for navigation and screenshot. Default: None.
+- **--browser-type {chromium,firefox,webkit}**: Playwright browser type. Default: ``chromium``.
+- **--actions-json ACTIONS_JSON**: Inline JSON or @file.json list of Playwright actions. Default: None.
+- **--launch-options-json LAUNCH_OPTIONS_JSON**: Inline JSON or @file.json object with Playwright launch options. Default: None.
+- **--context-kwargs-json CONTEXT_KWARGS_JSON**: Inline JSON or @file.json object with browser context options. Default: None.
+- **--custom-settings [CUSTOM_SETTINGS ...]**: Custom settings to modify the behavior of the crawler. Default: None.
+
+**Examples**
+------------
+
+Capture full-page PNG screenshots:
+
+.. code-block:: console
+
+    advertools screenshots https://example.com https://python.org screenshots.jl --screenshot-dir shots
+
+Capture JPEG screenshots after waiting one second:
+
+.. code-block:: console
+
+    advertools screenshots https://example.com screenshots.jl --image-type jpeg --quality 80 --wait-ms 1000
+
+Use JSON files for mobile viewport/action settings to avoid shell quoting issues:
+
+.. code-block:: console
+
+    advertools screenshots https://example.com mobile.jl --context-kwargs-json @mobile-context.json
+
+Set a navigation and screenshot timeout:
+
+.. code-block:: console
+
+    advertools screenshots https://example.com screenshots.jl --timeout-ms 10000
+
 SEO crawler
 ============
 

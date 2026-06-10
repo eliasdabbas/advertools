@@ -18,6 +18,7 @@ from advertools.regex import *
 from advertools.reverse_dns_lookup import reverse_dns_lookup
 from advertools.robotstxt import *
 from advertools.sitemaps import sitemap_to_df
+from advertools.screenshot_spider import crawl_screenshots
 from advertools.spider import crawl
 from advertools.stopwords import stopwords
 from advertools.url_builders import url_utm_ga

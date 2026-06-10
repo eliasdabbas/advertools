@@ -51,6 +51,7 @@ setup(
         ],
     },
     install_requires=requirements,
+    extras_require={"screenshots": ["scrapy-playwright>=0.0.46"]},
     license="MIT license",
     long_description=readme + "\n\n" + history,
     include_package_data=True,
