@@ -33,6 +33,7 @@ Submodules
    advertools.robotstxt
    advertools.serp
    advertools.sitemaps
+   advertools.screenshot_spider
    advertools.spider
    advertools.stopwords
    advertools.twitter
