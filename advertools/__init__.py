@@ -2,7 +2,7 @@
 
 __author__ = """Elias Dabbas"""
 __email__ = "eliasdabbas@gmail.com"
-__version__ = "0.17.2"
+__version__ = "0.18.0"
 
 from advertools.ad_create import ad_create
 from advertools.ad_from_string import ad_from_string
@@ -17,6 +17,7 @@ from advertools.partition import partition
 from advertools.regex import *
 from advertools.reverse_dns_lookup import reverse_dns_lookup
 from advertools.robotstxt import *
+from advertools.serp_claude import serp_claude
 from advertools.sitemaps import sitemap_to_df
 from advertools.spider import crawl
 from advertools.stopwords import stopwords

@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "advertools"
-version = "0.17.2"
+version = "0.18.0"
 authors = [
     {name = "Elias Dabbas", email = "eliasdabbas@gmail.com"}
 ]
@@ -24,6 +24,9 @@ dependencies = [
 dynamic = ["description"]
 readme = "README.rst"
 keywords = ["seo", "marketing", "advertising", "adwords", "bingads", "search-engine-marketing", "online-marketing", "digital-marketing", "digital-advertising", "keywords"]
+
+[project.optional-dependencies]
+claude = ["anthropic>=0.51.0"]
 
 [project.scripts]
 advertools = "advertools.cli:main"

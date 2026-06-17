@@ -2,6 +2,12 @@
 Change Log - advertools
 =======================
 
+0.18.0 (2026-06-16)
+-------------------
+
+* Added
+    - New function ``serp_claude`` to get SERP-like results from Claude's web search tool across a matrix of queries, models, locations, and tool versions, returned as a tidy DataFrame
+
 0.17.2 (2026-04-02)
 -------------------
 
