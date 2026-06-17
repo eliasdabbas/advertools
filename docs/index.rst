@@ -93,6 +93,7 @@ To install advertools, run the following from the command line::
    Crawl Logs Analysis <advertools.logs>
    Reverse DNS Lookup <advertools.reverse_dns_lookup>
    Analyze Search Engine Results (SERPs) <advertools.serp>
+   Claude SERP Tracking at Scale <advertools.serp_claude>
    Google's Knowledge Graph <advertools.knowledge_graph>
 
 .. toctree::

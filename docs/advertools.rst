@@ -32,6 +32,7 @@ Submodules
    advertools.reverse_dns_lookup
    advertools.robotstxt
    advertools.serp
+   advertools.serp_claude
    advertools.sitemaps
    advertools.spider
    advertools.stopwords
