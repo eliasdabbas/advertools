@@ -11,7 +11,7 @@
 .. image:: https://deepwiki.com/badge.svg
         :target: https://deepwiki.com/eliasdabbas/advertools
 
-New release is out v0.17.0, `learn more <https://bit.ly/3FQpQEM>`_
+New release is out v0.18.0, `learn more about Claude SERP analytics <https://advertools.readthedocs.io/en/latest/advertools.serp_claude.html>`_
 
 
 ``advertools``: productivity & analysis tools to scale your online marketing
