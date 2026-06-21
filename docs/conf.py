@@ -38,7 +38,10 @@ extensions = [
     "sphinx_rtd_theme",
     "sphinx_thebe",
     "sphinx.ext.napoleon",
+    "sphinxcontrib.googleanalytics",
 ]
+
+googleanalytics_id = "G-60PTP6Z6EJ"
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
