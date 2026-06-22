@@ -31,7 +31,7 @@ To get the robots.txt file into an easily readable format, you can use the
 ====  ===========  =================================  ==================================  =========================  =================================  ================================
   ..  directive    content                            etag                                robotstxt_last_modified    robotstxt_url                      download_date
 ====  ===========  =================================  ==================================  =========================  =================================  ================================
-   0  User-agent   \*                                 "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
+   0  User-agent   \\*                                 "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
    1  Disallow     /exec/obidos/account-access-login  "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
    2  Disallow     /exec/obidos/change-style          "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
    3  Disallow     /exec/obidos/flex-sign-in          "a850165d925db701988daf7ead7492d3"  2021-10-28 17:51:39+00:00  https://www.amazon.com/robots.txt  2022-02-11 19:33:03.200689+00:00
@@ -100,7 +100,7 @@ In this case you simply provide a list of URLs instead of a single one.
 ====  ===========  ===================================================================  =========================  =================================  ================================
   ..  directive    content                                                              robotstxt_last_modified    robotstxt_url                      download_date
 ====  ===========  ===================================================================  =========================  =================================  ================================
-   0  User-agent   \*                                                                   2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
+   0  User-agent   \\*                                                                   2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
    1  Disallow     /search                                                              2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
    2  Allow        /search/about                                                        2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
    3  Allow        /search/static                                                       2022-02-07 22:30:00+00:00  https://www.google.com/robots.txt  2022-02-11 19:52:13.375724+00:00
@@ -109,7 +109,7 @@ In this case you simply provide a list of URLs instead of a single one.
  290  comment      \==========================                                           NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
  291  User-agent   Googlebot                                                            NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
  292  Allow        /?_escaped_fragment_                                                 NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
- 293  Allow        /\*?lang=                                                            NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
+ 293  Allow        /\\*?lang=                                                            NaT                        https://twitter.com/robots.txt     2022-02-11 19:52:13.461815+00:00
  397  comment      Notice: Collection of data on Facebook through automated means is    NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00
  398  comment      prohibited unless you have express written permission from Facebook  NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00
  399  comment      and may only be conducted for the limited purpose contained in said  NaT                        https://facebook.com/robots.txt    2022-02-11 19:52:13.474456+00:00
@@ -251,10 +251,10 @@ profile page (/bbc), groups and hashtags pages.
 ====  ===================================  ============  ==========  ===========
   ..  robotstxt_url                        user_agent    url_path    can_fetch
 ====  ===================================  ============  ==========  ===========
-   0  https://www.facebook.com/robots.txt  \*            /           False
-   1  https://www.facebook.com/robots.txt  \*            /bbc        False
-   2  https://www.facebook.com/robots.txt  \*            /groups     False
-   3  https://www.facebook.com/robots.txt  \*            /hashtag/   False
+   0  https://www.facebook.com/robots.txt  \\*            /           False
+   1  https://www.facebook.com/robots.txt  \\*            /bbc        False
+   2  https://www.facebook.com/robots.txt  \\*            /groups     False
+   3  https://www.facebook.com/robots.txt  \\*            /hashtag/   False
    4  https://www.facebook.com/robots.txt  Applebot      /           True
   ..                                  ...           ...         ...          ...
   75  https://www.facebook.com/robots.txt  seznambot     /hashtag/   True
@@ -277,7 +277,7 @@ Let's see who is and who is not allowed to fetch the home page.
 ====  ===================================  ===================  ==========  ===========
   ..  robotstxt_url                        user_agent           url_path    can_fetch
 ====  ===================================  ===================  ==========  ===========
-   0  https://www.facebook.com/robots.txt  \*                   /           False
+   0  https://www.facebook.com/robots.txt  \\*                   /           False
    4  https://www.facebook.com/robots.txt  Applebot             /           True
    8  https://www.facebook.com/robots.txt  Bingbot              /           True
   12  https://www.facebook.com/robots.txt  Discordbot           /           False

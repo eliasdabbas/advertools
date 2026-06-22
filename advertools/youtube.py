@@ -487,8 +487,8 @@ def search(
         video game  /m/01sjng  Racing video game  /m/0403l3g  Role-playing
         video game  /m/021bp2  Simulation video game  /m/022dc6  Sports game
         /m/03hf_rm  Strategy video game  Sports topics  /m/06ntj  Sports
-        (parent topic)  /m/0jm\_  American football  /m/018jz  Baseball
-        /m/018w8  Basketball  /m/01cgz  Boxing  /m/09xp\_  Cricket  /m/02vx4
+        (parent topic)  /m/0jm\\_  American football  /m/018jz  Baseball
+        /m/018w8  Basketball  /m/01cgz  Boxing  /m/09xp\\_  Cricket  /m/02vx4
         Football  /m/037hz  Golf  /m/03tmr  Ice hockey  /m/01h7lh  Mixed
         martial arts  /m/0410tth  Motorsport  /m/07bs0  Tennis  /m/07_53
         Volleyball  Entertainment topics  /m/02jjt  Entertainment (parent

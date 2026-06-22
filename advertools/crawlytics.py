@@ -189,13 +189,13 @@ You can use the ``columns`` parameter to specify exactly which columns you want.
 also use a regular expression to specify a set of columns. Here are some examples of
 regular expressions that you might typically want to use:
 
-* "img\_": Get all image columns, including all availabe `<img>` attributes.
-* "jsonld\_": Get all JSON-LD columns.
-* "resp_headers\_": Response headers.
-* "request_headers\_": Request headers.
-* "h\\\d": Heading columns, h1..h6.
-* "redirect\_": Columns containing redirect information.
-* "links\_": Columns containing link information.
+* "img\\_": Get all image columns, including all availabe `<img>` attributes.
+* "jsonld\\_": Get all JSON-LD columns.
+* "resp_headers\\_": Response headers.
+* "request_headers\\_": Request headers.
+* "h\\d": Heading columns, h1..h6.
+* "redirect\\_": Columns containing redirect information.
+* "links\\_": Columns containing link information.
 
 An important characteristic of these groups of columns is that you most likely don't
 know how many they are, and what they might include, so a regular expression can save a
