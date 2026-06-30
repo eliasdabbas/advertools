@@ -136,10 +136,18 @@ def test_link_text_same_link_text():
 
 
 def test_links_same_nofollows():
+    def _normalize_nofollow(value):
+        if pd.isna(value):
+            return None
+        if isinstance(value, str):
+            return {"True": True, "False": False}.get(value, value)
+        return value
+
     crawl_df_nofollow = [
-        eval(str(x)) for x in crawldf["links_nofollow"].str.split("@@").explode()
+        _normalize_nofollow(x)
+        for x in crawldf["links_nofollow"].str.split("@@").explode()
     ]
-    link_df_nofollow = [eval(str(x)) for x in link_df["nofollow"]]
+    link_df_nofollow = [_normalize_nofollow(x) for x in link_df["nofollow"]]
     assert crawl_df_nofollow == link_df_nofollow
 
 
@@ -175,7 +183,7 @@ def test_jl_subset_raises_on_no_params():
 
 
 def test_jl_subset_raises_on_wrong_filepath():
-    with pytest.raises(ValueError):
+    with pytest.raises(FileNotFoundError):
         crawlytics.jl_subset("somewrongfilepath", regex="regex")
 
 

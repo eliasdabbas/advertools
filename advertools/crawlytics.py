@@ -272,6 +272,7 @@ Module functions
 ----------------
 """  # noqa: E501
 
+import os
 import platform
 import re
 from functools import partial
@@ -532,6 +533,8 @@ def jl_subset(filepath, columns=None, regex=None, chunksize=500):
     """  # noqa: E501
     if columns is None and regex is None:
         raise ValueError("Please supply either a list of columns or a regex.")
+    if not os.path.isfile(filepath):
+        raise FileNotFoundError(f"File {filepath} does not exist")
     if columns is not None:
         col_regex = "^" + "$|^".join(columns) + "$"
     else:
