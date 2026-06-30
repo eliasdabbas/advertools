@@ -843,11 +843,27 @@ class SEOSitemapSpider(Spider):
     def errback(self, failure):
         if not failure.check(scrapy.exceptions.IgnoreRequest):
             self.logger.error(repr(failure))
-            yield {
+            error_item = {
                 "url": failure.request.url,
                 "crawl_time": _now(),
                 "errors": repr(failure),
             }
+            # Keep user-supplied meta and request headers in error rows so
+            # downstream analysis can treat success and failure rows uniformly.
+            error_item.update(
+                {
+                    k: "@@".join(str(val) for val in v) if isinstance(v, list) else v
+                    for k, v in failure.request.meta.items()
+                    if k != "custom_headers"
+                }
+            )
+            error_item.update(
+                {
+                    "request_headers_" + k: v
+                    for k, v in failure.request.headers.to_unicode_dict().items()
+                }
+            )
+            yield error_item
 
     def parse(self, response):
         links = le.extract_links(response)

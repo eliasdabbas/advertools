@@ -4,7 +4,6 @@ from tempfile import TemporaryDirectory
 import pandas as pd
 import pytest
 
-
 from advertools.urlytics import url_to_df
 
 domain = "http://example.com"
@@ -46,7 +45,7 @@ def test_abs_and_rel():
     result = url_to_df([domain, path_rel])
     assert "dir_1" in result
     assert len(result) == 2
-    assert result["scheme"].iloc[-1] is None
+    assert pd.isna(result["scheme"].iloc[-1])
     assert result["query"].isna().all()
     assert result["fragment"].isna().all()
 
