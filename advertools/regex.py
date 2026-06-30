@@ -87,7 +87,7 @@ MENTION = re.compile(
     r"""(?i)     # case-insensitive
     (?<!\w)      # word character doesn't precede mention
     ([@＠]       # either of two @ signs
-    [a-z0-9_]+)  # A to Z, numbers and underscores only
+    [a-z0-9_]+)  # A to Z, numbers and underscores only (periods not included)
     \b           # end with a word boundary
     """, re.VERBOSE)
 
