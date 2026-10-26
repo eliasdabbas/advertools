@@ -1,3 +1,4 @@
+import json
 import os
 import random
 import re
@@ -77,6 +78,16 @@ def test_json_to_dict_contains_number():
         to_test = "jsonld_" + str(i) + "_"
         assert isinstance(result, dict)
         assert all(to_test in key for key in result)
+
+
+@pytest.mark.parametrize(
+    "obj", [{"preorder": False}, {"height": 40, "width": 250}, {"a": True, "b": 1}]
+)
+def test_json_to_dict_values_are_json_serializable(obj):
+    result = _json_to_dict(obj)
+    assert json.loads(json.dumps(result)) == {
+        "jsonld_" + key: value for key, value in obj.items()
+    }
 
 
 def test_crawl_raises_on_wrong_file_extension():

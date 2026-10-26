@@ -694,7 +694,7 @@ def _json_to_dict(jsonobj, i=None):
             df = df.add_prefix("jsonld_{}_".format(i))
         else:
             df = df.add_prefix("jsonld_")
-        return dict(zip(df.columns, df.values[0]))
+        return df.to_dict("records")[0]
     except Exception as e:
         logger = logging.getLogger(__name__)
         logger.error(msg=str(e))
